@@ -11,6 +11,7 @@ addons:
 
 before_script:
   - yarn global add @angular/cli
+  - npm install
 
 cache:
   yarn: true
@@ -20,7 +21,6 @@ cache:
 
 script:
   - cd client
-  - npm install
   - ng test --watch=false
   - npm test
   - cd ..
