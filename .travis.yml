@@ -19,6 +19,7 @@ cache:
 
 
 script:
+  - npm install
   - cd client
   - ng test --watch=false
   - npm test
