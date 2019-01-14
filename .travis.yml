@@ -1,0 +1,28 @@
+language: node_js
+node_js:
+  - "10.11.0"
+
+branches:
+  only:
+    - master
+
+addons:
+  chrome: stable
+
+before_script:
+  - yarn global add @angular/cli
+
+cache:
+  yarn: true
+  directories:
+    - node_modules
+
+
+script:
+  - cd client
+  - ng test --watch=false
+  - npm test
+  - cd ..
+  - cd server
+  - npm test
+  
