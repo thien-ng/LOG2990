@@ -24,7 +24,7 @@ script:
   - ng test --watch=false
   - npm test
   - cd ..
-  - npm install
   - cd server
+  - npm install
   - npm test
   
