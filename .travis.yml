@@ -6,8 +6,11 @@ branches:
   only:
     - master
 
+sudo: required
+
 addons:
   chrome: stable
+  firefox: stable
 
 before_script:
   - yarn global add @angular/cli
