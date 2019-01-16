@@ -6,15 +6,18 @@ branches:
   only:
     - master
 
-sudo: required
-
 addons:
-  chrome: stable
-  firefox: stable
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+
+env:
+  - DISPLAY=:99.0
 
 before_script:
   - yarn global add @angular/cli
-  - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
 
 cache:
