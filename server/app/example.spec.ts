@@ -56,10 +56,12 @@ it("should complete the ", (done) => {
     })
  });
  
+//example test ignored
 //  it('should show something about an error', () => {
 //     return Promise.reject('Something went wrong')
 //  });
 
+//example test ignored
 //  it('should show something about an error b', () => {
 //     return Promise.reject('Something went wrong').catch(reason => assert.fail(reason))
 //  });
