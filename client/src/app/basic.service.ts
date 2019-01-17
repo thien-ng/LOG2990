@@ -1,7 +1,7 @@
-import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
 
-import { Observable, of } from "rxjs";
+import { of, Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 
 import { Message } from "../../../common/communication/message";
@@ -15,7 +15,7 @@ export class BasicService {
     public basicGet(): Observable<Message> {
 
         return this.http.get<Message>(this.BASE_URL).pipe(
-            catchError(this.handleError<Message>("basicGet"))
+            catchError(this.handleError<Message>("basicGet")),
         );
     }
 

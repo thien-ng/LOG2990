@@ -1,6 +1,6 @@
-import { BasicService } from "./basic.service";
 import { Message } from "../../../common/communication/message";
 import { TestHelper } from "../test.helper";
+import { BasicService } from "./basic.service";
 
 // tslint:disable-next-line:no-any Used to mock the http call
 let httpClientSpy: any;
@@ -24,7 +24,7 @@ describe("BasicService", () => {
                 expect(response.title).toEqual(expectedMessage.title, "Title check");
                 expect(response.body).toEqual(expectedMessage.body, "body check");
             },
-            fail
+            fail,
         );
 
         // check if only one call was made

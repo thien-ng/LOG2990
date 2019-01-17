@@ -29,10 +29,10 @@ cache:
 script:
   - cd client
   - npm install
-  - ng test --watch=false
   - npm test
+  - npm run lint
   - cd ..
   - cd server
   - npm install
   - npm test
-  
+  - npm run lint
