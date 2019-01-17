@@ -1,8 +1,8 @@
-import { injectable, inject } from "inversify";
-import { Router, Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response, Router } from "express";
+import { inject, injectable } from "inversify";
 
-import Types from "./types";
 import { Route } from "./routes/index";
+import Types from "./types";
 
 @injectable()
 export class Routes {

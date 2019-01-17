@@ -1,12 +1,12 @@
-import * as express from "express";
-import * as path from "path";
-import * as logger from "morgan";
-import * as cookieParser from "cookie-parser";
 import * as bodyParser from "body-parser";
+import * as cookieParser from "cookie-parser";
 import * as cors from "cors";
-import Types from "./types";
-import { injectable, inject } from "inversify";
+import * as express from "express";
+import { inject, injectable } from "inversify";
+import * as logger from "morgan";
+import * as path from "path";
 import { Routes } from "./routes";
+import Types from "./types";
 
 @injectable()
 export class Application {
@@ -57,7 +57,7 @@ export class Application {
                 res.status(err.status || this.internalError);
                 res.send({
                     message: err.message,
-                    error: err
+                    error: err,
                 });
             });
         }
@@ -69,7 +69,7 @@ export class Application {
             res.status(err.status || this.internalError);
             res.send({
                 message: err.message,
-                error: {}
+                error: {},
             });
         });
     }

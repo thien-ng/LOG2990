@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from "express";
-import { Message } from "../../../common/communication/message";
-import "reflect-metadata";
+import { NextFunction, Request, Response } from "express";
 import { injectable, } from "inversify";
+import "reflect-metadata";
+import { Message } from "../../../common/communication/message";
 
 export module Route {
 
@@ -11,7 +11,7 @@ export module Route {
         public helloWorld(req: Request, res: Response, next: NextFunction): void {
             const message: Message = {
                 title: "Hello",
-                body: "World"
+                body: "World",
             };
             res.send(JSON.stringify(message));
         }
