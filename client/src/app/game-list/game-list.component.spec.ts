@@ -2,6 +2,8 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { GameListComponent } from "./game-list.component";
 
+const OBLIGATORY_CATCH: String = "obligatory catch";
+
 describe("GameListComponent", () => {
   let component: GameListComponent;
   let fixture: ComponentFixture<GameListComponent>;
@@ -11,7 +13,7 @@ describe("GameListComponent", () => {
       declarations: [GameListComponent],
     })
       .compileComponents()
-      .catch(() => "obligatory catch");
+      .catch(() => OBLIGATORY_CATCH);
   }));
 
   beforeEach(() => {

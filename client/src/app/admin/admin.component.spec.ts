@@ -6,6 +6,8 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { MainNavComponent } from "../main-nav/main-nav.component";
 import { AdminComponent } from "./admin.component";
 
+const OBLIGATORY_CATCH: String = "obligatory catch";
+
 describe("AdminComponent", () => {
     let component: AdminComponent;
     let fixture: ComponentFixture<AdminComponent>;
@@ -26,7 +28,7 @@ describe("AdminComponent", () => {
             ],
         })
             .compileComponents()
-            .catch(() => "obligatory catch");
+            .catch(() => OBLIGATORY_CATCH);
     }));
 
     beforeEach(() => {

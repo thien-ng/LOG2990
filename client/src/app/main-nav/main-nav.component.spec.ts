@@ -5,6 +5,8 @@ import { RouterTestingModule } from "@angular/router/testing";
 
 import { MainNavComponent } from "./main-nav.component";
 
+const OBLIGATORY_CATCH: String = "obligatory catch";
+
 describe("MainNavComponent", () => {
   let component: MainNavComponent;
   let fixture: ComponentFixture<MainNavComponent>;
@@ -22,7 +24,7 @@ describe("MainNavComponent", () => {
       ],
     })
       .compileComponents()
-      .catch(() => "obligatory catch");
+      .catch(() => OBLIGATORY_CATCH);
   }));
 
   beforeEach(() => {
