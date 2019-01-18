@@ -1,5 +1,6 @@
 import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { MatButtonModule, MatFormFieldModule } from "@angular/material";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -16,6 +17,7 @@ import { LoginViewComponent } from "./login-view/login-view.component";
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    FormsModule,
     HttpClientModule,
     MatButtonModule,
     MatFormFieldModule,
