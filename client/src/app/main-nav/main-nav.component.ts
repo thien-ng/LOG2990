@@ -11,6 +11,8 @@ import { map } from "rxjs/operators";
 
 export class MainNavComponent {
 
+ // TBD : String magique in array ??
+
   public routes: Array<Object> = [
     { linkName: "Liste des jeux", url: "/nav/gamelist" },
     { linkName: "Administration", url: "/admin" },
