@@ -2,20 +2,27 @@
 // tslint:disable:no-floating-promises pour le before each
 import { HttpClientModule } from "@angular/common/http";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatButtonModule, MatFormFieldModule } from "@angular/material";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { MatButtonModule, MatFormFieldModule, MatInputModule } from "@angular/material";
 import { AppComponent } from "./app.component";
 import { BasicService } from "./basic.service";
+import { LoginValidatorComponent } from "./login-validator/login-validator.component";
 import { LoginViewComponent } from "./login-view/login-view.component";
 describe("AppComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
+        LoginValidatorComponent,
         LoginViewComponent,
       ],
-      imports: [HttpClientModule,
+      imports: [
+                FormsModule,
+                HttpClientModule,
                 MatButtonModule,
                 MatFormFieldModule,
+                MatInputModule,
+                ReactiveFormsModule,
               ],
       providers: [BasicService],
     }).compileComponents();
