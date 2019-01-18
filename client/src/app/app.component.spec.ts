@@ -16,6 +16,7 @@ import { LayoutModule } from "@angular/cdk/layout";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
+import { RouterTestingModule } from "@angular/router/testing";
 import { AdminComponent } from "./admin/admin.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -48,6 +49,7 @@ describe("AppComponent", () => {
         MatCardModule,
         MatExpansionModule,
         RouterModule,
+        RouterTestingModule,
       ],
       providers: [BasicService],
     }).compileComponents();

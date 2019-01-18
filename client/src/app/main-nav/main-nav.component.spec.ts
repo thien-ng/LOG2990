@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { RouterTestingModule } from "@angular/router/testing";
 
-import { MatListModule, MatSidenavModule, MatToolbarModule } from "@angular/material";
+import { MatIconModule, MatListModule, MatSidenavModule, MatToolbarModule } from "@angular/material";
 import { MainNavComponent } from "./main-nav.component";
 
 describe("MainNavComponent", () => {
@@ -11,9 +13,12 @@ describe("MainNavComponent", () => {
     TestBed.configureTestingModule({
       declarations: [MainNavComponent],
       imports: [
+        BrowserAnimationsModule,
         MatToolbarModule,
         MatSidenavModule,
         MatListModule,
+        RouterTestingModule,
+        MatIconModule,
       ],
 
     })
