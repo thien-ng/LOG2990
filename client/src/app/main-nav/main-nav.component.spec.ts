@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
+import { MatListModule, MatSidenavModule, MatToolbarModule } from "@angular/material";
 import { MainNavComponent } from "./main-nav.component";
 
 describe("MainNavComponent", () => {
@@ -9,6 +10,12 @@ describe("MainNavComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [MainNavComponent],
+      imports: [
+        MatToolbarModule,
+        MatSidenavModule,
+        MatListModule,
+      ],
+
     })
       .compileComponents()
       .catch(() => "obligatory catch");
