@@ -1,0 +1,23 @@
+<mat-card class="card">
+  <mat-card-header>
+    <div mat-card-avatar class="thumbnail"></div>
+    <mat-card-title>Chien en forêt</mat-card-title>
+    <mat-card-subtitle>Animaux</mat-card-subtitle>
+  </mat-card-header>
+
+  <img mat-card-image class="card-image" width=400 alt="Panda" src="https://i1.wp.com/thehighdefinitionwallpapers.com/wp-content/uploads/2018/12/Animal-Cute-and-innocent-looking-dog-beautiful.jpg?resize=640%2C480&ssl=1">
+
+<mat-card-actions class="option_grid">
+    <div><button class="action_button" mat-button [matMenuTriggerFor]="menu">JOUER</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>Jouer en simple</button>
+      <button mat-menu-item>Jouer en multijoueur</button>
+    </mat-menu>
+  </div>
+  <div></div>
+  <button mat-button (click)="isClicked = !isClicked"><img width="35"  src="https://img.icons8.com/metro/1600/trophy.png"></button>
+</mat-card-actions>
+
+<app-highscore-display [(isExpanded)]="isClicked"></app-highscore-display>
+
+</mat-card>
