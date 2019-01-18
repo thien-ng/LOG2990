@@ -2,7 +2,9 @@ import { Component } from "@angular/core";
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import { ErrorStateMatcher } from "@angular/material";
 
-/** Error when invalid control is dirty, touched, or submitted. */
+const MIN_LENGTH: number = 4;
+const MAX_LENGTH: number = 15;
+
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   public isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted: boolean | null = form && form.submitted;
@@ -11,16 +13,18 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   }
 }
 
-/** @title Input with a custom ErrorStateMatcher */
 @Component({
   selector: "app-login-validator",
   templateUrl: "./login-validator.component.html",
   styleUrls: ["./login-validator.component.css"],
 })
 export class LoginValidatorComponent {
+
   public usernameFormControl: FormControl = new FormControl("", [
     Validators.required,
-    Validators.email,
+    Validators.pattern("^[a-zA-Z0-9]+$"),
+    Validators.minLength(MIN_LENGTH),
+    Validators.maxLength(MAX_LENGTH),
   ]);
 
   public matcher: MyErrorStateMatcher = new MyErrorStateMatcher();

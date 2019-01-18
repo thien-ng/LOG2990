@@ -3,7 +3,7 @@
     <input matInput placeholder="Nom d'utilisateur" [formControl]="usernameFormControl"
            [errorStateMatcher]="matcher">
     <mat-hint>Veuillez entrer un alias</mat-hint>
-    <mat-error *ngIf="usernameFormControl.hasError('email') && !usernameFormControl.hasError('required')">
+    <mat-error *ngIf="usernameFormControl.hasError('pattern') && !usernameFormControl.hasError('required')">
       A-Z, a-z, 0-9
     </mat-error>
     <mat-error *ngIf="usernameFormControl.hasError('required')">
