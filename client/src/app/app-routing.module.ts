@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { RouterModule, RouterOutlet, Routes } from "@angular/router";
 
 import { AdminComponent } from "./admin/admin.component";
 import { GameListComponent } from "./game-list/game-list.component";
@@ -23,6 +23,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  exports: [RouterOutlet],
 })
 export class AppRoutingModule {}
