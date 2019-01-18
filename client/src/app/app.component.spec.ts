@@ -2,15 +2,22 @@
 // tslint:disable:no-floating-promises pour le before each
 import { HttpClientModule } from "@angular/common/http";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { MatButtonModule, MatCardModule, MatExpansionModule, MatMenuModule } from "@angular/material";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppComponent } from "./app.component";
 import { BasicService } from "./basic.service";
+import { CardComponent } from "./card/card.component";
+import { HighscoreDisplayComponent } from "./highscore-display/highscore-display.component";
+
 describe("AppComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
+        CardComponent,
+        HighscoreDisplayComponent,
       ],
-      imports: [HttpClientModule],
+      imports: [HttpClientModule, MatButtonModule, MatCardModule, MatExpansionModule, MatMenuModule, BrowserAnimationsModule, ],
       providers: [BasicService],
     }).compileComponents();
   }));
