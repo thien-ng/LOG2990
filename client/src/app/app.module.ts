@@ -1,7 +1,7 @@
 import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { MatButtonModule, MatFormFieldModule } from "@angular/material";
+import { MatButtonModule, MatFormFieldModule, MatInputModule } from "@angular/material";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
@@ -21,6 +21,7 @@ import { LoginViewComponent } from "./login-view/login-view.component";
     HttpClientModule,
     MatButtonModule,
     MatFormFieldModule,
+    MatInputModule,
   ],
   providers: [BasicService],
   bootstrap: [AppComponent],
