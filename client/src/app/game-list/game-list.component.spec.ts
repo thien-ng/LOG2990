@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
+import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { GameListComponent } from "./game-list.component";
 
 const OBLIGATORY_CATCH: String = "obligatory catch";
@@ -11,6 +12,7 @@ describe("GameListComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [GameListComponent],
+      imports: [TestingImportsModule],
     })
       .compileComponents()
       .catch(() => OBLIGATORY_CATCH);

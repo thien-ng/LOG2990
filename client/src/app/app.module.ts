@@ -1,17 +1,7 @@
 import { LayoutModule } from "@angular/cdk/layout";
 import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
-import {
-  MatButtonModule,
-  MatCardModule,
-  MatExpansionModule,
-  MatIconModule,
-  MatListModule,
-  MatSidenavModule,
-  MatToolbarModule,
-} from "@angular/material";
 import { BrowserModule } from "@angular/platform-browser";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 
 import { AdminComponent } from "./admin/admin.component";
@@ -33,15 +23,7 @@ import { MainNavComponent } from "./main-nav/main-nav.component";
   imports: [
     BrowserModule,
     HttpClientModule,
-    BrowserAnimationsModule,
     LayoutModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
-    MatCardModule,
-    MatExpansionModule,
     AppRoutingModule,
     RouterModule,
   ],

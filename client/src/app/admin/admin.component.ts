@@ -9,6 +9,6 @@ export class AdminComponent implements OnInit {
 
   public constructor() { /* default constructor */ }
 
-  public ngOnInit(): void { /* default */ }
+  public ngOnInit(): void { /* default ngOnInit */ }
 
 }
