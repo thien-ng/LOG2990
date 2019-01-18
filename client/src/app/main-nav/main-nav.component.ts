@@ -11,8 +11,6 @@ import { map } from "rxjs/operators";
 
 export class MainNavComponent {
 
-  // isOpen: boolean = false;
-
   public routes: Array<Object> = [
     { linkName: "Liste des jeux", url: "/nav/gamelist" },
     { linkName: "Administration", url: "/admin" },
