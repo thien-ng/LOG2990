@@ -7,8 +7,8 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AppComponent } from "./app.component";
 import { BasicService } from "./basic.service";
-import { LoginValidatorComponent } from "./login-validator/login-validator.component";
-import { LoginViewComponent } from "./login-view/login-view.component";
+import { LoginValidatorComponent } from "./login/login-validator/login-validator.component";
+import { LoginViewComponent } from "./login/login-view/login-view.component";
 
 @NgModule({
   declarations: [

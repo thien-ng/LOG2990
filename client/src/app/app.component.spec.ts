@@ -6,8 +6,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatButtonModule, MatFormFieldModule, MatInputModule } from "@angular/material";
 import { AppComponent } from "./app.component";
 import { BasicService } from "./basic.service";
-import { LoginValidatorComponent } from "./login-validator/login-validator.component";
-import { LoginViewComponent } from "./login-view/login-view.component";
+import { LoginValidatorComponent } from "./login/login-validator/login-validator.component";
+import { LoginViewComponent } from "./login/login-view/login-view.component";
 describe("AppComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
