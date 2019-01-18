@@ -1,14 +1,14 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { LoginViewComponent } from './login-view.component';
+import { LoginViewComponent } from "./login-view.component";
 
-describe('LoginViewComponent', () => {
+describe("LoginViewComponent", () => {
   let component: LoginViewComponent;
   let fixture: ComponentFixture<LoginViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoginViewComponent ]
+      declarations: [ LoginViewComponent ],
     })
     .compileComponents();
   }));
@@ -19,7 +19,7 @@ describe('LoginViewComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
