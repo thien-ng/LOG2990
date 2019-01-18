@@ -4,13 +4,17 @@ import { HttpClientModule } from "@angular/common/http";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { AppComponent } from "./app.component";
 import { BasicService } from "./basic.service";
+import { RouterModule } from "@angular/router";
 describe("AppComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
       ],
-      imports: [HttpClientModule],
+      imports: [
+        HttpClientModule,
+        RouterModule,
+      ],
       providers: [BasicService],
     }).compileComponents();
   }));

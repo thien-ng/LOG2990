@@ -10,6 +10,7 @@ import {
   MatSidenavModule,
   MatToolbarModule,
 } from "@angular/material";
+import { RouterModule } from "@angular/router";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
@@ -42,6 +43,7 @@ import { MainNavComponent } from "./main-nav/main-nav.component";
     MatCardModule,
     MatExpansionModule,
     AppRoutingModule,
+    RouterModule,
   ],
   providers: [BasicService],
   bootstrap: [AppComponent],
