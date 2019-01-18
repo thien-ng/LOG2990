@@ -5,10 +5,12 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 import { AppComponent } from "./app.component";
 import { BasicService } from "./basic.service";
+import { LoginViewComponent } from './login-view/login-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoginViewComponent,
   ],
   imports: [
     BrowserModule,
