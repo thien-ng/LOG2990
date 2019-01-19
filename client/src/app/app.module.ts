@@ -3,18 +3,19 @@ import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
-
-import { MatButtonModule, MatCardModule, MatExpansionModule, MatMenuModule } from "@angular/material";
-import { AdminComponent } from "./admin/admin.component";
 import { AppRoutingModule } from "./app-routing.module";
-import { AppComponent } from "./app.component";
+import { TestingImportsModule } from "./testing-imports/testing-imports.module";
+
 import { BasicService } from "./basic.service";
+
+import { AdminComponent } from "./admin/admin.component";
+import { AppComponent } from "./app.component";
 import { CardComponent } from "./card/card.component";
+import { GameListContainerComponent } from "./game-list-container/game-list-container.component";
 import { GameListComponent } from "./game-list/game-list.component";
 import { HighscoreDisplayComponent } from "./highscore-display/highscore-display.component";
 import { LoginPageComponent } from "./login-page/login-page.component";
 import { MainNavComponent } from "./main-nav/main-nav.component";
-import { TestingImportsModule } from "./testing-imports/testing-imports.module";
 
 @NgModule({
   declarations: [
@@ -26,14 +27,11 @@ import { TestingImportsModule } from "./testing-imports/testing-imports.module";
     LoginPageComponent,
     GameListComponent,
     AdminComponent,
+    GameListContainerComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    MatButtonModule,
-    MatCardModule,
-    MatMenuModule,
-    MatExpansionModule,
     LayoutModule,
     AppRoutingModule,
     RouterModule,

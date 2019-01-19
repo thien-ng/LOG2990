@@ -6,6 +6,7 @@ import {
   MatExpansionModule,
   MatIconModule,
   MatListModule,
+  MatMenuModule,
   MatSidenavModule,
   MatToolbarModule,
 } from "@angular/material";
@@ -20,6 +21,7 @@ import { RouterTestingModule } from "@angular/router/testing";
     BrowserAnimationsModule,
     MatToolbarModule,
     MatButtonModule,
+    MatMenuModule,
     MatSidenavModule,
     MatIconModule,
     MatListModule,

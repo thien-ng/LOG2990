@@ -1,8 +1,10 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatButtonModule, MatCardModule, MatExpansionModule, MatMenuModule } from "@angular/material";
+// import { MatButtonModule, MatCardModule, MatExpansionModule, MatMenuModule } from "@angular/material";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HighscoreDisplayComponent } from "../highscore-display/highscore-display.component";
 import { CardComponent } from "./card.component";
+
+import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 
 describe("CardComponent", () => {
   let component: CardComponent;
@@ -12,7 +14,8 @@ describe("CardComponent", () => {
     TestBed.configureTestingModule({
       declarations: [ CardComponent, HighscoreDisplayComponent ],
       imports: [
-        MatButtonModule, MatCardModule, MatMenuModule, MatExpansionModule, BrowserAnimationsModule,
+        TestingImportsModule,
+        BrowserAnimationsModule,
       ],
     })
     .compileComponents()

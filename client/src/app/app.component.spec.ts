@@ -1,23 +1,25 @@
 // tslint:disable:no-any les attributs sont des types any
 // tslint:disable:no-floating-promises pour le before each
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+
 import { LayoutModule } from "@angular/cdk/layout";
 import { HttpClientModule } from "@angular/common/http";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatButtonModule, MatCardModule, MatExpansionModule, MatMenuModule } from "@angular/material";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
-import { CardComponent } from "./card/card.component";
-import { HighscoreDisplayComponent } from "./highscore-display/highscore-display.component";
+import { AppRoutingModule } from "./app-routing.module";
+import { TestingImportsModule } from "./testing-imports/testing-imports.module";
+
+import { BasicService } from "./basic.service";
 
 import { AdminComponent } from "./admin/admin.component";
-import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { BasicService } from "./basic.service";
+import { CardComponent } from "./card/card.component";
+import { GameListContainerComponent } from "./game-list-container/game-list-container.component";
 import { GameListComponent } from "./game-list/game-list.component";
+import { HighscoreDisplayComponent } from "./highscore-display/highscore-display.component";
 import { LoginPageComponent } from "./login-page/login-page.component";
 import { MainNavComponent } from "./main-nav/main-nav.component";
-import { TestingImportsModule } from "./testing-imports/testing-imports.module";
 
 describe("AppComponent", () => {
   beforeEach(async(() => {
@@ -30,13 +32,10 @@ describe("AppComponent", () => {
         GameListComponent,
         LoginPageComponent,
         MainNavComponent,
+        GameListContainerComponent,
       ],
       imports: [
         HttpClientModule,
-        MatButtonModule,
-        MatCardModule,
-        MatExpansionModule,
-        MatMenuModule,
         BrowserAnimationsModule,
         AppRoutingModule,
         BrowserModule,
