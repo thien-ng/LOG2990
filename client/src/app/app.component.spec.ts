@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppComponent } from "./app.component";
 import { BasicService } from "./basic.service";
 import { CardComponent } from "./card/card.component";
+import { GameListComponent } from "./game-list/game-list.component";
 import { HighscoreDisplayComponent } from "./highscore-display/highscore-display.component";
 
 describe("AppComponent", () => {
@@ -16,6 +17,7 @@ describe("AppComponent", () => {
         AppComponent,
         CardComponent,
         HighscoreDisplayComponent,
+        GameListComponent,
       ],
       imports: [HttpClientModule, MatButtonModule, MatCardModule, MatExpansionModule, MatMenuModule, BrowserAnimationsModule, ],
       providers: [BasicService],

@@ -7,6 +7,7 @@ import { MatButtonModule, MatCardModule, MatExpansionModule, MatMenuModule } fro
 import { AppComponent } from "./app.component";
 import { BasicService } from "./basic.service";
 import { CardComponent } from "./card/card.component";
+import { GameListComponent } from "./game-list/game-list.component";
 import { HighscoreDisplayComponent } from "./highscore-display/highscore-display.component";
 
 @NgModule({
@@ -14,6 +15,7 @@ import { HighscoreDisplayComponent } from "./highscore-display/highscore-display
     AppComponent,
     CardComponent,
     HighscoreDisplayComponent,
+    GameListComponent,
   ],
   imports: [
     BrowserModule,
