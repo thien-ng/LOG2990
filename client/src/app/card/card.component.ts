@@ -25,7 +25,7 @@ export class CardComponent implements OnInit {
     // default init
   }
 
-  public onClick(){
+  public onClick(): void {
     this._isClicked = !this._isClicked;
   }
 
