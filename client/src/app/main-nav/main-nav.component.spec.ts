@@ -1,8 +1,6 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatIconModule, MatListModule, MatSidenavModule, MatToolbarModule } from "@angular/material";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { RouterTestingModule } from "@angular/router/testing";
 
+import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { MainNavComponent } from "./main-nav.component";
 
 const OBLIGATORY_CATCH: String = "obligatory catch";
@@ -14,14 +12,7 @@ describe("MainNavComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [MainNavComponent],
-      imports: [
-        BrowserAnimationsModule,
-        MatToolbarModule,
-        MatSidenavModule,
-        MatListModule,
-        RouterTestingModule,
-        MatIconModule,
-      ],
+      imports: [TestingImportsModule],
     })
       .compileComponents()
       .catch(() => OBLIGATORY_CATCH);
