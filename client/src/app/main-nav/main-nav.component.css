@@ -1,0 +1,36 @@
+.sidenav-container {
+  height: 93%;
+}
+
+.sidenav {
+  width: 200px;
+  background-color: #0068A6;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  height: 7%;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 10px;
+}
+
+.logo {
+  padding: 10px;
+}
+
+.button:hover {
+  background: #00F076;
+}
+
+.nav-link {
+  color: white;
+}
+
+.is-active {
+  font-weight: bolder;
+}

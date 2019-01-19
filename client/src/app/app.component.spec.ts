@@ -1,29 +1,44 @@
 // tslint:disable:no-any les attributs sont des types any
 // tslint:disable:no-floating-promises pour le before each
+import { LayoutModule } from "@angular/cdk/layout";
 import { HttpClientModule } from "@angular/common/http";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MatButtonModule, MatFormFieldModule, MatInputModule } from "@angular/material";
+// import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+// import { MatButtonModule, MatFormFieldModule, MatInputModule } from "@angular/material";
 import { AppComponent } from "./app.component";
 import { BasicService } from "./basic.service";
 import { LoginValidatorComponent } from "./login/login-validator/login-validator.component";
 import { LoginViewComponent } from "./login/login-view/login-view.component";
+import { BrowserModule } from "@angular/platform-browser";
+import { RouterModule } from "@angular/router";
+
+import { AdminComponent } from "./admin/admin.component";
+import { AppRoutingModule } from "./app-routing.module";
+import { GameListComponent } from "./game-list/game-list.component";
+import { LoginPageComponent } from "./login-page/login-page.component";
+import { MainNavComponent } from "./main-nav/main-nav.component";
+import { TestingImportsModule } from "./testing-imports/testing-imports.module";
+
 describe("AppComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
+        AdminComponent,
         AppComponent,
         LoginValidatorComponent,
         LoginViewComponent,
+        GameListComponent,
+        LoginPageComponent,
+        MainNavComponent,
       ],
       imports: [
-                FormsModule,
-                HttpClientModule,
-                MatButtonModule,
-                MatFormFieldModule,
-                MatInputModule,
-                ReactiveFormsModule,
-              ],
+        AppRoutingModule,
+        BrowserModule,
+        HttpClientModule,
+        LayoutModule,
+        RouterModule,
+        TestingImportsModule,
+      ],
       providers: [BasicService],
     }).compileComponents();
   }));
