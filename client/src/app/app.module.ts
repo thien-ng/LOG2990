@@ -11,6 +11,7 @@ import { BasicService } from "./basic.service";
 import { GameListComponent } from "./game-list/game-list.component";
 import { LoginPageComponent } from "./login-page/login-page.component";
 import { MainNavComponent } from "./main-nav/main-nav.component";
+import { TestingImportsModule } from "./testing-imports/testing-imports.module";
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { MainNavComponent } from "./main-nav/main-nav.component";
     LayoutModule,
     AppRoutingModule,
     RouterModule,
+    TestingImportsModule,
   ],
   providers: [BasicService],
   bootstrap: [AppComponent],
