@@ -28,7 +28,7 @@ export class LoginValidatorComponent {
 
   public matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
 
-  @Input() public usernames: string[] = [];
+  @Input() public usernames: string[];
 
   public addUsername(): void {
     if (this.usernameFormControl.value) {
