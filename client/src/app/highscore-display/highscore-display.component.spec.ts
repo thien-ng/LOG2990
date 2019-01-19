@@ -1,9 +1,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatExpansionModule } from "@angular/material";
 
+import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { HighscoreDisplayComponent } from "./highscore-display.component";
-
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 describe("HighscoreDisplayComponent", () => {
   let component: HighscoreDisplayComponent;
@@ -12,7 +10,7 @@ describe("HighscoreDisplayComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ HighscoreDisplayComponent ],
-      imports: [ MatExpansionModule, BrowserAnimationsModule ],
+      imports: [ TestingImportsModule ],
     })
     .compileComponents()
     .catch(() => "obligatory catch");

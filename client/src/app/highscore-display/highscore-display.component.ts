@@ -8,6 +8,10 @@ import { Component, Input, OnInit } from "@angular/core";
 export class HighscoreDisplayComponent implements OnInit {
 
   @Input() public _isExpanded: boolean = false;
+  // il va falloir importer les images désirées dans les assets
+  public _imageUrlGold: string = "../../assets/gold.png";
+  public _imageUrlSilver: string = "../../assets/silver.png";
+  public _imageUrlBronze: string = "../../assets/bronze.png";
 
   public constructor() {
     // default constructor

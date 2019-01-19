@@ -1,4 +1,3 @@
-
 .highscore_panel {
     background-color: rgb(250, 248, 248);
 }
@@ -9,4 +8,8 @@
     grid-gap: 6px;
     justify-items: center;
     align-items: center;
+}
+
+.medals {
+    width: 30;
 }

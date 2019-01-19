@@ -1,7 +1,8 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { GameListContainerComponent } from "./game-list-container.component";
+
+import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 
 const OBLIGATORY_CATCH: String = "obligatory catch";
 

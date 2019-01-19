@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+
 import { CardComponent } from "../card/card.component";
 import { HighscoreDisplayComponent } from "../highscore-display/highscore-display.component";
 import { GameListComponent } from "./game-list.component";
@@ -14,7 +15,11 @@ describe("GameListComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
 
-      declarations: [GameListComponent, CardComponent, HighscoreDisplayComponent],
+      declarations: [
+        GameListComponent,
+        CardComponent,
+        HighscoreDisplayComponent,
+      ],
       imports: [TestingImportsModule],
     })
       .compileComponents()
