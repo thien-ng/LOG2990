@@ -1,16 +1,13 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import { ErrorStateMatcher } from "@angular/material";
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
 
-const HTTP_OPTION = {
+const HTTP_OPTION  = {
   headers: new HttpHeaders({
-    'Content-Type':  'application/json',
-    //'Authorization': 'my-auth-token'
-  })
+    "Content-Type":  "application/json",
+    // 'Authorization': 'my-auth-token'
+  }),
 };
 
 const MIN_LENGTH: number = 4;
