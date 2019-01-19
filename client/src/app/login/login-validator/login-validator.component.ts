@@ -35,7 +35,7 @@ export class LoginValidatorComponent {
   }
 
   public addUsername(): void {
-    if (this.usernameFormControl.value && this.checkIfUnique(this.usernameFormControl.value)) {
+    if (this.usernameFormControl.errors == null && this.checkIfUnique(this.usernameFormControl.value)) {
       this.usernames.push(this.usernameFormControl.value);
     }
   }
