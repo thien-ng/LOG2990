@@ -1,6 +1,6 @@
 import { LayoutModule } from "@angular/cdk/layout";
 import { HttpClientModule } from "@angular/common/http";
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
+import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
 
@@ -34,8 +34,6 @@ import { TestingImportsModule } from "./testing-imports/testing-imports.module";
     MatCardModule,
     MatMenuModule,
     MatExpansionModule,
-  ],
-  exports: [
     LayoutModule,
     AppRoutingModule,
     RouterModule,
@@ -43,6 +41,5 @@ import { TestingImportsModule } from "./testing-imports/testing-imports.module";
   ],
   providers: [BasicService],
   bootstrap: [AppComponent],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule { }
