@@ -30,8 +30,12 @@ export class LoginValidatorComponent {
 
   @Input() public usernames: string[];
 
+  private checkIfUnique(username: string): boolean {
+    return !this.usernames.includes(username);
+  }
+
   public addUsername(): void {
-    if (this.usernameFormControl.value) {
+    if (this.usernameFormControl.value && this.checkIfUnique(this.usernameFormControl.value)) {
       this.usernames.push(this.usernameFormControl.value);
     }
   }
