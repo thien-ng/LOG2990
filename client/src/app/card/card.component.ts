@@ -7,7 +7,7 @@ import { Component, OnInit } from "@angular/core";
 })
 export class CardComponent implements OnInit {
 
-  public isClicked: boolean;
+  public _isClicked: boolean;
 
   public constructor() {
     // default constructor
@@ -15,7 +15,6 @@ export class CardComponent implements OnInit {
 
   public ngOnInit(): void {
     // default init
-
   }
 
 }

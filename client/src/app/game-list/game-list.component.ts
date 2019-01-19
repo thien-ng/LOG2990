@@ -8,7 +8,7 @@ import { CardComponent } from "../card/card.component";
 })
 export class GameListComponent implements OnInit {
 
-  public gameCardsArray: CardComponent[];
+  public _gameCardsArray: CardComponent[];
 
   public constructor() {
     // default constructor

@@ -5,7 +5,6 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { LayoutModule } from "@angular/cdk/layout";
 import { HttpClientModule } from "@angular/common/http";
 import { BrowserModule } from "@angular/platform-browser";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 import { AppRoutingModule } from "./app-routing.module";
 import { TestingImportsModule } from "./testing-imports/testing-imports.module";
@@ -36,7 +35,6 @@ describe("AppComponent", () => {
       ],
       imports: [
         HttpClientModule,
-        BrowserAnimationsModule,
         AppRoutingModule,
         BrowserModule,
         HttpClientModule,

@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-
 import { CardComponent } from "../card/card.component";
 import { HighscoreDisplayComponent } from "../highscore-display/highscore-display.component";
 import { GameListComponent } from "./game-list.component";

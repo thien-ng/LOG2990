@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from "@angular/core";
 })
 export class HighscoreDisplayComponent implements OnInit {
 
-  @Input() public isExpanded: boolean = false;
+  @Input() public _isExpanded: boolean = false;
 
   public constructor() {
     // default constructor
