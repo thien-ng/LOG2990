@@ -7,11 +7,11 @@ import { Component, OnInit } from "@angular/core";
 })
 export class LoginViewComponent implements OnInit {
 
-  //private LOGO: string = require("../../assets/images/logo.png");
-
   public constructor() {
     // default constructor
   }
+
+  private LOGO: string = require("../../../assets/images/logo.png");
 
   public ngOnInit(): void {
     // default ngOnInit

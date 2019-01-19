@@ -5,12 +5,6 @@
     text-align: center;
 }
 
-#submit-button {
-    color: rgb(245, 188, 31);
-    background-color: black;
-    float: bottom;
-}
-
 #logo {
     max-width: 400px;
 }

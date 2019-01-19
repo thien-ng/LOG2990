@@ -19,7 +19,6 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ["./login-validator.component.css"],
 })
 export class LoginValidatorComponent {
-
   public usernameFormControl: FormControl = new FormControl("", [
     Validators.required,
     Validators.pattern("^[a-zA-Z0-9]+$"),
@@ -28,4 +27,12 @@ export class LoginValidatorComponent {
   ]);
 
   public matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
+
+  public usernames: string[] = [];
+
+  public addUsername(newUsername: string): void {
+    if (newUsername) {
+      this.usernames.push(newUsername);
+    }
+  }
 }

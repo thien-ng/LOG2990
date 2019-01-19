@@ -1,6 +1,7 @@
 <form class="login-form">
   <mat-form-field class="login-input">
-    <input matInput placeholder="Nom d'utilisateur" [formControl]="usernameFormControl" [errorStateMatcher]="matcher">
+    <input #newUsername (keyup.enter)="addUsername(newUsername.value)" 
+      matInput placeholder="Nom d'utilisateur" [formControl]="usernameFormControl" [errorStateMatcher]="matcher">
     <mat-hint class="hint">Veuillez entrer un alias</mat-hint>
     <mat-error *ngIf="usernameFormControl.hasError('pattern') && !usernameFormControl.hasError('required')">
       A-Z, a-z, 0-9
@@ -10,3 +11,12 @@
     </mat-error>
   </mat-form-field>
 </form>
+<br>
+<br>
+<button mat-raised-button id="submit-button" (click)="addUsername(newUsername.value)">
+  <span>Soumettre</span>
+</button>
+
+<h3>Liste des noms utilisés</h3>
+
+<ul><li *ngFor="let username of usernames">{{username}}</li></ul>

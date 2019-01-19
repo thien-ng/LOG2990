@@ -15,4 +15,10 @@
     text-align: center;
     width: 100%;
   }
+
+  #submit-button {
+    color: rgb(245, 188, 31);
+    background-color: black;
+    float: bottom;
+}
   
