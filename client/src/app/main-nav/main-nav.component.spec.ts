@@ -1,18 +1,17 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
-import { GameListComponent } from "./game-list.component";
+import { MainNavComponent } from "./main-nav.component";
 
 const OBLIGATORY_CATCH: String = "obligatory catch";
 
-describe("GameListComponent", () => {
-  let component: GameListComponent;
-  let fixture: ComponentFixture<GameListComponent>;
+describe("MainNavComponent", () => {
+  let component: MainNavComponent;
+  let fixture: ComponentFixture<MainNavComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-
-      declarations: [GameListComponent],
+      declarations: [MainNavComponent],
       imports: [TestingImportsModule],
     })
       .compileComponents()
@@ -20,7 +19,7 @@ describe("GameListComponent", () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GameListComponent);
+    fixture = TestBed.createComponent(MainNavComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
