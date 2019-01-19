@@ -7,7 +7,7 @@ import { Component, OnInit } from "@angular/core";
 })
 export class CardComponent implements OnInit {
 
-  public _isClicked: boolean;
+  public _HSButtonIsClicked: boolean;
   public _title: string = "Chien couché";
   public _subtitle: string = "Animaux";
   public _avatarImageUrl: string = "https://material.angular.io/assets/img/examples/shiba1.jpg";
@@ -25,8 +25,8 @@ export class CardComponent implements OnInit {
     // default init
   }
 
-  public onClick(): void {
-    this._isClicked = !this._isClicked;
+  public onHSButtonClick(): void {
+    this._HSButtonIsClicked = !this._HSButtonIsClicked;
   }
 
 }

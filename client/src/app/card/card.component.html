@@ -16,11 +16,11 @@
             <button mat-menu-item>{{_textPlayMulti}}</button>
           </mat-menu>
         
-        <button mat-button class="highscoreButton" [ngClass]="_isClicked ? 'clicked' : 'unclicked'" (click)="onClick()"><img class="highscoreIcon"  src="https://img.icons8.com/metro/1600/trophy.png"></button>
+        <button mat-button class="highscoreButton" [ngClass]="_HSButtonIsClicked ? 'clicked' : 'unclicked'" (click)="onHSButtonClick()"><img class="highscoreIcon"  src="https://img.icons8.com/metro/1600/trophy.png"></button>
       </mat-card-actions>
 
   </div>
 
-<app-highscore-display [(_isExpanded)]="_isClicked"></app-highscore-display>
+<app-highscore-display [(_isExpanded)]="_HSButtonIsClicked"></app-highscore-display>
 
 </mat-card>
