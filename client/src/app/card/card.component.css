@@ -5,16 +5,34 @@
 }
 
 .thumbnail {
-    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
     background-size: cover;
 }
 
-.action_button {
-    color: #E91E63;
-    font-size: larger;
+
+.optionBar {
+    display: block;
+    padding-bottom: 25px;
 }
 
-.option_grid {
-    display: grid;
-    grid-template-columns: 1fr 3fr 1fr;
+.playButton {
+    color: #E91E63;
+    font-size: larger;
+    float: left;
+}
+
+.highscoreIcon {
+    padding: 10px;
+}
+
+.highscoreButton {
+    float:right;
+    /* margin-bottom: 20px; */
+}
+
+.clicked {
+    background-color: rgb(248, 245, 245);
+}
+
+.unclicked {
+    background-color: white;
 }
