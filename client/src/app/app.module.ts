@@ -6,14 +6,14 @@ import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
 
 // import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { AppComponent } from "./app.component";
-import { BasicService } from "./basic.service";
-import { LoginValidatorComponent } from "./login/login-validator/login-validator.component";
-import { LoginViewComponent } from "./login/login-view/login-view.component";
 import { AdminComponent } from "./admin/admin.component";
 import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
+import { BasicService } from "./basic.service";
 import { GameListComponent } from "./game-list/game-list.component";
 import { LoginPageComponent } from "./login-page/login-page.component";
+import { LoginValidatorComponent } from "./login/login-validator/login-validator.component";
+import { LoginViewComponent } from "./login/login-view/login-view.component";
 import { MainNavComponent } from "./main-nav/main-nav.component";
 import { TestingImportsModule } from "./testing-imports/testing-imports.module";
 
