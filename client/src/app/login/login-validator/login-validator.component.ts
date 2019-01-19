@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import { ErrorStateMatcher } from "@angular/material";
 
@@ -28,11 +28,11 @@ export class LoginValidatorComponent {
 
   public matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
 
-  public usernames: string[] = [];
+  @Input() public usernames: string[] = [];
 
-  public addUsername(newUsername: string): void {
-    if (newUsername) {
-      this.usernames.push(newUsername);
+  public addUsername(): void {
+    if (this.usernameFormControl.value) {
+      this.usernames.push(this.usernameFormControl.value);
     }
   }
 }
