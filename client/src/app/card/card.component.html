@@ -1,0 +1,26 @@
+<mat-card class="card">
+  <mat-card-header>
+    <div mat-card-avatar [ngStyle]="{ 'background-image': 'url(' + _avatarImageUrl + ')'}"  class="thumbnail"></div>
+    <mat-card-title>{{_title}}</mat-card-title>
+    <mat-card-subtitle>{{_subtitle}}</mat-card-subtitle>
+  </mat-card-header>
+
+  <img mat-card-image class="card-image" alt="GameCardImage" src="{{_gameImageUrl}}">
+
+  <div  class="optionBar">
+      <mat-card-actions>
+          <button class="playButton" mat-button [matMenuTriggerFor]="menu">{{_textPlay}}</button>
+      
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>{{_textPlaySingle}}</button>
+            <button mat-menu-item>{{_textPlayMulti}}</button>
+          </mat-menu>
+        
+        <button mat-button class="highscoreButton" [ngClass]="_HSButtonIsClicked ? 'clicked' : 'unclicked'" (click)="onHSButtonClick()"><img class="highscoreIcon"  src="https://img.icons8.com/metro/1600/trophy.png"></button>
+      </mat-card-actions>
+
+  </div>
+
+<app-highscore-display [(_isExpanded)]="_HSButtonIsClicked"></app-highscore-display>
+
+</mat-card>

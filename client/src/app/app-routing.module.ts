@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, RouterOutlet, Routes } from "@angular/router";
 
 import { AdminComponent } from "./admin/admin.component";
-import { GameListComponent } from "./game-list/game-list.component";
+import { GameListContainerComponent } from "./game-list-container/game-list-container.component";
 import { LoginPageComponent } from "./login-page/login-page.component";
 import { MainNavComponent } from "./main-nav/main-nav.component";
 
@@ -22,7 +22,7 @@ const routes: Routes = [
     component: MainNavComponent,
     children: [
       { path: ROOT_PATH, redirectTo: GAMELIST_PATH, pathMatch: "full" },
-      { path: GAMELIST_PATH, component: GameListComponent },
+      { path: GAMELIST_PATH, component: GameListContainerComponent },
     ],
   },
 ];
