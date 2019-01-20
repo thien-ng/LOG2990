@@ -7,12 +7,12 @@
     <button *ngIf="this.router.url == '/admin'" type="button" class="button" mat-icon-button [matMenuTriggerFor]="settingsMenu"><mat-icon>settings</mat-icon></button>
     <mat-menu #settingsMenu="matMenu">
       <button mat-menu-item>
-        <mat-icon>dialpad</mat-icon>
-        <span>Réinitiali</span>
+        <mat-icon>timer_off</mat-icon>
+        <span>Réinitialiser les temps</span>
       </button>
       <button mat-menu-item>
-        <mat-icon>voicemail</mat-icon>
-        <span>Check voicemail</span>
+        <mat-icon>delete</mat-icon>
+        <span>Supprimer la carte</span>
       </button>
     </mat-menu>
   </mat-card-header>
