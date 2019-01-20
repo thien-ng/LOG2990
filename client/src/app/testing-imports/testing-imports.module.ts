@@ -3,9 +3,11 @@ import { NgModule } from "@angular/core";
 import {
   MatButtonModule,
   MatCardModule,
+  MatDividerModule,
   MatExpansionModule,
   MatIconModule,
   MatListModule,
+  MatMenuModule,
   MatSidenavModule,
   MatToolbarModule,
 } from "@angular/material";
@@ -20,6 +22,7 @@ import { RouterTestingModule } from "@angular/router/testing";
     BrowserAnimationsModule,
     MatToolbarModule,
     MatButtonModule,
+    MatMenuModule,
     MatSidenavModule,
     MatIconModule,
     MatListModule,
@@ -27,6 +30,7 @@ import { RouterTestingModule } from "@angular/router/testing";
     MatExpansionModule,
     RouterModule,
     RouterTestingModule,
+    MatDividerModule,
   ],
 })
 export class TestingImportsModule { }

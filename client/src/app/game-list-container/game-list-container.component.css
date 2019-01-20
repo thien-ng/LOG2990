@@ -1,0 +1,7 @@
+.listGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 60%;
+    min-width: 550px;
+    margin:auto;
+}
