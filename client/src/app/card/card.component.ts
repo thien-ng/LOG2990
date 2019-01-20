@@ -18,6 +18,8 @@ export class CardComponent implements OnInit {
   public _textPlay: string = "JOUER";
   public _textPlaySingle: string = "Jouer en simple";
   public _textPlayMulti: string = "Jouer en multijoueur";
+  public _textResetTimers: string = "Réinitialiser les temps";
+  public _textDelete: string = "Supprimer la carte";
 
   public constructor(public router: Router) {
     // default constructor
