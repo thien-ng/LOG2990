@@ -40,4 +40,4 @@ import { MainNavComponent } from "./main-nav/main-nav.component";
   providers: [BasicService],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
