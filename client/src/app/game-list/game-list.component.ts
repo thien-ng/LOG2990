@@ -1,13 +1,7 @@
 import { Component, OnInit } from "@angular/core";
+// Va etre utilise dans le futur
+// import { CardProperties } from "../../../../common/communication/cardModel",
 import { CardComponent } from "../card/card.component";
-
-export interface CardProperties {
-  gameID: number;
-  title: string;
-  subtitle: string;
-  avatarImageUrl: string;
-  gameImageUrl: string;
-}
 
 @Component({
   selector: "app-game-list",
