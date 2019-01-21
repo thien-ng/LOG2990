@@ -1,6 +1,5 @@
 <mat-expansion-panel class="highscore_panel" [(expanded)]="_isExpanded">
-  <!-- ça va devenir une table probablement, j'aimerais laisser ça pour Tristan -->
-    <h2>Classement</h2>
+    <h1>Classement</h1>
     <div class="grid_ranking">
 
         <div></div>
@@ -10,9 +9,11 @@
         <div><img class="medals" src="{{_imageMedalsUrl[0]}}"></div>
         <div>{{ _2DHighscores[0] }}</div>
         <div>{{ _3DHighscores[0] }}</div>
+
         <div><img class="medals" src="{{_imageMedalsUrl[1]}}"></div>
         <div>{{ _2DHighscores[1] }}</div>
         <div>{{ _3DHighscores[1] }}</div>
+        
         <div><img class="medals" src="{{_imageMedalsUrl[2]}}"></div>
         <div>{{ _2DHighscores[2] }}</div>
         <div>{{ _3DHighscores[2] }}</div>

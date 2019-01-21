@@ -1,5 +1,7 @@
 .highscore_panel {
-    background-color: rgb(250, 248, 248);
+    background-color: rgba(255, 255, 255, 0);
+    color: rgb(191, 191, 191);
+    border: none;
 }
 
 .grid_ranking {
@@ -11,5 +13,9 @@
 }
 
 .medals {
-    width: 30;
+    width: 15px;
+}
+
+mat-expansion-panel {
+    box-shadow: none !important;
 }

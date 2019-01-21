@@ -27,6 +27,7 @@ export class CardComponent implements OnInit {
 
   public onHSButtonClick(): void {
     this._HSButtonIsClicked = !this._HSButtonIsClicked;
+
   }
 
 }
