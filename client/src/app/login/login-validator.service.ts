@@ -29,7 +29,7 @@ export class LoginValidatorService {
 
   // public constructor(private _httpClient: HttpClient) { /* default constructor */ }
 
-  private _matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
+  public _matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
 
   public usernames: string[] = [];
 

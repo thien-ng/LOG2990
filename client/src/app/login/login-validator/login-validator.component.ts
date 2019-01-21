@@ -13,4 +13,12 @@ export class LoginValidatorComponent {
   public addUsername(): void {
     this._loginValidatorService.addUsername();
   }
+
+  public hasErrorOfType(errorType: string): boolean {
+    return this._loginValidatorService.usernameFormControl.hasError(errorType);
+  }
+
+  public hasFormControlErrors(): boolean {
+    return !(this._loginValidatorService.usernameFormControl.errors == null);
+  }
 }

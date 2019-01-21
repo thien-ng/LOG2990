@@ -11,7 +11,7 @@ export class LoginViewComponent implements OnInit {
     // default constructor
   }
 
-  private LOGO: string = "../../../assets/images/logo.png";
+  public LOGO: string = "../../../assets/images/logo.png";
 
   public ngOnInit(): void {
     // default ngOnInit
