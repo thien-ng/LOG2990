@@ -31,7 +31,7 @@ export class LoginValidatorService {
 
   public _matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
 
-  public usernames: string[] = [];
+  public _usernames: string[] = [];
 
   public usernameFormControl: FormControl = new FormControl("", [
     Validators.required,
@@ -42,12 +42,12 @@ export class LoginValidatorService {
 
   public addUsername(): void {
     if (this.usernameFormControl.errors == null && this.checkIfUnique(this.usernameFormControl.value)) {
-      this.usernames.push(this.usernameFormControl.value);
+      this._usernames.push(this.usernameFormControl.value);
     }
   }
 
   private checkIfUnique(username: string): boolean {
-    return !this.usernames.includes(username);
+    return !this._usernames.includes(username);
   }
 
 }

@@ -6,13 +6,13 @@
         [errorStateMatcher]="_loginValidatorService._matcher">
     <mat-hint class="hint">Veuillez entrer un alias</mat-hint>
     <mat-error *ngIf="hasErrorOfType('pattern')">
-      Caractères autorisés: A-Z, a-z, 0-9
+        {{_textErrorPattern}}
     </mat-error>
     <mat-error *ngIf="hasErrorOfType(minlength) || hasErrorOfType(maxlength)">
-      Taille: 4-15 caractères
+        {{_textErrorSize}}
     </mat-error>
     <mat-error *ngIf="hasErrorOfType(required)">
-      Nom d'utilisateur <strong>requis</strong>
+        _textErrorRequired
     </mat-error>
   </mat-form-field>
 </form>
@@ -20,10 +20,5 @@
 <br>
 <button mat-raised-button id="submit-button"  (click)="addUsername()" 
   [disabled]="hasFormControlErrors()" routerLink="/nav/gamelist">
-  <span>Soumettre</span>
+  <span>_textButtonSubmit</span>
 </button>
-
-<h3>Liste des noms utilisés</h3>
-<div>
-  <ul><li *ngFor="let username of _loginValidatorService.usernames">{{username}}</li></ul>
-</div>
