@@ -10,7 +10,7 @@ export class LoginValidatorComponent {
 
   public constructor(private _loginValidatorService: LoginValidatorService) {}
 
-  // public addUsername(): void {
-  //   this._loginValidatorService.addUsername();
-  // }
+  public addUsername(): void {
+    this._loginValidatorService.addUsername();
+  }
 }
