@@ -3,24 +3,37 @@
     <div mat-card-avatar [ngStyle]="{ 'background-image': 'url(' + _avatarImageUrl + ')'}"  class="thumbnail"></div>
     <mat-card-title>{{_title}}</mat-card-title>
     <mat-card-subtitle>{{_subtitle}}</mat-card-subtitle>
+    <div class="spacer"></div>
+    <button *ngIf="this.router.url == '_adminPath'" type="button" class="button" mat-icon-button [matMenuTriggerFor]="settingsMenu"><mat-icon>more_vert</mat-icon></button>
+    <mat-menu #settingsMenu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>restore</mat-icon>
+        <span>{{_textResetTimers}}</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>delete</mat-icon>
+        <span>{{_textDelete}}</span>
+      </button>
+    </mat-menu>
   </mat-card-header>
 
-  <img mat-card-image class="card-image" alt="GameCardImage" src="{{_gameImageUrl}}">
+  <app-highscore-display class="highscorePanel" [(_isExpanded)]="_HSButtonIsClicked"></app-highscore-display>
+
+  <img mat-card-image class="card-image" [ngClass]="_HSButtonIsClicked ? 'darkenImage' : 'brightenImage'" alt="GameCardImage" src="{{_gameImageUrl}}">
 
   <div  class="optionBar">
       <mat-card-actions>
           <button class="playButton" mat-button [matMenuTriggerFor]="menu">{{_textPlay}}</button>
-      
+
           <mat-menu #menu="matMenu">
             <button mat-menu-item>{{_textPlaySingle}}</button>
             <button mat-menu-item>{{_textPlayMulti}}</button>
           </mat-menu>
-        
-        <button mat-button class="highscoreButton" [ngClass]="_HSButtonIsClicked ? 'clicked' : 'unclicked'" (click)="onHSButtonClick()"><img class="highscoreIcon"  src="https://img.icons8.com/metro/1600/trophy.png"></button>
+
+        <button mat-button class="highscoreButton" [ngClass]="_HSButtonIsClicked ? 'clicked' : 'unclicked'" (click)="onHSButtonClick()">
+          <img class="highscoreIcon"  [src]="_trophyImageUrl">
+        </button>
       </mat-card-actions>
 
   </div>
-
-<app-highscore-display [(_isExpanded)]="_HSButtonIsClicked"></app-highscore-display>
-
 </mat-card>

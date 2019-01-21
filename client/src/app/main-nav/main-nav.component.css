@@ -34,3 +34,25 @@
 .is-active {
   font-weight: bolder;
 }
+.list-container {
+    display: flex;
+    padding: 0;
+    justify-content: center space-around;
+    align-items: flex-start center;
+    width: 100%;
+}
+
+.center-item {
+  display: flex;
+    flex-direction: row;
+    text-align: center;
+    width: 50%;
+}
+
+.center-item-button {
+  width: 50%;
+}
+
+.side-item {
+    width: 25%;
+}

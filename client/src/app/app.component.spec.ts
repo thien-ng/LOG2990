@@ -5,6 +5,8 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { LayoutModule } from "@angular/cdk/layout";
 import { HttpClientModule } from "@angular/common/http";
 import { AppComponent } from "./app.component";
+import { TestingImportsModule } from "./testing-imports/testing-imports.module";
+
 import { BasicService } from "./basic.service";
 import { LoginValidatorComponent } from "./login/login-validator/login-validator.component";
 import { LoginViewComponent } from "./login/login-view/login-view.component";
@@ -14,12 +16,12 @@ import { RouterModule } from "@angular/router";
 import { AdminComponent } from "./admin/admin.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { CardComponent } from "./card/card.component";
+import { CreateSimpleGameComponent } from "./create-simple-game/create-simple-game.component";
 import { GameListContainerComponent } from "./game-list-container/game-list-container.component";
 import { GameListComponent } from "./game-list/game-list.component";
 import { HighscoreDisplayComponent } from "./highscore-display/highscore-display.component";
 import { LoginPageComponent } from "./login-page/login-page.component";
 import { MainNavComponent } from "./main-nav/main-nav.component";
-import { TestingImportsModule } from "./testing-imports/testing-imports.module";
 
 describe("AppComponent", () => {
   beforeEach(async(() => {
@@ -27,6 +29,7 @@ describe("AppComponent", () => {
       declarations: [
         AdminComponent,
         AppComponent,
+        AppRoutingModule,
         LoginValidatorComponent,
         LoginViewComponent,
         CardComponent,
@@ -35,10 +38,10 @@ describe("AppComponent", () => {
         LoginPageComponent,
         MainNavComponent,
         GameListContainerComponent,
+        CreateSimpleGameComponent,
       ],
       imports: [
         HttpClientModule,
-        AppRoutingModule,
         BrowserModule,
         HttpClientModule,
         LayoutModule,
