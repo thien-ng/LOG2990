@@ -3,6 +3,7 @@ import { Component } from "@angular/core";
 
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
+import { NavButton } from "./nav-button.interface";
 
 @Component({
   selector: "app-main-nav",
@@ -12,7 +13,7 @@ import { map } from "rxjs/operators";
 export class MainNavComponent {
   // TBD : String magic in array ??
 
-  public routes: Array<Object> = [
+  public routes: NavButton[] = [
     { linkName: "Liste des jeux", url: "/nav/gamelist" },
     { linkName: "Administration", url: "/admin" },
   ];
