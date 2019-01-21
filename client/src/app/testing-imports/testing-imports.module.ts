@@ -3,8 +3,10 @@ import { NgModule } from "@angular/core";
 import {
   MatButtonModule,
   MatCardModule,
+  MatDialogModule,
   MatDividerModule,
   MatExpansionModule,
+  MatFormFieldModule,
   MatIconModule,
   MatListModule,
   MatMenuModule,
@@ -26,11 +28,14 @@ import { RouterTestingModule } from "@angular/router/testing";
     MatSidenavModule,
     MatIconModule,
     MatListModule,
+    MatFormFieldModule,
     MatCardModule,
     MatExpansionModule,
     RouterModule,
     RouterTestingModule,
+    MatDialogModule,
     MatDividerModule,
+    MatFormFieldModule,
   ],
 })
 export class TestingImportsModule { }

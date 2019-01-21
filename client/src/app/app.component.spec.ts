@@ -6,7 +6,6 @@ import { LayoutModule } from "@angular/cdk/layout";
 import { HttpClientModule } from "@angular/common/http";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
-import { AppRoutingModule } from "./app-routing.module";
 import { TestingImportsModule } from "./testing-imports/testing-imports.module";
 
 import { BasicService } from "./basic.service";
@@ -35,7 +34,6 @@ describe("AppComponent", () => {
       ],
       imports: [
         HttpClientModule,
-        AppRoutingModule,
         BrowserModule,
         HttpClientModule,
         LayoutModule,
