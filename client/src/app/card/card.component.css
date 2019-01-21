@@ -1,14 +1,23 @@
 .card {
-    max-width:400px;
+    max-width:350px;
     width: 90%;
     margin:auto;
-    margin-top:30px;
+    margin-bottom:30px;
 }
 
 .card-image {
     width: 400;
+    transition-property: filter;
+    transition-duration: 0.6s;
 }
 
+.darkenImage {
+    filter: brightness(30%);
+}
+
+.brigthenImage {
+    filter: brightness(100%);
+}
 .thumbnail {
     background-size: cover;
 }
@@ -34,9 +43,19 @@
 }
 
 .clicked {
-    background-color: rgb(248, 245, 245);
+    background-color: rgb(240, 240, 240);
 }
 
 .unclicked {
     background-color: white;
+}
+
+.highscorePanel {
+    position: absolute;
+    width: 200px;
+    z-index: 100;
+    top:50%;
+    left:50%;
+    margin-top: -105px;;
+    margin-left: -100px;
 }

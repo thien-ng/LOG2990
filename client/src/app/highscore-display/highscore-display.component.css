@@ -1,15 +1,21 @@
 .highscore_panel {
-    background-color: rgb(250, 248, 248);
+    background-color: rgba(255, 255, 255, 0);
+    color: rgb(191, 191, 191);
+    border: none;
 }
 
 .grid_ranking {
     display: grid;
     grid-template-columns: 1fr 3fr 3fr;
-    grid-gap: 6px;
+    grid-gap: 2px;
     justify-items: center;
     align-items: center;
 }
 
 .medals {
-    width: 30;
+    width: 15px;
+}
+
+mat-expansion-panel {
+    box-shadow: none !important;
 }
