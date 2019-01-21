@@ -4,11 +4,13 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {
   MatButtonModule,
   MatCardModule,
+  MatDividerModule,
   MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
   MatListModule,
+  MatMenuModule,
   MatSidenavModule,
   MatToolbarModule,
 } from "@angular/material";
@@ -23,6 +25,7 @@ import { RouterTestingModule } from "@angular/router/testing";
     BrowserAnimationsModule,
     MatToolbarModule,
     MatButtonModule,
+    MatMenuModule,
     MatSidenavModule,
     MatIconModule,
     MatListModule,
@@ -34,6 +37,7 @@ import { RouterTestingModule } from "@angular/router/testing";
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatDividerModule,
   ],
 })
 export class TestingImportsModule { }

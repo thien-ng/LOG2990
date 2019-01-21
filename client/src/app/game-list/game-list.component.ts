@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { CardComponent } from "../card/card.component";
 
 @Component({
   selector: "app-game-list",
@@ -7,8 +8,14 @@ import { Component, OnInit } from "@angular/core";
 })
 export class GameListComponent implements OnInit {
 
-  public constructor() { /* default constructor */ }
+  public _gameCardsArray: CardComponent[];
 
-  public ngOnInit(): void { /* default ngOnInit */ }
+  public constructor() {
+    // default constructor
+  }
+
+  public ngOnInit(): void {
+    // default ngOnInit
+  }
 
 }

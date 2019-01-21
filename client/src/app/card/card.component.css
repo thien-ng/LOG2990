@@ -1,0 +1,42 @@
+.card {
+    max-width:400px;
+    width: 90%;
+    margin:auto;
+    margin-top:30px;
+}
+
+.card-image {
+    width: 400;
+}
+
+.thumbnail {
+    background-size: cover;
+}
+
+.optionBar {
+    display: block;
+    padding-bottom: 25px;
+}
+
+.playButton {
+    color: #E91E63;
+    font-size: larger;
+    float: left;
+}
+
+.highscoreIcon {
+    padding: 10px;
+    width: 25px;
+}
+
+.highscoreButton {
+    float:right;
+}
+
+.clicked {
+    background-color: rgb(248, 245, 245);
+}
+
+.unclicked {
+    background-color: white;
+}
