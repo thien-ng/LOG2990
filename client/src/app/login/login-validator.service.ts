@@ -1,8 +1,14 @@
-
+// import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { FormControl, FormGroupDirective, NgForm, Validators } from "@angular/forms";
+import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import { ErrorStateMatcher } from "@angular/material";
-// import { BasicService } from "../basic.service";
+
+// const HTTP_OPTION  = {
+//   headers: new HttpHeaders({
+//     "Content-Type":  "application/json",
+//     // 'Authorization': 'my-auth-token'
+//   }),
+// };
 
 const MIN_LENGTH: number = 4;
 const MAX_LENGTH: number = 15;
@@ -19,7 +25,9 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class LoginValidatorService {
 
-  public constructor() { /* default constructor */ }
+  // private _configUrl: string = "http://localhost:3000/";
+
+  // public constructor(private _httpClient: HttpClient) { /* default constructor */ }
 
   // private _matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
 
@@ -32,13 +40,17 @@ export class LoginValidatorService {
     Validators.maxLength(MAX_LENGTH),
   ]);
 
-  // public addUsername(): Observable<ValidationNameRequest> {
   public addUsername(): void {
     if (this.usernameFormControl.errors == null && this.checkIfUnique(this.usernameFormControl.value)) {
       this.usernames.push(this.usernameFormControl.value);
     }
 
-    // return new Observable<ValidationNameRequest>();
+    if (this.usernameFormControl.value) {
+      // console.log("it wokred");
+      // this._httpClient.post(this._configUrl, "{hello}", HTTP_OPTION);
+    }
+
+    // console.log("it still wokred");
   }
 
   private checkIfUnique(username: string): boolean {

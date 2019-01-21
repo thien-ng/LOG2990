@@ -1,6 +1,6 @@
 <form class="login-form">
   <mat-form-field class="login-input">
-    <input #newUsername matInput (keyup.enter)="addUsername()"
+    <input #newUsername matInput (keyup.enter)="_loginValidatorService.addUsername()"
         placeholder="Nom d'utilisateur" [formControl]="_loginValidatorService.usernameFormControl" [errorStateMatcher]="_loginValidatorService._matcher">
     <mat-hint class="hint">Veuillez entrer un alias</mat-hint>
     <mat-error *ngIf="_loginValidatorService.usernameFormControl.hasError('pattern')">
@@ -16,7 +16,7 @@
 </form>
 <br>
 <br>
-<button mat-raised-button id="submit-button"  (click)="addUsername()" 
+<button mat-raised-button id="submit-button"  (click)="_loginValidatorService.addUsername()" 
   [disabled]="!(_loginValidatorService.usernameFormControl.errors == null)" routerLink="/nav/gamelist">
   <span>Soumettre</span>
 </button>
