@@ -1,0 +1,10 @@
+.login-view {
+    margin: auto;
+    width: 50%;
+    position: relative;
+    text-align: center;
+}
+
+#logo {
+    max-width: 400px;
+}
