@@ -9,7 +9,7 @@ describe("LoginViewComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ 
+      declarations: [
         LoginViewComponent,
         LoginValidatorComponent,
       ],
