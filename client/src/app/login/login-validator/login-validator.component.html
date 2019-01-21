@@ -12,7 +12,7 @@
         {{_textErrorSize}}
     </mat-error>
     <mat-error *ngIf="hasErrorOfType(required)">
-        _textErrorRequired
+        {{_textErrorRequired}}
     </mat-error>
   </mat-form-field>
 </form>
@@ -20,5 +20,5 @@
 <br>
 <button mat-raised-button id="submit-button"  (click)="addUsername()" 
   [disabled]="hasFormControlErrors()" routerLink="/nav/gamelist">
-  <span>_textButtonSubmit</span>
+  <span>{{_textButtonSubmit}}</span>
 </button>

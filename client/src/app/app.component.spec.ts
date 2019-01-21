@@ -14,7 +14,6 @@ import { LoginViewComponent } from "./login/login-view/login-view.component";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
 import { AdminComponent } from "./admin/admin.component";
-import { AppRoutingModule } from "./app-routing.module";
 import { CardComponent } from "./card/card.component";
 import { CreateSimpleGameComponent } from "./create-simple-game/create-simple-game.component";
 import { GameListContainerComponent } from "./game-list-container/game-list-container.component";
