@@ -10,6 +10,7 @@ import { CreateSimpleGameComponent } from "../create-simple-game/create-simple-g
   entryComponents: [CreateSimpleGameComponent],
 })
 export class AdminComponent implements OnInit {
+
   public constructor(public dialog: MatDialog) {
     /* default constructor */
   }
@@ -28,8 +29,11 @@ export class AdminComponent implements OnInit {
     const dialogRef: MatDialogRef<CreateSimpleGameComponent> = this.dialog.open(CreateSimpleGameComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe((result) => {
+      if (result !== undefined) {
+        alert(`(temporary) Dialog result: ${result}`);
+      }
       // à faire - envoyer les données au serveur
-      console.log(`Dialog result: ${result}`);
+      // console.log(`Dialog result: ${result}`);
     });
   }
 
