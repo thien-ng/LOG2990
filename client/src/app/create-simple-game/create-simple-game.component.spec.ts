@@ -1,17 +1,17 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
-import { FormulaireJeuSimpleComponent } from "./formulaire-jeu-simple.component";
+import { CreateSimpleGameComponent } from "./create-simple-game.component";
 
 const OBLIGATORY_CATCH: String = "obligatory catch";
 
-describe("FormulaireJeuSimpleComponent", () => {
-  let component: FormulaireJeuSimpleComponent;
-  let fixture: ComponentFixture<FormulaireJeuSimpleComponent>;
+describe("CreateSimpleGameComponent", () => {
+  let component: CreateSimpleGameComponent;
+  let fixture: ComponentFixture<CreateSimpleGameComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FormulaireJeuSimpleComponent ],
+      declarations: [ CreateSimpleGameComponent ],
       imports: [TestingImportsModule],
     })
     .compileComponents()
@@ -19,7 +19,7 @@ describe("FormulaireJeuSimpleComponent", () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FormulaireJeuSimpleComponent);
+    fixture = TestBed.createComponent(CreateSimpleGameComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

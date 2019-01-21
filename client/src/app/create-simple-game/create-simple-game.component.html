@@ -1,0 +1,21 @@
+<div class="mat-title">
+  Créer un jeu de point de vue simple
+  <hr>
+</div>
+<form class="form" #signupForm="ngForm" (ngSubmit)="submit(signupForm)">
+  <mat-form-field class="input-width">
+    <input name="name" #input matInput maxlength="15" placeholder="Nom du jeu" ngModel>
+    <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
+  </mat-form-field>
+  <div class="mat-subheading-2">
+    Image originale:
+    <input name="pic-1" mat-icon-button type="file" accept="image/bmp" ngModel>
+  </div>
+  <div class="mat-subheading-2">
+    Image modifiée
+    <input name="pic-2" mat-icon-button type="file" accept="image/bmp" ngModel>
+  </div>
+  <button class="button-padding" mat-raised-button type="submit">Soumettre</button>
+  <button class="button-padding" mat-raised-button (click)="closeDialog()">Annuler</button>
+</form>
+

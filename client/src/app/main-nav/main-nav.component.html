@@ -6,7 +6,7 @@
       </button>
       <span class="logo">client</span>
     </div>
-    <span class="center-item" *ngIf="this.router.url == '/admin'">
+    <span class="center-item" *ngIf="this.router.url.includes('/admin')">
       <div class="center-item-button"><button mat-raised-button (click)="openDialog()">Créer jeu simple</button></div>
       <div class="center-item-button"><button mat-raised-button (click)="openDialog()">Créer jeu 3D</button></div>
     </span>

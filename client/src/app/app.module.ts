@@ -1,21 +1,23 @@
 import { LayoutModule } from "@angular/cdk/layout";
 import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { MatDialogModule, MatFormFieldModule, MatInputModule } from "@angular/material";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule, RouterOutlet, Routes } from "@angular/router";
+
 import { BasicService } from "./basic.service";
-import { TestingImportsModule } from "./testing-imports/testing-imports.module";
 
 import { AdminComponent } from "./admin/admin.component";
 import { AppComponent } from "./app.component";
 import { CardComponent } from "./card/card.component";
-import { FormulaireJeuSimpleComponent } from "./formulaire-jeu-simple/formulaire-jeu-simple.component";
+import { CreateSimpleGameComponent } from "./create-simple-game/create-simple-game.component";
 import { GameListContainerComponent } from "./game-list-container/game-list-container.component";
 import { GameListComponent } from "./game-list/game-list.component";
 import { HighscoreDisplayComponent } from "./highscore-display/highscore-display.component";
 import { LoginPageComponent } from "./login-page/login-page.component";
 import { MainNavComponent } from "./main-nav/main-nav.component";
+import { TestingImportsModule } from "./testing-imports/testing-imports.module";
 
 const LOGIN_REDIRECT: string = "/login";
 const LOGIN_PATH: string = "login";
@@ -49,7 +51,7 @@ const routes: Routes = [
     GameListComponent,
     AdminComponent,
     GameListContainerComponent,
-    FormulaireJeuSimpleComponent,
+    CreateSimpleGameComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -60,11 +62,14 @@ const routes: Routes = [
     BrowserModule,
     MatDialogModule,
     MatFormFieldModule,
+    FormsModule,
     MatInputModule,
   ],
   exports: [RouterOutlet],
-  entryComponents: [FormulaireJeuSimpleComponent],
-  providers: [BasicService],
+  entryComponents: [CreateSimpleGameComponent],
+  providers: [
+    BasicService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

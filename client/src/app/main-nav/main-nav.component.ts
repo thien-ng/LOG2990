@@ -1,11 +1,11 @@
 import { Breakpoints, BreakpointObserver } from "@angular/cdk/layout";
 import { Component } from "@angular/core";
-import { MatDialog, MatDialogRef } from "@angular/material";
+import { MatDialog, MatDialogConfig, MatDialogRef } from "@angular/material";
 import { Router } from "@angular/router";
 
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { FormulaireJeuSimpleComponent } from "../formulaire-jeu-simple/formulaire-jeu-simple.component";
+import { CreateSimpleGameComponent } from "../create-simple-game/create-simple-game.component";
 
 @Component({
   selector: "app-main-nav",
@@ -31,7 +31,13 @@ export class MainNavComponent {
   ) {}
 
   public openDialog(): void {
-    const dialogRef: MatDialogRef<FormulaireJeuSimpleComponent> = this.dialog.open(FormulaireJeuSimpleComponent);
+
+    const dialogConfig: MatDialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    const dialogRef: MatDialogRef<CreateSimpleGameComponent> = this.dialog.open(CreateSimpleGameComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe((result) => {
       // à faire - envoyer les données au serveur

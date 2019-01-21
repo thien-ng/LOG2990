@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { FormulaireJeuSimpleComponent } from "../formulaire-jeu-simple/formulaire-jeu-simple.component";
+import { CreateSimpleGameComponent } from "../create-simple-game/create-simple-game.component";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { MainNavComponent } from "./main-nav.component";
 
@@ -14,7 +14,7 @@ describe("MainNavComponent", () => {
     TestBed.configureTestingModule({
       declarations: [
         MainNavComponent,
-        FormulaireJeuSimpleComponent,
+        CreateSimpleGameComponent,
       ],
       imports: [TestingImportsModule],
     })

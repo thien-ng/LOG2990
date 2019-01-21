@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import {
   MatButtonModule,
   MatCardModule,
@@ -37,6 +38,7 @@ import { RouterTestingModule } from "@angular/router/testing";
     MatDialogModule,
     MatDividerModule,
     MatInputModule,
+    FormsModule,
     MatFormFieldModule,
   ],
 })
