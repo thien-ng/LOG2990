@@ -1,14 +1,14 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, Input } from "@angular/core";
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import { ErrorStateMatcher } from "@angular/material";
 
-const HTTP_OPTION  = {
-  headers: new HttpHeaders({
-    "Content-Type":  "application/json",
-    // 'Authorization': 'my-auth-token'
-  }),
-};
+// const HTTP_OPTION  = {
+//   headers: new HttpHeaders({
+//     "Content-Type":  "application/json",
+//     // 'Authorization': 'my-auth-token'
+//   }),
+// };
 
 const MIN_LENGTH: number = 4;
 const MAX_LENGTH: number = 15;
@@ -32,6 +32,7 @@ export class LoginValidatorService {
   private _matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
 
   public usernames: string[] = [];
+  public username: string = "myUsername";
 
   public usernameFormControl: FormControl = new FormControl("", [
     Validators.required,
@@ -45,9 +46,9 @@ export class LoginValidatorService {
       this.usernames.push(this.usernameFormControl.value);
     }
 
-    if(username){
+    if (this.username) {
       // console.log("it wokred");
-      this._httpClient.post(this._configUrl, "{hello}", HTTP_OPTION);
+      // this._httpClient.post(this._configUrl, "{hello}", HTTP_OPTION);
     }
 
     // console.log("it still wokred");

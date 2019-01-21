@@ -8,7 +8,11 @@ import { LoginValidatorService } from "../login-validator.service";
 })
 export class LoginValidatorComponent {
 
-  public constructor(private _loginValidatorService: LoginValidatorService) {}
+  private _usernames: string[];
+
+  public constructor(private _loginValidatorService: LoginValidatorService) {
+    this._usernames = _loginValidatorService.usernames;
+  }
 
   // public addUsername(): void {
   //   this._loginValidatorService.addUsername();
