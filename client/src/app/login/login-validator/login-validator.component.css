@@ -21,4 +21,10 @@
     background-color: black;
     float: bottom;
 }
+
+#submit-button[disabled] {
+  color: rgb(255, 238, 193);
+  background-color: rgb(150, 150, 150);;
+  float: bottom;
+}
   
