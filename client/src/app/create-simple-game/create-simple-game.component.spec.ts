@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { CreateSimpleGameComponent } from "./create-simple-game.component";
 
@@ -13,6 +14,14 @@ describe("CreateSimpleGameComponent", () => {
     TestBed.configureTestingModule({
       declarations: [ CreateSimpleGameComponent ],
       imports: [TestingImportsModule],
+      providers: [{
+        provide: MatDialogRef,
+        useValue: {},
+      },
+                  {
+        provide: MAT_DIALOG_DATA,
+        useValue: {}, // Add any data you wish to test if it is passed/used correctly
+      }],
     })
     .compileComponents()
     .catch(() => OBLIGATORY_CATCH);
