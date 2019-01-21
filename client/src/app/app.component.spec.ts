@@ -11,8 +11,6 @@ import { BasicService } from "./basic.service";
 import { LoginValidatorComponent } from "./login/login-validator/login-validator.component";
 import { LoginViewComponent } from "./login/login-view/login-view.component";
 
-import { BrowserModule } from "@angular/platform-browser";
-import { RouterModule } from "@angular/router";
 import { AdminComponent } from "./admin/admin.component";
 import { CardComponent } from "./card/card.component";
 import { CreateSimpleGameComponent } from "./create-simple-game/create-simple-game.component";
