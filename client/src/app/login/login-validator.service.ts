@@ -32,7 +32,6 @@ export class LoginValidatorService {
   private _matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
 
   public usernames: string[] = [];
-  public username: string = "myUsername";
 
   public usernameFormControl: FormControl = new FormControl("", [
     Validators.required,
@@ -46,7 +45,7 @@ export class LoginValidatorService {
       this.usernames.push(this.usernameFormControl.value);
     }
 
-    if (this.username) {
+    if (this.usernameFormControl.value) {
       // console.log("it wokred");
       // this._httpClient.post(this._configUrl, "{hello}", HTTP_OPTION);
     }

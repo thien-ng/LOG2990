@@ -13,8 +13,6 @@ export class LoginViewComponent implements OnInit {
 
   private LOGO: string = "../../../assets/images/logo.png";
 
-  public userList: string[] = [];
-
   public ngOnInit(): void {
     // default ngOnInit
   }
