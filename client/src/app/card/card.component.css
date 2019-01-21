@@ -50,6 +50,10 @@
     background-color: white;
 }
 
+.spacer {
+    flex: 1 1 auto;
+}
+
 .highscorePanel {
     position: absolute;
     width: 200px;
