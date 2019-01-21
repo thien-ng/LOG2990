@@ -1,0 +1,30 @@
+.login-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+  margin: auto;
+  position: relative;
+  text-align: center;
+}
+
+.login-input {
+  text-align: center;
+}
+
+.hint {
+  text-align: center;
+  width: 100%;
+}
+
+#submit-button {
+  color: rgb(245, 188, 31);
+  background-color: black;
+  float: bottom;
+}
+
+#submit-button[disabled] {
+  color: rgb(255, 238, 193);
+  background-color: rgb(150, 150, 150);;
+  float: bottom;
+}
+  

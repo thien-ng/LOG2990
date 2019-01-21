@@ -15,6 +15,8 @@ import { GameListContainerComponent } from "./game-list-container/game-list-cont
 import { GameListComponent } from "./game-list/game-list.component";
 import { HighscoreDisplayComponent } from "./highscore-display/highscore-display.component";
 import { LoginPageComponent } from "./login-page/login-page.component";
+import { LoginValidatorComponent } from "./login/login-validator/login-validator.component";
+import { LoginViewComponent } from "./login/login-view/login-view.component";
 import { MainNavComponent } from "./main-nav/main-nav.component";
 import { TestingImportsModule } from "./testing-imports/testing-imports.module";
 
@@ -35,6 +37,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
+    LoginViewComponent,
+    LoginValidatorComponent,
     CardComponent,
     HighscoreDisplayComponent,
     GameListComponent,

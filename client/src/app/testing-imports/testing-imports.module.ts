@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {
   MatButtonModule,
   MatCardModule,
@@ -35,6 +35,10 @@ import { RouterTestingModule } from "@angular/router/testing";
     MatExpansionModule,
     RouterModule,
     RouterTestingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatDialogModule,
     MatDividerModule,
     MatInputModule,
