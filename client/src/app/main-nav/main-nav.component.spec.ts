@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
+import { FormulaireJeuSimpleComponent } from "../formulaire-jeu-simple/formulaire-jeu-simple.component";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { MainNavComponent } from "./main-nav.component";
 
@@ -11,7 +12,10 @@ describe("MainNavComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MainNavComponent],
+      declarations: [
+        MainNavComponent,
+        FormulaireJeuSimpleComponent,
+      ],
       imports: [TestingImportsModule],
     })
       .compileComponents()

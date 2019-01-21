@@ -13,6 +13,7 @@ import { BasicService } from "./basic.service";
 import { AdminComponent } from "./admin/admin.component";
 import { AppComponent } from "./app.component";
 import { CardComponent } from "./card/card.component";
+import { FormulaireJeuSimpleComponent } from "./formulaire-jeu-simple/formulaire-jeu-simple.component";
 import { GameListContainerComponent } from "./game-list-container/game-list-container.component";
 import { GameListComponent } from "./game-list/game-list.component";
 import { HighscoreDisplayComponent } from "./highscore-display/highscore-display.component";
@@ -31,6 +32,7 @@ describe("AppComponent", () => {
         LoginPageComponent,
         MainNavComponent,
         GameListContainerComponent,
+        FormulaireJeuSimpleComponent,
       ],
       imports: [
         HttpClientModule,

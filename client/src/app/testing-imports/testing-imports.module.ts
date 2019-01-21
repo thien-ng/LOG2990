@@ -8,6 +8,7 @@ import {
   MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
+  MatInputModule,
   MatListModule,
   MatMenuModule,
   MatSidenavModule,
@@ -35,6 +36,7 @@ import { RouterTestingModule } from "@angular/router/testing";
     RouterTestingModule,
     MatDialogModule,
     MatDividerModule,
+    MatInputModule,
     MatFormFieldModule,
   ],
 })

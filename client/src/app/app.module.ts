@@ -4,9 +4,8 @@ import { NgModule } from "@angular/core";
 import { MatDialogModule, MatFormFieldModule, MatInputModule } from "@angular/material";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule, RouterOutlet, Routes } from "@angular/router";
-import { TestingImportsModule } from "./testing-imports/testing-imports.module";
-
 import { BasicService } from "./basic.service";
+import { TestingImportsModule } from "./testing-imports/testing-imports.module";
 
 import { AdminComponent } from "./admin/admin.component";
 import { AppComponent } from "./app.component";
