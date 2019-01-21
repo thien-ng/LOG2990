@@ -22,8 +22,6 @@ export class LoginValidatorService {
   public constructor() { /* default constructor */ }
 
   private _matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
-  // public usernames: string[] = [];
-
 
   public usernameFormControl: FormControl = new FormControl("", [
     Validators.required,
@@ -36,8 +34,6 @@ export class LoginValidatorService {
     // if (this.usernameFormControl.errors == null && this.checkIfUnique(this.usernameFormControl.value)) {
     //   this.usernames.push(this.usernameFormControl.value);
     // }
-
-    // if(this.usernames){
 
     //   this._httpClient.post(this._configUrl, "{hello}", HTTP_OPTION);
     // }
