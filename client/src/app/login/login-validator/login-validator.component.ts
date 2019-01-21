@@ -11,6 +11,7 @@ export class LoginValidatorComponent {
   // public constructor(private _loginValidatorService: LoginValidatorService) {}
   public constructor() {
     //default constructor
+
   }
 
 }

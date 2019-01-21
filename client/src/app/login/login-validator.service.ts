@@ -1,7 +1,8 @@
+
 import { Injectable } from "@angular/core";
 import { FormControl, FormGroupDirective, NgForm, Validators } from "@angular/forms";
 import { ErrorStateMatcher } from "@angular/material";
-import { BasicService } from "../basic.service"
+import { BasicService } from "../basic.service";
 
 const MIN_LENGTH: number = 4;
 const MAX_LENGTH: number = 15;
@@ -21,8 +22,8 @@ export class LoginValidatorService {
   public constructor() { /* default constructor */ }
 
   private _matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
-
   // public usernames: string[] = [];
+
 
   public usernameFormControl: FormControl = new FormControl("", [
     Validators.required,

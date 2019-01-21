@@ -16,8 +16,12 @@
 </form>
 <br>
 <br>
-<button mat-raised-button id="submit-button" (click)="_loginValidatorService.addUsername()">
+<button mat-raised-button id="submit-button"  (click)="_loginValidatorService.addUsername()" 
+  [disabled]="!(_loginValidatorService.usernameFormControl.errors == null)" routerLink="/nav/gamelist">
   <span>Soumettre</span>
 </button>
 
 <h3>Liste des noms utilisés</h3>
+<div>
+  <ul><li *ngFor="let username of _loginValidatorService.usernames">{{username}}</li></ul>
+</div>
