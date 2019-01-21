@@ -27,8 +27,12 @@ export class MainNavComponent {
   public constructor(
     private breakpointObserver: BreakpointObserver,
     public dialog: MatDialog,
-    public router: Router,
+    private router: Router,
   ) {}
+
+  public routeIncludes(r: string): boolean {
+    return this.router.url.includes(r);
+  }
 
   public openDialog(): void {
 

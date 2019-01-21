@@ -9,6 +9,13 @@ import { MatDialogRef } from "@angular/material";
 })
 export class CreateSimpleGameComponent implements OnInit {
 
+  public _title: string = "Créer un jeu de point de vue simple";
+  public _originalImage: string = "Image originale";
+  public _modifiedImage: string = "Image modifiée";
+  public _submit: string = "Soumettre";
+  public _cancel: string = "Annuler";
+  public _maxlength: number = 15;
+
   public constructor(
     public dialogRef: MatDialogRef<CreateSimpleGameComponent>) {
     // default constructor
