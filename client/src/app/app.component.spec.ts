@@ -28,7 +28,6 @@ describe("AppComponent", () => {
       declarations: [
         AdminComponent,
         AppComponent,
-        AppRoutingModule,
         LoginValidatorComponent,
         LoginViewComponent,
         CardComponent,
