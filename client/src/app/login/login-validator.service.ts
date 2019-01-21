@@ -1,14 +1,7 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
+import { FormControl, FormGroupDirective, NgForm, Validators } from "@angular/forms";
 import { ErrorStateMatcher } from "@angular/material";
-
-const HTTP_OPTION  = {
-  headers: new HttpHeaders({
-    "Content-Type":  "application/json",
-    // 'Authorization': 'my-auth-token'
-  }),
-};
+import { BasicService } from "../basic.service"
 
 const MIN_LENGTH: number = 4;
 const MAX_LENGTH: number = 15;
@@ -25,13 +18,11 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class LoginValidatorService {
 
-  private _configUrl: string = "http://localhost:3000/";
-
-  public constructor(private _httpClient: HttpClient) { /* default constructor */ }
+  public constructor() { /* default constructor */ }
 
   private _matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
 
-  public usernames: string[] = [];
+  // public usernames: string[] = [];
 
   public usernameFormControl: FormControl = new FormControl("", [
     Validators.required,
@@ -40,21 +31,25 @@ export class LoginValidatorService {
     Validators.maxLength(MAX_LENGTH),
   ]);
 
-  public addUsername(): void {
-    if (this.usernameFormControl.errors == null && this.checkIfUnique(this.usernameFormControl.value)) {
-      this.usernames.push(this.usernameFormControl.value);
-    }
+  public addUsername(): Observable<ValidationNameRequest> {
+    // if (this.usernameFormControl.errors == null && this.checkIfUnique(this.usernameFormControl.value)) {
+    //   this.usernames.push(this.usernameFormControl.value);
+    // }
 
-    if(username){
-      // console.log("it wokred");
-      this._httpClient.post(this._configUrl, "{hello}", HTTP_OPTION);
-    }
+    // if(this.usernames){
 
-    // console.log("it still wokred");
+    //   this._httpClient.post(this._configUrl, "{hello}", HTTP_OPTION);
+    // }
+
+    if(this.usernameFormControl.errors == null){
+      
+    }
+    
+    return new Observable<ValidationNameRequest>();
   }
 
-  private checkIfUnique(username: string): boolean {
-    return !this.usernames.includes(username);
-  }
+  // private checkIfUnique(username: string): boolean {
+  //   return !this.usernames.includes(username);
+  // }
 
 }

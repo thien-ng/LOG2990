@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { LoginValidatorService } from "../login-validator.service";
+// import { LoginValidatorService } from "../login-validator.service";
 
 @Component({
   selector: "app-login-validator",
@@ -8,9 +8,9 @@ import { LoginValidatorService } from "../login-validator.service";
 })
 export class LoginValidatorComponent {
 
-  public constructor(private _loginValidatorService: LoginValidatorService) {}
+  // public constructor(private _loginValidatorService: LoginValidatorService) {}
+  public constructor() {
+    //default constructor
+  }
 
-  // public addUsername(): void {
-  //   this._loginValidatorService.addUsername();
-  // }
 }
