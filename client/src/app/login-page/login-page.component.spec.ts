@@ -1,8 +1,9 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
+import { TestingImportsModule } from "../testing-imports/testing-imports.module";
+
 import { LoginValidatorComponent } from "../login/login-validator/login-validator.component";
 import { LoginViewComponent } from "../login/login-view/login-view.component";
-import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { LoginPageComponent } from "./login-page.component";
 
 const OBLIGATORY_CATCH: String = "obligatory catch";

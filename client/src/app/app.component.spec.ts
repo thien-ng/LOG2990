@@ -8,8 +8,6 @@ import { AppComponent } from "./app.component";
 import { TestingImportsModule } from "./testing-imports/testing-imports.module";
 
 import { BasicService } from "./basic.service";
-import { LoginValidatorComponent } from "./login/login-validator/login-validator.component";
-import { LoginViewComponent } from "./login/login-view/login-view.component";
 
 import { AdminComponent } from "./admin/admin.component";
 import { CardComponent } from "./card/card.component";
@@ -18,6 +16,8 @@ import { GameListContainerComponent } from "./game-list-container/game-list-cont
 import { GameListComponent } from "./game-list/game-list.component";
 import { HighscoreDisplayComponent } from "./highscore-display/highscore-display.component";
 import { LoginPageComponent } from "./login-page/login-page.component";
+import { LoginValidatorComponent } from "./login/login-validator/login-validator.component";
+import { LoginViewComponent } from "./login/login-view/login-view.component";
 import { MainNavComponent } from "./main-nav/main-nav.component";
 
 describe("AppComponent", () => {
@@ -38,10 +38,8 @@ describe("AppComponent", () => {
       ],
       imports: [
         HttpClientModule,
-        BrowserModule,
         HttpClientModule,
         LayoutModule,
-        RouterModule,
         TestingImportsModule,
       ],
       providers: [BasicService],
