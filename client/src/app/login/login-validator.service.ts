@@ -1,5 +1,5 @@
-// import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Injectable, Input } from "@angular/core";
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import { ErrorStateMatcher } from "@angular/material";
 
@@ -25,11 +25,11 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class LoginValidatorService {
 
-  // private _configUrl: string = "http://localhost:3000/";
+  private _configUrl: string = "http://localhost:3000/";
 
-  // public constructor(private _httpClient: HttpClient) { /* default constructor */ }
+  public constructor(private _httpClient: HttpClient) { /* default constructor */ }
 
-  // private _matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
+  private _matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
 
   public usernames: string[] = [];
 
