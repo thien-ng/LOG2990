@@ -1,3 +1,13 @@
 <app-main-nav>
-    <app-game-list-container></app-game-list-container>
+  <mat-toolbar class="app-toolbar" color="accent">
+    <div class="listGrid">
+        <div class="columnHeader">
+          <button class="button" mat-raised-button (click)="openDialog()">Créer jeu simple</button>
+        </div>
+        <div class="columnHeader">
+          <button class="button" mat-raised-button (click)="openDialog()">Créer jeu 3D</button>
+        </div>
+    </div>
+  </mat-toolbar>
+  <app-game-list-container></app-game-list-container>
 </app-main-nav>

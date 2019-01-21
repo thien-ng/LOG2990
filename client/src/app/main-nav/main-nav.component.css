@@ -3,8 +3,8 @@
 }
 
 .sidenav {
-  width: 200px;
-  background-color: #0068A6;
+  width: 300px;
+  background-color: #B2FF59;
 }
 
 .sidenav .mat-toolbar {
@@ -24,11 +24,11 @@
 }
 
 .button:hover {
-  background: #00F076;
+  background: #B2FF59;
 }
 
 .nav-link {
-  color: white;
+  color: black;
 }
 
 .is-active {

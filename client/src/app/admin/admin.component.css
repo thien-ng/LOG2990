@@ -1,0 +1,22 @@
+.app-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.listGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 60%;
+  min-width: 550px;
+  grid-gap: 10px;
+  margin:auto;
+}
+
+.columnHeader {
+  text-align: center;
+}
+
+.button {
+  font-size: x-large;
+}

@@ -1,17 +1,8 @@
 <mat-toolbar color="primary">
-  <div class="list-container">
-    <div class="side-item">
-      <button type="button" class="button" mat-icon-button (click)="drawer.toggle()">
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
-      <span class="logo">client</span>
-    </div>
-    <span class="center-item" *ngIf="routeIncludes('/admin')">
-      <div class="center-item-button"><button mat-raised-button (click)="openDialog()">Créer jeu simple</button></div>
-      <div class="center-item-button"><button mat-raised-button (click)="openDialog()">Créer jeu 3D</button></div>
-    </span>
-    <span class="side-item"></span>
-  </div>
+  <button type="button" class="button" mat-icon-button (click)="drawer.toggle()">
+    <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+  </button>
+  <span class="logo">client</span>
 </mat-toolbar>
 
 <mat-sidenav-container class="sidenav-container">
