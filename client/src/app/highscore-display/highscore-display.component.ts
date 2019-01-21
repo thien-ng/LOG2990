@@ -8,10 +8,14 @@ import { Component, Input, OnInit } from "@angular/core";
 export class HighscoreDisplayComponent implements OnInit {
 
   @Input() public _isExpanded: boolean = false;
-  // il va falloir importer les images désirées dans les assets
-  public _imageUrlGold: string = "../../assets/gold.png";
-  public _imageUrlSilver: string = "../../assets/silver.png";
-  public _imageUrlBronze: string = "../../assets/bronze.png";
+
+  public _imageMedalsUrl: string[] = [
+    "../../assets/gold.png",    // gold medal image
+    "../../assets/silver.png",  // silver medal image
+    "../../assets/bronze.png",  // bronze medal image
+  ];
+  public _2DHighscores: string[] = ["1:45", "2:03", "2:30"];
+  public _3DHighscores: string[] = ["2:45", "3:11", "4:55"];
 
   public constructor() {
     // default constructor

@@ -2,17 +2,19 @@
   <!-- ça va devenir une table probablement, j'aimerais laisser ça pour Tristan -->
     <h2>Classement</h2>
     <div class="grid_ranking">
+
         <div></div>
         <div><h3>Simple</h3></div>
         <div><h3>1 vs 1</h3></div>
-        <div><img class="medals" src="{{_imageUrlGold}}"></div>
-        <div>1:30</div>
-        <div>2:45</div>
-        <div><img class="medals" src="{{_imageUrlSilver}}"></div>
-        <div>1:45</div>
-        <div>3:11</div>
-        <div><img class="medals" src="{{_imageUrlBronze}}"></div>
-        <div>2:03</div>
-        <div>4:55</div>
+
+        <div><img class="medals" src="{{_imageMedalsUrl[0]}}"></div>
+        <div>{{ _2DHighscores[0] }}</div>
+        <div>{{ _3DHighscores[0] }}</div>
+        <div><img class="medals" src="{{_imageMedalsUrl[1]}}"></div>
+        <div>{{ _2DHighscores[1] }}</div>
+        <div>{{ _3DHighscores[1] }}</div>
+        <div><img class="medals" src="{{_imageMedalsUrl[2]}}"></div>
+        <div>{{ _2DHighscores[2] }}</div>
+        <div>{{ _3DHighscores[2] }}</div>
     </div>
   </mat-expansion-panel>

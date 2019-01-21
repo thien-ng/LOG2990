@@ -5,6 +5,8 @@
     <mat-card-subtitle>{{_subtitle}}</mat-card-subtitle>
   </mat-card-header>
 
+  <app-highscore-display class="highscorePanel" [(_isExpanded)]="_HSButtonIsClicked"></app-highscore-display>
+
   <img mat-card-image class="card-image" alt="GameCardImage" src="{{_gameImageUrl}}">
 
   <div  class="optionBar">
@@ -21,6 +23,5 @@
 
   </div>
 
-<app-highscore-display [(_isExpanded)]="_HSButtonIsClicked"></app-highscore-display>
 
 </mat-card>

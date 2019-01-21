@@ -3,5 +3,6 @@
     grid-template-columns: 1fr 1fr;
     width: 60%;
     min-width: 550px;
+    grid-gap: 10px;
     margin:auto;
 }
