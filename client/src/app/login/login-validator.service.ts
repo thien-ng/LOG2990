@@ -3,13 +3,6 @@ import { Injectable } from "@angular/core";
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import { ErrorStateMatcher } from "@angular/material";
 
-// const HTTP_OPTION  = {
-//   headers: new HttpHeaders({
-//     "Content-Type":  "application/json",
-//     // 'Authorization': 'my-auth-token'
-//   }),
-// };
-
 const MIN_LENGTH: number = 4;
 const MAX_LENGTH: number = 15;
 const REGEX_PATTERN: string = "^[a-zA-Z0-9]+$";
@@ -24,10 +17,6 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   providedIn: "root",
 })
 export class LoginValidatorService {
-
-  // private _configUrl: string = "http://localhost:3000/";
-
-  // public constructor(private _httpClient: HttpClient) { /* default constructor */ }
 
   public _matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
 
