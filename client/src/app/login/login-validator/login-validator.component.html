@@ -1,7 +1,7 @@
 <form class="login-form">
   <mat-form-field class="login-input">
     <input #newUsername matInput (keyup.enter)="addUsername()"
-        placeholder="Nom d'utilisateur"
+        placeholder="{{_textHintUsername}}"
         [formControl]="_loginValidatorService.usernameFormControl"
         [errorStateMatcher]="_loginValidatorService._matcher">
     <mat-hint class="hint">{{_textHint}}</mat-hint>

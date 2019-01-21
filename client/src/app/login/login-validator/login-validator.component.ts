@@ -8,9 +8,12 @@ import { LoginValidatorService } from "../login-validator.service";
 })
 export class LoginValidatorComponent {
 
+  public _textHintUsername: string = "Nom d'utilisateur";
   public _textHint: string = "Veuillez entrer un alias";
   public _textErrorPattern: string = "Caractères autorisés: A-Z, a-z, 0-9";
-  public _textErrorSize: string = "Taille: 4-15 caractères";
+  public _textErrorSize: string = "Taille: " 
+                                  + this.getUsernameMinLength() + "-"
+                                  + this.getUsernameMaxLength() + " caractères";
   public _textErrorRequired: string = "Nom d'utilisateur <strong>requis</strong>";
   public _textButtonSubmit: string = "Soumettre";
 
@@ -26,5 +29,17 @@ export class LoginValidatorComponent {
 
   public hasFormControlErrors(): boolean {
     return !(this._loginValidatorService.usernameFormControl.errors == null);
+  }
+
+  public getUsernameMinLength(): number {
+    return this._loginValidatorService.MIN_LENGTH;
+  }
+
+  public getUsernameMaxLength(): number {
+    return this._loginValidatorService.MAX_LENGTH;
+  }
+
+  public getUsernameRegex(): string {
+    return this._loginValidatorService.REGEX_PATTERN;
   }
 }

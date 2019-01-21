@@ -3,9 +3,6 @@ import { Injectable } from "@angular/core";
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import { ErrorStateMatcher } from "@angular/material";
 
-const MIN_LENGTH: number = 4;
-const MAX_LENGTH: number = 15;
-const REGEX_PATTERN: string = "^[a-zA-Z0-9]+$";
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   public isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted: boolean | null = form && form.submitted;
@@ -18,15 +15,19 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class LoginValidatorService {
 
+  public MIN_LENGTH: number = 4;
+  public MAX_LENGTH: number = 15;
+  public REGEX_PATTERN: string = "^[a-zA-Z0-9]+$";
+
   public _matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
 
   public _usernames: string[] = [];
 
   public usernameFormControl: FormControl = new FormControl("", [
     Validators.required,
-    Validators.pattern(REGEX_PATTERN),
-    Validators.minLength(MIN_LENGTH),
-    Validators.maxLength(MAX_LENGTH),
+    Validators.pattern(this.REGEX_PATTERN),
+    Validators.minLength(this.MIN_LENGTH),
+    Validators.maxLength(this.MAX_LENGTH),
   ]);
 
   public addUsername(): void {
