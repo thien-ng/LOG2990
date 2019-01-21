@@ -8,14 +8,14 @@ import { LoginValidatorService } from "../login-validator.service";
 })
 export class LoginValidatorComponent {
 
-  public _textHintUsername: string = "Nom d'utilisateur";
-  public _textHint: string = "Veuillez entrer un alias";
-  public _textErrorPattern: string = "Caractères autorisés: A-Z, a-z, 0-9";
-  public _textErrorSize: string = "Taille: "
+  public _textHINTUSERNAME: string = "Nom d'utilisateur";
+  public _textHINT: string = "Veuillez entrer un alias";
+  public _textERRORPATTERN: string = "Caractères autorisés: A-Z, a-z, 0-9";
+  public _textERRORSIZE: string = "Taille: "
                                   + this.getUsernameMinLength() + "-"
                                   + this.getUsernameMaxLength() + " caractères";
-  public _textErrorRequired: string = "Nom d'utilisateur <strong>requis</strong>";
-  public _textButtonSubmit: string = "Soumettre";
+  public _textERRORREQUIRED: string = "Nom d'utilisateur <strong>requis</strong>";
+  public _textBUTTONSUBMIT: string = "Soumettre";
 
   public constructor(private _loginValidatorService: LoginValidatorService) {}
 
