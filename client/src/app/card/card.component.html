@@ -4,7 +4,7 @@
     <mat-card-title>{{_title}}</mat-card-title>
     <mat-card-subtitle>{{_subtitle}}</mat-card-subtitle>
     <div class="spacer"></div>
-    <button *ngIf="this.router.url == '_adminPath'" type="button" class="button" mat-icon-button [matMenuTriggerFor]="settingsMenu"><mat-icon>more_vert</mat-icon></button>
+    <button *ngIf="this.router.url == _adminPath" type="button" class="button" mat-icon-button [matMenuTriggerFor]="settingsMenu"><mat-icon>more_vert</mat-icon></button>
     <mat-menu #settingsMenu="matMenu">
       <button mat-menu-item>
         <mat-icon>restore</mat-icon>
