@@ -1,16 +1,47 @@
 // tslint:disable:no-any les attributs sont des types any
 // tslint:disable:no-floating-promises pour le before each
-import { HttpClientModule } from "@angular/common/http";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { AppComponent } from "./app.component";
+
+import { LayoutModule } from "@angular/cdk/layout";
+import { HttpClientModule } from "@angular/common/http";
+import { BrowserModule } from "@angular/platform-browser";
+import { RouterModule } from "@angular/router";
+import { AppRoutingModule } from "./app-routing.module";
+import { TestingImportsModule } from "./testing-imports/testing-imports.module";
+
 import { BasicService } from "./basic.service";
+
+import { AdminComponent } from "./admin/admin.component";
+import { AppComponent } from "./app.component";
+import { CardComponent } from "./card/card.component";
+import { GameListContainerComponent } from "./game-list-container/game-list-container.component";
+import { GameListComponent } from "./game-list/game-list.component";
+import { HighscoreDisplayComponent } from "./highscore-display/highscore-display.component";
+import { LoginPageComponent } from "./login-page/login-page.component";
+import { MainNavComponent } from "./main-nav/main-nav.component";
+
 describe("AppComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
+        AdminComponent,
         AppComponent,
+        CardComponent,
+        HighscoreDisplayComponent,
+        GameListComponent,
+        LoginPageComponent,
+        MainNavComponent,
+        GameListContainerComponent,
       ],
-      imports: [HttpClientModule],
+      imports: [
+        HttpClientModule,
+        AppRoutingModule,
+        BrowserModule,
+        HttpClientModule,
+        LayoutModule,
+        RouterModule,
+        TestingImportsModule,
+      ],
       providers: [BasicService],
     }).compileComponents();
   }));
