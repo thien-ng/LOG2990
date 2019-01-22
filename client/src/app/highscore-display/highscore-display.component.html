@@ -1,21 +1,21 @@
 <mat-expansion-panel class="highscore_panel" [(expanded)]="_isExpanded">
-    <h1>Classement</h1>
+    <h1>{{ _textClassement }}</h1>
     <div class="grid_ranking">
 
+        <div><h3>{{ _textSimple }}</h3></div>
         <div></div>
-        <div><h3>Simple</h3></div>
-        <div><h3>1 vs 1</h3></div>
+        <div><h3>{{ _text1vs1 }}</h3></div>
 
-        <div><img class="medals" src="{{_imageMedalsUrl[0]}}"></div>
         <div>{{ _2DHighscores[0] }}</div>
+        <div><img class="medals" src="{{_imageMedalsUrl[0]}}"></div>
         <div>{{ _3DHighscores[0] }}</div>
 
-        <div><img class="medals" src="{{_imageMedalsUrl[1]}}"></div>
         <div>{{ _2DHighscores[1] }}</div>
+        <div><img class="medals" src="{{_imageMedalsUrl[1]}}"></div>
         <div>{{ _3DHighscores[1] }}</div>
         
-        <div><img class="medals" src="{{_imageMedalsUrl[2]}}"></div>
         <div>{{ _2DHighscores[2] }}</div>
+        <div><img class="medals" src="{{_imageMedalsUrl[2]}}"></div>
         <div>{{ _3DHighscores[2] }}</div>
     </div>
   </mat-expansion-panel>
