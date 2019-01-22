@@ -2,13 +2,18 @@ import { Message } from "../../../common/communication/message";
 
 export class NameValidatorService{
 
-    constructor(private _nameList: String[]){
-        //default constructor
+    private _nameList: String[]
+
+    constructor(){
+        this._nameList = [];
     }
 
-    public validateName(nameRequest: String): Boolean {
-        if(isUnique(nameRequest)){
-            this._nameList.push(nameRequest);
+    public validateName(nameRequest: Message): Boolean {
+        console.log("validateName");
+        console.log(this._nameList.length);
+        if(this.isUnique(nameRequest.body)){
+            console.log("in the unique");
+            this._nameList.push(nameRequest.body);
             
             return true;
         }
@@ -17,16 +22,24 @@ export class NameValidatorService{
         }
     }
 
+    private isUnique(nameRequest: String): Boolean { 
+        //check if tsconfig works
+    //     return !this._nameList.include(nameRequest);
+        let isUniqueElement: Boolean = true;
+        this._nameList.forEach( (element) => {
+            if(element === nameRequest){
+                isUniqueElement = false;
+                return isUniqueElement;
+            }
+        });
+        return isUniqueElement;
+    }
+
     public leaveBrowser(nameRequest: String): Boolean {
 
+        this._nameList
+
+        return true;
     }
-
-    private isUnique(nameRequest: String): Boolean { 
-        return !this._nameList.includes(nameRequest);
-    }
-
-
-
-
 
 }
