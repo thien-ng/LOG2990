@@ -1,58 +1,38 @@
-.sidenav-container {
-  height: 93%;
-}
-
-.sidenav {
-  width: 300px;
-  background-color: #B2FF59;
-}
-
-.sidenav .mat-toolbar {
-  background: inherit;
-}
-
-.mat-toolbar.mat-primary {
-  height: 7%;
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  padding: 10px;
-}
-
 .logo {
   padding: 10px;
 }
 
+.button-container {
+  float: right;
+  height: 100%;
+  width: 630px;
+  overflow: hidden;
+}
+
+.animation-container {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.slider {
+  float: right;
+  height: 100%;
+  padding-top: 15px;
+  margin-right: 15px;
+}
+
+.button {
+  float: right;
+  font-size: x-large;
+  margin-right: 10px;
+  margin-top: 13px;
+}
+
 .button:hover {
-  background: #B2FF59;
+  background: #b2ff59;
 }
 
-.nav-link {
-  color: black;
-}
-
-.is-active {
-  font-weight: bolder;
-}
-.list-container {
-    display: flex;
-    padding: 0;
-    justify-content: center space-around;
-    align-items: flex-start center;
-    width: 100%;
-}
-
-.center-item {
-  display: flex;
-    flex-direction: row;
-    text-align: center;
-    width: 50%;
-}
-
-.center-item-button {
-  width: 50%;
-}
-
-.side-item {
-    width: 25%;
+.text, .slider {
+  padding-top: 15px;
 }

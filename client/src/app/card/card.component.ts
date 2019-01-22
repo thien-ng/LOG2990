@@ -22,12 +22,12 @@ export class CardComponent implements OnInit {
   public _textDelete: string = "Supprimer la carte";
   public _adminPath: string = "/admin";
 
-  public constructor(public router: Router) {
-    // default constructor
-  }
+  public constructor(
+    public router: Router,
+    ) {/* default constructor */ }
 
   public ngOnInit(): void {
-    // default init
+    /* default init */
   }
 
   public onHSButtonClick(): void {
