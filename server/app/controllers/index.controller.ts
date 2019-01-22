@@ -3,7 +3,7 @@ import { inject, injectable } from "inversify";
 
 import { IndexService } from "../services/index.service";
 import Types from "../types";
-import { Message } from "../../../common/communication/message";
+// import { Message } from "../../../common/communication/message";
 
 @injectable()
 export class IndexController {
@@ -34,7 +34,7 @@ export class IndexController {
             const newResponse = this.indexService.validateName(req.body);
             res.json(newResponse);
         });
-        
+
         return router;
     }
 }

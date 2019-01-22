@@ -9,17 +9,12 @@ export class NameValidatorService{
     }
 
     public validateName(nameRequest: Message): Boolean {
-        console.log("validateName");
-        console.log(this._nameList.length);
+
         if(this.isUnique(nameRequest.body)){
-            console.log("in the unique");
             this._nameList.push(nameRequest.body);
-            
             return true;
         }
-        else{
-            return false;
-        }
+        return false;
     }
 
     private isUnique(nameRequest: String): Boolean { 
@@ -29,7 +24,6 @@ export class NameValidatorService{
         this._nameList.forEach( (element) => {
             if(element === nameRequest){
                 isUniqueElement = false;
-                return isUniqueElement;
             }
         });
         return isUniqueElement;
@@ -37,7 +31,7 @@ export class NameValidatorService{
 
     public leaveBrowser(nameRequest: String): Boolean {
 
-        this._nameList
+        this._nameList = this._nameList.filter( (element) => element != nameRequest);
 
         return true;
     }
