@@ -1,4 +1,4 @@
-export interface CardProperties {
+export interface CardModel {
     gameID: number;
     title: string;
     subtitle: string;

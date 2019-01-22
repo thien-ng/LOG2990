@@ -1,5 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { CardModel } from "../../../../common/communication/cardModel";
 
 @Component({
   selector: "app-card",
@@ -21,6 +22,8 @@ export class CardComponent implements OnInit {
   public _textResetTimers: string = "Réinitialiser les temps";
   public _textDelete: string = "Supprimer la carte";
   public _adminPath: string = "/admin";
+
+  @Input() public cardModel: CardModel;
 
   public constructor(public router: Router) {
     // default constructor
