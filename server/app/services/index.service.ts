@@ -28,4 +28,12 @@ export class IndexService {
             };
         });
     }
+
+    public validateName(message : Message): Message {
+        let newMessage : Message = {
+            title: message.title,
+            body: message.body,
+        };
+        return newMessage;
+    }
 }

@@ -14,8 +14,8 @@ export class Application {
     private readonly internalError: number = 500;
     public app: express.Application;
 
-    public constructor(@inject(Types.IndexController) private indexController: IndexController,
-        @inject(Types.DateController) private dateController: DateController) {
+    public constructor
+    (@inject(Types.IndexController) private indexController: IndexController,@inject(Types.DateController) private dateController: DateController) {
         this.app = express();
 
         this.config();
