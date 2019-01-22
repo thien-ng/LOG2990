@@ -2,6 +2,8 @@ import { Message } from "../../../common/communication/message";
 
 export class NameValidatorService{
 
+    private  NOT_FOUND_VALUE = -1;
+
     private _nameList: String[]
 
     constructor(){
@@ -31,9 +33,13 @@ export class NameValidatorService{
     }
 
     public leaveBrowser(nameRequest: String): Boolean {
+
+        // if(this.isUnique(nameRequest)){
+        //     this._nameList = this._nameList.filter( (element) => element != nameRequest);
+        // }
         this._nameList = this._nameList.filter( (element) => element != nameRequest);
         console.log(this._nameList);
-        return this._nameList.indexOf(nameRequest) == -1;
+        return this._nameList.indexOf(nameRequest) == this.NOT_FOUND_VALUE;
     }
 
 }
