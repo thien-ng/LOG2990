@@ -4,9 +4,9 @@ import * as cors from "cors";
 import * as express from "express";
 import { inject, injectable } from "inversify";
 import * as logger from "morgan";
-import Types from "./types";
 import { DateController } from "./controllers/date.controller";
 import { IndexController } from "./controllers/index.controller";
+import Types from "./types";
 
 @injectable()
 export class Application {
@@ -14,8 +14,10 @@ export class Application {
     private readonly internalError: number = 500;
     public app: express.Application;
 
-    public constructor(@inject(Types.IndexController) private indexController: IndexController,
-        @inject(Types.DateController) private dateController: DateController) {
+    public constructor(
+        @inject(Types.IndexController) private indexController: IndexController,
+        @inject(Types.DateController) private dateController: DateController,
+        ) {
         this.app = express();
 
         this.config();

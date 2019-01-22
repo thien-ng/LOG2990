@@ -14,12 +14,12 @@ export class IndexService {
     }
 
     public async helloWorld(): Promise<Message> {
-        return Axios.get<Message>(`http://localhost:3000/api/date`).then(timeMessage => {
+        return Axios.get<Message>(`http://localhost:3000/api/date`).then((timeMessage) => {
             return {
                 title: "Hello world",
                 body: "Time is " + timeMessage.data.body,
             };
-        }).catch(error => {
+        }).catch((error) => {
             console.error(`There was an error!!!`, error);
 
             return {
