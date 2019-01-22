@@ -9,7 +9,7 @@ import { Constants } from "./constants";
 })
 export class AdminToggleService {
 
-  public constructor( public router: Router ) {}
+  public constructor(public router: Router) {}
 
   private _isAdmin: boolean;
   private adminUpdated: Subject<boolean> = new Subject<boolean>();
@@ -25,9 +25,9 @@ export class AdminToggleService {
   public adminToggle(): void {
     this._isAdmin = !this._isAdmin;
     if (this._isAdmin) {
-      this.router.navigate([Constants.ADMIN_PATH]).catch(() => "obligatory catch");
+      this.router.navigate([Constants.ADMIN_PATH]).catch(() => Constants.OBLIGATORY_CATCH);
     } else {
-      this.router.navigate([Constants.GAMELIST_PATH]).catch(() => "obligatory catch");
+      this.router.navigate([Constants.GAMELIST_PATH]).catch(() => Constants.OBLIGATORY_CATCH);
     }
     this.adminUpdated.next(this._isAdmin);
   }

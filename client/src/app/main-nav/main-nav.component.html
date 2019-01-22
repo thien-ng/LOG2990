@@ -1,5 +1,5 @@
 <mat-toolbar *ngIf="this.router.url != _loginPath" color="primary">
-  <span class="logo">client</span>
+  <span class="logo">{{_client}}</span>
   <div class="animation-container">
     <div class="button-container" [@slideInOut]="_isAdminMode ? 'open' : 'closed'">
       <div><button class="button" [disabled]="!_isAdminMode" mat-raised-button (click)="openDialog()">Créer jeu simple</button></div>

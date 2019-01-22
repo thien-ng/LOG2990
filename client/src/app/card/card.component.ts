@@ -22,13 +22,9 @@ export class CardComponent implements OnInit {
   public _textDelete: string = "Supprimer la carte";
   public _adminPath: string = "/admin";
 
-  public constructor(
-    public router: Router,
-    ) {/* default constructor */ }
+  public constructor(public router: Router) {/* default constructor */ }
 
-  public ngOnInit(): void {
-    /* default init */
-  }
+  public ngOnInit(): void {/* default init */}
 
   public onHSButtonClick(): void {
     this._HSButtonIsClicked = !this._HSButtonIsClicked;

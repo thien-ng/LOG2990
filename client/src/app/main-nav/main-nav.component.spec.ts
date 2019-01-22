@@ -1,9 +1,8 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
+import { Constants } from "../constants";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { MainNavComponent } from "./main-nav.component";
-
-const OBLIGATORY_CATCH: String = "obligatory catch";
 
 describe("MainNavComponent", () => {
   let component: MainNavComponent;
@@ -17,7 +16,7 @@ describe("MainNavComponent", () => {
       imports: [TestingImportsModule],
     })
       .compileComponents()
-      .catch(() => OBLIGATORY_CATCH);
+      .catch(() => Constants.OBLIGATORY_CATCH);
   }));
 
   beforeEach(() => {

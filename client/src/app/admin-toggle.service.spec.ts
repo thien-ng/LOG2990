@@ -1,5 +1,4 @@
 import { TestBed } from "@angular/core/testing";
-// Jai pas import tt les testing modules pcq jai juste besoin de celui la
 import { RouterTestingModule } from "@angular/router/testing";
 
 import { AdminToggleService } from "./admin-toggle.service";

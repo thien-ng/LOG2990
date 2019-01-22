@@ -7,6 +7,7 @@ import { Router } from "@angular/router";
 import { Observable, Subscription } from "rxjs";
 import { map } from "rxjs/operators";
 import { AdminToggleService } from "../admin-toggle.service";
+import { Constants } from "../constants";
 import { CreateSimpleGameComponent } from "../create-simple-game/create-simple-game.component";
 import { NavButton } from "./nav-button.interface";
 
@@ -21,10 +22,10 @@ import { NavButton } from "./nav-button.interface";
         transform: "translateX(60%)",
       })),
       transition("open => closed", [
-        animate("0.3s"),
+        animate(Constants.ANIMATION_TIME),
       ]),
       transition("closed => open", [
-        animate("0.3s"),
+        animate(Constants.ANIMATION_TIME),
       ]),
     ]),
   ],
@@ -39,7 +40,8 @@ export class MainNavComponent implements OnInit, OnDestroy {
   ) {}
 
   public _isAdminMode: boolean;
-  public _loginPath: string = "/login";
+  public _loginPath: string = Constants.LOGIN_REDIRECT;
+  public _client: string = "client";
   private _stateSubscription: Subscription;
 
   public routes: NavButton[] = [
