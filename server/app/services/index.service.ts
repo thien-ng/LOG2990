@@ -2,10 +2,14 @@
 import Axios from "axios";
 import { injectable } from "inversify";
 import "reflect-metadata";
+import { NameValidatorService } from "../NameValidatorService";
 import { Message } from "../../../common/communication/message";
 
 @injectable()
 export class IndexService {
+
+    private _nameValidatorService : NameValidatorService() = new NameValidatorService();
+
     public about(): Message {
         return {
             title: "This is merely a test",
@@ -29,10 +33,12 @@ export class IndexService {
         });
     }
 
-    public validateName(message : Message): Message {
-        let newMessage : Message = {
-            title: message.title,
-            body: message.body,
+    public validateName(message: Message): Message{
+
+        const result = this._nameValidatorService.validateName(message.body);
+        const newMessage: Message {
+            title: "validateNameResponse",
+            body: result.toString(),
         };
         return newMessage;
     }
