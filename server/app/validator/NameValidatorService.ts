@@ -12,6 +12,7 @@ export class NameValidatorService{
 
         if(this.isUnique(nameRequest.body)){
             this._nameList.push(nameRequest.body);
+            console.log(this._nameList);
             return true;
         }
         return false;
@@ -30,10 +31,9 @@ export class NameValidatorService{
     }
 
     public leaveBrowser(nameRequest: String): Boolean {
-
         this._nameList = this._nameList.filter( (element) => element != nameRequest);
-
-        return true;
+        console.log(this._nameList);
+        return this._nameList.indexOf(nameRequest) == -1;
     }
 
 }

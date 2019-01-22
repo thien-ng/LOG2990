@@ -42,4 +42,14 @@ export class IndexService {
         };
         return newMessage;
     }
+
+    public leaveBrowser(message: Message): Message{
+        const result = this._nameValidatorService.leaveBrowser(message.body);
+        const stringifyResult = result.toString();
+        const newMessage: Message  = {
+            title: "validateLeaveBrowser",
+            body: stringifyResult,
+        };
+        return newMessage;
+    }
 }

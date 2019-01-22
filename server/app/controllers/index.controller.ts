@@ -31,9 +31,9 @@ export class IndexController {
             });
         
         router.post("/service/validator/unsubscribe", (req: Request, res: Response, next: NextFunction) => {
-            const newResponse = this.indexService.validateName(req.body);
-            res.json(newResponse);
-        });
+                const newResponse = this.indexService.leaveBrowser(req.body);
+                res.json(newResponse);
+            });
 
         return router;
     }
