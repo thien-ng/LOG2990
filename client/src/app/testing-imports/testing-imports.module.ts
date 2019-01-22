@@ -1,11 +1,15 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {
   MatButtonModule,
   MatCardModule,
+  MatDialogModule,
   MatDividerModule,
   MatExpansionModule,
+  MatFormFieldModule,
   MatIconModule,
+  MatInputModule,
   MatListModule,
   MatMenuModule,
   MatSidenavModule,
@@ -26,11 +30,20 @@ import { RouterTestingModule } from "@angular/router/testing";
     MatSidenavModule,
     MatIconModule,
     MatListModule,
+    MatFormFieldModule,
     MatCardModule,
     MatExpansionModule,
     RouterModule,
     RouterTestingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogModule,
     MatDividerModule,
+    MatInputModule,
+    FormsModule,
+    MatFormFieldModule,
   ],
 })
 export class TestingImportsModule { }
