@@ -1,14 +1,12 @@
-.sidenav-container {
-  height: 93%;
+.logo {
+  padding: 10px;
 }
 
-.sidenav {
-  width: 200px;
-  background-color: #0068A6;
-}
-
-.sidenav .mat-toolbar {
-  background: inherit;
+.button-container {
+  float: right;
+  height: 100%;
+  width: 537px;
+  overflow: hidden;
 }
 
 .mat-toolbar.mat-primary {
@@ -19,40 +17,34 @@
   padding: 10px;
 }
 
-.logo {
-  padding: 10px;
+.animation-container {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.slider {
+  float: right;
+  height: 100%;
+  margin-right: 15px;
+}
+
+.button {
+  float: right;
+  font-size: large;
+  margin-right: 10px;
+  margin-top: 8px;
 }
 
 .button:hover {
-  background: #00F076;
+  background: #b2ff59;
 }
 
-.nav-link {
-  color: white;
+.text, .slider {
+  font-size: large;
+  padding-top: 10px;
 }
 
-.is-active {
-  font-weight: bolder;
-}
-.list-container {
-    display: flex;
-    padding: 0;
-    justify-content: center space-around;
-    align-items: flex-start center;
-    width: 100%;
-}
-
-.center-item {
-  display: flex;
-    flex-direction: row;
-    text-align: center;
-    width: 50%;
-}
-
-.center-item-button {
-  width: 50%;
-}
-
-.side-item {
-    width: 25%;
+.content {
+  height: 93%;
 }
