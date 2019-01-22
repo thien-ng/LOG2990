@@ -40,7 +40,7 @@ export class LoginValidatorService {
     return false;
   }
 
-  private checkIfUnique(username: string): boolean {
+  public checkIfUnique(username: string): boolean {
     return !this._usernames.includes(username);
   }
 
