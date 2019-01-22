@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 
+import { AdminToggleService } from "../admin-toggle.service";
 import { CreateSimpleGameComponent } from "../create-simple-game/create-simple-game.component";
 
 @Component({
@@ -10,11 +11,12 @@ import { CreateSimpleGameComponent } from "../create-simple-game/create-simple-g
 })
 export class AdminComponent implements OnInit {
 
-  public constructor() {
+  public constructor(public adminService: AdminToggleService) {
     /* default constructor */
   }
 
   public ngOnInit(): void {
     /* default ngOnInit */
+    this.adminService.adminTrue();
   }
 }

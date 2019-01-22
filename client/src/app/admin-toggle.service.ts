@@ -31,4 +31,10 @@ export class AdminToggleService {
     }
     this.adminUpdated.next(this._isAdmin);
   }
+
+  public adminTrue(): void {
+    this._isAdmin = true;
+    this.adminUpdated.next(this._isAdmin);
+  }
+
 }

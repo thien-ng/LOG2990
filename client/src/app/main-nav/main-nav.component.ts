@@ -21,10 +21,10 @@ import { NavButton } from "./nav-button.interface";
         transform: "translateX(60%)",
       })),
       transition("open => closed", [
-        animate("0.7s"),
+        animate("0.3s"),
       ]),
       transition("closed => open", [
-        animate("0.7s"),
+        animate("0.3s"),
       ]),
     ]),
   ],

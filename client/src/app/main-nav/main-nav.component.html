@@ -5,7 +5,7 @@
       <div><button class="button" [disabled]="!_isAdminMode" mat-raised-button (click)="openDialog()">Créer jeu simple</button></div>
       <div><button class="button" [disabled]="!_isAdminMode" mat-raised-button (click)="openDialog()">Créer jeu 3D</button></div>
       <div class="slider">
-        <mat-slide-toggle (change)="this.adminService.adminToggle()"></mat-slide-toggle>
+        <mat-slide-toggle [checked]="_isAdminMode" (change)="this.adminService.adminToggle()"></mat-slide-toggle>
       </div>
       <div class="text">Vue Administration</div>
     </div>
