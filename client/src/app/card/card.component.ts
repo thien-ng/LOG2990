@@ -9,12 +9,12 @@ import { CardModel } from "../../../../common/communication/cardModel";
 })
 export class CardComponent implements OnInit {
   public _HSButtonIsClicked: boolean;
-  public _title: string = "Chien couché";
-  public _subtitle: string = "Animaux";
-  public _avatarImageUrl: string =
-    "https://material.angular.io/assets/img/examples/shiba1.jpg";
-  public _gameImageUrl: string =
-    "http://www.123mobilewallpapers.com/wp-content/uploads/2014/07/the_best_dog.jpg";
+  // public _title: string = "Chien couché";
+  // public _subtitle: string = "Animaux";
+  // public _avatarImageUrl: string =
+  //   "https://material.angular.io/assets/img/examples/shiba1.jpg";
+  // public _gameImageUrl: string =
+  //   "http://www.123mobilewallpapers.com/wp-content/uploads/2014/07/the_best_dog.jpg";
   public _trophyImageUrl: string = "https://img.icons8.com/metro/1600/trophy.png";
   public _textPlay: string = "JOUER";
   public _textPlaySingle: string = "Jouer en simple";
@@ -23,7 +23,7 @@ export class CardComponent implements OnInit {
   public _textDelete: string = "Supprimer la carte";
   public _adminPath: string = "/admin";
 
-  @Input() public cardModel: CardModel;
+  @Input() public _cardModel: CardModel;
 
   public constructor(public router: Router) {
     // default constructor

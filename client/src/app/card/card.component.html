@@ -1,8 +1,8 @@
 <mat-card class="card">
   <mat-card-header>
-    <div mat-card-avatar [ngStyle]="{ 'background-image': 'url(' + cardModel.avatarImageUrl + ')'}"  class="thumbnail"></div>
-    <mat-card-title>{{cardModel.title}}</mat-card-title>
-    <mat-card-subtitle>{{cardModel.subtitle}}</mat-card-subtitle>
+    <div mat-card-avatar [ngStyle]="{ 'background-image': 'url(' + _cardModel.avatarImageUrl + ')'}"  class="thumbnail"></div>
+    <mat-card-title>{{_cardModel.title}}</mat-card-title>
+    <mat-card-subtitle>{{_cardModel.subtitle}}</mat-card-subtitle>
     <div class="spacer"></div>
     <button *ngIf="this.router.url == _adminPath" type="button" class="button" mat-icon-button [matMenuTriggerFor]="settingsMenu"><mat-icon>more_vert</mat-icon></button>
     <mat-menu #settingsMenu="matMenu">
@@ -19,7 +19,7 @@
 
   <app-highscore-display class="highscorePanel" [(_isExpanded)]="_HSButtonIsClicked"></app-highscore-display>
 
-  <img mat-card-image class="card-image" [ngClass]="_HSButtonIsClicked ? 'darkenImage' : 'brightenImage'" alt="GameCardImage" src="{{cardModel.gameImageUrl}}">
+  <img mat-card-image class="card-image" [ngClass]="_HSButtonIsClicked ? 'darkenImage' : 'brightenImage'" alt="GameCardImage" src="{{_cardModel.gameImageUrl}}">
 
   <div  class="optionBar">
       <mat-card-actions>
