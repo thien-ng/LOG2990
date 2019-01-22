@@ -20,6 +20,17 @@ export class NameValidatorService{
         return false;
     }
 
+    public leaveBrowser(nameRequest: String): Boolean {
+
+        if(this.isInArray(nameRequest)){
+            this._nameList = this._nameList.filter( (element) => element != nameRequest);
+            return !this.isInArray(nameRequest);
+        }
+        else {
+            return false;
+        }
+    }
+
     private isUnique(nameRequest: String): Boolean { 
         //check if tsconfig works
     //     return !this._nameList.include(nameRequest);
@@ -32,15 +43,8 @@ export class NameValidatorService{
         return isUniqueElement;
     }
 
-    public leaveBrowser(nameRequest: String): Boolean {
-
-        if(this.isUnique(nameRequest)){
-            this._nameList = this._nameList.filter( (element) => element != nameRequest);
-            return this._nameList.indexOf(nameRequest) == this.NOT_FOUND_VALUE;
-        }
-        else {
-            return false;
-        }
+    private isInArray(nameRequest: String): Boolean{
+        return this._nameList.indexOf(nameRequest) > this.NOT_FOUND_VALUE;
     }
 
 }
