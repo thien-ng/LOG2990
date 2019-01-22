@@ -29,10 +29,15 @@ export class LoginValidatorService {
     Validators.maxLength(this.MAX_LENGTH),
   ]);
 
-  public addUsername(): void {
-    if (this.usernameFormControl.errors == null && this.checkIfUnique(this.usernameFormControl.value)) {
-      this._usernames.push(this.usernameFormControl.value);
+  public addUsername(username: string): boolean {
+
+    if (this.usernameFormControl.errors == null && this.checkIfUnique(username)) {
+      this._usernames.push(username);
+
+      return true;
     }
+
+    return false;
   }
 
   private checkIfUnique(username: string): boolean {

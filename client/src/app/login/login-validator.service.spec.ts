@@ -9,4 +9,10 @@ describe("LoginValidatorService", () => {
     const service: LoginValidatorService = TestBed.get(LoginValidatorService);
     expect(service).toBeTruthy();
   });
+
+  // it("should refuse other character than alphanumericals", () => {
+  //   const service: LoginValidatorService = TestBed.get(LoginValidatorService);
+  //   service.usernameFormControl.value = "BadName@";
+  //   expect(service.addUsername()).toBeFalsy();
+  // });
 });
