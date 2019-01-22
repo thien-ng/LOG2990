@@ -18,7 +18,7 @@ import { NavButton } from "./nav-button.interface";
     trigger("slideInOut", [
       state("open", style({})),
       state("closed", style({
-        transform: "translateX(63%)",
+        transform: "translateX(60%)",
       })),
       transition("open => closed", [
         animate("0.7s"),

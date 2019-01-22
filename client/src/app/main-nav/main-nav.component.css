@@ -5,8 +5,16 @@
 .button-container {
   float: right;
   height: 100%;
-  width: 630px;
+  width: 537px;
   overflow: hidden;
+}
+
+.mat-toolbar.mat-primary {
+  height: 7%;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 10px;
 }
 
 .animation-container {
@@ -18,15 +26,14 @@
 .slider {
   float: right;
   height: 100%;
-  padding-top: 15px;
   margin-right: 15px;
 }
 
 .button {
   float: right;
-  font-size: x-large;
+  font-size: large;
   margin-right: 10px;
-  margin-top: 13px;
+  margin-top: 8px;
 }
 
 .button:hover {
@@ -34,5 +41,10 @@
 }
 
 .text, .slider {
-  padding-top: 15px;
+  font-size: large;
+  padding-top: 10px;
+}
+
+.content {
+  height: 93%;
 }

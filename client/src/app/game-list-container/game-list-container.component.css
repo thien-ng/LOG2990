@@ -2,17 +2,31 @@ h2 {
   margin: 10px;
 }
 
-.listGrid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    width: 60%;
-    min-width: 550px;
-    grid-gap: 10px;
-    margin:auto;
+.columnHeader {
+    width: 100%;
+    margin: auto;
+    color: #E91E63 !important;
+    position: sticky;
+    top: 0;
 }
 
-.columnHeader {
-    text-align: center;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.089);
-    margin-bottom: 10px;
+::ng-deep .mat-toolbar{
+  z-index: 998;
+  position: fixed;
+}
+::ng-deep .mat-tab-group{
+  margin-top:0px !important;
+  margin: 0 auto 0 auto !important;
+
+}
+
+::ng-deep .mat-tab-header{
+      z-index: 999;
+      width:100%;
+      position: fixed  !important;
+      background-color: rgb(255, 255, 255) !important;
+}
+::ng-deep .mat-tab-body-wrapper{
+    position: relative !important;
+    margin-top:55px;
 }
