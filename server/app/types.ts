@@ -4,5 +4,5 @@ export default  {
         IndexController: Symbol("IndexController"),
         DateController: Symbol("DateController"),
         IndexService: Symbol("IndexService"),
-        DateService: Symbol("DateService")
+        DateService: Symbol("DateService"),
 };

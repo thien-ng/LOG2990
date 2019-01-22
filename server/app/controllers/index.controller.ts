@@ -1,8 +1,8 @@
-import { injectable, inject } from "inversify";
-import { Router, Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response, Router } from "express";
+import { inject, injectable } from "inversify";
 
-import Types from "../types";
 import { IndexService } from "../services/index.service";
+import Types from "../types";
 
 @injectable()
 export class IndexController {
@@ -11,16 +11,14 @@ export class IndexController {
 
     public get router(): Router {
         const router: Router = Router();
-        
-        router.get("/",
-            async (req: Request, res: Response, next: NextFunction) => {
+
+        router.get("/", async (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
                 const time = await this.indexService.helloWorld();
                 res.json(time);
             });
 
-        router.get("/about",
-            (req: Request, res: Response, next: NextFunction) => {
+        router.get("/about", (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
                 res.json(this.indexService.about());
             });

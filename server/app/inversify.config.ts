@@ -1,11 +1,11 @@
 import { Container } from "inversify";
-import Types from "./types";
-import { Server } from "./server";
 import { Application } from "./app";
-import { IndexController } from "./controllers/index.controller";
-import { IndexService } from "./services/index.service";
 import { DateController } from "./controllers/date.controller";
+import { IndexController } from "./controllers/index.controller";
+import { Server } from "./server";
+import { IndexService } from "./services/index.service";
 import { DateService } from "./services/date.service";
+import Types from "./types";
 
 const container: Container = new Container();
 
@@ -16,6 +16,5 @@ container.bind(Types.IndexService).to(IndexService);
 
 container.bind(Types.DateController).to(DateController);
 container.bind(Types.DateService).to(DateService);
-
 
 export { container };
