@@ -23,7 +23,6 @@ export class CardComponent implements OnInit {
   public _textDelete: string = "Supprimer la carte";
   public _adminPath: string = "/admin";
 
-<<<<<<< HEAD
   @Input() public _cardModel: Object = {
     gameID: 1,
     title: "",
@@ -35,9 +34,6 @@ export class CardComponent implements OnInit {
   public constructor(public router: Router) {
     // default constructor
   }
-=======
-  public constructor(public router: Router) {/* default constructor */ }
->>>>>>> master
 
   public ngOnInit(): void {/* default init */}
 

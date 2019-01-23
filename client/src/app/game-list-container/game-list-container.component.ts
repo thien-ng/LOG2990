@@ -7,6 +7,10 @@ import { Component, Input, OnInit } from "@angular/core";
   styleUrls: ["./game-list-container.component.css"],
 })
 export class GameListContainerComponent implements OnInit {
+
+  public _index2D: number = 0;
+  public _index3D: number = 1;
+
   @Input() public _cardListContainer: Object[][] = [[
     {
       gameID: 0, title: "Super chaise", subtitle: "petite chaise ",
