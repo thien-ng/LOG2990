@@ -3,8 +3,8 @@ import { Application } from "./app";
 import { DateController } from "./controllers/date.controller";
 import { IndexController } from "./controllers/index.controller";
 import { Server } from "./server";
-import { IndexService } from "./services/index.service";
 import { DateService } from "./services/date.service";
+import { IndexService } from "./services/index.service";
 import Types from "./types";
 
 const container: Container = new Container();

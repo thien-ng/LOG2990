@@ -1,12 +1,11 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { CardComponent } from "../card/card.component";
+import { Constants } from "../constants";
 import { GameListComponent } from "../game-list/game-list.component";
 import { HighscoreDisplayComponent } from "../highscore-display/highscore-display.component";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { GameListContainerComponent } from "./game-list-container.component";
-
-const OBLIGATORY_CATCH: String = "obligatory catch";
 
 describe("GameListContainerComponent", () => {
   let component: GameListContainerComponent;
@@ -25,7 +24,7 @@ describe("GameListContainerComponent", () => {
       ],
     })
     .compileComponents()
-    .catch(() => OBLIGATORY_CATCH);
+    .catch(() => Constants.OBLIGATORY_CATCH);
     }));
 
   beforeEach(() => {
