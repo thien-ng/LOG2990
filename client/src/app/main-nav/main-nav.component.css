@@ -2,31 +2,12 @@
   padding: 10px;
 }
 
-.button-container {
-  float: right;
-  height: 100%;
-  width: 537px;
-  overflow: hidden;
-}
-
 .mat-toolbar.mat-primary {
   height: 7%;
   position: sticky;
   top: 0;
   z-index: 1;
   padding: 10px;
-}
-
-.animation-container {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-}
-
-.slider {
-  float: right;
-  height: 100%;
-  margin-right: 15px;
 }
 
 .button {
@@ -36,12 +17,6 @@
 .button:hover {
   background: #b2ff59;
 }
-
-.text, .slider {
-  font-size: large;
-  padding-top: 10px;
-}
-
 .content {
   height: 93%;
 }
@@ -81,12 +56,4 @@
   transition-property: width;
   transition-duration: 0.5s;
   /* margin-left: 20px; */
-}
-
-.hide {
-  width: 0;
-}
-
-.show {
-  width: 100px;
 }
