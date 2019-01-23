@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable, Subject } from "rxjs";
 
-const tabIndexENUM: Readonly<{
+const TAB_INDEX_ENUM: Readonly<{
   "2D": number;
   "3D": number;
 }> = Object.freeze({ "2D": 0, "3D": 1 });
@@ -10,31 +10,32 @@ const tabIndexENUM: Readonly<{
 @Injectable({
   providedIn: "root",
 })
-export class Is2Dor3DService {
+export class GameModeService {
 
   public constructor(public router: Router) {}
 
   private _index: number = 0;
-  private _2DUpdated: Subject<number> = new Subject<number>();
+  private _gameModeUpdated: Subject<number> = new Subject<number>();
 
-  public get2DState(): number {
+  public getIndex(): number {
     return this._index;
   }
 
-  public get2DUpdateListener(): Observable<number> {
-    return this._2DUpdated.asObservable();
+  public getGameModeUpdateListener(): Observable<number> {
+    return this._gameModeUpdated.asObservable();
   }
 
   public toggle(): void {
     switch (this._index) {
-      case tabIndexENUM["2D"]:
-        this._index = tabIndexENUM["3D"];
+      case TAB_INDEX_ENUM["2D"]:
+        this._index = TAB_INDEX_ENUM["3D"];
         break;
 
-      case tabIndexENUM["3D"]:
-        this._index = tabIndexENUM["2D"];
+      case TAB_INDEX_ENUM["3D"]:
+        this._index = TAB_INDEX_ENUM["2D"];
         break;
 
+    // default for lint
       default:
         break;
     }

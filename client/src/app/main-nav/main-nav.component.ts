@@ -18,7 +18,7 @@ import { CreateSimpleGameComponent } from "../create-simple-game/create-simple-g
     trigger("slideInOut", [
       state("open", style({})),
       state("closed", style({
-        transform: "translateX(330px)",
+        transform: "translateX(15em)",
       })),
       transition("open => closed", [
         animate(Constants.ANIMATION_TIME),

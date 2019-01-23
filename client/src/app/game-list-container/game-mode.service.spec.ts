@@ -1,18 +1,18 @@
 import { TestBed } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 
-import { Is2Dor3DService } from "./is2-dor3-d.service";
+import { GameModeService } from "./game-mode.service";
 
 describe("Is2Dor3DService", () => {
   beforeEach(() => TestBed.configureTestingModule({
-    providers: [Is2Dor3DService],
+    providers: [GameModeService],
     imports: [
       RouterTestingModule,
     ],
   }));
 
   it("should be created", () => {
-    const service: Is2Dor3DService = TestBed.get(Is2Dor3DService);
+    const service: GameModeService = TestBed.get(GameModeService);
     expect(service).toBeTruthy();
   });
 });

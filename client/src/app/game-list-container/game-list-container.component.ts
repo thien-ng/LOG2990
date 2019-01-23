@@ -4,7 +4,7 @@ import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { AdminToggleService } from "../admin-toggle.service";
 import { Constants } from "../constants";
-import { Is2Dor3DService } from "./is2-dor3-d.service";
+import { GameModeService } from "./game-mode.service";
 
 @Component({
   selector: "app-game-list-container",
@@ -18,7 +18,8 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
   public _tabIndex: number = 0;
   private _stateSubscription: Subscription;
 
-  @Input() public _cardListContainer: Object[][] = [[
+  @Input() public _cardListContainer: Object[][] = [
+    [
     {
       gameID: 0,
       title: "Super chaise",
@@ -37,7 +38,7 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
       gameImageUrl: "http://amyscakesandmore.com/wp-content/uploads/5395/tabouret-de-bar-moderne-qui-vient-en-plusieurs-couleurs-vives.jpg",
     },
   ],
-                                                    [
+    [
     {
       gameID: 3,
       title: "Super chaise",
@@ -55,17 +56,17 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
   ]];
 
   public constructor(
-    public _2Dservice: Is2Dor3DService,
+    public _gameModeservice: GameModeService,
     private _adminService: AdminToggleService,
     public router: Router,
     ) {}
 
   public ngOnInit(): void {
-    this._tabIndex = this._2Dservice.get2DState();
+    this._tabIndex = this._gameModeservice.getIndex();
     if (this.router.url === Constants.ADMIN_REDIRECT) {
       this._adminService.adminTrue();
     }
-    this._stateSubscription = this._2Dservice.get2DUpdateListener()
+    this._stateSubscription = this._gameModeservice.getGameModeUpdateListener()
       .subscribe((index: number) => {
         this._tabIndex = index;
     });

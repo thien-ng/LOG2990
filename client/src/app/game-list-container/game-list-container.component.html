@@ -1,4 +1,4 @@
-<mat-tab-group mat-align-tabs="center" class="columnHeader" [selectedIndex]="_tabIndex" (selectedTabChange)="this._2Dservice.toggle()">
+<mat-tab-group mat-align-tabs="center" class="columnHeader" [selectedIndex]="_tabIndex" (selectedTabChange)="this._gameModeservice.toggle()">
     <mat-tab label="Mode 2D">
         <app-game-list #2DMode [_cardList]="_cardListContainer[_index2D]"></app-game-list>
     </mat-tab>

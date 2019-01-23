@@ -8,6 +8,7 @@
   top: 0;
   z-index: 1;
   padding: 10px;
+  overflow: hidden;
 }
 
 .button {
@@ -21,9 +22,6 @@
   height: 93%;
 }
 
-
-
-/*//////////////////////*/
 #header {
   display: block;
   width: 100%;
@@ -32,7 +30,7 @@
 
 #options {
   display: block;
-  width: 550px;
+  width: 520px;
   float: right;
   clear: both;
   overflow: hidden;
@@ -47,7 +45,6 @@
 
 #slider {
   padding-left: 10px;
-  margin-right: 10px;
 }
 
 #buttons {
@@ -55,5 +52,4 @@
   white-space: nowrap;
   transition-property: width;
   transition-duration: 0.5s;
-  /* margin-left: 20px; */
 }
