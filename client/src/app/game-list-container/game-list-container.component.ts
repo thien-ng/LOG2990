@@ -1,5 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+
 import { Subscription } from "rxjs";
+import { AdminToggleService } from "../admin-toggle.service";
+import { Constants } from "../constants";
 import { Is2Dor3DService } from "./is2-dor3-d.service";
 
 @Component({
@@ -39,10 +43,17 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
     },
   ]];
 
-  public constructor(public _2Dservice: Is2Dor3DService) {}
+  public constructor(
+    public _2Dservice: Is2Dor3DService,
+    private _adminService: AdminToggleService,
+    public router: Router,
+    ) {}
 
   public ngOnInit(): void {
     this._tabIndex = this._2Dservice.get2DState();
+    if (this.router.url === Constants.ADMIN_REDIRECT) {
+      this._adminService.adminTrue();
+    }
     this._stateSubscription = this._2Dservice.get2DUpdateListener()
       .subscribe((index: number) => {
         this._tabIndex = index;
