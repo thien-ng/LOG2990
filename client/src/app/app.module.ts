@@ -21,15 +21,15 @@ import { MainNavComponent } from "./main-nav/main-nav.component";
 import { TestingImportsModule } from "./testing-imports/testing-imports.module";
 
 const routes: Routes = [
-  { path: Constants.ROOT_PATH, redirectTo: Constants.LOGIN_REDIRECT, pathMatch: "full" },
-  { path: Constants.LOGIN_PATH, component: LoginPageComponent },
-  { path: Constants.ADMIN_PATH, component: AdminComponent },
+  { path: Constants.ROOT_PATH, redirectTo: Constants.NAV_PATH, pathMatch: Constants.PATH_MATCH_FULL },
   {
     path: Constants.NAV_PATH,
     component: MainNavComponent,
     children: [
-      { path: Constants.ROOT_PATH, redirectTo: Constants.GAMELIST_PATH, pathMatch: "full" },
+      { path: Constants.ROOT_PATH, redirectTo: Constants.LOGIN_REDIRECT, pathMatch: Constants.PATH_MATCH_FULL },
+      { path: Constants.LOGIN_PATH, component: LoginPageComponent },
       { path: Constants.GAMELIST_PATH, component: GameListContainerComponent },
+      { path: Constants.ADMIN_PATH, component: AdminComponent },
     ],
   },
 ];
