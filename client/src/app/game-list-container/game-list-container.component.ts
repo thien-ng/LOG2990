@@ -1,14 +1,18 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { Subscription } from "rxjs";
+import { Is2Dor3DService } from "./is2-dor3-d.service";
 
 @Component({
   selector: "app-game-list-container",
   templateUrl: "./game-list-container.component.html",
   styleUrls: ["./game-list-container.component.css"],
 })
-export class GameListContainerComponent implements OnInit {
+export class GameListContainerComponent implements OnInit, OnDestroy {
 
   public _index2D: number = 0;
   public _index3D: number = 1;
+  public _tabIndex: number = 0;
+  private _stateSubscription: Subscription;
 
   @Input() public _cardListContainer: Object[][] = [[
     {
@@ -35,12 +39,18 @@ export class GameListContainerComponent implements OnInit {
     },
   ]];
 
-  public constructor() {
-    // default constructor
-  }
+  public constructor(public _2Dservice: Is2Dor3DService) {}
 
   public ngOnInit(): void {
-    // default ngOnInit
+    this._tabIndex = this._2Dservice.get2DState();
+    this._stateSubscription = this._2Dservice.get2DUpdateListener()
+      .subscribe((index: number) => {
+        this._tabIndex = index;
+    });
+  }
+
+  public ngOnDestroy(): void {
+    this._stateSubscription.unsubscribe();
   }
 
 }

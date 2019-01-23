@@ -9,7 +9,6 @@ import { map } from "rxjs/operators";
 import { AdminToggleService } from "../admin-toggle.service";
 import { Constants } from "../constants";
 import { CreateSimpleGameComponent } from "../create-simple-game/create-simple-game.component";
-import { NavButton } from "./nav-button.interface";
 
 @Component({
   selector: "app-main-nav",
@@ -43,11 +42,6 @@ export class MainNavComponent implements OnInit, OnDestroy {
   public _loginPath: string = Constants.LOGIN_REDIRECT;
   public _client: string = "client";
   private _stateSubscription: Subscription;
-
-  public routes: NavButton[] = [
-    { linkName: "Liste des jeux", url: "/gamelist" },
-    { linkName: "Administration", url: "/admin" },
-  ];
 
   public isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
