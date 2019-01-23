@@ -1,8 +1,9 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { HighscoreDisplayComponent } from "../highscore-display/highscore-display.component";
-import { CardComponent } from "./card.component";
 
+import { Constants } from "../constants";
+import { HighscoreDisplayComponent } from "../highscore-display/highscore-display.component";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
+import { CardComponent } from "./card.component";
 
 describe("CardComponent", () => {
   let component: CardComponent;
@@ -16,7 +17,7 @@ describe("CardComponent", () => {
       ],
     })
     .compileComponents()
-    .catch(() => "obligatory catch");
+    .catch(() => Constants.OBLIGATORY_CATCH);
   }));
 
   beforeEach(() => {

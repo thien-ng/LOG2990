@@ -1,10 +1,9 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import { Constants } from "../constants";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { CreateSimpleGameComponent } from "./create-simple-game.component";
-
-const OBLIGATORY_CATCH: String = "obligatory catch";
 
 describe("CreateSimpleGameComponent", () => {
   let component: CreateSimpleGameComponent;
@@ -24,7 +23,7 @@ describe("CreateSimpleGameComponent", () => {
       }],
     })
     .compileComponents()
-    .catch(() => OBLIGATORY_CATCH);
+    .catch(() => Constants.OBLIGATORY_CATCH);
   }));
 
   beforeEach(() => {

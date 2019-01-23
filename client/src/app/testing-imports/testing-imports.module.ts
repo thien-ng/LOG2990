@@ -13,6 +13,7 @@ import {
   MatListModule,
   MatMenuModule,
   MatSidenavModule,
+  MatSlideToggleModule,
   MatTabsModule,
   MatToolbarModule,
 } from "@angular/material";
@@ -42,6 +43,7 @@ import { RouterTestingModule } from "@angular/router/testing";
     MatInputModule,
     MatDialogModule,
     MatDividerModule,
+    MatSlideToggleModule,
     MatInputModule,
     FormsModule,
     MatFormFieldModule,

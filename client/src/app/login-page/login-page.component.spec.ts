@@ -2,11 +2,10 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 
+import { Constants } from "../constants";
 import { LoginValidatorComponent } from "../login/login-validator/login-validator.component";
 import { LoginViewComponent } from "../login/login-view/login-view.component";
 import { LoginPageComponent } from "./login-page.component";
-
-const OBLIGATORY_CATCH: String = "obligatory catch";
 
 describe("LoginPageComponent", () => {
   let component: LoginPageComponent;
@@ -22,7 +21,7 @@ describe("LoginPageComponent", () => {
       imports: [TestingImportsModule],
     })
       .compileComponents()
-      .catch(() => OBLIGATORY_CATCH);
+      .catch(() => Constants.OBLIGATORY_CATCH);
   }));
 
   beforeEach(() => {
