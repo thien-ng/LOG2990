@@ -2,7 +2,7 @@
   <mat-form-field class="login-input">
     <input #newUsername matInput (keyup.enter)="addUsername()"
         placeholder="{{_textHINTUSERNAME}}"
-        [formControl]="_loginValidatorService.usernameFormControl"
+        [formControl]="_loginValidatorService._usernameFormControl"
         [errorStateMatcher]="_loginValidatorService._matcher">
     <mat-hint class="hint">{{_textHINT}}</mat-hint>
     <mat-error *ngIf="hasErrorOfType('pattern')">
@@ -19,6 +19,6 @@
 <br>
 <br>
 <button mat-raised-button id="submit-button"  (click)="addUsername()"
-  [disabled]="hasFormControlErrors()" routerLink="/gamelist">
+  [disabled]="isNotValidName()" routerLink="/gamelist">
   <span>{{_textBUTTONSUBMIT}}</span>
 </button>

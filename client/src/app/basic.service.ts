@@ -16,28 +16,21 @@ const HTTP_OPTIONS = {
 @Injectable()
 export class BasicService {
 
-    private readonly BASE_URL: string = "http://localhost:3000/";
+    private readonly BASE_URL: string = "http://localhost:3000";
 
     public constructor(private _http: HttpClient) { }
 
     public basicGet(): Observable<Message> {
 
-        return this._http.get<Message>(this.BASE_URL).pipe(
+        return this._http.get<Message>(this.BASE_URL+"/api/index").pipe(
             catchError(this.handleError<Message>("basicGet")),
         );
     }
 
-    public basicPost(): Observable<Message> {
-
-        let tempMessage: Message = {
-            title: "test",
-            body: "testBody",
-        };
-        console.log("basicpost");
-        //return this._http.post<Message>(this.BASE_URL+"/api/index/service/validator/validate-name", tempMessage, HTTP_OPTIONS)
-        return this._http.post<Message>("http://localhost:3000/api/index/service/validator/validate-name", tempMessage, HTTP_OPTIONS)
+    public basicPost(message: Message): Observable<Message> {
+        return this._http.post<Message>(this.BASE_URL+"/api/index/service/validator/validate-name", message, HTTP_OPTIONS)
            .pipe(
-                catchError(this.handleError('basicPost', tempMessage))
+                catchError(this.handleError('basicPost', message))
             );
     }
 

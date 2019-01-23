@@ -24,11 +24,11 @@ export class LoginValidatorComponent {
   }
 
   public hasErrorOfType(errorType: string): boolean {
-    return this._loginValidatorService.usernameFormControl.hasError(errorType);
+    return this._loginValidatorService._usernameFormControl.hasError(errorType);
   }
 
   public hasFormControlErrors(): boolean {
-    return !(this._loginValidatorService.usernameFormControl.errors == null);
+    return !(this._loginValidatorService._usernameFormControl.errors == null);
   }
 
   public getUsernameMinLength(): number {
@@ -41,5 +41,9 @@ export class LoginValidatorComponent {
 
   public getUsernameRegex(): string {
     return this._loginValidatorService.REGEX_PATTERN;
+  }
+
+  public isNotValidName(): Boolean{
+      return this.hasFormControlErrors() && this._loginValidatorService.getNameIsUsed();
   }
 }
