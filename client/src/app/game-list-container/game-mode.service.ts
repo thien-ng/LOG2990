@@ -2,10 +2,8 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable, Subject } from "rxjs";
 
-const TAB_INDEX_ENUM: Readonly<{
-  "2D": number;
-  "3D": number;
-}> = Object.freeze({ "2D": 0, "3D": 1 });
+const INDEX_2D: number = 0;
+const INDEX_3D: number = 1;
 
 @Injectable({
   providedIn: "root",
@@ -27,12 +25,12 @@ export class GameModeService {
 
   public toggle(): void {
     switch (this._index) {
-      case TAB_INDEX_ENUM["2D"]:
-        this._index = TAB_INDEX_ENUM["3D"];
+      case INDEX_2D:
+        this._index = INDEX_3D;
         break;
 
-      case TAB_INDEX_ENUM["3D"]:
-        this._index = TAB_INDEX_ENUM["2D"];
+      case INDEX_3D:
+        this._index = INDEX_2D;
         break;
 
     // default for lint
