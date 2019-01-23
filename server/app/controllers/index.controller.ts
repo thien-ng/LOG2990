@@ -27,6 +27,7 @@ export class IndexController {
         
         router.post("/service/validator/validate-name", (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
+                console.log("received");
                 const newResponse = this.indexService.validateName(req.body);
                 res.json(newResponse);
             });
