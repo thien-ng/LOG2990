@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from "@angular/core";
-// import { CardModel } from "../../../../common/communication/cardModel";
 
 @Component({
   selector: "app-game-list-container",
