@@ -1,7 +1,3 @@
-<div class="list">
-  <!-- va être modifié, ce n'est que des placeholders pour voir l'effet -->
-    <app-card></app-card>
-    <app-card></app-card>
-    <app-card></app-card>
-    <app-card></app-card>
+<div class="list" *ngFor="let card of _cardList">
+  <app-card [_cardModel]="card"></app-card>
 </div>

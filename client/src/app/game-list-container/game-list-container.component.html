@@ -1,8 +1,8 @@
 <mat-tab-group mat-align-tabs="center" class="columnHeader">
     <mat-tab label="Mode 2D">
-        <app-game-list #2DMode></app-game-list>
+        <app-game-list #2DMode [_cardList]="_cardListContainer[_index2D]"></app-game-list>
     </mat-tab>
     <mat-tab label="Mode 3D">
-        <app-game-list #3DMode></app-game-list>
+        <app-game-list #3DMode [_cardList]="_cardListContainer[_index3D]"></app-game-list>
     </mat-tab>
 </mat-tab-group>
