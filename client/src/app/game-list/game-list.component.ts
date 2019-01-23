@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 // Va etre utilise dans le futur
-import { CardModel } from "../../../../common/communication/cardModel";
+// import { CardModel } from "../../../../common/communication/cardModel";
 import { CardComponent } from "../card/card.component";
 
 @Component({
@@ -9,7 +9,7 @@ import { CardComponent } from "../card/card.component";
   styleUrls: ["./game-list.component.css"],
 })
 export class GameListComponent implements OnInit {
-  @Input() public _cardList: CardModel[];
+  @Input() public _cardList: Object[];
 
   public cardComponent: CardComponent;
 

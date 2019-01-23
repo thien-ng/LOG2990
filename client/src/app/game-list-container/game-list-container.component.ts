@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { CardModel } from "../../../../common/communication/cardModel";
+// import { CardModel } from "../../../../common/communication/cardModel";
 
 @Component({
   selector: "app-game-list-container",
@@ -7,7 +7,7 @@ import { CardModel } from "../../../../common/communication/cardModel";
   styleUrls: ["./game-list-container.component.css"],
 })
 export class GameListContainerComponent implements OnInit {
-  @Input() public _cardListContainer: CardModel[][] = [[
+  @Input() public _cardListContainer: Object[][] = [[
     {
       gameID: 0, title: "Super chaise", subtitle: "petite chaise ",
       // tslint:disable-next-line:max-line-length
@@ -19,7 +19,7 @@ export class GameListContainerComponent implements OnInit {
       avatarImageUrl: "http://amyscakesandmore.com/wp-content/uploads/5395/tabouret-de-bar-moderne-qui-vient-en-plusieurs-couleurs-vives.jpg", gameImageUrl: "http://amyscakesandmore.com/wp-content/uploads/5395/tabouret-de-bar-moderne-qui-vient-en-plusieurs-couleurs-vives.jpg",
     },
   ],
-                                                       [
+                                                    [
     {
       gameID: 3, title: "Super chaise", subtitle: "petite chaise ",
       // tslint:disable-next-line:max-line-length
