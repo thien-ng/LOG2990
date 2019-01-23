@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { CardComponent } from "../card/card.component";
+import { Constants } from "../constants";
 import { CreateSimpleGameComponent } from "../create-simple-game/create-simple-game.component";
 import { GameListContainerComponent } from "../game-list-container/game-list-container.component";
 import { GameListComponent } from "../game-list/game-list.component";
@@ -8,8 +9,6 @@ import { HighscoreDisplayComponent } from "../highscore-display/highscore-displa
 import { MainNavComponent } from "../main-nav/main-nav.component";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { AdminComponent } from "./admin.component";
-
-const OBLIGATORY_CATCH: String = "obligatory catch";
 
 describe("AdminComponent", () => {
     let component: AdminComponent;
@@ -29,7 +28,7 @@ describe("AdminComponent", () => {
             imports: [TestingImportsModule],
         })
             .compileComponents()
-            .catch(() => OBLIGATORY_CATCH);
+            .catch(() => Constants.OBLIGATORY_CATCH);
     }));
 
     beforeEach(() => {
