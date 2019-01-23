@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { inject, injectable } from "inversify";
 
+import { Message } from "../../../common/communication/message";
 import { IndexService } from "../services/index.service";
 import Types from "../types";
 
@@ -14,7 +15,7 @@ export class IndexController {
 
         router.get("/", async (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
-                const time = await this.indexService.helloWorld();
+                const time: Message = await this.indexService.helloWorld();
                 res.json(time);
             });
 
