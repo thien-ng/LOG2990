@@ -6,7 +6,6 @@ import { RouterModule, RouterOutlet, Routes } from "@angular/router";
 
 import { BasicService } from "./basic.service";
 
-import { AdminComponent } from "./admin/admin.component";
 import { AppComponent } from "./app.component";
 import { CardComponent } from "./card/card.component";
 import { Constants } from "./constants";
@@ -29,7 +28,7 @@ const routes: Routes = [
       { path: Constants.ROOT_PATH, redirectTo: Constants.LOGIN_REDIRECT, pathMatch: Constants.PATH_MATCH_FULL },
       { path: Constants.LOGIN_PATH, component: LoginPageComponent },
       { path: Constants.GAMELIST_PATH, component: GameListContainerComponent },
-      { path: Constants.ADMIN_PATH, component: AdminComponent },
+      { path: Constants.ADMIN_PATH, component: GameListContainerComponent },
     ],
   },
 ];
@@ -45,7 +44,6 @@ const routes: Routes = [
     MainNavComponent,
     LoginPageComponent,
     GameListComponent,
-    AdminComponent,
     GameListContainerComponent,
     CreateSimpleGameComponent,
   ],
