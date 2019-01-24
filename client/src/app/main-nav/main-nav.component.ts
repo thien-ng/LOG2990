@@ -41,6 +41,9 @@ export class MainNavComponent implements OnInit, OnDestroy {
   public _isAdminMode: boolean;
   public _loginPath: string = Constants.LOGIN_REDIRECT;
   public _client: string = "client";
+  public _textAdmin: string = "Vue Administration";
+  public _textBouton2D: string = "Créer jeu simple";
+  public _textBouton3D: string = "Créer jeu 3D";
   private _stateSubscription: Subscription;
 
   public isHandset$: Observable<boolean> = this.breakpointObserver

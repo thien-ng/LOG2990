@@ -2,11 +2,11 @@
   <span class="logo">{{_client}}</span>
   <div id="header" [@slideInOut]="_isAdminMode ? 'open' : 'closed'">
     <div id="options">
-      <div id="text">Vue Administration</div>
+      <div id="text">{{_textAdmin}}</div>
       <mat-slide-toggle id="slider" [checked]="_isAdminMode" (change)="this.adminService.adminToggle()"></mat-slide-toggle>
       <div id="buttons">
-        <button class="button" [disabled]="!_isAdminMode" mat-raised-button (click)="openDialog()">Créer jeu simple</button>
-        <button class="button" [disabled]="!_isAdminMode" mat-raised-button (click)="openDialog()">Créer jeu 3D</button>
+        <button class="button" [disabled]="!_isAdminMode" mat-raised-button (click)="openDialog()">_textBouton2D</button>
+        <button class="button" [disabled]="!_isAdminMode" mat-raised-button (click)="openDialog()">_textBouton3D</button>
       </div>
     </div>
   </div>
