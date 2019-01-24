@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { TestingImportsModule } from "../../testing-imports/testing-imports.module";
 import { LoginValidatorComponent } from "./login-validator.component";
+import { RouterTestingModule } from "@angular/router/testing";
 
 describe("LoginValidatorComponent", () => {
   let component: LoginValidatorComponent;
@@ -13,6 +14,7 @@ describe("LoginValidatorComponent", () => {
        ],
       imports: [
         TestingImportsModule,
+        RouterTestingModule,
       ],
     })
     .compileComponents().catch();

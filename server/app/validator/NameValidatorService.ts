@@ -22,19 +22,17 @@ export class NameValidatorService{
     }
 
     public leaveBrowser(nameRequest: String): Boolean {
-
+        console.log("enter leave browser");
         if(this.isInArray(nameRequest)){
             this._nameList = this._nameList.filter( (element) => element != nameRequest);
+            console.log(this._nameList);
             return !this.isInArray(nameRequest);
         }
-        else {
-            return false;
-        }
+        console.log(this._nameList);
+        return false;
     }
 
     public isUnique(nameRequest: String): Boolean { 
-        //check if tsconfig works
-    //     return !this._nameList.include(nameRequest);
         let isUniqueElement: Boolean = true;
         this._nameList.forEach( (element) => {
             if(element === nameRequest){

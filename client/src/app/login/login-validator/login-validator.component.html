@@ -19,10 +19,6 @@
 </form>
 <br>
 <br>
-<!-- <button mat-raised-button id="submit-button"  (click)="addUsername()"
-  [disabled]="isTaken()" routerLink="/gamelist">
-  <span>{{_textBUTTONSUBMIT}}</span>
-</button> -->
 <button mat-raised-button id="submit-button"  (click)="addUsername()"
   [disabled]="hasFormControlErrors()">
   <span>{{_textBUTTONSUBMIT}}</span>

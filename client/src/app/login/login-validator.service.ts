@@ -30,14 +30,17 @@ export class LoginValidatorService {
     Validators.maxLength(this.MAX_LENGTH),
   ]);
 
+  // private _username: String = "";
+
   constructor(private _basicService: BasicService, private _router: Router){
     // default constructor
   }
-  // constructor(private _basicService: BasicService){
-  //   // default constructor
-  // }
+
+  private _username: string = "";
 
   public addUsername(): void {
+    this._username = this._usernameFormControl.value;
+
     let messageServer: Message ={
       title:"test",
       body: this._usernameFormControl.value,
@@ -57,4 +60,9 @@ export class LoginValidatorService {
         });
     }
   }
+
+  public getUsername(): String {
+    return this._username;
+  }
+
 }
