@@ -9,7 +9,6 @@ import { map } from "rxjs/operators";
 import { AdminToggleService } from "../admin-toggle.service";
 import { Constants } from "../constants";
 import { CreateSimpleGameComponent } from "../create-simple-game/create-simple-game.component";
-import { NavButton } from "./nav-button.interface";
 
 @Component({
   selector: "app-main-nav",
@@ -19,7 +18,7 @@ import { NavButton } from "./nav-button.interface";
     trigger("slideInOut", [
       state("open", style({})),
       state("closed", style({
-        transform: "translateX(60%)",
+        transform: "translateX(15em)",
       })),
       transition("open => closed", [
         animate(Constants.ANIMATION_TIME),
@@ -42,12 +41,10 @@ export class MainNavComponent implements OnInit, OnDestroy {
   public _isAdminMode: boolean;
   public _loginPath: string = Constants.LOGIN_REDIRECT;
   public _client: string = "client";
+  public _textAdmin: string = "Vue Administration";
+  public _textBouton2D: string = "Créer jeu simple";
+  public _textBouton3D: string = "Créer jeu 3D";
   private _stateSubscription: Subscription;
-
-  public routes: NavButton[] = [
-    { linkName: "Liste des jeux", url: "/gamelist" },
-    { linkName: "Administration", url: "/admin" },
-  ];
 
   public isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)

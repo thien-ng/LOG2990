@@ -2,49 +2,54 @@
   padding: 10px;
 }
 
-.button-container {
-  float: right;
-  height: 100%;
-  width: 537px;
-  overflow: hidden;
-}
-
 .mat-toolbar.mat-primary {
   height: 7%;
   position: sticky;
   top: 0;
   z-index: 1;
   padding: 10px;
-}
-
-.animation-container {
-  height: 100%;
-  width: 100%;
   overflow: hidden;
 }
 
-.slider {
-  float: right;
-  height: 100%;
-  margin-right: 15px;
-}
-
 .button {
-  float: right;
-  font-size: large;
-  margin-right: 10px;
-  margin-top: 8px;
+  margin-left: 20px;
 }
 
 .button:hover {
   background: #b2ff59;
 }
-
-.text, .slider {
-  font-size: large;
-  padding-top: 10px;
-}
-
 .content {
   height: 93%;
+}
+
+#header {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#options {
+  display: block;
+  width: 520px;
+  float: right;
+  clear: both;
+  overflow: hidden;
+  padding-top: 5px;
+  margin-right: 20px;
+}
+
+#text {
+  display: inline;
+  padding-right: 10px;
+}
+
+#slider {
+  padding-left: 10px;
+}
+
+#buttons {
+  float: right;
+  white-space: nowrap;
+  transition-property: width;
+  transition-duration: 0.5s;
 }

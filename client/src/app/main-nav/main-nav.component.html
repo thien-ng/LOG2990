@@ -1,13 +1,13 @@
 <mat-toolbar *ngIf="this.router.url != _loginPath" color="primary">
   <span class="logo">{{_client}}</span>
-  <div class="animation-container">
-    <div class="button-container" [@slideInOut]="_isAdminMode ? 'open' : 'closed'">
-      <div><button class="button" [disabled]="!_isAdminMode" mat-raised-button (click)="openDialog()">Créer jeu simple</button></div>
-      <div><button class="button" [disabled]="!_isAdminMode" mat-raised-button (click)="openDialog()">Créer jeu 3D</button></div>
-      <div class="slider">
-        <mat-slide-toggle [checked]="_isAdminMode" (change)="this.adminService.adminToggle()"></mat-slide-toggle>
+  <div id="header" [@slideInOut]="_isAdminMode ? 'open' : 'closed'">
+    <div id="options">
+      <div id="text">{{_textAdmin}}</div>
+      <mat-slide-toggle id="slider" [checked]="_isAdminMode" (change)="this.adminService.adminToggle()"></mat-slide-toggle>
+      <div id="buttons">
+        <button class="button" [disabled]="!_isAdminMode" mat-raised-button (click)="openDialog()">_textBouton2D</button>
+        <button class="button" [disabled]="!_isAdminMode" mat-raised-button (click)="openDialog()">_textBouton3D</button>
       </div>
-      <div class="text">Vue Administration</div>
     </div>
   </div>
 </mat-toolbar>
