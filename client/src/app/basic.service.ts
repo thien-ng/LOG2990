@@ -27,8 +27,11 @@ export class BasicService {
         );
     }
 
-    public basicPost(message: Message): Observable<Message> {
-        return this._http.post<Message>(this.BASE_URL+"/api/index/service/validator/validate-name", message, HTTP_OPTIONS)
+    public basicPost(message: Message, extension: String): Observable<Message> {
+        return this._http.post<Message>(
+            this.BASE_URL+"/api/index/" + extension,
+            message,
+            HTTP_OPTIONS)
            .pipe(
                 catchError(this.handleError('basicPost', message))
             );

@@ -40,21 +40,17 @@ export class IndexService {
 
     public validateName(message: Message): Message{
         const result = this._nameValidatorService.validateName(message);
-        const stringifyResult = result.toString();
-        const newMessage: Message  = {
+        return {
             title: "validateNameResponse",
-            body: stringifyResult,
+            body: result.toString(),
         };
-        return newMessage;
     }
 
     public leaveBrowser(message: Message): Message{
         const result = this._nameValidatorService.leaveBrowser(message.body);
-        const stringifyResult = result.toString();
-        const newMessage: Message  = {
+        return {
             title: "validateLeaveBrowser",
-            body: stringifyResult,
+            body: result.toString(),
         };
-        return newMessage;
     }
 }

@@ -43,7 +43,4 @@ export class LoginValidatorComponent {
     return this._loginValidatorService.REGEX_PATTERN;
   }
 
-  public isNotValidName(): Boolean{
-      return this.hasFormControlErrors() && this._loginValidatorService.getNameIsUsed();
-  }
 }

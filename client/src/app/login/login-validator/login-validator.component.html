@@ -1,6 +1,7 @@
 <form class="login-form">
   <mat-form-field class="login-input">
-    <input #newUsername matInput (keyup.enter)="addUsername()"
+    <!-- <input #newUsername matInput (keyup.enter)="addUsername()" -->
+    <input #newUsername matInput
         placeholder="{{_textHINTUSERNAME}}"
         [formControl]="_loginValidatorService._usernameFormControl"
         [errorStateMatcher]="_loginValidatorService._matcher">
@@ -18,7 +19,11 @@
 </form>
 <br>
 <br>
+<!-- <button mat-raised-button id="submit-button"  (click)="addUsername()"
+  [disabled]="isTaken()" routerLink="/gamelist">
+  <span>{{_textBUTTONSUBMIT}}</span>
+</button> -->
 <button mat-raised-button id="submit-button"  (click)="addUsername()"
-  [disabled]="isNotValidName()" routerLink="/gamelist">
+  [disabled]="hasFormControlErrors()">
   <span>{{_textBUTTONSUBMIT}}</span>
 </button>

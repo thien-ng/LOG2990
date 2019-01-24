@@ -14,6 +14,7 @@ export class NameValidatorService{
 
         if(this.isUnique(nameRequest.body)){
             this._nameList.push(nameRequest.body);
+            console.log(this._nameList);
             return true;
         }
         return false;
@@ -30,7 +31,7 @@ export class NameValidatorService{
         }
     }
 
-    private isUnique(nameRequest: String): Boolean { 
+    public isUnique(nameRequest: String): Boolean { 
         //check if tsconfig works
     //     return !this._nameList.include(nameRequest);
         let isUniqueElement: Boolean = true;

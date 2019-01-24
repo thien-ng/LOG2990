@@ -3,6 +3,7 @@ import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/form
 import { ErrorStateMatcher } from "@angular/material";
 import { BasicService } from "../basic.service";
 import { Message } from "../../../../common/communication/message";
+import { Router } from "@angular/router";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   public isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -33,9 +34,8 @@ export class LoginValidatorService {
     title: "",
     body: "",
   };
-  private _nameIsUsed: Boolean = false;
 
-  constructor(private _basicService: BasicService){
+  constructor(private _basicService: BasicService, private _router: Router){
     // default constructor
   }
 
@@ -45,20 +45,22 @@ export class LoginValidatorService {
       body: this._usernameFormControl.value,
     };
     if (this._usernameFormControl.errors == null){
-        this._basicService.basicPost(messageServer).subscribe((message) => {
+        this._basicService.basicPost(
+          messageServer,
+          "service/validator/validate-name"
+          ).subscribe((message) => {
+
           this._messageTitle.title = message.title;
           this._messageTitle.body = message.body;
         });
     }
-    this._nameIsUsed = (this._messageTitle.body == "false")? true : false;
-    if(this._messageTitle.body == "false"){
-      
+    if(this._messageTitle.body == "true"){
+      this._router.navigate(["gamelist"]);
+    
+    }
+    else{
       alert("name already exist");
     }
-  }
-
-  public getNameIsUsed(): Boolean{
-    return this._nameIsUsed;
   }
 
 }
