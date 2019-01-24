@@ -39,6 +39,7 @@ export class IndexService {
     }
 
     public validateName(message: Message): Message{
+        console.log("validate");
         const result = this._nameValidatorService.validateName(message);
         return {
             title: "validateNameResponse",

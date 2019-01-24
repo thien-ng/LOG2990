@@ -30,14 +30,12 @@ export class LoginValidatorService {
     Validators.maxLength(this.MAX_LENGTH),
   ]);
 
-  private _messageTitle: Message = {
-    title: "",
-    body: "",
-  };
-
   constructor(private _basicService: BasicService, private _router: Router){
     // default constructor
   }
+  // constructor(private _basicService: BasicService){
+  //   // default constructor
+  // }
 
   public addUsername(): void {
     let messageServer: Message ={
@@ -49,18 +47,14 @@ export class LoginValidatorService {
           messageServer,
           "service/validator/validate-name"
           ).subscribe((message) => {
-
-          this._messageTitle.title = message.title;
-          this._messageTitle.body = message.body;
+          if(message.body.toString() == "true"){
+            this._router.navigate(["gamelist"]);
+          }
+          else{
+            //ajouter de quoi qui va faire un pop up
+            alert("name already exist");
+          }
         });
     }
-    if(this._messageTitle.body == "true"){
-      this._router.navigate(["gamelist"]);
-    
-    }
-    else{
-      alert("name already exist");
-    }
   }
-
 }
