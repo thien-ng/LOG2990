@@ -6,11 +6,11 @@ import { catchError } from "rxjs/operators";
 
 import { Message } from "../../../common/communication/message";
 
-const HTTP_OPTIONS = {
+const HTTP_OPTIONS: {headers: HttpHeaders} = {
   headers: new HttpHeaders({
-    'Content-Type':  'application/json',
-    'Authorization': 'my-auth-token'
-  })
+    "Content-Type":  "application/json",
+    "Authorization": "my-auth-token",
+  }),
 };
 
 @Injectable()
@@ -22,18 +22,18 @@ export class BasicService {
 
     public basicGet(): Observable<Message> {
 
-        return this._http.get<Message>(this.BASE_URL+"/api/index").pipe(
+        return this._http.get<Message>(this.BASE_URL + "/api/index").pipe(
             catchError(this.handleError<Message>("basicGet")),
         );
     }
 
     public basicPost(message: Message, extension: String): Observable<Message> {
         return this._http.post<Message>(
-            this.BASE_URL+"/api/index/" + extension,
+            this.BASE_URL + "/api/index/" + extension,
             message,
             HTTP_OPTIONS)
            .pipe(
-                catchError(this.handleError('basicPost', message))
+                catchError(this.handleError("basicPost", message)),
             );
     }
 

@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
-import { LoginValidatorService } from "../login-validator.service";
 import { Constants } from "../../constants";
+import { LoginValidatorService } from "../login-validator.service";
 
 @Component({
   selector: "app-login-validator",

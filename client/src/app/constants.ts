@@ -12,7 +12,7 @@ export class Constants {
   public static readonly OBLIGATORY_CATCH: String = "obligatory catch";
   public static readonly ANIMATION_TIME: number = 300; // ms
 
-  //Constant for login-validator.service.ts
+  // Constant for login-validator.service.ts
   public static readonly MIN_LENGTH: number = 4;
   public static readonly MAX_LENGTH: number = 15;
   public static readonly REGEX_PATTERN: string = "^[a-zA-Z0-9]+$";

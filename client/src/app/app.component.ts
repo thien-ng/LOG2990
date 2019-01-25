@@ -7,7 +7,7 @@ import { BasicService } from "./basic.service";
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
     public constructor(private _basicService: BasicService) { }
 
     public readonly title: string = "LOG2990";
