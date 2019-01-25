@@ -1,6 +1,7 @@
 <form class="login-form">
   <mat-form-field class="login-input">
-    <input #newUsername matInput (keyup.enter)="addUsername()"
+    <input #newUsername matInput autocomplete="off"
+        (keyup.enter)="addUsername()"
         placeholder="{{_textHINTUSERNAME}}"
         [formControl]="_loginValidatorService._usernameFormControl"
         [errorStateMatcher]="_loginValidatorService._matcher">
