@@ -4,18 +4,20 @@
 </div>
 <form class="form" #signupForm="ngForm" (ngSubmit)="submit(signupForm)">
   <mat-form-field class="input-width">
-    <input name="name" #input matInput [maxlength]="_maxlength" placeholder="Nom du jeu" ngModel>
+    <input name="name" #input matInput
+    [formControl]="_loginValidatorService.usernameFormControl"
+    placeholder="Nom du jeu">
     <mat-hint align="end">{{input.value?.length || 0}}/15</mat-hint>
   </mat-form-field>
   <div class="mat-subheading-2">
     {{_originalImage}}:
-    <input name="pic-1" mat-icon-button type="file" accept="image/bmp" ngModel>
+    <input name="pic-1" mat-icon-button type="file" accept="image/bmp" (change)="onFileSelected($event.target.files[0], _originalIndex)">
   </div>
   <div class="mat-subheading-2">
     {{_modifiedImage}}
-    <input name="pic-2" mat-icon-button type="file" accept="image/bmp" ngModel>
+    <input name="pic-2" mat-icon-button type="file" accept="image/bmp" (change)="onFileSelected($event.target.files[0], _modifiedIndex)">
   </div>
-  <button class="button-padding" mat-raised-button type="submit">{{_submit}}</button>
+  <button class="button-padding" [disabled]="hasFormControlErrors()" mat-raised-button type="submit">{{_submit}}</button>
   <button class="button-padding" mat-raised-button (click)="closeDialog()">{{_cancel}}</button>
 </form>
 

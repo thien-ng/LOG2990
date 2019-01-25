@@ -6,6 +6,10 @@ import { HighscoreDisplayComponent } from "../highscore-display/highscore-displa
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { CardComponent } from "./card.component";
 
+const TWO: number = 2;
+const FOUR: number = 4;
+const FIVE: number = 5;
+
 describe("CardComponent", () => {
   let component: CardComponent;
   let fixture: ComponentFixture<CardComponent>;
@@ -28,6 +32,11 @@ describe("CardComponent", () => {
       subtitle: "string",
       avatarImageUrl: "string",
       gameImageUrl: "string",
+      is2D: true,
+      highscore: {
+        timesSingle: [TWO, FOUR, FIVE],
+        timesMulti: [TWO, FOUR, FIVE],
+      },
     };
     component._cardModel = cardModel;
     fixture.detectChanges();
