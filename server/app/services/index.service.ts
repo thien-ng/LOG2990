@@ -2,13 +2,13 @@
 import Axios, { AxiosResponse } from "axios";
 import { injectable } from "inversify";
 import "reflect-metadata";
-import { NameValidatorService } from "../validator/NameValidatorService";
+// import { NameValidatorService } from "../validator/NameValidatorService";
 import { Message } from "../../../common/communication/message";
 
 @injectable()
 export class IndexService {
 
-    private _nameValidatorService : NameValidatorService = new NameValidatorService();
+    // private _nameValidatorService : NameValidatorService = new NameValidatorService();
 
     public about(): Message {
         return {
@@ -43,10 +43,10 @@ export class IndexService {
     }
 
     public leaveBrowser(message: Message): Message{
-        const result = this._nameValidatorService.leaveBrowser(message.body);
+        // const result = this._nameValidatorService.leaveBrowser(message.body);
         return {
             title: "validateLeaveBrowser",
-            body: result.toString(),
+            body: "",
         };
     }
 }

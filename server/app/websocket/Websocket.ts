@@ -1,11 +1,12 @@
 
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
+import Types from "./../types";
 import { NameValidatorService } from "../validator/NameValidatorService";
 
 @injectable()
 export class WebsocketManager {
 
-    constructor(private _nameValidatorService: NameValidatorService){
+    constructor(@inject(Types.NameValidatorService) private _nameValidatorService: NameValidatorService){
         //defualt constructor
     }
 
@@ -17,21 +18,16 @@ export class WebsocketManager {
 
             console.log("is Connected");
             socket.on("onLogin", (data: any) => {
-                const result = this._nameValidatorService.validateName(name);
+                const result = this._nameValidatorService.validateName(data);
                 if(result){
                     name = data;
                 }
-                else{
-                    
-                }
-
-                console.log(data);
-                console.log("username: " + name);
                 socket.emit("loginReponse", result.toString() );
             });
             
             socket.on("disconnect", (data: any) => {
-                console.log(data + "DISCONNECTED")
+                this._nameValidatorService.leaveBrowser(name);
+
                 console.log("byebye"+name);
             });
             
