@@ -2,7 +2,6 @@
 import Axios, { AxiosResponse } from "axios";
 import { injectable } from "inversify";
 import "reflect-metadata";
-// import { NameValidatorService } from "../validator/NameValidatorService";
 import { Message } from "../../../common/communication/message";
 
 @injectable()
@@ -32,21 +31,5 @@ export class IndexService {
             };
         });
     }
-
-    public validateName(message: Message): Message{
-        console.log("validate");
-        const result = "" ;//this._nameValidatorService.validateName(message);
-        return {
-            title: "validateNameResponse",
-            body: result.toString(),
-        };
-    }
-
-    public leaveBrowser(message: Message): Message{
-        // const result = this._nameValidatorService.leaveBrowser(message.body);
-        return {
-            title: "validateLeaveBrowser",
-            body: "",
-        };
-    }
+    
 }

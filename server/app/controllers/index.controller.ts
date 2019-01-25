@@ -4,7 +4,6 @@ import { inject, injectable } from "inversify";
 import { Message } from "../../../common/communication/message";
 import { IndexService } from "../services/index.service";
 import Types from "../types";
-// import { Message } from "../../../common/communication/message";
 
 @injectable()
 export class IndexController {
@@ -23,17 +22,6 @@ export class IndexController {
         router.get("/about", (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
                 res.json(this.indexService.about());
-            });
-        
-        router.post("/service/validator/validate-name", (req: Request, res: Response, next: NextFunction) => {
-                // Send the request to the service and send the response
-                const newResponse = this.indexService.validateName(req.body);
-                res.json(newResponse);
-            });
-        
-        router.post("/service/validator/unsubscribe", (req: Request, res: Response, next: NextFunction) => {
-                const newResponse = this.indexService.leaveBrowser(req.body);
-                res.json(newResponse);
             });
 
         return router;

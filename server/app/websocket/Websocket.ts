@@ -13,11 +13,9 @@ export class WebsocketManager {
     public createWebsocket(io: any):void {
         io = require('socket.io')();
         io.on('connection', (socket: any) => { 
-            
+            console.log("is connected");
             let name: String;
-
-            console.log("is Connected");
-            socket.on("onLogin", (data: any) => {
+            socket.on("onLogin", (data: String) => {
                 const result = this._nameValidatorService.validateName(data);
                 if(result){
                     name = data;
@@ -25,10 +23,8 @@ export class WebsocketManager {
                 socket.emit("loginReponse", result.toString() );
             });
             
-            socket.on("disconnect", (data: any) => {
+            socket.on("disconnect", (data: String) => {
                 this._nameValidatorService.leaveBrowser(name);
-
-                console.log("byebye"+name);
             });
             
          });

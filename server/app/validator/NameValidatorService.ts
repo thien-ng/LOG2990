@@ -3,8 +3,6 @@ import { injectable } from "inversify";
 @injectable()
 export class NameValidatorService{
 
-    // private  NOT_FOUND_VALUE = -1;
-
     private _nameList: String[]
 
     constructor(){
@@ -38,9 +36,5 @@ export class NameValidatorService{
         });
         return isUniqueElement;
     }
-
-    // private isInArray(nameRequest: String): Boolean{
-    //     return this._nameList.indexOf(nameRequest) > this.NOT_FOUND_VALUE;
-    // }
 
 }
