@@ -11,13 +11,19 @@ export class AssetController {
     public get router(): Router {
         const router: Router = Router();
 
-        router.get("/images/:filename", (req: Request, res: Response, next: NextFunction) => {
+        // tslint:disable-next-line:no-any
+        const path: any = require("path");
+        const pathToAssets: string = "../../../../app/asset";
+
+        router.get("/image/:filename", (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
-                const file: string = req.params.filename;
-                // tslint:disable-next-line:no-any
-                const path: any = require("path");
-                const pathRerouting: string = "../../../../app/asset/images/";
-                const url: string = path.join(__dirname, pathRerouting + file);
+                const url: string = path.join(__dirname, pathToAssets + "/image/" + req.params.filename);
+                res.sendFile(url);
+            });
+
+        router.get("/icon/:filename", (req: Request, res: Response, next: NextFunction) => {
+                // Send the request to the service and send the response
+                const url: string = path.join(__dirname, pathToAssets + "/icon/" + req.params.filename);
                 res.sendFile(url);
             });
 

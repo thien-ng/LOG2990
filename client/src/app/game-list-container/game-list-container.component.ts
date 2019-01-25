@@ -18,40 +18,38 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
   public _tabIndex: number = 0;
   private _stateSubscription: Subscription;
 
+  public SERVER_ASSET_URL: string = "http://localhost:3000/api/asset";
   @Input() public _cardListContainer: Object[][] = [
     [
     {
       gameID: 0,
-      title: "Super chaise",
-      subtitle: "petite chaise ",
-      avatarImageUrl: "https://www.cc-autunois.com/wp-content/uploads/2018/11/chaise-reglable-hauteur-elegant-chaise"
-      + "-bois-hauteur-reglable-sur-patins-avec-repose-de-chaise-reglable-hauteur.jpg",
-      gameImageUrl: "https://www.cc-autunois.com/wp-content/uploads/2018/11/chaise-reglable-hauteur-elegant-chaise"
-      + "-bois-hauteur-reglable-sur-patins-avec-repose-de-chaise-reglable-hauteur.jpg",
+      title: "Montagne",
+      subtitle: "Nature",
+      avatarImageUrl:  this.SERVER_ASSET_URL + "/icon/fire_1.png",
+      gameImageUrl: this.SERVER_ASSET_URL + "/image/moutain.jpg",
     },
     {
       gameID: 1,
-      title: "Super tabouret",
-      subtitle: "petit tabouret ",
-      avatarImageUrl: "http://amyscakesandmore.com/wp-content/uploads/5395/tabouret"
-      + "-de-bar-moderne-qui-vient-en-plusieurs-couleurs-vives.jpg",
-      gameImageUrl: "http://amyscakesandmore.com/wp-content/uploads/5395/tabouret-de-bar-moderne-qui-vient-en-plusieurs-couleurs-vives.jpg",
+      title: "Shiba Inu",
+      subtitle: "Animaux",
+      avatarImageUrl: this.SERVER_ASSET_URL + "/icon/fire_2.png",
+      gameImageUrl: this.SERVER_ASSET_URL + "/image/shiba.jpg",
     },
   ],
     [
     {
       gameID: 3,
-      title: "Super chaise",
-      subtitle: "petite chaise ",
-      avatarImageUrl: "http://lebaneezgirl11.l.e.pic.centerblog.net/sch1p9t8.jpg",
-      gameImageUrl: "http://lebaneezgirl11.l.e.pic.centerblog.net/sch1p9t8.jpg",
+      title: "École de la mort",
+      subtitle: "Torture",
+      avatarImageUrl:  this.SERVER_ASSET_URL + "/icon/fire_2.png",
+      gameImageUrl: this.SERVER_ASSET_URL + "/image/poly.jpg",
     },
     {
       gameID: 4,
-      title: "Super tabouret",
-      subtitle: "petit tabouret ",
-      avatarImageUrl: "http://www.humour-canin.com/images/canin/wallpapers/real_3015_husky.jpg",
-      gameImageUrl: "http://www.humour-canin.com/images/canin/wallpapers/real_3015_husky.jpg",
+      title: "Citrouilles",
+      subtitle: "Nature",
+      avatarImageUrl:  this.SERVER_ASSET_URL + "/icon/fire_3.png",
+      gameImageUrl: this.SERVER_ASSET_URL + "/image/pumpkins.jpg",
     },
   ]];
 
