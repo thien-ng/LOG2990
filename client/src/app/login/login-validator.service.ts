@@ -37,13 +37,16 @@ export class LoginValidatorService {
     this._socket = io(Constants.WEBSOCKET_URL.toString());
     if (this._usernameFormControl.errors == null){
 
-      this._socket.emit(Constants.LOGIN_REDIRECT, this._usernameFormControl.value);
+      this._socket.emit(Constants.LOGIN_REQUEST, this._usernameFormControl.value);
       this._socket.on(Constants.LOGIN_RESPONSE, (data: String) =>{
 
         if(data == Constants.NAME_VALID_VALUE){
           this._router.navigate([Constants.ROUTER_LOGIN]);
         } else {
-          this._snackbar.open("Nom déjà utilisé!", "Attention", {duration: 5000});
+          this._snackbar.open(
+            Constants.SNACKBAR_USED_NAME,
+            Constants.SNACKBAR_ATTENTION,
+            {duration: Constants.SNACKBAR_DURATION});
         }
       });
     }

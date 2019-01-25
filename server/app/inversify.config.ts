@@ -1,5 +1,6 @@
 import { Container } from "inversify";
 import { Application } from "./app";
+import { AssetController } from "./controllers/asset.controller";
 import { DateController } from "./controllers/date.controller";
 import { IndexController } from "./controllers/index.controller";
 import { Server } from "./server";
@@ -15,6 +16,7 @@ const container: Container = new Container();
 container.bind(Types.Server).to(Server);
 container.bind(Types.Application).to(Application);
 container.bind(Types.IndexController).to(IndexController);
+container.bind(Types.AssetController).to(AssetController);
 container.bind(Types.IndexService).to(IndexService);
 
 container.bind(Types.DateController).to(DateController);

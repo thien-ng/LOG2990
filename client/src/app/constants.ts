@@ -21,4 +21,7 @@ export class Constants {
   public static readonly WEBSOCKET_URL: String = "http://localhost:3333";
   public static readonly NAME_VALID_VALUE: String = "true";
   public static readonly ROUTER_LOGIN: String = "gamelist";
+  public static readonly SNACKBAR_USED_NAME: string = "Nom déjà utilisé!";
+  public static readonly SNACKBAR_ATTENTION: string = "Attention";
+  public static readonly SNACKBAR_DURATION: number = 5000;
 }

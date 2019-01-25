@@ -48,6 +48,7 @@
     "inversify": "^4.13.0",
     "morgan": "^1.9.1",
     "nodemon": "^1.18.9",
+    "path": "^0.12.7",
     "reflect-metadata": "^0.1.10",
     "rxjs-compat": "^6.3.3",
     "serve-favicon": "~2.5.0",
