@@ -40,9 +40,8 @@ export class LoginValidatorService {
 
       this._socket.emit(Constants.LOGIN_REQUEST, this._usernameFormControl.value);
       this._socket.on(Constants.LOGIN_RESPONSE, (data: String) => {
-
         if (data === Constants.NAME_VALID_VALUE) {
-          this._router.navigate([Constants.ROUTER_LOGIN]);
+          this._router.navigate([Constants.ROUTER_LOGIN]).catch(Constants.OBLIGATORY_CATCH);
         } else {
           this._snackbar.open(
             Constants.SNACKBAR_USED_NAME,
