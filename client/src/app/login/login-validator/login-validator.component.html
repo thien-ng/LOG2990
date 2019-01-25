@@ -1,7 +1,6 @@
 <form class="login-form">
   <mat-form-field class="login-input">
-    <!-- <input #newUsername matInput (keyup.enter)="addUsername()" -->
-    <input #newUsername matInput
+    <input #newUsername matInput (keyup.enter)="addUsername()"
         placeholder="{{_textHINTUSERNAME}}"
         [formControl]="_loginValidatorService._usernameFormControl"
         [errorStateMatcher]="_loginValidatorService._matcher">
@@ -23,3 +22,4 @@
   [disabled]="hasFormControlErrors()">
   <span>{{_textBUTTONSUBMIT}}</span>
 </button>
+      

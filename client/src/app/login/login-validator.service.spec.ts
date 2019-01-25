@@ -13,4 +13,19 @@ describe("LoginValidatorService", () => {
     const service: LoginValidatorService = TestBed.get(LoginValidatorService);
     expect(service).toBeTruthy();
   });
+
+  it("should check if a username is unique", () => {
+    const service: LoginValidatorService = TestBed.get(LoginValidatorService);
+    service._usernames.push("name1");
+    service._usernames.push("name2");
+    expect(service.checkIfUnique("name3")).toBeTruthy();
+  });
+
+  it("should check if a username already exists", () => {
+    const service: LoginValidatorService = TestBed.get(LoginValidatorService);
+    service._usernames.push("name1");
+    service._usernames.push("name2");
+    expect(service.checkIfUnique("name1")).toBeFalsy();
+  });
+
 });

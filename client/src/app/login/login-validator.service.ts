@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import { ErrorStateMatcher } from "@angular/material";
 import { Router } from "@angular/router";
+import * as io from 'socket.io-client';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   public isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -13,6 +14,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 @Injectable({
   providedIn: "root",
 })
+
 export class LoginValidatorService {
 
   public MIN_LENGTH: number = 4;
@@ -35,16 +37,12 @@ export class LoginValidatorService {
     // default constructor
   }
   
-
   public addUsername(): void {
-    const io = require("socket.io");
     this._socket = io('http://localhost:3333');
-
     if (this._usernameFormControl.errors == null){
-
+      console.log("penis");
       this._socket.emit(this.NAME_EVENT, this._usernameFormControl.value);
-      this._socket.on(this.NAME_EVENT, (data: String) =>{
-      
+      this._socket.on("loginReponse", (data: String) =>{
         if(data == "true"){
           this._router.navigate(["gamelist"]);
         }
