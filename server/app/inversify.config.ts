@@ -1,4 +1,5 @@
 import { Container } from "inversify";
+import "reflect-metadata";
 import { Application } from "./app";
 import { CardManagerController } from "./controllers/card-manager.controller";
 import { DateController } from "./controllers/date.controller";

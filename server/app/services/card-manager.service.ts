@@ -1,4 +1,4 @@
-// import { injectable } from "inversify";
+import { injectable } from "inversify";
 import { CardModel } from "../../../common/communication/cardModel";
 import { CardObject } from "../utilitaries/card-object";
 
@@ -7,7 +7,7 @@ const INDEX_3D: number = 1;
 const TWO: number = 2;
 const FOUR: number = 4;
 const SIX: number = 6;
-// @injectable()
+@injectable()
 export class CardManagerService {
     private _cards2D: CardObject[] = [new CardObject({
         gameID: 1,
