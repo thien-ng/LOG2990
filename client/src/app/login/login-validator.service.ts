@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import { ErrorStateMatcher } from "@angular/material";
-import { BasicService } from "../basic.service";
-import { Message } from "../../../../common/communication/message";
 import { Router } from "@angular/router";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -30,39 +28,30 @@ export class LoginValidatorService {
     Validators.maxLength(this.MAX_LENGTH),
   ]);
 
-  // private _username: String = "";
+  private _socket : any;
+  private NAME_EVENT = "onLogin";
 
-  constructor(private _basicService: BasicService, private _router: Router){
+  constructor(private _router: Router){
     // default constructor
   }
-
-  private _username: string = "";
+  
 
   public addUsername(): void {
-    this._username = this._usernameFormControl.value;
+    const io = require("socket.io");
+    this._socket = io('http://localhost:3333');
 
-    let messageServer: Message ={
-      title:"test",
-      body: this._usernameFormControl.value,
-    };
     if (this._usernameFormControl.errors == null){
-        this._basicService.basicPost(
-          messageServer,
-          "service/validator/validate-name"
-          ).subscribe((message) => {
-          if(message.body.toString() == "true"){
-            this._router.navigate(["gamelist"]);
-          }
-          else{
-            //ajouter de quoi qui va faire un pop up
-            alert("name already exist");
-          }
-        });
-    }
-  }
 
-  public getUsername(): String {
-    return this._username;
+      this._socket.emit(this.NAME_EVENT, this._usernameFormControl.value);
+      this._socket.on(this.NAME_EVENT, (data: String) =>{
+      
+        if(data == "true"){
+          this._router.navigate(["gamelist"]);
+        }
+        else
+          alert("already taken bitch");
+      });
+    }
   }
 
 }
