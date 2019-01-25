@@ -7,8 +7,6 @@ import { Message } from "../../../common/communication/message";
 @injectable()
 export class IndexService {
 
-    // private _nameValidatorService : NameValidatorService = new NameValidatorService();
-
     public about(): Message {
         return {
             title: "This is merely a test",

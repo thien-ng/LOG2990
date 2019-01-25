@@ -22,14 +22,14 @@ export class BasicService {
 
     public basicGet(): Observable<Message> {
 
-        return this._http.get<Message>(this.BASE_URL + "/api/index").pipe(
+        return this._http.get<Message>(this.BASE_URL).pipe(
             catchError(this.handleError<Message>("basicGet")),
         );
     }
 
     public basicPost(message: Message, extension: String): Observable<Message> {
         return this._http.post<Message>(
-            this.BASE_URL + "/api/index/" + extension,
+            this.BASE_URL + extension,
             message,
             HTTP_OPTIONS)
            .pipe(
