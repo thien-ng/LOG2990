@@ -12,13 +12,9 @@ const SIX: number = 6;
 // const SEVEN: number = 7;
 
 describe("CardObject tests", () => {
-    const hsM: Highscore = {
-        mode: Mode.Multiplayer,
-        times: [TWO, FOUR, SIX],
-    };
-    const hsS: Highscore = {
-        mode: Mode.Singleplayer,
-        times: [TWO, FOUR, SIX],
+    const hs: Highscore = {
+        timesSingle: [TWO, FOUR, SIX],
+        timesMulti: [TWO, FOUR, SIX],
     };
     const cm: CardModel = {
         gameID: 1,
@@ -26,11 +22,12 @@ describe("CardObject tests", () => {
         subtitle: "string",
         avatarImageUrl: "string",
         gameImageUrl: "string",
+        highscore: hs,
     };
-    const card: CardObject = new CardObject(hsS, hsM, cm);
+    const card: CardObject = new CardObject(cm);
 
     it("Should replace the second place to three", () => {
         card.updateHighscore(THREE, Mode.Singleplayer);
-        expect(card.highscoreSingle.times[ONE]).to.equal(THREE);
+        expect(card.highscoreSingle[ONE]).to.equal(THREE);
     });
 });
