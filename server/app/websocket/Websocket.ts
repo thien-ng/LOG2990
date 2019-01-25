@@ -36,5 +36,4 @@ export class WebsocketManager {
          });
         io.listen(this.PORT_NUMBER);
     }
-    
 }
