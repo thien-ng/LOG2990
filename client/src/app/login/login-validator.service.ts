@@ -35,7 +35,6 @@ export class LoginValidatorService {
     // default constructor
   }
   
-
   public addUsername(): void {
     const io = require("socket.io");
     this._socket = io('http://localhost:3333');
