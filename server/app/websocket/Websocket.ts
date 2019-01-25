@@ -19,7 +19,7 @@ export class WebsocketManager {
                 if(result){
                     name = data;
                 }
-                socket.emit("loginReponse", result.toString() );
+                socket.emit("onLoginReponse", result.toString() );
             });
             
             socket.on("disconnect", (data: String) => {

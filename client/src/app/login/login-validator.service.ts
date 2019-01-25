@@ -31,20 +31,25 @@ export class LoginValidatorService {
   ]);
 
   private _socket : any;
-  private NAME_EVENT = "onLogin";
+  private LOGIN_REQUEST = "onLogin";
+  private LOGIN_RESPONSE = "onLoginReponse";
+  private WEBSOCKET_URL = "http://localhost:3333";
+  private VALID_VALUE = "true";
+  private ROUTER_LOGIN = "gamelist";
 
   constructor(private _router: Router){
     // default constructor
   }
   
   public addUsername(): void {
-    this._socket = io('http://localhost:3333');
+    this._socket = io(this.WEBSOCKET_URL);
     if (this._usernameFormControl.errors == null){
-      console.log("penis");
-      this._socket.emit(this.NAME_EVENT, this._usernameFormControl.value);
-      this._socket.on("loginReponse", (data: String) =>{
-        if(data == "true"){
-          this._router.navigate(["gamelist"]);
+
+      this._socket.emit(this.LOGIN_REQUEST, this._usernameFormControl.value);
+      this._socket.on(this.LOGIN_RESPONSE, (data: String) =>{
+
+        if(data == this.VALID_VALUE){
+          this._router.navigate([this.ROUTER_LOGIN]);
         }
         else
           alert("already taken bitch");
