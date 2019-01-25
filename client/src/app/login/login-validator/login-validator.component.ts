@@ -19,8 +19,8 @@ export class LoginValidatorComponent {
 
   public constructor(private _loginValidatorService: LoginValidatorService) {}
 
-  public addUsername(username: string): boolean {
-    return this._loginValidatorService.addUsername(username);
+  public addUsername(username: string): void {
+    this._loginValidatorService.addUsername();
   }
 
   public hasErrorOfType(errorType: string): boolean {

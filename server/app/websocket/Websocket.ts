@@ -12,8 +12,7 @@ export class WebsocketManager {
 
     public createWebsocket(io: any):void {
         io = require('socket.io')();
-        io.on('connection', (socket: any) => { 
-            console.log("is connected");
+        io.on('connection', (socket: any) => {
             let name: String;
             socket.on("onLogin", (data: String) => {
                 const result = this._nameValidatorService.validateName(data);
