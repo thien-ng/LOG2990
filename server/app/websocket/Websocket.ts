@@ -1,13 +1,13 @@
 
 import { inject, injectable } from "inversify";
-import Types from "./../types";
 import { NameValidatorService } from "../validator/NameValidatorService";
+import Types from "./../types";
 
 @injectable()
 export class WebsocketManager {
 
-    constructor(@inject(Types.NameValidatorService) private _nameValidatorService: NameValidatorService){
-        //defualt constructor
+    public constructor(@inject(Types.NameValidatorService) private _nameValidatorService: NameValidatorService){
+        // defualt constructor
     }
 
     public createWebsocket(io: any):void {

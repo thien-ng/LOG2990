@@ -13,7 +13,8 @@ export class Server {
     private server: http.Server;
     private socketIO: WebsocketManager;
 
-    public constructor(@inject(Types.Application) private application: Application, @inject(Types.WebsocketManager) private websocket: WebsocketManager) { }
+    public constructor(@inject(Types.Application) private application: Application,
+                       @inject(Types.WebsocketManager) private websocket: WebsocketManager) { }
 
     public init(): void {
         this.application.app.set("port", this.appPort);
@@ -23,7 +24,7 @@ export class Server {
         this.websocket.createWebsocket(this.socketIO);
 
         this.server.listen(3000, "0.0.0.0");
-        //this.server.listen(this.appPort);
+        // this.server.listen(this.appPort);
         this.server.on("error", (error: NodeJS.ErrnoException) => this.onError(error));
         this.server.on("listening", () => this.onListening());
     }
