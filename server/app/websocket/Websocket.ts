@@ -6,35 +6,35 @@ import Types from "./../types";
 @injectable()
 export class WebsocketManager {
 
-    private SOCKET_IO = "socket.io";
-    private CONNECTION = "connection";
-    private LOGIN_EVENT = "onLogin";
-    private LOGIN_RESPONSE = "onLoginReponse";
-    private DISCONNECT_EVENT = "disconnect";
-    private PORT_NUMBER = 3333;
+    private SOCKET_IO: string = "socket.io";
+    private CONNECTION: String = "connection";
+    private LOGIN_EVENT: String = "onLogin";
+    private LOGIN_RESPONSE: String = "onLoginReponse";
+    private DISCONNECT_EVENT: String = "disconnect";
+    private PORT_NUMBER: number = 3333;
 
-    constructor(@inject(Types.NameValidatorService) private _nameValidatorService: NameValidatorService){
-        //defualt constructor
+    public constructor(@inject(Types.NameValidatorService) private _nameValidatorService: NameValidatorService) {
+        // defualt constructor
     }
 
-    public createWebsocket(io: any):void {
+    public createWebsocket(io: any): void {
         io = require(this.SOCKET_IO)();
         io.on(this.CONNECTION, (socket: any) => {
             let name: String;
             socket.on(this.LOGIN_EVENT, (data: String) => {
-                const result = this._nameValidatorService.validateName(data);
-                if(result){
+                const result: Boolean = this._nameValidatorService.validateName(data);
+                if (result) {
                     name = data;
                 }
                 socket.emit(this.LOGIN_RESPONSE, result.toString() );
             });
-            
+
             socket.on(this.DISCONNECT_EVENT, (data: String) => {
                 this._nameValidatorService.leaveBrowser(name);
             });
-            
+
          });
         io.listen(this.PORT_NUMBER);
     }
-
+    
 }

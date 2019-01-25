@@ -7,5 +7,5 @@ export default  {
         IndexService: Symbol("IndexService"),
         DateService: Symbol("DateService"),
         WebsocketManager: Symbol("WebsocketManager"),
-        NameValidatorService: Symbol("NameValidatorService")
+        NameValidatorService: Symbol("NameValidatorService"),
 };
