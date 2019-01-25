@@ -1,21 +1,21 @@
 // import { injectable } from "inversify";
 import { CardModel } from "../../../common/communication/cardModel";
-import { Highscore, Mode } from "../../../common/communication/highscore";
+import { Mode } from "../../../common/communication/highscore";
 
 // @injectable()
 export class CardObject {
-    private _highscoreSingle: Highscore;
-    private _highscoreMulti: Highscore;
     private _cardModel: CardModel;
 
-    public constructor(highscoreSingle: Highscore, highscoreMulti: Highscore, cardModel: CardModel) {
-        this._highscoreSingle = highscoreSingle;
-        this._highscoreSingle = highscoreMulti;
+    public constructor(cardModel: CardModel) {
         this._cardModel = cardModel;
     }
 
-    public get highscoreSingle(): Highscore {
-        return this._highscoreSingle;
+    public get highscoreSingle(): number[] {
+        return this._cardModel.highscore.timesSingle;
+    }
+
+    public get highscoreMulti(): number[] {
+        return this._cardModel.highscore.timesMulti;
     }
 
     public get cardModel(): CardModel {
@@ -25,22 +25,22 @@ export class CardObject {
     public updateHighscore(value: number, mode: Mode): void {
         switch (mode) {
             case Mode.Singleplayer:
-                this.checkScore(value, this._highscoreSingle);
+                this.checkScore(value, this._cardModel.highscore.timesSingle);
                 break;
             case Mode.Multiplayer:
-                this.checkScore(value, this._highscoreMulti);
+                this.checkScore(value, this._cardModel.highscore.timesMulti);
                 break;
             default:
                 break;
         }
     }
 
-    private checkScore(value: number, highscore: Highscore): void {
+    private checkScore(value: number, times: number[]): void {
         let hasBeenReplaced: Boolean = false;
-        highscore.times.forEach((element: number) => {
+        times.forEach((element: number) => {
             if (element > value && !hasBeenReplaced) {
-                highscore.times.splice(highscore.times.indexOf(element), 0, value);
-                highscore.times.pop();
+                times.splice(times.indexOf(element), 0, value);
+                times.pop();
                 hasBeenReplaced = true;
             }
         });
