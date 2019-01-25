@@ -1,3 +1,5 @@
+import "reflect-metadata";
+
 import { expect } from "chai";
 import { CardModel } from "../../../common/communication/cardModel";
 import { CardManagerService } from "./card-manager.service";

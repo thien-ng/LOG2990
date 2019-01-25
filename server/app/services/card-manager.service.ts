@@ -7,6 +7,7 @@ const INDEX_3D: number = 1;
 const TWO: number = 2;
 const FOUR: number = 4;
 const SIX: number = 6;
+
 @injectable()
 export class CardManagerService {
     private _cards2D: CardObject[] = [new CardObject({
