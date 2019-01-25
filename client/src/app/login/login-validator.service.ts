@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
-import { ErrorStateMatcher } from "@angular/material";
+import { ErrorStateMatcher, MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import * as io from 'socket.io-client';
 
@@ -20,7 +20,7 @@ export class LoginValidatorService {
   public MIN_LENGTH: number = 4;
   public MAX_LENGTH: number = 15;
   public REGEX_PATTERN: string = "^[a-zA-Z0-9]+$";
-  
+
   public _matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
 
   public _usernameFormControl: FormControl = new FormControl("", [
@@ -33,21 +33,20 @@ export class LoginValidatorService {
   private _socket : any;
   private NAME_EVENT = "onLogin";
 
-  constructor(private _router: Router){
+  constructor(private _router: Router, private _snackbar: MatSnackBar) {
     // default constructor
   }
-  
+
   public addUsername(): void {
-    this._socket = io('http://localhost:3333');
-    if (this._usernameFormControl.errors == null){
-      console.log("penis");
+    this._socket = io("http://localhost:3333");
+    if (this._usernameFormControl.errors == null) {
       this._socket.emit(this.NAME_EVENT, this._usernameFormControl.value);
       this._socket.on("loginReponse", (data: String) =>{
-        if(data == "true"){
+        if (data === "true") {
           this._router.navigate(["gamelist"]);
+        } else {
+          this._snackbar.open("Nom déjà utilisé!", "Attention", {duration: 5000});
         }
-        else
-          alert("already taken bitch");
       });
     }
   }
