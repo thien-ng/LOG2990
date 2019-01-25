@@ -22,6 +22,7 @@ describe("CardObject tests", () => {
         subtitle: "string",
         avatarImageUrl: "string",
         gameImageUrl: "string",
+        is2D: true,
         highscore: hs,
     };
     const card: CardObject = new CardObject(cm);
