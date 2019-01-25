@@ -1,24 +1,26 @@
 <form class="login-form">
-  <mat-form-field class="login-input">
-    <input #newUsername matInput (keyup.enter)="addUsername()"
-        placeholder="{{_textHINTUSERNAME}}"
-        [formControl]="_loginValidatorService.usernameFormControl"
-        [errorStateMatcher]="_loginValidatorService._matcher">
-    <mat-hint class="hint">{{_textHINT}}</mat-hint>
-    <mat-error *ngIf="hasErrorOfType('pattern')">
-        {{_textERRORPATTERN}}
-    </mat-error>
-    <mat-error *ngIf="hasErrorOfType(minlength) || hasErrorOfType(maxlength)">
-        {{_textERRORSIZE}}
-    </mat-error>
-    <mat-error *ngIf="hasErrorOfType(required)">
-        {{_textERRORREQUIRED}}
-    </mat-error>
-  </mat-form-field>
+    <mat-form-field class="login-input">
+        <input #newUsername matInput autocomplete="off"
+            (keyup.enter)="addUsername(newUsername.value)"
+            placeholder="{{_textHINTUSERNAME}}"
+            [formControl]="_loginValidatorService.usernameFormControl"
+            [errorStateMatcher]="_loginValidatorService._matcher">
+        <mat-hint class="hint">{{_textHINT}}</mat-hint>
+        <mat-error *ngIf="hasErrorOfType('pattern')">
+            {{_textERRORPATTERN}}
+        </mat-error>
+        <mat-error *ngIf="hasErrorOfType('minlength') || hasErrorOfType('maxlength')">
+            {{_textERRORSIZE}}
+        </mat-error>
+        <mat-error *ngIf="hasErrorOfType('required')">
+            {{_textERRORREQUIRED}}
+        </mat-error>
+    </mat-form-field>
 </form>
 <br>
 <br>
-<button mat-raised-button id="submit-button"  (click)="addUsername()"
+<button mat-raised-button id="submit-button"  (click)="addUsername(newUsername.value)"
   [disabled]="hasFormControlErrors()" routerLink="/gamelist">
   <span>{{_textBUTTONSUBMIT}}</span>
 </button>
+      

@@ -14,13 +14,13 @@ export class LoginValidatorComponent {
   public _textERRORSIZE: string = "Taille: "
                                   + this.getUsernameMinLength() + "-"
                                   + this.getUsernameMaxLength() + " caractères";
-  public _textERRORREQUIRED: string = "Nom d'utilisateur <strong>requis</strong>";
+  public _textERRORREQUIRED: string = "Nom d'utilisateur requis";
   public _textBUTTONSUBMIT: string = "Soumettre";
 
   public constructor(private _loginValidatorService: LoginValidatorService) {}
 
-  public addUsername(): void {
-    this._loginValidatorService.addUsername();
+  public addUsername(username: string): boolean {
+    return this._loginValidatorService.addUsername(username);
   }
 
   public hasErrorOfType(errorType: string): boolean {
