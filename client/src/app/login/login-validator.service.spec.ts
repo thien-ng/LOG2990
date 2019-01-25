@@ -24,9 +24,4 @@ describe("LoginValidatorService", () => {
     expect(service.checkIfUnique("name1")).toBeFalsy();
   });
 
-  // it("should refuse other character than alphanumericals", () => {
-  //   const service: LoginValidatorService = TestBed.get(LoginValidatorService);
-  //   service.usernameFormControl.value = "BadName@";
-  //   expect(service.addUsername()).toBeFalsy();
-  // });
 });
