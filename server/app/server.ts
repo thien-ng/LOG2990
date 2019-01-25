@@ -3,6 +3,7 @@ import { inject, injectable } from "inversify";
 import { AddressInfo } from "net";
 import { Application } from "./app";
 import Types from "./types";
+import { WebsocketManager } from "./websocket/Websocket";
 
 @injectable()
 export class Server {
@@ -10,15 +11,19 @@ export class Server {
     private readonly appPort: string|number|boolean = this.normalizePort(process.env.PORT || "3000");
     private readonly baseDix: number = 10;
     private server: http.Server;
+    private socketIO: WebsocketManager;
 
-    public constructor(@inject(Types.Application) private application: Application) { }
+    public constructor(@inject(Types.Application) private application: Application, @inject(Types.WebsocketManager) private websocket: WebsocketManager) { }
 
     public init(): void {
         this.application.app.set("port", this.appPort);
 
         this.server = http.createServer(this.application.app);
 
-        this.server.listen(this.appPort);
+        this.websocket.createWebsocket(this.socketIO);
+
+        this.server.listen(3000, "0.0.0.0");
+        //this.server.listen(this.appPort);
         this.server.on("error", (error: NodeJS.ErrnoException) => this.onError(error));
         this.server.on("listening", () => this.onListening());
     }
@@ -60,4 +65,5 @@ export class Server {
         // tslint:disable-next-line:no-console
         console.log(`Listening on ${bind}`);
     }
+
 }

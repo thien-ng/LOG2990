@@ -1,5 +1,6 @@
-import { Message } from "../../../common/communication/message";
+import { injectable } from "inversify";
 
+@injectable()
 export class NameValidatorService{
 
     private  NOT_FOUND_VALUE = -1;
@@ -10,10 +11,10 @@ export class NameValidatorService{
         this._nameList = [];
     }
 
-    public validateName(nameRequest: Message): Boolean {
+    public validateName(nameRequest: String): Boolean {
         console.log("enter validate name");
-        if(this.isUnique(nameRequest.body)){
-            this._nameList.push(nameRequest.body);
+        if(this.isUnique(nameRequest)){
+            this._nameList.push(nameRequest);
             console.log(this._nameList);
             return true;
         }
