@@ -10,7 +10,6 @@ import { TestingImportsModule } from "./testing-imports/testing-imports.module";
 
 import { BasicService } from "./basic.service";
 
-import { AdminComponent } from "./admin/admin.component";
 import { CardComponent } from "./card/card.component";
 import { CreateSimpleGameComponent } from "./create-simple-game/create-simple-game.component";
 import { GameListContainerComponent } from "./game-list-container/game-list-container.component";
@@ -25,7 +24,6 @@ describe("AppComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AdminComponent,
         AppComponent,
         LoginValidatorComponent,
         LoginViewComponent,
