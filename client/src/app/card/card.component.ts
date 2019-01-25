@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { CardModel } from "../../../../common/communication/cardModel";
 
 @Component({
   selector: "app-card",
@@ -22,13 +23,7 @@ export class CardComponent implements OnInit {
   public _textDelete: string = "Supprimer la carte";
   public _adminPath: string = "/admin";
 
-  @Input() public _cardModel: Object = {
-    gameID: 1,
-    title: "",
-    subtitle: "",
-    avatarImageUrl: "",
-    gameImageUrl: "",
-  };
+  @Input() public _cardModel: CardModel;
 
   public constructor(public router: Router) {
     // default constructor

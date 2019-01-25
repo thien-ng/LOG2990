@@ -6,5 +6,6 @@ export interface CardModel {
     subtitle: string;
     avatarImageUrl: string;
     gameImageUrl: string;
+    is2D: boolean;
     highscore: Highscore;
   }
