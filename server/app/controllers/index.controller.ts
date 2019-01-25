@@ -29,7 +29,8 @@ export class IndexController {
                 const file: string = req.params.filename;
                 // tslint:disable-next-line:no-any
                 const path: any = require("path");
-                const url: string = path.join(__dirname, "../../../../app/asset/images/" + file);
+                const pathRerouting: string = "../../../../app/asset/images/";
+                const url: string = path.join(__dirname, pathRerouting + file);
                 res.sendFile(url);
             });
 
