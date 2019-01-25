@@ -38,6 +38,7 @@
     "instrument": true
   },
   "dependencies": {
+    "@types/socket.io-client": "^1.4.32",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "cookie-parser": "1.4.1",
@@ -48,8 +49,10 @@
     "morgan": "^1.9.1",
     "nodemon": "^1.18.9",
     "reflect-metadata": "^0.1.10",
+    "rxjs-compat": "^6.3.3",
     "serve-favicon": "~2.5.0",
     "socket.io": "1.4.5",
+    "socket.io-client": "^2.2.0",
     "ts-node": "^7.0.1"
   },
   "devDependencies": {
