@@ -10,18 +10,15 @@ export class NameValidatorService{
     }
 
     public validateName(nameRequest: String): Boolean {
-        console.log("enter validate name");
+
         if(this.isUnique(nameRequest)){
             this._nameList.push(nameRequest);
-            console.log(this._nameList);
             return true;
         }
-        console.log(this._nameList);
         return false;
     }
 
     public leaveBrowser(nameRequest: String): void {
-        console.log("enter leave browser");
         this._nameList = this._nameList.filter( (element) => element !== nameRequest);
         console.log(this._nameList);
 

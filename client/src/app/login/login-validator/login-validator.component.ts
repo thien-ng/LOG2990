@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { LoginValidatorService } from "../login-validator.service";
+import { Constants } from "../../constants";
 
 @Component({
   selector: "app-login-validator",
@@ -32,15 +33,15 @@ export class LoginValidatorComponent {
   }
 
   public getUsernameMinLength(): number {
-    return this._loginValidatorService.MIN_LENGTH;
+    return Constants.MIN_LENGTH;
   }
 
   public getUsernameMaxLength(): number {
-    return this._loginValidatorService.MAX_LENGTH;
+    return Constants.MAX_LENGTH;
   }
 
   public getUsernameRegex(): string {
-    return this._loginValidatorService.REGEX_PATTERN;
+    return Constants.REGEX_PATTERN;
   }
 
 }

@@ -3,6 +3,7 @@ import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/form
 import { ErrorStateMatcher, MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import * as io from 'socket.io-client';
+import { Constants } from "../constants";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   public isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -17,33 +18,30 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 
 export class LoginValidatorService {
 
-  public MIN_LENGTH: number = 4;
-  public MAX_LENGTH: number = 15;
-  public REGEX_PATTERN: string = "^[a-zA-Z0-9]+$";
-
   public _matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
 
   public _usernameFormControl: FormControl = new FormControl("", [
     Validators.required,
-    Validators.pattern(this.REGEX_PATTERN),
-    Validators.minLength(this.MIN_LENGTH),
-    Validators.maxLength(this.MAX_LENGTH),
+    Validators.pattern(Constants.REGEX_PATTERN),
+    Validators.minLength(Constants.MIN_LENGTH),
+    Validators.maxLength(Constants.MAX_LENGTH),
   ]);
 
   private _socket : any;
-  private NAME_EVENT = "onLogin";
 
   constructor(private _router: Router, private _snackbar: MatSnackBar) {
     // default constructor
   }
 
   public addUsername(): void {
-    this._socket = io("http://localhost:3333");
-    if (this._usernameFormControl.errors == null) {
-      this._socket.emit(this.NAME_EVENT, this._usernameFormControl.value);
-      this._socket.on("loginReponse", (data: String) =>{
-        if (data === "true") {
-          this._router.navigate(["gamelist"]);
+    this._socket = io(Constants.WEBSOCKET_URL.toString());
+    if (this._usernameFormControl.errors == null){
+
+      this._socket.emit(Constants.LOGIN_REDIRECT, this._usernameFormControl.value);
+      this._socket.on(Constants.LOGIN_RESPONSE, (data: String) =>{
+
+        if(data == Constants.NAME_VALID_VALUE){
+          this._router.navigate([Constants.ROUTER_LOGIN]);
         } else {
           this._snackbar.open("Nom déjà utilisé!", "Attention", {duration: 5000});
         }
