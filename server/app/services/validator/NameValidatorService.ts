@@ -31,7 +31,6 @@ export class NameValidatorService {
     public isUnique(nameRequest: String): Boolean {
         let isUniqueElement: Boolean = true;
         this._nameList.forEach( (element: String) => {
-            console.log(element == nameRequest);
             if (element == nameRequest) {
                 isUniqueElement = false;
             }
