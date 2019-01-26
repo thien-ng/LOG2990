@@ -50,5 +50,5 @@ describe("AppComponent", () => {
     const app: any = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   }));
-  
+
 });
