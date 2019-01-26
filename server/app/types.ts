@@ -8,4 +8,5 @@ export default  {
         DateService: Symbol("DateService"),
         WebsocketManager: Symbol("WebsocketManager"),
         NameValidatorService: Symbol("NameValidatorService"),
+        GeneratorController: Symbol("GeneratorController"),
 };

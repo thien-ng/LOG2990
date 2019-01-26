@@ -38,6 +38,7 @@
     "instrument": true
   },
   "dependencies": {
+    "@types/form-data": "^2.2.1",
     "@types/socket.io-client": "^1.4.32",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
