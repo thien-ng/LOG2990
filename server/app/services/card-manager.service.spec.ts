@@ -68,8 +68,11 @@ describe("Card-manager tests", () => {
     it("should return the newly added card", () => {
         expect(cards1.getCards()[1][1]).deep.equal(cm3);
     });
-    it("should remove the newly added card", () => {
+    it("should remove the newly added card and return true", () => {
         expect(cards1.removeCard(THREE)).to.equal(true);
+    });
+    it("should return false because the card doesnt exist", () => {
+        expect(cards1.removeCard(0)).to.equal(false);
     });
     it("should return undefined because there is no more card there", () => {
         expect(cards1.getCards()[1][1]).deep.equal(undefined);

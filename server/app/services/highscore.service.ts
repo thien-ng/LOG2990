@@ -2,10 +2,15 @@ import { injectable } from "inversify";
 import { Highscore, Mode } from "../../../common/communication/highscore";
 
 @injectable()
-export class CardManagerService {
-    private _highscores: Highscore[];
+export class HighscoreService {
+    private _highscores: Highscore[] = [];
 
-    private findHighscore(id: number): Highscore | undefined {
+    // TBD Will be called when new card is created ( no change request for this one lol )
+    // public generateNewHighscore(id: number): void {
+
+    // }
+
+    public getHighscoreById(id: number): Highscore | undefined {
         let score: Highscore | undefined;
         this._highscores.forEach((element: Highscore) => {
             if (element.id === id) {
@@ -17,7 +22,7 @@ export class CardManagerService {
     }
 
     public updateHighscore(value: number, mode: Mode, cardID: number): void {
-        const highscore: Highscore | undefined = this.findHighscore(cardID);
+        const highscore: Highscore | undefined = this.getHighscoreById(cardID);
         if (highscore !== undefined) {
             switch (mode) {
                 case Mode.Singleplayer:
@@ -27,7 +32,7 @@ export class CardManagerService {
                     this.checkScore(value, highscore.timesMulti);
                     break;
                 default:
-                    break;
+                    this.assertUnreachable(mode);
             }
         }
     }
@@ -44,12 +49,13 @@ export class CardManagerService {
 
     }
 
-    public get highscoreSingle(): number[] {
-        return this._cardModel.highscore.timesSingle;
+    // Methods for testing
+    public addHighscore(hs: Highscore): void {
+        this._highscores.push(hs);
     }
 
-    public get highscoreMulti(): number[] {
-        return this._cardModel.highscore.timesMulti;
+    private assertUnreachable(x: never): never {
+        throw new Error("Didn't expect to get here");
     }
 
 }
