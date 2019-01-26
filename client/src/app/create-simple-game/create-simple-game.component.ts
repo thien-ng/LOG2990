@@ -4,10 +4,6 @@ import { MatDialogRef, MatSnackBar } from "@angular/material";
 import { Constants } from "../constants";
 import { FileValidatorService } from "./game-validator.service";
 
-const SNACK_DURATION: number = 3000;
-const ERROR_MSG: string = "Veuillez entrer un fichier BMP";
-const ACTION: string = "OK";
-
 @Component({
   selector: "app-create-simple-game",
   templateUrl: "./create-simple-game.component.html",
@@ -15,15 +11,15 @@ const ACTION: string = "OK";
 })
 export class CreateSimpleGameComponent implements OnInit {
 
-  public _title: string = "Créer un jeu de point de vue simple";
-  public _originalImage: string = "Image originale";
-  public _modifiedImage: string = "Image modifiée";
-  public _submit: string = "Soumettre";
-  public _cancel: string = "Annuler";
-  public _maxlength: number = 15;
-  public _isImageBMP: boolean[] = [false, false];
-  public _originalIndex: number = 0;
-  public _modifiedIndex: number = 1;
+  public TITLE: string = "Créer un jeu de point de vue simple";
+  public ORIGINAL_IMAGE: string = "Image originale";
+  public MODIFIED_IMAGE: string = "Image modifiée";
+  public SUBMIT: string = "Soumettre";
+  public CANCEL: string = "Annuler";
+  public MAX_LENGTH: number = 15;
+  public IS_IMAGE_BMP: boolean[] = [false, false];
+  public ORIGINAL_INDEX: number = 0;
+  public MODIFIED_INDEX: number = 1;
   public ERROR_PATTERN: string = "Caractères autorisés: A-Z, a-z";
   public ERROR_SIZE: string = "Taille: "
                                   + Constants.MIN_GAME_LENGTH + "-"
@@ -44,7 +40,7 @@ export class CreateSimpleGameComponent implements OnInit {
 
   public hasFormControlErrors(): boolean {
     return !( this.fileValidatorService._gameNameFormControl.errors == null &&
-              this._isImageBMP[this._originalIndex] && this._isImageBMP[this._modifiedIndex]);
+              this.IS_IMAGE_BMP[this.ORIGINAL_INDEX] && this.IS_IMAGE_BMP[this.MODIFIED_INDEX]);
   }
 
   public hasErrorOfType(errorType: string): boolean {
@@ -58,11 +54,11 @@ export class CreateSimpleGameComponent implements OnInit {
   public onFileSelected(file: Blob, imageIndex: number): void {
     if (this.fileValidatorService.validateFile(file)) {
       this._selectedFiles.push(file);
-      this._isImageBMP[imageIndex] = true;
+      this.IS_IMAGE_BMP[imageIndex] = true;
     } else {
-      this._isImageBMP[imageIndex] = false;
-      this.snackBar.open(ERROR_MSG, ACTION, {
-        duration: SNACK_DURATION,
+      this.IS_IMAGE_BMP[imageIndex] = false;
+      this.snackBar.open(Constants.SNACK_ERROR_MSG, Constants.SNACK_ACTION, {
+        duration: Constants.SNACKBAR_DURATION,
         verticalPosition: "top",
       });
     }

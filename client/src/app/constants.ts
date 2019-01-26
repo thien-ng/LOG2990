@@ -14,7 +14,6 @@ export class Constants {
 
   public static readonly OBLIGATORY_CATCH: String = "obligatory catch";
   public static readonly ANIMATION_TIME: number = 300; // ms
-  public static readonly GAME_REGEX_PATTERN: string = "^[a-zA-Z]+$";
   public static readonly MIN_GAME_LENGTH: number = 5;
   public static readonly MAX_GAME_LENGTH: number = 20;
 
@@ -33,5 +32,10 @@ export class Constants {
 
   // Constant for basic.service.ts
   public static readonly BASIC_SERVICE_BASE_URL: string = "http://localhost:3000";
+
+  // constant for create-simple-game.component.ts
+  public static readonly GAME_REGEX_PATTERN: string = "^[a-z A-Z]+$";
+  public static readonly SNACK_ERROR_MSG: string = "Veuillez entrer un fichier BMP";
+  public static readonly SNACK_ACTION: string = "OK";
 
 }

@@ -1,5 +1,3 @@
-import { Highscore } from "./highscore";
-
 export interface CardModel {
     gameID: number;
     title: string;
@@ -7,5 +5,4 @@ export interface CardModel {
     avatarImageUrl: string;
     gameImageUrl: string;
     is2D: boolean;
-    highscore: Highscore;
   }

@@ -4,9 +4,9 @@ import { CardObject } from "../utilitaries/card-object";
 
 const INDEX_2D: number = 0;
 const INDEX_3D: number = 1;
-const TWO: number = 2;
-const FOUR: number = 4;
-const SIX: number = 6;
+const DOESNT_EXIST: number = -1;
+const GAME_MODE_INDEX: number = 0;
+const CARD_POS_INDEX: number = 1;
 
 @injectable()
 export class CardManagerService {
@@ -16,13 +16,9 @@ export class CardManagerService {
                 gameID: 1,
                 title: "Default 2D",
                 subtitle: "default 2D",
-                avatarImageUrl: "http://lebaneezgirl11.l.e.pic.centerblog.net/sch1p9t8.jpg",
-                gameImageUrl: "http://lebaneezgirl11.l.e.pic.centerblog.net/sch1p9t8.jpg",
+                avatarImageUrl: "../asset/image/elon.jpg",
+                gameImageUrl: "../asset/image/elon.jpg",
                 is2D: true,
-                highscore: {
-                    timesSingle: [TWO, FOUR, SIX],
-                    timesMulti: [TWO, FOUR, SIX],
-                },
             }),
         ],
         [
@@ -30,13 +26,9 @@ export class CardManagerService {
                 gameID: 2,
                 title: "Default 3D",
                 subtitle: "default 3D",
-                avatarImageUrl: "http://www.humour-canin.com/images/canin/wallpapers/real_3015_husky.jpg",
-                gameImageUrl: "http://www.humour-canin.com/images/canin/wallpapers/real_3015_husky.jpg",
+                avatarImageUrl: "../asset/image/moutain.jpg",
+                gameImageUrl: "../asset/image/moutain.jpg",
                 is2D: false,
-                highscore: {
-                    timesSingle: [TWO, FOUR, SIX],
-                    timesMulti: [TWO, FOUR, SIX],
-                },
             }),
         ],
         ];
@@ -65,10 +57,10 @@ export class CardManagerService {
 
     public getCards(): CardModel[][] {
         const cardModels: CardModel[][] = [[], []];
-        this._cards[0].forEach((element: CardObject) => {
+        this._cards[INDEX_2D].forEach((element: CardObject) => {
             cardModels[INDEX_2D].push(element.cardModel);
         });
-        this._cards[1].forEach((element: CardObject) => {
+        this._cards[INDEX_3D].forEach((element: CardObject) => {
             cardModels[INDEX_3D].push(element.cardModel);
         });
 
@@ -76,7 +68,7 @@ export class CardManagerService {
     }
 
     public findCard(id: number): [number, number] {
-        let indexs: [number, number] = [-1, -1];
+        let indexs: [number, number] = [DOESNT_EXIST, DOESNT_EXIST];
         this._cards.forEach((cards: CardObject[]) => {
             cards.forEach((card: CardObject) => {
                 if (card.cardModel.gameID === id) {
@@ -91,8 +83,8 @@ export class CardManagerService {
 
     public removeCard(id: number): boolean {
         const indexs: [number, number] = this.findCard(id);
-        if (indexs[0] !== -1) {
-            this._cards[indexs[0]].splice(indexs[1], 1);
+        if (indexs[GAME_MODE_INDEX] !== DOESNT_EXIST) {
+            this._cards[indexs[GAME_MODE_INDEX]].splice(indexs[CARD_POS_INDEX], 1);
 
             return true;
         }

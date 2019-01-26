@@ -7,8 +7,6 @@ import { CardManagerService } from "./card-manager.service";
 
 const TWO: number = 2;
 const THREE: number = 3;
-const FOUR: number = 4;
-const SIX: number = 6;
 
 describe("Card-manager tests", () => {
     const cards1: CardManagerService = new CardManagerService();
@@ -17,39 +15,27 @@ describe("Card-manager tests", () => {
         gameID: 1,
         title: "Default 2D",
         subtitle: "default 2D",
-        avatarImageUrl: "http://lebaneezgirl11.l.e.pic.centerblog.net/sch1p9t8.jpg",
-        gameImageUrl: "http://lebaneezgirl11.l.e.pic.centerblog.net/sch1p9t8.jpg",
+        avatarImageUrl: "../asset/image/elon.jpg",
+        gameImageUrl: "../asset/image/elon.jpg",
         is2D: true,
-        highscore: {
-            timesSingle: [TWO, FOUR, SIX],
-            timesMulti: [TWO, FOUR, SIX],
-        },
     };
 
     const cm2: CardModel = {
         gameID: 2,
         title: "Default 3D",
         subtitle: "default 3D",
-        avatarImageUrl: "http://www.humour-canin.com/images/canin/wallpapers/real_3015_husky.jpg",
-        gameImageUrl: "http://www.humour-canin.com/images/canin/wallpapers/real_3015_husky.jpg",
+        avatarImageUrl: "../asset/image/moutain.jpg",
+        gameImageUrl: "../asset/image/moutain.jpg",
         is2D: false,
-        highscore: {
-            timesSingle: [TWO, FOUR, SIX],
-            timesMulti: [TWO, FOUR, SIX],
-        },
     };
 
     const cm3: CardModel = {
         gameID: 3,
         title: "Default 3D",
         subtitle: "default 3D",
-        avatarImageUrl: "http://www.humour-canin.com/images/canin/wallpapers/real_3015_husky.jpg",
-        gameImageUrl: "http://www.humour-canin.com/images/canin/wallpapers/real_3015_husky.jpg",
+        avatarImageUrl: "../asset/image/poly.jpg",
+        gameImageUrl: "../asset/image/poly.jpg",
         is2D: false,
-        highscore: {
-            timesSingle: [TWO, FOUR, SIX],
-            timesMulti: [TWO, FOUR, SIX],
-        },
     };
 
     const cm: CardModel[][] = [

@@ -1,5 +1,5 @@
 <div class="mat-title">
-  {{_title}}
+  {{TITLE}}
   <hr>
 </div>
 <form class="form" #signupForm="ngForm" (ngSubmit)="submit(signupForm)">
@@ -8,7 +8,6 @@
     [formControl]="fileValidatorService._gameNameFormControl"
     [errorStateMatcher]="fileValidatorService._matcher"
     placeholder="Nom du jeu">
-    <mat-hint align="end">{{input.value?.length || 0}}/15</mat-hint>
     <mat-error *ngIf="hasErrorOfType('pattern')">
       {{ERROR_PATTERN}}
     </mat-error>
@@ -20,14 +19,14 @@
     </mat-error>
   </mat-form-field>
   <div class="mat-subheading-2">
-    {{_originalImage}}:
-    <input name="pic-1" mat-icon-button type="file" accept="image/bmp" (change)="onFileSelected($event.target.files[0], _originalIndex)">
+    {{ORIGINAL_IMAGE}}:
+    <input name="pic-1" mat-icon-button type="file" accept="image/bmp" (change)="onFileSelected($event.target.files[0], ORIGINAL_INDEX)">
   </div>
   <div class="mat-subheading-2">
-    {{_modifiedImage}}
-    <input name="pic-2" mat-icon-button type="file" accept="image/bmp" (change)="onFileSelected($event.target.files[0], _modifiedIndex)">
+    {{MODIFIED_IMAGE}}
+    <input name="pic-2" mat-icon-button type="file" accept="image/bmp" (change)="onFileSelected($event.target.files[0], MODIFIED_INDEX)">
   </div>
-  <button class="button-padding" [disabled]="hasFormControlErrors()" mat-raised-button type="submit">{{_submit}}</button>
-  <button class="button-padding" mat-raised-button (click)="closeDialog()">{{_cancel}}</button>
+  <button class="button-padding" [disabled]="hasFormControlErrors()" mat-raised-button type="submit">{{SUBMIT}}</button>
+  <button class="button-padding" mat-raised-button (click)="closeDialog()">{{CANCEL}}</button>
 </form>
 
