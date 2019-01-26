@@ -74,4 +74,29 @@ export class CardManagerService {
 
         return cardModels;
     }
+
+    public findCard(id: number): [number, number]{
+        let indexs: [number, number] = [-1, -1];
+        this._cards.forEach((cards: CardObject[]) => {
+            cards.forEach((card: CardObject) => {
+                if (card.cardModel.gameID === id) {
+
+                    indexs = [this._cards.indexOf(cards), cards.indexOf(card)];
+                }
+            });
+        });
+
+        return indexs;
+    }
+
+    public removeCard(id: number): boolean {
+        const indexs: [number, number] = this.findCard(id);
+        if (indexs[0] !== -1) {
+            this._cards[indexs[0]].splice(indexs[1], 1);
+
+            return true;
+        }
+
+        return false;
+    }
 }

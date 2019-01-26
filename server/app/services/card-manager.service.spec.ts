@@ -6,6 +6,7 @@ import { CardObject } from "../utilitaries/card-object";
 import { CardManagerService } from "./card-manager.service";
 
 const TWO: number = 2;
+const THREE: number = 3;
 const FOUR: number = 4;
 const SIX: number = 6;
 
@@ -80,5 +81,11 @@ describe("Card-manager tests", () => {
     });
     it("should return the newly added card", () => {
         expect(cards1.getCards()[1][1]).deep.equal(cm3);
+    });
+    it("should remove the newly added card", () => {
+        expect(cards1.removeCard(THREE)).to.equal(true);
+    });
+    it("should return undefined because there is no more card there", () => {
+        expect(cards1.getCards()[1][1]).deep.equal(undefined);
     });
 });
