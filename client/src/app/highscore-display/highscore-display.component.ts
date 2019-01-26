@@ -10,9 +10,9 @@ export class HighscoreDisplayComponent implements OnInit {
   @Input() public _isExpanded: boolean = false;
 
   public _imageMedalsUrl: string[] = [
-    "../../assets/images/icons/gold.png",    // gold medal image
-    "../../assets/images/icons/silver.png",  // silver medal image
-    "../../assets/images/icons/bronze.png",  // bronze medal image
+    "http://localhost:3000/api/asset/icon/gold.png",    // gold medal image
+    "http://localhost:3000/api/asset/icon/silver.png",  // silver medal image
+    "http://localhost:3000/api/asset/icon/bronze.png",  // bronze medal image
   ];
   public _2DHighscores: string[] = ["1:45", "2:03", "2:30"];
   public _3DHighscores: string[] = ["2:45", "3:11", "4:55"];
