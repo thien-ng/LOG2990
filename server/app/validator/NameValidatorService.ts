@@ -9,6 +9,10 @@ export class NameValidatorService {
         this._nameList = [];
     }
 
+    public getNameList(): String[] {
+        return this._nameList;
+    }
+
     public validateName(nameRequest: String): Boolean {
 
         if (this.isUnique(nameRequest)) {
