@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { injectable } from "inversify";
 
+import { Constants } from "../constants";
+
 @injectable()
 export class AssetController {
 
@@ -13,7 +15,7 @@ export class AssetController {
 
         // tslint:disable-next-line:no-any
         const path: any = require("path");
-        const pathToAssets: string = "../../../../app/asset";
+        const pathToAssets: string = Constants.PATH_FROM_CONTROLLER_TO_ASSET;
 
         router.get("/image/:filename", (req: Request, res: Response, next: NextFunction) => {
                 // Create the relative path to the aimed directory and sends the file specified if found, 404 otherwise
