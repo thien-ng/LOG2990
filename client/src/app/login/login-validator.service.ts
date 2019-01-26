@@ -35,21 +35,25 @@ export class LoginValidatorService {
   }
 
   public addUsername(): void {
-    this._socket = io(Constants.WEBSOCKET_URL.toString());
+    this._socket = io(Constants.WEBSOCKET_URL);
     if (this._usernameFormControl.errors == null) {
 
-      this._socket.emit(Constants.LOGIN_REQUEST.toString(), this._usernameFormControl.value);
-      this._socket.on(Constants.LOGIN_RESPONSE.toString(), (data: String) => {
+      this._socket.emit(Constants.LOGIN_REQUEST, this._usernameFormControl.value);
+      this._socket.on(Constants.LOGIN_RESPONSE, (data: String) => {
         if (data === Constants.NAME_VALID_VALUE) {
           this._router.navigate([Constants.ROUTER_LOGIN]).catch();
         } else {
-          this._snackbar.open(
-            Constants.SNACKBAR_USED_NAME,
-            Constants.SNACKBAR_ATTENTION,
-            {duration: Constants.SNACKBAR_DURATION});
+          this.displayUnvalidResponse();
         }
       });
     }
+  }
+
+  private displayUnvalidResponse(): void {
+    this._snackbar.open(
+      Constants.SNACKBAR_USED_NAME,
+      Constants.SNACKBAR_ATTENTION,
+      {duration: Constants.SNACKBAR_DURATION});
   }
 
 }

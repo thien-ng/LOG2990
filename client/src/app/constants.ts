@@ -19,9 +19,9 @@ export class Constants {
   public static readonly MIN_LENGTH: number = 4;
   public static readonly MAX_LENGTH: number = 15;
   public static readonly REGEX_PATTERN: string = "^[a-zA-Z0-9]+$";
-  public static readonly LOGIN_REQUEST: String = "onLogin";
+  public static readonly LOGIN_REQUEST: string = "onLogin";
   public static readonly LOGIN_RESPONSE: String = "onLoginReponse";
-  public static readonly WEBSOCKET_URL: String = "http://localhost:3333";
+  public static readonly WEBSOCKET_URL: string = "http://localhost:3333";
   public static readonly NAME_VALID_VALUE: String = "true";
   public static readonly ROUTER_LOGIN: String = "gamelist";
   public static readonly SNACKBAR_USED_NAME: string = "Cet alias est déjà pris par un autre utilisateur!";
