@@ -14,6 +14,9 @@ export class Constants {
 
   public static readonly OBLIGATORY_CATCH: String = "obligatory catch";
   public static readonly ANIMATION_TIME: number = 300; // ms
+  public static readonly GAME_REGEX_PATTERN: string = "^[a-zA-Z]+$";
+  public static readonly MIN_GAME_LENGTH: number = 5;
+  public static readonly MAX_GAME_LENGTH: number = 20;
 
   // Constant for login-validator.service.ts
   public static readonly MIN_LENGTH: number = 4;

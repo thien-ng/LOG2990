@@ -5,9 +5,19 @@
 <form class="form" #signupForm="ngForm" (ngSubmit)="submit(signupForm)">
   <mat-form-field class="input-width">
     <input name="name" #input matInput
-    [formControl]="_loginValidatorService.usernameFormControl"
+    [formControl]="fileValidatorService._gameNameFormControl"
+    [errorStateMatcher]="fileValidatorService._matcher"
     placeholder="Nom du jeu">
     <mat-hint align="end">{{input.value?.length || 0}}/15</mat-hint>
+    <mat-error *ngIf="hasErrorOfType('pattern')">
+      {{ERROR_PATTERN}}
+    </mat-error>
+    <mat-error *ngIf="!hasErrorOfType(minlength) || !hasErrorOfType(maxlength)">
+      {{ERROR_SIZE}}
+    </mat-error>
+    <mat-error *ngIf="!hasErrorOfType(required)">
+      {{ERROR_REQUIRED}}
+    </mat-error>
   </mat-form-field>
   <div class="mat-subheading-2">
     {{_originalImage}}:

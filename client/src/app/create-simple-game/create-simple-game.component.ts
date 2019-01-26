@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { MatDialogRef, MatSnackBar } from "@angular/material";
-import { LoginValidatorService } from "../login/login-validator.service";
-import { FileValidatorService } from "./file-validator.service";
+import { Constants } from "../constants";
+import { FileValidatorService } from "./game-validator.service";
 
-const SNACK_DURATION: number = 2000;
+const SNACK_DURATION: number = 3000;
 const ERROR_MSG: string = "Veuillez entrer un fichier BMP";
 const ACTION: string = "OK";
 
@@ -24,6 +24,11 @@ export class CreateSimpleGameComponent implements OnInit {
   public _isImageBMP: boolean[] = [false, false];
   public _originalIndex: number = 0;
   public _modifiedIndex: number = 1;
+  public ERROR_PATTERN: string = "Caractères autorisés: A-Z, a-z";
+  public ERROR_SIZE: string = "Taille: "
+                                  + Constants.MIN_GAME_LENGTH + "-"
+                                  + Constants.MAX_GAME_LENGTH + " caractères";
+  public ERROR_REQUIRED: string = "Nom de jeu requis";
 
   private _selectedFiles: Blob[] = [];
 
@@ -31,7 +36,6 @@ export class CreateSimpleGameComponent implements OnInit {
     public dialogRef: MatDialogRef<CreateSimpleGameComponent>,
     public fileValidatorService: FileValidatorService,
     private snackBar: MatSnackBar,
-    public _loginValidatorService: LoginValidatorService,
     ) {/* default constructor */}
 
   public ngOnInit(): void {
@@ -39,8 +43,12 @@ export class CreateSimpleGameComponent implements OnInit {
   }
 
   public hasFormControlErrors(): boolean {
-    return !( this._loginValidatorService.usernameFormControl.errors == null &&
+    return !( this.fileValidatorService._gameNameFormControl.errors == null &&
               this._isImageBMP[this._originalIndex] && this._isImageBMP[this._modifiedIndex]);
+  }
+
+  public hasErrorOfType(errorType: string): boolean {
+    return this.fileValidatorService._gameNameFormControl.hasError(errorType);
   }
 
   public closeDialog(): void {
@@ -55,6 +63,7 @@ export class CreateSimpleGameComponent implements OnInit {
       this._isImageBMP[imageIndex] = false;
       this.snackBar.open(ERROR_MSG, ACTION, {
         duration: SNACK_DURATION,
+        verticalPosition: "top",
       });
     }
   }
