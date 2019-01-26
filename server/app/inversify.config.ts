@@ -6,8 +6,8 @@ import { IndexController } from "./controllers/index.controller";
 import { Server } from "./server";
 import { DateService } from "./services/date.service";
 import { IndexService } from "./services/index.service";
-import { NameValidatorService } from "./validator/NameValidatorService";
-import { WebsocketManager } from "./websocket/Websocket";
+import { NameValidatorService } from "./services/validator/NameValidatorService";
+import { WebsocketManager } from "./services/websocket/Websocket";
 
 import Types from "./types";
 
