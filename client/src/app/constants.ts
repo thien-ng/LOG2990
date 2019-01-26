@@ -21,7 +21,11 @@ export class Constants {
   public static readonly WEBSOCKET_URL: String = "http://localhost:3333";
   public static readonly NAME_VALID_VALUE: String = "true";
   public static readonly ROUTER_LOGIN: String = "gamelist";
-  public static readonly SNACKBAR_USED_NAME: string = "Nom déjà utilisé!";
-  public static readonly SNACKBAR_ATTENTION: string = "Attention";
+  public static readonly SNACKBAR_USED_NAME: string = "Cet alias est déjà pris par un autre utilisateur!";
+  public static readonly SNACKBAR_ATTENTION: string = "J'ai compris";
   public static readonly SNACKBAR_DURATION: number = 5000;
+
+  // Constant for basic.service.ts
+  public static readonly BASIC_SERVICE_BASE_URL: string = "http://localhost:3000";
+
 }

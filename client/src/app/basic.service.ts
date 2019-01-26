@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 
 import { of, Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
+import { Constants } from "./constants";
 
 import { Message } from "../../../common/communication/message";
 
@@ -16,20 +17,18 @@ const HTTP_OPTIONS: {headers: HttpHeaders} = {
 @Injectable()
 export class BasicService {
 
-    private readonly BASE_URL: string = "http://localhost:3000";
-
     public constructor(private _http: HttpClient) { }
 
     public basicGet(): Observable<Message> {
 
-        return this._http.get<Message>(this.BASE_URL).pipe(
+        return this._http.get<Message>(Constants.BASIC_SERVICE_BASE_URL).pipe(
             catchError(this.handleError<Message>("basicGet")),
         );
     }
 
     public basicPost(message: Message, extension: String): Observable<Message> {
         return this._http.post<Message>(
-            this.BASE_URL + extension,
+            Constants.BASIC_SERVICE_BASE_URL + extension,
             message,
             HTTP_OPTIONS)
            .pipe(
