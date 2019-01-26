@@ -3,7 +3,7 @@ import { inject, injectable } from "inversify";
 import { AddressInfo } from "net";
 import { Application } from "./app";
 import Types from "./types";
-import { WebsocketManager } from "./websocket/Websocket";
+import { WebsocketManager } from "./services/websocket/Websocket";
 
 @injectable()
 export class Server {
