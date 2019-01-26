@@ -6,4 +6,6 @@ export default  {
         AssetController: Symbol("AssetController"),
         IndexService: Symbol("IndexService"),
         DateService: Symbol("DateService"),
+        WebsocketManager: Symbol("WebsocketManager"),
+        NameValidatorService: Symbol("NameValidatorService"),
 };
