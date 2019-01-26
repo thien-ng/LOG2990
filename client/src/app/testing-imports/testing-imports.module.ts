@@ -49,6 +49,7 @@ import { RouterTestingModule } from "@angular/router/testing";
     MatInputModule,
     FormsModule,
     MatFormFieldModule,
+    MatSnackBarModule,
     MatTabsModule,
   ],
 })

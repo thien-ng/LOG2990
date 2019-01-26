@@ -15,14 +15,9 @@ export class CardManagerController {
 
         router.get("/list", async (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
-                const list: CardModel[][] = await this.cardManagerService.getCards();
+                const list: CardModel[][] = this.cardManagerService.getCards();
                 res.json(list);
             });
-
-        // router.get("/about", (req: Request, res: Response, next: NextFunction) => {
-        //         // Send the request to the service and send the response
-        //         res.json(this.indexService.about());
-        //     });
 
         return router;
     }

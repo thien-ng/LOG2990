@@ -1,6 +1,9 @@
 import { Injectable } from "@angular/core";
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
-import { ErrorStateMatcher } from "@angular/material";
+import { ErrorStateMatcher, MatSnackBar } from "@angular/material";
+import { Router } from "@angular/router";
+import * as io from "socket.io-client";
+import { Constants } from "../constants";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   public isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -12,31 +15,41 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 @Injectable({
   providedIn: "root",
 })
-export class LoginValidatorService {
 
-  public MIN_LENGTH: number = 4;
-  public MAX_LENGTH: number = 15;
-  public REGEX_PATTERN: string = "^[a-zA-Z0-9]+$";
+export class LoginValidatorService {
 
   public _matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
 
-  public _usernames: string[] = [];
-
-  public usernameFormControl: FormControl = new FormControl("", [
+  public _usernameFormControl: FormControl = new FormControl("", [
     Validators.required,
-    Validators.pattern(this.REGEX_PATTERN),
-    Validators.minLength(this.MIN_LENGTH),
-    Validators.maxLength(this.MAX_LENGTH),
+    Validators.pattern(Constants.REGEX_PATTERN),
+    Validators.minLength(Constants.MIN_LENGTH),
+    Validators.maxLength(Constants.MAX_LENGTH),
   ]);
 
-  public addUsername(): void {
-    if (this.usernameFormControl.errors == null && this.checkIfUnique(this.usernameFormControl.value)) {
-      this._usernames.push(this.usernameFormControl.value);
-    }
+  // tslint:disable-next-line:no-any
+  private _socket: any;
+
+  public constructor(private _router: Router, private _snackbar: MatSnackBar) {
+    // default constructor
   }
 
-  private checkIfUnique(username: string): boolean {
-    return !this._usernames.includes(username);
+  public addUsername(): void {
+    this._socket = io(Constants.WEBSOCKET_URL.toString());
+    if (this._usernameFormControl.errors == null) {
+
+      this._socket.emit(Constants.LOGIN_REQUEST.toString(), this._usernameFormControl.value);
+      this._socket.on(Constants.LOGIN_RESPONSE.toString(), (data: String) => {
+        if (data === Constants.NAME_VALID_VALUE) {
+          this._router.navigate([Constants.ROUTER_LOGIN]).catch();
+        } else {
+          this._snackbar.open(
+            Constants.SNACKBAR_USED_NAME,
+            Constants.SNACKBAR_ATTENTION,
+            {duration: Constants.SNACKBAR_DURATION});
+        }
+      });
+    }
   }
 
 }

@@ -75,7 +75,7 @@ export class CardManagerService {
         return cardModels;
     }
 
-    public findCard(id: number): [number, number]{
+    public findCard(id: number): [number, number] {
         let indexs: [number, number] = [-1, -1];
         this._cards.forEach((cards: CardObject[]) => {
             cards.forEach((card: CardObject) => {

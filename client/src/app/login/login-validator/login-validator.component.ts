@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { Constants } from "../../constants";
 import { LoginValidatorService } from "../login-validator.service";
 
 @Component({
@@ -8,38 +9,39 @@ import { LoginValidatorService } from "../login-validator.service";
 })
 export class LoginValidatorComponent {
 
-  public _textHINTUSERNAME: string = "Nom d'utilisateur";
-  public _textHINT: string = "Veuillez entrer un alias";
-  public _textERRORPATTERN: string = "Caractères autorisés: A-Z, a-z, 0-9";
-  public _textERRORSIZE: string = "Taille: "
+  public HINT_USERNAME: string = "Nom d'utilisateur";
+  public HINT: string = "Veuillez entrer un alias";
+  public ERROR_PATTERN: string = "Caractères autorisés: A-Z, a-z, 0-9";
+  public ERROR_SIZE: string = "Taille: "
                                   + this.getUsernameMinLength() + "-"
                                   + this.getUsernameMaxLength() + " caractères";
-  public _textERRORREQUIRED: string = "Nom d'utilisateur <strong>requis</strong>";
-  public _textBUTTONSUBMIT: string = "Soumettre";
+  public ERROR_REQUIRED: string = "Nom d'utilisateur requis";
+  public BUTTON_SUBMIT: string = "Soumettre";
 
   public constructor(private _loginValidatorService: LoginValidatorService) {}
 
-  public addUsername(): void {
+  public addUsername(username: string): void {
     this._loginValidatorService.addUsername();
   }
 
   public hasErrorOfType(errorType: string): boolean {
-    return this._loginValidatorService.usernameFormControl.hasError(errorType);
+    return this._loginValidatorService._usernameFormControl.hasError(errorType);
   }
 
   public hasFormControlErrors(): boolean {
-    return !(this._loginValidatorService.usernameFormControl.errors == null);
+    return !(this._loginValidatorService._usernameFormControl.errors == null);
   }
 
   public getUsernameMinLength(): number {
-    return this._loginValidatorService.MIN_LENGTH;
+    return Constants.MIN_LENGTH;
   }
 
   public getUsernameMaxLength(): number {
-    return this._loginValidatorService.MAX_LENGTH;
+    return Constants.MAX_LENGTH;
   }
 
   public getUsernameRegex(): string {
-    return this._loginValidatorService.REGEX_PATTERN;
+    return Constants.REGEX_PATTERN;
   }
+
 }
