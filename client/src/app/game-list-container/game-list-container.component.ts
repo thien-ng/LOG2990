@@ -18,22 +18,21 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
   public _tabIndex: number = 0;
   private _stateSubscription: Subscription;
 
-  public SERVER_ASSET_URL: string = "http://localhost:3000/api/asset";
   @Input() public _cardListContainer: Object[][] = [
     [
     {
       gameID: 0,
       title: "Montagne",
       subtitle: "Nature",
-      avatarImageUrl:  this.SERVER_ASSET_URL + "/icon/fire_1.png",
-      gameImageUrl: this.SERVER_ASSET_URL + "/image/moutain.jpg",
+      avatarImageUrl:  Constants.PATH_TO_ASSETS + "/icon/fire_1.png",
+      gameImageUrl: Constants.PATH_TO_ASSETS + "/image/moutain.jpg",
     },
     {
       gameID: 1,
       title: "Shiba Inu",
       subtitle: "Animaux",
-      avatarImageUrl: this.SERVER_ASSET_URL + "/icon/fire_2.png",
-      gameImageUrl: this.SERVER_ASSET_URL + "/image/shiba.jpg",
+      avatarImageUrl: Constants.PATH_TO_ASSETS + "/icon/fire_2.png",
+      gameImageUrl: Constants.PATH_TO_ASSETS + "/image/shiba.jpg",
     },
   ],
     [
@@ -41,15 +40,15 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
       gameID: 3,
       title: "École de la mort",
       subtitle: "Torture",
-      avatarImageUrl:  this.SERVER_ASSET_URL + "/icon/fire_2.png",
-      gameImageUrl: this.SERVER_ASSET_URL + "/image/poly.jpg",
+      avatarImageUrl:  Constants.PATH_TO_ASSETS + "/icon/fire_2.png",
+      gameImageUrl: Constants.PATH_TO_ASSETS + "/image/poly.jpg",
     },
     {
       gameID: 4,
       title: "Citrouilles",
       subtitle: "Nature",
-      avatarImageUrl:  this.SERVER_ASSET_URL + "/icon/fire_3.png",
-      gameImageUrl: this.SERVER_ASSET_URL + "/image/pumpkins.jpg",
+      avatarImageUrl:  Constants.PATH_TO_ASSETS + "/icon/fire_3.png",
+      gameImageUrl: Constants.PATH_TO_ASSETS + "/image/pumpkins.jpg",
     },
   ]];
 
