@@ -6,6 +6,7 @@ import { Message } from "../../../common/communication/message";
 
 @injectable()
 export class IndexService {
+
     public about(): Message {
         return {
             title: "This is merely a test",
@@ -28,4 +29,5 @@ export class IndexService {
             };
         });
     }
+
 }

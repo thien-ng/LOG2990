@@ -15,5 +15,9 @@
         "noImplicitReturns": true,
         "suppressImplicitAnyIndexErrors": true,
         "strictNullChecks": true
-    }
+    },
+    "lib": [
+        "es2017",
+        "dom"
+    ]
 }
