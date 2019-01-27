@@ -2,7 +2,7 @@ import * as http from "http";
 import { inject, injectable } from "inversify";
 import { AddressInfo } from "net";
 import { Application } from "./app";
-import { WebsocketManager } from "./services/websocket/Websocket";
+import { WebsocketManager } from "./websocket/Websocket";
 import Types from "./types";
 
 @injectable()
