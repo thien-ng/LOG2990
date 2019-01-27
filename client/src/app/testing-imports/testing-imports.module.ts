@@ -34,6 +34,7 @@ import { RouterTestingModule } from "@angular/router/testing";
     MatIconModule,
     MatListModule,
     MatFormFieldModule,
+    MatSnackBarModule,
     MatCardModule,
     MatExpansionModule,
     RouterModule,
