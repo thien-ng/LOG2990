@@ -32,7 +32,8 @@ export class HighscoreService {
                     this.checkScore(value, highscore.timesMulti);
                     break;
                 default:
-                    this.assertUnreachable(mode);
+                    // Fails quietly
+                    break;
             }
         }
     }
@@ -50,12 +51,8 @@ export class HighscoreService {
     }
 
     // Methods for testing
-    public addHighscore(hs: Highscore): void {
-        this._highscores.push(hs);
+    public addHighscore(hs: Highscore[]): void {
+        this._highscores.splice(0, this._highscores.length);
+        this._highscores = hs;
     }
-
-    private assertUnreachable(x: never): never {
-        throw new Error("Didn't expect to get here");
-    }
-
 }

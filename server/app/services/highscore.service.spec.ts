@@ -24,13 +24,14 @@ describe("HighscoreService tests", () => {
         },
     ];
     const highscoreService: HighscoreService = new HighscoreService();
-    highscoreService.addHighscore(mockHighscore[0]);
-    highscoreService.addHighscore(mockHighscore[1]);
 
     it("Should return the right highscore", () => {
-        expect(highscoreService.getHighscoreById(1)).deep.equal(mockHighscore[0]);
+        highscoreService.addHighscore(mockHighscore);
+        const updatedHS: Highscore | undefined = highscoreService.getHighscoreById(ONE);
+        expect(updatedHS).deep.equal(mockHighscore[0]);
     });
     it("Should update the single player highscore", () => {
+        highscoreService.addHighscore(mockHighscore);
         highscoreService.updateHighscore(ONE, Mode.Singleplayer, ONE);
         const updatedHS: Highscore | undefined = highscoreService.getHighscoreById(ONE);
         if (updatedHS !== undefined) {
@@ -38,6 +39,7 @@ describe("HighscoreService tests", () => {
         }
     });
     it("Should update the multi player highscore", () => {
+        highscoreService.addHighscore(mockHighscore);
         highscoreService.updateHighscore(ONE, Mode.Multiplayer, ONE);
         const updatedHS: Highscore | undefined = highscoreService.getHighscoreById(ONE);
         if (updatedHS !== undefined) {
@@ -45,13 +47,19 @@ describe("HighscoreService tests", () => {
         }
     });
     it("Should not update the highscore", () => {
+        highscoreService.addHighscore(mockHighscore);
         highscoreService.updateHighscore(SEVEN, Mode.Multiplayer, ONE);
         const updatedHS: Highscore | undefined = highscoreService.getHighscoreById(ONE);
         if (updatedHS !== undefined) {
             expect(updatedHS).deep.equal(mockHighscore[0]);
         }
     });
-    it("Should throw an error when invalid mode is passed", () => {
-        expect(() => highscoreService.updateHighscore(ONE, UNDEFINED_MODE, ONE)).to.throw(Error);
+    it("Should fail quietly and not update the highscores", () => {
+        highscoreService.addHighscore(mockHighscore);
+        highscoreService.updateHighscore(ONE, UNDEFINED_MODE, ONE);
+        const updatedHS: Highscore | undefined = highscoreService.getHighscoreById(ONE);
+        if (updatedHS !== undefined) {
+            expect(updatedHS.timesMulti).deep.equal([TWO, FOUR, SIX]);
+        }
     });
 });
