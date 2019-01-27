@@ -18,6 +18,8 @@ coverage/
 *.js.map
 *.js
 
+# Fichiers générés par MacOS
+.DS_Store
 
 # Garder les fichiers necessaires pour les tests
 !systemjs.config.js
