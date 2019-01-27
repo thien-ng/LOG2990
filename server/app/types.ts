@@ -9,4 +9,5 @@ export default  {
         WebsocketManager: Symbol("WebsocketManager"),
         NameValidatorService: Symbol("NameValidatorService"),
         GeneratorController: Symbol("GeneratorController"),
+        GeneratorImageManager: Symbol("GeneratorImageManager"),
 };

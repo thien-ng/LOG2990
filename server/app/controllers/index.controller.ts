@@ -1,26 +1,30 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { inject, injectable } from "inversify";
 
-import { Message } from "../../../common/communication/message";
+// import { Message } from "../../../common/communication/message";
 import { IndexService } from "../services/index.service";
 import Types from "../types";
+
+// to remove
+import { GeneratorImageManager } from "../services/image-generator/services/generatorImageManager.service";
 
 @injectable()
 export class IndexController {
 
-    public constructor(@inject(Types.IndexService) private indexService: IndexService) { }
+    public constructor(@inject(Types.IndexService) private indexService: IndexService, @inject(Types.GeneratorImageManager) private generatorImageManager: GeneratorImageManager) { }
 
     public get router(): Router {
         const router: Router = Router();
 
         router.get("/", async (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
-                const time: Message = await this.indexService.helloWorld();
-                res.json(time);
+                this.generatorImageManager.readFile();
+                // res.json(time);
             });
 
         router.get("/about", (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
+                this.generatorImageManager.readFile();
                 res.json(this.indexService.about());
             });
 
