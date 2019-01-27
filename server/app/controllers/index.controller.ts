@@ -18,7 +18,7 @@ export class IndexController {
 
         router.get("/", async (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
-                this.generatorImageManager.readFile();
+                // this.generatorImageManager.readFile();
                 // res.json(time);
             });
 
