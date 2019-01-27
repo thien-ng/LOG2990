@@ -1,6 +1,8 @@
 import { injectable } from "inversify";
 import { Highscore, Mode } from "../../../common/communication/highscore";
 
+const REMOVE_NOTHING: number = 0;
+
 @injectable()
 export class HighscoreService {
     private _highscores: Highscore[] = [];
@@ -42,7 +44,7 @@ export class HighscoreService {
         let hasBeenReplaced: Boolean = false;
         times.forEach((element: number) => {
             if (element > value && !hasBeenReplaced) {
-                times.splice(times.indexOf(element), 0, value);
+                times.splice(times.indexOf(element), REMOVE_NOTHING, value);
                 times.pop();
                 hasBeenReplaced = true;
             }
@@ -52,7 +54,7 @@ export class HighscoreService {
 
     // Methods for testing
     public addHighscore(hs: Highscore[]): void {
-        this._highscores.splice(0, this._highscores.length);
+        this._highscores.splice(REMOVE_NOTHING, this._highscores.length);
         this._highscores = hs;
     }
 }
