@@ -2,8 +2,8 @@ import * as http from "http";
 import { inject, injectable } from "inversify";
 import { AddressInfo } from "net";
 import { Application } from "./app";
-import { WebsocketManager } from "./websocket/Websocket";
 import Types from "./types";
+import { WebsocketManager } from "./websocket/Websocket";
 
 @injectable()
 export class Server {
