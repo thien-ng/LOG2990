@@ -3,22 +3,18 @@ import "reflect-metadata";
 
 import { NameValidatorService } from "../../../app/services/validator/NameValidatorService";
 
-// il faut trouver une maniere pour faire des fonctions dans les specs
+let nameValidatorService: NameValidatorService;
 
-// tslint:disable-next-line:only-arrow-functions
-function initSetup(): NameValidatorService {
-    const validatorService: NameValidatorService = new NameValidatorService;
-    validatorService.getNameList().push("patate");
-    validatorService.getNameList().push("roger");
-    validatorService.getNameList().push("dylan");
-
-    return validatorService;
-}
+beforeEach(() => {
+    nameValidatorService = new NameValidatorService;
+    nameValidatorService.getNameList().push("patate");
+    nameValidatorService.getNameList().push("roger");
+    nameValidatorService.getNameList().push("dylan");
+});
 
 describe("NameValidatorService test", () => {
 
     it ("for: validateName, should return True if name input is unique", (done: Function) => {
-        const nameValidatorService: NameValidatorService = initSetup();
         const name: String = "ligma";
         const result: Boolean = nameValidatorService.validateName(name);
 
@@ -27,7 +23,6 @@ describe("NameValidatorService test", () => {
     });
 
     it ("for: validateName, should return False if name input is not unique", (done: Function) => {
-        const nameValidatorService: NameValidatorService = initSetup();
         const name: String = "patate";
         const result: Boolean = nameValidatorService.validateName(name);
 
@@ -36,7 +31,6 @@ describe("NameValidatorService test", () => {
     });
 
     it ("for: isUnique,should return True if name input is unique", (done: Function) => {
-        const nameValidatorService: NameValidatorService = initSetup();
         const name: String = "bob";
         const result: Boolean = nameValidatorService.isUnique(name);
 
@@ -45,7 +39,6 @@ describe("NameValidatorService test", () => {
     });
 
     it ("for: isUnique,should return false if name input is unique", (done: Function) => {
-        const nameValidatorService: NameValidatorService = initSetup();
         const name: String = "patate";
         const result: Boolean = nameValidatorService.isUnique(name);
 
@@ -54,7 +47,6 @@ describe("NameValidatorService test", () => {
     });
 
     it ("for: leaveBrowser, should return True if name is cleared from list properly", (done: Function) => {
-        const nameValidatorService: NameValidatorService = initSetup();
         const name: String = "patate";
         nameValidatorService.leaveBrowser(name);
 
@@ -64,7 +56,6 @@ describe("NameValidatorService test", () => {
     });
 
     it ("for: leaveBrowser, should return True if list was empty initially", (done: Function) => {
-        const nameValidatorService: NameValidatorService = new NameValidatorService();
         const name: String = "patate";
         nameValidatorService.leaveBrowser(name);
 
