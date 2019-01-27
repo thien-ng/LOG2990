@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import { CardModel } from "../../../common/communication/cardModel";
+import { CardModel, GameMode } from "../../../common/communication/cardModel";
 import { CardObject } from "../utilitaries/card-object";
 
 const INDEX_2D: number = 0;
@@ -18,7 +18,7 @@ export class CardManagerService {
                 subtitle: "default 2D",
                 avatarImageUrl: "../asset/image/elon.jpg",
                 gameImageUrl: "../asset/image/elon.jpg",
-                is2D: true,
+                gamemode: GameMode.twoD,
             }),
         ],
         [
@@ -28,7 +28,7 @@ export class CardManagerService {
                 subtitle: "default 3D",
                 avatarImageUrl: "../asset/image/moutain.jpg",
                 gameImageUrl: "../asset/image/moutain.jpg",
-                is2D: false,
+                gamemode: GameMode.threeD,
             }),
         ],
         ];
@@ -40,7 +40,7 @@ export class CardManagerService {
     }
 
     public addCard(card: CardObject): boolean {
-        const index: number = card.cardModel.is2D ? INDEX_2D : INDEX_3D;
+        const index: number = card.cardModel.gamemode;
         let isExisting: boolean = false;
         this._cards[index].forEach((element: CardObject) => {
             if (this.cardEqual(card, element)) {

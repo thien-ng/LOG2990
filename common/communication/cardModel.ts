@@ -4,5 +4,10 @@ export interface CardModel {
     subtitle: string;
     avatarImageUrl: string;
     gameImageUrl: string;
-    is2D: boolean;
+    gamemode: GameMode;
+  }
+
+  export enum GameMode {
+    twoD = 0,
+    threeD = 1,
   }

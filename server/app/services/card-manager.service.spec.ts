@@ -1,7 +1,7 @@
 import "reflect-metadata";
 
 import { expect } from "chai";
-import { CardModel } from "../../../common/communication/cardModel";
+import { CardModel, GameMode } from "../../../common/communication/cardModel";
 import { CardObject } from "../utilitaries/card-object";
 import { CardManagerService } from "./card-manager.service";
 
@@ -17,7 +17,7 @@ describe("Card-manager tests", () => {
         subtitle: "default 2D",
         avatarImageUrl: "../asset/image/elon.jpg",
         gameImageUrl: "../asset/image/elon.jpg",
-        is2D: true,
+        gamemode: GameMode.twoD,
     };
 
     const cm2: CardModel = {
@@ -26,7 +26,7 @@ describe("Card-manager tests", () => {
         subtitle: "default 3D",
         avatarImageUrl: "../asset/image/moutain.jpg",
         gameImageUrl: "../asset/image/moutain.jpg",
-        is2D: false,
+        gamemode: GameMode.threeD,
     };
 
     const cm3: CardModel = {
@@ -35,7 +35,7 @@ describe("Card-manager tests", () => {
         subtitle: "default 3D",
         avatarImageUrl: "../asset/image/poly.jpg",
         gameImageUrl: "../asset/image/poly.jpg",
-        is2D: false,
+        gamemode: GameMode.threeD,
     };
 
     const cm: CardModel[][] = [

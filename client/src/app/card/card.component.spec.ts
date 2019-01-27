@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { CardModel } from "../../../../common/communication/cardModel";
+import { CardModel, GameMode } from "../../../../common/communication/cardModel";
 import { Constants } from "../constants";
 import { HighscoreDisplayComponent } from "../highscore-display/highscore-display.component";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
@@ -28,7 +28,7 @@ describe("CardComponent", () => {
       subtitle: "string",
       avatarImageUrl: "string",
       gameImageUrl: "string",
-      is2D: true,
+      gamemode: GameMode.twoD,
     };
     component._cardModel = cardModel;
     fixture.detectChanges();

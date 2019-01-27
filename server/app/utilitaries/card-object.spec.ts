@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { CardModel } from "../../../common/communication/cardModel";
+import { CardModel, GameMode } from "../../../common/communication/cardModel";
 import { CardObject } from "./card-object";
 
 describe("CardObject tests", () => {
@@ -9,7 +9,7 @@ describe("CardObject tests", () => {
         subtitle: "string",
         avatarImageUrl: "string",
         gameImageUrl: "string",
-        is2D: true,
+        gamemode: GameMode.twoD,
     };
     const card: CardObject = new CardObject(cm);
 
