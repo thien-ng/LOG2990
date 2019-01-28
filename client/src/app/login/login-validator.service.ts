@@ -43,13 +43,17 @@ export class LoginValidatorService {
         if (data === Constants.NAME_VALID_VALUE) {
           this._router.navigate([Constants.ROUTER_LOGIN]).catch();
         } else {
-          this._snackbar.open(
-            Constants.SNACKBAR_USED_NAME,
-            Constants.SNACKBAR_ATTENTION,
-            {duration: Constants.SNACKBAR_DURATION});
+          this.displayUnvalidResponse();
         }
       });
     }
+  }
+
+  private displayUnvalidResponse(): void {
+    this._snackbar.open(
+      Constants.SNACKBAR_USED_NAME,
+      Constants.SNACKBAR_ATTENTION,
+      {duration: Constants.SNACKBAR_DURATION});
   }
 
 }

@@ -1,9 +1,9 @@
 import "reflect-metadata";
 
 import { expect } from "chai";
-import { CardModel, GameMode } from "../../../common/communication/cardModel";
-import { CardObject } from "../utilitaries/card-object";
-import { CardManagerService } from "./card-manager.service";
+import { CardModel, GameMode } from "../../../../common/communication/cardModel";
+import { CardManagerService } from "../../services/card-manager.service";
+import { CardObject } from "../../utilitaries/card-object";
 
 const TWO: number = 2;
 const THREE: number = 3;
