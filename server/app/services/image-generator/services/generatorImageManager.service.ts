@@ -27,19 +27,25 @@ export class GeneratorImageManager {
         }else {
 
         }
+        console.log("prob");
     }
 
-    private readFile(): void{
+    private async readFile(): Promise<void>{
 
-        this._jimp.read(filePath3).then( (image: any) => {
+        console.log("test1");
+        // await this._jimp.read(filePath3).then( (image: any) => {
 
-            this._originalImage = this.prepareFile(image.bitmap.data);
-        });
+        //     this._originalImage = this.prepareFile(image.bitmap.data);
+        // });
+        const image: any  = await this._jimp.read(filePath3);
+        console.log("end test 1");
 
+        console.log("test2");
         this._jimp.read(filePath3).then( (image: any) => {
 
             this._7DifferentImage = this.prepareFile(image.bitmap.data);
         });
+        console.log("end test 2");
     }
 
     private prepareFile(data: number[]): Pixel[] {
