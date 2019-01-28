@@ -1,13 +1,12 @@
 import { TestBed } from "@angular/core/testing";
-import { RouterTestingModule } from "@angular/router/testing";
-import { TestingImportsModule } from "../testing-imports/testing-imports.module";
-
 import { MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
+import { RouterTestingModule } from "@angular/router/testing";
 import { mock } from "ts-mockito";
-import { SocketService } from "../socket.service";
 import { LoginValidatorService } from "./login-validator.service";
-// import { Observable } from "rxjs";
+
+import { SocketService } from "../socket.service";
+import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 
 let service: LoginValidatorService;
 let router: Router;
@@ -73,26 +72,5 @@ describe("Tests on LoginValidatorService", () => {
     service._usernameFormControl.setValue("test@");
     expect(service._usernameFormControl.valid).toBeFalsy();
   });
-
-  // it("should be valid name if socket return true", () => {
-  //   service._usernameFormControl.setValue("dylan");
-
-  //   let response: Observable<String> = mock(Observable);
-  //   when(socketService.onMsg(anyString())).thenReturn(response);
-
-  //   service.addUsername();
-  //   verify(router.navigate(anyString())).called();
-  // });
-
-  // it("should be invalid name if socket returns false", () => {
-  //   service._usernameFormControl.setValue("dylan");
-
-  //   let response: Observable<String> = mock(Observable);
-  //   when(socketService.onMsg(anyString())).thenReturn(response);
-
-  //   service.addUsername();
-  //   verify(snackBar.open(anyString(), anyString(), anyOfClass(MatSnackBarConfig))).called();
-  // });
-
 
 });
