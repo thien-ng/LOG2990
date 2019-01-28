@@ -1,17 +1,19 @@
 import { injectable } from "inversify";
+import { Image } from "../image";
 import { Pixel } from "../pixel";
+import * as Jimp from "jimp";
 
 
-// const filePath3: String  = "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\corners.bmp";
-const filePath4: String  = "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\whiteTest.bmp";
-const filePath5: String  = "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\blackTest.bmp";
+// const filePath3: string  = "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\corners.bmp";
+const filePath4: string  = "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\whiteTest.bmp";
+const filePath5: string  = "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\blackTest.bmp";
 
 @injectable()
 export class GeneratorImageManager {
 
-    private jimp = require("Jimp");
-    private originalImage: Pixel[] = [];
-    private notOriginalImage: Pixel[] = [];
+    private jimp: Jimp = require("Jimp");
+    private imageOriginal: Image;
+    private imageWithdots: Image;
     private differenceImage: number[] = [];
 
 
@@ -30,17 +32,21 @@ export class GeneratorImageManager {
 
     private async readFile(): Promise<void>{
         await this.jimp.read(filePath4).then( (image: any) => {
-
-            this.originalImage = this.transformToPixel(image.bitmap.data);
+            const newPixelArray: Pixel[] = this.transformToPixel(image.bitmap.data);
+            const height: number = image.bitmap.height;
+            const width: number = image.bitmap.width;
+            this.imageOriginal = new Image(height, width, newPixelArray);
         });
 
         await this.jimp.read(filePath5).then( (image: any) => {
-
-            this.notOriginalImage = this.transformToPixel(image.bitmap.data);
+            const newPixelArray: Pixel[] = this.transformToPixel(image.bitmap.data);
+            const height: number = image.bitmap.height;
+            const width: number = image.bitmap.width;
+            this.imageWithdots = new Image(height, width, newPixelArray);
         });
     }
 
-    private transformToPixel(data: number[]): Pixel[] {
+    private transformToPixel(data: number[]): Pixel[] { //RGBA
 
         let arrayPixel: Pixel[] = [];
 
@@ -55,15 +61,6 @@ export class GeneratorImageManager {
             arrayPixel.push(pixel);
         }
 
-        //to remove
-        // arrayPixel.forEach((element) => {
-        //     console.log(
-        //         "red: " + element.getRed() +
-        //         " green: " + element.getGreen() + 
-        //         " blue: " + element.getBlue() + 
-        //         " alpha: " + element.getAlpha());
-        // });
-
         return arrayPixel;
     }
 
@@ -72,9 +69,12 @@ export class GeneratorImageManager {
 
         let differenceCounter: number = 0;
 
-        for(let i = 0; i < this.originalImage.length; i++){
+        const imageOg = this.imageOriginal.getPixelList();
+        const imageDots = this.imageWithdots.getPixelList();
 
-            if(this.originalImage[i].isEqual(this.notOriginalImage[i])){
+        for(let i = 0; i < this.imageOriginal.getPixelList().length; i++){
+
+            if(imageOg[i].isEqual(imageDots[i])){
                 this.differenceImage[i] = 0;
 
             }else {
@@ -94,6 +94,17 @@ export class GeneratorImageManager {
 
 
         return true;
+    }
+
+    //to remove
+    private printArray(array: Pixel[]){
+        array.forEach((element) => {
+            console.log(
+                "red: " + element.getRed() +
+                " green: " + element.getGreen() + 
+                " blue: " + element.getBlue() + 
+                " alpha: " + element.getAlpha());
+        });
     }
 
 }
