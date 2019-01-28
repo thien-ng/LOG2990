@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { inject, injectable } from "inversify";
 
-import { CardModel } from "../../../common/communication/cardModel";
+import { ICardLists } from "../../../common/communication/iCardLists";
 import { CardManagerService } from "../services/card-manager.service";
 import Types from "../types";
 
@@ -15,7 +15,7 @@ export class CardManagerController {
 
         router.get("/list", async (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
-                const list: CardModel[][] = this._cardManagerService.getCards();
+                const list: ICardLists = this._cardManagerService.getCards();
                 res.json(list);
             });
 

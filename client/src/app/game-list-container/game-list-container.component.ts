@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { Subscription } from "rxjs";
+import { ICardLists } from "../../../../common/communication/iCardLists";
 import { AdminToggleService } from "../admin-toggle.service";
 import { Constants } from "../constants";
 import { GameModeService } from "./game-mode.service";
@@ -18,39 +19,8 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
   public _tabIndex: number = 0;
   private _stateSubscription: Subscription;
 
-  @Input() public _cardListContainer: Object[][] = [
-    [
-    {
-      gameID: 0,
-      title: "Montagne",
-      subtitle: "Nature",
-      avatarImageUrl:  Constants.PATH_TO_ASSETS + "/icon/fire_1.png",
-      gameImageUrl: Constants.PATH_TO_ASSETS + "/image/moutain.jpg",
-    },
-    {
-      gameID: 1,
-      title: "Shiba Inu",
-      subtitle: "Animaux",
-      avatarImageUrl: Constants.PATH_TO_ASSETS + "/icon/fire_2.png",
-      gameImageUrl: Constants.PATH_TO_ASSETS + "/image/shiba.jpg",
-    },
-  ],
-    [
-    {
-      gameID: 3,
-      title: "École de la mort",
-      subtitle: "Torture",
-      avatarImageUrl:  Constants.PATH_TO_ASSETS + "/icon/fire_2.png",
-      gameImageUrl: Constants.PATH_TO_ASSETS + "/image/poly.jpg",
-    },
-    {
-      gameID: 4,
-      title: "Citrouilles",
-      subtitle: "Nature",
-      avatarImageUrl:  Constants.PATH_TO_ASSETS + "/icon/fire_3.png",
-      gameImageUrl: Constants.PATH_TO_ASSETS + "/image/pumpkins.jpg",
-    },
-  ]];
+  public cardsLoaded: boolean = false;
+  @Input() public _cardListContainer: ICardLists;
 
   public constructor(
     public _gameModeservice: GameModeService,
@@ -67,6 +37,11 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
       .subscribe((index: number) => {
         this._tabIndex = index;
     });
+    this._gameModeservice.getCards()
+      .subscribe((cards: ICardLists) => {
+        this._cardListContainer = cards;
+        this.cardsLoaded = true;
+      });
   }
 
   public ngOnDestroy(): void {

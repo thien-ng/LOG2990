@@ -1,6 +1,8 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable, Subject } from "rxjs";
+import { Constants } from "../constants";
 
 const INDEX_2D: number = 0;
 const INDEX_3D: number = 1;
@@ -10,7 +12,10 @@ const INDEX_3D: number = 1;
 })
 export class GameModeService {
 
-  public constructor(public router: Router) {}
+  public constructor(
+    public router: Router,
+    private _http: HttpClient,
+  ) {}
 
   private _index: number = 0;
   private _gameModeUpdated: Subject<number> = new Subject<number>();
@@ -37,6 +42,10 @@ export class GameModeService {
       default:
         break;
     }
+  }
+
+  public getCards(): Observable<Object> {
+    return this._http.get(Constants.BASIC_SERVICE_BASE_URL + "/api/card/list");
   }
 
 }

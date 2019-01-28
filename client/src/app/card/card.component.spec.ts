@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { CardModel, GameMode } from "../../../../common/communication/cardModel";
+import { GameMode, ICard } from "../../../../common/communication/iCard";
 import { Constants } from "../constants";
 import { HighscoreDisplayComponent } from "../highscore-display/highscore-display.component";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
@@ -22,7 +22,7 @@ describe("CardComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CardComponent);
     component = fixture.componentInstance;
-    const cardModel: CardModel = {
+    const cardModel: ICard = {
       gameID: 12,
       title: "string",
       subtitle: "string",
