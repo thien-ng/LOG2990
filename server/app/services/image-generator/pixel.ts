@@ -17,4 +17,20 @@ export class Pixel {
             this._alpha === alpha;
     }
 
+    public getRed(): number {
+        return this._red;
+    }
+
+    public getGreen(): number {
+        return this._green;
+    }
+
+    public getBlue(): number {
+        return this._blue;
+    }
+
+    public getAlpha(): number {
+        return this,this._alpha
+    }
+
 }

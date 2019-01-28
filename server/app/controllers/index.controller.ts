@@ -24,7 +24,7 @@ export class IndexController {
 
         router.get("/about", (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
-                this.generatorImageManager.readFile();
+                this.generatorImageManager.doAlgo();
                 res.json(this.indexService.about());
             });
 
