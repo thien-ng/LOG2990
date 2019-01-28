@@ -69,17 +69,13 @@ describe("Tests on LoginValidatorService", () => {
   });
 
   it("should be invalid when form has chars other than alphanumericals", () => {
-    service._usernameFormControl.setValue("test@");
-    expect(service._usernameFormControl.valid).toBeFalsy();
-  });
-
-  it("should be invalid when form has chars other than alphanumericals", () => {
     service._usernameFormControl.setValue("test with space");
     expect(service._usernameFormControl.valid).toBeFalsy();
-  });
 
-  it("should be invalid when form has chars other than alphanumericals", () => {
     service._usernameFormControl.setValue("test.test");
+    expect(service._usernameFormControl.valid).toBeFalsy();
+
+    service._usernameFormControl.setValue("test@");
     expect(service._usernameFormControl.valid).toBeFalsy();
   });
 
