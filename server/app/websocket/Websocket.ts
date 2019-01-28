@@ -22,7 +22,7 @@ export class WebsocketManager {
                 if (result) {
                     name = data;
                 }
-                socket.emit(Constants.LOGIN_RESPONSE, result);
+                socket.emit(Constants.LOGIN_RESPONSE, result.toString());
             });
 
             socket.on(Constants.DISCONNECT_EVENT, (data: string) => {
