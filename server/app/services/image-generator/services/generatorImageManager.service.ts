@@ -31,16 +31,16 @@ export class GeneratorImageManager {
     private async readFile(): Promise<void>{
         await this.jimp.read(filePath4).then( (image: any) => {
 
-            this.originalImage = this.prepareFile(image.bitmap.data);
+            this.originalImage = this.transformToPixel(image.bitmap.data);
         });
 
         await this.jimp.read(filePath5).then( (image: any) => {
 
-            this.notOriginalImage = this.prepareFile(image.bitmap.data);
+            this.notOriginalImage = this.transformToPixel(image.bitmap.data);
         });
     }
 
-    private prepareFile(data: number[]): Pixel[] {
+    private transformToPixel(data: number[]): Pixel[] {
 
         let arrayPixel: Pixel[] = [];
 
@@ -67,6 +67,7 @@ export class GeneratorImageManager {
         return arrayPixel;
     }
 
+    //array[width * row + col] = value
     private findDifference(): number {
 
         let differenceCounter: number = 0;
@@ -81,9 +82,18 @@ export class GeneratorImageManager {
                 differenceCounter++;
             }
         }
+
         return differenceCounter;
     }
 
+    private isNextToPixel(): Boolean {
 
+        //if en haut, if en bas, if a droite, if a gauche
+
+        //if en diagonal 
+
+
+        return true;
+    }
 
 }

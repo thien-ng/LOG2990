@@ -2,35 +2,35 @@
 export class Pixel {
 
     constructor(
-        private _red: number,
-        private _green: number,
-        private _blue: number,
-        private _alpha: number,
+        private red: number,
+        private green: number,
+        private blue: number,
+        private alpha: number,
         ) {
         //default constructor
     }
 
     public isEqual(pixel: Pixel): Boolean {
-        return this._red === pixel.getRed() &&
-            this._green === pixel.getGreen() &&
-            this._blue === pixel.getBlue() &&
-            this._alpha === pixel.getAlpha();
+        return this.red === pixel.getRed() &&
+            this.green === pixel.getGreen() &&
+            this.blue === pixel.getBlue() &&
+            this.alpha === pixel.getAlpha();
     }
 
     public getRed(): number {
-        return this._red;
+        return this.red;
     }
 
     public getGreen(): number {
-        return this._green;
+        return this.green;
     }
 
     public getBlue(): number {
-        return this._blue;
+        return this.blue;
     }
 
     public getAlpha(): number {
-        return this,this._alpha
+        return this,this.alpha
     }
 
 }
