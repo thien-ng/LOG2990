@@ -10,6 +10,9 @@ const filePath3: String  = "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integr
 export class GeneratorImageManager {
 
     private _jimp = require("Jimp");
+    private _originalImage: Pixel[] = [];
+    private _7DifferentImage: Pixel[] = [];
+
 
     public constructor(){
         //default constructor
@@ -19,7 +22,7 @@ export class GeneratorImageManager {
         this.readFile(filePath3);
     }
 
-    public readFile(path: String): void{
+    private readFile(path: String): void{
 
         // let array: number[];
 
@@ -34,7 +37,6 @@ export class GeneratorImageManager {
         let arrayPixel: Pixel[] = [];
 
         let pixelCounter: number = 0;
-
         while(pixelCounter < data.length) {
             let redValue = data[pixelCounter++];
             let greenValue = data[pixelCounter++];
@@ -54,6 +56,10 @@ export class GeneratorImageManager {
         });
 
         return arrayPixel;
+    }
+
+    private findDifference() {
+
     }
 
 
