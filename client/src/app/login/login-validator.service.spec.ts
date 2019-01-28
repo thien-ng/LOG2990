@@ -1,12 +1,12 @@
 import { TestBed } from "@angular/core/testing";
-import { RouterTestingModule } from "@angular/router/testing";
-import { TestingImportsModule } from "../testing-imports/testing-imports.module";
-
-import { mock } from "ts-mockito";
-import { Router } from "@angular/router";
-import { LoginValidatorService } from "./login-validator.service";
-import { SocketService } from "../socket.service";
 import { MatSnackBar } from "@angular/material";
+import { Router } from "@angular/router";
+import { RouterTestingModule } from "@angular/router/testing";
+import { mock } from "ts-mockito";
+import { LoginValidatorService } from "./login-validator.service";
+
+import { SocketService } from "../socket.service";
+import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 
 let service: LoginValidatorService;
 let router: Router;
