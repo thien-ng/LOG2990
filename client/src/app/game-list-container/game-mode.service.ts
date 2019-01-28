@@ -45,7 +45,7 @@ export class GameModeService {
   }
 
   public getCards(): Observable<Object> {
-    return this._http.get(Constants.BASIC_SERVICE_BASE_URL + "/api/card/list");
+    return this._http.get(Constants.BASIC_SERVICE_BASE_URL + Constants.CARDS_PATH);
   }
 
 }

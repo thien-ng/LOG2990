@@ -38,4 +38,7 @@ export class Constants {
   public static readonly SNACK_ERROR_MSG: string = "Veuillez entrer un fichier BMP";
   public static readonly SNACK_ACTION: string = "OK";
 
+  // constants for game list container
+  public static readonly CARDS_PATH: string = "/api/card/list";
+
 }
