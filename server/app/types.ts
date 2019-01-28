@@ -10,4 +10,5 @@ export default  {
         AssetController: Symbol("AssetController"),
         WebsocketManager: Symbol("WebsocketManager"),
         NameValidatorService: Symbol("NameValidatorService"),
+        LoginValidatorController: Symbol("LoginValidatorController"),
 };
