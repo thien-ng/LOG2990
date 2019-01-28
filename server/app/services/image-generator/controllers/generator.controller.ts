@@ -6,14 +6,14 @@ import { injectable } from "inversify";
 export class GeneratorController {
 
     public constructor() {
-        //default constructor
+        // default constructor
     }
 
     public get router(): Router {
         const router: Router = Router();
 
         router.post("/", async (req: Request, res: Response, next: NextFunction) => {
-            //test response
+            // test response
             res.json("test");
         });
 

@@ -1,13 +1,13 @@
 
 export class Pixel {
 
-    constructor(
+    public constructor(
         private red: number,
         private green: number,
         private blue: number,
         private alpha: number,
         ) {
-        //default constructor
+        // default constructor
     }
 
     public isEqual(pixel: Pixel): Boolean {
@@ -30,7 +30,7 @@ export class Pixel {
     }
 
     public getAlpha(): number {
-        return this,this.alpha
+        return this.alpha;
     }
 
 }

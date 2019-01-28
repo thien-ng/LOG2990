@@ -11,7 +11,11 @@ import { GeneratorImageManager } from "../services/image-generator/services/gene
 @injectable()
 export class IndexController {
 
-    public constructor(@inject(Types.IndexService) private indexService: IndexService, @inject(Types.GeneratorImageManager) private generatorImageManager: GeneratorImageManager) { }
+    public constructor(
+        @inject(Types.IndexService) private indexService: IndexService,
+        @inject(Types.GeneratorImageManager) private generatorImageManager: GeneratorImageManager) {
+            // default constructor
+        }
 
     public get router(): Router {
         const router: Router = Router();
@@ -24,7 +28,11 @@ export class IndexController {
 
         router.get("/about", (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
-                this.generatorImageManager.doAlgo();
+
+                // a enlever plus tard!!
+                this.generatorImageManager.doAlgo().catch(() => {
+                    // meur lentement
+                });
                 res.json(this.indexService.about());
             });
 

@@ -1,12 +1,14 @@
 import { injectable } from "inversify";
+import * as Jimp from "jimp";
 import { Image } from "../image";
 import { Pixel } from "../pixel";
-import * as Jimp from "jimp";
 
-
-// const filePath3: string  = "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\corners.bmp";
-const filePath4: string  = "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\whiteTest.bmp";
-const filePath5: string  = "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\blackTest.bmp";
+// const filePath3: string  =
+// "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\corners.bmp";
+const filePath4: string  =
+"C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\whiteTest.bmp";
+const filePath5: string  =
+"C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\blackTest.bmp";
 
 @injectable()
 export class GeneratorImageManager {
@@ -16,21 +18,20 @@ export class GeneratorImageManager {
     private imageWithdots: Image;
     private differenceImage: number[] = [];
 
-
-    public constructor(){
-        //default constructor
+    public constructor() {
+        // default constructor
     }
 
-    public async doAlgo() {
+    public async doAlgo(): Promise<void> {
 
         await this.readFile();
 
-        let totalDifference: number = this.findDifference();
+        const totalDifference: number = this.findDifference();
         console.log(totalDifference);
         console.log(this.differenceImage);
     }
 
-    private async readFile(): Promise<void>{
+    private async readFile(): Promise<void> {
         await this.jimp.read(filePath4).then( (image: any) => {
             const newPixelArray: Pixel[] = this.transformToPixel(image.bitmap.data);
             const height: number = image.bitmap.height;
@@ -46,38 +47,37 @@ export class GeneratorImageManager {
         });
     }
 
-    private transformToPixel(data: number[]): Pixel[] { //RGBA
+    private transformToPixel(data: number[]): Pixel[] {
 
-        let arrayPixel: Pixel[] = [];
+        const arrayPixel: Pixel[] = [];
 
         let pixelCounter: number = 0;
-        while(pixelCounter < data.length) {
-            let redValue = data[pixelCounter++];
-            let greenValue = data[pixelCounter++];
-            let blueValue = data[pixelCounter++];
-            let alphaValue = data[pixelCounter++]
+        while (pixelCounter < data.length) {
+            const redValue: number = data[pixelCounter++];
+            const greenValue: number = data[pixelCounter++];
+            const blueValue: number = data[pixelCounter++];
+            const alphaValue: number = data[pixelCounter++];
 
-            let pixel: Pixel = new Pixel(redValue, greenValue, blueValue, alphaValue);
+            const pixel: Pixel = new Pixel(redValue, greenValue, blueValue, alphaValue);
             arrayPixel.push(pixel);
         }
 
         return arrayPixel;
     }
 
-    //array[width * row + col] = value
     private findDifference(): number {
 
         let differenceCounter: number = 0;
 
-        const imageOg = this.imageOriginal.getPixelList();
-        const imageDots = this.imageWithdots.getPixelList();
+        const imageOg: Pixel[] = this.imageOriginal.getPixelList();
+        const imageDots: Pixel[] = this.imageWithdots.getPixelList();
 
-        for(let i = 0; i < this.imageOriginal.getPixelList().length; i++){
+        for (let i: number = 0; i < this.imageOriginal.getPixelList().length; i++) {
 
-            if(imageOg[i].isEqual(imageDots[i])){
+            if (imageOg[i].isEqual(imageDots[i])) {
                 this.differenceImage[i] = 0;
 
-            }else {
+            } else {
                 this.differenceImage[i] = 1;
                 differenceCounter++;
             }
@@ -86,23 +86,13 @@ export class GeneratorImageManager {
         return differenceCounter;
     }
 
-    private isNextToPixel(): Boolean {
-
-        //if en haut, if en bas, if a droite, if a gauche
-
-        //if en diagonal 
-
-
-        return true;
-    }
-
-    //to remove
-    private printArray(array: Pixel[]){
-        array.forEach((element) => {
+    // to remove
+    private printArray(array: Pixel[]): void {
+        array.forEach((element: Pixel) => {
             console.log(
                 "red: " + element.getRed() +
-                " green: " + element.getGreen() + 
-                " blue: " + element.getBlue() + 
+                " green: " + element.getGreen() +
+                " blue: " + element.getBlue() +
                 " alpha: " + element.getAlpha());
         });
     }

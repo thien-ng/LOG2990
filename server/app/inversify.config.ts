@@ -7,10 +7,11 @@ import { IndexController } from "./controllers/index.controller";
 import { Server } from "./server";
 import { CardManagerService } from "./services/card-manager.service";
 import { DateService } from "./services/date.service";
-import { IndexService } from "./services/index.service";
 import { GeneratorController } from "./services/image-generator/controllers/generator.controller";
-import { GeneratorImageManager } from "../app/services/image-generator/services/generatorImageManager.service";
+import { IndexService } from "./services/index.service";
 import { NameValidatorService } from "./services/validator/NameValidatorService";
+
+import { GeneratorImageManager } from "../app/services/image-generator/services/generatorImageManager.service";
 
 import Types from "./types";
 

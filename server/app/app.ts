@@ -8,7 +8,7 @@ import { AssetController } from "./controllers/asset.controller";
 import { CardManagerController } from "./controllers/card-manager.controller";
 import { DateController } from "./controllers/date.controller";
 import { IndexController } from "./controllers/index.controller";
-import { GeneratorController } from "./services/image-generator/controllers/generator.controller"
+import { GeneratorController } from "./services/image-generator/controllers/generator.controller";
 import Types from "./types";
 
 @injectable()
