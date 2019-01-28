@@ -46,7 +46,7 @@ export class Application {
         this.app.use("/api/index", this.indexController.router);
         this.app.use("/api/date", this.dateController.router);
         this.app.use("/api/card", this.cardManagerController.router);
-        this.app.use("/api/newUsername", this.loginValidatorController.router);
+        this.app.use("/api/loginValidation", this.loginValidatorController.router);
         this.errorHandeling();
     }
 
