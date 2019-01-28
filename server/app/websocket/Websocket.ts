@@ -17,15 +17,15 @@ export class WebsocketManager {
         io = require(Constants.SOCKET_IO)();
         io.on(Constants.CONNECTION, (socket: Socket) => {
             let name: String;
-            socket.on(Constants.LOGIN_EVENT, (data: String) => {
+            socket.on(Constants.LOGIN_EVENT, (data: string) => {
                 const result: Boolean = this._nameValidatorService.validateName(data);
                 if (result) {
                     name = data;
                 }
-                socket.emit(Constants.LOGIN_RESPONSE, result.toString() );
+                socket.emit(Constants.LOGIN_RESPONSE, result);
             });
 
-            socket.on(Constants.DISCONNECT_EVENT, (data: String) => {
+            socket.on(Constants.DISCONNECT_EVENT, (data: string) => {
                 this._nameValidatorService.leaveBrowser(name);
             });
 
