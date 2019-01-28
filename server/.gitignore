@@ -13,11 +13,13 @@ npm-debug.log
 # Code Coverage Folder
 coverage/
 
+# Fichiers générés par MacOS
+.DS_Store
+
 ##Typescrit compilation ##
 
 *.js.map
 *.js
-
 
 # Garder les fichiers necessaires pour les tests
 !systemjs.config.js
