@@ -8,10 +8,10 @@ import Types from "./../types";
 export class WebsocketManager {
 
     private SOCKET_IO: string = "socket.io";
-    private CONNECTION: String = "connection";
-    private LOGIN_EVENT: String = "onLogin";
-    private LOGIN_RESPONSE: String = "onLoginReponse";
-    private DISCONNECT_EVENT: String = "disconnect";
+    private CONNECTION: string = "connection";
+    private LOGIN_EVENT: string = "onLogin";
+    private LOGIN_RESPONSE: string = "onLoginReponse";
+    private DISCONNECT_EVENT: string = "disconnect";
     private PORT_NUMBER: number = 3333;
 
     public constructor(@inject(Types.NameValidatorService) private _nameValidatorService: NameValidatorService) {
@@ -22,16 +22,16 @@ export class WebsocketManager {
     public createWebsocket(io: any): void {
         io = require(this.SOCKET_IO)();
         io.on(this.CONNECTION, (socket: Socket) => {
-            let name: String;
-            socket.on(this.LOGIN_EVENT.toString(), (data: String) => {
+            let name: string;
+            socket.on(this.LOGIN_EVENT, (data: string) => {
                 const result: Boolean = this._nameValidatorService.validateName(data);
                 if (result) {
                     name = data;
                 }
-                socket.emit(this.LOGIN_RESPONSE.toString(), result.toString() );
+                socket.emit(this.LOGIN_RESPONSE, result );
             });
 
-            socket.on(this.DISCONNECT_EVENT.toString(), (data: String) => {
+            socket.on(this.DISCONNECT_EVENT, (data: string) => {
                 this._nameValidatorService.leaveBrowser(name);
             });
 
