@@ -11,7 +11,7 @@ const filePath5: string  =
 "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\blackTest.bmp";
 
 @injectable()
-export class GeneratorImageManager {
+export class GeneratorManager {
 
     private jimp: Jimp = require("Jimp");
     private imageOriginal: Image;
@@ -33,6 +33,7 @@ export class GeneratorImageManager {
 
     private async readFile(): Promise<void> {
         await this.jimp.read(filePath4).then( (image: any) => {
+            console.log(typeof image);
             const newPixelArray: Pixel[] = this.transformToPixel(image.bitmap.data);
             const height: number = image.bitmap.height;
             const width: number = image.bitmap.width;
@@ -87,14 +88,14 @@ export class GeneratorImageManager {
     }
 
     // to remove
-    private printArray(array: Pixel[]): void {
-        array.forEach((element: Pixel) => {
-            console.log(
-                "red: " + element.getRed() +
-                " green: " + element.getGreen() +
-                " blue: " + element.getBlue() +
-                " alpha: " + element.getAlpha());
-        });
-    }
+    // private printArray(array: Pixel[]): void {
+    //     array.forEach((element: Pixel) => {
+    //         console.log(
+    //             "red: " + element.getRed() +
+    //             " green: " + element.getGreen() +
+    //             " blue: " + element.getBlue() +
+    //             " alpha: " + element.getAlpha());
+    //     });
+    // }
 
 }

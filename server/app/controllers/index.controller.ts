@@ -6,14 +6,14 @@ import { IndexService } from "../services/index.service";
 import Types from "../types";
 
 // to remove
-import { GeneratorImageManager } from "../services/image-generator/services/generatorImageManager.service";
+import { GeneratorManager } from "../services/image-generator/services/generatorManager.service";
 
 @injectable()
 export class IndexController {
 
     public constructor(
         @inject(Types.IndexService) private indexService: IndexService,
-        @inject(Types.GeneratorImageManager) private generatorImageManager: GeneratorImageManager) {
+        @inject(Types.GeneratorImageManager) private generatorManager: GeneratorManager) {
             // default constructor
         }
 
@@ -30,7 +30,7 @@ export class IndexController {
                 // Send the request to the service and send the response
 
                 // a enlever plus tard!!
-                this.generatorImageManager.doAlgo().catch(() => {
+                this.generatorManager.doAlgo().catch(() => {
                     // meur lentement
                 });
                 res.json(this.indexService.about());
