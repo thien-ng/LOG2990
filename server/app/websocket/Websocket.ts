@@ -1,9 +1,9 @@
 
 import { inject, injectable } from "inversify";
 import { Socket } from "net";
+import { Constants } from "../constants";
 import { NameValidatorService } from "../services/validator/NameValidatorService";
 import Types from "./../types";
-import { Constants } from "../constants";
 
 @injectable()
 export class WebsocketManager {
