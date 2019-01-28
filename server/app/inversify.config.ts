@@ -8,10 +8,11 @@ import { Server } from "./server";
 import { CardManagerService } from "./services/card-manager.service";
 import { DateService } from "./services/date.service";
 import { IndexService } from "./services/index.service";
-import { NameValidatorService } from "./validator/NameValidatorService";
-import { WebsocketManager } from "./websocket/Websocket";
+import { NameValidatorService } from "./services/validator/NameValidatorService";
 
 import Types from "./types";
+
+import { WebsocketManager } from "./websocket/Websocket";
 
 const container: Container = new Container();
 
