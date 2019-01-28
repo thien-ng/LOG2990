@@ -19,16 +19,19 @@ export class GeneratorImageManager {
     }
 
     public doAlgo() {
-        this.readFile(filePath3);
+        this.readFile();
     }
 
-    private readFile(path: String): void{
+    private readFile(): void{
 
-        // let array: number[];
+        this._jimp.read(filePath3).then( (image: any) => {
 
-        this._jimp.read(path).then( (image: any) => {
+            this._originalImage = this.prepareFile(image.bitmap.data);
+        });
 
-            this.prepareFile(image.bitmap.data);
+        this._jimp.read(filePath3).then( (image: any) => {
+
+            this._7DifferentImage = this.prepareFile(image.bitmap.data);
         });
     }
 
@@ -59,7 +62,9 @@ export class GeneratorImageManager {
     }
 
     private findDifference() {
-
+        for(let i = 0; i < this._originalImage.length; i++){
+            
+        }
     }
 
 

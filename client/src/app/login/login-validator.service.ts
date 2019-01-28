@@ -2,8 +2,8 @@ import { Injectable } from "@angular/core";
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import { ErrorStateMatcher, MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
-import * as io from "socket.io-client";
 import { Constants } from "../constants";
+import { SocketService } from "../socket.service";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   public isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -27,29 +27,33 @@ export class LoginValidatorService {
     Validators.maxLength(Constants.MAX_LENGTH),
   ]);
 
-  // tslint:disable-next-line:no-any
-  private _socket: any;
-
-  public constructor(private _router: Router, private _snackbar: MatSnackBar) {
+  public constructor(
+    private _router: Router,
+    private _snackbar: MatSnackBar,
+    private _socketService: SocketService,
+    ) {
     // default constructor
   }
 
   public addUsername(): void {
-    this._socket = io(Constants.WEBSOCKET_URL.toString());
     if (this._usernameFormControl.errors == null) {
 
-      this._socket.emit(Constants.LOGIN_REQUEST.toString(), this._usernameFormControl.value);
-      this._socket.on(Constants.LOGIN_RESPONSE.toString(), (data: String) => {
+      this._socketService.sendMsg(Constants.LOGIN_REQUEST, this._usernameFormControl.value);
+      this._socketService.onMsg(Constants.LOGIN_RESPONSE).subscribe((data: String) => {
         if (data === Constants.NAME_VALID_VALUE) {
           this._router.navigate([Constants.ROUTER_LOGIN]).catch();
         } else {
-          this._snackbar.open(
-            Constants.SNACKBAR_USED_NAME,
-            Constants.SNACKBAR_ATTENTION,
-            {duration: Constants.SNACKBAR_DURATION});
+          this.displayUnvalidResponse();
         }
       });
     }
+  }
+
+  private displayUnvalidResponse(): void {
+    this._snackbar.open(
+      Constants.SNACKBAR_USED_NAME,
+      Constants.SNACKBAR_ATTENTION,
+      {duration: Constants.SNACKBAR_DURATION});
   }
 
 }
