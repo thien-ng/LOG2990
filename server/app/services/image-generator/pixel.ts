@@ -10,11 +10,11 @@ export class Pixel {
         //default constructor
     }
 
-    public isEqual(red: number, green: number, blue: number, alpha: number): Boolean {
-        return this._red === red &&
-            this._green === green &&
-            this._blue === blue &&
-            this._alpha === alpha;
+    public isEqual(pixel: Pixel): Boolean {
+        return this._red === pixel.getRed() &&
+            this._green === pixel.getGreen() &&
+            this._blue === pixel.getBlue() &&
+            this._alpha === pixel.getAlpha();
     }
 
     public getRed(): number {

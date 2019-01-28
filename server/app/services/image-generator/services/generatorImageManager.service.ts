@@ -61,10 +61,20 @@ export class GeneratorImageManager {
         return arrayPixel;
     }
 
-    private findDifference() {
+    private findDifference(): Pixel[] {
+        let newPixelArray: Pixel[] = [];
+
         for(let i = 0; i < this._originalImage.length; i++){
-            
+
+            if(this._originalImage[i].isEqual(this._7DifferentImage[i])){
+                newPixelArray[i] = this._originalImage[i];
+
+            }else {
+                newPixelArray[i] = new Pixel(0,0,0,0);
+            }
         }
+        
+        return newPixelArray;
     }
 
 
