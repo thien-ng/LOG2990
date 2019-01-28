@@ -2,50 +2,42 @@ import { injectable } from "inversify";
 import { Pixel } from "../pixel";
 
 
-const filePath3: String  = "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\corners.bmp";
-// const filePath4: String  = "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\blackTest.bmp";
-// const filePath5: String  = "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\whiteTest.bmp";
+// const filePath3: String  = "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\corners.bmp";
+const filePath4: String  = "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\whiteTest.bmp";
+const filePath5: String  = "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\blackTest.bmp";
 
 @injectable()
 export class GeneratorImageManager {
 
-    private _jimp = require("Jimp");
-    private _originalImage: Pixel[] = [];
-    private _7DifferentImage: Pixel[] = [];
-    private _newImage: Pixel[] = [];
+    private jimp = require("Jimp");
+    private originalImage: Pixel[] = [];
+    private notOriginalImage: Pixel[] = [];
+    private differenceImage: number[] = [];
 
 
     public constructor(){
         //default constructor
     }
 
-    public doAlgo() {
-        this.readFile();
-        const totalDifference: number = this.findDifference();
-        if(totalDifference === 7){
+    public async doAlgo() {
 
-        }else {
+        await this.readFile();
 
-        }
-        console.log("prob");
+        let totalDifference: number = this.findDifference();
+        console.log(totalDifference);
+        console.log(this.differenceImage);
     }
 
     private async readFile(): Promise<void>{
+        await this.jimp.read(filePath4).then( (image: any) => {
 
-        console.log("test1");
-        // await this._jimp.read(filePath3).then( (image: any) => {
-
-        //     this._originalImage = this.prepareFile(image.bitmap.data);
-        // });
-        const image: any  = await this._jimp.read(filePath3);
-        console.log("end test 1");
-
-        console.log("test2");
-        this._jimp.read(filePath3).then( (image: any) => {
-
-            this._7DifferentImage = this.prepareFile(image.bitmap.data);
+            this.originalImage = this.prepareFile(image.bitmap.data);
         });
-        console.log("end test 2");
+
+        await this.jimp.read(filePath5).then( (image: any) => {
+
+            this.notOriginalImage = this.prepareFile(image.bitmap.data);
+        });
     }
 
     private prepareFile(data: number[]): Pixel[] {
@@ -63,13 +55,14 @@ export class GeneratorImageManager {
             arrayPixel.push(pixel);
         }
 
-        arrayPixel.forEach((element) => {
-            console.log(
-                "red: " + element.getRed() +
-                " green: " + element.getGreen() + 
-                " blue: " + element.getBlue() + 
-                " alpha: " + element.getAlpha());
-        });
+        //to remove
+        // arrayPixel.forEach((element) => {
+        //     console.log(
+        //         "red: " + element.getRed() +
+        //         " green: " + element.getGreen() + 
+        //         " blue: " + element.getBlue() + 
+        //         " alpha: " + element.getAlpha());
+        // });
 
         return arrayPixel;
     }
@@ -78,17 +71,16 @@ export class GeneratorImageManager {
 
         let differenceCounter: number = 0;
 
-        for(let i = 0; i < this._originalImage.length; i++){
+        for(let i = 0; i < this.originalImage.length; i++){
 
-            if(this._originalImage[i].isEqual(this._7DifferentImage[i])){
-                this._newImage[i] = this._originalImage[i];
+            if(this.originalImage[i].isEqual(this.notOriginalImage[i])){
+                this.differenceImage[i] = 0;
 
             }else {
-                this._newImage[i] = new Pixel(0,0,0,0);
+                this.differenceImage[i] = 1;
                 differenceCounter++;
             }
         }
-
         return differenceCounter;
     }
 
