@@ -12,6 +12,7 @@ export class GeneratorImageManager {
     private _jimp = require("Jimp");
     private _originalImage: Pixel[] = [];
     private _7DifferentImage: Pixel[] = [];
+    private _newImage: Pixel[] = [];
 
 
     public constructor(){
@@ -20,6 +21,12 @@ export class GeneratorImageManager {
 
     public doAlgo() {
         this.readFile();
+        const totalDifference: number = this.findDifference();
+        if(totalDifference === 7){
+
+        }else {
+
+        }
     }
 
     private readFile(): void{
@@ -61,20 +68,22 @@ export class GeneratorImageManager {
         return arrayPixel;
     }
 
-    private findDifference(): Pixel[] {
-        let newPixelArray: Pixel[] = [];
+    private findDifference(): number {
+
+        let differenceCounter: number = 0;
 
         for(let i = 0; i < this._originalImage.length; i++){
 
             if(this._originalImage[i].isEqual(this._7DifferentImage[i])){
-                newPixelArray[i] = this._originalImage[i];
+                this._newImage[i] = this._originalImage[i];
 
             }else {
-                newPixelArray[i] = new Pixel(0,0,0,0);
+                this._newImage[i] = new Pixel(0,0,0,0);
+                differenceCounter++;
             }
         }
-        
-        return newPixelArray;
+
+        return differenceCounter;
     }
 
 
