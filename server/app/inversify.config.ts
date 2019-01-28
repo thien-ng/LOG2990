@@ -12,7 +12,7 @@ import { NameValidatorService } from "./services/validator/NameValidatorService"
 
 import Types from "./types";
 
-import { WebsocketManager } from "./Websocket/Websocket";
+import { WebsocketManager } from "./websocket/Websocket";
 
 const container: Container = new Container();
 
