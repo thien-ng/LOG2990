@@ -13,7 +13,7 @@ export class IndexController {
 
     public constructor(
         @inject(Types.IndexService) private indexService: IndexService,
-        @inject(Types.GeneratorImageManager) private generatorManager: GeneratorManager) {
+        @inject(Types.GeneratorManager) private generatorManager: GeneratorManager) {
             // default constructor
         }
 
