@@ -2,6 +2,8 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable, Subject } from "rxjs";
+import { CardMessage } from "../../../../common/communication/card-message";
+import { GameMode } from "../../../../common/communication/iCard";
 import { Constants } from "../constants";
 
 const INDEX_2D: number = 0;
@@ -48,4 +50,13 @@ export class GameModeService {
     return this._http.get(Constants.BASIC_SERVICE_BASE_URL + Constants.CARDS_PATH);
   }
 
+  public removeCard(cardId: number, mode: GameMode): Observable<Object> {
+    const message: CardMessage = {
+      title: "ID to delete",
+      id: cardId,
+      gameMode: mode,
+    };
+
+    return this._http.post(Constants.BASIC_SERVICE_BASE_URL + Constants.REMOVE_CARD_PATH, message);
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { ICard } from "../../../../common/communication/iCard";
 import { CardComponent } from "../card/card.component";
 
@@ -9,8 +9,13 @@ import { CardComponent } from "../card/card.component";
 })
 export class GameListComponent implements OnInit {
   @Input() public _cards: ICard[];
+  @Output() public cardDeleted: EventEmitter<string> = new EventEmitter<string>();
 
   public cardComponent: CardComponent;
+
+  public updateCards(): void {
+    this.cardDeleted.next(undefined);
+  }
 
   public constructor() {
     // default constructor

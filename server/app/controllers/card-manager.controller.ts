@@ -17,7 +17,13 @@ export class CardManagerController {
                 // Send the request to the service and send the response
                 const list: ICardLists = this._cardManagerService.getCards();
                 res.json(list);
-            });
+        });
+
+        router.post("/remove", async (req: Request, res: Response, next: NextFunction) => {
+            // Send the request to the service and send the response
+            const isDeleted: boolean = this._cardManagerService.removeCard(req.body);
+            res.json(isDeleted);
+        });
 
         return router;
     }

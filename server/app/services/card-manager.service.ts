@@ -1,5 +1,6 @@
 import { injectable } from "inversify";
 import { Constants } from "../../../client/src/app/constants";
+import { CardMessage } from "../../../common/communication/card-message";
 import { GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
 
@@ -88,6 +89,14 @@ export class CardManagerService {
         });
 
         return index;
+    }
+
+    public removeCard(obj: CardMessage): boolean {
+        if (obj.gameMode === GameMode.twoD) {
+            return this.removeCard2D(obj.id);
+        } else {
+            return this.removeCard3D(obj.id);
+        }
     }
 
     public removeCard2D(id: number): boolean {

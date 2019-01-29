@@ -1,6 +1,7 @@
 import "reflect-metadata";
 
 import { expect } from "chai";
+import { Constants } from "../../../../../client/src/app/constants";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { ICardLists } from "../../../../../common/communication/iCardLists";
 import { CardManagerService } from "../../../services/card-manager.service";
@@ -16,8 +17,8 @@ describe("Card-manager tests", () => {
         gameID: 1,
         title: "Default 2D",
         subtitle: "default 2D",
-        avatarImageUrl: "../asset/image/elon.jpg",
-        gameImageUrl: "../asset/image/elon.jpg",
+        avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/elon.jpg",
+        gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/elon.jpg",
         gamemode: GameMode.twoD,
     };
 
@@ -25,8 +26,8 @@ describe("Card-manager tests", () => {
         gameID: 2,
         title: "Default 3D",
         subtitle: "default 3D",
-        avatarImageUrl: "../asset/image/moutain.jpg",
-        gameImageUrl: "../asset/image/moutain.jpg",
+        avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/moutain.jpg",
+        gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/moutain.jpg",
         gamemode: GameMode.threeD,
     };
 

@@ -37,11 +37,15 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
       .subscribe((index: number) => {
         this._tabIndex = index;
     });
+    this.getCards();
+  }
+
+  public getCards(): void {
     this._gameModeservice.getCards()
-      .subscribe((cards: ICardLists) => {
-        this._cardListContainer = cards;
-        this.cardsLoaded = true;
-      });
+    .subscribe((cards: ICardLists) => {
+      this._cardListContainer = cards;
+      this.cardsLoaded = true;
+    });
   }
 
   public ngOnDestroy(): void {
