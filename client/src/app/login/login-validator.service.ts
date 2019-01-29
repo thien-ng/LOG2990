@@ -20,7 +20,7 @@ export class LoginValidatorService {
 
   public _matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
 
-  public _usernameFormControl: FormControl = new FormControl("", [
+  public usernameFormControl: FormControl = new FormControl("", [
     Validators.required,
     Validators.pattern(Constants.REGEX_PATTERN),
     Validators.minLength(Constants.MIN_LENGTH),
@@ -36,9 +36,9 @@ export class LoginValidatorService {
   }
 
   public addUsername(): void {
-    if (this._usernameFormControl.errors == null) {
+    if (this.usernameFormControl.errors == null) {
 
-      this._socketService.sendMsg(Constants.LOGIN_REQUEST, this._usernameFormControl.value);
+      this._socketService.sendMsg(Constants.LOGIN_REQUEST, this.usernameFormControl.value);
       this._socketService.onMsg(Constants.LOGIN_RESPONSE).subscribe((data: String) => {
         if (data === Constants.NAME_VALID_VALUE) {
           this._router.navigate([Constants.ROUTER_LOGIN]).catch();
