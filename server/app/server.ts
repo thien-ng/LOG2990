@@ -3,7 +3,7 @@ import { inject, injectable } from "inversify";
 import { AddressInfo } from "net";
 import { Application } from "./app";
 import Types from "./types";
-import { WebsocketManager } from "./websocket/Websocket";
+import { WebsocketManager } from "./websocket/WebsocketManager";
 
 @injectable()
 export class Server {
@@ -11,17 +11,16 @@ export class Server {
     private readonly appPort: string|number|boolean = this.normalizePort(process.env.PORT || "3000");
     private readonly baseDix: number = 10;
     private server: http.Server;
-    private socketIO: WebsocketManager;
 
     public constructor(@inject(Types.Application) private application: Application,
-                       @inject(Types.WebsocketManager) private websocket: WebsocketManager) { }
+                       @inject(Types.WebsocketManager) private websocketManager: WebsocketManager) { }
 
     public init(): void {
         this.application.app.set("port", this.appPort);
 
         this.server = http.createServer(this.application.app);
 
-        this.websocket.createWebsocket(this.socketIO);
+        this.websocketManager.createWebsocket(this.server);
 
         this.server.listen(this.appPort);
         this.server.on("error", (error: NodeJS.ErrnoException) => this.onError(error));
