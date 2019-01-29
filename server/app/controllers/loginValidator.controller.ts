@@ -14,8 +14,8 @@ export class LoginValidatorController {
 
         const router: Router = Router();
 
-        router.post("/newUsername/:username", (req: Request, res: Response, next: NextFunction) => {
-            const isValidated: Boolean = this._nameValidatorService.validateName(req.params.username);
+        router.post("/newUsername", (req: Request, res: Response, next: NextFunction) => {
+            const isValidated: Boolean = this._nameValidatorService.validateName(req.body.body);
             res.json(isValidated);
         });
 

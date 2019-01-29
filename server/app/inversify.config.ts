@@ -13,7 +13,7 @@ import { NameValidatorService } from "./services/validator/NameValidatorService"
 import Types from "./types";
 
 import { LoginValidatorController } from "./controllers/loginValidator.controller";
-import { WebsocketManager } from "./websocket/Websocket";
+import { WebsocketManager } from "./websocket/WebsocketManager";
 
 const container: Container = new Container();
 
