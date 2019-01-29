@@ -13,8 +13,8 @@ export class LoginValidatorComponent {
   public HINT: string = "Veuillez entrer un alias";
   public ERROR_PATTERN: string = "Caractères autorisés: A-Z, a-z, 0-9";
   public ERROR_SIZE: string = "Taille: "
-                                  + this.usernameMinLength() + "-"
-                                  + this.usernameMaxLength() + " caractères";
+                                  + this.getUsernameMinLength() + "-"
+                                  + this.getUsernameMaxLength() + " caractères";
   public ERROR_REQUIRED: string = "Nom d'utilisateur requis";
   public BUTTON_SUBMIT: string = "Soumettre";
 
@@ -28,19 +28,19 @@ export class LoginValidatorComponent {
     return this._loginValidatorService.usernameFormControl.hasError(errorType);
   }
 
-  public get hasFormControlErrors(): boolean {
+  public hasFormControlErrors(): boolean {
     return !(this._loginValidatorService.usernameFormControl.errors == null);
   }
 
-  public get usernameMinLength(): number {
+  public getUsernameMinLength(): number {
     return Constants.MIN_LENGTH;
   }
 
-  public get usernameMaxLength(): number {
+  public getUsernameMaxLength(): number {
     return Constants.MAX_LENGTH;
   }
 
-  public get usernameRegex(): string {
+  public getUsernameRegex(): string {
     return Constants.GAME_REGEX_PATTERN;
   }
 
