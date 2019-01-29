@@ -8,7 +8,7 @@ const DOESNT_EXIST: number = -1;
 
 @injectable()
 export class CardManagerService {
-    private _cards: ICardLists = {
+    private cards: ICardLists = {
         list2D: [
             {
                 gameID: 1,
@@ -39,13 +39,13 @@ export class CardManagerService {
 
     public addCard2D(card: ICard): boolean {
         let isExisting: boolean = false;
-        this._cards.list2D.forEach((element: ICard) => {
+        this.cards.list2D.forEach((element: ICard) => {
             if (this.cardEqual(card, element)) {
                 isExisting = true;
             }
         });
         if (!isExisting) {
-            this._cards.list2D.push(card);
+            this.cards.list2D.push(card);
         }
 
         return !isExisting;
@@ -53,27 +53,27 @@ export class CardManagerService {
 
     public addCard3D(card: ICard): boolean {
         let isExisting: boolean = false;
-        this._cards.list3D.forEach((element: ICard) => {
+        this.cards.list3D.forEach((element: ICard) => {
             if (this.cardEqual(card, element)) {
                 isExisting = true;
             }
         });
         if (!isExisting) {
-            this._cards.list3D.push(card);
+            this.cards.list3D.push(card);
         }
 
         return !isExisting;
     }
 
     public getCards(): ICardLists {
-        return this._cards;
+        return this.cards;
     }
 
     private findCard2D(id: number): number {
         let index: number = DOESNT_EXIST;
-        this._cards.list2D.forEach((card: ICard) => {
+        this.cards.list2D.forEach((card: ICard) => {
                 if (card.gameID === id) {
-                    index = this._cards.list2D.indexOf(card);
+                    index = this.cards.list2D.indexOf(card);
                 }
         });
 
@@ -82,9 +82,9 @@ export class CardManagerService {
 
     private findCard3D(id: number): number {
         let index: number = DOESNT_EXIST;
-        this._cards.list3D.forEach((card: ICard) => {
+        this.cards.list3D.forEach((card: ICard) => {
                 if (card.gameID === id) {
-                    index = this._cards.list3D.indexOf(card);
+                    index = this.cards.list3D.indexOf(card);
                 }
         });
 
@@ -102,7 +102,7 @@ export class CardManagerService {
     public removeCard2D(id: number): boolean {
         const index: number = this.findCard2D(id);
         if (index !== DOESNT_EXIST) {
-            this._cards.list2D.splice(index, 1);
+            this.cards.list2D.splice(index, 1);
 
             return true;
         }
@@ -113,7 +113,7 @@ export class CardManagerService {
     public removeCard3D(id: number): boolean {
         const index: number = this.findCard3D(id);
         if (index !== DOESNT_EXIST) {
-            this._cards.list3D.splice(index, 1);
+            this.cards.list3D.splice(index, 1);
 
             return true;
         }

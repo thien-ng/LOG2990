@@ -11,10 +11,10 @@ import { Constants } from "./constants";
 })
 export class CardManagerService {
 
-  public constructor(private _http: HttpClient) { /* Default Constructor */ }
+  public constructor(private http: HttpClient) { /* Default Constructor */ }
 
   public getCards(): Observable<Object> {
-    return this._http.get(Constants.BASIC_SERVICE_BASE_URL + Constants.CARDS_PATH);
+    return this.http.get(Constants.BASIC_SERVICE_BASE_URL + Constants.CARDS_PATH);
   }
 
   public removeCard(cardId: number, mode: GameMode): Observable<Object> {
@@ -24,6 +24,6 @@ export class CardManagerService {
       gameMode: mode,
     };
 
-    return this._http.post(Constants.BASIC_SERVICE_BASE_URL + Constants.REMOVE_CARD_PATH, message);
+    return this.http.post(Constants.BASIC_SERVICE_BASE_URL + Constants.REMOVE_CARD_PATH, message);
   }
 }

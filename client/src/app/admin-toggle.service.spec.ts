@@ -27,7 +27,7 @@ describe("AdminToggleService", () => {
   });
   it("should return true", () => {
     adminToggleService.adminTrue();
-    expect(adminToggleService.isAdmin).toBe(true);
+    expect(adminToggleService.isAdminState).toBe(true);
   });
   it("should return true", () => {
     adminToggleService.adminTrue();

@@ -26,7 +26,7 @@ export class CreateSimpleGameComponent implements OnInit {
                                   + Constants.MAX_GAME_LENGTH + " caractères";
   public ERROR_REQUIRED: string = "Nom de jeu requis";
 
-  private _selectedFiles: Blob[] = [];
+  private selectedFiles: Blob[] = [];
 
   public constructor(
     public dialogRef: MatDialogRef<CreateSimpleGameComponent>,
@@ -37,12 +37,12 @@ export class CreateSimpleGameComponent implements OnInit {
   public ngOnInit(): void { /* default init */ }
 
   public hasFormControlErrors(): boolean {
-    return !( this.fileValidatorService._gameNameFormControl.errors == null &&
+    return !( this.fileValidatorService.gameNameFormControl.errors == null &&
               this.IS_IMAGE_BMP[this.ORIGINAL_INDEX] && this.IS_IMAGE_BMP[this.MODIFIED_INDEX]);
   }
 
   public hasErrorOfType(errorType: string): boolean {
-    return this.fileValidatorService._gameNameFormControl.hasError(errorType);
+    return this.fileValidatorService.gameNameFormControl.hasError(errorType);
   }
 
   public closeDialog(): void {
@@ -51,7 +51,7 @@ export class CreateSimpleGameComponent implements OnInit {
 
   public onFileSelected(file: Blob, imageIndex: number): void {
     if (this.fileValidatorService.validateFile(file)) {
-      this._selectedFiles.push(file);
+      this.selectedFiles.push(file);
       this.IS_IMAGE_BMP[imageIndex] = true;
     } else {
       this.IS_IMAGE_BMP[imageIndex] = false;

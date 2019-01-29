@@ -11,11 +11,11 @@ export class AdminToggleService {
 
   public constructor(public router: Router) { /* Default constructor */ }
 
-  private _isAdmin: boolean;
+  private isAdmin: boolean;
   private adminUpdated: Subject<boolean> = new Subject<boolean>();
 
-  public get isAdmin(): boolean {
-    return this._isAdmin;
+  public get isAdminState(): boolean {
+    return this.isAdmin;
   }
 
   public getAdminUpdateListener(): Observable<boolean> {
@@ -23,18 +23,18 @@ export class AdminToggleService {
   }
 
   public adminToggle(): void {
-    this._isAdmin = !this._isAdmin;
-    if (this._isAdmin) {
+    this.isAdmin = !this.isAdmin;
+    if (this.isAdmin) {
       this.router.navigate([Constants.ADMIN_PATH]).catch(() => Constants.OBLIGATORY_CATCH);
     } else {
       this.router.navigate([Constants.GAMELIST_PATH]).catch(() => Constants.OBLIGATORY_CATCH);
     }
-    this.adminUpdated.next(this._isAdmin);
+    this.adminUpdated.next(this.isAdmin);
   }
 
   public adminTrue(): void {
-    this._isAdmin = true;
-    this.adminUpdated.next(this._isAdmin);
+    this.isAdmin = true;
+    this.adminUpdated.next(this.isAdmin);
   }
 
 }

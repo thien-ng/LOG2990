@@ -17,7 +17,7 @@
     </mat-menu>
   </mat-card-header>
 
-  <app-highscore-display class="highscorePanel" [(_isExpanded)]="HS_BUTTON_IS_CLICKED"></app-highscore-display>
+  <app-highscore-display class="highscorePanel" [(isExpanded)]="HS_BUTTON_IS_CLICKED"></app-highscore-display>
 
   <img mat-card-image class="card-image" [ngClass]="HS_BUTTON_IS_CLICKED ? 'darkenImage' : 'brightenImage'" alt="GameCardImage" src="{{card.gameImageUrl}}">
 

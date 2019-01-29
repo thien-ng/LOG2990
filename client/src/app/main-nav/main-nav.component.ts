@@ -38,13 +38,13 @@ export class MainNavComponent implements OnInit, OnDestroy {
     public router: Router,
   ) {}
 
-  public _isAdminMode: boolean;
-  public _loginPath: string = Constants.LOGIN_REDIRECT;
-  public _client: string = "client";
-  public _textAdmin: string = "Vue Administration";
-  public _textBouton2D: string = "Créer jeu simple";
-  public _textBouton3D: string = "Créer jeu 3D";
-  private _stateSubscription: Subscription;
+  public isAdminMode: boolean;
+  public loginPath: string = Constants.LOGIN_REDIRECT;
+  public client: string = "client";
+  public textAdmin: string = "Vue Administration";
+  public textBouton2D: string = "Créer jeu simple";
+  public textBouton3D: string = "Créer jeu 3D";
+  private stateSubscription: Subscription;
 
   public isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
@@ -69,15 +69,15 @@ export class MainNavComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this._isAdminMode = this.adminService.isAdmin;
-    this._stateSubscription = this.adminService.getAdminUpdateListener()
+    this.isAdminMode = this.adminService.isAdminState;
+    this.stateSubscription = this.adminService.getAdminUpdateListener()
       .subscribe((activeState: boolean) => {
-        this._isAdminMode = activeState;
+        this.isAdminMode = activeState;
     });
   }
 
   public ngOnDestroy(): void {
-    this._stateSubscription.unsubscribe();
+    this.stateSubscription.unsubscribe();
   }
 
 }

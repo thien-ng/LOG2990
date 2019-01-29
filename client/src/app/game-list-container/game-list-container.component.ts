@@ -15,13 +15,13 @@ import { GameModeService } from "./game-mode.service";
 })
 export class GameListContainerComponent implements OnInit, OnDestroy {
 
-  public _index2D: number = 0;
-  public _index3D: number = 1;
-  public _tabIndex: number = 0;
-  private _stateSubscription: Subscription;
+  public index2D: number = 0;
+  public index3D: number = 1;
+  public tabIndex: number = 0;
+  private stateSubscription: Subscription;
 
   public cardsLoaded: boolean = false;
-  @Input() public _cardListContainer: ICardLists;
+  @Input() public cardListContainer: ICardLists;
 
   public constructor(
     public gameModeservice: GameModeService,
@@ -31,13 +31,13 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
     ) { /* Default constructor */ }
 
   public ngOnInit(): void {
-    this._tabIndex = this.gameModeservice.getIndex();
+    this.tabIndex = this.gameModeservice.getIndex();
     if (this.router.url === Constants.ADMIN_REDIRECT) {
       this.adminService.adminTrue();
     }
-    this._stateSubscription = this.gameModeservice.getGameModeUpdateListener()
+    this.stateSubscription = this.gameModeservice.getGameModeUpdateListener()
       .subscribe((index: number) => {
-        this._tabIndex = index;
+        this.tabIndex = index;
     });
     this.getCards();
   }
@@ -45,13 +45,13 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
   public getCards(): void {
     this.cardManagerService.getCards()
     .subscribe((cards: ICardLists) => {
-      this._cardListContainer = cards;
+      this.cardListContainer = cards;
       this.cardsLoaded = true;
     });
   }
 
   public ngOnDestroy(): void {
-    this._stateSubscription.unsubscribe();
+    this.stateSubscription.unsubscribe();
   }
 
 }

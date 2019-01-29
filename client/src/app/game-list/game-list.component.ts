@@ -8,13 +8,13 @@ import { CardComponent } from "../card/card.component";
   styleUrls: ["./game-list.component.css"],
 })
 export class GameListComponent implements OnInit {
-  @Input() public _cards: ICard[];
-  @Output() public cardDeleted: EventEmitter<string> = new EventEmitter<string>();
+  @Input() public cards: ICard[];
+  @Output() public cardDeleted: EventEmitter<string> = new EventEmitter();
 
   public cardComponent: CardComponent;
 
   public updateCards(): void {
-    this.cardDeleted.next(undefined);
+    this.cardDeleted.emit();
   }
 
   public constructor() { /* default constructor */ }

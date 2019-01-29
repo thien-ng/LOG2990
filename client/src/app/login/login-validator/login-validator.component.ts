@@ -18,18 +18,18 @@ export class LoginValidatorComponent {
   public ERROR_REQUIRED: string = "Nom d'utilisateur requis";
   public BUTTON_SUBMIT: string = "Soumettre";
 
-  public constructor(private _loginValidatorService: LoginValidatorService) { /* Default constructor */ }
+  public constructor(private loginValidatorService: LoginValidatorService) { /* Default constructor */ }
 
   public addUsername(username: string): void {
-    this._loginValidatorService.addUsername();
+    this.loginValidatorService.addUsername();
   }
 
   public hasErrorOfType(errorType: string): boolean {
-    return this._loginValidatorService._usernameFormControl.hasError(errorType);
+    return this.loginValidatorService.usernameFormControl.hasError(errorType);
   }
 
   public hasFormControlErrors(): boolean {
-    return !(this._loginValidatorService._usernameFormControl.errors == null);
+    return !(this.loginValidatorService.usernameFormControl.errors == null);
   }
 
   public getUsernameMinLength(): number {
