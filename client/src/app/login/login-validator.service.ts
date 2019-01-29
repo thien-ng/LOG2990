@@ -31,9 +31,7 @@ export class LoginValidatorService {
     private _router: Router,
     private _snackbar: MatSnackBar,
     private _socketService: SocketService,
-    ) {
-    // default constructor
-  }
+    ) { /* Default constructor */ }
 
   public addUsername(): void {
     if (this._usernameFormControl.errors == null) {

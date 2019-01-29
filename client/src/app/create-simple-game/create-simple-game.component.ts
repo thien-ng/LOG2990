@@ -34,9 +34,7 @@ export class CreateSimpleGameComponent implements OnInit {
     private snackBar: MatSnackBar,
     ) {/* default constructor */}
 
-  public ngOnInit(): void {
-    // default init
-  }
+  public ngOnInit(): void { /* default init */ }
 
   public hasFormControlErrors(): boolean {
     return !( this.fileValidatorService._gameNameFormControl.errors == null &&

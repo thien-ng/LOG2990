@@ -1,4 +1,4 @@
-<mat-tab-group mat-align-tabs="center" class="columnHeader" [selectedIndex]="_tabIndex" (selectedTabChange)="this._gameModeservice.toggle()">
+<mat-tab-group mat-align-tabs="center" class="columnHeader" [selectedIndex]="_tabIndex" (selectedTabChange)="this.gameModeservice.toggle()">
     <mat-tab label="Mode 2D">
         <app-game-list (cardDeleted)="getCards()" *ngIf="cardsLoaded" #2DMode [_cards]="_cardListContainer.list2D"></app-game-list>
     </mat-tab>

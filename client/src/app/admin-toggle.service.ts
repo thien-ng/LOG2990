@@ -9,7 +9,7 @@ import { Constants } from "./constants";
 })
 export class AdminToggleService {
 
-  public constructor(public router: Router) {}
+  public constructor(public router: Router) { /* Default constructor */ }
 
   private _isAdmin: boolean;
   private adminUpdated: Subject<boolean> = new Subject<boolean>();

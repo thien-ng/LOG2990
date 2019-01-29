@@ -1,10 +1,6 @@
-import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable, Subject } from "rxjs";
-import { CardMessage } from "../../../../common/communication/card-message";
-import { GameMode } from "../../../../common/communication/iCard";
-import { Constants } from "../constants";
 
 const INDEX_2D: number = 0;
 const INDEX_3D: number = 1;
@@ -16,8 +12,7 @@ export class GameModeService {
 
   public constructor(
     public router: Router,
-    private _http: HttpClient,
-  ) {}
+  ) { /* Default constructor */ }
 
   private _index: number = 0;
   private _gameModeUpdated: Subject<number> = new Subject<number>();
@@ -44,19 +39,5 @@ export class GameModeService {
       default:
         break;
     }
-  }
-
-  public getCards(): Observable<Object> {
-    return this._http.get(Constants.BASIC_SERVICE_BASE_URL + Constants.CARDS_PATH);
-  }
-
-  public removeCard(cardId: number, mode: GameMode): Observable<Object> {
-    const message: CardMessage = {
-      title: "onDelete",
-      id: cardId,
-      gameMode: mode,
-    };
-
-    return this._http.post(Constants.BASIC_SERVICE_BASE_URL + Constants.REMOVE_CARD_PATH, message);
   }
 }

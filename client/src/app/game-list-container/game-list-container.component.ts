@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { ICardLists } from "../../../../common/communication/iCardLists";
 import { AdminToggleService } from "../admin-toggle.service";
+import { CardManagerService } from "../card-manager.service";
 import { Constants } from "../constants";
 import { GameModeService } from "./game-mode.service";
 
@@ -23,17 +24,18 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
   @Input() public _cardListContainer: ICardLists;
 
   public constructor(
-    public _gameModeservice: GameModeService,
-    private _adminService: AdminToggleService,
+    public gameModeservice: GameModeService,
+    public cardManagerService: CardManagerService,
+    private adminService: AdminToggleService,
     public router: Router,
-    ) {}
+    ) { /* Default constructor */ }
 
   public ngOnInit(): void {
-    this._tabIndex = this._gameModeservice.getIndex();
+    this._tabIndex = this.gameModeservice.getIndex();
     if (this.router.url === Constants.ADMIN_REDIRECT) {
-      this._adminService.adminTrue();
+      this.adminService.adminTrue();
     }
-    this._stateSubscription = this._gameModeservice.getGameModeUpdateListener()
+    this._stateSubscription = this.gameModeservice.getGameModeUpdateListener()
       .subscribe((index: number) => {
         this._tabIndex = index;
     });
@@ -41,7 +43,7 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
   }
 
   public getCards(): void {
-    this._gameModeservice.getCards()
+    this.cardManagerService.getCards()
     .subscribe((cards: ICardLists) => {
       this._cardListContainer = cards;
       this.cardsLoaded = true;

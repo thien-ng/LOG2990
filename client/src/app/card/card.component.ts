@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Router } from "@angular/router";
 import { ICard } from "../../../../common/communication/iCard";
+import { CardManagerService } from "../card-manager.service";
 import { GameModeService } from "../game-list-container/game-mode.service";
 
 @Component({
@@ -23,16 +24,15 @@ export class CardComponent implements OnInit {
   public constructor(
     public router: Router,
     public gameModeService: GameModeService,
-    ) {
-    // default constructor
-  }
+    public cardManagerService: CardManagerService,
+    ) { /* default constructor */ }
 
   @Output() public cardDeleted: EventEmitter<string> = new EventEmitter<string>();
 
-  public ngOnInit(): void {/* default init */}
+  public ngOnInit(): void { /* default init */ }
 
   public onDeleteButtonClick(): void {
-    this.gameModeService.removeCard(this.card.gameID, this.card.gamemode).subscribe(() => {
+    this.cardManagerService.removeCard(this.card.gameID, this.card.gamemode).subscribe(() => {
       this.cardDeleted.next(undefined);
     });
   }

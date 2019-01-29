@@ -17,12 +17,8 @@ export class GameListComponent implements OnInit {
     this.cardDeleted.next(undefined);
   }
 
-  public constructor() {
-    // default constructor
-  }
+  public constructor() { /* default constructor */ }
 
-  public ngOnInit(): void {
-    // default ngOnInit
-  }
+  public ngOnInit(): void { /* default ngOnInit */ }
 
 }

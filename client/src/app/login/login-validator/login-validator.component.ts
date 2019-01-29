@@ -18,7 +18,7 @@ export class LoginValidatorComponent {
   public ERROR_REQUIRED: string = "Nom d'utilisateur requis";
   public BUTTON_SUBMIT: string = "Soumettre";
 
-  public constructor(private _loginValidatorService: LoginValidatorService) {}
+  public constructor(private _loginValidatorService: LoginValidatorService) { /* Default constructor */ }
 
   public addUsername(username: string): void {
     this._loginValidatorService.addUsername();
