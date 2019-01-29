@@ -69,7 +69,7 @@ export class MainNavComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this._isAdminMode = this.adminService.getAdminState();
+    this._isAdminMode = this.adminService.isAdmin;
     this._stateSubscription = this.adminService.getAdminUpdateListener()
       .subscribe((activeState: boolean) => {
         this._isAdminMode = activeState;

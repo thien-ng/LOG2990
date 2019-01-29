@@ -14,7 +14,7 @@ export class AdminToggleService {
   private _isAdmin: boolean;
   private adminUpdated: Subject<boolean> = new Subject<boolean>();
 
-  public getAdminState(): boolean {
+  public get isAdmin(): boolean {
     return this._isAdmin;
   }
 

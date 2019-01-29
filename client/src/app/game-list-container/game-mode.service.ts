@@ -52,7 +52,7 @@ export class GameModeService {
 
   public removeCard(cardId: number, mode: GameMode): Observable<Object> {
     const message: CardMessage = {
-      title: "ID to delete",
+      title: "onDelete",
       id: cardId,
       gameMode: mode,
     };
