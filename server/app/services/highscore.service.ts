@@ -2,15 +2,23 @@ import { injectable } from "inversify";
 import { Highscore, Mode } from "../../../common/communication/highscore";
 
 const REMOVE_NOTHING: number = 0;
+const MIN_HS: number = 120;
+const MAX_HS: number = 600;
 
 @injectable()
 export class HighscoreService {
     private highscores: Highscore[] = [];
 
     // TBD Will be called when new card is created ( no change request for this one lol )
-    // public generateNewHighscore(id: number): void {
+    public generateNewHighscore(id: number): void {
+        this.highscores.forEach((element: Highscore) => {
+           this.checkScore(this.generateTime(MIN_HS, MAX_HS), element.timesMulti);
+        });
+     }
 
-    // }
+    public generateTime(min: number, max: number): number {
+       return Math.floor(Math.random() * (max - min + 1) + min);
+     }
 
     public getHighscoreById(id: number): Highscore | undefined {
         let score: Highscore | undefined;
@@ -40,7 +48,7 @@ export class HighscoreService {
         }
     }
 
-    private checkScore(value: number, times: number[]): void {
+    private checkScore(value: number, times: [number, number, number]): void {
         let hasBeenReplaced: Boolean = false;
         times.forEach((element: number) => {
             if (element > value && !hasBeenReplaced) {
