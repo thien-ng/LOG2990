@@ -9,8 +9,8 @@ export class Constants {
   public static readonly GAMELIST_REDIRECT: string = "//gamelist";
   public static readonly PATH_MATCH_FULL: string = "full";
   public static readonly PATH_TO_ASSETS: string = "http://localhost:3000/api/asset";
-  public static readonly PATH_TO_ICONS: string = "http://localhost:3000/api/asset/icon";
-  public static readonly PATH_TO_IMAGES: string = "http://localhost:3000/api/asset/image";
+  public static readonly PATH_TO_ICONS: string = "http://localhost:3000/icon";
+  public static readonly PATH_TO_IMAGES: string = "http://localhost:3000/image";
 
   public static readonly OBLIGATORY_CATCH: string = "obligatory catch";
   public static readonly ANIMATION_TIME: number = 300; // ms
