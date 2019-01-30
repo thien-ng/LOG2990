@@ -4,8 +4,10 @@ interface IPosition2D {
 }
 
 export class CircleDifferences {
+
     private circledDifference: number[];
     // paramètre a mettre dans un objet
+
     public constructor(public differencesArray: number[], public width: number, public radius: number) {
         // default constructor
         this.printToConsole();
@@ -54,6 +56,17 @@ export class CircleDifferences {
         return this.radius + adjustment;
     }
 
+    private getStartPositionSquare(centerPositionInArray: number): IPosition2D {
+       const startPositionInArray: number = centerPositionInArray - this.width * this.radius - this.radius;
+
+       return this.getPosition(startPositionInArray);
+    }
+
+    private getEndPositionSquare(centerPositionInArray: number): IPosition2D {
+        const endPositionInArray: number = centerPositionInArray + this.width * this.radius + this.radius;
+
+        return this.getPosition(endPositionInArray);
+     }
 }
 
 const RADIUS: number = 2;
