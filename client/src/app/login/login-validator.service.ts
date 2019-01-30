@@ -31,10 +31,10 @@ export class LoginValidatorService {
   ]);
 
   public constructor(
-    private _router: Router,
-    private _snackbar: MatSnackBar,
-    private _httpClient: HttpClient,
-    private _socketService: SocketService,
+    private router: Router,
+    private snackbar: MatSnackBar,
+    private httpClient: HttpClient,
+    private socketService: SocketService,
     ) {
     // default constructor
   }
@@ -44,8 +44,8 @@ export class LoginValidatorService {
       title: "new username",
       body: this.usernameFormControl.value,
     };
-    if (this._socketService !== undefined) {
-      const result: Object = await this._httpClient.post(Constants.PATH_TO_LOGIN_VALIDATION, message).toPromise();
+    if (this.socketService !== undefined) {
+      const result: Object = await this.httpClient.post(Constants.PATH_TO_LOGIN_VALIDATION, message).toPromise();
       if (result) {
         this.naviguateLoginSuccessful();
       } else {
@@ -57,14 +57,14 @@ export class LoginValidatorService {
   // Helpers
 
   private displaySnackBar(message: string, closeStatement: string): void {
-    this._snackbar.open(
+    this.snackbar.open(
       message,
       closeStatement,
       {duration: Constants.SNACKBAR_DURATION});
   }
 
   private naviguateLoginSuccessful(): void {
-    this._router.navigate([Constants.ROUTER_LOGIN]).catch();
+    this.router.navigate([Constants.ROUTER_LOGIN]).catch();
     this.displaySnackBar(Constants.SNACKBAR_GREETINGS + this.usernameFormControl.value, Constants.SNACKBAR_ACKNOWLEDGE);
   }
 
