@@ -5,6 +5,8 @@ import { ICardLists } from "../../../common/communication/iCardLists";
 import { CardManagerService } from "../services/card-manager.service";
 import Types from "../types";
 
+const DECIMAL: number = 10;
+
 @injectable()
 export class CardManagerController {
 
@@ -19,10 +21,16 @@ export class CardManagerController {
                 res.json(list);
         });
 
-        router.post("/remove", async (req: Request, res: Response, next: NextFunction) => {
-            // Send the request to the service and send the response
-            const isDeleted: boolean = this.cardManagerService.removeCard(req.body);
-            res.json(isDeleted);
+        router.delete("/remove/simple/:id", async (req: Request, res: Response, next: NextFunction) => {
+            const cardId: number = parseInt(req.params.id, DECIMAL);
+            const message: string = this.cardManagerService.removeCard2D(cardId);
+            res.json(message);
+        });
+
+        router.delete("/remove/free/:id", async (req: Request, res: Response, next: NextFunction) => {
+            const cardId: number = parseInt(req.params.id, DECIMAL);
+            const message: string = this.cardManagerService.removeCard3D(cardId);
+            res.json(message);
         });
 
         return router;

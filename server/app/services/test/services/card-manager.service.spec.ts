@@ -19,7 +19,7 @@ describe("Card-manager tests", () => {
         subtitle: "default 2D",
         avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/elon.jpg",
         gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/elon.jpg",
-        gamemode: GameMode.twoD,
+        gamemode: GameMode.simple,
     };
 
     const c2: ICard = {
@@ -28,7 +28,7 @@ describe("Card-manager tests", () => {
         subtitle: "default 3D",
         avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/moutain.jpg",
         gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/moutain.jpg",
-        gamemode: GameMode.threeD,
+        gamemode: GameMode.free,
     };
 
     const c3: ICard = {
@@ -37,7 +37,7 @@ describe("Card-manager tests", () => {
         subtitle: "default 3D",
         avatarImageUrl: "../asset/image/poly.jpg",
         gameImageUrl: "../asset/image/poly.jpg",
-        gamemode: GameMode.threeD,
+        gamemode: GameMode.free,
     };
 
     beforeEach(() => {

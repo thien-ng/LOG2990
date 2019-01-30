@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import { ICard } from "../../../../common/communication/iCard";
 import { CardManagerService } from "../card-manager.service";
+import { Constants } from "../constants";
 import { GameModeService } from "../game-list-container/game-mode.service";
 
 @Component({
@@ -25,6 +27,7 @@ export class CardComponent implements OnInit {
     public router: Router,
     public gameModeService: GameModeService,
     public cardManagerService: CardManagerService,
+    private snackBar: MatSnackBar,
     ) { /* default constructor */ }
 
   @Output() public cardDeleted: EventEmitter<string> = new EventEmitter();
@@ -32,7 +35,11 @@ export class CardComponent implements OnInit {
   public ngOnInit(): void { /* default init */ }
 
   public onDeleteButtonClick(): void {
-    this.cardManagerService.removeCard(this.card.gameID, this.card.gamemode).subscribe(() => {
+    this.cardManagerService.removeCard(this.card.gameID, this.card.gamemode).subscribe((response: string) => {
+      this.snackBar.open( response, Constants.SNACK_ACTION, {
+        duration: Constants.SNACKBAR_DURATION,
+        verticalPosition: "top",
+      });
       this.cardDeleted.emit();
     });
   }

@@ -1,10 +1,11 @@
 import { injectable } from "inversify";
 import { Constants } from "../../../client/src/app/constants";
-import { CardMessage } from "../../../common/communication/card-message";
 import { GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
 
 const DOESNT_EXIST: number = -1;
+const CARD_DELETED: string = "Carte suprimée";
+const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
 
 @injectable()
 export class CardManagerService {
@@ -16,7 +17,7 @@ export class CardManagerService {
                 subtitle: "default 2D",
                 avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/elon.jpg",
                 gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/elon.jpg",
-                gamemode: GameMode.twoD,
+                gamemode: GameMode.simple,
             },
         ],
         list3D: [
@@ -26,7 +27,7 @@ export class CardManagerService {
                 subtitle: "default 3D",
                 avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/moutain.jpg",
                 gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/moutain.jpg",
-                gamemode: GameMode.threeD,
+                gamemode: GameMode.free,
             },
         ],
     };
@@ -91,33 +92,25 @@ export class CardManagerService {
         return index;
     }
 
-    public removeCard(obj: CardMessage): boolean {
-        if (obj.gameMode === GameMode.twoD) {
-            return this.removeCard2D(obj.id);
-        } else {
-            return this.removeCard3D(obj.id);
-        }
-    }
-
-    public removeCard2D(id: number): boolean {
+    public removeCard2D(id: number): string {
         const index: number = this.findCard2D(id);
         if (index !== DOESNT_EXIST) {
             this.cards.list2D.splice(index, 1);
 
-            return true;
+            return CARD_DELETED;
         }
 
-        return false;
+        return CARD_NOT_FOUND;
     }
 
-    public removeCard3D(id: number): boolean {
+    public removeCard3D(id: number): string {
         const index: number = this.findCard3D(id);
         if (index !== DOESNT_EXIST) {
             this.cards.list3D.splice(index, 1);
 
-            return true;
+            return CARD_DELETED;
         }
 
-        return false;
+        return CARD_NOT_FOUND;
     }
 }
