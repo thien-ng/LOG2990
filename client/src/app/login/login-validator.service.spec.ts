@@ -6,11 +6,8 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { mock } from "ts-mockito";
 import { LoginValidatorService } from "./login-validator.service";
 
-import { Message } from "../../../../common/communication/message";
-import { Constants } from "../constants";
 import { SocketService } from "../socket.service";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
-import { Validators } from "@angular/forms";
 
 let loginValidatorService: LoginValidatorService;
 let router: Router;
@@ -73,26 +70,6 @@ fdescribe("Tests on LoginValidatorService", () => {
   it("should be invalid when form has punctuation", () => {
     loginValidatorService.usernameFormControl.setValue("t.e.s.t");
     expect(loginValidatorService.usernameFormControl.valid).toBeFalsy();
-  });
-
-  // Test on the helpers
-
-  it("should return false when form has no errors", () => {
-    loginValidatorService["usernameFormControl"].setErrors(null);
-    expect(loginValidatorService["hasErrors"]).toBeFalsy();
-  });
-
-  it("should return true when form has errors", () => {
-    loginValidatorService["usernameFormControl"].setErrors(Validators.required);
-    expect(loginValidatorService["hasErrors"]).toBeTruthy();
-  });
-
-  it("should generate a Message with the username", () => {
-    const message: Message = loginValidatorService["generateMessage"]("dylan");
-    expect(message).toEqual({
-      title: "new username",
-      body: "dylan",
-    });
   });
 
 });
