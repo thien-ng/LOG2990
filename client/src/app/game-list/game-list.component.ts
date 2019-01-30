@@ -9,7 +9,7 @@ import { CardComponent } from "../card/card.component";
 })
 export class GameListComponent implements OnInit {
   @Input() public cards: ICard[];
-  @Output() public cardDeleted: EventEmitter<string> = new EventEmitter();
+  @Output() public cardDeleted: EventEmitter<string>;
 
   public cardComponent: CardComponent;
 
@@ -17,7 +17,9 @@ export class GameListComponent implements OnInit {
     this.cardDeleted.emit();
   }
 
-  public constructor() { /* default constructor */ }
+  public constructor() {
+    this.cardDeleted = new EventEmitter<string>();
+  }
 
   public ngOnInit(): void { /* default ngOnInit */ }
 

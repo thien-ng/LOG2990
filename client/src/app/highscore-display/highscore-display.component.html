@@ -1,21 +1,21 @@
 <mat-expansion-panel class="highscore_panel" [(expanded)]="isExpanded">
-    <h1>{{ textClassement }}</h1>
+    <h1>{{ RANKING }}</h1>
     <div class="grid_ranking">
 
-        <div><h3>{{ textSimple }}</h3></div>
+        <div><h3>{{ SIMPLE }}</h3></div>
         <div></div>
-        <div><h3>{{ text1vs1 }}</h3></div>
+        <div><h3>{{ ONE_VS_ONE }}</h3></div>
 
-        <div>{{ highscores2D[0] }}</div>
-        <div><img class="medals" src="{{imageMedalsUrl[0]}}"></div>
-        <div>{{ highscores3D[0] }}</div>
+        <div>{{ HIGHSCORES_2D[0] }}</div>
+        <div><img class="medals" src="{{IMAGE_MEDAL_URL[0]}}"></div>
+        <div>{{ HIGHSCORES_3D[0] }}</div>
 
-        <div>{{ highscores2D[1] }}</div>
-        <div><img class="medals" src="{{imageMedalsUrl[1]}}"></div>
-        <div>{{ highscores3D[1] }}</div>
-        
-        <div>{{ highscores2D[2] }}</div>
-        <div><img class="medals" src="{{imageMedalsUrl[2]}}"></div>
-        <div>{{ highscores3D[2] }}</div>
+        <div>{{ HIGHSCORES_2D[1] }}</div>
+        <div><img class="medals" src="{{IMAGE_MEDAL_URL[1]}}"></div>
+        <div>{{ HIGHSCORES_3D[1] }}</div>
+
+        <div>{{ HIGHSCORES_2D[2] }}</div>
+        <div><img class="medals" src="{{IMAGE_MEDAL_URL[2]}}"></div>
+        <div>{{ HIGHSCORES_3D[2] }}</div>
     </div>
   </mat-expansion-panel>

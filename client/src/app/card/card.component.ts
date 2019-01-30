@@ -11,6 +11,7 @@ import { GameModeService } from "../game-list-container/game-mode.service";
   templateUrl: "./card.component.html",
   styleUrls: ["./card.component.css"],
 })
+
 export class CardComponent implements OnInit {
   public HS_BUTTON_IS_CLICKED: boolean;
   public TROPHY_IMAGE_URL: string = "https://img.icons8.com/metro/1600/trophy.png";
