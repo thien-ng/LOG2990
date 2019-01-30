@@ -1,3 +1,7 @@
+interface IPosition2D {
+    posX: number;
+    posY: number;
+}
 
 export class CircleDifferences {
     private circledDifference: number[];
@@ -17,7 +21,19 @@ export class CircleDifferences {
             }
         });
     }
+
+    private getCoordinate2DPixel(positionInArray: number): IPosition2D {
+        const coordX: number = (positionInArray / this.width);
+        const coordY: number = (positionInArray % this.width);
+
+        return {
+            posX: coordX,
+            posY: coordY,
+        };
+    }
+
 }
+
 const differencesArray: number[] = [0, 0, 0, 1];
 const width: number = 2;
 const height: number = 2;
