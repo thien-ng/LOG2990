@@ -47,32 +47,26 @@ export class LoginValidatorService {
     if (this._socketService != null) {
       const result: Object = await this._httpClient.post(Constants.PATH_TO_LOGIN_VALIDATION, message).toPromise();
       if (result) {
-        this._router.navigate([Constants.ROUTER_LOGIN]).catch();
+        this.naviguateLoginSuccessful();
       } else {
-        this.displayUnvalidResponse();
+        this.displayNameNotUniqueMessage(message.body);
       }
     }
   }
 
-
-  // public addUsername(): void {
-  //   if (this.usernameFormControl.errors == null) {
-      // this._socketService.sendMsg(Constants.LOGIN_REQUEST, this.usernameFormControl.value);
-      // this._socketService.onMsg(Constants.LOGIN_RESPONSE).subscribe((data: String) => {
-      //   if (data === Constants.NAME_VALID_VALUE) {
-      //     this._router.navigate([Constants.ROUTER_LOGIN]).catch();
-      //   } else {
-      //     this.displayUnvalidResponse();
-      //   }
-      // });
-  //   }
-  // }
-
-  private displayUnvalidResponse(): void {
+  private displaySnackBar(message: string, closeStatement: string): void {
     this._snackbar.open(
-      Constants.SNACKBAR_USED_NAME,
-      Constants.SNACKBAR_ATTENTION,
+      message,
+      closeStatement,
       {duration: Constants.SNACKBAR_DURATION});
   }
 
+  private naviguateLoginSuccessful(): void {
+    this._router.navigate([Constants.ROUTER_LOGIN]).catch();
+    this.displaySnackBar(Constants.SNACKBAR_GREETINGS + this.usernameFormControl.value, Constants.SNACKBAR_ACKNOWLEDGE);
+  }
+
+  private displayNameNotUniqueMessage(username: string): void {
+    this.displaySnackBar(username + Constants.SNACKBAR_USED_NAME, Constants.SNACKBAR_ATTENTION);
+  }
 }

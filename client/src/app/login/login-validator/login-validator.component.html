@@ -1,26 +1,30 @@
 <form class="login-form">
   <mat-form-field class="login-input">
     <input #newUsername matInput autocomplete="off"
-        (keyup.enter)="addUsername()"
+        (keyup.enter)="this.loginValidatorService.addUsername()"
         placeholder="{{HINT_USERNAME}}"
-        [formControl]="_loginValidatorService.usernameFormControl"
-        [errorStateMatcher]="_loginValidatorService._matcher">
+        [formControl]="this.loginValidatorService.usernameFormControl"
+        [errorStateMatcher]="loginValidatorService._matcher">
     <mat-hint class="hint">{{HINT}}</mat-hint>
-    <mat-error *ngIf="hasErrorOfType('pattern')">
+    <mat-error *ngIf=
+        "this.loginValidatorService.usernameFormControl.hasError('pattern')">
         {{ERROR_PATTERN}}
     </mat-error>
-    <mat-error *ngIf="!hasErrorOfType(minlength) || !hasErrorOfType(maxlength)">
+    <mat-error *ngIf=
+        "!this.loginValidatorService.usernameFormControl.hasError(minlength) 
+        || !this.loginValidatorService.usernameFormControl.hasError(maxlength)">
         {{ERROR_SIZE}}
     </mat-error>
-    <mat-error *ngIf="!hasErrorOfType(required)">
+    <mat-error *ngIf=
+        "!this.loginValidatorService.usernameFormControl.hasError(required)">
         {{ERROR_REQUIRED}}
     </mat-error>
   </mat-form-field>
 </form>
 <br>
 <br>
-<button mat-raised-button id="submit-button"  (click)="addUsername()"
-  [disabled]="hasFormControlErrors()">
+<button mat-raised-button id="submit-button"  (click)="this.loginValidatorService.addUsername()"
+  [disabled]="!(this.loginValidatorService.usernameFormControl.errors == null)">
   <span>{{BUTTON_SUBMIT}}</span>
 </button>
       

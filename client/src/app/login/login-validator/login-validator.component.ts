@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Inject } from "@angular/core";
 import { Constants } from "../../constants";
 import { LoginValidatorService } from "../login-validator.service";
 
@@ -13,35 +13,11 @@ export class LoginValidatorComponent {
   public HINT: string = "Veuillez entrer un alias";
   public ERROR_PATTERN: string = "Caractères autorisés: A-Z, a-z, 0-9";
   public ERROR_SIZE: string = "Taille: "
-                                  + this.getUsernameMinLength() + "-"
-                                  + this.getUsernameMaxLength() + " caractères";
+                                  + Constants.MIN_LENGTH + "-"
+                                  + Constants.MAX_LENGTH + " caractères";
   public ERROR_REQUIRED: string = "Nom d'utilisateur requis";
   public BUTTON_SUBMIT: string = "Soumettre";
 
-  public constructor(private _loginValidatorService: LoginValidatorService) {}
-
-  public addUsername(username: string): void {
-    this._loginValidatorService.addUsername();
-  }
-
-  public hasErrorOfType(errorType: string): boolean {
-    return this._loginValidatorService.usernameFormControl.hasError(errorType);
-  }
-
-  public hasFormControlErrors(): boolean {
-    return !(this._loginValidatorService.usernameFormControl.errors == null);
-  }
-
-  public getUsernameMinLength(): number {
-    return Constants.MIN_LENGTH;
-  }
-
-  public getUsernameMaxLength(): number {
-    return Constants.MAX_LENGTH;
-  }
-
-  public getUsernameRegex(): string {
-    return Constants.GAME_REGEX_PATTERN;
-  }
+  public constructor(@Inject(LoginValidatorService)public loginValidatorService: LoginValidatorService) {}
 
 }
