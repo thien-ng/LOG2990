@@ -6,6 +6,7 @@ import { Router } from "@angular/router";
 import { Constants } from "../constants";
 import { SocketService } from "../socket.service";
 
+import "rxjs/add/operator/toPromise";
 import { Message } from "../../../../common/communication/message";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -54,6 +55,12 @@ export class LoginValidatorService {
   }
 
   // Helpers
+  public displaySnackBar(message: string, closeStatement: string): void {
+    this.snackbar.open(
+      message,
+      closeStatement,
+      {duration: Constants.SNACKBAR_DURATION});
+  }
 
   private hasErrors(): boolean {
     return this.usernameFormControl.errors !== null;
@@ -64,13 +71,6 @@ export class LoginValidatorService {
       title: Constants.LOGIN_MESSAGE_TITLE,
       body: this.usernameFormControl.value,
     };
-  }
-
-  private displaySnackBar(message: string, closeStatement: string): void {
-    this.snackbar.open(
-      message,
-      closeStatement,
-      {duration: Constants.SNACKBAR_DURATION});
   }
 
   private naviguateLoginSuccessful(): void {
