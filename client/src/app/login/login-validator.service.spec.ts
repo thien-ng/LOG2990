@@ -9,6 +9,8 @@ import { LoginValidatorService } from "./login-validator.service";
 import { SocketService } from "../socket.service";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 
+import "rxjs/add/operator/toPromise";
+
 let loginValidatorService: LoginValidatorService;
 let router: Router;
 let httpClient: HttpClient;
