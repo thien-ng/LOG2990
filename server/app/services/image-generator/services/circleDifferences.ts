@@ -26,6 +26,22 @@ export class CircleDifferences {
         });
     }
 
+    // test affichage a delete
+    private printPositionSquareToProcess(): void {
+        let indexArray: number = 0;
+        this.differencesArray.forEach((value: number) => {
+            indexArray++;
+            if (value === 1) {
+                const startPosition: IPosition2D = this.getStartPositionSquare(indexArray);
+                console.log("Start Position:\t [ " + startPosition.posX + ", " + startPosition.posY + " ]");
+                const actualPosition: IPosition2D = this.getPosition(indexArray);
+                console.log("Actual Position: [ " + actualPosition.posX + ", " + actualPosition.posY + " ]");
+                const endPosition: IPosition2D = this.getEndPositionSquare(indexArray);
+                console.log("End Position:\t [ " + endPosition.posX + ", " + endPosition.posY + " ]");
+            }
+        });
+    }
+
     private getPosition(positionInArray: number): IPosition2D {
         const coordX: number = Math.floor(positionInArray / this.width);
         const coordY: number = (positionInArray % this.width);
