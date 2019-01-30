@@ -8,6 +8,8 @@ import { CardManagerService } from "../../../services/card-manager.service";
 
 const TWO: number = 2;
 const THREE: number = 3;
+const CARD_DELETED: string = "Carte suprimée";
+const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
 let cardManagerService: CardManagerService;
 let cm: ICardLists;
 
@@ -73,10 +75,10 @@ describe("Card-manager tests", () => {
     });
     it("should remove the newly added card and return true", () => {
         cardManagerService.addCard2D(c3);
-        expect(cardManagerService.removeCard2D(THREE)).to.equal(true);
+        expect(cardManagerService.removeCard2D(THREE)).to.equal(CARD_DELETED);
     });
     it("should return false because the card doesnt exist", () => {
-        expect(cardManagerService.removeCard2D(0)).to.equal(false);
+        expect(cardManagerService.removeCard2D(0)).to.equal(CARD_NOT_FOUND);
     });
     it("should return undefined because there is no more card there", () => {
         expect(cardManagerService.getCards().list3D[1]).deep.equal(undefined);
