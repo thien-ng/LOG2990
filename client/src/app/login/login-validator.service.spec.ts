@@ -72,4 +72,11 @@ fdescribe("Tests on LoginValidatorService", () => {
     expect(loginValidatorService.usernameFormControl.valid).toBeFalsy();
   });
 
+  it("should call addUsername", () => {
+    spyOn(loginValidatorService, "addUsername");
+    loginValidatorService.usernameFormControl.setValue("valideName");
+    loginValidatorService.addUsername();
+    expect(loginValidatorService.addUsername).toHaveBeenCalled();
+  });
+
 });
