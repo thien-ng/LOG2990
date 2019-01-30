@@ -10,4 +10,6 @@ export default  {
         AssetController: Symbol("AssetController"),
         WebsocketManager: Symbol("WebsocketManager"),
         NameValidatorService: Symbol("NameValidatorService"),
+        GeneratorController: Symbol("GeneratorController"),
+        GeneratorManager: Symbol("GeneratorManager"),
 };

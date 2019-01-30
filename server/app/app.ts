@@ -8,6 +8,7 @@ import { AssetController } from "./controllers/asset.controller";
 import { CardManagerController } from "./controllers/card-manager.controller";
 import { DateController } from "./controllers/date.controller";
 import { IndexController } from "./controllers/index.controller";
+import { GeneratorController } from "./services/image-generator/controllers/generator.controller";
 import Types from "./types";
 
 @injectable()
@@ -20,6 +21,7 @@ export class Application {
         @inject(Types.AssetController) private assetController: AssetController,
         @inject(Types.IndexController) private indexController: IndexController,
         @inject(Types.DateController) private dateController: DateController,
+        @inject(Types.GeneratorController) private generatorController: GeneratorController,
         @inject(Types.CardManagerController) private cardManagerController: CardManagerController,
         ) {
         this.app = express();
@@ -43,6 +45,7 @@ export class Application {
         this.app.use("/api/asset", this.assetController.router);
         this.app.use("/api/index", this.indexController.router);
         this.app.use("/api/date", this.dateController.router);
+        this.app.use("/api/generator", this.generatorController.router);
         this.app.use("/api/card", this.cardManagerController.router);
         this.errorHandeling();
     }

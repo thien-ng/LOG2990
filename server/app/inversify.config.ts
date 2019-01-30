@@ -7,8 +7,11 @@ import { IndexController } from "./controllers/index.controller";
 import { Server } from "./server";
 import { CardManagerService } from "./services/card-manager.service";
 import { DateService } from "./services/date.service";
+import { GeneratorController } from "./services/image-generator/controllers/generator.controller";
 import { IndexService } from "./services/index.service";
 import { NameValidatorService } from "./services/validator/NameValidatorService";
+
+import { GeneratorManager } from "./services/image-generator/services/generatorManager.service";
 
 import Types from "./types";
 
@@ -26,6 +29,8 @@ container.bind(Types.DateController).to(DateController);
 container.bind(Types.DateService).to(DateService);
 container.bind(Types.WebsocketManager).to(WebsocketManager);
 container.bind(Types.NameValidatorService).to(NameValidatorService);
+container.bind(Types.GeneratorController).to(GeneratorController);
+container.bind(Types.GeneratorManager).to(GeneratorManager);
 
 container.bind(Types.CardManagerController).to(CardManagerController);
 container.bind(Types.CardManagerService).to(CardManagerService);
