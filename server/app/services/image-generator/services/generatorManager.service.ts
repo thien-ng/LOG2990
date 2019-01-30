@@ -26,16 +26,14 @@ export class GeneratorManager {
 
         await this.readFile();
 
-        if(this.isSameDimension()){
+        if (this.isSameDimension()) {
 
             const totalDifference: number = this.findDifference();
             console.log(totalDifference);
             console.log(this.differenceImage);
-        
         } else {
             console.log("different mon calisse");
         }
-        
     }
 
     private async readFile(): Promise<void> {
