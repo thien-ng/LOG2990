@@ -26,7 +26,7 @@ beforeEach(() => {
   loginValidatorService = new LoginValidatorService(router, snackBar, httpClient, socketService );
 });
 
-fdescribe("Tests on LoginValidatorService", () => {
+describe("Tests on LoginValidatorService", () => {
 
   beforeEach(() => {
 
