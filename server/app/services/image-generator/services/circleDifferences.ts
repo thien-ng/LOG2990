@@ -10,8 +10,9 @@ export class CircleDifferences {
 
     public constructor(public differencesArray: number[], public width: number, public radius: number) {
         // default constructor
-        this.printToConsole();
-        process.stdout.write(String(this.isInAdjustedRadius(2.236)));
+        // this.printToConsole();
+        // process.stdout.write(String(this.isInAdjustedRadius(2.236)));
+        this.printPositionSquareToProcess();
     }
 
     private printToConsole(): void {
@@ -26,7 +27,7 @@ export class CircleDifferences {
     }
 
     private getPosition(positionInArray: number): IPosition2D {
-        const coordX: number = (positionInArray / this.width);
+        const coordX: number = Math.floor(positionInArray / this.width);
         const coordY: number = (positionInArray % this.width);
 
         return {
@@ -69,7 +70,7 @@ export class CircleDifferences {
      }
 }
 
-const RADIUS: number = 2;
-const differencesArray2: number[] = [1, 0, 0, 0, 0, 0, 0, 0, 0];
+const RADIUS: number = 1;
+const differencesArray2: number[] = [0, 0, 0, 0, 1, 0, 0, 0, 0];
 const width2: number = 3;
 const circleDifferences: CircleDifferences = new CircleDifferences(differencesArray2, width2, RADIUS);
