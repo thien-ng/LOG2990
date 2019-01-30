@@ -1,6 +1,6 @@
 import { expect } from "chai";
-import { Highscore, Mode } from "../../../../common/communication/highscore";
-import { HighscoreService } from "../../services/highscore.service";
+import { Highscore, Mode } from "../../../../../common/communication/highscore";
+import { HighscoreService } from "../../../services/highscore.service";
 
 const ONE: number = 1;
 const TWO: number = 2;

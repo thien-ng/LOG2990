@@ -5,7 +5,7 @@ const REMOVE_NOTHING: number = 0;
 
 @injectable()
 export class HighscoreService {
-    private _highscores: Highscore[] = [];
+    private highscores: Highscore[] = [];
 
     // TBD Will be called when new card is created ( no change request for this one lol )
     // public generateNewHighscore(id: number): void {
@@ -14,7 +14,7 @@ export class HighscoreService {
 
     public getHighscoreById(id: number): Highscore | undefined {
         let score: Highscore | undefined;
-        this._highscores.forEach((element: Highscore) => {
+        this.highscores.forEach((element: Highscore) => {
             if (element.id === id) {
                 score = element;
             }
@@ -54,7 +54,7 @@ export class HighscoreService {
 
     // Methods for testing
     public addHighscore(hs: Highscore[]): void {
-        this._highscores.splice(REMOVE_NOTHING, this._highscores.length);
-        this._highscores = hs;
+        this.highscores.splice(REMOVE_NOTHING, this.highscores.length);
+        this.highscores = hs;
     }
 }
