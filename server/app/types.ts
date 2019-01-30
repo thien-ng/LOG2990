@@ -7,7 +7,6 @@ export default  {
         IndexService: Symbol("IndexService"),
         DateService: Symbol("DateService"),
         CardManagerService: Symbol("CardManagerService"),
-        AssetController: Symbol("AssetController"),
         WebsocketManager: Symbol("WebsocketManager"),
         NameValidatorService: Symbol("NameValidatorService"),
         GeneratorController: Symbol("GeneratorController"),

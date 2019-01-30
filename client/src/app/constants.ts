@@ -9,8 +9,8 @@ export class Constants {
   public static readonly GAMELIST_REDIRECT: string = "//gamelist";
   public static readonly PATH_MATCH_FULL: string = "full";
   public static readonly PATH_TO_ASSETS: string = "http://localhost:3000/api/asset";
-  public static readonly PATH_TO_ICONS: string = "http://localhost:3000/api/asset/icon";
-  public static readonly PATH_TO_IMAGES: string = "http://localhost:3000/api/asset/image";
+  public static readonly PATH_TO_ICONS: string = "http://localhost:3000/icon";
+  public static readonly PATH_TO_IMAGES: string = "http://localhost:3000/image";
 
   public static readonly OBLIGATORY_CATCH: string = "obligatory catch";
   public static readonly ANIMATION_TIME: number = 300; // ms
@@ -37,5 +37,10 @@ export class Constants {
   public static readonly GAME_REGEX_PATTERN: string = "^[a-z A-Z]+$";
   public static readonly SNACK_ERROR_MSG: string = "Veuillez entrer un fichier BMP";
   public static readonly SNACK_ACTION: string = "OK";
+  public static readonly SNACK_POS_TOP: string = "top";
+
+  // constants for game list container
+  public static readonly CARDS_PATH: string = "/api/card/list";
+  public static readonly REMOVE_CARD_PATH: string = "/api/card/remove";
 
 }

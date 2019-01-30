@@ -4,7 +4,6 @@ import * as cors from "cors";
 import * as express from "express";
 import { inject, injectable } from "inversify";
 import * as logger from "morgan";
-import { AssetController } from "./controllers/asset.controller";
 import { CardManagerController } from "./controllers/card-manager.controller";
 import { DateController } from "./controllers/date.controller";
 import { IndexController } from "./controllers/index.controller";
@@ -18,7 +17,6 @@ export class Application {
     public app: express.Application;
 
     public constructor(
-        @inject(Types.AssetController) private assetController: AssetController,
         @inject(Types.IndexController) private indexController: IndexController,
         @inject(Types.DateController) private dateController: DateController,
         @inject(Types.GeneratorController) private generatorController: GeneratorController,
@@ -42,11 +40,11 @@ export class Application {
 
     public bindRoutes(): void {
         // Notre application utilise le routeur de notre API `Index`
-        this.app.use("/api/asset", this.assetController.router);
         this.app.use("/api/index", this.indexController.router);
         this.app.use("/api/date", this.dateController.router);
         this.app.use("/api/generator", this.generatorController.router);
         this.app.use("/api/card", this.cardManagerController.router);
+        this.app.use(express.static("./app/asset"));
         this.errorHandeling();
     }
 

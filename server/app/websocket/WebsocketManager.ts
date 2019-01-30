@@ -8,7 +8,7 @@ import Types from "../types";
 @injectable()
 export class WebsocketManager {
 
-    public constructor(@inject(Types.NameValidatorService) private _nameValidatorService: NameValidatorService) {
+    public constructor(@inject(Types.NameValidatorService) private nameValidatorService: NameValidatorService) {
         // default constructor
     }
 
@@ -17,7 +17,7 @@ export class WebsocketManager {
         io.on(Constants.CONNECTION, (socket: SocketIO.Socket) => {
             let name: String;
             socket.on(Constants.LOGIN_EVENT, (data: string) => {
-                const result: Boolean = this._nameValidatorService.validateName(data);
+                const result: Boolean = this.nameValidatorService.validateName(data);
                 if (result) {
                     name = data;
                 }
@@ -25,7 +25,7 @@ export class WebsocketManager {
             });
 
             socket.on(Constants.DISCONNECT_EVENT, (data: string) => {
-                this._nameValidatorService.leaveBrowser(name);
+                this.nameValidatorService.leaveBrowser(name);
             });
 
          });

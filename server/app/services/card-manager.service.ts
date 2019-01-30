@@ -1,94 +1,116 @@
 import { injectable } from "inversify";
-import { CardModel, GameMode } from "../../../common/communication/cardModel";
-import { CardObject } from "../utilitaries/card-object";
+import { Constants } from "../../../client/src/app/constants";
+import { GameMode, ICard } from "../../../common/communication/iCard";
+import { ICardLists } from "../../../common/communication/iCardLists";
 
-const INDEX_2D: number = 0;
-const INDEX_3D: number = 1;
 const DOESNT_EXIST: number = -1;
-const GAME_MODE_INDEX: number = 0;
-const CARD_POS_INDEX: number = 1;
+const CARD_DELETED: string = "Carte supprimée";
+const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
 
 @injectable()
 export class CardManagerService {
-    private _cards: CardObject[][] = [
-        [
-            new CardObject({
+    private cards: ICardLists = {
+        list2D: [
+            {
                 gameID: 1,
                 title: "Default 2D",
                 subtitle: "default 2D",
-                avatarImageUrl: "../asset/image/elon.jpg",
-                gameImageUrl: "../asset/image/elon.jpg",
-                gamemode: GameMode.twoD,
-            }),
+                avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image/elon.jpg",
+                gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image/elon.jpg",
+                gamemode: GameMode.simple,
+            },
         ],
-        [
-            new CardObject({
+        list3D: [
+            {
                 gameID: 2,
                 title: "Default 3D",
                 subtitle: "default 3D",
-                avatarImageUrl: "../asset/image/moutain.jpg",
-                gameImageUrl: "../asset/image/moutain.jpg",
-                gamemode: GameMode.threeD,
-            }),
+                avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image/moutain.jpg",
+                gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image/moutain.jpg",
+                gamemode: GameMode.free,
+            },
         ],
-        ];
+    };
 
-    private cardEqual(card: CardObject, element: CardObject): boolean {
-        return (element.cardModel.gameID === card.cardModel.gameID &&
-                element.cardModel.gameImageUrl === card.cardModel.gameImageUrl &&
-                element.cardModel.title === card.cardModel.title);
+    private cardEqual(card: ICard, element: ICard): boolean {
+        return (element.gameID === card.gameID &&
+                element.gameImageUrl === card.gameImageUrl &&
+                element.title === card.title);
     }
 
-    public addCard(card: CardObject): boolean {
-        const index: number = card.cardModel.gamemode;
+    public addCard2D(card: ICard): boolean {
         let isExisting: boolean = false;
-        this._cards[index].forEach((element: CardObject) => {
+        this.cards.list2D.forEach((element: ICard) => {
             if (this.cardEqual(card, element)) {
                 isExisting = true;
             }
         });
-
         if (!isExisting) {
-            this._cards[index].push(card);
+            this.cards.list2D.push(card);
         }
 
         return !isExisting;
     }
 
-    public getCards(): CardModel[][] {
-        const cardModels: CardModel[][] = [[], []];
-        this._cards[INDEX_2D].forEach((element: CardObject) => {
-            cardModels[INDEX_2D].push(element.cardModel);
+    public addCard3D(card: ICard): boolean {
+        let isExisting: boolean = false;
+        this.cards.list3D.forEach((element: ICard) => {
+            if (this.cardEqual(card, element)) {
+                isExisting = true;
+            }
         });
-        this._cards[INDEX_3D].forEach((element: CardObject) => {
-            cardModels[INDEX_3D].push(element.cardModel);
-        });
-
-        return cardModels;
-    }
-
-    public findCard(id: number): [number, number] {
-        let indexs: [number, number] = [DOESNT_EXIST, DOESNT_EXIST];
-        this._cards.forEach((cards: CardObject[]) => {
-            cards.forEach((card: CardObject) => {
-                if (card.cardModel.gameID === id) {
-
-                    indexs = [this._cards.indexOf(cards), cards.indexOf(card)];
-                }
-            });
-        });
-
-        return indexs;
-    }
-
-    public removeCard(id: number): boolean {
-        const indexs: [number, number] = this.findCard(id);
-        if (indexs[GAME_MODE_INDEX] !== DOESNT_EXIST) {
-            this._cards[indexs[GAME_MODE_INDEX]].splice(indexs[CARD_POS_INDEX], 1);
-
-            return true;
+        if (!isExisting) {
+            this.cards.list3D.push(card);
         }
 
-        return false;
+        return !isExisting;
+    }
+
+    public getCards(): ICardLists {
+        return this.cards;
+    }
+
+    private findCard2D(id: number): number {
+        let index: number = DOESNT_EXIST;
+        this.cards.list2D.forEach((card: ICard) => {
+                if (card.gameID === id) {
+                    index = this.cards.list2D.indexOf(card);
+                }
+        });
+
+        return index;
+    }
+
+    private findCard3D(id: number): number {
+        let index: number = DOESNT_EXIST;
+        this.cards.list3D.forEach((card: ICard) => {
+                if (card.gameID === id) {
+                    index = this.cards.list3D.indexOf(card);
+                }
+        });
+
+        return index;
+    }
+
+    public removeCard2D(id: number): string {
+        const index: number = this.findCard2D(id);
+        if (index !== DOESNT_EXIST) {
+            this.cards.list2D.splice(index, 1);
+
+            return CARD_DELETED;
+        }
+
+        return CARD_NOT_FOUND;
+    }
+
+    public removeCard3D(id: number): string {
+        const index: number = this.findCard3D(id);
+        if (index !== DOESNT_EXIST) {
+            this.cards.list3D.splice(index, 1);
+
+            return CARD_DELETED;
+        }
+
+        return CARD_NOT_FOUND;
     }
 }

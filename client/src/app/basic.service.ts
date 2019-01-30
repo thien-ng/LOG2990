@@ -17,17 +17,17 @@ const HTTP_OPTIONS: {headers: HttpHeaders} = {
 @Injectable()
 export class BasicService {
 
-    public constructor(private _http: HttpClient) { }
+    public constructor(private http: HttpClient) { }
 
     public basicGet(): Observable<Message> {
 
-        return this._http.get<Message>(Constants.BASIC_SERVICE_BASE_URL).pipe(
+        return this.http.get<Message>(Constants.BASIC_SERVICE_BASE_URL).pipe(
             catchError(this.handleError<Message>("basicGet")),
         );
     }
 
     public basicPost(message: Message, extension: String): Observable<Message> {
-        return this._http.post<Message>(
+        return this.http.post<Message>(
             Constants.BASIC_SERVICE_BASE_URL + extension,
             message,
             HTTP_OPTIONS)
