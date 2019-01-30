@@ -17,7 +17,7 @@ export class CircleDifferences {
 
     private printToConsole(): void {
         let index: number = 0;
-        this.differencesArray.forEach( (value: number) => {
+        this.differencesArray.forEach((value: number) => {
             // tslint:disable-next-line:no-console
             process.stdout.write(value.toString());
             if (++index % this.width === 0) {
@@ -30,7 +30,6 @@ export class CircleDifferences {
     private printPositionSquareToProcess(): void {
         let indexArray: number = 0;
         this.differencesArray.forEach((value: number) => {
-            indexArray++;
             if (value === 1) {
                 const startPosition: IPosition2D = this.getStartPositionSquare(indexArray);
                 console.log("Start Position:\t [ " + startPosition.posX + ", " + startPosition.posY + " ]");
@@ -39,6 +38,7 @@ export class CircleDifferences {
                 const endPosition: IPosition2D = this.getEndPositionSquare(indexArray);
                 console.log("End Position:\t [ " + endPosition.posX + ", " + endPosition.posY + " ]");
             }
+            indexArray++;
         });
     }
 
@@ -74,19 +74,20 @@ export class CircleDifferences {
     }
 
     private getStartPositionSquare(centerPositionInArray: number): IPosition2D {
-       const startPositionInArray: number = centerPositionInArray - this.width * this.radius - this.radius;
+        const startPositionInArray: number = centerPositionInArray - this.width * this.radius - this.radius;
+        console.log(startPositionInArray);
 
-       return this.getPosition(startPositionInArray);
+        return this.getPosition(startPositionInArray);
     }
 
     private getEndPositionSquare(centerPositionInArray: number): IPosition2D {
         const endPositionInArray: number = centerPositionInArray + this.width * this.radius + this.radius;
 
         return this.getPosition(endPositionInArray);
-     }
+    }
 }
 
 const RADIUS: number = 1;
-const differencesArray2: number[] = [0, 0, 0, 0, 1, 0, 0, 0, 0];
+const differencesArray2: number[] = [1, 0, 0, 0, 0, 0, 0, 0, 0];
 const width2: number = 3;
 const circleDifferences: CircleDifferences = new CircleDifferences(differencesArray2, width2, RADIUS);
