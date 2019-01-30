@@ -23,7 +23,7 @@ export class CircleDifferences {
         });
     }
 
-    private getCoordinate2DPixel(positionInArray: number): IPosition2D {
+    private getPosition(positionInArray: number): IPosition2D {
         const coordX: number = (positionInArray / this.width);
         const coordY: number = (positionInArray % this.width);
 
