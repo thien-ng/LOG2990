@@ -1,24 +1,23 @@
-
+import * as http from "http";
 import { inject, injectable } from "inversify";
-import { Socket } from "net";
+import * as SocketIO from "socket.io";
 import { Constants } from "../constants";
 import { NameValidatorService } from "../services/validator/NameValidatorService";
-import Types from "./../types";
+import Types from "../types";
 
 @injectable()
 export class WebsocketManager {
 
-    public constructor(@inject(Types.NameValidatorService) private _nameValidatorService: NameValidatorService) {
+    public constructor(@inject(Types.NameValidatorService) private nameValidatorService: NameValidatorService) {
         // default constructor
     }
 
-    // tslint:disable-next-line:no-any
-    public createWebsocket(io: any): void {
-        io = require(Constants.SOCKET_IO)();
-        io.on(Constants.CONNECTION, (socket: Socket) => {
+    public createWebsocket(server: http.Server): void {
+        const io: SocketIO.Server = SocketIO(server);
+        io.on(Constants.CONNECTION, (socket: SocketIO.Socket) => {
             let name: String;
             socket.on(Constants.LOGIN_EVENT, (data: string) => {
-                const result: Boolean = this._nameValidatorService.validateName(data);
+                const result: Boolean = this.nameValidatorService.validateName(data);
                 if (result) {
                     name = data;
                 }
@@ -26,7 +25,7 @@ export class WebsocketManager {
             });
 
             socket.on(Constants.DISCONNECT_EVENT, (data: string) => {
-                this._nameValidatorService.leaveBrowser(name);
+                this.nameValidatorService.leaveBrowser(name);
             });
 
          });

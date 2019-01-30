@@ -5,8 +5,8 @@
 <form class="form" #signupForm="ngForm" (ngSubmit)="submit(signupForm)">
   <mat-form-field class="input-width">
     <input name="name" #input matInput
-    [formControl]="fileValidatorService._gameNameFormControl"
-    [errorStateMatcher]="fileValidatorService._matcher"
+    [formControl]="fileValidatorService.gameNameFormControl"
+    [errorStateMatcher]="fileValidatorService.matcher"
     placeholder="Nom du jeu">
     <mat-error *ngIf="hasErrorOfType('pattern')">
       {{ERROR_PATTERN}}

@@ -15,7 +15,7 @@ import { GeneratorManager } from "./services/image-generator/services/generatorM
 
 import Types from "./types";
 
-import { WebsocketManager } from "./websocket/Websocket";
+import { WebsocketManager } from "./websocket/WebsocketManager";
 
 const container: Container = new Container();
 
