@@ -6,9 +6,10 @@ interface IPosition2D {
 export class CircleDifferences {
     private circledDifference: number[];
     // paramètre a mettre dans un objet
-    public constructor(public differencesArray: number[], public width: number, public height: number) {
+    public constructor(public differencesArray: number[], public width: number, public radius: number) {
         // default constructor
         this.printToConsole();
+        process.stdout.write(String(this.isInAdjustedRadius(2.236)));
     }
 
     private printToConsole(): void {
@@ -32,9 +33,30 @@ export class CircleDifferences {
         };
     }
 
+    private findDistanceBetween(centerPosition: IPosition2D, periphericPosition: IPosition2D): number {
+        const deltaX: number = periphericPosition.posX - centerPosition.posX;
+        const deltaY: number = periphericPosition.posY - centerPosition.posY;
+
+        return Math.sqrt((deltaX * deltaX) + (deltaY * deltaY));
+    }
+
+    private isInAdjustedRadius(distance: number): boolean {
+        return distance < this.adjustedRadius();
+    }
+
+    private adjustedRadius(): number {
+        const coefficient: number = 0.4461;
+        const power: number = 0.9511;
+        const adjustmentDegree: number = 0.9;
+
+        const adjustment: number = adjustmentDegree * (coefficient / Math.pow(this.radius, power));
+
+        return this.radius + adjustment;
+    }
+
 }
 
-const differencesArray: number[] = [0, 0, 0, 1];
-const width: number = 2;
-const height: number = 2;
-const circleDifferences: CircleDifferences = new CircleDifferences(differencesArray, width, height);
+const RADIUS: number = 2;
+const differencesArray2: number[] = [1, 0, 0, 0, 0, 0, 0, 0, 0];
+const width2: number = 3;
+const circleDifferences: CircleDifferences = new CircleDifferences(differencesArray2, width2, RADIUS);
