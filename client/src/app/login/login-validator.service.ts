@@ -44,7 +44,7 @@ export class LoginValidatorService {
       title: "new username",
       body: this.usernameFormControl.value,
     };
-    if (this._socketService != null) {
+    if (this._socketService !== undefined) {
       const result: Object = await this._httpClient.post(Constants.PATH_TO_LOGIN_VALIDATION, message).toPromise();
       if (result) {
         this.naviguateLoginSuccessful();
@@ -53,6 +53,8 @@ export class LoginValidatorService {
       }
     }
   }
+
+  // Helpers
 
   private displaySnackBar(message: string, closeStatement: string): void {
     this._snackbar.open(
