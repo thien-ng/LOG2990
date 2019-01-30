@@ -37,11 +37,15 @@ export class CardComponent implements OnInit {
 
   public onDeleteButtonClick(): void {
     this.cardManagerService.removeCard(this.card.gameID, this.card.gamemode).subscribe((response: string) => {
-      this.snackBar.open( response, Constants.SNACK_ACTION, {
-        duration: Constants.SNACKBAR_DURATION,
-        verticalPosition: "top",
-      });
+      this.openSnackbar(response);
       this.cardDeleted.emit();
+    });
+  }
+
+  private openSnackbar(response: string): void {
+    this.snackBar.open( response, Constants.SNACK_ACTION, {
+      duration: Constants.SNACKBAR_DURATION,
+      verticalPosition: "top",
     });
   }
 
