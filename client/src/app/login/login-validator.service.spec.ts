@@ -79,4 +79,11 @@ fdescribe("Tests on LoginValidatorService", () => {
     expect(loginValidatorService.addUsername).toHaveBeenCalled();
   });
 
+  it("should call http request POST", () => {
+    spyOn(httpClient, "post" );
+    loginValidatorService.usernameFormControl.setValue("valideName");
+    loginValidatorService.addUsername();
+    expect(httpClient.post).toHaveBeenCalled();
+  });
+
 });
