@@ -10,7 +10,7 @@ const TWO: number = 2;
 const THREE: number = 3;
 const CARD_DELETED: string = "Carte supprimée";
 const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
-const FAKE_PATH: string = Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image";
+const FAKE_PATH: string = Constants.BASIC_SERVICE_BASE_URL + "/image";
 let cardManagerService: CardManagerService;
 let cm: ICardLists;
 
