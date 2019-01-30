@@ -6,9 +6,9 @@ import { Pixel } from "../pixel";
 // const filePath3: string  =
 // "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\corners.bmp";
 const filePath4: string  =
-"C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\whiteTest.bmp";
+"C:\\Users\\User\\Desktop\\LOG2990\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\whiteTest.bmp";
 const filePath5: string  =
-"C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\blackTest.bmp";
+"C:\\Users\\User\\Desktop\\LOG2990\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\blackTest.bmp";
 
 @injectable()
 export class GeneratorManager {
