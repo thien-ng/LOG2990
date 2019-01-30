@@ -25,6 +25,7 @@ export class Constants {
   public static readonly LOGIN_REQUEST: string = "onLogin";
   public static readonly LOGIN_RESPONSE: string = "onLoginReponse";
   public static readonly WEBSOCKET_URL: string = "http://localhost:3333";
+  public static readonly LOGIN_MESSAGE_TITLE: string = "new username";
   public static readonly NAME_VALID_VALUE: string = "true";
   public static readonly ROUTER_LOGIN: string = "gamelist";
   public static readonly SNACKBAR_USED_NAME: string = " est déjà pris par un autre utilisateur!";

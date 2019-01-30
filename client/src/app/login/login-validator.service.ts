@@ -40,10 +40,9 @@ export class LoginValidatorService {
   }
 
   public async addUsername(): Promise<void> {
-    const message: Message = {
-      title: "new username",
-      body: this.usernameFormControl.value,
-    };
+
+    const message: Message = this.generateMessage(this.usernameFormControl.value);
+
     if (this.socketService !== undefined) {
       const result: Object = await this.httpClient.post(Constants.PATH_TO_LOGIN_VALIDATION, message).toPromise();
       if (result) {
@@ -55,6 +54,13 @@ export class LoginValidatorService {
   }
 
   // Helpers
+
+  private generateMessage(username: string): Message {
+    return {
+      title: Constants.LOGIN_MESSAGE_TITLE,
+      body: this.usernameFormControl.value,
+    };
+  }
 
   private displaySnackBar(message: string, closeStatement: string): void {
     this.snackbar.open(
