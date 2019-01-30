@@ -29,11 +29,15 @@ export class CardComponent implements OnInit {
     public gameModeService: GameModeService,
     public cardManagerService: CardManagerService,
     private snackBar: MatSnackBar,
-    ) { /* default constructor */ }
+    ) {
+      // default constructor
+    }
 
   @Output() public cardDeleted: EventEmitter<string> = new EventEmitter();
 
-  public ngOnInit(): void { /* default init */ }
+  public ngOnInit(): void {
+    // default init
+  }
 
   public onDeleteButtonClick(): void {
     this.cardManagerService.removeCard(this.card.gameID, this.card.gamemode).subscribe((response: string) => {

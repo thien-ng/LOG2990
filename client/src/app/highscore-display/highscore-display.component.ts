@@ -23,8 +23,12 @@ export class HighscoreDisplayComponent implements OnInit {
   public ONE_VS_ONE: string = "1 vs 1";
   public RANKING: string = "- Classement -";
 
-  public constructor() { /* Default constructor */ }
+  public constructor() {
+    // Default constructor
+  }
 
-  public ngOnInit(): void { /* default init */ }
+  public ngOnInit(): void {
+    // default init
+  }
 
 }

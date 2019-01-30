@@ -10,7 +10,9 @@ import { Constants } from "./constants";
 })
 export class CardManagerService {
 
-  public constructor(private http: HttpClient) { /* Default Constructor */ }
+  public constructor(private http: HttpClient) {
+    // Default Constructor
+  }
 
   public getCards(): Observable<Object> {
     return this.http.get(Constants.BASIC_SERVICE_BASE_URL + Constants.CARDS_PATH);

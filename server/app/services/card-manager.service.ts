@@ -4,7 +4,7 @@ import { GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
 
 const DOESNT_EXIST: number = -1;
-const CARD_DELETED: string = "Carte suprimée";
+const CARD_DELETED: string = "Carte supprimée";
 const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
 
 @injectable()

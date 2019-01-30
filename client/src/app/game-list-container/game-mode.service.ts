@@ -12,7 +12,9 @@ export class GameModeService {
 
   public constructor(
     public router: Router,
-  ) { /* Default constructor */ }
+  ) {
+    // Default constructor
+  }
 
   private index: number = 0;
   private gameModeUpdated: Subject<number> = new Subject<number>();

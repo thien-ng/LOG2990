@@ -10,6 +10,7 @@ const TWO: number = 2;
 const THREE: number = 3;
 const CARD_DELETED: string = "Carte suprimée";
 const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
+const FAKE_PATH: string = Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image";
 let cardManagerService: CardManagerService;
 let cm: ICardLists;
 
@@ -19,8 +20,8 @@ describe("Card-manager tests", () => {
         gameID: 1,
         title: "Default 2D",
         subtitle: "default 2D",
-        avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/elon.jpg",
-        gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/elon.jpg",
+        avatarImageUrl: FAKE_PATH + "/elon.jpg",
+        gameImageUrl: FAKE_PATH + "/elon.jpg",
         gamemode: GameMode.simple,
     };
 
@@ -28,8 +29,8 @@ describe("Card-manager tests", () => {
         gameID: 2,
         title: "Default 3D",
         subtitle: "default 3D",
-        avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/moutain.jpg",
-        gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/moutain.jpg",
+        avatarImageUrl: FAKE_PATH + "/moutain.jpg",
+        gameImageUrl: FAKE_PATH + "/moutain.jpg",
         gamemode: GameMode.free,
     };
 
@@ -37,8 +38,8 @@ describe("Card-manager tests", () => {
         gameID: 3,
         title: "Default 3D",
         subtitle: "default 3D",
-        avatarImageUrl: "../asset/image/poly.jpg",
-        gameImageUrl: "../asset/image/poly.jpg",
+        avatarImageUrl: FAKE_PATH + "/poly.jpg",
+        gameImageUrl: FAKE_PATH + "/poly.jpg",
         gamemode: GameMode.free,
     };
 

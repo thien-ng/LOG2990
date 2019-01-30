@@ -21,6 +21,8 @@ export class GameListComponent implements OnInit {
     this.cardDeleted = new EventEmitter<string>();
   }
 
-  public ngOnInit(): void { /* default ngOnInit */ }
+  public ngOnInit(): void {
+    // default ngOnInit
+  }
 
 }
