@@ -8,7 +8,7 @@ import { CardManagerService } from "../../../services/card-manager.service";
 
 const TWO: number = 2;
 const THREE: number = 3;
-const CARD_DELETED: string = "Carte suprimée";
+const CARD_DELETED: string = "Carte supprimée";
 const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
 const FAKE_PATH: string = Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image";
 let cardManagerService: CardManagerService;
