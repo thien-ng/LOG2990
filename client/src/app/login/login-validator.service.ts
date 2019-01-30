@@ -43,7 +43,7 @@ export class LoginValidatorService {
 
     const message: Message = this.generateMessage(this.usernameFormControl.value);
 
-    if (this.socketService !== undefined) {
+    if (this.socketService !== undefined && !this.hasErrors()) {
       const result: Object = await this.httpClient.post(Constants.PATH_TO_LOGIN_VALIDATION, message).toPromise();
       if (result) {
         this.naviguateLoginSuccessful();
@@ -54,6 +54,10 @@ export class LoginValidatorService {
   }
 
   // Helpers
+
+  private hasErrors(): boolean {
+    return this.usernameFormControl.errors !== null;
+  }
 
   private generateMessage(username: string): Message {
     return {
