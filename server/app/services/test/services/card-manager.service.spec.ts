@@ -50,20 +50,20 @@ describe("Card-manager tests", () => {
         };
     });
 
-    it("Should return the card in the 2D list", () => {
-        expect(cardManagerService.getCards().list2D).deep.equal(cm.list2D);
-    });
-    it("Should return the card in the 3D list", () => {
-        expect(cardManagerService.getCards().list3D).deep.equal(cm.list3D);
-    });
     it("should return the list of all cards", () => {
         expect(cardManagerService.getCards()).deep.equal(cm);
     });
-    it("should return false when adding an existing card", () => {
+    it("should return false when adding an existing 2D card", () => {
         expect(cardManagerService.addCard2D(c1)).to.equal(false);
     });
-    it("should return true when adding a new card", () => {
+    it("should return true when adding a new 2D card", () => {
         expect(cardManagerService.addCard2D(c3)).to.equal(true);
+    });
+    it("should return false when adding an existing 3D card", () => {
+        expect(cardManagerService.addCard3D(c2)).to.equal(false);
+    });
+    it("should return true when adding a new 3D card", () => {
+        expect(cardManagerService.addCard3D(c3)).to.equal(true);
     });
     it("should return new length of 3D list after adding a card", () => {
         cardManagerService.addCard3D(c3);
@@ -79,6 +79,13 @@ describe("Card-manager tests", () => {
     });
     it("should return false because the card doesnt exist", () => {
         expect(cardManagerService.removeCard2D(0)).to.equal(CARD_NOT_FOUND);
+    });
+    it("should remove the newly added card and return true", () => {
+        cardManagerService.addCard3D(c3);
+        expect(cardManagerService.removeCard3D(THREE)).to.equal(CARD_DELETED);
+    });
+    it("should return false because the card doesnt exist", () => {
+        expect(cardManagerService.removeCard3D(0)).to.equal(CARD_NOT_FOUND);
     });
     it("should return undefined because there is no more card there", () => {
         expect(cardManagerService.getCards().list3D[1]).deep.equal(undefined);
