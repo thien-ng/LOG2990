@@ -3,8 +3,8 @@
     <input #newUsername matInput autocomplete="off"
         (keyup.enter)="addUsername()"
         placeholder="{{HINT_USERNAME}}"
-        [formControl]="_loginValidatorService._usernameFormControl"
-        [errorStateMatcher]="_loginValidatorService._matcher">
+        [formControl]="loginValidatorService.usernameFormControl"
+        [errorStateMatcher]="loginValidatorService.matcher">
     <mat-hint class="hint">{{HINT}}</mat-hint>
     <mat-error *ngIf="hasErrorOfType('pattern')">
         {{ERROR_PATTERN}}

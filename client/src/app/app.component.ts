@@ -7,10 +7,10 @@ import { Component, OnInit } from "@angular/core";
 })
 export class AppComponent implements OnInit {
     public constructor() {
-      // defualt constructor
+      // Default constructor
     }
 
     public ngOnInit(): void {
-      // default ngOnInit
+      // Default ngOnInit
     }
 }
