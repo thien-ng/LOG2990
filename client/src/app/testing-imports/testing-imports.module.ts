@@ -30,6 +30,7 @@ import { RouterTestingModule } from "@angular/router/testing";
     BrowserAnimationsModule,
     HttpClientModule,
     MatToolbarModule,
+    HttpClientModule,
     MatButtonModule,
     MatMenuModule,
     MatSidenavModule,

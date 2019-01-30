@@ -22,7 +22,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 
 export class LoginValidatorService {
 
-  public _matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
+  public matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
 
   public usernameFormControl: FormControl = new FormControl("", [
     Validators.required,
@@ -37,8 +37,8 @@ export class LoginValidatorService {
     private httpClient: HttpClient,
     private socketService: SocketService,
     ) {
-    // default constructor
-  }
+      // Default constructor
+    }
 
   public async addUsername(): Promise<void> {
 

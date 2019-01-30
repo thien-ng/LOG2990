@@ -10,27 +10,31 @@ const INDEX_3D: number = 1;
 })
 export class GameModeService {
 
-  public constructor(public router: Router) {}
+  public constructor(
+    public router: Router,
+  ) {
+    // Default constructor
+  }
 
-  private _index: number = 0;
-  private _gameModeUpdated: Subject<number> = new Subject<number>();
+  private index: number = 0;
+  private gameModeUpdated: Subject<number> = new Subject<number>();
 
   public getIndex(): number {
-    return this._index;
+    return this.index;
   }
 
   public getGameModeUpdateListener(): Observable<number> {
-    return this._gameModeUpdated.asObservable();
+    return this.gameModeUpdated.asObservable();
   }
 
   public toggle(): void {
-    switch (this._index) {
+    switch (this.index) {
       case INDEX_2D:
-        this._index = INDEX_3D;
+        this.index = INDEX_3D;
         break;
 
       case INDEX_3D:
-        this._index = INDEX_2D;
+        this.index = INDEX_2D;
         break;
 
     // default for lint
@@ -38,5 +42,4 @@ export class GameModeService {
         break;
     }
   }
-
 }

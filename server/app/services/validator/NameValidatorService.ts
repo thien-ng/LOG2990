@@ -3,20 +3,20 @@ import { injectable } from "inversify";
 @injectable()
 export class NameValidatorService {
 
-    private _nameList: String[];
+    private nameList: String[];
 
     public constructor() {
-        this._nameList = [];
+        this.nameList = [];
     }
 
     public getNameList(): String[] {
-        return this._nameList;
+        return this.nameList;
     }
 
     public validateName(nameRequest: String): Boolean {
 
         if (this.isUnique(nameRequest)) {
-            this._nameList.push(nameRequest);
+            this.nameList.push(nameRequest);
 
             return true;
         }
@@ -25,12 +25,12 @@ export class NameValidatorService {
     }
 
     public leaveBrowser(nameRequest: String): void {
-        this._nameList = this._nameList.filter( (element: String) => element !== nameRequest);
+        this.nameList = this.nameList.filter( (element: String) => element !== nameRequest);
     }
 
     public isUnique(nameRequest: String): Boolean {
         let isUniqueElement: Boolean = true;
-        this._nameList.forEach( (element: String) => {
+        this.nameList.forEach( (element: String) => {
             if (element === nameRequest) {
                 isUniqueElement = false;
             }

@@ -41,5 +41,10 @@ export class Constants {
   public static readonly GAME_REGEX_PATTERN: string = "^[a-z A-Z]+$";
   public static readonly SNACK_ERROR_MSG: string = "Veuillez entrer un fichier BMP";
   public static readonly SNACK_ACTION: string = "OK";
+  public static readonly SNACK_POS_TOP: string = "top";
+
+  // constants for game list container
+  public static readonly CARDS_PATH: string = "/api/card/list";
+  public static readonly REMOVE_CARD_PATH: string = "/api/card/remove";
 
 }

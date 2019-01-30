@@ -10,9 +10,9 @@ const ACCEPTED_FILE_TYPE: string = "image/bmp";
 })
 export class FileValidatorService {
 
-  public _matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
+  public matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
 
-  public _gameNameFormControl: FormControl = new FormControl("", [
+  public gameNameFormControl: FormControl = new FormControl("", [
     Validators.required,
     Validators.pattern(Constants.GAME_REGEX_PATTERN),
     Validators.minLength(Constants.MIN_GAME_LENGTH),
