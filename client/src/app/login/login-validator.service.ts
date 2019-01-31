@@ -46,7 +46,7 @@ export class LoginValidatorService {
     const message: Message = this.generateMessage(this.usernameFormControl.value);
 
     if (this.socketService !== undefined && !this.hasErrors()) {
-      const result: Observable<Object> = await this.sendUsernameRequest(message);
+      const result: Object = await this.sendUsernameRequest(message).toPromise().catch();
       if (result) {
         this.navigateLoginSuccessful();
       } else {
