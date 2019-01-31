@@ -7,6 +7,7 @@ const MIN_TIME: number = 180;
 const DOESNT_EXIST: number = -1;
 const SECONDS_IN_MINUTES: number = 60;
 const TEN: number = 10;
+const MAX_NUMBER: number = Number.MAX_SAFE_INTEGER;
 
 @injectable()
 export class HighscoreService {
@@ -51,10 +52,16 @@ export class HighscoreService {
 
     public generateNewHighscore(id: number): void {
         const index: number = this.findHighScoreByID(id);
+        this.setMaxValue(index);
         this.highscores[index].timesMulti.forEach(() => {
             this.checkScore(this.randomTime(MIN_TIME, MAX_TIME), this.highscores[index].timesMulti);
             this.checkScore(this.randomTime(MIN_TIME, MAX_TIME), this.highscores[index].timesSingle);
         });
+    }
+
+    private setMaxValue(index: number): void {
+        this.highscores[index].timesMulti = [MAX_NUMBER, MAX_NUMBER, MAX_NUMBER];
+        this.highscores[index].timesSingle = [MAX_NUMBER, MAX_NUMBER, MAX_NUMBER];
     }
 
     public findHighScoreByID(id: number): number {
