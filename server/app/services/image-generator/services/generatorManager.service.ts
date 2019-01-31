@@ -3,15 +3,17 @@ import * as Jimp from "jimp";
 import { Image } from "../image";
 import { Pixel } from "../pixel";
 
-// const filePath3: string  =
-// "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\corners.bmp";
+
 const filePath4: string  =
-"C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\whiteTest.bmp";
+"C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\white.bmp";
 const filePath5: string  =
-"C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\blackTest.bmp";
+"C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\7dots.bmp";
 
 @injectable()
 export class GeneratorManager {
+
+    private readonly VALUE_DIFFERENCE = 1;
+    private readonly VALUE_EQUAL = 0;
 
     private jimp: Jimp = require("Jimp");
     private imageOriginal: Image;
@@ -22,61 +24,51 @@ export class GeneratorManager {
         // default constructor
     }
 
-    public async doAlgo(): Promise<void> {
+    // recieve 2 buffer , return 1 array of number
+    public async searchDifferenceImage(): Promise<number[]> {
 
         await this.readFile(filePath4, filePath5);
 
-        this.printArray(this.imageOriginal.getPixelList());
-        this.printArray(this.imageWithdots.getPixelList());
+        if (this.imageOriginal.hasRequiredDimension() && this.imageWithdots.hasRequiredDimension()) {
 
-        if (this.isSameDimension()) {
-
-            const totalDifference: number = this.findDifference();
-
-            console.log(totalDifference);
-            console.log(this.differenceImage);
+            this.findDifference();
+            
+            return this.differenceImage;
 
         } else {
-            console.log("different mon calisse");
+
+            throw new TypeError("Un des images entrees, n'a pas les bonne dimensions");
         }
 
     }
 
     private async readFile(path1: string, path2: string): Promise<void> {
-        await this.jimp.read(path1).then( (image: any) => {
+        await this.jimp.read(path1).then( (image: Jimp) => {
             this.imageOriginal = this.createImage(
                                     image.bitmap.height,
                                     image.bitmap.width,
                                     image.bitmap.data,
                                 );
-            // console.log("h: " + image.bitmap.height + " w: " + image.bitmap.width);
-            // console.log(typeof image.bitmap.data);
         });
 
-        await this.jimp.read(path2).then( (image: any) => {
+        await this.jimp.read(path2).then( (image: Jimp) => {
             this.imageWithdots = this.createImage(
                                     image.bitmap.height,
                                     image.bitmap.width,
-                                    image.bitmap.data
+                                    image.bitmap.data,
                                 );
         });
     }
 
-    private createImage(height: number, width: number, pixelValueList: number[]): Image {
+    private createImage(height: number, width: number, valueListBuffer: Buffer): Image {
+            const pixelValueList: number[] = Array.prototype.slice.call(valueListBuffer, 0);
+
             return new Image(
                     height,
                     width,
                     this.transformToPixel(pixelValueList),
                 );
         }
-
-    // private createImage(height: number, width: number, pixelValueList: number[]): Image {
-    //     return new Image(
-    //             height,
-    //             width,
-    //             this.transformToPixel(pixelValueList),
-    //         );
-    // }
 
     private transformToPixel(data: number[]): Pixel[] {
 
@@ -96,40 +88,15 @@ export class GeneratorManager {
         return arrayPixel;
     }
 
-    private findDifference(): number {
-
-        let differenceCounter: number = 0;
-
+    private findDifference(): void {
+        
         const imageOg: Pixel[] = this.imageOriginal.getPixelList();
         const imageDots: Pixel[] = this.imageWithdots.getPixelList();
 
         for (let i: number = 0; i < this.imageOriginal.getPixelList().length; i++) {
-
-            if (imageOg[i].isEqual(imageDots[i])) {
-                this.differenceImage[i] = 0;
-
-            } else {
-                this.differenceImage[i] = 1;
-                differenceCounter++;
-            }
+            this.differenceImage[i] = imageOg[i].isEqual(imageDots[i])? this.VALUE_EQUAL : this.VALUE_DIFFERENCE;
         }
 
-        return differenceCounter;
-    }
-
-    private isSameDimension(): Boolean {
-        return this.imageOriginal.isEqualDimension(this.imageWithdots);
-    }
-
-    // to remove
-    private printArray(array: Pixel[]): void {
-        array.forEach((element: Pixel) => {
-            console.log(
-                "red: " + element.getRed() +
-                " green: " + element.getGreen() +
-                " blue: " + element.getBlue() +
-                " alpha: " + element.getAlpha());
-        });
     }
 
 }

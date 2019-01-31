@@ -2,6 +2,9 @@ import { Pixel } from "./pixel";
 
 export class Image {
 
+    private readonly WIDTH_REQUIRED: number = 640;
+    private readonly HEIGHT_REQUIRED: number = 480;
+
     public constructor(private height: number, private width: number, private pixelList: Pixel[]) {
         // default constructor
     }
@@ -18,8 +21,8 @@ export class Image {
         return this.pixelList;
     }
 
-    public isEqualDimension(image: Image): Boolean {
-        return this.height === image.getHeight() && this.width === image.getWidth();
+    public hasRequiredDimension(): Boolean {
+        return this.width === this.WIDTH_REQUIRED && this.height === this.HEIGHT_REQUIRED;
     }
 
 }

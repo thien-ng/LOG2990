@@ -1,23 +1,27 @@
+import { HttpClient } from "@angular/common/http";
 import { TestBed } from "@angular/core/testing";
 import { MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { mock } from "ts-mockito";
-import { LoginValidatorService } from "./login-validator.service";
+import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 
 import { SocketService } from "../socket.service";
-import { TestingImportsModule } from "../testing-imports/testing-imports.module";
+import { LoginValidatorService } from "./login-validator.service";
 
 let loginValidatorService: LoginValidatorService;
 let router: Router;
+let httpClient: HttpClient;
 let socketService: SocketService;
 let snackBar: MatSnackBar;
 
 beforeEach(() => {
   router = mock(Router);
+  httpClient = mock(HttpClient);
   socketService = mock(SocketService);
   snackBar = mock(MatSnackBar);
-  loginValidatorService = new LoginValidatorService(router, snackBar, socketService );
+
+  loginValidatorService = new LoginValidatorService(router, snackBar, httpClient, socketService );
 });
 
 describe("Tests on LoginValidatorService", () => {
@@ -44,16 +48,7 @@ describe("Tests on LoginValidatorService", () => {
   });
 
   it("should be valid when form has between 4-15 chars (inclusive)", () => {
-    loginValidatorService.usernameFormControl.setValue("12345");
-    expect(loginValidatorService.usernameFormControl.valid).toBeTruthy();
-
     loginValidatorService.usernameFormControl.setValue("12345678");
-    expect(loginValidatorService.usernameFormControl.valid).toBeTruthy();
-
-    loginValidatorService.usernameFormControl.setValue("12345678901234");
-    expect(loginValidatorService.usernameFormControl.valid).toBeTruthy();
-
-    loginValidatorService.usernameFormControl.setValue("123456789012345");
     expect(loginValidatorService.usernameFormControl.valid).toBeTruthy();
   });
 
@@ -62,14 +57,18 @@ describe("Tests on LoginValidatorService", () => {
     expect(loginValidatorService.usernameFormControl.valid).toBeFalsy();
   });
 
-  it("should be invalid when form has chars other than alphanumericals", () => {
+  it("should be invalid when form has space characters", () => {
     loginValidatorService.usernameFormControl.setValue("test with space");
     expect(loginValidatorService.usernameFormControl.valid).toBeFalsy();
+  });
 
-    loginValidatorService.usernameFormControl.setValue("test.test");
-    expect(loginValidatorService.usernameFormControl.valid).toBeFalsy();
-
+  it("should be invalid when form has special character", () => {
     loginValidatorService.usernameFormControl.setValue("test@");
+    expect(loginValidatorService.usernameFormControl.valid).toBeFalsy();
+  });
+
+  it("should be invalid when form has punctuation", () => {
+    loginValidatorService.usernameFormControl.setValue("t.e.s.t");
     expect(loginValidatorService.usernameFormControl.valid).toBeFalsy();
   });
 

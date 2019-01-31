@@ -30,7 +30,7 @@ export class IndexController {
                 // Send the request to the service and send the response
 
                 // a enlever plus tard!!
-                this.generatorManager.doAlgo().catch(() => {
+                this.generatorManager.searchDifferenceImage().catch(() => {
                     // meur lentement
                 });
                 res.json(this.indexService.about());
