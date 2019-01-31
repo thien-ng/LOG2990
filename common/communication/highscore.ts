@@ -4,6 +4,12 @@ export interface Highscore {
     timesMulti: [number, number, number],
   }
 
+export interface HighscoreMessage {
+    id: number,
+    timeSingle: [string, string, string],
+    timesMulti: [string, string, string],
+}
+
 export enum Mode{
     Singleplayer,
     Multiplayer,

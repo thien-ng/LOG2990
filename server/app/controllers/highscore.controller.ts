@@ -17,9 +17,9 @@ export class HighscoreController {
 
         router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
-            const cardId: number = parseInt(req.params.id, DECIMAL);
-            const highscore: Highscore | undefined = this.highScoreService.getHighscoreById(cardId);
-            res.json(highscore);
+            const highscoreID: number = parseInt(req.params.id, DECIMAL);
+            const highscore: Highscore | undefined = this.highScoreService.getHighscoreById(highscoreID);
+            res.json(this.highScoreService.convertToString(highscoreID));
         });
 
         return router;

@@ -1,10 +1,11 @@
 import { injectable } from "inversify";
-import { Highscore, Mode } from "../../../common/communication/highscore";
+import { Highscore, HighscoreMessage, Mode } from "../../../common/communication/highscore";
 
 const REMOVE_NOTHING: number = 0;
 const MAX_TIME: number = 600;
 const MIN_TIME: number = 180;
 const DOESNT_EXIST: number = -1;
+const SECONDS_IN_MINUTES: number = 60;
 
 @injectable()
 export class HighscoreService {
@@ -18,6 +19,29 @@ export class HighscoreService {
         };
         this.highscores.push(highscore);
         this.generateNewHighscore(id);
+    }
+
+    public convertToString(id: number): HighscoreMessage {
+        const message: HighscoreMessage = {
+            id: id,
+            timeSingle: ["", "", ""],
+            timesMulti: ["", "", ""],
+        };
+        const index: number = this.findHighScoreID(id);
+        let i: number = 0;
+        this.highscores[index].timesMulti.forEach((element: number) => {
+            const minutes: string = Math.floor(element / SECONDS_IN_MINUTES).toString();
+            const seconds: string = (element - parseFloat(minutes) * SECONDS_IN_MINUTES).toString();
+            message.timesMulti[i++] = minutes + ":" + seconds;
+        });
+        i = 0;
+        this.highscores[index].timesSingle.forEach((element: number) => {
+            const minutes: string = Math.floor(element / SECONDS_IN_MINUTES).toString();
+            const seconds: string = (element - parseFloat(minutes) * SECONDS_IN_MINUTES).toString();
+            message.timeSingle[i++] = minutes + ":" + seconds;
+        });
+
+        return message;
     }
 
     public generateNewHighscore(id: number): void {
