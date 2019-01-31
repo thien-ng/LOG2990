@@ -7,6 +7,9 @@ describe("HighscoreService", () => {
     imports: [
       TestingImportsModule,
     ],
+    providers: [
+      HighscoreService,
+    ],
   }));
 
   it("should be created", () => {

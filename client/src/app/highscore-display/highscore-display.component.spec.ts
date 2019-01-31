@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { Constants } from "../constants";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { HighscoreDisplayComponent } from "./highscore-display.component";
+import { HighscoreService } from "./highscore.service";
 
 describe("HighscoreDisplayComponent", () => {
   let component: HighscoreDisplayComponent;
@@ -13,6 +14,9 @@ describe("HighscoreDisplayComponent", () => {
       declarations: [ HighscoreDisplayComponent ],
       imports: [
         TestingImportsModule,
+      ],
+      providers: [
+        HighscoreService,
       ],
     })
     .compileComponents()
