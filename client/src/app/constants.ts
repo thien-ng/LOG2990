@@ -24,10 +24,14 @@ export class Constants {
   public static readonly LOGIN_REQUEST: string = "onLogin";
   public static readonly LOGIN_RESPONSE: string = "onLoginReponse";
   public static readonly WEBSOCKET_URL: string = "http://localhost:3333";
+  public static readonly PATH_TO_LOGIN_VALIDATION: string = "http://localhost:3000/api/loginValidation/newUsername";
+  public static readonly LOGIN_MESSAGE_TITLE: string = "onUserSubscribe";
   public static readonly NAME_VALID_VALUE: string = "true";
   public static readonly ROUTER_LOGIN: string = "gamelist";
-  public static readonly SNACKBAR_USED_NAME: string = "Cet alias est déjà pris par un autre utilisateur!";
+  public static readonly SNACKBAR_USED_NAME: string = " est déjà pris par un autre utilisateur!";
   public static readonly SNACKBAR_ATTENTION: string = "J'ai compris";
+  public static readonly SNACKBAR_GREETINGS: string = "Bonjour ";
+  public static readonly SNACKBAR_ACKNOWLEDGE: string = "Merci!";
   public static readonly SNACKBAR_DURATION: number = 5000;
 
   // Constant for basic.service.ts

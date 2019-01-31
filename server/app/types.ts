@@ -9,4 +9,5 @@ export default  {
         CardManagerService: Symbol("CardManagerService"),
         WebsocketManager: Symbol("WebsocketManager"),
         NameValidatorService: Symbol("NameValidatorService"),
+        LoginValidatorController: Symbol("LoginValidatorController"),
 };
