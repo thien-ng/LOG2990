@@ -29,41 +29,28 @@ export class GeneratorManager {
         this.printArray(this.imageOriginal.getPixelList());
         this.printArray(this.imageWithdots.getPixelList());
 
-        if(this.isSameDimension()){
+        if (this.isSameDimension()) {
 
             const totalDifference: number = this.findDifference();
-            
+
             console.log(totalDifference);
             console.log(this.differenceImage);
-        
+
         } else {
             console.log("different mon calisse");
         }
-        
-    }
 
-    // private async readFile(namePath: string, imageReference: Image): Promise<void> {
-    //     await this.jimp.read(namePath).then( (image: any) => {
-    //         const imageTest: Image = this.createImage(
-    //             image.bitmap.height,
-    //             image.bitmap.width,
-    //             image.bitmap.data,
-    //         );
-    //         imageReference = imageTest;
-    //         // console.log(imageReference.getPixelList());
-    //         console.log("penis bande de michael");
-    //                 // console.log(imageTest.getPixelList());
-    //     });
-    //     console.log(imageReference.getPixelList());
-    // }
+    }
 
     private async readFile(path1: string, path2: string): Promise<void> {
         await this.jimp.read(path1).then( (image: any) => {
             this.imageOriginal = this.createImage(
                                     image.bitmap.height,
                                     image.bitmap.width,
-                                    image.bitmap.data
+                                    image.bitmap.data,
                                 );
+            // console.log("h: " + image.bitmap.height + " w: " + image.bitmap.width);
+            // console.log(typeof image.bitmap.data);
         });
 
         await this.jimp.read(path2).then( (image: any) => {
@@ -75,13 +62,21 @@ export class GeneratorManager {
         });
     }
 
-    private createImage(height: number, width: number, pixelValueList: number[]): Image{
-        return new Image(
-                height,
-                width,
-                this.transformToPixel(pixelValueList),
-            );
-    }
+    private createImage(height: number, width: number, pixelValueList: number[]): Image {
+            return new Image(
+                    height,
+                    width,
+                    this.transformToPixel(pixelValueList),
+                );
+        }
+
+    // private createImage(height: number, width: number, pixelValueList: number[]): Image {
+    //     return new Image(
+    //             height,
+    //             width,
+    //             this.transformToPixel(pixelValueList),
+    //         );
+    // }
 
     private transformToPixel(data: number[]): Pixel[] {
 
