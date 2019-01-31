@@ -35,7 +35,7 @@ export class LoginValidatorService {
     private router: Router,
     private snackbar: MatSnackBar,
     private httpClient: HttpClient,
-    private socketService: SocketService,
+    private socketService: SocketService | undefined,
     ) {
       // Default constructor
     }

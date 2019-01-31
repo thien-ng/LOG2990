@@ -3,12 +3,13 @@ import { TestBed } from "@angular/core/testing";
 import { MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
-import { mock } from "ts-mockito";
+import { mock, verify, anyString } from "ts-mockito";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
-
+import { Message } from "../../../../common/communication/message";
 import "rxjs/add/operator/toPromise";
 import { SocketService } from "../socket.service";
 import { LoginValidatorService } from "./login-validator.service";
+import { Constants } from "../constants";
 
 let loginValidatorService: LoginValidatorService;
 let router: Router;
@@ -25,7 +26,7 @@ beforeEach(() => {
   loginValidatorService = new LoginValidatorService(router, snackBar, httpClient, socketService );
 });
 
-describe("Tests on LoginValidatorService", () => {
+fdescribe("Tests on LoginValidatorService", () => {
 
   beforeEach(() => {
 
@@ -73,11 +74,37 @@ describe("Tests on LoginValidatorService", () => {
     expect(loginValidatorService.usernameFormControl.valid).toBeFalsy();
   });
 
-  it("should call addUsername", () => {
-    spyOn(loginValidatorService, "addUsername").and.returnValue(mock(Promise));
+  it("should not call httpClient.post if socketService is undefined", () => {
+    loginValidatorService = new LoginValidatorService(router, snackBar, httpClient, undefined);
     loginValidatorService.usernameFormControl.setValue("validName");
     loginValidatorService.addUsername();
-    expect(loginValidatorService.addUsername).toHaveBeenCalled();
+    const message: Message = {
+      title: Constants.LOGIN_MESSAGE_TITLE,
+      body: loginValidatorService.usernameFormControl.value,
+    };
+    verify(httpClient.post(anyString(), message)).never();
+  });
+
+  it("should not call httpClient.post if usernameFormControl has error", () => {
+    loginValidatorService = new LoginValidatorService(router, snackBar, httpClient, undefined);
+    loginValidatorService.usernameFormControl.setValue("UnvalidName@...");
+    loginValidatorService.addUsername();
+    const message: Message = {
+      title: Constants.LOGIN_MESSAGE_TITLE,
+      body: loginValidatorService.usernameFormControl.value,
+    };
+    verify(httpClient.post(anyString(), message)).never();
+  });
+
+  it("should not call httpClient.post if usernameFormControl has error and socketService is undefined", () => {
+    loginValidatorService = new LoginValidatorService(router, snackBar, httpClient, undefined);
+    loginValidatorService.usernameFormControl.setValue("UnvalidName@...");
+    loginValidatorService.addUsername();
+    const message: Message = {
+      title: Constants.LOGIN_MESSAGE_TITLE,
+      body: loginValidatorService.usernameFormControl.value,
+    };
+    verify(httpClient.post(anyString(), message)).never();
   });
 
 });
