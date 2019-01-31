@@ -47,7 +47,7 @@ export class LoginValidatorService {
     if (this.socketService !== undefined && !this.hasErrors()) {
       const result: Object = await this.httpClient.post(Constants.PATH_TO_LOGIN_VALIDATION, message).toPromise().catch();
       if (result) {
-        this.naviguateLoginSuccessful();
+        this.navigateLoginSuccessful();
       } else {
         this.displayNameNotUniqueMessage(message.body);
       }
@@ -73,7 +73,7 @@ export class LoginValidatorService {
     };
   }
 
-  private naviguateLoginSuccessful(): void {
+  private navigateLoginSuccessful(): void {
     this.router.navigate([Constants.ROUTER_LOGIN]).catch();
     this.displaySnackBar(Constants.SNACKBAR_GREETINGS + this.usernameFormControl.value, Constants.SNACKBAR_ACKNOWLEDGE);
   }
