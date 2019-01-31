@@ -6,6 +6,7 @@ import { Router } from "@angular/router";
 import "rxjs/add/operator/toPromise";
 import { Message } from "../../../../common/communication/message";
 
+import { Observable } from "rxjs";
 import { Constants } from "../constants";
 import { SocketService } from "../socket.service";
 
@@ -35,7 +36,7 @@ export class LoginValidatorService {
     private router: Router,
     private snackbar: MatSnackBar,
     private httpClient: HttpClient,
-    private socketService: SocketService | undefined,
+    private socketService: SocketService,
     ) {
       // Default constructor
     }
@@ -45,13 +46,17 @@ export class LoginValidatorService {
     const message: Message = this.generateMessage(this.usernameFormControl.value);
 
     if (this.socketService !== undefined && !this.hasErrors()) {
-      const result: Object = await this.httpClient.post(Constants.PATH_TO_LOGIN_VALIDATION, message).toPromise().catch();
+      const result: Observable<Object> = await this.sendUsernameRequest(message);
       if (result) {
         this.navigateLoginSuccessful();
       } else {
         this.displayNameNotUniqueMessage(message.body);
       }
     }
+  }
+
+  public sendUsernameRequest(message: Message): Observable<Object> {
+    return this.httpClient.post(Constants.PATH_TO_LOGIN_VALIDATION, message);
   }
 
   // Helpers

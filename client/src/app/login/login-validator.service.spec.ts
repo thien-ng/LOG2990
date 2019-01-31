@@ -4,7 +4,7 @@ import { MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Observable } from "rxjs";
-import 'rxjs/add/observable/of';
+import "rxjs/add/observable/of";
 import "rxjs/add/operator/toPromise";
 import { anyString, mock, verify, when } from "ts-mockito";
 import { Message } from "../../../../common/communication/message";
@@ -21,9 +21,9 @@ let snackBar: MatSnackBar;
 
 beforeEach(() => {
   router = mock(Router);
+  snackBar = mock(MatSnackBar);
   httpClient = mock(HttpClient);
   socketService = mock(SocketService);
-  snackBar = mock(MatSnackBar);
 
   loginValidatorService = new LoginValidatorService(router, snackBar, httpClient, socketService );
 });
@@ -74,6 +74,21 @@ fdescribe("Tests on LoginValidatorService", () => {
   it("should be invalid when form has punctuation", () => {
     loginValidatorService.usernameFormControl.setValue("t.e.s.t");
     expect(loginValidatorService.usernameFormControl.valid).toBeFalsy();
+  });
+
+  it("should call the post request when username is valid", () => {
+    spyOn(loginValidatorService, "addUsername").and.returnValue(Observable.of("true"));
+    loginValidatorService.usernameFormControl.setValue("validName");
+    let fakeResponse: any = null;
+    loginValidatorService.addUsername().subscribe((value) => {
+      fakeResponse = value;
+    });
+
+    const message: Message = {
+      title: Constants.LOGIN_MESSAGE_TITLE,
+      body: loginValidatorService.usernameFormControl.value,
+    };
+    verify(httpClient.post(anyString(), message)).never();
   });
 
   it("should not call httpClient.post if socketService is undefined", () => {
