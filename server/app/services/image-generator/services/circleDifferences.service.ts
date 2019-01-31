@@ -10,7 +10,7 @@ export class CircleDifferences {
         this.circledDifferenceList = JSON.parse(JSON.stringify(differencesArray));
     }
 
-    public circleAllDifferences(): void {
+    public circleAllDifferences(): number[] {
         let index: number = 0;
 
         this.differencesArray.forEach( (value: number) => {
@@ -19,6 +19,8 @@ export class CircleDifferences {
             }
             index++;
         });
+
+        return this.circledDifferenceList;
     }
 
     private drawCircle(positionToCircle: number): void {
