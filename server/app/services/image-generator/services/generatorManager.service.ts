@@ -76,12 +76,6 @@ export class GeneratorManager {
     }
 
     private createImage(height: number, width: number, pixelValueList: number[]): Image{
-        // image = new Image(
-        //     height,
-        //     width,
-        //     this.transformToPixel(pixelValueList),
-        // );
-        // console.log(image.getPixelList());
         return new Image(
                 height,
                 width,
