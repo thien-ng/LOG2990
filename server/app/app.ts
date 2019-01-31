@@ -4,9 +4,9 @@ import * as cors from "cors";
 import * as express from "express";
 import { inject, injectable } from "inversify";
 import * as logger from "morgan";
-import { AssetController } from "./controllers/asset.controller";
 import { CardManagerController } from "./controllers/card-manager.controller";
 import { HighscoreController } from "./controllers/highscore.controller";
+import { LoginValidatorController } from "./controllers/loginValidator.controller";
 import Types from "./types";
 
 @injectable()
@@ -16,9 +16,9 @@ export class Application {
     public app: express.Application;
 
     public constructor(
-        @inject(Types.AssetController) private assetController: AssetController,
         @inject(Types.CardManagerController) private cardManagerController: CardManagerController,
         @inject(Types.HighscoreController) private highscoreController: HighscoreController,
+        @inject(Types.LoginValidatorController) private loginValidatorController: LoginValidatorController,
         ) {
         this.app = express();
 
@@ -38,9 +38,11 @@ export class Application {
 
     public bindRoutes(): void {
         // Notre application utilise le routeur de notre API `Index`
-        this.app.use("/api/asset", this.assetController.router);
         this.app.use("/api/card", this.cardManagerController.router);
         this.app.use("/api/highscore", this.highscoreController.router);
+        this.app.use("/api/card", this.cardManagerController.router);
+        this.app.use("/api/loginValidation", this.loginValidatorController.router);
+        this.app.use(express.static("./app/asset"));
         this.errorHandeling();
     }
 

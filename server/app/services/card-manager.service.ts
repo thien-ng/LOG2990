@@ -21,16 +21,16 @@ export class CardManagerService {
             gameID: 1,
             title: "Default 2D",
             subtitle: "default 2D",
-            avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/elon.jpg",
-            gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/elon.jpg",
+            avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image/elon.jpg",
+            gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image/elon.jpg",
             gamemode: GameMode.simple,
         });
         this.addCard3D({
             gameID: 2,
             title: "Default 3D",
             subtitle: "default 3D",
-            avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/moutain.jpg",
-            gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/moutain.jpg",
+            avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image/moutain.jpg",
+            gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image/moutain.jpg",
             gamemode: GameMode.free,
         });
     }
