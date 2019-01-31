@@ -5,6 +5,7 @@ import { ICard } from "../../../../common/communication/iCard";
 import { CardManagerService } from "../card-manager.service";
 import { Constants } from "../constants";
 import { GameModeService } from "../game-list-container/game-mode.service";
+import { HighscoreService } from "../highscore-display/highscore.service";
 
 @Component({
   selector: "app-card",
@@ -29,6 +30,7 @@ export class CardComponent implements OnInit {
     public gameModeService: GameModeService,
     public cardManagerService: CardManagerService,
     private snackBar: MatSnackBar,
+    private highscoreService: HighscoreService,
     ) {
       // default constructor
     }
@@ -55,6 +57,6 @@ export class CardComponent implements OnInit {
 
   public onHSButtonClick(): void {
     this.HS_BUTTON_IS_CLICKED = !this.HS_BUTTON_IS_CLICKED;
-
+    this.highscoreService.getHighscore(this.card.gameID);
   }
 }

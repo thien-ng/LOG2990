@@ -6,7 +6,7 @@ export interface Highscore {
 
 export interface HighscoreMessage {
     id: number,
-    timeSingle: [string, string, string],
+    timesSingle: [string, string, string],
     timesMulti: [string, string, string],
 }
 

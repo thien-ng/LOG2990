@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { inject, injectable } from "inversify";
 
-import { Highscore } from "../../../common/communication/highscore";
 import { HighscoreService } from "../services/highscore.service";
 import Types from "../types";
 
@@ -18,7 +17,6 @@ export class HighscoreController {
         router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
                 // Send the request to the service and send the response
             const highscoreID: number = parseInt(req.params.id, DECIMAL);
-            const highscore: Highscore | undefined = this.highScoreService.getHighscoreById(highscoreID);
             res.json(this.highScoreService.convertToString(highscoreID));
         });
 

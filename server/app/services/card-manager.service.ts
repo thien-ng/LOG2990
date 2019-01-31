@@ -25,6 +25,14 @@ export class CardManagerService {
             gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/elon.jpg",
             gamemode: GameMode.simple,
         });
+        this.addCard2D({
+            gameID: 3,
+            title: "Default 2D",
+            subtitle: "default 2D",
+            avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/elon.jpg",
+            gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/elon.jpg",
+            gamemode: GameMode.simple,
+        });
         this.addCard3D({
             gameID: 2,
             title: "Default 3D",

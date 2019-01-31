@@ -24,10 +24,11 @@ export class HighscoreService {
     public convertToString(id: number): HighscoreMessage {
         const message: HighscoreMessage = {
             id: id,
-            timeSingle: ["", "", ""],
+            timesSingle: ["", "", ""],
             timesMulti: ["", "", ""],
         };
         const index: number = this.findHighScoreID(id);
+        console.log(index);
         let i: number = 0;
         this.highscores[index].timesMulti.forEach((element: number) => {
             const minutes: string = Math.floor(element / SECONDS_IN_MINUTES).toString();
@@ -38,7 +39,7 @@ export class HighscoreService {
         this.highscores[index].timesSingle.forEach((element: number) => {
             const minutes: string = Math.floor(element / SECONDS_IN_MINUTES).toString();
             const seconds: string = (element - parseFloat(minutes) * SECONDS_IN_MINUTES).toString();
-            message.timeSingle[i++] = minutes + ":" + seconds;
+            message.timesSingle[i++] = minutes + ":" + seconds;
         });
 
         return message;

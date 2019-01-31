@@ -43,4 +43,6 @@ export class Constants {
   public static readonly CARDS_PATH: string = "/api/card/list";
   public static readonly REMOVE_CARD_PATH: string = "/api/card/remove";
 
+  public static readonly HIGHSCORE_PATH: string = "/api/highscore";
+
 }
