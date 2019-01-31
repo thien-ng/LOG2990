@@ -14,6 +14,7 @@ import { GeneratorManager } from "./services/image-generator/services/generatorM
 
 import Types from "./types";
 
+import { LoginValidatorController } from "./controllers/loginValidator.controller";
 import { WebsocketManager } from "./websocket/WebsocketManager";
 
 const container: Container = new Container();
@@ -26,6 +27,8 @@ container.bind(Types.IndexService).to(IndexService);
 container.bind(Types.DateController).to(DateController);
 container.bind(Types.DateService).to(DateService);
 container.bind(Types.WebsocketManager).to(WebsocketManager);
+
+container.bind(Types.LoginValidatorController).to(LoginValidatorController);
 container.bind(Types.NameValidatorService).to(NameValidatorService);
 container.bind(Types.GeneratorController).to(GeneratorController);
 container.bind(Types.GeneratorManager).to(GeneratorManager);

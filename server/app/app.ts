@@ -7,6 +7,7 @@ import * as logger from "morgan";
 import { CardManagerController } from "./controllers/card-manager.controller";
 import { DateController } from "./controllers/date.controller";
 import { IndexController } from "./controllers/index.controller";
+import { LoginValidatorController } from "./controllers/loginValidator.controller";
 import { GeneratorController } from "./services/image-generator/controllers/generator.controller";
 import Types from "./types";
 
@@ -21,6 +22,7 @@ export class Application {
         @inject(Types.DateController) private dateController: DateController,
         @inject(Types.GeneratorController) private generatorController: GeneratorController,
         @inject(Types.CardManagerController) private cardManagerController: CardManagerController,
+        @inject(Types.LoginValidatorController) private loginValidatorController: LoginValidatorController,
         ) {
         this.app = express();
 
@@ -44,6 +46,7 @@ export class Application {
         this.app.use("/api/date", this.dateController.router);
         this.app.use("/api/generator", this.generatorController.router);
         this.app.use("/api/card", this.cardManagerController.router);
+        this.app.use("/api/loginValidation", this.loginValidatorController.router);
         this.app.use(express.static("./app/asset"));
         this.errorHandeling();
     }

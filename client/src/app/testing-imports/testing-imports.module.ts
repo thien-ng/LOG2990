@@ -28,6 +28,7 @@ import { RouterTestingModule } from "@angular/router/testing";
   imports: [CommonModule],
   exports: [
     BrowserAnimationsModule,
+    HttpClientModule,
     MatToolbarModule,
     HttpClientModule,
     MatButtonModule,

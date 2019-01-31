@@ -11,4 +11,5 @@ export default  {
         NameValidatorService: Symbol("NameValidatorService"),
         GeneratorController: Symbol("GeneratorController"),
         GeneratorManager: Symbol("GeneratorManager"),
+        LoginValidatorController: Symbol("LoginValidatorController"),
 };
