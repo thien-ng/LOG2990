@@ -4,12 +4,10 @@ import { MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { mock } from "ts-mockito";
-import { LoginValidatorService } from "./login-validator.service";
-
-import { SocketService } from "../socket.service";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 
-import "rxjs/add/operator/toPromise";
+import { SocketService } from "../socket.service";
+import { LoginValidatorService } from "./login-validator.service";
 
 let loginValidatorService: LoginValidatorService;
 let router: Router;
@@ -72,13 +70,6 @@ describe("Tests on LoginValidatorService", () => {
   it("should be invalid when form has punctuation", () => {
     loginValidatorService.usernameFormControl.setValue("t.e.s.t");
     expect(loginValidatorService.usernameFormControl.valid).toBeFalsy();
-  });
-
-  it("should call addUsername", () => {
-    spyOn(loginValidatorService, "addUsername");
-    loginValidatorService.usernameFormControl.setValue("validName");
-    loginValidatorService.addUsername();
-    expect(loginValidatorService.addUsername).toHaveBeenCalled();
   });
 
 });

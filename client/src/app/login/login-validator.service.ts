@@ -3,11 +3,11 @@ import { Injectable } from "@angular/core";
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import { ErrorStateMatcher, MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
-import { Constants } from "../constants";
-import { SocketService } from "../socket.service";
-
 import "rxjs/add/operator/toPromise";
 import { Message } from "../../../../common/communication/message";
+
+import { Constants } from "../constants";
+import { SocketService } from "../socket.service";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   public isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -45,7 +45,7 @@ export class LoginValidatorService {
     const message: Message = this.generateMessage(this.usernameFormControl.value);
 
     if (this.socketService !== undefined && !this.hasErrors()) {
-      const result: Object = await this.httpClient.post(Constants.PATH_TO_LOGIN_VALIDATION, message).toPromise();
+      const result: Object = await this.httpClient.post(Constants.PATH_TO_LOGIN_VALIDATION, message).toPromise().catch();
       if (result) {
         this.naviguateLoginSuccessful();
       } else {
