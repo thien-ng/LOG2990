@@ -11,7 +11,9 @@ describe("HighscoreDisplayComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ HighscoreDisplayComponent ],
-      imports: [ TestingImportsModule ],
+      imports: [
+        TestingImportsModule,
+      ],
     })
     .compileComponents()
     .catch(() => Constants.OBLIGATORY_CATCH);
