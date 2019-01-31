@@ -45,7 +45,7 @@ export class LoginValidatorService {
     const message: Message = this.generateMessage(this.usernameFormControl.value);
 
     if (this.socketService !== undefined && !this.hasErrors()) {
-      const result: Object = await this.httpClient.post(Constants.PATH_TO_LOGIN_VALIDATION, message).toPromise().catch();
+      const result: Object = await this.httpClient.post(Constants.PATH_TO_LOGIN_VALIDATION, message).toPromise();
       if (result) {
         this.navigateLoginSuccessful();
       } else {
