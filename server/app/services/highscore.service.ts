@@ -22,8 +22,8 @@ export class HighscoreService {
         this.generateNewHighscore(id);
     }
 
-    public isLessThanTen(value: number): boolean {
-        return value < TEN;
+    private isLessThanTen(value: number): string {
+        return (value < TEN) ? "0" : "";
     }
 
     public convertToString(id: number): HighscoreMessage {
@@ -37,13 +37,13 @@ export class HighscoreService {
         this.highscores[index].timesMulti.forEach((element: number) => {
             const minutes: string = Math.floor(element / SECONDS_IN_MINUTES).toString();
             const seconds: string = (element - parseFloat(minutes) * SECONDS_IN_MINUTES).toString();
-            message.timesMulti[i++] = minutes + ":" + (this.isLessThanTen(parseFloat(seconds)) ? "0" : "") + seconds;
+            message.timesMulti[i++] = minutes + ":" + this.isLessThanTen(parseFloat(seconds)) + seconds;
         });
         i = 0;
         this.highscores[index].timesSingle.forEach((element: number) => {
             const minutes: string = Math.floor(element / SECONDS_IN_MINUTES).toString();
             const seconds: string = (element - parseFloat(minutes) * SECONDS_IN_MINUTES).toString();
-            message.timesSingle[i++] = minutes + ":" + (this.isLessThanTen(parseFloat(seconds)) ? "0" : "") + seconds;
+            message.timesSingle[i++] = minutes + ":" + this.isLessThanTen(parseFloat(seconds)) + seconds;
         });
 
         return message;
@@ -116,5 +116,9 @@ export class HighscoreService {
     public addHighscore(hs: Highscore[]): void {
         this.highscores.splice(REMOVE_NOTHING, this.highscores.length);
         this.highscores = hs;
+    }
+
+    public get allHighscores(): Highscore[] {
+        return this.highscores;
     }
 }
