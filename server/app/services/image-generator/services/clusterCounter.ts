@@ -7,6 +7,8 @@ interface IEdges {
 
 export class ClusterCounter {
 
+    private readonly DECALAGE_GAUCHE: number = -1;
+    private readonly DECALAGE_DROITE: number = 1;
     private readonly IS_VISITED: number = 2;
     private readonly IS_A_DIFFERENCE: number = 1;
     private readonly DOES_NOT_EXIST: number = -1;
@@ -68,51 +70,51 @@ export class ClusterCounter {
     }
 
     private getTopLeftNeighborPosition(position: number, constraints: IEdges): number {
-        const topLeftPos: number = position - this.width - 1;
+        const topLeftPos: number = position - this.width + this.DECALAGE_GAUCHE;
 
-        return (!constraints.isOnTopEdge && !constraints.isOnLeftEdge) ? topLeftPos : -1;
+        return (!constraints.isOnTopEdge && !constraints.isOnLeftEdge) ? topLeftPos : this.DOES_NOT_EXIST;
     }
 
     private getTopNeighborPosition(position: number, constraints: IEdges): number {
         const topPos: number = position - this.width;
 
-        return !constraints.isOnTopEdge ? topPos : -1;
+        return !constraints.isOnTopEdge ? topPos : this.DOES_NOT_EXIST;
     }
 
     private getTopRightNeighborPosition(position: number, constraints: IEdges): number {
-        const topRightPos: number = position - this.width + 1;
+        const topRightPos: number = position - this.width + this.DECALAGE_DROITE;
 
-        return (!constraints.isOnTopEdge && !constraints.isOnRightEdge) ? topRightPos : -1;
+        return (!constraints.isOnTopEdge && !constraints.isOnRightEdge) ? topRightPos : this.DOES_NOT_EXIST;
     }
 
     private getLeftNeighborPosition(position: number, constraints: IEdges): number {
-        const leftPos: number = position - 1;
+        const leftPos: number = position + this.DECALAGE_GAUCHE;
 
-        return !constraints.isOnLeftEdge ? leftPos : -1;
+        return !constraints.isOnLeftEdge ? leftPos : this.DOES_NOT_EXIST;
     }
 
     private getRightNeighborPosition(position: number, constraints: IEdges): number {
-        const rightPos: number = position + 1;
+        const rightPos: number = position + this.DECALAGE_DROITE;
 
-        return !constraints.isOnRightEdge ? rightPos : -1;
+        return !constraints.isOnRightEdge ? rightPos : this.DOES_NOT_EXIST;
     }
 
     private getBottomLeftNeighborPosition(position: number, constraints: IEdges): number {
-        const bottomLeftPos: number = position + this.width - 1;
+        const bottomLeftPos: number = position + this.width + this.DECALAGE_GAUCHE;
 
-        return (!constraints.isOnBottomEdge && !constraints.isOnLeftEdge) ? bottomLeftPos : -1;
+        return (!constraints.isOnBottomEdge && !constraints.isOnLeftEdge) ? bottomLeftPos : this.DOES_NOT_EXIST;
     }
 
     private getBottomNeighborPosition(position: number, constraints: IEdges): number {
         const bottomPos: number = position + this.width;
 
-        return !constraints.isOnBottomEdge ? bottomPos : -1;
+        return !constraints.isOnBottomEdge ? bottomPos : this.DOES_NOT_EXIST;
     }
 
     private getBottomRightNeighborPosition(position: number, constraints: IEdges): number {
-        const bottomRightPos: number = position + this.width + 1;
+        const bottomRightPos: number = position + this.width + this.DECALAGE_DROITE;
 
-        return !constraints.isOnBottomEdge && !constraints.isOnRightEdge ? bottomRightPos : -1;
+        return !constraints.isOnBottomEdge && !constraints.isOnRightEdge ? bottomRightPos : this.DOES_NOT_EXIST;
     }
 
 }
