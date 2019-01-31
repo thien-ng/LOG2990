@@ -95,6 +95,6 @@ describe("Card-manager tests", () => {
         expect(cardManagerService.getCards().list3D[1]).deep.equal(undefined);
     });
     it("corresponding highscore to the gameID should exist", () => {
-        expect(highscoreService.findHighScoreID(cardManagerService.getCards().list2D[0].gameID));
+        expect(highscoreService.findHighScoreByID(cardManagerService.getCards().list2D[0].gameID));
     });
 });

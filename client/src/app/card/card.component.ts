@@ -11,6 +11,7 @@ import { HighscoreService } from "../highscore-display/highscore.service";
   selector: "app-card",
   templateUrl: "./card.component.html",
   styleUrls: ["./card.component.css"],
+  providers: [HighscoreService],
 })
 
 export class CardComponent implements OnInit {

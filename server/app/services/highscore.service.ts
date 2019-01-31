@@ -6,6 +6,7 @@ const MAX_TIME: number = 600;
 const MIN_TIME: number = 180;
 const DOESNT_EXIST: number = -1;
 const SECONDS_IN_MINUTES: number = 60;
+const TEN: number = 10;
 
 @injectable()
 export class HighscoreService {
@@ -21,39 +22,42 @@ export class HighscoreService {
         this.generateNewHighscore(id);
     }
 
+    public isLessThanTen(value: number): boolean {
+        return value < TEN;
+    }
+
     public convertToString(id: number): HighscoreMessage {
         const message: HighscoreMessage = {
             id: id,
             timesSingle: ["", "", ""],
             timesMulti: ["", "", ""],
         };
-        const index: number = this.findHighScoreID(id);
-        console.log(index);
+        const index: number = this.findHighScoreByID(id);
         let i: number = 0;
         this.highscores[index].timesMulti.forEach((element: number) => {
             const minutes: string = Math.floor(element / SECONDS_IN_MINUTES).toString();
             const seconds: string = (element - parseFloat(minutes) * SECONDS_IN_MINUTES).toString();
-            message.timesMulti[i++] = minutes + ":" + seconds;
+            message.timesMulti[i++] = minutes + ":" + (this.isLessThanTen(parseFloat(seconds)) ? "0" : "") + seconds;
         });
         i = 0;
         this.highscores[index].timesSingle.forEach((element: number) => {
             const minutes: string = Math.floor(element / SECONDS_IN_MINUTES).toString();
             const seconds: string = (element - parseFloat(minutes) * SECONDS_IN_MINUTES).toString();
-            message.timesSingle[i++] = minutes + ":" + seconds;
+            message.timesSingle[i++] = minutes + ":" + (this.isLessThanTen(parseFloat(seconds)) ? "0" : "") + seconds;
         });
 
         return message;
     }
 
     public generateNewHighscore(id: number): void {
-        const index: number = this.findHighScoreID(id);
+        const index: number = this.findHighScoreByID(id);
         this.highscores[index].timesMulti.forEach(() => {
             this.checkScore(this.randomTime(MIN_TIME, MAX_TIME), this.highscores[index].timesMulti);
             this.checkScore(this.randomTime(MIN_TIME, MAX_TIME), this.highscores[index].timesSingle);
         });
     }
 
-    public findHighScoreID(id: number): number {
+    public findHighScoreByID(id: number): number {
             let index: number = DOESNT_EXIST;
             this.highscores.forEach((highscore: Highscore) => {
                     if (highscore.id === id) {
@@ -78,12 +82,9 @@ export class HighscoreService {
 
         return score;
     }
-    public get highscore(): Highscore[] {
-        return this.highscores;
-    }
 
     public updateHighscore(value: number, mode: Mode, cardID: number): void {
-        const highscore: Highscore | undefined = this.getHighscoreById(cardID);
+        const highscore: Highscore = this.highscores[this.findHighScoreByID(cardID)];
         if (highscore !== undefined) {
             switch (mode) {
                 case Mode.Singleplayer:
