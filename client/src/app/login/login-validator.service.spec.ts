@@ -3,13 +3,15 @@ import { TestBed } from "@angular/core/testing";
 import { MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
-import { mock, verify, anyString } from "ts-mockito";
+import { mock, verify, anyString, when } from "ts-mockito";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { Message } from "../../../../common/communication/message";
 import "rxjs/add/operator/toPromise";
 import { SocketService } from "../socket.service";
 import { LoginValidatorService } from "./login-validator.service";
 import { Constants } from "../constants";
+import { Observable } from "rxjs";
+import 'rxjs/add/observable/of';
 
 let loginValidatorService: LoginValidatorService;
 let router: Router;
@@ -86,7 +88,7 @@ fdescribe("Tests on LoginValidatorService", () => {
   });
 
   it("should not call httpClient.post if usernameFormControl has error", () => {
-    loginValidatorService = new LoginValidatorService(router, snackBar, httpClient, undefined);
+    loginValidatorService = new LoginValidatorService(router, snackBar, httpClient, socketService);
     loginValidatorService.usernameFormControl.setValue("UnvalidName@...");
     loginValidatorService.addUsername();
     const message: Message = {
@@ -105,6 +107,20 @@ fdescribe("Tests on LoginValidatorService", () => {
       body: loginValidatorService.usernameFormControl.value,
     };
     verify(httpClient.post(anyString(), message)).never();
+  });
+
+  it("should return a observable from post of httpClient", () => { 
+    loginValidatorService.usernameFormControl.setValue("validName");
+
+    loginValidatorService.addUsername();
+    const message: Message = {
+      title: Constants.LOGIN_MESSAGE_TITLE,
+      body: loginValidatorService.usernameFormControl.value,
+    };
+    // verify(httpClient.post(anyString(), message)).never();
+    // const returnedValue = Observable.of(true);
+    // when(httpClient.post(anyString(), message)).thenReturn(Observable.of(false));
+    // verify(router.navigate([Constants.ROUTER_LOGIN])).called();
   });
 
 });
