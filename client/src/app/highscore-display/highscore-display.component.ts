@@ -22,9 +22,9 @@ export class HighscoreDisplayComponent implements OnInit , OnDestroy {
   public highscore: HighscoreMessage;
   public isLoaded: boolean = false;
 
-  public SIMPLE: string = "Simple";
-  public ONE_VS_ONE: string = "1 vs 1";
-  public RANKING: string = "- Classement -";
+  public readonly SIMPLE: string = "Simple";
+  public readonly ONE_VS_ONE: string = "1 vs 1";
+  public readonly RANKING: string = "- Classement -";
   private highscoreSubscription: Subscription;
 
   public constructor(private highscoreService: HighscoreService) {
@@ -33,8 +33,8 @@ export class HighscoreDisplayComponent implements OnInit , OnDestroy {
 
   public ngOnInit(): void {
     this.highscoreSubscription = this.highscoreService.getHighscoreUpdateListener()
-      .subscribe((hs: HighscoreMessage) => {
-        this.highscore = hs;
+      .subscribe((highscoreValue: HighscoreMessage) => {
+        this.highscore = highscoreValue;
         this.isLoaded = true;
       });
 

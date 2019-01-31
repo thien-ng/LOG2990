@@ -1,3 +1,4 @@
+// tslint:disable:no-magic-numbers
 import "reflect-metadata";
 
 import { expect } from "chai";
@@ -7,13 +8,11 @@ import { ICardLists } from "../../../../../common/communication/iCardLists";
 import { CardManagerService } from "../../../services/card-manager.service";
 import { HighscoreService } from "../../highscore.service";
 
-const TWO: number = 2;
-const THREE: number = 3;
 const CARD_DELETED: string = "Carte supprimée";
 const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
 const FAKE_PATH: string = Constants.BASIC_SERVICE_BASE_URL + "/image";
 let cardManagerService: CardManagerService;
-let cm: ICardLists;
+let cards: ICardLists;
 let highscoreService: HighscoreService;
 
 describe("Card-manager tests", () => {
@@ -48,14 +47,14 @@ describe("Card-manager tests", () => {
     beforeEach(() => {
         highscoreService = new HighscoreService();
         cardManagerService = new CardManagerService(highscoreService);
-        cm = {
+        cards = {
             list2D: [c1],
             list3D: [c2],
         };
     });
 
     it("should return the list of all cards", () => {
-        expect(cardManagerService.getCards()).deep.equal(cm);
+        expect(cardManagerService.getCards()).deep.equal(cards);
     });
     it("should return false when adding an existing 2D card", () => {
         expect(cardManagerService.addCard2D(c1)).to.equal(false);
@@ -71,7 +70,7 @@ describe("Card-manager tests", () => {
     });
     it("should return new length of 3D list after adding a card", () => {
         cardManagerService.addCard3D(c3);
-        expect(cardManagerService.getCards().list3D.length).to.equal(TWO);
+        expect(cardManagerService.getCards().list3D.length).to.equal(2);
     });
     it("should return the newly added card", () => {
         cardManagerService.addCard3D(c3);
@@ -79,14 +78,14 @@ describe("Card-manager tests", () => {
     });
     it("should remove the newly added card and return true", () => {
         cardManagerService.addCard2D(c3);
-        expect(cardManagerService.removeCard2D(THREE)).to.equal(CARD_DELETED);
+        expect(cardManagerService.removeCard2D(3)).to.equal(CARD_DELETED);
     });
     it("should return false because the card doesnt exist", () => {
         expect(cardManagerService.removeCard2D(0)).to.equal(CARD_NOT_FOUND);
     });
     it("should remove the newly added card and return true", () => {
         cardManagerService.addCard3D(c3);
-        expect(cardManagerService.removeCard3D(THREE)).to.equal(CARD_DELETED);
+        expect(cardManagerService.removeCard3D(3)).to.equal(CARD_DELETED);
     });
     it("should return false because the card doesnt exist", () => {
         expect(cardManagerService.removeCard3D(0)).to.equal(CARD_NOT_FOUND);

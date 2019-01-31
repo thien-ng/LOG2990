@@ -6,7 +6,7 @@ const MAX_TIME: number = 600;
 const MIN_TIME: number = 180;
 const DOESNT_EXIST: number = -1;
 const SECONDS_IN_MINUTES: number = 60;
-const TEN: number = 10;
+const BASE_DECIMAL: number = 10;
 const MAX_NUMBER: number = Number.MAX_SAFE_INTEGER;
 
 @injectable()
@@ -23,8 +23,8 @@ export class HighscoreService {
         this.generateNewHighscore(id);
     }
 
-    private isLessThanTen(value: number): string {
-        return (value < TEN) ? "0" : "";
+    private formatZeroDecimal(value: number): string {
+        return (value < BASE_DECIMAL) ? "0" : "";
     }
 
     public convertToString(id: number): HighscoreMessage {
@@ -34,20 +34,21 @@ export class HighscoreService {
             timesMulti: ["", "", ""],
         };
         const index: number = this.findHighScoreByID(id);
-        let i: number = 0;
-        this.highscores[index].timesMulti.forEach((element: number) => {
-            const minutes: string = Math.floor(element / SECONDS_IN_MINUTES).toString();
-            const seconds: string = (element - parseFloat(minutes) * SECONDS_IN_MINUTES).toString();
-            message.timesMulti[i++] = minutes + ":" + this.isLessThanTen(parseFloat(seconds)) + seconds;
-        });
-        i = 0;
-        this.highscores[index].timesSingle.forEach((element: number) => {
-            const minutes: string = Math.floor(element / SECONDS_IN_MINUTES).toString();
-            const seconds: string = (element - parseFloat(minutes) * SECONDS_IN_MINUTES).toString();
-            message.timesSingle[i++] = minutes + ":" + this.isLessThanTen(parseFloat(seconds)) + seconds;
-        });
+        message.timesMulti = this.secondsToMinutes(this.highscores[index].timesMulti);
+        message.timesSingle = this.secondsToMinutes(this.highscores[index].timesSingle);
 
         return message;
+    }
+
+    private secondsToMinutes(times: [number, number, number]): [string, string, string] {
+        const messageHighscore: [string, string, string] = ["", "", ""];
+        times.forEach((element: number) => {
+                const minutes: string = Math.floor(element / SECONDS_IN_MINUTES).toString();
+                const seconds: string = (element - parseFloat(minutes) * SECONDS_IN_MINUTES).toString();
+                messageHighscore.push(minutes + ":" + this.formatZeroDecimal(parseFloat(seconds)) + seconds);
+            });
+
+        return messageHighscore;
     }
 
     public generateNewHighscore(id: number): void {

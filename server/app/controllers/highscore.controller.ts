@@ -4,7 +4,7 @@ import { inject, injectable } from "inversify";
 import { HighscoreService } from "../services/highscore.service";
 import Types from "../types";
 
-const DECIMAL: number = 10;
+const BASE_DECIMAL: number = 10;
 
 @injectable()
 export class HighscoreController {
@@ -15,13 +15,12 @@ export class HighscoreController {
         const router: Router = Router();
 
         router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
-                // Send the request to the service and send the response
-            const highscoreID: number = parseInt(req.params.id, DECIMAL);
+            const highscoreID: number = parseInt(req.params.id, BASE_DECIMAL);
             res.json(this.highScoreService.convertToString(highscoreID));
         });
 
         router.get("/reseter/:id", async(req: Request, res: Response, next: NextFunction) => {
-            const highscoreID: number = parseInt(req.params.id, DECIMAL);
+            const highscoreID: number = parseInt(req.params.id, BASE_DECIMAL);
             res.json(this.highScoreService.generateNewHighscore(highscoreID));
         });
 

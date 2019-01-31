@@ -1,15 +1,9 @@
+// tslint:disable:no-magic-numbers
 import { expect } from "chai";
 import { Highscore, Mode } from "../../../../../common/communication/highscore";
 import { HighscoreService } from "../../../services/highscore.service";
 
-const ZERO: number = 0;
-const ONE: number = 1;
-const TWO: number = 2;
-const FOUR: number = 4;
-const SIX: number = 6;
-const SEVEN: number = 7;
 const UNDEFINED: number = 100;
-const THREE: number = 3;
 const MOCK_SCORE_VALUE_1: number = 400;
 const MOCK_SCORE_VALUE_2: number = 500;
 const MOCK_SCORE_VALUE_3: number = 600;
@@ -22,13 +16,13 @@ describe("HighscoreService tests", () => {
         mockHighscore = [
             {
                 id: 1,
-                timesSingle: [TWO, FOUR , SIX],
-                timesMulti: [TWO, FOUR , SIX],
+                timesSingle: [2, 4 , 6],
+                timesMulti: [2, 4 , 6],
             },
             {
                 id: 2,
-                timesSingle: [TWO, FOUR , SIX],
-                timesMulti: [TWO, FOUR , SIX],
+                timesSingle: [2, 4 , 6],
+                timesMulti: [2, 4 , 6],
             },
             {
                 id: 3,
@@ -41,47 +35,47 @@ describe("HighscoreService tests", () => {
     });
 
     it("Should return the right highscore", () => {
-        const updatedHS: Highscore | undefined = highscoreService.getHighscoreById(ONE);
-        expect(updatedHS).deep.equal(mockHighscore[ZERO]);
+        const updatedHS: Highscore | undefined = highscoreService.getHighscoreById(1);
+        expect(updatedHS).deep.equal(mockHighscore[0]);
     });
     it("Should update the single player highscore", () => {
-        highscoreService.updateHighscore(ONE, Mode.Singleplayer, ONE);
-        const index: number = highscoreService.findHighScoreByID(ONE);
-        expect(highscoreService.allHighscores[index].timesSingle).deep.equal([ONE, TWO, FOUR]);
+        highscoreService.updateHighscore(1, Mode.Singleplayer, 1);
+        const index: number = highscoreService.findHighScoreByID(1);
+        expect(highscoreService.allHighscores[index].timesSingle).deep.equal([1, 2, 4]);
     });
     it("Should update the multi player highscore", () => {
-        highscoreService.updateHighscore(ONE, Mode.Multiplayer, ONE);
-        const index: number = highscoreService.findHighScoreByID(ONE);
-        expect(highscoreService.allHighscores[index].timesMulti).deep.equal([ONE, TWO, FOUR]);
+        highscoreService.updateHighscore(1, Mode.Multiplayer, 1);
+        const index: number = highscoreService.findHighScoreByID(1);
+        expect(highscoreService.allHighscores[index].timesMulti).deep.equal([1, 2, 4]);
     });
     it("Should not update the highscore", () => {
-        highscoreService.updateHighscore(SEVEN, Mode.Multiplayer, ONE);
-        const index: number = highscoreService.findHighScoreByID(ONE);
-        expect(highscoreService.allHighscores[index].timesMulti).deep.equal(mockHighscore[ZERO].timesMulti);
+        highscoreService.updateHighscore(7, Mode.Multiplayer, 1);
+        const index: number = highscoreService.findHighScoreByID(1);
+        expect(highscoreService.allHighscores[index].timesMulti).deep.equal(mockHighscore[0].timesMulti);
     });
     it("Should fail quietly and not update the highscores", () => {
-        highscoreService.updateHighscore(ONE, UNDEFINED, ONE);
-        const index: number = highscoreService.findHighScoreByID(ONE);
-        expect(highscoreService.allHighscores[index].timesMulti).deep.equal([TWO, FOUR, SIX]);
+        highscoreService.updateHighscore(1, UNDEFINED, 1);
+        const index: number = highscoreService.findHighScoreByID(1);
+        expect(highscoreService.allHighscores[index].timesMulti).deep.equal([2, 4, 6]);
     });
     it("Should generate new random score", () => {
-        highscoreService.generateNewHighscore(THREE);
-        expect(mockHighscore[TWO].timesMulti).not.deep.equal([MOCK_SCORE_VALUE_1, MOCK_SCORE_VALUE_2, MOCK_SCORE_VALUE_3]);
+        highscoreService.generateNewHighscore(3);
+        expect(mockHighscore[2].timesMulti).not.deep.equal([MOCK_SCORE_VALUE_1, MOCK_SCORE_VALUE_2, MOCK_SCORE_VALUE_3]);
     });
     it("First score should be inferior to 2nd Score", () => {
-        highscoreService.generateNewHighscore(THREE);
-        expect(mockHighscore[TWO].timesMulti[ZERO]).to.be.lessThan(mockHighscore[TWO].timesMulti[ONE]);
+        highscoreService.generateNewHighscore(3);
+        expect(mockHighscore[2].timesMulti[0]).to.be.lessThan(mockHighscore[2].timesMulti[1]);
     });
     it("2nd score should be inferior to 3rd score", () => {
-        highscoreService.generateNewHighscore(THREE);
-        expect(mockHighscore[TWO].timesMulti[ONE]).to.be.lessThan(mockHighscore[TWO].timesMulti[TWO]);
+        highscoreService.generateNewHighscore(3);
+        expect(mockHighscore[2].timesMulti[1]).to.be.lessThan(mockHighscore[2].timesMulti[2]);
     });
     it("Should return the highscore message coresponding to the id", () => {
-        const cardId: number = ONE;
+        const cardId: number = 1;
         expect(highscoreService.convertToString(cardId).id).to.be.equal(cardId);
     });
     it("Should not change the mock highscores if cardId is undefined", () => {
-        highscoreService.updateHighscore(ONE, Mode.Singleplayer, UNDEFINED);
+        highscoreService.updateHighscore(1, Mode.Singleplayer, UNDEFINED);
         expect(highscoreService.allHighscores).to.deep.equal(mockHighscore);
     });
 });
