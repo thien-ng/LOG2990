@@ -6,7 +6,11 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./app.component.css"],
 })
 export class AppComponent implements OnInit {
-    public constructor() { /* Default constructor */ }
+    public constructor() {
+      // Default constructor
+    }
 
-    public ngOnInit(): void { /* Default ngOnInit */ }
+    public ngOnInit(): void {
+      // Default ngOnInit
+    }
 }

@@ -1,12 +1,12 @@
-<mat-toolbar *ngIf="this.router.url != loginPath" color="primary">
-  <span class="logo">{{client}}</span>
+<mat-toolbar *ngIf="this.router.url != LOGIN_PATH" color="primary">
+  <span class="logo">{{ CLIENT }}</span>
   <div id="header" [@slideInOut]="isAdminMode ? 'open' : 'closed'">
     <div id="options">
-      <div id="text">{{textAdmin}}</div>
+      <div id="text">{{ TEXT_ADMIN }}</div>
       <mat-slide-toggle id="slider" [checked]="isAdminMode" (change)="this.adminService.adminToggle()"></mat-slide-toggle>
       <div id="buttons">
-        <button class="button" [disabled]="!isAdminMode" mat-raised-button (click)="openDialog()">{{textBouton2D}}</button>
-        <button class="button" [disabled]="!isAdminMode" mat-raised-button (click)="openDialog()">{{textBouton3D}}</button>
+        <button class="button" [disabled]="!isAdminMode" mat-raised-button (click)="openDialog()">{{ TEXT_BOUTON_2D }}</button>
+        <button class="button" [disabled]="!isAdminMode" mat-raised-button (click)="openDialog()">{{ TEXT_BOUTON_3D }}</button>
       </div>
     </div>
   </div>

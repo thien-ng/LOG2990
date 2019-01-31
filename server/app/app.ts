@@ -7,6 +7,7 @@ import * as logger from "morgan";
 import { AssetController } from "./controllers/asset.controller";
 import { CardManagerController } from "./controllers/card-manager.controller";
 import { DateController } from "./controllers/date.controller";
+import { HighscoreController } from "./controllers/highscore.controller";
 import { IndexController } from "./controllers/index.controller";
 import Types from "./types";
 
@@ -21,6 +22,7 @@ export class Application {
         @inject(Types.IndexController) private indexController: IndexController,
         @inject(Types.DateController) private dateController: DateController,
         @inject(Types.CardManagerController) private cardManagerController: CardManagerController,
+        @inject(Types.HighscoreController) private highscoreController: HighscoreController,
         ) {
         this.app = express();
 
@@ -44,6 +46,7 @@ export class Application {
         this.app.use("/api/index", this.indexController.router);
         this.app.use("/api/date", this.dateController.router);
         this.app.use("/api/card", this.cardManagerController.router);
+        this.app.use("/api/highscore", this.highscoreController.router);
         this.errorHandeling();
     }
 

@@ -28,7 +28,9 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
     public cardManagerService: CardManagerService,
     private adminService: AdminToggleService,
     public router: Router,
-    ) { /* Default constructor */ }
+    ) {
+      // Default constructor
+    }
 
   public ngOnInit(): void {
     this.tabIndex = this.gameModeservice.getIndex();
