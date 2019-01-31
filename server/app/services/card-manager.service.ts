@@ -1,35 +1,47 @@
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 import { Constants } from "../../../client/src/app/constants";
-import { CardMessage } from "../../../common/communication/card-message";
 import { GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
+import Types from "../types";
+import { HighscoreService } from "./highscore.service";
 
 const DOESNT_EXIST: number = -1;
+const CARD_DELETED: string = "Carte supprimée";
+const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
 
 @injectable()
 export class CardManagerService {
     private cards: ICardLists = {
-        list2D: [
-            {
-                gameID: 1,
-                title: "Default 2D",
-                subtitle: "default 2D",
-                avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/elon.jpg",
-                gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/elon.jpg",
-                gamemode: GameMode.twoD,
-            },
-        ],
-        list3D: [
-            {
-                gameID: 2,
-                title: "Default 3D",
-                subtitle: "default 3D",
-                avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/moutain.jpg",
-                gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/moutain.jpg",
-                gamemode: GameMode.threeD,
-            },
-        ],
+        list2D: [],
+        list3D: [],
     };
+
+    public constructor(@inject(Types.HighscoreService) private highscoreService: HighscoreService) {
+        this.addCard2D({
+            gameID: 1,
+            title: "Default 2D",
+            subtitle: "default 2D",
+            avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/elon.jpg",
+            gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/elon.jpg",
+            gamemode: GameMode.simple,
+        });
+        this.addCard2D({
+            gameID: 3,
+            title: "Default 2D",
+            subtitle: "default 2D",
+            avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/elon.jpg",
+            gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/elon.jpg",
+            gamemode: GameMode.simple,
+        });
+        this.addCard3D({
+            gameID: 2,
+            title: "Default 3D",
+            subtitle: "default 3D",
+            avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/moutain.jpg",
+            gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image/moutain.jpg",
+            gamemode: GameMode.free,
+        });
+    }
 
     private cardEqual(card: ICard, element: ICard): boolean {
         return (element.gameID === card.gameID &&
@@ -46,6 +58,7 @@ export class CardManagerService {
         });
         if (!isExisting) {
             this.cards.list2D.push(card);
+            this.highscoreService.createHighscore(card.gameID);
         }
 
         return !isExisting;
@@ -60,6 +73,8 @@ export class CardManagerService {
         });
         if (!isExisting) {
             this.cards.list3D.push(card);
+            this.highscoreService.createHighscore(card.gameID);
+
         }
 
         return !isExisting;
@@ -91,33 +106,25 @@ export class CardManagerService {
         return index;
     }
 
-    public removeCard(obj: CardMessage): boolean {
-        if (obj.gameMode === GameMode.twoD) {
-            return this.removeCard2D(obj.id);
-        } else {
-            return this.removeCard3D(obj.id);
-        }
-    }
-
-    public removeCard2D(id: number): boolean {
+    public removeCard2D(id: number): string {
         const index: number = this.findCard2D(id);
         if (index !== DOESNT_EXIST) {
             this.cards.list2D.splice(index, 1);
 
-            return true;
+            return CARD_DELETED;
         }
 
-        return false;
+        return CARD_NOT_FOUND;
     }
 
-    public removeCard3D(id: number): boolean {
+    public removeCard3D(id: number): string {
         const index: number = this.findCard3D(id);
         if (index !== DOESNT_EXIST) {
             this.cards.list3D.splice(index, 1);
 
-            return true;
+            return CARD_DELETED;
         }
 
-        return false;
+        return CARD_NOT_FOUND;
     }
 }

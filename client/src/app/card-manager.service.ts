@@ -2,7 +2,6 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
 import { Observable } from "rxjs";
-import { CardMessage } from "../../../common/communication/card-message";
 import { GameMode } from "../../../common/communication/iCard";
 import { Constants } from "./constants";
 
@@ -11,19 +10,15 @@ import { Constants } from "./constants";
 })
 export class CardManagerService {
 
-  public constructor(private http: HttpClient) { /* Default Constructor */ }
+  public constructor(private http: HttpClient) {
+    // Default Constructor
+  }
 
   public getCards(): Observable<Object> {
     return this.http.get(Constants.BASIC_SERVICE_BASE_URL + Constants.CARDS_PATH);
   }
 
   public removeCard(cardId: number, mode: GameMode): Observable<Object> {
-    const message: CardMessage = {
-      title: "onDelete",
-      id: cardId,
-      gameMode: mode,
-    };
-
-    return this.http.post(Constants.BASIC_SERVICE_BASE_URL + Constants.REMOVE_CARD_PATH, message);
+    return this.http.delete(Constants.BASIC_SERVICE_BASE_URL + Constants.REMOVE_CARD_PATH + "/" + mode + "/" + cardId);
   }
 }

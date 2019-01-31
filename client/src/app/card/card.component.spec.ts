@@ -30,7 +30,7 @@ describe("CardComponent", () => {
       subtitle: "string",
       avatarImageUrl: "string",
       gameImageUrl: "string",
-      gamemode: GameMode.twoD,
+      gamemode: GameMode.simple,
     };
     component.card = card;
     fixture.detectChanges();

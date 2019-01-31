@@ -25,15 +25,15 @@ describe("AdminToggleService", () => {
     const service: AdminToggleService = TestBed.get(AdminToggleService);
     expect(service).toBeTruthy();
   });
-  it("should return true", () => {
+  it("should return true when state is set to true", () => {
     adminToggleService.adminTrue();
     expect(adminToggleService.isAdminState).toBe(true);
   });
-  it("should return true", () => {
-    adminToggleService.adminTrue();
+  it("should return true state is set to true after subscribe", () => {
     adminToggleService.getAdminUpdateListener()
-      .subscribe((activeState: boolean) => {
-        expect(activeState).toBe(true);
-      });
+    .subscribe((activeState: boolean) => {
+      expect(activeState).toBe(true);
+    });
+    adminToggleService.adminTrue();
   });
 });
