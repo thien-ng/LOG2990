@@ -43,8 +43,11 @@ export class CircleDifferences {
     }
 
     private getPosition(positionInArray: number): IPosition2D {
-        const coordX: number = Math.floor(positionInArray / this.width);
-        const coordY: number = (positionInArray % this.width);
+        let coordX: number = (positionInArray % this.width);
+        const coordY: number = Math.floor(positionInArray / this.width);
+
+        // Pour gerer modulo negatif
+        coordX = coordX >= 0 ? coordX : coordX + this.width;
 
         return {
             posX: coordX,
@@ -85,9 +88,10 @@ export class CircleDifferences {
 
         return this.getPosition(endPositionInArray);
     }
+
 }
 
 const RADIUS: number = 1;
-const differencesArray2: number[] = [1, 0, 0, 0, 0, 0, 0, 0, 0];
+const differencesArray2: number[] = [0, 0, 0, 0, 1, 0, 0, 0, 0];
 const width2: number = 3;
 const circleDifferences: CircleDifferences = new CircleDifferences(differencesArray2, width2, RADIUS);
