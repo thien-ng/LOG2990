@@ -23,4 +23,10 @@ export class HighscoreService {
     });
   }
 
+  public resetHighscore(id: number): void {
+    this.http.get(Constants.BASIC_SERVICE_BASE_URL + Constants.HIGHSCORE_PATH + Constants.PATH_RESET + id).subscribe(() => {
+      this.getHighscore(id);
+    });
+  }
+
 }

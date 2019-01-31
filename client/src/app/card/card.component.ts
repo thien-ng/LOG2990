@@ -49,6 +49,10 @@ export class CardComponent implements OnInit {
     });
   }
 
+  public onResetButtonClick(): void {
+    this.highscoreService.resetHighscore(this.card.gameID);
+  }
+
   private openSnackbar(response: string): void {
     this.snackBar.open( response, Constants.SNACK_ACTION, {
       duration: Constants.SNACKBAR_DURATION,
