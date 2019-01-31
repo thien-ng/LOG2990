@@ -32,7 +32,6 @@ export class CircleDifferences {
         let index: number = 0;
 
         this.differencesArray.forEach( (value: number) => {
-            //
             if (value === 1) {
                 this.drawCircle(index);
             }
@@ -41,7 +40,6 @@ export class CircleDifferences {
     }
 
     private findDistanceBetween(centerPosition: number, periphericPosition: number): number {
-
         const deltaX: number = periphericPosition % this.width - centerPosition % this.width;
         const deltaY: number = Math.floor(periphericPosition / this.width) - Math.floor(centerPosition / this.width);
 
