@@ -3,13 +3,13 @@ import { TestBed } from "@angular/core/testing";
 import { MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
-import { mock, verify, anyString } from "ts-mockito";
-import { TestingImportsModule } from "../testing-imports/testing-imports.module";
-import { Message } from "../../../../common/communication/message";
 import "rxjs/add/operator/toPromise";
-import { SocketService } from "../socket.service";
-import { LoginValidatorService } from "./login-validator.service";
+import { anyString, mock, verify } from "ts-mockito";
+import { Message } from "../../../../common/communication/message";
 import { Constants } from "../constants";
+import { SocketService } from "../socket.service";
+import { TestingImportsModule } from "../testing-imports/testing-imports.module";
+import { LoginValidatorService } from "./login-validator.service";
 
 let loginValidatorService: LoginValidatorService;
 let router: Router;
