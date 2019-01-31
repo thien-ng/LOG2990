@@ -2,15 +2,46 @@ import { injectable } from "inversify";
 import { Highscore, Mode } from "../../../common/communication/highscore";
 
 const REMOVE_NOTHING: number = 0;
+const MAX_TIME: number = 600;
+const MIN_TIME: number = 180;
+const DOESNT_EXIST: number = -1;
 
 @injectable()
 export class HighscoreService {
     private highscores: Highscore[] = [];
 
-    // TBD Will be called when new card is created ( no change request for this one lol )
-    // public generateNewHighscore(id: number): void {
+    public createHighscore(id: number): void {
+        const highscore: Highscore = {
+            id: id,
+            timesSingle: [MAX_TIME, MAX_TIME, MAX_TIME],
+            timesMulti: [MAX_TIME, MAX_TIME, MAX_TIME],
+        };
+        this.highscores.push(highscore);
+        this.generateNewHighscore(id);
+    }
 
-    // }
+    public generateNewHighscore(id: number): void {
+        const index: number = this.findHighScoreID(id);
+        this.highscores[index].timesMulti.forEach(() => {
+            this.checkScore(this.randomTime(MIN_TIME, MAX_TIME), this.highscores[index].timesMulti);
+            this.checkScore(this.randomTime(MIN_TIME, MAX_TIME), this.highscores[index].timesSingle);
+        });
+    }
+
+    public findHighScoreID(id: number): number {
+            let index: number = DOESNT_EXIST;
+            this.highscores.forEach((highscore: Highscore) => {
+                    if (highscore.id === id) {
+                        index = this.highscores.indexOf(highscore);
+                    }
+            });
+
+            return index;
+    }
+
+    public randomTime(min: number, max: number): number {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
 
     public getHighscoreById(id: number): Highscore | undefined {
         let score: Highscore | undefined;
@@ -21,6 +52,9 @@ export class HighscoreService {
         });
 
         return score;
+    }
+    public get highscore(): Highscore[] {
+        return this.highscores;
     }
 
     public updateHighscore(value: number, mode: Mode, cardID: number): void {

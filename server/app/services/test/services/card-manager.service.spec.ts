@@ -5,6 +5,7 @@ import { Constants } from "../../../../../client/src/app/constants";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { ICardLists } from "../../../../../common/communication/iCardLists";
 import { CardManagerService } from "../../../services/card-manager.service";
+import { HighscoreService } from "../../highscore.service";
 
 const TWO: number = 2;
 const THREE: number = 3;
@@ -13,6 +14,7 @@ const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
 const FAKE_PATH: string = Constants.BASIC_SERVICE_BASE_URL + "/api/asset/image";
 let cardManagerService: CardManagerService;
 let cm: ICardLists;
+let highscoreService: HighscoreService;
 
 describe("Card-manager tests", () => {
 
@@ -44,7 +46,8 @@ describe("Card-manager tests", () => {
     };
 
     beforeEach(() => {
-        cardManagerService = new CardManagerService();
+        highscoreService = new HighscoreService();
+        cardManagerService = new CardManagerService(highscoreService);
         cm = {
             list2D: [c1],
             list3D: [c2],
@@ -90,5 +93,8 @@ describe("Card-manager tests", () => {
     });
     it("should return undefined because there is no more card there", () => {
         expect(cardManagerService.getCards().list3D[1]).deep.equal(undefined);
+    });
+    it("corresponding highscore to the gameID should exist", () => {
+        expect(highscoreService.findHighScoreID(cardManagerService.getCards().list2D[0].gameID));
     });
 });

@@ -12,6 +12,8 @@ import { NameValidatorService } from "./services/validator/NameValidatorService"
 
 import Types from "./types";
 
+import { HighscoreController } from "./controllers/highscore.controller";
+import { HighscoreService } from "./services/highscore.service";
 import { WebsocketManager } from "./websocket/WebsocketManager";
 
 const container: Container = new Container();
@@ -29,5 +31,8 @@ container.bind(Types.NameValidatorService).to(NameValidatorService);
 
 container.bind(Types.CardManagerController).to(CardManagerController);
 container.bind(Types.CardManagerService).to(CardManagerService);
+
+container.bind(Types.HighscoreController).to(HighscoreController);
+container.bind(Types.HighscoreService).to(HighscoreService).inSingletonScope();
 
 export { container };
