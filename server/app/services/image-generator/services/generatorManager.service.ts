@@ -24,11 +24,15 @@ export class GeneratorManager {
 
     public async doAlgo(): Promise<void> {
 
-        await this.readFile();
+        await this.readFile(filePath4, filePath5);
+
+        this.printArray(this.imageOriginal.getPixelList());
+        this.printArray(this.imageWithdots.getPixelList());
 
         if(this.isSameDimension()){
 
             const totalDifference: number = this.findDifference();
+            
             console.log(totalDifference);
             console.log(this.differenceImage);
         
@@ -38,21 +42,51 @@ export class GeneratorManager {
         
     }
 
-    private async readFile(): Promise<void> {
-        await this.jimp.read(filePath4).then( (image: any) => {
-            console.log(typeof image);
-            const newPixelArray: Pixel[] = this.transformToPixel(image.bitmap.data);
-            const height: number = image.bitmap.height;
-            const width: number = image.bitmap.width;
-            this.imageOriginal = new Image(height, width, newPixelArray);
+    // private async readFile(namePath: string, imageReference: Image): Promise<void> {
+    //     await this.jimp.read(namePath).then( (image: any) => {
+    //         const imageTest: Image = this.createImage(
+    //             image.bitmap.height,
+    //             image.bitmap.width,
+    //             image.bitmap.data,
+    //         );
+    //         imageReference = imageTest;
+    //         // console.log(imageReference.getPixelList());
+    //         console.log("penis bande de michael");
+    //                 // console.log(imageTest.getPixelList());
+    //     });
+    //     console.log(imageReference.getPixelList());
+    // }
+
+    private async readFile(path1: string, path2: string): Promise<void> {
+        await this.jimp.read(path1).then( (image: any) => {
+            this.imageOriginal = this.createImage(
+                                    image.bitmap.height,
+                                    image.bitmap.width,
+                                    image.bitmap.data
+                                );
         });
 
-        await this.jimp.read(filePath5).then( (image: any) => {
-            const newPixelArray: Pixel[] = this.transformToPixel(image.bitmap.data);
-            const height: number = image.bitmap.height;
-            const width: number = image.bitmap.width;
-            this.imageWithdots = new Image(height, width, newPixelArray);
+        await this.jimp.read(path2).then( (image: any) => {
+            this.imageWithdots = this.createImage(
+                                    image.bitmap.height,
+                                    image.bitmap.width,
+                                    image.bitmap.data
+                                );
         });
+    }
+
+    private createImage(height: number, width: number, pixelValueList: number[]): Image{
+        // image = new Image(
+        //     height,
+        //     width,
+        //     this.transformToPixel(pixelValueList),
+        // );
+        // console.log(image.getPixelList());
+        return new Image(
+                height,
+                width,
+                this.transformToPixel(pixelValueList),
+            );
     }
 
     private transformToPixel(data: number[]): Pixel[] {
@@ -99,14 +133,14 @@ export class GeneratorManager {
     }
 
     // to remove
-    // private printArray(array: Pixel[]): void {
-    //     array.forEach((element: Pixel) => {
-    //         console.log(
-    //             "red: " + element.getRed() +
-    //             " green: " + element.getGreen() +
-    //             " blue: " + element.getBlue() +
-    //             " alpha: " + element.getAlpha());
-    //     });
-    // }
+    private printArray(array: Pixel[]): void {
+        array.forEach((element: Pixel) => {
+            console.log(
+                "red: " + element.getRed() +
+                " green: " + element.getGreen() +
+                " blue: " + element.getBlue() +
+                " alpha: " + element.getAlpha());
+        });
+    }
 
 }
