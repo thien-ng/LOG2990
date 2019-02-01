@@ -11,7 +11,7 @@ describe("Images Difference finder microservice tests", () => {
         imagesDifference = new ImagesDifference();
     });
 
-    it("test", (done: Function) => {
+    it("should return array[1]", (done: Function) => {
 
         const strBuff1: string = "ffffff";
         const strBuff2: string = "000000";
@@ -25,7 +25,7 @@ describe("Images Difference finder microservice tests", () => {
         done();
     });
 
-    it("test", (done: Function) => {
+    it("should return array[0]", (done: Function) => {
 
         const strBuff1: string = "ffffff";
         const strBuff2: string = "ffffff";
@@ -39,7 +39,7 @@ describe("Images Difference finder microservice tests", () => {
         done();
     });
 
-    it("test", (done: Function) => {
+    it("should return array[0, 1, 0]", (done: Function) => {
 
         const strBuff1: string = "ffffff000000ffffff";
         const strBuff2: string = "ffffffffffffffffff";
@@ -53,7 +53,7 @@ describe("Images Difference finder microservice tests", () => {
         done();
     });
 
-    it("test", (done: Function) => {
+    it("should be throw TypeError", (done: Function) => {
 
         const strBuff1: string = "ffffff";
         const strBuff2: string = "ffffffffffff";
