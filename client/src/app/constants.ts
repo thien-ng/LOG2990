@@ -49,6 +49,6 @@ export class Constants {
 
   public static readonly HIGHSCORE_PATH: string = "/api/highscore/";
 
-  public static readonly RESET_PATH: string = "reseter/";
+  public static readonly RESET_PATH: string = "generator/";
 
 }

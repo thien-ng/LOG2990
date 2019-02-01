@@ -19,7 +19,7 @@ export class HighscoreController {
             res.json(this.highScoreService.convertToString(highscoreID));
         });
 
-        router.get("/reseter/:id", async(req: Request, res: Response, next: NextFunction) => {
+        router.get("/generator/:id", async(req: Request, res: Response, next: NextFunction) => {
             const highscoreID: number = parseInt(req.params.id, BASE_DECIMAL);
             res.json(this.highScoreService.generateNewHighscore(highscoreID));
         });
