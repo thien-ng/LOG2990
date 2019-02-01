@@ -4,13 +4,13 @@ import { HttpClient } from "@angular/common/http";
 import { TestBed } from "@angular/core/testing";
 import { Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
-import { Observable } from "rxjs";
+// import { Observable } from "rxjs";
 import "rxjs/add/observable/of";
 import "rxjs/add/operator/toPromise";
 // import { anyString, mock, verify, when } from "ts-mockito";
 import { mock } from "ts-mockito";
-import { Message } from "../../../../common/communication/message";
-import { Constants } from "../constants";
+// import { Message } from "../../../../common/communication/message";
+// import { Constants } from "../constants";
 import { SocketService } from "../socket.service";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { LoginValidatorService } from "./login-validator.service";
@@ -74,6 +74,14 @@ fdescribe("Tests on LoginValidatorService", () => {
   it("should be invalid when form has punctuation", () => {
     loginValidatorService.usernameFormControl.setValue("t.e.s.t");
     expect(loginValidatorService.usernameFormControl.valid).toBeFalsy();
+  });
+
+  it("should call addUsername correctly", () => {
+    spyOn(loginValidatorService, "addUsername");
+    loginValidatorService.usernameFormControl.setValue("validName");
+
+    loginValidatorService.addUsername();
+    expect(loginValidatorService.addUsername).toHaveBeenCalled();
   });
 
   // it("should call the post request when username is valid", () => {
