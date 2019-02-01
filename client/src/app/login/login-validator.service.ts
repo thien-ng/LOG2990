@@ -43,7 +43,7 @@ export class LoginValidatorService {
     if (this.usernameFormControl.errors === null && this.isWebsocketConnected()) {
       const message: Message = this.generateMessage(this.usernameFormControl.value);
 
-      const result: Object = this.sendUsernameRequest(message);
+      const result: Object = await this.sendUsernameRequest(message);
 
       if (result) {
         this.socketService.sendMsg(Constants.LOGIN_REQUEST, this.usernameFormControl.value);
@@ -58,7 +58,7 @@ export class LoginValidatorService {
 
   // Helpers
   private async sendUsernameRequest(message: Message): Promise<Object> {
-    return this.httpClient.post(Constants.PATH_TO_LOGIN_VALIDATION, message).toPromise();
+    return this.httpClient.post(Constants.PATH_TO_LOGIN_VALIDATION, message).toPromise().catch();
   }
 
   private isWebsocketConnected(): boolean {
