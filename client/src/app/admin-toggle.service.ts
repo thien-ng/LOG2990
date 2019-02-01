@@ -27,9 +27,9 @@ export class AdminToggleService {
   public adminToggle(): void {
     this.isAdmin = !this.isAdmin;
     if (this.isAdmin) {
-      this.router.navigate([Constants.ADMIN_PATH]);
+      this.router.navigate([Constants.ADMIN_PATH]).catch(() => Constants.OBLIGATORY_CATCH);
     } else {
-      this.router.navigate([Constants.GAMELIST_PATH]);
+      this.router.navigate([Constants.GAMELIST_PATH]).catch(() => Constants.OBLIGATORY_CATCH);
     }
     this.adminUpdated.next(this.isAdmin);
   }

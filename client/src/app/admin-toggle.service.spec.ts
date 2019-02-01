@@ -3,12 +3,17 @@
 import { TestBed } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 
-import { Router } from "@angular/router";
+import { Router, Routes } from "@angular/router";
 import { Observable } from "rxjs";
 import "rxjs/add/observable/of";
-import { mock } from "ts-mockito";
 import { AdminToggleService } from "./admin-toggle.service";
 import { Constants } from "./constants";
+import { GameListContainerComponent } from "./game-list-container/game-list-container.component";
+
+export const routes: Routes = [
+  { path: Constants.GAMELIST_PATH, component: GameListContainerComponent },
+  { path: Constants.ADMIN_PATH, component: GameListContainerComponent },
+];
 
 let adminToggleService: AdminToggleService;
 let router: Router;
@@ -22,7 +27,9 @@ describe("AdminToggleService", () => {
   }));
 
   beforeEach(() => {
-    router = mock(Router);
+    router = TestBed.get(Router);
+    router.initialNavigation();
+
     adminToggleService = new AdminToggleService(router);
   });
 
