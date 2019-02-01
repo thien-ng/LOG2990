@@ -74,11 +74,11 @@ describe("HighscoreService tests", () => {
     });
     it("First score should be inferior to 2nd Score", () => {
         highscoreService.generateNewHighscore(3);
-        expect(mockHighscore[2].timesMulti[0]).to.be.lessThan(mockHighscore[2].timesMulti[1]);
+        expect(mockHighscore[2].timesMulti[0]).to.be.at.most(mockHighscore[2].timesMulti[1]);
     });
     it("2nd score should be inferior to 3rd score", () => {
         highscoreService.generateNewHighscore(3);
-        expect(mockHighscore[2].timesMulti[1]).to.be.lessThan(mockHighscore[2].timesMulti[2]);
+        expect(mockHighscore[2].timesMulti[1]).to.be.at.most(mockHighscore[2].timesMulti[2]);
     });
     it("Should return the highscore message coresponding to the id", () => {
         const cardId: number = 1;

@@ -80,8 +80,8 @@ export class CreateSimpleGameComponent implements OnInit {
     formdata.append("name", data.value.gameName);
     formdata.append("original", this.selectedFiles[this.ORIGINAL_INDEX]);
     formdata.append("modified", this.selectedFiles[this.MODIFIED_INDEX]);
-    this.http.post(Constants.BASIC_SERVICE_BASE_URL + "/api/card/submit", formdata).subscribe((response: any) => {
-      console.log(response);
+    this.http.post(Constants.BASIC_SERVICE_BASE_URL + "/api/card/submit", formdata).subscribe((response: boolean) => {
+      // TBD
     });
   }
 }

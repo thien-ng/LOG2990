@@ -2,7 +2,7 @@ import * as http from "http";
 import { inject, injectable } from "inversify";
 import * as SocketIO from "socket.io";
 import { Constants } from "../constants";
-import { NameValidatorService } from "../services/validator/NameValidatorService";
+import { NameValidatorService } from "../services/validator/nameValidator.service";
 import Types from "../types";
 
 @injectable()
@@ -17,7 +17,6 @@ export class WebsocketManager {
         io.on(Constants.CONNECTION, (socket: SocketIO.Socket) => {
             let name: string;
             socket.on(Constants.LOGIN_EVENT, (data: string) => {
-                this.nameValidatorService.validateName(data);
                 name = data;
             });
 

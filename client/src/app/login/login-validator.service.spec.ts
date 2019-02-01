@@ -1,6 +1,7 @@
+// tslint:disable:no-any no-floating-promises
+
 import { HttpClient } from "@angular/common/http";
 import { TestBed } from "@angular/core/testing";
-import { MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { mock } from "ts-mockito";
@@ -13,15 +14,13 @@ let loginValidatorService: LoginValidatorService;
 let router: Router;
 let httpClient: HttpClient;
 let socketService: SocketService;
-let snackBar: MatSnackBar;
 
 beforeEach(() => {
   router = mock(Router);
   httpClient = mock(HttpClient);
   socketService = mock(SocketService);
-  snackBar = mock(MatSnackBar);
 
-  loginValidatorService = new LoginValidatorService(router, snackBar, httpClient, socketService );
+  loginValidatorService = new LoginValidatorService(router, httpClient, socketService );
 });
 
 describe("Tests on LoginValidatorService", () => {
