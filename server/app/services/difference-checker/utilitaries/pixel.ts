@@ -5,7 +5,6 @@ export class Pixel {
         private red: number,
         private green: number,
         private blue: number,
-        private alpha: number,
         ) {
         // default constructor
     }
@@ -13,8 +12,7 @@ export class Pixel {
     public isEqual(pixel: Pixel): Boolean {
         return this.red === pixel.getRed() &&
             this.green === pixel.getGreen() &&
-            this.blue === pixel.getBlue() &&
-            this.alpha === pixel.getAlpha();
+            this.blue === pixel.getBlue();
     }
 
     public getRed(): number {
@@ -27,10 +25,6 @@ export class Pixel {
 
     public getBlue(): number {
         return this.blue;
-    }
-
-    public getAlpha(): number {
-        return this.alpha;
     }
 
 }

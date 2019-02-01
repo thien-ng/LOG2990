@@ -72,9 +72,11 @@ export class ImageDifference {
             const redValue: number = data[pixelCounter++];
             const greenValue: number = data[pixelCounter++];
             const blueValue: number = data[pixelCounter++];
-            const alphaValue: number = data[pixelCounter++];
 
-            const pixel: Pixel = new Pixel(redValue, greenValue, blueValue, alphaValue);
+            // decommenter si jimp redonne des alpha
+            // pixelCounter++
+
+            const pixel: Pixel = new Pixel(redValue, greenValue, blueValue);
             arrayPixel.push(pixel);
         }
 

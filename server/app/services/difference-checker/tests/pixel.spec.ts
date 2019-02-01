@@ -6,7 +6,7 @@ import { Pixel } from "../../difference-checker/utilitaries/pixel";
 let pixel: Pixel;
 
 beforeEach(() => {
-    pixel = new Pixel(1, 2, 3, 4);
+    pixel = new Pixel(1, 2, 3);
 });
 
 describe("Pixel test", () => {
@@ -29,21 +29,15 @@ describe("Pixel test", () => {
         done();
     });
 
-    it ("should return 4 if get alpha", (done: Function) => {
-        const result: number = pixel.getAlpha();
-        expect(result).to.equal(4);
-        done();
-    });
-
     it ("should return true if pixels are equal", (done: Function) => {
-        const testPixel: Pixel = new Pixel(1, 2, 3, 4);
+        const testPixel: Pixel = new Pixel(1, 2, 3);
         const result: Boolean = pixel.isEqual(testPixel);
         expect(result).to.equal(true);
         done();
     });
 
     it ("should return false if pixels are not equal", (done: Function) => {
-        const testPixel: Pixel = new Pixel(4, 3, 2, 1);
+        const testPixel: Pixel = new Pixel(4, 3, 2);
         const result: Boolean = pixel.isEqual(testPixel);
         expect(result).to.equal(false);
         done();
