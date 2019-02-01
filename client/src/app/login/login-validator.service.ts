@@ -33,37 +33,35 @@ export class LoginValidatorService {
 
   public constructor(
     private router: Router,
-    private snackbar: MatSnackBar,
     private httpClient: HttpClient,
     private socketService: SocketService,
     ) {
       // Default constructor
     }
 
-  public async addUsername(): Promise<void> {
+  public async addUsername(): Promise<boolean> {
+      if (this.usernameFormControl.errors === null && this.isWebsocketConnected()) {
+        const message: Message = this.generateMessage(this.usernameFormControl.value);
 
-    const message: Message = this.generateMessage(this.usernameFormControl.value);
+        const result: Object = this.sendUsernameRequest(message);
 
-    if (this.socketService !== undefined && !this.hasErrors()) {
-      const result: Object = await this.httpClient.post(Constants.PATH_TO_LOGIN_VALIDATION, message).toPromise();
-      if (result) {
-        this.navigateLoginSuccessful();
-      } else {
-        this.displayNameNotUniqueMessage(message.body);
+        if (Boolean(result)) {
+          await this.router.navigate([Constants.ROUTER_LOGIN]);
+
+          return true;
+        }
       }
+
+      return false;
     }
-  }
 
   // Helpers
-  public displaySnackBar(message: string, closeStatement: string): void {
-    this.snackbar.open(
-      message,
-      closeStatement,
-      {duration: Constants.SNACKBAR_DURATION});
+  private sendUsernameRequest(message: Message): Promise<Object> {
+    return this.httpClient.post(Constants.PATH_TO_LOGIN_VALIDATION, message).toPromise();
   }
 
-  private hasErrors(): boolean {
-    return this.usernameFormControl.errors !== null;
+  private isWebsocketConnected(): boolean {
+    return (this.socketService) ? true : false;
   }
 
   private generateMessage(username: string): Message {
@@ -71,14 +69,5 @@ export class LoginValidatorService {
       title: Constants.LOGIN_MESSAGE_TITLE,
       body: this.usernameFormControl.value,
     };
-  }
-
-  private navigateLoginSuccessful(): void {
-    this.router.navigate([Constants.ROUTER_LOGIN]).catch();
-    this.displaySnackBar(Constants.SNACKBAR_GREETINGS + this.usernameFormControl.value, Constants.SNACKBAR_ACKNOWLEDGE);
-  }
-
-  private displayNameNotUniqueMessage(username: string): void {
-    this.displaySnackBar(username + Constants.SNACKBAR_USED_NAME, Constants.SNACKBAR_ATTENTION);
   }
 }
