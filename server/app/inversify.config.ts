@@ -20,7 +20,7 @@ container.bind(Types.Application).to(Application);
 container.bind(Types.WebsocketManager).to(WebsocketManager);
 
 container.bind(Types.LoginValidatorController).to(LoginValidatorController);
-container.bind(Types.NameValidatorService).to(NameValidatorService);
+container.bind(Types.NameValidatorService).to(NameValidatorService).inSingletonScope();
 
 container.bind(Types.CardManagerController).to(CardManagerController);
 container.bind(Types.CardManagerService).to(CardManagerService);
