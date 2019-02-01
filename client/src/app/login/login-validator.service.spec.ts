@@ -13,15 +13,13 @@ let loginValidatorService: LoginValidatorService;
 let router: Router;
 let httpClient: HttpClient;
 let socketService: SocketService;
-let snackBar: MatSnackBar;
 
 beforeEach(() => {
   router = mock(Router);
   httpClient = mock(HttpClient);
   socketService = mock(SocketService);
-  snackBar = mock(MatSnackBar);
 
-  loginValidatorService = new LoginValidatorService(router, snackBar, httpClient, socketService );
+  loginValidatorService = new LoginValidatorService(router, httpClient, socketService );
 });
 
 describe("Tests on LoginValidatorService", () => {
