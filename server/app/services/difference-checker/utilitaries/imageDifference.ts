@@ -3,10 +3,10 @@ import * as Jimp from "jimp";
 import { Image } from "./image";
 import { Pixel } from "./pixel";
 
-const filePath4: string  =
-"C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\white.bmp";
-const filePath5: string  =
-"C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\7dots.bmp";
+// const filePath4: string  =
+// "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\white.bmp";
+// const filePath5: string  =
+// "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\7dots.bmp";
 
 @injectable()
 export class ImageDifference {
@@ -24,9 +24,9 @@ export class ImageDifference {
     }
 
     // recieve 2 buffer , return 1 array of number
-    public async searchDifferenceImage(): Promise<number[]> {
+    public async searchDifferenceImage(originalBuffer: Buffer, differenceBuffer: Buffer): Promise<number[]> {
 
-        await this.readFile(filePath4, filePath5);
+        await this.readFile(originalBuffer, differenceBuffer);
 
         if (this.imageOriginal.hasRequiredDimension() && this.imageWithdots.hasRequiredDimension()) {
 
@@ -41,8 +41,8 @@ export class ImageDifference {
 
     }
 
-    private async readFile(path1: string, path2: string): Promise<void> {
-        await this.jimp.read(path1).then( (image: Jimp) => {
+    private async readFile(originalBuffer: Buffer, differenceBuffer: Buffer): Promise<void> {
+        await this.jimp.read(originalBuffer).then( (image: Jimp) => {
             this.imageOriginal = this.createImage(
                                     image.bitmap.height,
                                     image.bitmap.width,
@@ -50,7 +50,7 @@ export class ImageDifference {
                                 );
         });
 
-        await this.jimp.read(path2).then( (image: Jimp) => {
+        await this.jimp.read(differenceBuffer).then( (image: Jimp) => {
             this.imageWithdots = this.createImage(
                                     image.bitmap.height,
                                     image.bitmap.width,
