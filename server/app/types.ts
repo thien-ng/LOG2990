@@ -5,7 +5,6 @@ export default  {
         CardManagerService: Symbol("CardManagerService"),
         WebsocketManager: Symbol("WebsocketManager"),
         NameValidatorService: Symbol("NameValidatorService"),
-        ImageDifference: Symbol("ImageDifference"),
         HighscoreService: Symbol("HighscoreService"),
         HighscoreController: Symbol("HighscoreController"),
         DifferenceCheckerController: Symbol("DifferenceCheckerController"),

@@ -6,7 +6,6 @@ import { LoginValidatorController } from "./controllers/loginValidator.controlle
 import { Server } from "./server";
 import { CardManagerService } from "./services/card-manager.service";
 import { DifferenceCheckerController } from "./services/difference-checker/difference-checker.controller";
-import { ImageDifference } from "./services/difference-checker/utilitaries/imageDifference";
 import { HighscoreService } from "./services/highscore.service";
 import { NameValidatorService } from "./services/validator/nameValidator.service";
 import Types from "./types";
@@ -21,8 +20,6 @@ container.bind(Types.WebsocketManager).to(WebsocketManager);
 
 container.bind(Types.LoginValidatorController).to(LoginValidatorController);
 container.bind(Types.NameValidatorService).to(NameValidatorService).inSingletonScope();
-container.bind(Types.ImageDifference).to(ImageDifference);
-
 container.bind(Types.CardManagerController).to(CardManagerController);
 container.bind(Types.CardManagerService).to(CardManagerService);
 
