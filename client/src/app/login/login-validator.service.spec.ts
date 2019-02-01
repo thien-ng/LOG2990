@@ -12,6 +12,7 @@ import { mock } from "ts-mockito";
 import { SocketService } from "../socket.service";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { LoginValidatorService } from "./login-validator.service";
+import { FormGroupDirective } from "@angular/forms";
 
 // tslint:disable:no-any no-floating-promises
 
@@ -125,6 +126,11 @@ fdescribe("Tests on LoginValidatorService", () => {
     loginValidatorService.usernameFormControl.setValue("validName");
     loginValidatorService.addUsername();
     expect(loginValidatorService["sendUsernameRequest"]).toHaveBeenCalled();
+  });
+
+  // Error matcher
+  it("should return false when the form exists AND is not valid", () => {
+    expect(loginValidatorService.matcher.isErrorState(loginValidatorService.usernameFormControl, null)).toBeFalsy();
   });
 
 });
