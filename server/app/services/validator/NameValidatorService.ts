@@ -17,7 +17,7 @@ export class NameValidatorService {
 
         if (this.isUnique(nameRequest)) {
             this.nameList.push(nameRequest);
-            
+     
             return true;
         }
 
