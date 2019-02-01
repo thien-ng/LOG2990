@@ -22,7 +22,6 @@ export class Constants {
   public static readonly MAX_LENGTH: number = 15;
   public static readonly REGEX_PATTERN: string = "^[a-zA-Z0-9]+$";
   public static readonly LOGIN_REQUEST: string = "onLogin";
-  public static readonly LOGIN_RESPONSE: string = "onLoginReponse";
   public static readonly WEBSOCKET_URL: string = "http://localhost:3333";
   public static readonly PATH_TO_LOGIN_VALIDATION: string = "http://localhost:3000/api/loginValidation/newUsername";
   public static readonly LOGIN_MESSAGE_TITLE: string = "onUserSubscribe";
@@ -46,5 +45,9 @@ export class Constants {
   // constants for game list container
   public static readonly CARDS_PATH: string = "/api/card/list";
   public static readonly REMOVE_CARD_PATH: string = "/api/card/remove";
+
+  public static readonly HIGHSCORE_PATH: string = "/api/highscore/";
+
+  public static readonly RESET_PATH: string = "generator/";
 
 }

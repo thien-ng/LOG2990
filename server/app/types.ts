@@ -1,13 +1,12 @@
 export default  {
         Server: Symbol("Server"),
         Application: Symbol("Application"),
-        IndexController: Symbol("IndexController"),
-        DateController: Symbol("DateController"),
         CardManagerController: Symbol("CardManagerController"),
-        IndexService: Symbol("IndexService"),
-        DateService: Symbol("DateService"),
         CardManagerService: Symbol("CardManagerService"),
         WebsocketManager: Symbol("WebsocketManager"),
         NameValidatorService: Symbol("NameValidatorService"),
+        HighscoreService: Symbol("HighscoreService"),
+        HighscoreController: Symbol("HighscoreController"),
+        DifferenceCheckerController: Symbol("DifferenceCheckerController"),
         LoginValidatorController: Symbol("LoginValidatorController"),
 };

@@ -4,8 +4,6 @@ import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule, RouterOutlet, Routes } from "@angular/router";
 
-import { BasicService } from "./basic.service";
-
 import { AppComponent } from "./app.component";
 import { CardComponent } from "./card/card.component";
 import { Constants } from "./constants";
@@ -57,9 +55,6 @@ const routes: Routes = [
   ],
   exports: [RouterOutlet],
   entryComponents: [CreateSimpleGameComponent],
-  providers: [
-    BasicService,
-  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

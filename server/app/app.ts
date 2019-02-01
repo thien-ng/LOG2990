@@ -5,9 +5,9 @@ import * as express from "express";
 import { inject, injectable } from "inversify";
 import * as logger from "morgan";
 import { CardManagerController } from "./controllers/card-manager.controller";
-import { DateController } from "./controllers/date.controller";
-import { IndexController } from "./controllers/index.controller";
+import { HighscoreController } from "./controllers/highscore.controller";
 import { LoginValidatorController } from "./controllers/loginValidator.controller";
+import { DifferenceCheckerController } from "./services/difference-checker/difference-checker.controller";
 import Types from "./types";
 
 @injectable()
@@ -17,10 +17,11 @@ export class Application {
     public app: express.Application;
 
     public constructor(
-        @inject(Types.IndexController) private indexController: IndexController,
-        @inject(Types.DateController) private dateController: DateController,
         @inject(Types.CardManagerController) private cardManagerController: CardManagerController,
+        @inject(Types.HighscoreController) private highscoreController: HighscoreController,
         @inject(Types.LoginValidatorController) private loginValidatorController: LoginValidatorController,
+        @inject(Types.DifferenceCheckerController) private differenceCheckerController: DifferenceCheckerController,
+
         ) {
         this.app = express();
 
@@ -40,10 +41,10 @@ export class Application {
 
     public bindRoutes(): void {
         // Notre application utilise le routeur de notre API `Index`
-        this.app.use("/api/index", this.indexController.router);
-        this.app.use("/api/date", this.dateController.router);
         this.app.use("/api/card", this.cardManagerController.router);
+        this.app.use("/api/highscore", this.highscoreController.router);
         this.app.use("/api/loginValidation", this.loginValidatorController.router);
+        this.app.use("/api/differenceChecker", this.differenceCheckerController.router);
         this.app.use(express.static("./app/asset"));
         this.errorHandeling();
     }

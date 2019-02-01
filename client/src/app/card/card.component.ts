@@ -5,11 +5,13 @@ import { ICard } from "../../../../common/communication/iCard";
 import { CardManagerService } from "../card-manager.service";
 import { Constants } from "../constants";
 import { GameModeService } from "../game-list-container/game-mode.service";
+import { HighscoreService } from "../highscore-display/highscore.service";
 
 @Component({
   selector: "app-card",
   templateUrl: "./card.component.html",
   styleUrls: ["./card.component.css"],
+  providers: [HighscoreService],
 })
 
 export class CardComponent implements OnInit {
@@ -29,6 +31,7 @@ export class CardComponent implements OnInit {
     public gameModeService: GameModeService,
     public cardManagerService: CardManagerService,
     private snackBar: MatSnackBar,
+    private highscoreService: HighscoreService,
     ) {
       // default constructor
     }
@@ -46,15 +49,20 @@ export class CardComponent implements OnInit {
     });
   }
 
+  public onResetButtonClick(): void {
+    this.highscoreService.resetHighscore(this.card.gameID);
+  }
+
   private openSnackbar(response: string): void {
     this.snackBar.open( response, Constants.SNACK_ACTION, {
       duration: Constants.SNACKBAR_DURATION,
       verticalPosition: "top",
+      panelClass: ["green-snackbar"],
     });
   }
 
   public onHSButtonClick(): void {
     this.HS_BUTTON_IS_CLICKED = !this.HS_BUTTON_IS_CLICKED;
-
+    this.highscoreService.getHighscore(this.card.gameID);
   }
 }
