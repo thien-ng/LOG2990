@@ -1,13 +1,18 @@
+import * as Axios from "axios";
 import { inject, injectable } from "inversify";
 import { Constants } from "../../../client/src/app/constants";
 import { GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
+import { Message } from "../../../common/communication/message";
 import Types from "../types";
 import { HighscoreService } from "./highscore.service";
 
+const axios: Axios.AxiosInstance = require("axios");
 const DOESNT_EXIST: number = -1;
 const CARD_DELETED: string = "Carte supprimée";
 const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
+const HEIGHT: number = 480;
+const WIDTH: number = 640;
 
 @injectable()
 export class CardManagerService {
@@ -33,6 +38,34 @@ export class CardManagerService {
             gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image/moutain.jpg",
             gamemode: GameMode.free,
         });
+    }
+
+    private isMessage(result: Buffer | Message): result is Message {
+        return  (result as Message).body !== undefined &&
+                (result as Message).title !== undefined;
+    }
+
+    public async cardCreationRoutine(original: Buffer, modified: Buffer): Promise<boolean> {
+        await axios.post(Constants.BASIC_SERVICE_BASE_URL + "/api/differencechecker/validate", {
+            height: HEIGHT,
+            width: WIDTH,
+            originalImage: original,
+            modifiedImage: modified,
+        })
+        .then((response: Axios.AxiosResponse< Buffer | Message>) => {
+            // console.log(response);
+            const result: Buffer | Message = response.data;
+            if (Buffer.isBuffer(result)) {
+                // TBD
+            } else if (this.isMessage(result)) {
+                // TBD
+            }
+        }).catch((err: Error) => {
+            // TBD
+        });
+
+        return true;
+
     }
 
     private cardEqual(card: ICard, element: ICard): boolean {

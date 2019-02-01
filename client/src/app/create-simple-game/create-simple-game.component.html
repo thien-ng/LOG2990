@@ -2,9 +2,9 @@
   {{TITLE}}
   <hr>
 </div>
-<form class="form" #signupForm="ngForm" (ngSubmit)="submit(signupForm)">
+<!-- <form class="form" #gameForm="ngForm" (ngSubmit)="submit(gameForm.form);">
   <mat-form-field class="input-width">
-    <input name="name" #input matInput
+    <input name="name" matInput
     [formControl]="fileValidatorService.gameNameFormControl"
     [errorStateMatcher]="fileValidatorService.matcher"
     placeholder="Nom du jeu">
@@ -21,12 +21,27 @@
   <div class="mat-subheading-2">
     {{ORIGINAL_IMAGE}}:
     <input name="pic-1" mat-icon-button type="file" accept="image/bmp" (change)="onFileSelected($event.target.files[0], ORIGINAL_INDEX)">
-  </div>
-  <div class="mat-subheading-2">
-    {{MODIFIED_IMAGE}}
+    </div>
+    <div class="mat-subheading-2">
+      {{MODIFIED_IMAGE}}
     <input name="pic-2" mat-icon-button type="file" accept="image/bmp" (change)="onFileSelected($event.target.files[0], MODIFIED_INDEX)">
-  </div>
-  <button class="button-padding" [disabled]="hasFormControlErrors()" mat-raised-button type="submit">{{SUBMIT}}</button>
+    </div>
+  <button class="button-padding" [disabled]="hasFormControlErrors()" mat-raised-button>{{SUBMIT}}</button>
   <button class="button-padding" mat-raised-button (click)="closeDialog()">{{CANCEL}}</button>
-</form>
+</form> -->
 
+<form class="form" (ngSubmit)="submit(formControl)" [formGroup]="formControl">
+    <mat-form-field class="input-width">
+      <input type="text" formControlName="gameName" name="gameName" matInput placeholder="Nom du jeu">
+    </mat-form-field>
+    <div class="mat-subheading-2">
+      {{ORIGINAL_IMAGE}}:
+      <input mat-icon-button type="file" accept="image/bmp" (change)="onFileSelected($event.target.files[0], ORIGINAL_INDEX)">
+    </div>
+    <div class="mat-subheading-2">
+      {{MODIFIED_IMAGE}}:
+      <input mat-icon-button type="file" accept="image/bmp" (change)="onFileSelected($event.target.files[0], MODIFIED_INDEX)">
+    </div>
+    <button class="button-padding" [disabled]="hasFormControlErrors()" type="submit" mat-raised-button>{{SUBMIT}}</button>
+    <button class="button-padding" mat-raised-button (click)="closeDialog()">{{CANCEL}}</button>
+</form>
