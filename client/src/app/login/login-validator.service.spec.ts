@@ -28,17 +28,15 @@ beforeEach(() => {
   loginValidatorService = new LoginValidatorService(router, httpClient, socketService );
 });
 
-fdescribe("Tests on LoginValidatorService", () => {
+describe("Tests on LoginValidatorService", () => {
 
   beforeEach(() => {
-
-  TestBed.configureTestingModule({
-    imports: [
-      RouterTestingModule,
-      TestingImportsModule,
-    ],
-  });
-
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule,
+        TestingImportsModule,
+      ],
+    });
   });
 
   it("should be invalid when form empty", () => {
@@ -135,6 +133,19 @@ fdescribe("Tests on LoginValidatorService", () => {
     loginValidatorService.usernameFormControl.setValue("validName");
     loginValidatorService.addUsername();
     expect(loginValidatorService["sendUsernameRequest"]).toHaveBeenCalled();
+  });
+
+});
+
+fdescribe("Tests on LoginValidatorService", () => {
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule,
+        TestingImportsModule,
+      ],
+    });
   });
 
   // Error matcher
