@@ -8,8 +8,6 @@ import { BrowserModule } from "@angular/platform-browser";
 import { AppComponent } from "./app.component";
 import { TestingImportsModule } from "./testing-imports/testing-imports.module";
 
-import { BasicService } from "./basic.service";
-
 import { CardComponent } from "./card/card.component";
 import { CreateSimpleGameComponent } from "./create-simple-game/create-simple-game.component";
 import { GameListContainerComponent } from "./game-list-container/game-list-container.component";
@@ -42,7 +40,6 @@ describe("AppComponent", () => {
         LayoutModule,
         TestingImportsModule,
       ],
-      providers: [BasicService],
     }).compileComponents();
   }));
   it("should create the app", async(() => {
