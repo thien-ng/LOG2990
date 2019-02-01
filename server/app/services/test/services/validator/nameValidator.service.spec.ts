@@ -14,7 +14,7 @@ beforeEach(() => {
 describe("NameValidatorService test", () => {
 
     it ("should return True if name input is unique", (done: Function) => {
-        const name: String = "ligma";
+        const name: string = "ligma";
         const result: Boolean = nameValidatorService.validateName(name);
 
         expect(result).to.equal(true);
@@ -22,7 +22,7 @@ describe("NameValidatorService test", () => {
     });
 
     it ("should return False if name input is not unique", (done: Function) => {
-        const name: String = "patate";
+        const name: string = "patate";
         const result: Boolean = nameValidatorService.validateName(name);
 
         expect(result).to.equal(false);
@@ -30,7 +30,7 @@ describe("NameValidatorService test", () => {
     });
 
     it ("should return True if name input is unique", (done: Function) => {
-        const name: String = "bob";
+        const name: string = "bob";
         const result: Boolean = nameValidatorService.isUnique(name);
 
         expect(result).to.equal(true);
@@ -38,7 +38,7 @@ describe("NameValidatorService test", () => {
     });
 
     it ("should return false if name input is unique", (done: Function) => {
-        const name: String = "patate";
+        const name: string = "patate";
         const result: Boolean = nameValidatorService.isUnique(name);
 
         expect(result).to.equal(false);
@@ -46,7 +46,7 @@ describe("NameValidatorService test", () => {
     });
 
     it ("should return True if name is cleared from list properly", (done: Function) => {
-        const name: String = "patate";
+        const name: string = "patate";
         nameValidatorService.leaveBrowser(name);
 
         const result: Boolean = nameValidatorService.isUnique(name);
@@ -55,7 +55,7 @@ describe("NameValidatorService test", () => {
     });
 
     it ("should return True if list was empty initially", (done: Function) => {
-        const name: String = "patate";
+        const name: string = "patate";
         nameValidatorService.leaveBrowser(name);
 
         const result: Boolean = nameValidatorService.isUnique(name);

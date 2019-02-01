@@ -9,7 +9,7 @@ beforeEach(() => {
     pixel = new Pixel(1, 2, 3);
 });
 
-describe("Pixel test", () => {
+describe("Pixel tests", () => {
 
     it ("should return 1 if get red", (done: Function) => {
         const result: number = pixel.getRed();
