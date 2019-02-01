@@ -4,19 +4,17 @@ import { Image } from "./image";
 import { Pixel } from "./pixel";
 
 @injectable()
-export class ImageDifference {
+export class ImagesDifference {
 
     private readonly VALUE_DIFFERENCE: number = 1;
     private readonly VALUE_EQUAL: number = 0;
-    private readonly WIDTH_REQUIRED: number = 640;
-    private readonly HEIGHT_REQUIRED: number = 480;
 
     private jimp: Jimp = require("Jimp");
     private imageOriginal: Image;
     private imageWithdots: Image;
     private differenceImage: number[];
 
-    public constructor() {
+    public constructor(private requiredHeight: number, private requiredWidth: number) {
         this.differenceImage = [];
     }
 
@@ -38,7 +36,7 @@ export class ImageDifference {
     }
 
     private async readFile(originalBuffer: Buffer, differenceBuffer: Buffer): Promise<void> {
-        // We couldn't avoid the code duplication in this method
+        // We couldn't avoid the code duplication in this method, we're sorry.
         await this.jimp.read(originalBuffer).then( (image: Jimp) => {
             this.imageOriginal = this.createImage(
                                     image.bitmap.height,
@@ -88,18 +86,18 @@ export class ImageDifference {
 
     private findDifference(): void {
 
-        const imageOg: Pixel[] = this.imageOriginal.getPixels();
+        const imageOriginal: Pixel[] = this.imageOriginal.getPixels();
         const imageDots: Pixel[] = this.imageWithdots.getPixels();
 
         for (let i: number = 0; i < this.imageOriginal.getPixels().length; i++) {
-            this.differenceImage[i] = imageOg[i].isEqual(imageDots[i]) ? this.VALUE_EQUAL : this.VALUE_DIFFERENCE;
+            this.differenceImage[i] = imageOriginal[i].isEqual(imageDots[i]) ? this.VALUE_EQUAL : this.VALUE_DIFFERENCE;
         }
 
     }
 
     private hasRequiredDimension(image: Image): Boolean {
-        return image.getHeight() === this.HEIGHT_REQUIRED &&
-                image.getWidth() === this.WIDTH_REQUIRED;
+        return image.getHeight() === this.requiredHeight &&
+                image.getWidth() === this.requiredWidth;
     }
 
 }
