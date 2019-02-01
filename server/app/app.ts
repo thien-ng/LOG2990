@@ -7,7 +7,6 @@ import * as logger from "morgan";
 import { CardManagerController } from "./controllers/card-manager.controller";
 import { HighscoreController } from "./controllers/highscore.controller";
 import { LoginValidatorController } from "./controllers/loginValidator.controller";
-import { GeneratorController } from "./services/image-generator/controllers/generator.controller";
 import Types from "./types";
 
 @injectable()
@@ -17,7 +16,6 @@ export class Application {
     public app: express.Application;
 
     public constructor(
-        @inject(Types.GeneratorController) private generatorController: GeneratorController,
         @inject(Types.CardManagerController) private cardManagerController: CardManagerController,
         @inject(Types.HighscoreController) private highscoreController: HighscoreController,
         @inject(Types.LoginValidatorController) private loginValidatorController: LoginValidatorController,
@@ -40,7 +38,6 @@ export class Application {
 
     public bindRoutes(): void {
         // Notre application utilise le routeur de notre API `Index`
-        this.app.use("/api/generator", this.generatorController.router);
         this.app.use("/api/card", this.cardManagerController.router);
         this.app.use("/api/highscore", this.highscoreController.router);
         this.app.use("/api/loginValidation", this.loginValidatorController.router);
