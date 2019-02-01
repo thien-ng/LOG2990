@@ -1,6 +1,8 @@
+// tslint:disable:no-any
+// tslint:disable:no-floating-promises
+
 import { HttpClient } from "@angular/common/http";
 import { TestBed } from "@angular/core/testing";
-import { MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { mock } from "ts-mockito";
