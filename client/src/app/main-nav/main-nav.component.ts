@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from "@angular/animations";
 import { Breakpoints, BreakpointObserver } from "@angular/cdk/layout";
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { MatDialog, MatDialogConfig, MatDialogRef } from "@angular/material";
+import { MatDialog, MatDialogConfig } from "@angular/material";
 import { Router } from "@angular/router";
 
 import { Observable, Subscription } from "rxjs";
@@ -57,15 +57,7 @@ export class MainNavComponent implements OnInit, OnDestroy {
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
 
-    const dialogRef: MatDialogRef<CreateSimpleGameComponent> = this.dialog.open(CreateSimpleGameComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result !== undefined) {
-        alert(`(temporary) Dialog result: ${result}`);
-      }
-      // à faire - envoyer les données au serveur
-      // console.log(`Dialog result: ${result}`);
-    });
+    this.dialog.open(CreateSimpleGameComponent, dialogConfig);
   }
 
   public ngOnInit(): void {
