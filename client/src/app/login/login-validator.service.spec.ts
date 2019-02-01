@@ -106,28 +106,6 @@ describe("Tests on LoginValidatorService", () => {
     expect(isValid).toBeFalsy();
   });
 
-  it("should return false when socket is UNDEFINED", async () => {
-    spyOn<any>(loginValidatorService, "isWebsocketConnected").and.returnValue(false).and.callFake(() => {
-      return false;
-    });
-    spyOn<any>(loginValidatorService, "sendUsernameRequest").and.returnValue(Observable.of("true")).and.callFake(() => {
-      return true;
-    });
-    loginValidatorService.usernameFormControl.setValue("validName");
-    await loginValidatorService.addUsername();
-    expect(loginValidatorService["isWebsocketConnected"]()).toBeFalsy();
-  });
-
-  it("should return false when socket exists", async () => {
-    spyOn<any>(loginValidatorService, "isWebsocketConnected").and.returnValue(true).and.callThrough();
-    spyOn<any>(loginValidatorService, "sendUsernameRequest").and.returnValue(Observable.of("true")).and.callFake(() => {
-      return true;
-    });
-    loginValidatorService.usernameFormControl.setValue("validName");
-    await loginValidatorService.addUsername();
-    expect(loginValidatorService["isWebsocketConnected"]()).toBeTruthy();
-  });
-
   it("should return true on POST when username is VALID", () => {
     spyOn<any>(loginValidatorService, "sendUsernameRequest").and.returnValue(Observable.of("true")).and.callThrough();
     loginValidatorService.usernameFormControl.setValue("validName");
