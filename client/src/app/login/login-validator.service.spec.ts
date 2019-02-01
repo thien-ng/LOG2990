@@ -120,67 +120,11 @@ fdescribe("Tests on LoginValidatorService", () => {
     expect(loginValidatorService["isWebsocketConnected"]).toHaveBeenCalled();
   });
 
-  // it("should call the post request when username is valid", () => {
-  //   spyOn<any>(loginValidatorService, "sendUsernameRequest").and.returnValue(Observable.of("true"));
-  //   loginValidatorService.usernameFormControl.setValue("validName");
-  //   const message: Message = {
-  //     title: Constants.LOGIN_MESSAGE_TITLE,
-  //     body: loginValidatorService.usernameFormControl.value,
-  //   };
-
-  //   let fakeResponse: Object = "fake response";
-  //   loginValidatorService["sendUsernameRequest"](message).subscribe((value: any) => {
-  //     fakeResponse = value;
-  //   });
-
-  //   expect(fakeResponse).toBe("true");
-  // });
-
-  // it("should not call httpClient.post if socketService is undefined", () => {
-  //   loginValidatorService = new LoginValidatorService(router, snackBar, httpClient, undefined);
-  //   loginValidatorService.usernameFormControl.setValue("validName");
-  //   loginValidatorService.addUsername();
-  //   const message: Message = {
-  //     title: Constants.LOGIN_MESSAGE_TITLE,
-  //     body: loginValidatorService.usernameFormControl.value,
-  //   };
-  //   verify(httpClient.post(anyString(), message)).never();
-  // });
-
-  // it("should not call httpClient.post if usernameFormControl has error", () => {
-  //   loginValidatorService = new LoginValidatorService(router, snackBar, httpClient, socketService);
-  //   loginValidatorService.usernameFormControl.setValue("UnvalidName@...");
-  //   loginValidatorService.addUsername();
-  //   const message: Message = {
-  //     title: Constants.LOGIN_MESSAGE_TITLE,
-  //     body: loginValidatorService.usernameFormControl.value,
-  //   };
-  //   verify(httpClient.post(anyString(), message)).never();
-  // });
-
-  // it("should not call httpClient.post if usernameFormControl has error and socketService is undefined", () => {
-  //   loginValidatorService = new LoginValidatorService(router, snackBar, httpClient, undefined);
-  //   loginValidatorService.usernameFormControl.setValue("UnvalidName@...");
-  //   loginValidatorService.addUsername();
-  //   const message: Message = {
-  //     title: Constants.LOGIN_MESSAGE_TITLE,
-  //     body: loginValidatorService.usernameFormControl.value,
-  //   };
-  //   verify(httpClient.post(anyString(), message)).never();
-  // });
-
-  // it("should return a observable from post of httpClient", () => {
-  //   loginValidatorService.usernameFormControl.setValue("validName");
-
-  //   loginValidatorService.addUsername();
-  //   const message: Message = {
-  //     title: Constants.LOGIN_MESSAGE_TITLE,
-  //     body: loginValidatorService.usernameFormControl.value,
-  //   };
-  //   // verify(httpClient.post(anyString(), message)).never();
-  //   // const returnedValue = Observable.of(true);
-  //   // when(httpClient.post(anyString(), message)).thenReturn(Observable.of(false));
-  //   // verify(router.navigate([Constants.ROUTER_LOGIN])).called();
-  // });
+  it("should return true on POST when username is VALID", () => {
+    spyOn<any>(loginValidatorService, "sendUsernameRequest").and.returnValue(Observable.of("true")).and.callThrough();
+    loginValidatorService.usernameFormControl.setValue("validName");
+    loginValidatorService.addUsername();
+    expect(loginValidatorService["sendUsernameRequest"]).toHaveBeenCalled();
+  });
 
 });
