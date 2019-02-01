@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 
 @injectable()
 export class CircleDifferences {
-
+    private readonly IS_A_DIFFERENCE: number = 1;
     private circledDifferenceList: number[];
 
     public constructor(public differencesArray: number[], public width: number, public radius: number) {
@@ -14,7 +14,7 @@ export class CircleDifferences {
         let index: number = 0;
 
         this.differencesArray.forEach( (value: number) => {
-            if (value === 1) {
+            if (value === this.IS_A_DIFFERENCE) {
                 this.drawCircle(index);
             }
             index++;
@@ -24,6 +24,7 @@ export class CircleDifferences {
     }
 
     private drawCircle(positionToCircle: number): void {
+        // to get the square size where the draw circle should be called
         const squareSize: number = this.radius + this.radius + 1;
         const startIndex: number = this.getSquareStartIndex(positionToCircle);
 
@@ -35,7 +36,7 @@ export class CircleDifferences {
                     const currentDistanceToCenter: number = this.findDistanceBetween(positionToCircle, currentPosition);
 
                     if (this.isInAdjustedRadius(currentDistanceToCenter)) {
-                        this.circledDifferenceList[currentPosition] = 1;
+                        this.circledDifferenceList[currentPosition] = this.IS_A_DIFFERENCE;
                     }
                 }
             }
@@ -59,10 +60,10 @@ export class CircleDifferences {
 
     private adjustedRadius(): number {
         // adjustment formula
-        const coefficient: number = 0.4461;
-        const power: number = 0.9511;
-        const adjustmentDegree: number = 1.1;
-        const adjustment: number = adjustmentDegree * (coefficient / Math.pow(this.radius, power));
+        const COEFFICIENT: number = 0.4461;
+        const POWER: number = 0.9511;
+        const ADJUSTMENTDEGREE: number = 1.1;
+        const adjustment: number = ADJUSTMENTDEGREE * (COEFFICIENT / Math.pow(this.radius, POWER));
 
         return this.radius + adjustment;
     }
