@@ -6,7 +6,6 @@ import { Router } from "@angular/router";
 import "rxjs/add/operator/toPromise";
 import { Message } from "../../../../common/communication/message";
 
-// import { Observable } from "rxjs";
 import { Constants } from "../constants";
 import { SocketService } from "../socket.service";
 
