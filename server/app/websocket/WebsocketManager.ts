@@ -17,7 +17,6 @@ export class WebsocketManager {
         io.on(Constants.CONNECTION, (socket: SocketIO.Socket) => {
             let name: string;
             socket.on(Constants.LOGIN_EVENT, (data: string) => {
-                this.nameValidatorService.validateName(data);
                 name = data;
             });
 
