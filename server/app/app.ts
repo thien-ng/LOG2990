@@ -7,6 +7,7 @@ import * as logger from "morgan";
 import { CardManagerController } from "./controllers/card-manager.controller";
 import { HighscoreController } from "./controllers/highscore.controller";
 import { LoginValidatorController } from "./controllers/loginValidator.controller";
+import { DifferenceCheckerController } from "./services/difference-checker/difference-checker.controller";
 import Types from "./types";
 
 @injectable()
@@ -19,6 +20,8 @@ export class Application {
         @inject(Types.CardManagerController) private cardManagerController: CardManagerController,
         @inject(Types.HighscoreController) private highscoreController: HighscoreController,
         @inject(Types.LoginValidatorController) private loginValidatorController: LoginValidatorController,
+        @inject(Types.DifferenceCheckerController) private differenceCheckerController: DifferenceCheckerController,
+
         ) {
         this.app = express();
 
@@ -41,6 +44,7 @@ export class Application {
         this.app.use("/api/card", this.cardManagerController.router);
         this.app.use("/api/highscore", this.highscoreController.router);
         this.app.use("/api/loginValidation", this.loginValidatorController.router);
+        this.app.use("/api/differenceChecker", this.differenceCheckerController.router);
         this.app.use(express.static("./app/asset"));
         this.errorHandeling();
     }
