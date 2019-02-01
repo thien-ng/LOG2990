@@ -12,7 +12,6 @@ import { mock } from "ts-mockito";
 import { SocketService } from "../socket.service";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { LoginValidatorService } from "./login-validator.service";
-import { FormGroupDirective } from "@angular/forms";
 
 // tslint:disable:no-any no-floating-promises
 
@@ -113,6 +112,16 @@ fdescribe("Tests on LoginValidatorService", () => {
 
   it("should return false when socket is UNDEFINED", async () => {
     spyOn<any>(loginValidatorService, "isWebsocketConnected").and.returnValue(false).and.callThrough();
+    spyOn<any>(loginValidatorService, "sendUsernameRequest").and.returnValue(Observable.of("true")).and.callFake(() => {
+      return true;
+    });
+    loginValidatorService.usernameFormControl.setValue("validName");
+    await loginValidatorService.addUsername();
+    expect(loginValidatorService["isWebsocketConnected"]).toHaveBeenCalled();
+  });
+
+  it("should return false when socket exists", async () => {
+    spyOn<any>(loginValidatorService, "isWebsocketConnected").and.returnValue(true).and.callThrough();
     spyOn<any>(loginValidatorService, "sendUsernameRequest").and.returnValue(Observable.of("true")).and.callFake(() => {
       return true;
     });
