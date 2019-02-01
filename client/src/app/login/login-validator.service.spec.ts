@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { TestBed } from "@angular/core/testing";
+import { FormGroupDirective } from "@angular/forms";
 import { Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Observable } from "rxjs";
@@ -137,7 +138,7 @@ describe("Tests on LoginValidatorService", () => {
 
 });
 
-fdescribe("Tests on LoginValidatorService", () => {
+describe("Tests on LoginValidatorService", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -151,6 +152,10 @@ fdescribe("Tests on LoginValidatorService", () => {
   // Error matcher
   it("should return false when the form exists AND is not valid", () => {
     expect(loginValidatorService.matcher.isErrorState(loginValidatorService.usernameFormControl, null)).toBeFalsy();
+  });
+
+  it("should return true when the form exists AND is valid", () => {
+    expect(loginValidatorService.matcher.isErrorState(loginValidatorService.usernameFormControl, mock(FormGroupDirective))).toBeTruthy();
   });
 
 });
