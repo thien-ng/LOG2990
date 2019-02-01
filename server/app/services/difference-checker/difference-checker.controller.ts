@@ -1,10 +1,13 @@
 import { NextFunction, Request, Response, Router } from "express";
-import {  injectable } from "inversify";
+import {  injectable, inject } from "inversify";
+import { DifferenceCheckerService } from "./difference-checker.service";
+import Types from "../../types";
+import { Message } from "./utilities/message";
 
 @injectable()
 export class DifferenceCheckerController {
 
-    public constructor() {
+    public constructor(@inject(Types.DifferenceCheckerService) private differenceCheckerService: DifferenceCheckerService) {
         // default constructor
     }
 
@@ -15,7 +18,8 @@ export class DifferenceCheckerController {
         router.post("/validate", (req: Request, res: Response, next: NextFunction) => {
             // default route
             // call service
-            res.json(true);
+            const result: Message | Buffer = this.differenceCheckerService.generateDifferenceImage(req.body);
+            res.json(result);
         });
 
         return router;

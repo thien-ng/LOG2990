@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
 
-const HEADER_SIZE: number =  6; // size in Bytes
+const HEADER_SIZE: number =  54; // size in Bytes
 
 @injectable()
 export class BufferManager {

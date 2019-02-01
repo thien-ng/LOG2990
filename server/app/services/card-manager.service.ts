@@ -52,10 +52,12 @@ export class CardManagerService {
 
     private handlePostResponse(response: Axios.AxiosResponse< Buffer | Message>): boolean | Message {
         const result: Buffer | Message = response.data;
+        console.log(result);
 
         if (this.isMessage(result)) {
             return result;
         } else {
+            // creeate card
             /*const cardId: number = */
             this.createBMP(result);
 

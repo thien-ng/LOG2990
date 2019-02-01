@@ -3,6 +3,7 @@ import { inject, injectable } from "inversify";
 
 import * as multer from "multer";
 import { ICardLists } from "../../../common/communication/iCardLists";
+import { Message } from "../../../common/communication/message";
 import { CardManagerService } from "../services/card-manager.service";
 import Types from "../types";
 
@@ -37,7 +38,7 @@ export class CardManagerController {
             const originalBuffer: Buffer = req.files[ORIGINAL_IMAGE_NAME][0].buffer;
             const modifiedBuffer: Buffer = req.files[MODIFIED_IMAGE_NAME][0].buffer;
 
-            const val: boolean = await this.cardManagerService.cardCreationRoutine(originalBuffer, modifiedBuffer);
+            const val: boolean | Message = await this.cardManagerService.cardCreationRoutine(originalBuffer, modifiedBuffer);
 
             res.json(val);
         });

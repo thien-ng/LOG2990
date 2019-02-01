@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
 import { MatDialogRef, MatSnackBar } from "@angular/material";
+import { Message } from "../../../../common/communication/message";
 import { Constants } from "../constants";
 import { FileValidatorService } from "./game-validator.service";
 
@@ -89,8 +90,10 @@ export class CreateSimpleGameComponent implements OnInit {
 
   public submit(data: NgForm): void {
     const formdata: FormData = this.createFormData(data);
-    this.http.post(Constants.BASIC_SERVICE_BASE_URL + "/api/card/submit", formdata).subscribe((response: boolean) => {
+    this.http.post(Constants.BASIC_SERVICE_BASE_URL + "/api/card/submit", formdata).subscribe((response: boolean | Message) => {
       // TBD
+      console.log(response);
+
     });
   }
 }
