@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import * as Jimp from "jimp";
-import { Image } from "../image";
-import { Pixel } from "../pixel";
+import { Image } from "./image";
+import { Pixel } from "./pixel";
 
 
 const filePath4: string  =
@@ -10,7 +10,7 @@ const filePath5: string  =
 "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\7dots.bmp";
 
 @injectable()
-export class GeneratorManager {
+export class ImageDifference {
 
     private readonly VALUE_DIFFERENCE = 1;
     private readonly VALUE_EQUAL = 0;

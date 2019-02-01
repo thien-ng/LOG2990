@@ -5,9 +5,9 @@ import * as express from "express";
 import { inject, injectable } from "inversify";
 import * as logger from "morgan";
 import { CardManagerController } from "./controllers/card-manager.controller";
-import { GeneratorController } from "./services/image-generator/controllers/generator.controller";
 import { HighscoreController } from "./controllers/highscore.controller";
 import { LoginValidatorController } from "./controllers/loginValidator.controller";
+import { GeneratorController } from "./services/image-generator/controllers/generator.controller";
 import Types from "./types";
 
 @injectable()

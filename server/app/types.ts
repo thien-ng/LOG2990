@@ -6,7 +6,7 @@ export default  {
         WebsocketManager: Symbol("WebsocketManager"),
         NameValidatorService: Symbol("NameValidatorService"),
         GeneratorController: Symbol("GeneratorController"),
-        GeneratorManager: Symbol("GeneratorManager"),
+        ImageDifference: Symbol("ImageDifference"),
         HighscoreService: Symbol("HighscoreService"),
         HighscoreController: Symbol("HighscoreController"),
         LoginValidatorController: Symbol("LoginValidatorController"),
