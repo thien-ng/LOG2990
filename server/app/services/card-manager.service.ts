@@ -52,8 +52,6 @@ export class CardManagerService {
 
     private handlePostResponse(response: Axios.AxiosResponse< Buffer | Message>): boolean | Message {
         const result: Buffer | Message = response.data;
-        console.log(result);
-
         if (this.isMessage(result)) {
             return result;
         } else {
@@ -76,8 +74,10 @@ export class CardManagerService {
 
         let returnValue: boolean | Message = false;
 
-        await axios.post(Constants.BASIC_SERVICE_BASE_URL + "/api/differencechecker/validate", requirements)
+        await axios.post(Constants.BASIC_SERVICE_BASE_URL + "/api/differenceChecker/validate", requirements)
         .then((response: Axios.AxiosResponse< Buffer | Message>) => {
+            // console.log(response);
+
             returnValue = this.handlePostResponse(response);
         }).catch((err: Error) => {
             return err.message;

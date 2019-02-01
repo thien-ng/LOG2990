@@ -18,10 +18,11 @@ export class DifferenceCheckerService {
     }
 
     // tslint:disable-next-line:max-func-body-length
-    public generateDifferenceImage(requirements: IImageRequirements): Buffer | Message {
-        // TBD
+    public generateDifferenceImage(requirements: IImageRequirements): Buffer {
+        
         const splittedBuffer1: Buffer[] = this.bufferManager.splitHeader(requirements.originalImage);
         const splittedBuffer2: Buffer[] = this.bufferManager.splitHeader(requirements.modifiedImage);
+        // console.log(splittedBuffer1);
         const headerTemplate: Buffer[] = JSON.parse(JSON.stringify(splittedBuffer1[0]));
 
         const imagesDifference: ImagesDifference = new ImagesDifference();
@@ -31,20 +32,24 @@ export class DifferenceCheckerService {
         const circledDifferences: number[] = circleDifferences.circleAllDifferences();
 
         const clusterCounter: ClusterCounter = new ClusterCounter(circledDifferences, requirements.requiredWidth);
-        if (clusterCounter.countAllClusters() === requirements.requiredNbDiff) {
+        console.log(clusterCounter.countAllClusters());
+        
+        // if (clusterCounter.countAllClusters() === requirements.requiredNbDiff) {
             this.bufferManager.mergeBuffers(splittedBuffer1[0], splittedBuffer1[1]);
             this.bufferManager.mergeBuffers(splittedBuffer2[0], splittedBuffer2[1]);
             const dataImageBuffer: Buffer = this.bufferManager.arrayToBuffer(circledDifferences);
             // retourner limage
+            console.log(dataImageBuffer);
             const diffImgBuffer: Buffer = this.bufferManager.mergeBuffers(headerTemplate[0], dataImageBuffer);
-    
+            
             return diffImgBuffer;
-        } else {
-            return {
-                title: "onError",
-                body: "Les images ne contiennent pas 7 erreures",
-            } as Message;
-        }
+        // } else {
+            
+        //     return {
+        //         title: "onError",
+        //         body: "Les images ne contiennent pas 7 erreures",
+        //     } as Message;
+        // }
     }
 
     // private buildImage(enlargedErrors: number[]): void {

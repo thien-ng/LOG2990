@@ -25,8 +25,8 @@ export class BufferManager {
     }
 
     public splitHeader(input: Buffer): Buffer[] {
-        const header: Buffer = input.slice(0, HEADER_SIZE);
-        const image: Buffer = input.slice(HEADER_SIZE, input.length);
+        const header: Buffer = input.data.slice(0, HEADER_SIZE);
+        const image: Buffer = input.data.slice(HEADER_SIZE, input.length);
 
         const buffers: Buffer[] = [];
         buffers.push(header);
