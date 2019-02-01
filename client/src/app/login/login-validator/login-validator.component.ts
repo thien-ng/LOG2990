@@ -23,11 +23,21 @@ export class LoginValidatorComponent {
     LoginValidatorService)public loginValidatorService: LoginValidatorService,
                      private snackbar: MatSnackBar) {}
 
+  public async addUsername(): Promise<void> {
+      const isValid: boolean = await this.loginValidatorService.addUsername();
+
+      if (isValid) {
+        this.displayNameIsUnique();
+      } else if (this.loginValidatorService.usernameFormControl.errors === null) {
+        this.displayNameNotUnique();
+      }
+    }
+
   private displaySnackBar(message: string, closeStatement: string): void {
-    this.snackbar.open(
-      message,
-      closeStatement,
-      {duration: Constants.SNACKBAR_DURATION});
+      this.snackbar.open(
+        message,
+        closeStatement,
+        {duration: Constants.SNACKBAR_DURATION});
   }
 
   private displayNameIsUnique(): void {
@@ -38,16 +48,6 @@ export class LoginValidatorComponent {
   private displayNameNotUnique(): void {
     this.displaySnackBar(this.loginValidatorService.usernameFormControl.value + Constants.SNACKBAR_USED_NAME,
                          Constants.SNACKBAR_ATTENTION);
-  }
-
-  public async addUsername(): Promise<void> {
-    const isValid: boolean = await this.loginValidatorService.addUsername();
-
-    if (isValid) {
-      this.displayNameIsUnique();
-    } else if (this.loginValidatorService.usernameFormControl.errors === null) {
-      this.displayNameNotUnique();
-    }
   }
 
 }

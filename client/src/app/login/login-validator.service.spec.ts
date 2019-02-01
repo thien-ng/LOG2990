@@ -1,5 +1,4 @@
-// tslint:disable:no-any
-// tslint:disable:no-floating-promises
+// tslint:disable:no-any no-floating-promises
 
 import { HttpClient } from "@angular/common/http";
 import { TestBed } from "@angular/core/testing";
