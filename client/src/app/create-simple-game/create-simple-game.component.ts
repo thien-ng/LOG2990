@@ -13,6 +13,7 @@ import { FileValidatorService } from "./game-validator.service";
 export class CreateSimpleGameComponent implements OnInit {
 
   public TITLE: string = "Créer un jeu de point de vue simple";
+  public PLACE_HOLDER: string = "Nom du jeu";
   public ORIGINAL_IMAGE: string = "Image originale";
   public MODIFIED_IMAGE: string = "Image modifiée";
   public SUBMIT: string = "Soumettre";
@@ -40,7 +41,7 @@ export class CreateSimpleGameComponent implements OnInit {
 
   public constructor(
     public dialogRef: MatDialogRef<CreateSimpleGameComponent>,
-    public fileValidatorService: FileValidatorService,
+    private fileValidatorService: FileValidatorService,
     private snackBar: MatSnackBar,
     private http: HttpClient,
     ) {/* default constructor */}
@@ -75,11 +76,17 @@ export class CreateSimpleGameComponent implements OnInit {
     }
   }
 
-  public submit(data: NgForm): void {
+  private createFormData(data: NgForm): FormData {
     const formdata: FormData = new FormData();
     formdata.append("name", data.value.gameName);
     formdata.append("original", this.selectedFiles[this.ORIGINAL_INDEX]);
     formdata.append("modified", this.selectedFiles[this.MODIFIED_INDEX]);
+
+    return formdata;
+  }
+
+  public submit(data: NgForm): void {
+    const formdata: FormData = this.createFormData(data);
     this.http.post(Constants.BASIC_SERVICE_BASE_URL + "/api/card/submit", formdata).subscribe((response: boolean) => {
       // TBD
     });

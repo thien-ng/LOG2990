@@ -14,6 +14,7 @@ export class DifferenceCheckerController {
 
         router.post("/validate", (req: Request, res: Response, next: NextFunction) => {
             // default route
+            // call service
             res.json(true);
         });
 

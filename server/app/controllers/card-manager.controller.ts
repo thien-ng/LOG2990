@@ -7,6 +7,8 @@ import { CardManagerService } from "../services/card-manager.service";
 import Types from "../types";
 
 const DECIMAL: number = 10;
+const ORIGINAL_IMAGE_NAME: string = "original";
+const MODIFIED_IMAGE_NAME: string = "modified";
 
 @injectable()
 export class CardManagerController {
@@ -21,20 +23,19 @@ export class CardManagerController {
         const receivedFile: RequestHandler = upload.fields(
             [
                 {
-                    name: "original",
+                    name: ORIGINAL_IMAGE_NAME,
                     maxCount: 1,
                 },
                 {
-                    name: "modified",
+                    name: MODIFIED_IMAGE_NAME,
                     maxCount: 1,
                 },
             ]);
 
         router.post("/submit", receivedFile, async (req: Request, res: Response, next: NextFunction) => {
 
-            const originalBuffer: Buffer = req.files["original"][0].buffer;
-            const modifiedBuffer: Buffer = req.files["modified"][0].buffer;
-            // let response;
+            const originalBuffer: Buffer = req.files[ORIGINAL_IMAGE_NAME][0].buffer;
+            const modifiedBuffer: Buffer = req.files[MODIFIED_IMAGE_NAME][0].buffer;
 
             const val: boolean = await this.cardManagerService.cardCreationRoutine(originalBuffer, modifiedBuffer);
 

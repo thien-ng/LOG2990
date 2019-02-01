@@ -1,4 +1,4 @@
-import { /* inject, */ injectable } from "inversify";
+import { injectable } from "inversify";
 
 @injectable()
 export class DifferenceCheckerService {
@@ -6,4 +6,5 @@ export class DifferenceCheckerService {
     public constructor() {
     // default constructor
     }
+
 }

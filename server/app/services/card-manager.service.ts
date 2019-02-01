@@ -11,8 +11,8 @@ const axios: Axios.AxiosInstance = require("axios");
 const DOESNT_EXIST: number = -1;
 const CARD_DELETED: string = "Carte supprimée";
 const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
-const HEIGHT: number = 480;
-const WIDTH: number = 640;
+const REQUIRED_HEIGHT: number = 480;
+const REQUIRED_WIDTH: number = 640;
 
 @injectable()
 export class CardManagerService {
@@ -47,13 +47,12 @@ export class CardManagerService {
 
     public async cardCreationRoutine(original: Buffer, modified: Buffer): Promise<boolean> {
         await axios.post(Constants.BASIC_SERVICE_BASE_URL + "/api/differencechecker/validate", {
-            height: HEIGHT,
-            width: WIDTH,
+            requiredHeight: REQUIRED_HEIGHT,
+            requiredWidth: REQUIRED_WIDTH,
             originalImage: original,
             modifiedImage: modified,
         })
         .then((response: Axios.AxiosResponse< Buffer | Message>) => {
-            // console.log(response);
             const result: Buffer | Message = response.data;
             if (Buffer.isBuffer(result)) {
                 // TBD
