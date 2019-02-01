@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { ClusterCounter } from "../utilitaries/clusterCounter";
+import { ClusterCounter } from "../utilities/clusterCounter";
 
 // tslint:disable:no-magic-numbers
 

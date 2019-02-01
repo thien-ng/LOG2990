@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import "reflect-metadata";
-import { CircleDifferences } from "../utilitaries/circleDifferences";
+import { CircleDifferences } from "../utilities/circleDifferences";
 
 // tslint:disable:no-magic-numbers
 

@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { ImagesDifference } from "../utilitaries/imagesDifference";
+import { ImagesDifference } from "../utilities/imagesDifference";
 
 // tslint:disable:no-magic-numbers
 
