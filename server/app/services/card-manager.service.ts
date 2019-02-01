@@ -1,10 +1,12 @@
 import * as Axios from "axios";
+import * as fs from "fs";
 import { inject, injectable } from "inversify";
 import { Constants } from "../../../client/src/app/constants";
 import { GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
 import { Message } from "../../../common/communication/message";
 import Types from "../types";
+import { IImageRequirements } from "./difference-checker/utilities/iimageRequirements";
 import { HighscoreService } from "./highscore.service";
 
 const axios: Axios.AxiosInstance = require("axios");
@@ -13,6 +15,7 @@ const CARD_DELETED: string = "Carte supprimée";
 const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
 const REQUIRED_HEIGHT: number = 480;
 const REQUIRED_WIDTH: number = 640;
+const REQUIRED_NB_DIFF: number = 7;
 
 @injectable()
 export class CardManagerService {
@@ -20,6 +23,8 @@ export class CardManagerService {
         list2D: [],
         list3D: [],
     };
+
+    private uniqueId: number = 1000;
 
     public constructor(@inject(Types.HighscoreService) private highscoreService: HighscoreService) {
         this.addCard2D({
@@ -45,26 +50,71 @@ export class CardManagerService {
                 (result as Message).title !== undefined;
     }
 
-    public async cardCreationRoutine(original: Buffer, modified: Buffer): Promise<boolean> {
-        await axios.post(Constants.BASIC_SERVICE_BASE_URL + "/api/differencechecker/validate", {
-            requiredHeight: REQUIRED_HEIGHT,
-            requiredWidth: REQUIRED_WIDTH,
-            originalImage: original,
-            modifiedImage: modified,
-        })
+    private handlePostResponse(response: Axios.AxiosResponse< Buffer | Message>): boolean | Message {
+        const result: Buffer | Message = response.data;
+
+        if (this.isMessage(result)) {
+            return result;
+        } else {
+            /*const cardId: number = */
+            this.createBMP(result);
+
+            return true;
+        }
+    }
+
+    public async cardCreationRoutine(original: Buffer, modified: Buffer): Promise<boolean | Message> {
+        const requirements: IImageRequirements = {
+                                                    requiredHeight: REQUIRED_HEIGHT,
+                                                    requiredWidth: REQUIRED_WIDTH,
+                                                    requiredNbDiff: REQUIRED_NB_DIFF,
+                                                    originalImage: original,
+                                                    modifiedImage: modified,
+                                                };
+
+        let returnValue: boolean | Message = false;
+
+        await axios.post(Constants.BASIC_SERVICE_BASE_URL + "/api/differencechecker/validate", requirements)
         .then((response: Axios.AxiosResponse< Buffer | Message>) => {
-            const result: Buffer | Message = response.data;
-            if (Buffer.isBuffer(result)) {
-                // TBD
-            } else if (this.isMessage(result)) {
-                // TBD
-            }
+            returnValue = this.handlePostResponse(response);
         }).catch((err: Error) => {
-            // TBD
+            return err.message;
         });
 
-        return true;
+        return returnValue;
+    }
 
+    private stockImage(path: string, buffer: Buffer): void {
+        fs.open(path, "w", (err: Error, fd: number) => {
+            if (err) {
+                throw TypeError("error opening file: " + err);
+            }
+
+            fs.write(fd, buffer, 0, buffer.length, null, (errorOccured: NodeJS.ErrnoException) => {
+                if (errorOccured) {
+                    throw TypeError("error writing file: " + errorOccured);
+                }
+                fs.close(fd, () => {
+                // Finish Quietly
+                });
+            });
+        });
+
+    }
+
+    private generateId(): number {
+        return this.uniqueId++;
+    }
+
+    private createBMP(buffer: Buffer): number {
+
+        const cardId: number = this.generateId();
+
+        const path: string = "./app/asset/image/" + cardId + "_generated.bmp";
+
+        this.stockImage(path, buffer);
+
+        return cardId;
     }
 
     private cardEqual(card: ICard, element: ICard): boolean {
