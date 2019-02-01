@@ -46,6 +46,7 @@ export class LoginValidatorService {
       const result: Object = this.sendUsernameRequest(message);
 
       if (Boolean(result)) {
+        this.socketService.sendMsg(Constants.LOGIN_REQUEST, this.usernameFormControl.value);
         await this.router.navigate([Constants.ROUTER_LOGIN]);
 
         return true;

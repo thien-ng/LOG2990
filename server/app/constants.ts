@@ -5,7 +5,6 @@ export class Constants {
   // Constants for websocket.ts
   public static readonly SOCKET_IO: string = "socket.io";
   public static readonly LOGIN_EVENT: string = "onLogin";
-  public static readonly LOGIN_RESPONSE: string = "onLoginReponse";
   public static readonly CONNECTION: string = "connection";
   public static readonly DISCONNECT_EVENT: string = "disconnect";
   public static readonly WEBSOCKET_PORT_NUMBER: number = 3333;
