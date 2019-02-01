@@ -12,10 +12,10 @@ export class ImageDifference {
     private jimp: Jimp = require("Jimp");
     private imageOriginal: Image;
     private imageWithdots: Image;
-    private differenceImage: number[] = [];
+    private differenceImage: number[];
 
     public constructor() {
-        // default constructor
+        this.differenceImage = [];
     }
 
     public async searchDifferenceImage(originalBuffer: Buffer, differenceBuffer: Buffer): Promise<number[]> {
