@@ -3,11 +3,6 @@ import * as Jimp from "jimp";
 import { Image } from "./image";
 import { Pixel } from "./pixel";
 
-// const filePath4: string  =
-// "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\white.bmp";
-// const filePath5: string  =
-// "C:\\Users\\Thien\\Documents\\Projet_2\\Projet_Integrateur_Log2990\\server\\app\\asset\\image\\testBitmap\\7dots.bmp";
-
 @injectable()
 export class ImageDifference {
 
@@ -23,7 +18,6 @@ export class ImageDifference {
         // default constructor
     }
 
-    // recieve 2 buffer , return 1 array of number
     public async searchDifferenceImage(originalBuffer: Buffer, differenceBuffer: Buffer): Promise<number[]> {
 
         await this.readFile(originalBuffer, differenceBuffer);
