@@ -1,11 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
-import { ErrorStateMatcher, MatSnackBar } from "@angular/material";
+import { ErrorStateMatcher } from "@angular/material";
 import { Router } from "@angular/router";
 import "rxjs/add/operator/toPromise";
 import { Message } from "../../../../common/communication/message";
 
+// import { Observable } from "rxjs";
 import { Constants } from "../constants";
 import { SocketService } from "../socket.service";
 
@@ -40,20 +41,20 @@ export class LoginValidatorService {
     }
 
   public async addUsername(): Promise<boolean> {
-      if (this.usernameFormControl.errors === null && this.isWebsocketConnected()) {
-        const message: Message = this.generateMessage(this.usernameFormControl.value);
+    if (this.usernameFormControl.errors === null && this.isWebsocketConnected()) {
+      const message: Message = this.generateMessage(this.usernameFormControl.value);
 
-        const result: Object = this.sendUsernameRequest(message);
+      const result: Object = this.sendUsernameRequest(message);
 
-        if (Boolean(result)) {
-          await this.router.navigate([Constants.ROUTER_LOGIN]);
+      if (Boolean(result)) {
+        await this.router.navigate([Constants.ROUTER_LOGIN]);
 
-          return true;
-        }
+        return true;
       }
-
-      return false;
     }
+
+    return false;
+  }
 
   // Helpers
   private sendUsernameRequest(message: Message): Promise<Object> {
