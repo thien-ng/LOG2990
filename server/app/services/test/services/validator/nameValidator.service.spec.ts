@@ -1,7 +1,6 @@
 import { expect } from "chai";
 import "reflect-metadata";
-
-import { NameValidatorService } from "../../../../../app/services/validator/NameValidatorService";
+import { NameValidatorService } from "../../../validator/nameValidator.service";
 
 let nameValidatorService: NameValidatorService;
 
@@ -14,40 +13,40 @@ beforeEach(() => {
 
 describe("NameValidatorService test", () => {
 
-    it ("for: validateName, should return True if name input is unique", (done: Function) => {
-        const name: String = "ligma";
+    it ("should return True if name input is unique", (done: Function) => {
+        const name: string = "ligma";
         const result: Boolean = nameValidatorService.validateName(name);
 
         expect(result).to.equal(true);
         done();
     });
 
-    it ("for: validateName, should return False if name input is not unique", (done: Function) => {
-        const name: String = "patate";
+    it ("should return False if name input is not unique", (done: Function) => {
+        const name: string = "patate";
         const result: Boolean = nameValidatorService.validateName(name);
 
         expect(result).to.equal(false);
         done();
     });
 
-    it ("for: isUnique,should return True if name input is unique", (done: Function) => {
-        const name: String = "bob";
+    it ("should return True if name input is unique", (done: Function) => {
+        const name: string = "bob";
         const result: Boolean = nameValidatorService.isUnique(name);
 
         expect(result).to.equal(true);
         done();
     });
 
-    it ("for: isUnique,should return false if name input is unique", (done: Function) => {
-        const name: String = "patate";
+    it ("should return false if name input is unique", (done: Function) => {
+        const name: string = "patate";
         const result: Boolean = nameValidatorService.isUnique(name);
 
         expect(result).to.equal(false);
         done();
     });
 
-    it ("for: leaveBrowser, should return True if name is cleared from list properly", (done: Function) => {
-        const name: String = "patate";
+    it ("should return True if name is cleared from list properly", (done: Function) => {
+        const name: string = "patate";
         nameValidatorService.leaveBrowser(name);
 
         const result: Boolean = nameValidatorService.isUnique(name);
@@ -55,8 +54,8 @@ describe("NameValidatorService test", () => {
         done();
     });
 
-    it ("for: leaveBrowser, should return True if list was empty initially", (done: Function) => {
-        const name: String = "patate";
+    it ("should return True if list was empty initially", (done: Function) => {
+        const name: string = "patate";
         nameValidatorService.leaveBrowser(name);
 
         const result: Boolean = nameValidatorService.isUnique(name);

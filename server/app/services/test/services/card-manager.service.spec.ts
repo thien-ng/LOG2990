@@ -1,4 +1,3 @@
-// tslint:disable:no-magic-numbers
 import "reflect-metadata";
 
 import { expect } from "chai";
@@ -7,6 +6,8 @@ import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { ICardLists } from "../../../../../common/communication/iCardLists";
 import { CardManagerService } from "../../../services/card-manager.service";
 import { HighscoreService } from "../../highscore.service";
+
+// tslint:disable:no-magic-numbers
 
 const CARD_DELETED: string = "Carte supprimée";
 const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
