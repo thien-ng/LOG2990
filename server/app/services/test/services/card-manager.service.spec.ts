@@ -1,4 +1,3 @@
-// tslint:disable:no-magic-numbers
 import "reflect-metadata";
 
 import { expect } from "chai";
@@ -15,6 +14,7 @@ let cardManagerService: CardManagerService;
 let cards: ICardLists;
 let highscoreService: HighscoreService;
 
+// tslint:disable:no-magic-numbers
 describe("Card-manager tests", () => {
 
     const c1: ICard = {

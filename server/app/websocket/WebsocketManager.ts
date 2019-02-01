@@ -2,7 +2,7 @@ import * as http from "http";
 import { inject, injectable } from "inversify";
 import * as SocketIO from "socket.io";
 import { Constants } from "../constants";
-import { NameValidatorService } from "../services/validator/NameValidatorService";
+import { NameValidatorService } from "../services/validator/nameValidator.service";
 import Types from "../types";
 
 @injectable()
