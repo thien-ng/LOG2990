@@ -56,7 +56,7 @@ export class LoginValidatorService {
   }
 
   // Helpers
-  private sendUsernameRequest(message: Message): Promise<Object> {
+  private async sendUsernameRequest(message: Message): Promise<Object> {
     return this.httpClient.post(Constants.PATH_TO_LOGIN_VALIDATION, message).toPromise();
   }
 
