@@ -44,7 +44,9 @@ export class CreateSimpleGameComponent implements OnInit {
     private fileValidatorService: FileValidatorService,
     private snackBar: MatSnackBar,
     private http: HttpClient,
-    ) {/* default constructor */}
+    ) {
+      // default constructor
+    }
 
   public ngOnInit(): void {
     // default init
