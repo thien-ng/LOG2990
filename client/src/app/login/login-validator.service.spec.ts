@@ -6,10 +6,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { Observable } from "rxjs";
 import "rxjs/add/observable/of";
 import "rxjs/add/operator/toPromise";
-// import { anyString, mock, verify, when } from "ts-mockito";
 import { mock } from "ts-mockito";
-// import { Message } from "../../../../common/communication/message";
-// import { Constants } from "../constants";
 import { SocketService } from "../socket.service";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { LoginValidatorService } from "./login-validator.service";
@@ -110,13 +107,15 @@ describe("Tests on LoginValidatorService", () => {
   });
 
   it("should return false when socket is UNDEFINED", async () => {
-    spyOn<any>(loginValidatorService, "isWebsocketConnected").and.returnValue(false).and.callThrough();
+    spyOn<any>(loginValidatorService, "isWebsocketConnected").and.returnValue(false).and.callFake(() => {
+      return false;
+    });
     spyOn<any>(loginValidatorService, "sendUsernameRequest").and.returnValue(Observable.of("true")).and.callFake(() => {
       return true;
     });
     loginValidatorService.usernameFormControl.setValue("validName");
     await loginValidatorService.addUsername();
-    expect(loginValidatorService["isWebsocketConnected"]).toHaveBeenCalled();
+    expect(loginValidatorService["isWebsocketConnected"]()).toBeFalsy();
   });
 
   it("should return false when socket exists", async () => {
@@ -126,7 +125,7 @@ describe("Tests on LoginValidatorService", () => {
     });
     loginValidatorService.usernameFormControl.setValue("validName");
     await loginValidatorService.addUsername();
-    expect(loginValidatorService["isWebsocketConnected"]).toHaveBeenCalled();
+    expect(loginValidatorService["isWebsocketConnected"]()).toBeTruthy();
   });
 
   it("should return true on POST when username is VALID", () => {
