@@ -18,7 +18,7 @@ describe("Images Difference finder microservice tests", () => {
         const buffer1: Buffer = Buffer.from(strBuff1, "hex");
         const buffer2: Buffer = Buffer.from(strBuff2, "hex");
 
-        const result = imagesDifference.searchDifferenceImage(buffer1, buffer2);
+        const result: number[] = imagesDifference.searchDifferenceImage(buffer1, buffer2);
 
         expect(result).to.deep.equal([1]);
 
@@ -32,7 +32,7 @@ describe("Images Difference finder microservice tests", () => {
         const buffer1: Buffer = Buffer.from(strBuff1, "hex");
         const buffer2: Buffer = Buffer.from(strBuff2, "hex");
 
-        const result = imagesDifference.searchDifferenceImage(buffer1, buffer2);
+        const result: number[] = imagesDifference.searchDifferenceImage(buffer1, buffer2);
 
         expect(result).to.deep.equal([0]);
 
@@ -46,9 +46,9 @@ describe("Images Difference finder microservice tests", () => {
         const buffer1: Buffer = Buffer.from(strBuff1, "hex");
         const buffer2: Buffer = Buffer.from(strBuff2, "hex");
 
-        const result = imagesDifference.searchDifferenceImage(buffer1, buffer2);
+        const result: number[] = imagesDifference.searchDifferenceImage(buffer1, buffer2);
 
-        expect(result).to.deep.equal([0,1,0]);
+        expect(result).to.deep.equal([0, 1, 0]);
 
         done();
     });
@@ -60,17 +60,16 @@ describe("Images Difference finder microservice tests", () => {
         const buffer1: Buffer = Buffer.from(strBuff1, "hex");
         const buffer2: Buffer = Buffer.from(strBuff2, "hex");
 
-        try{
+        try {
 
             imagesDifference.searchDifferenceImage(buffer1, buffer2);
 
-        }catch(error){
-            if(error instanceof TypeError){
+        } catch (error) {
+            if (error instanceof TypeError) {
                 expect(error.message).to.deep.equal("size of buffers are not equal");
             }
         }
         done();
     });
-
 
 });
