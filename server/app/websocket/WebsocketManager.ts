@@ -15,13 +15,10 @@ export class WebsocketManager {
     public createWebsocket(server: http.Server): void {
         const io: SocketIO.Server = SocketIO(server);
         io.on(Constants.CONNECTION, (socket: SocketIO.Socket) => {
-            let name: String;
+            let name: string;
             socket.on(Constants.LOGIN_EVENT, (data: string) => {
-                const result: Boolean = this.nameValidatorService.validateName(data);
-                if (result) {
-                    name = data;
-                }
-                socket.emit(Constants.LOGIN_RESPONSE, result.toString());
+                this.nameValidatorService.validateName(data);
+                name = data;
             });
 
             socket.on(Constants.DISCONNECT_EVENT, (data: string) => {

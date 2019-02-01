@@ -5,8 +5,9 @@ import { HighscoreController } from "./controllers/highscore.controller";
 import { LoginValidatorController } from "./controllers/loginValidator.controller";
 import { Server } from "./server";
 import { CardManagerService } from "./services/card-manager.service";
+import { DifferenceCheckerController } from "./services/difference-checker/difference-checker.controller";
+import { ImageDifference } from "./services/difference-checker/utilitaries/imageDifference";
 import { HighscoreService } from "./services/highscore.service";
-import { ImageDifference } from "./services/image-generator/utilitaries/imageDifference";
 import { NameValidatorService } from "./services/validator/nameValidator.service";
 import Types from "./types";
 import { WebsocketManager } from "./websocket/WebsocketManager";
@@ -27,5 +28,7 @@ container.bind(Types.CardManagerService).to(CardManagerService);
 
 container.bind(Types.HighscoreController).to(HighscoreController);
 container.bind(Types.HighscoreService).to(HighscoreService).inSingletonScope();
+
+container.bind(Types.DifferenceCheckerController).to(DifferenceCheckerController);
 
 export { container };

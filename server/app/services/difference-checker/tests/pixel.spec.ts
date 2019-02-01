@@ -1,6 +1,7 @@
-// tslint:disable:no-magic-numbers no-any
 import { expect } from "chai";
-import { Pixel } from "../../../image-generator/utilitaries/pixel";
+import { Pixel } from "../../difference-checker/utilitaries/pixel";
+
+// tslint:disable:no-magic-numbers no-any
 
 let pixel: Pixel;
 
