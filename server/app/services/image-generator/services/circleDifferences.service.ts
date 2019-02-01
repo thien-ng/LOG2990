@@ -58,6 +58,7 @@ export class CircleDifferences {
     }
 
     private adjustedRadius(): number {
+        // adjustment formula
         const coefficient: number = 0.4461;
         const power: number = 0.9511;
         const adjustmentDegree: number = 1.1;
