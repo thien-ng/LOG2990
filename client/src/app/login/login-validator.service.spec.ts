@@ -1,5 +1,3 @@
-// tslint:disable:no-any no-floating-promises
-
 import { HttpClient } from "@angular/common/http";
 import { TestBed } from "@angular/core/testing";
 import { Router } from "@angular/router";
@@ -14,6 +12,8 @@ import { mock } from "ts-mockito";
 import { SocketService } from "../socket.service";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { LoginValidatorService } from "./login-validator.service";
+
+// tslint:disable:no-any no-floating-promises
 
 let loginValidatorService: LoginValidatorService;
 let router: Router;
@@ -108,6 +108,16 @@ fdescribe("Tests on LoginValidatorService", () => {
     loginValidatorService.usernameFormControl.setValue("validName");
     const isValid: boolean = await loginValidatorService.addUsername();
     expect(isValid).toBeFalsy();
+  });
+
+  it("should return false when socket is UNDEFINED", async () => {
+    spyOn<any>(loginValidatorService, "isWebsocketConnected").and.returnValue(false).and.callThrough();
+    spyOn<any>(loginValidatorService, "sendUsernameRequest").and.returnValue(Observable.of("true")).and.callFake(() => {
+      return true;
+    });
+    loginValidatorService.usernameFormControl.setValue("validName");
+    await loginValidatorService.addUsername();
+    expect(loginValidatorService["isWebsocketConnected"]).toHaveBeenCalled();
   });
 
   // it("should call the post request when username is valid", () => {
