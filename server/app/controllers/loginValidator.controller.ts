@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { inject, injectable } from "inversify";
 
-import { NameValidatorService } from "../services/validator/NameValidatorService";
+import { NameValidatorService } from "../services/validator/nameValidator.service";
 
 import Types from "../types";
 

@@ -6,14 +6,16 @@ export class DifferenceCheckerController {
 
     public constructor() {
         // default constructor
-     }
+    }
 
     public get router(): Router {
 
         const router: Router = Router();
 
-        router.get("/", (req: Request, res: Response, next: NextFunction) => {
+        router.post("/validate", (req: Request, res: Response, next: NextFunction) => {
             // default route
+            // call service
+            res.json(true);
         });
 
         return router;
