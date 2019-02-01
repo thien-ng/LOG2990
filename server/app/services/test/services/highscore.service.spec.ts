@@ -1,6 +1,6 @@
 // tslint:disable:no-magic-numbers
 import { expect } from "chai";
-import { Highscore, Mode } from "../../../../../common/communication/highscore";
+import { Highscore, HighscoreMessage, Mode } from "../../../../../common/communication/highscore";
 import { HighscoreService } from "../../../services/highscore.service";
 
 const UNDEFINED: number = 100;
@@ -11,6 +11,11 @@ const MOCK_SCORE_VALUE_3: number = 600;
 describe("HighscoreService tests", () => {
     let mockHighscore: Highscore[];
     let highscoreService: HighscoreService;
+    const higscoreMessageExpected: HighscoreMessage = {
+        id: 4,
+        timesMulti: ["2:02", "2:04", "2:16"],
+        timesSingle: ["2:02", "2:04", "2:16"],
+    };
 
     beforeEach(() => {
         mockHighscore = [
@@ -28,6 +33,11 @@ describe("HighscoreService tests", () => {
                 id: 3,
                 timesSingle: [MOCK_SCORE_VALUE_1, MOCK_SCORE_VALUE_2, MOCK_SCORE_VALUE_3],
                 timesMulti: [MOCK_SCORE_VALUE_1, MOCK_SCORE_VALUE_2, MOCK_SCORE_VALUE_3],
+            },
+            {
+                id: 4,
+                timesSingle: [122, 124 , 136],
+                timesMulti: [122, 124 , 136],
             },
         ];
         highscoreService = new HighscoreService();
@@ -77,5 +87,8 @@ describe("HighscoreService tests", () => {
     it("Should not change the mock highscores if cardId is undefined", () => {
         highscoreService.updateHighscore(1, Mode.Singleplayer, UNDEFINED);
         expect(highscoreService.allHighscores).to.deep.equal(mockHighscore);
+    });
+    it("Should add the zero if necessary", () => {
+        expect(highscoreService.convertToString(4)).to.deep.equal(higscoreMessageExpected);
     });
 });
