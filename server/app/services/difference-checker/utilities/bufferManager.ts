@@ -12,7 +12,8 @@ export class BufferManager {
         console.log("image");
         console.log(image);
 
-        const b: string =  header.toString("hex") + image.toString("hex");
+        const b: string =  header + image.toString("hex");
+        // const b: string =  header.toString("hex") + image.toString("hex");
 
         console.log(Buffer.from(b, "hex"));
 
