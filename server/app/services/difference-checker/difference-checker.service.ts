@@ -3,7 +3,7 @@ import { CircleDifferences } from "./utilities/circleDifferences";
 import { ClusterCounter } from "./utilities/clusterCounter";
 import { IImageRequirements } from "./utilities/iimageRequirements";
 import { ImagesDifference } from "./utilities/imagesDifference";
-import { Message } from "./utilities/message";
+// import { Message } from "./utilities/message";
 import { BufferManager } from "./utilities/bufferManager";
 
 const CIRCLE_RADIUS: number = 3;
@@ -19,10 +19,10 @@ export class DifferenceCheckerService {
 
     // tslint:disable-next-line:max-func-body-length
     public generateDifferenceImage(requirements: IImageRequirements): Buffer {
-        
+
         const splittedBuffer1: Buffer[] = this.bufferManager.splitHeader(requirements.originalImage);
         const splittedBuffer2: Buffer[] = this.bufferManager.splitHeader(requirements.modifiedImage);
-        // console.log(splittedBuffer1);
+
         const headerTemplate: Buffer[] = JSON.parse(JSON.stringify(splittedBuffer1[0]));
 
         const imagesDifference: ImagesDifference = new ImagesDifference();
@@ -39,7 +39,7 @@ export class DifferenceCheckerService {
             this.bufferManager.mergeBuffers(splittedBuffer2[0], splittedBuffer2[1]);
             const dataImageBuffer: Buffer = this.bufferManager.arrayToBuffer(circledDifferences);
             // retourner limage
-            console.log(dataImageBuffer);
+            // console.log(dataImageBuffer);
             const diffImgBuffer: Buffer = this.bufferManager.mergeBuffers(headerTemplate[0], dataImageBuffer);
             
             return diffImgBuffer;

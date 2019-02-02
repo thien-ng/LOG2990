@@ -28,7 +28,7 @@ export class ImagesDifference {
 
     private buffersNotEqualSize(originalBuffer: Buffer, modifiedBuffer: Buffer): Boolean {
 
-        return originalBuffer.byteLength !== modifiedBuffer.byteLength;
+        return originalBuffer.length !== modifiedBuffer.length;
     }
 
     private findDifference(originalBuffer: Buffer, modifiedBuffer: Buffer): void {
@@ -37,7 +37,8 @@ export class ImagesDifference {
         let differenceListIndex: number = 0;
         let assignedValue: number;
         let areEqual: Boolean;
-        while (bufferIndex < originalBuffer.byteLength) {
+
+        while (bufferIndex < originalBuffer.length) {
             areEqual = this.bufferHasEqualPixel(originalBuffer, modifiedBuffer, bufferIndex);
             assignedValue = areEqual ? this.VALUE_EQUAL : this.VALUE_DIFFERENCE;
 
