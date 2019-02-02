@@ -3,6 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
 import { MatDialogRef, MatSnackBar } from "@angular/material";
 import { Message } from "../../../../common/communication/message";
+import { CardManagerService } from "../card-manager.service";
 import { Constants } from "../constants";
 import { FileValidatorService } from "./game-validator.service";
 
@@ -45,6 +46,7 @@ export class CreateSimpleGameComponent implements OnInit {
     private fileValidatorService: FileValidatorService,
     private snackBar: MatSnackBar,
     private http: HttpClient,
+    private cardManagerService: CardManagerService,
     ) {
       // default constructor
     }
@@ -90,10 +92,18 @@ export class CreateSimpleGameComponent implements OnInit {
 
   public submit(data: NgForm): void {
     const formdata: FormData = this.createFormData(data);
-    this.http.post(Constants.BASIC_SERVICE_BASE_URL + "/api/card/submit", formdata).subscribe((response: boolean | Message) => {
+    this.http.post(Constants.BASIC_SERVICE_BASE_URL + "/api/card/submit", formdata).subscribe((response: Message) => {
       // TBD
-      console.log(response);
-
+      this.analyseResponse(response);
+      this.dialogRef.close();
     });
+  }
+
+  private analyseResponse(response: Message): void {
+    if (response.title === "onSuccess") {
+      this.cardManagerService.updateCards(true);
+    } else {
+      // TBD
+    }
   }
 }

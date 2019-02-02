@@ -16,6 +16,7 @@ const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
 const REQUIRED_HEIGHT: number = 480;
 const REQUIRED_WIDTH: number = 640;
 const REQUIRED_NB_DIFF: number = 7;
+const IMAGES_PATH: string = "./app/asset/image";
 
 @injectable()
 export class CardManagerService {
@@ -23,6 +24,9 @@ export class CardManagerService {
         list2D: [],
         list3D: [],
     };
+
+    private originalImageRequest: Buffer;
+    private modifiedImageRequest: Buffer;
 
     private uniqueId: number = 1000;
 
@@ -45,7 +49,10 @@ export class CardManagerService {
         });
     }
 
-    public async cardCreationRoutine(original: Buffer, modified: Buffer): Promise<boolean | Message> {
+    public async cardCreationRoutine(original: Buffer, modified: Buffer, cardTitle: string): Promise<Message> {
+        this.originalImageRequest = original;
+        this.modifiedImageRequest = modified;
+
         const requirements: IImageRequirements = {
                                                     requiredHeight: REQUIRED_HEIGHT,
                                                     requiredWidth: REQUIRED_WIDTH,
@@ -54,12 +61,14 @@ export class CardManagerService {
                                                     modifiedImage: modified,
                                                 };
 
-        let returnValue: boolean | Message = false;
+        let returnValue: Message = {
+            title: "onError",
+            body: "Validation services failed",
+        };
 
         await axios.post(Constants.BASIC_SERVICE_BASE_URL + "/api/differenceChecker/validate", requirements)
         .then((response: Axios.AxiosResponse< Buffer | Message>) => {
-
-            returnValue = this.handlePostResponse(response);
+            returnValue = this.handlePostResponse(response, cardTitle);
         }).catch((err: Error) => {
             return err.message;
         });
@@ -67,24 +76,39 @@ export class CardManagerService {
         return returnValue;
     }
 
-    private handlePostResponse(response: Axios.AxiosResponse< Buffer | Message>): boolean | Message {
+    private handlePostResponse(response: Axios.AxiosResponse< Buffer | Message>, cardTitle: string): Message {
 
         const result: Buffer | Message = response.data;
         if (this.isMessage(result)) {
             return result;
         } else {
             // creeate card
-            /*const cardId: number = */
-            this.createBMP(result);
+            const cardId: number = this.generateId();
+            const originalImagePath: string = "/" + cardId + "_original.bmp";
+            const modifiedImagePath: string = "/" + cardId + "_modified.bmp";
+            this.stockImage(IMAGES_PATH + originalImagePath, this.originalImageRequest);
+            this.stockImage(IMAGES_PATH + modifiedImagePath, this.modifiedImageRequest);
+            this.createBMP(result, cardId);
 
-            return true;
+            this.addCard2D({
+                gameID: cardId,
+                title: cardTitle,
+                subtitle: cardTitle,
+                avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image" + originalImagePath,
+                gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image" + originalImagePath,
+                gamemode: GameMode.simple,
+            });
+
+            return {
+                title: "onSuccess",
+                body: "Card " + cardId + " created",
+            };
         }
     }
 
-    private createBMP(buffer: Buffer): number {
+    private createBMP(buffer: Buffer, cardId: number): number {
 
-        const cardId: number = this.generateId();
-        const path: string = "./app/asset/image/generated/" + cardId + "_generated.bmp";
+        const path: string = IMAGES_PATH + "/generated/" + cardId + "_generated.bmp";
 
         this.stockImage(path, buffer);
 

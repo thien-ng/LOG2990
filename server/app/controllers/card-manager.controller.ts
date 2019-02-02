@@ -38,9 +38,9 @@ export class CardManagerController {
             const originalBuffer: Buffer = req.files[ORIGINAL_IMAGE_NAME][0].buffer;
             const modifiedBuffer: Buffer = req.files[MODIFIED_IMAGE_NAME][0].buffer;
 
-            const val: boolean | Message = await this.cardManagerService.cardCreationRoutine(originalBuffer, modifiedBuffer);
+            const result: Message = await this.cardManagerService.cardCreationRoutine(originalBuffer, modifiedBuffer, req.body.name);
 
-            res.json(val);
+            res.json(result);
         });
 
         router.get("/list", async (req: Request, res: Response, next: NextFunction) => {

@@ -41,6 +41,12 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
       .subscribe((index: number) => {
         this.tabIndex = index;
     });
+    this.cardManagerService.cardCreatedObservable
+    .subscribe((update: boolean) => {
+      if (update === true) {
+        this.getCards();
+      }
+    });
     this.getCards();
   }
 
