@@ -31,6 +31,7 @@ export class Constants {
   public static readonly SNACKBAR_ATTENTION: string = "J'ai compris";
   public static readonly SNACKBAR_GREETINGS: string = "Bonjour ";
   public static readonly SNACKBAR_ACKNOWLEDGE: string = "Merci!";
+  public static readonly USERNAME_KEY: string = "userName";
   public static readonly SNACKBAR_DURATION: number = 5000;
 
   // Constant for basic.service.ts
