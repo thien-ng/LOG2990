@@ -102,7 +102,6 @@ export class CardManagerService {
                 throw TypeError("error while generating file");
             }
         });
-
     }
 
     private generateId(): number {
