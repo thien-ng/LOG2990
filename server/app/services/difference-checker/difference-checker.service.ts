@@ -30,10 +30,8 @@ export class DifferenceCheckerService {
         if (numberOfDifferences === requirements.requiredNbDiff) {
 
             const dataImageBuffer: Buffer = this.bufferManager.arrayToBuffer(circledDifferences);
-            const diffImgBuffer: Buffer = this.bufferManager.mergeBuffers(splittedOriginal[0], dataImageBuffer);
-            console.log(diffImgBuffer);
 
-            return diffImgBuffer;
+            return this.bufferManager.mergeBuffers(splittedOriginal[0], dataImageBuffer);
 
         } else {
 
