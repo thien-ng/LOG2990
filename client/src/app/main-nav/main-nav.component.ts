@@ -42,7 +42,7 @@ export class MainNavComponent implements OnInit, OnDestroy {
 
   public isAdminMode: boolean;
   public LOGIN_PATH: string = Constants.LOGIN_REDIRECT;
-  public CLIENT: string | null = "";
+  public CLIENT: string | null;
   public TEXT_ADMIN: string = "Vue Administration";
   public TEXT_BOUTON_2D: string = "Créer jeu simple";
   public TEXT_BOUTON_3D: string = "Créer jeu 3D";
