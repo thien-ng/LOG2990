@@ -15,9 +15,9 @@ export class BufferManager {
         let stringBuffer: string = "";
         array.forEach((element: number) => {
             if (element === 0) {
-                stringBuffer += "000000";
-            } else {
                 stringBuffer += "ffffff";
+            } else {
+                stringBuffer += "000000";
             }
         });
 
