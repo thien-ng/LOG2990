@@ -35,8 +35,8 @@ export class DifferenceCheckerService {
         
         if (clusterCounter.countAllClusters() === requirements.requiredNbDiff) {
             console.log("in");
-            this.bufferManager.mergeBuffers(splittedBuffer1[0], splittedBuffer1[1]);
-            this.bufferManager.mergeBuffers(splittedBuffer2[0], splittedBuffer2[1]);
+            // this.bufferManager.mergeBuffers(splittedBuffer1[0], splittedBuffer1[1]);
+            // this.bufferManager.mergeBuffers(splittedBuffer2[0], splittedBuffer2[1]);
             const dataImageBuffer: Buffer = this.bufferManager.arrayToBuffer(circledDifferences);
             // retourner limage
             // console.log(dataImageBuffer);
