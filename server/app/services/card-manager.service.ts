@@ -78,7 +78,7 @@ export class CardManagerService {
         .then((response: Axios.AxiosResponse< Buffer | Message>) => {
             // console.log(response);
 
-            // returnValue = this.handlePostResponse(response);
+            returnValue = this.handlePostResponse(response);
         }).catch((err: Error) => {
             return err.message;
         });
