@@ -6,7 +6,7 @@ import { GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
 import { Message } from "../../../common/communication/message";
 import Types from "../types";
-import { IImageRequirements } from "./difference-checker/utilities/iimageRequirements";
+import { ImageRequirements } from "./difference-checker/utilities/imageRequirements";
 import { HighscoreService } from "./highscore.service";
 
 const axios: Axios.AxiosInstance = require("axios");
@@ -53,7 +53,7 @@ export class CardManagerService {
         this.originalImageRequest = original;
         this.modifiedImageRequest = modified;
 
-        const requirements: IImageRequirements = {
+        const requirements: ImageRequirements = {
                                                     requiredHeight: REQUIRED_HEIGHT,
                                                     requiredWidth: REQUIRED_WIDTH,
                                                     requiredNbDiff: REQUIRED_NB_DIFF,

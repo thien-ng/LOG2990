@@ -74,10 +74,7 @@ export class CreateSimpleGameComponent implements OnInit {
       this.IS_IMAGE_BMP[imageIndex] = true;
     } else {
       this.IS_IMAGE_BMP[imageIndex] = false;
-      this.snackBar.open(Constants.SNACK_ERROR_MSG, Constants.SNACK_ACTION, {
-        duration: Constants.SNACKBAR_DURATION,
-        verticalPosition: "top",
-      });
+      this.openSnackBar(Constants.SNACK_ERROR_MSG, Constants.SNACK_ACTION);
     }
   }
 
@@ -102,8 +99,15 @@ export class CreateSimpleGameComponent implements OnInit {
   private analyseResponse(response: Message): void {
     if (response.title === "onSuccess") {
       this.cardManagerService.updateCards(true);
-    } else {
-      // TBD
+    } else if (response.title === "onError") {
+      this.openSnackBar(response.body, Constants.SNACK_ACTION);
     }
+  }
+
+  private openSnackBar(msg: string, action: string): void {
+    this.snackBar.open(msg, action, {
+      duration: Constants.SNACKBAR_DURATION,
+      verticalPosition: "top",
+    });
   }
 }

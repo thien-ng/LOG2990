@@ -2,9 +2,9 @@ import { injectable } from "inversify";
 import { BufferManager } from "./utilities/bufferManager";
 import { CircleDifferences } from "./utilities/circleDifferences";
 import { ClusterCounter } from "./utilities/clusterCounter";
-import { IImageRequirements } from "./utilities/iimageRequirements";
+import { ImageRequirements } from "./utilities/imageRequirements";
 import { ImagesDifference } from "./utilities/imagesDifference";
-import { Message } from "./utilities/message";
+import { Message } from "../../../../common/communication/message";
 
 const CIRCLE_RADIUS: number = 3;
 
@@ -12,35 +12,45 @@ const CIRCLE_RADIUS: number = 3;
 export class DifferenceCheckerService {
 
     private bufferManager: BufferManager;
+    private splittedOriginal: Buffer[];
+    private circledDifferences: number[];
 
     public constructor() {
         this.bufferManager = new BufferManager();
     }
 
-    // tslint:disable-next-line:max-func-body-length
-    public generateDifferenceImage(requirements: IImageRequirements): Buffer | Message {
+    public generateDifferenceImage(requirements: ImageRequirements): Buffer | Message {
 
-        const splittedOriginal: Buffer[] = this.bufferManager.splitHeader(requirements.originalImage);
-        const splittedDifferent: Buffer[] = this.bufferManager.splitHeader(requirements.modifiedImage);
+        let numberOfDifferences: number = 0;
 
-        const differencesFound: number[] = this.findDifference(splittedOriginal[1], splittedDifferent[1]);
-        const circledDifferences: number[] = this.circleDifference(differencesFound, requirements.requiredWidth);
-        const numberOfDifferences: number = this.countAllClusters(circledDifferences, requirements.requiredWidth);
+        try {
+
+            numberOfDifferences = this.calculateDifferences(requirements);
+        } catch (error) {
+            return this.sendErrorMessage(error.message);
+        }
 
         if (numberOfDifferences === requirements.requiredNbDiff) {
 
-            const dataImageBuffer: Buffer = this.bufferManager.arrayToBuffer(circledDifferences);
+            const dataImageBuffer: Buffer = this.bufferManager.arrayToBuffer(this.circledDifferences);
 
-            return this.bufferManager.mergeBuffers(splittedOriginal[0], dataImageBuffer);
+            return this.bufferManager.mergeBuffers(this.splittedOriginal[0], dataImageBuffer);
 
         } else {
 
-            return {
-                title: "onError",
-                body: "Les images ne contiennent pas 7 erreures",
-            } as Message;
-
+            return this.sendErrorMessage("Les images ne contiennent pas 7 erreures");
         }
+    }
+
+    private calculateDifferences(requirements: ImageRequirements): number {
+
+        this.splittedOriginal = this.bufferManager.splitHeader(requirements.originalImage);
+        const splittedDifferent: Buffer[] = this.bufferManager.splitHeader(requirements.modifiedImage);
+
+        const differencesFound: number[] = this.findDifference(this.splittedOriginal[1], splittedDifferent[1]);
+        this.circledDifferences = this.circleDifference(differencesFound, requirements.requiredWidth);
+
+        return this.countAllClusters(this.circledDifferences, requirements.requiredWidth);
     }
 
     private findDifference(orignalBuffer: Buffer, differenceBuffer: Buffer): number[] {
@@ -60,4 +70,12 @@ export class DifferenceCheckerService {
 
         return clusterCounter.countAllClusters();
     }
+
+    private sendErrorMessage(message: string): Message {
+        return {
+            title: "onError",
+            body: message,
+        } as Message
+    }
+
 }
