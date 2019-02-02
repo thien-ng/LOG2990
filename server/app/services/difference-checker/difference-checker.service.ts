@@ -23,7 +23,7 @@ export class DifferenceCheckerService {
         const splittedBuffer1: Buffer[] = this.bufferManager.splitHeader(requirements.originalImage);
         const splittedBuffer2: Buffer[] = this.bufferManager.splitHeader(requirements.modifiedImage);
 
-        const headerTemplate: Buffer = JSON.parse(JSON.stringify(splittedBuffer1[0]));
+        // const headerTemplate: Buffer = JSON.parse(JSON.stringify(splittedBuffer1[0]));
 
         const differencesFound: number[] = this.findDifference(splittedBuffer1[1], splittedBuffer2[1]);
         const circledDifferences: number[] = this.circleDifference(differencesFound, requirements.requiredWidth);
@@ -33,9 +33,7 @@ export class DifferenceCheckerService {
             console.log("in");
 
             const dataImageBuffer: Buffer = this.bufferManager.arrayToBuffer(circledDifferences);
-            // retourner limage
-            // console.log(dataImageBuffer);
-            const diffImgBuffer: Buffer = this.bufferManager.mergeBuffers(headerTemplate, dataImageBuffer);
+            const diffImgBuffer: Buffer = this.bufferManager.mergeBuffers(splittedBuffer1[0], dataImageBuffer);
             console.log(diffImgBuffer);
 
             return diffImgBuffer;
