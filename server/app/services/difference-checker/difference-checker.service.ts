@@ -3,7 +3,7 @@ import { CircleDifferences } from "./utilities/circleDifferences";
 import { ClusterCounter } from "./utilities/clusterCounter";
 import { IImageRequirements } from "./utilities/iimageRequirements";
 import { ImagesDifference } from "./utilities/imagesDifference";
-// import { Message } from "./utilities/message";
+import { Message } from "./utilities/message";
 import { BufferManager } from "./utilities/bufferManager";
 
 const CIRCLE_RADIUS: number = 3;
@@ -18,7 +18,7 @@ export class DifferenceCheckerService {
     }
 
     // tslint:disable-next-line:max-func-body-length
-    public generateDifferenceImage(requirements: IImageRequirements): Buffer {
+    public generateDifferenceImage(requirements: IImageRequirements): Buffer | Message {
 
         const splittedBuffer1: Buffer[] = this.bufferManager.splitHeader(requirements.originalImage);
         const splittedBuffer2: Buffer[] = this.bufferManager.splitHeader(requirements.modifiedImage);
@@ -32,24 +32,24 @@ export class DifferenceCheckerService {
         const circledDifferences: number[] = circleDifferences.circleAllDifferences();
 
         const clusterCounter: ClusterCounter = new ClusterCounter(circledDifferences, requirements.requiredWidth);
-        console.log(clusterCounter.countAllClusters());
         
-        // if (clusterCounter.countAllClusters() === requirements.requiredNbDiff) {
+        if (clusterCounter.countAllClusters() === requirements.requiredNbDiff) {
+            console.log("in");
             this.bufferManager.mergeBuffers(splittedBuffer1[0], splittedBuffer1[1]);
             this.bufferManager.mergeBuffers(splittedBuffer2[0], splittedBuffer2[1]);
             const dataImageBuffer: Buffer = this.bufferManager.arrayToBuffer(circledDifferences);
             // retourner limage
             // console.log(dataImageBuffer);
             const diffImgBuffer: Buffer = this.bufferManager.mergeBuffers(headerTemplate[0], dataImageBuffer);
-            
+            console.log(diffImgBuffer);
             return diffImgBuffer;
-        // } else {
+        } else {
             
-        //     return {
-        //         title: "onError",
-        //         body: "Les images ne contiennent pas 7 erreures",
-        //     } as Message;
-        // }
+            return {
+                title: "onError",
+                body: "Les images ne contiennent pas 7 erreures",
+            } as Message;
+        }
     }
 
     // private buildImage(enlargedErrors: number[]): void {
