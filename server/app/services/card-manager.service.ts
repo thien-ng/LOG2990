@@ -113,7 +113,8 @@ export class CardManagerService {
         // });
 
         //je crois quil faut faire ca, on veut cree et ecrire directement one shot
-        fs.writeFile(path, buffer, (error: Error) => {
+        console.log(Buffer.from(buffer));
+        fs.writeFile(path, Buffer.from(buffer), (error: Error) => {
             if (error) {
                 throw TypeError("error while generating file");
             }
