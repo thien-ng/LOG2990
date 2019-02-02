@@ -112,7 +112,7 @@ export class CardManagerService {
         //     });
         // });
 
-        //je crois quil faut faire ca, on veut cree et ecrire directement one shot
+        // je crois quil faut faire ca, on veut cree et ecrire directement one shot
         console.log(Buffer.from(buffer));
         fs.writeFile(path, Buffer.from(buffer), (error: Error) => {
             if (error) {
