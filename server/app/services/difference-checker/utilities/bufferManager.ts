@@ -6,10 +6,8 @@ const HEADER_SIZE: number =  54; // size in Bytes
 export class BufferManager {
 
     public mergeBuffers(header: Buffer, image: Buffer): Buffer {
-        // console.log(header);
-        // console.log("then");
-        // console.log(image);
-        const b: string =  header.toString("hex") + image.toString("hex");
+        
+        const b: string =  header.toString() + image.toString();
 
         return Buffer.from(b, "hex");
     }
