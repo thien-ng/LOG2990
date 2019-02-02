@@ -2,9 +2,9 @@ import { injectable } from "inversify";
 import { BufferManager } from "./utilities/bufferManager";
 import { CircleDifferences } from "./utilities/circleDifferences";
 import { ClusterCounter } from "./utilities/clusterCounter";
-import { IImageRequirements } from "./utilities/iimageRequirements";
+import { ImageRequirements } from "./utilities/imageRequirements";
 import { ImagesDifference } from "./utilities/imagesDifference";
-import { Message } from "./utilities/message";
+import { Message } from "../../../../common/communication/message";
 
 const CIRCLE_RADIUS: number = 3;
 
@@ -18,8 +18,8 @@ export class DifferenceCheckerService {
     public constructor() {
         this.bufferManager = new BufferManager();
     }
-    
-    public generateDifferenceImage(requirements: IImageRequirements): Buffer | Message {
+
+    public generateDifferenceImage(requirements: ImageRequirements): Buffer | Message {
 
         let numberOfDifferences: number = 0;
         
@@ -42,7 +42,7 @@ export class DifferenceCheckerService {
         }
     }
 
-    private calculateDifferences(requirements: IImageRequirements): number {
+    private calculateDifferences(requirements: ImageRequirements): number {
 
         this.splittedOriginal = this.bufferManager.splitHeader(requirements.originalImage);
         const splittedDifferent: Buffer[] = this.bufferManager.splitHeader(requirements.modifiedImage);
