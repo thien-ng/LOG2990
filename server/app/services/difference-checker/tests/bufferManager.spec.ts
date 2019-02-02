@@ -1,7 +1,8 @@
 import { expect } from "chai";
+import * as fs from "fs"
+import * as path from "path";
 import "reflect-metadata";
 import { BufferManager } from "../utilities/bufferManager";
-import * as fs from "fs";
 
 let bufferManager: BufferManager;
 
@@ -12,12 +13,10 @@ describe("BufferManager tests", () => {
     });
 
     it("should split buffer into 2 parts", (done: Function) => {
-        fs.readFile("../../../asset/image/testBitmap/imagetestOg.bmp", (err, data) => {
-            console.log(data);
-        });
-        // const result: Buffer[] = bufferManager.splitHeader(testImage);
+        const testImage: Buffer = fs.readFileSync(path.resolve(__dirname, "../../../asset/image/testBitmap/imagetestOg.bmp"));
+        const result: Buffer[] = bufferManager.splitHeader(testImage);
 
-        // expect(result.length).to.equal(2);
+        expect(result.length).to.equal(2);
 
         done();
     });
@@ -27,7 +26,7 @@ describe("BufferManager tests", () => {
             const result: Buffer = bufferManager.arrayToBuffer(arrayNumber);
 
             expect(result).instanceOf(Buffer);
-    
+
             done();
     });
 
