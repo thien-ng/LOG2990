@@ -16,8 +16,6 @@ export class DifferenceCheckerController {
         const router: Router = Router();
 
         router.post("/validate", (req: Request, res: Response, next: NextFunction) => {
-            // default route
-            // call service
             
             const result: Message | Buffer = this.differenceCheckerService.generateDifferenceImage(req.body);
             

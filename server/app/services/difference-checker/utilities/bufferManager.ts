@@ -6,6 +6,9 @@ const HEADER_SIZE: number =  54; // size in Bytes
 export class BufferManager {
 
     public mergeBuffers(header: Buffer, image: Buffer): Buffer {
+        // console.log(header);
+        // console.log("then");
+        // console.log(image);
         const b: string =  header.toString("hex") + image.toString("hex");
 
         return Buffer.from(b, "hex");
@@ -25,9 +28,14 @@ export class BufferManager {
     }
 
     public splitHeader(input: Buffer): Buffer[] {
-        const header: Buffer = input.data.slice(0, HEADER_SIZE);
-        const image: Buffer = input.data.slice(HEADER_SIZE, input.length);
-
+        
+        const jsonBuffer = JSON.stringify(input);
+        const dataBuffer = JSON.parse( jsonBuffer, (key, value) => {
+            return value && value.type === "Buffer" ? Buffer.from(value.data) : value;
+        });
+        const header: Buffer = dataBuffer.slice(0, HEADER_SIZE);
+        const image: Buffer = dataBuffer.slice(HEADER_SIZE, input.length);
+        
         const buffers: Buffer[] = [];
         buffers.push(header);
         buffers.push(image);

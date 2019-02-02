@@ -25,15 +25,10 @@ export class DifferenceCheckerService {
 
         const headerTemplate: Buffer[] = JSON.parse(JSON.stringify(splittedBuffer1[0]));
 
-        const imagesDifference: ImagesDifference = new ImagesDifference();
-        const differencesFound: number[] = imagesDifference.searchDifferenceImage(splittedBuffer1[1], splittedBuffer2[1]);
-
-        const circleDifferences: CircleDifferences = new CircleDifferences( differencesFound, requirements.requiredWidth, CIRCLE_RADIUS);
-        const circledDifferences: number[] = circleDifferences.circleAllDifferences();
-
-        const clusterCounter: ClusterCounter = new ClusterCounter(circledDifferences, requirements.requiredWidth);
+        const differencesFound: number[] = this.findDifference(splittedBuffer1[1], splittedBuffer2[1]);
+        const circledDifferences: number[] = this.circleDifference(differencesFound, requirements.requiredWidth);
         
-        if (clusterCounter.countAllClusters() === requirements.requiredNbDiff) {
+        if (this.countAllClusters(circledDifferences, requirements.requiredWidth) === requirements.requiredNbDiff) {
             console.log("in");
             // this.bufferManager.mergeBuffers(splittedBuffer1[0], splittedBuffer1[1]);
             // this.bufferManager.mergeBuffers(splittedBuffer2[0], splittedBuffer2[1]);
@@ -50,6 +45,21 @@ export class DifferenceCheckerService {
                 body: "Les images ne contiennent pas 7 erreures",
             } as Message;
         }
+    }
+
+    private findDifference(orignalBuffer: Buffer, differenceBuffer: Buffer): number[] {
+        const imagesDifference: ImagesDifference = new ImagesDifference();
+        return imagesDifference.searchDifferenceImage(orignalBuffer, differenceBuffer);
+    }
+
+    private circleDifference(differencesArray: number[], width: number): number[] {
+        const circleDifferences: CircleDifferences = new CircleDifferences( differencesArray, width, CIRCLE_RADIUS);
+        return circleDifferences.circleAllDifferences();
+    }
+
+    private countAllClusters(differenceList: number[], width: number): number {
+        const clusterCounter: ClusterCounter = new ClusterCounter(differenceList, width);
+        return clusterCounter.countAllClusters();
     }
 
     // private buildImage(enlargedErrors: number[]): void {
