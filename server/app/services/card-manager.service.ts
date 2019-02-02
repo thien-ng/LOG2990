@@ -97,20 +97,6 @@ export class CardManagerService {
     }
 
     private stockImage(path: string, buffer: Buffer): void {
-        // fs.open(path, "w", (error: Error, fd: number) => {
-        //     if (error) {
-        //         throw TypeError("error opening file: " + error);
-        //     }
-
-        //     fs.write(fd, buffer, 0, buffer.length, null, (error: Error) => {
-        //         if (error) {
-        //             throw TypeError("error writing file: " + error);
-        //         }
-        //         fs.close(fd, () => {
-        //         // Finish Quietly
-        //         });
-        //     });
-        // });
 
         // je crois quil faut faire ca, on veut cree et ecrire directement one shot
         console.log(Buffer.from(buffer));
