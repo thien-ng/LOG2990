@@ -45,24 +45,6 @@ export class CardManagerService {
         });
     }
 
-    private isMessage(result: Buffer | Message): result is Message {
-        return  (result as Message).body !== undefined &&
-                (result as Message).title !== undefined;
-    }
-
-    private handlePostResponse(response: Axios.AxiosResponse< Buffer | Message>): boolean | Message {
-        const result: Buffer | Message = response.data;
-        if (this.isMessage(result)) {
-            return result;
-        } else {
-            // creeate card
-            /*const cardId: number = */
-            this.createBMP(result);
-
-            return true;
-        }
-    }
-
     public async cardCreationRoutine(original: Buffer, modified: Buffer): Promise<boolean | Message> {
         const requirements: IImageRequirements = {
                                                     requiredHeight: REQUIRED_HEIGHT,
@@ -76,7 +58,6 @@ export class CardManagerService {
 
         await axios.post(Constants.BASIC_SERVICE_BASE_URL + "/api/differenceChecker/validate", requirements)
         .then((response: Axios.AxiosResponse< Buffer | Message>) => {
-            // console.log(response);
 
             returnValue = this.handlePostResponse(response);
         }).catch((err: Error) => {
@@ -86,37 +67,62 @@ export class CardManagerService {
         return returnValue;
     }
 
-    private stockImage(path: string, buffer: Buffer): void {
-        fs.open(path, "w", (err: Error, fd: number) => {
-            if (err) {
-                throw TypeError("error opening file: " + err);
-            }
+    private handlePostResponse(response: Axios.AxiosResponse< Buffer | Message>): boolean | Message {
 
-            fs.write(fd, buffer, 0, buffer.length, null, (errorOccured: NodeJS.ErrnoException) => {
-                if (errorOccured) {
-                    throw TypeError("error writing file: " + errorOccured);
-                }
-                fs.close(fd, () => {
-                // Finish Quietly
-                });
-            });
+        const result: Buffer | Message = response.data;
+        if (this.isMessage(result)) {
+            return result;
+        } else {
+            // creeate card
+            /*const cardId: number = */
+            this.createBMP(result);
+
+            return true;
+        }
+    }
+
+    private createBMP(buffer: Buffer): number {
+
+        const cardId: number = this.generateId();
+        const path: string = "./app/asset/image/generated/" + cardId + "_generated.bmp";
+
+        this.stockImage(path, buffer);
+
+        return cardId;
+    }
+
+    private isMessage(result: Buffer | Message): result is Message {
+        return  (result as Message).body !== undefined &&
+                (result as Message).title !== undefined;
+    }
+
+    private stockImage(path: string, buffer: Buffer): void {
+        // fs.open(path, "w", (error: Error, fd: number) => {
+        //     if (error) {
+        //         throw TypeError("error opening file: " + error);
+        //     }
+
+        //     fs.write(fd, buffer, 0, buffer.length, null, (error: Error) => {
+        //         if (error) {
+        //             throw TypeError("error writing file: " + error);
+        //         }
+        //         fs.close(fd, () => {
+        //         // Finish Quietly
+        //         });
+        //     });
+        // });
+
+        //je crois quil faut faire ca, on veut cree et ecrire directement one shot
+        fs.writeFile(path, buffer, (error: Error) => {
+            if (error) {
+                throw TypeError("error while generating file");
+            }
         });
 
     }
 
     private generateId(): number {
         return this.uniqueId++;
-    }
-
-    private createBMP(buffer: Buffer): number {
-
-        const cardId: number = this.generateId();
-
-        const path: string = "./app/asset/image/" + cardId + "_generated.bmp";
-
-        this.stockImage(path, buffer);
-
-        return cardId;
     }
 
     private cardEqual(card: ICard, element: ICard): boolean {
