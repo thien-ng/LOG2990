@@ -6,6 +6,7 @@ import { Router } from "@angular/router";
 import "rxjs/add/operator/toPromise";
 import { Message } from "../../../../common/communication/message";
 
+import { Observable, Subject } from "rxjs";
 import { Constants } from "../constants";
 import { SocketService } from "../socket.service";
 
@@ -23,6 +24,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class LoginValidatorService {
 
   public matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
+  public userNameUpdated: Subject<string | null> = new Subject<string | null>();
 
   public usernameFormControl: FormControl = new FormControl("", [
     Validators.required,
@@ -48,12 +50,18 @@ export class LoginValidatorService {
       if (result) {
         this.socketService.sendMsg(Constants.LOGIN_REQUEST, this.usernameFormControl.value);
         await this.router.navigate([Constants.ROUTER_LOGIN]);
+        localStorage.setItem(Constants.USERNAME_KEY, this.usernameFormControl.value);
+        this.userNameUpdated.next(localStorage.getItem(Constants.USERNAME_KEY));
 
         return true;
       }
     }
 
     return false;
+  }
+
+  public getUserNameListener(): Observable<string | null> {
+    return this.userNameUpdated;
   }
 
   // Helpers
