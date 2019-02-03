@@ -1,10 +1,10 @@
 import * as Axios from "axios";
 import * as fs from "fs";
 import { inject, injectable } from "inversify";
-import { Constants } from "../../../client/src/app/constants";
 import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
 import { Message } from "../../../common/communication/message";
+import { Constants } from "../constants";
 import Types from "../types";
 import { ImageRequirements } from "./difference-checker/utilities/imageRequirements";
 import { HighscoreService } from "./highscore.service";
@@ -100,7 +100,7 @@ export class CardManagerService {
 
     private createBMP(buffer: Buffer, cardId: number): number {
 
-        const path: string = IMAGES_PATH + "/generated/" + cardId + "_generated.bmp";
+        const path: string = IMAGES_PATH + "/" + cardId + "_generated.bmp";
 
         this.stockImage(path, buffer);
 
@@ -200,7 +200,7 @@ export class CardManagerService {
     public removeCard2D(id: number): string {
         const index: number = this.findCard2D(id);
         const paths: string[] = [
-                                    IMAGES_PATH + "/generated/" + id + "_generated.bmp",
+                                    IMAGES_PATH + "/" + id + "_generated.bmp",
                                     IMAGES_PATH + "/" + id + "_original.bmp",
                                     IMAGES_PATH + "/" + id + "_modified.bmp",
                                 ];

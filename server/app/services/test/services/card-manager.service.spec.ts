@@ -1,6 +1,4 @@
 import "reflect-metadata";
-// TOUS LES CHOSES EN COMMENTAIRES FONCTIONNE SUR UN ORDI MAIS PAS SUR
-// TRAVIS CI PCQ IL PX PAS FILE WRITE IL FAUT PTETRE MOCK LE FILE WRITE MAIS JSP CMT
 
 import { expect } from "chai";
 import * as fs from "fs";

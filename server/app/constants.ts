@@ -14,7 +14,7 @@ export class Constants {
   public static readonly BUFFER_TYPE: string = "Buffer";
 
   // Constants for difference-checker.service.ts
-  public static readonly ERROR_IMAGES_DIMENSIONS: string = "Les images n'ont pas les bonnes dimensions";
+  public static readonly ERROR_IMAGES_DIMENSIONS: string = "Les images n'ont pas les dimensions attendues (640x480)";
   public static readonly ERROR_MISSING_DIFFERENCES: string = "Les images ne contiennent pas 7 differences";
   public static readonly CIRCLE_RADIUS: number = 3;
   public static readonly REQUIRED_WIDTH: string = "80020000";
@@ -23,10 +23,12 @@ export class Constants {
   public static readonly BUFFER_MIDDLE_DIMENSION: number = 22;
   public static readonly BUFFER_END_DIMENSION: number = 26;
 
-  //Constants for imagesDifference.ts
+  // Constants for imagesDifference.ts
   public static readonly ERROR_UNEQUAL_DIMENSIONS: string = "Taille des images ne sont pas pareilles";
 
-  //Constants for card-manager.service.ts
+  // Constants for card-manager.service.ts
+
+  public static readonly BASIC_SERVICE_BASE_URL: string = "http://localhost:3000";
   public static readonly ON_ERROR_MESSAGE: string = "onError";
   public static readonly ON_SUCCESS_MESSAGE: string = "onSuccess";
 
