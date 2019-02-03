@@ -15,8 +15,6 @@ import { GameModeService } from "./game-mode.service";
 })
 export class GameListContainerComponent implements OnInit, OnDestroy {
 
-  public index2D: number = 0;
-  public index3D: number = 1;
   public tabIndex: number = 0;
   private stateSubscription: Subscription;
 
@@ -40,6 +38,12 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
     this.stateSubscription = this.gameModeservice.getGameModeUpdateListener()
       .subscribe((index: number) => {
         this.tabIndex = index;
+    });
+    this.cardManagerService.cardCreatedObservable
+    .subscribe((update: boolean) => {
+      if (update) {
+        this.getCards();
+      }
     });
     this.getCards();
   }

@@ -2,8 +2,12 @@ import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
 import { MatDialogRef, MatSnackBar } from "@angular/material";
+import { Message } from "../../../../common/communication/message";
+import { CardManagerService } from "../card-manager.service";
 import { Constants } from "../constants";
 import { FileValidatorService } from "./game-validator.service";
+
+const SUBMIT_PATH: string = "/api/card/submit";
 
 @Component({
   selector: "app-create-simple-game",
@@ -40,10 +44,11 @@ export class CreateSimpleGameComponent implements OnInit {
   });
 
   public constructor(
-    public dialogRef: MatDialogRef<CreateSimpleGameComponent>,
+    private dialogRef: MatDialogRef<CreateSimpleGameComponent>,
     private fileValidatorService: FileValidatorService,
     private snackBar: MatSnackBar,
     private http: HttpClient,
+    private cardManagerService: CardManagerService,
     ) {
       // default constructor
     }
@@ -71,10 +76,7 @@ export class CreateSimpleGameComponent implements OnInit {
       this.IS_IMAGE_BMP[imageIndex] = true;
     } else {
       this.IS_IMAGE_BMP[imageIndex] = false;
-      this.snackBar.open(Constants.SNACK_ERROR_MSG, Constants.SNACK_ACTION, {
-        duration: Constants.SNACKBAR_DURATION,
-        verticalPosition: "top",
-      });
+      this.openSnackBar(Constants.SNACK_ERROR_MSG, Constants.SNACK_ACTION);
     }
   }
 
@@ -89,8 +91,24 @@ export class CreateSimpleGameComponent implements OnInit {
 
   public submit(data: NgForm): void {
     const formdata: FormData = this.createFormData(data);
-    this.http.post(Constants.BASIC_SERVICE_BASE_URL + "/api/card/submit", formdata).subscribe((response: boolean) => {
-      // TBD
+    this.http.post(Constants.BASIC_SERVICE_BASE_URL + SUBMIT_PATH, formdata).subscribe((response: Message) => {
+      this.analyseResponse(response);
+    });
+  }
+
+  private analyseResponse(response: Message): void {
+    if (response.title === Constants.ON_SUCCESS_MESSAGE) {
+      this.cardManagerService.updateCards(true);
+      this.dialogRef.close();
+    } else if (response.title === Constants.ON_ERROR_MESSAGE) {
+      this.openSnackBar(response.body, Constants.SNACK_ACTION);
+    }
+  }
+
+  private openSnackBar(msg: string, action: string): void {
+    this.snackBar.open(msg, action, {
+      duration: Constants.SNACKBAR_DURATION,
+      verticalPosition: "top",
     });
   }
 }

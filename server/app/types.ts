@@ -8,5 +8,6 @@ export default  {
         HighscoreService: Symbol("HighscoreService"),
         HighscoreController: Symbol("HighscoreController"),
         DifferenceCheckerController: Symbol("DifferenceCheckerController"),
+        DifferenceCheckerService: Symbol("DifferenceCheckerService"),
         LoginValidatorController: Symbol("LoginValidatorController"),
 };

@@ -66,7 +66,7 @@ describe("Images Difference finder microservice tests", () => {
 
         } catch (error) {
             if (error instanceof TypeError) {
-                expect(error.message).to.deep.equal("size of buffers are not equal");
+                expect(error.message).to.deep.equal("Les images ne sont pas de la même taille");
             }
         }
         done();
