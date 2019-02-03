@@ -2,7 +2,6 @@ import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { Subscription } from "rxjs";
-import { DefaultCard, ICard } from "../../../../common/communication/iCard";
 import { ICardLists } from "../../../../common/communication/iCardLists";
 import { AdminToggleService } from "../admin-toggle.service";
 import { CardManagerService } from "../card-manager.service";
@@ -15,8 +14,6 @@ import { GameModeService } from "./game-mode.service";
   styleUrls: ["./game-list-container.component.css"],
 })
 export class GameListContainerComponent implements OnInit, OnDestroy {
-
-  public defaultCrard: ICard = DefaultCard;
 
   public tabIndex: number = 0;
   private stateSubscription: Subscription;
@@ -57,7 +54,6 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
     this.cardManagerService.getCards()
     .subscribe((cards: ICardLists) => {
       this.cardListContainer = cards;
-      this.isLisEmpty = (this.cardListContainer.list2D.length === 0 && this.cardListContainer.list3D.length === 0) ? true : false;
       this.cardsLoaded = true;
     });
   }

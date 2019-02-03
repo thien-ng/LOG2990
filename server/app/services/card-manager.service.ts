@@ -2,7 +2,7 @@ import * as Axios from "axios";
 import * as fs from "fs";
 import { inject, injectable } from "inversify";
 import { Constants } from "../../../client/src/app/constants";
-import { GameMode, ICard } from "../../../common/communication/iCard";
+import { DefaultCard, GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
 import { Message } from "../../../common/communication/message";
 import Types from "../types";
@@ -19,6 +19,7 @@ const REQUIRED_NB_DIFF: number = 7;
 const IMAGES_PATH: string = "./app/asset/image";
 const FILE_GENERATION_ERROR: string = "error while generating file";
 const FILE_DELETION_ERROR: string = "error while deleting file";
+const DEFAULT_CARD_ID: number = 1;
 
 @injectable()
 export class CardManagerService {
@@ -33,7 +34,7 @@ export class CardManagerService {
     private uniqueId: number = 1000;
 
     public constructor(@inject(Types.HighscoreService) private highscoreService: HighscoreService) {
-        // Default constructor
+        this.addCard2D(DefaultCard);
     }
 
     public async cardCreationRoutine(original: Buffer, modified: Buffer, cardTitle: string): Promise<Message> {
@@ -205,7 +206,9 @@ export class CardManagerService {
         if (index !== DOESNT_EXIST) {
             this.cards.list2D.splice(index, 1);
             try {
-                this.deleteStoredImages(paths);
+                if (id !== DEFAULT_CARD_ID) {
+                    this.deleteStoredImages(paths);
+                }
             } catch (error) {
                 return error.message;
             }
