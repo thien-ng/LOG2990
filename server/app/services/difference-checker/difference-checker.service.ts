@@ -29,12 +29,6 @@ export class DifferenceCheckerService {
             return this.sendErrorMessage(error.message);
         }
 
-        if (this.imageHasNotDimensionsNeeded(this.splittedOriginal) ||
-            this.imageHasNotDimensionsNeeded(this.splittedDifferent)) {
-
-            return this.sendErrorMessage(Constants.ERROR_IMAGES_DIMENSIONS);
-        }
-
         if (numberOfDifferences === requirements.requiredNbDiff) {
 
             const dataImageBuffer: Buffer = this.bufferManager.arrayToBuffer(this.circledDifferences);
@@ -51,6 +45,12 @@ export class DifferenceCheckerService {
 
         this.splittedOriginal = this.bufferManager.splitHeader(requirements.originalImage);
         this.splittedDifferent = this.bufferManager.splitHeader(requirements.modifiedImage);
+
+        if (this.imageHasNotDimensionsNeeded(this.splittedOriginal) ||
+            this.imageHasNotDimensionsNeeded(this.splittedDifferent)) {
+                
+            throw new TypeError(Constants.ERROR_IMAGES_DIMENSIONS);
+        }
 
         const differencesFound: number[] = this.findDifference(this.splittedOriginal[1], this.splittedDifferent[1]);
         this.circledDifferences = this.circleDifference(differencesFound, requirements.requiredWidth);

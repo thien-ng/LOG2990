@@ -5,6 +5,8 @@ import * as fs from "fs";
 import * as path from "path";
 import { Message } from "../../../../common/communication/message";
 import { DifferenceCheckerService } from "./difference-checker.service";
+import { ImageRequirements } from "./utilities/imageRequirements";
+import { Constants } from "../../constants";
 
 // tslint:disable:no-magic-numbers
 
@@ -18,24 +20,59 @@ describe("Differece checker service tests", () => {
         differenceCheckerService = new DifferenceCheckerService();
     });
 
-    it("Should return the generated image buffer if requirements are satisfied", () => {
-        const result: Message | Buffer = differenceCheckerService.generateDifferenceImage({
-                                                                                requiredHeight: 480,
-                                                                                requiredWidth: 640,
-                                                                                requiredNbDiff: 7,
-                                                                                originalImage: testImageOg,
-                                                                                modifiedImage: testImageDiff,
-                                                                        });
-        expect(result).to.be.instanceof(Buffer);
+    it("Should return a Buffer", () => {
+        const requirements: ImageRequirements = {
+            requiredHeight: 480,
+            requiredWidth: 640,
+            requiredNbDiff: 7,
+            originalImage: testImageOg,
+            modifiedImage: testImageDiff,
+        };
+    
+        const result: Message | Buffer = differenceCheckerService.generateDifferenceImage(requirements);
+        expect(result).instanceOf(Buffer);
     });
-    it("Should return an error message if requirements are not satisfied", () => {
-        const result: Message | Buffer = differenceCheckerService.generateDifferenceImage({
-                                                                                requiredHeight: 480,
-                                                                                requiredWidth: 640,
-                                                                                requiredNbDiff: 7,
-                                                                                originalImage: testImageOg,
-                                                                                modifiedImage: testImageOg,
-                                                                        });
-        expect((result as Message).title).to.deep.equal("onError");
+
+    it("Should return an error of missing 7 differences", () => {
+
+        const testImageDiff: Buffer = fs.readFileSync(path.resolve(__dirname, "../../asset/image/testBitmap/7dots.bmp"));
+
+        const requirements: ImageRequirements = {
+            requiredHeight: 480,
+            requiredWidth: 640,
+            requiredNbDiff: 7,
+            originalImage: testImageOg,
+            modifiedImage: testImageDiff,
+        };
+
+        const expectedMessage: Message = {
+            title: "onError",
+            body: Constants.ERROR_MISSING_DIFFERENCES,
+        };
+
+        const result: Message | Buffer = differenceCheckerService.generateDifferenceImage(requirements);
+        expect(result).to.deep.equal(expectedMessage);
     });
+
+    it("Should return an error of wrong image dimensions", () => {
+
+        const testImageDiff: Buffer = fs.readFileSync(path.resolve(__dirname, "../../asset/image/testBitmap/image9x9_01.bmp"));
+
+        const requirements: ImageRequirements = {
+            requiredHeight: 480,
+            requiredWidth: 640,
+            requiredNbDiff: 7,
+            originalImage: testImageOg,
+            modifiedImage: testImageDiff,
+        };
+
+        const expectedMessage: Message = {
+            title: "onError",
+            body: Constants.ERROR_IMAGES_DIMENSIONS,
+        };
+
+        const result: Message | Buffer = differenceCheckerService.generateDifferenceImage(requirements);
+        expect(result).to.deep.equal(expectedMessage);
+    });
+
 });
