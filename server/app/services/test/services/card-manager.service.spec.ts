@@ -1,12 +1,9 @@
 import "reflect-metadata";
 
 import { expect } from "chai";
-import * as fs from "fs";
-import * as path from "path";
 import { Constants } from "../../../../../client/src/app/constants";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { ICardLists } from "../../../../../common/communication/iCardLists";
-import { Message } from "../../../../../common/communication/message";
 import { CardManagerService } from "../../../services/card-manager.service";
 import { HighscoreService } from "../../highscore.service";
 
@@ -20,9 +17,6 @@ let cards: ICardLists;
 let highscoreService: HighscoreService;
 
 describe("Card-manager tests", () => {
-
-    const testImageOg: Buffer = fs.readFileSync(path.resolve(__dirname, "../../../asset/image/testBitmap/imagetestOg.bmp"));
-    const testImageDiff: Buffer = fs.readFileSync(path.resolve(__dirname, "../../../asset/image/testBitmap/imagetestDif.bmp"));
 
     const c1: ICard = {
         gameID: 1,
@@ -102,30 +96,5 @@ describe("Card-manager tests", () => {
     });
     it("corresponding highscore to the gameID should exist", () => {
         expect(highscoreService.findHighScoreByID(cardManagerService.getCards().list2D[0].gameID)).to.be.equal(0);
-    });
-    it("Should return a success message", async () => {
-        let messageTitle: string = "";
-        await cardManagerService.cardCreationRoutine(testImageOg, testImageDiff, "title")
-        .then((message: Message) => {
-            messageTitle = message.title;
-        });
-        expect(messageTitle).to.equal("onSuccess");
-    });
-    it("Should return an error message", async () => {
-        let messageTitle: string = "";
-        await cardManagerService.cardCreationRoutine(testImageOg, testImageOg, "title")
-        .then((message: Message) => {
-            messageTitle = message.title;
-        });
-        expect(messageTitle).to.equal("onError");
-    });
-    it("Shoud throw an error because write path is non existent", () => {
-        try {
-            cardManagerService["stockImage"]("/non/existant/path", testImageOg);
-        } catch (error) {
-            if (error instanceof TypeError) {
-                expect(error.message).to.deep.equal("error while generating file");
-            }
-        }
     });
 });

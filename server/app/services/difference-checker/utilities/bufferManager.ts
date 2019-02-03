@@ -3,19 +3,22 @@ import { Constants } from "../../../constants";
 
 const HEADER_SIZE: number =  54; // size in Bytes
 
+interface Test {
+    type: string;
+    data: Buffer;
+}
+
 @injectable()
 export class BufferManager {
 
     public splitHeader(input: Buffer): Buffer[] {
 
         const jsonBuffer: string = JSON.stringify(input);
-        const dataBuffer: Buffer = JSON.parse( jsonBuffer, (key: number, value: any) => {
+        const dataBuffer: Buffer = JSON.parse( jsonBuffer, (key: number, value: Test) => {
             return value && value.type === Constants.BUFFER_TYPE ? Buffer.from(value.data) : value;
         });
 
         const header: Buffer = dataBuffer.slice(0, HEADER_SIZE);
-        // console.log(header.slice(18,22));
-        // console.log(header.slice(22,26));
         const image: Buffer = dataBuffer.slice(HEADER_SIZE, input.length);
 
         const buffers: Buffer[] = [];

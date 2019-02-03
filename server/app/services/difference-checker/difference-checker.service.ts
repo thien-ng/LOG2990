@@ -7,6 +7,9 @@ import { ImageRequirements } from "./utilities/imageRequirements";
 import { ImagesDifference } from "./utilities/imagesDifference";
 
 const CIRCLE_RADIUS: number = 3;
+const WIDTH_START: number = 18;
+const WIDTH_END: number = 22;
+const HEIGHT_END: number = 26;
 
 @injectable()
 export class DifferenceCheckerService {
@@ -29,9 +32,9 @@ export class DifferenceCheckerService {
         } catch (error) {
             return this.sendErrorMessage(error.message);
         }
-        
+
         if (this.imageHasNotDimensionsNeeded(this.splittedOriginal) ||
-            this.imageHasNotDimensionsNeeded(this.splittedDifferent)){
+            this.imageHasNotDimensionsNeeded(this.splittedDifferent)) {
 
             return this.sendErrorMessage("Les images n'ont pas les bonnes dimensions");
         }
@@ -93,9 +96,9 @@ export class DifferenceCheckerService {
 
         let isEqual: boolean = true;
 
-        for (let i: number = 0; i < imageWidht.length; i++){
-            if(imageWidht[i] !== requiredWidth[i] ||
-               imageHeight[i] !== requiredHeight[i]){
+        for (let i: number = 0; i < imageWidht.length; i++) {
+            if (imageWidht[i] !== requiredWidth[i] ||
+               imageHeight[i] !== requiredHeight[i]) {
                    isEqual = false;
                }
         }
@@ -104,11 +107,11 @@ export class DifferenceCheckerService {
     }
 
     private extractWidth(buffer: Buffer): Buffer {
-        return buffer.slice(18, 22);
+        return buffer.slice(WIDTH_START, WIDTH_END);
     }
 
     private extractHeight(buffer: Buffer): Buffer {
-        return buffer.slice(22, 26);
+        return buffer.slice(WIDTH_END, HEIGHT_END);
     }
 
 }

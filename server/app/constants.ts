@@ -9,7 +9,7 @@ export class Constants {
   public static readonly DISCONNECT_EVENT: string = "disconnect";
   public static readonly WEBSOCKET_PORT_NUMBER: number = 3333;
 
-  //Constants for buffermanager.ts
+  // Constants for buffermanager.ts
   public static readonly BUFFER_FORMAT: string = "hex";
   public static readonly WHITE_PIXEL: string = "ffffff";
   public static readonly BLACK_PIXEL: string = "000000";
