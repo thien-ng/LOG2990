@@ -1,11 +1,11 @@
 import { injectable } from "inversify";
 import { Message } from "../../../../common/communication/message";
+import { Constants } from "../../constants";
 import { BufferManager } from "./utilities/bufferManager";
 import { CircleDifferences } from "./utilities/circleDifferences";
 import { ClusterCounter } from "./utilities/clusterCounter";
 import { ImageRequirements } from "./utilities/imageRequirements";
 import { ImagesDifference } from "./utilities/imagesDifference";
-import { Constants } from "../../constants";
 
 @injectable()
 export class DifferenceCheckerService {
