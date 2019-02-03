@@ -7,10 +7,6 @@ import { Component, OnInit } from "@angular/core";
 })
 export class LoginViewComponent implements OnInit {
 
-  public constructor() {
-    // default constructor
-  }
-
   public LOGO_URL: string = "../../../assets/images/logo.png";
 
   public ngOnInit(): void {

@@ -15,14 +15,14 @@ import { HighscoreService } from "../highscore-display/highscore.service";
 })
 
 export class CardComponent implements OnInit {
-  public HS_BUTTON_IS_CLICKED: boolean;
-  public TROPHY_IMAGE_URL: string = "https://img.icons8.com/metro/1600/trophy.png";
-  public TEXT_PLAY: string = "JOUER";
-  public TEXT_PLAY_SINGLE: string = "Jouer en simple";
-  public TEXT_PLAY_MULTI: string = "Jouer en multijoueur";
-  public TEXT_RESET_TIMERS: string = "Réinitialiser les temps";
-  public TEXT_DELETE: string = "Supprimer la carte";
-  public ADMIN_PATH: string = "/admin";
+  public hsButtonIsClicked: boolean;
+  public readonly TROPHY_IMAGE_URL: string = "https://img.icons8.com/metro/1600/trophy.png";
+  public readonly TEXT_PLAY: string = "JOUER";
+  public readonly TEXT_PLAY_SINGLE: string = "Jouer en simple";
+  public readonly TEXT_PLAY_MULTI: string = "Jouer en multijoueur";
+  public readonly TEXT_RESET_TIMERS: string = "Réinitialiser les temps";
+  public readonly TEXT_DELETE: string = "Supprimer la carte";
+  public readonly ADMIN_PATH: string = "/admin";
 
   @Input() public card: ICard;
 
@@ -62,7 +62,7 @@ export class CardComponent implements OnInit {
   }
 
   public onHSButtonClick(): void {
-    this.HS_BUTTON_IS_CLICKED = !this.HS_BUTTON_IS_CLICKED;
+    this.hsButtonIsClicked = !this.hsButtonIsClicked;
     this.highscoreService.getHighscore(this.card.gameID);
   }
 }

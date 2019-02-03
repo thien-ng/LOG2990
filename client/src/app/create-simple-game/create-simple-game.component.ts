@@ -16,21 +16,21 @@ const SUBMIT_PATH: string = "/api/card/submit";
 })
 export class CreateSimpleGameComponent implements OnInit {
 
-  public TITLE: string = "Créer un jeu de point de vue simple";
-  public PLACE_HOLDER: string = "Nom du jeu";
-  public ORIGINAL_IMAGE: string = "Image originale";
-  public MODIFIED_IMAGE: string = "Image modifiée";
-  public SUBMIT: string = "Soumettre";
-  public CANCEL: string = "Annuler";
-  public MAX_LENGTH: number = 15;
-  public IS_IMAGE_BMP: boolean[] = [false, false];
-  public ORIGINAL_INDEX: number = 0;
-  public MODIFIED_INDEX: number = 1;
-  public ERROR_PATTERN: string = "Caractères autorisés: A-Z, a-z";
-  public ERROR_SIZE: string = "Taille: "
+  public readonly TITLE: string = "Créer un jeu de point de vue simple";
+  public readonly PLACE_HOLDER: string = "Nom du jeu";
+  public readonly ORIGINAL_IMAGE: string = "Image originale";
+  public readonly MODIFIED_IMAGE: string = "Image modifiée";
+  public readonly SUBMIT: string = "Soumettre";
+  public readonly CANCEL: string = "Annuler";
+  public readonly MAX_LENGTH: number = 15;
+  public readonly IS_IMAGE_BMP: boolean[] = [false, false];
+  public readonly ORIGINAL_INDEX: number = 0;
+  public readonly MODIFIED_INDEX: number = 1;
+  public readonly ERROR_PATTERN: string = "Caractères autorisés: A-Z, a-z";
+  public readonly ERROR_SIZE: string = "Taille: "
                                   + Constants.MIN_GAME_LENGTH + "-"
                                   + Constants.MAX_GAME_LENGTH + " caractères";
-  public ERROR_REQUIRED: string = "Nom de jeu requis";
+  public readonly ERROR_REQUIRED: string = "Nom de jeu requis";
 
   private selectedFiles: [Blob, Blob] = [new Blob(), new Blob()];
 
