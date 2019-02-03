@@ -21,7 +21,6 @@ let highscoreService: HighscoreService;
 describe("Card-manager tests", () => {
 
     const testImageOg: Buffer = fs.readFileSync(path.resolve(__dirname, "../../../asset/image/testBitmap/imagetestOg.bmp"));
-    const testImageDiff: Buffer = fs.readFileSync(path.resolve(__dirname, "../../../asset/image/testBitmap/imagetestDif.bmp"));
 
     const c1: ICard = {
         gameID: 1,
@@ -109,15 +108,6 @@ describe("Card-manager tests", () => {
         expect(highscoreService.findHighScoreByID(1)).to.be.equal(2);
     });
 
-    it("Should return a success message", async () => {
-        let messageTitle: string = "";
-        await cardManagerService.cardCreationRoutine(testImageOg, testImageDiff, "title")
-        .then((message: Message) => {
-            messageTitle = message.title;
-        });
-        expect(messageTitle).to.equal("onSuccess");
-    });
-
     it("Should return an error message", async () => {
         let messageTitle: string = "";
         await cardManagerService.cardCreationRoutine(testImageOg, testImageOg, "title")
@@ -127,13 +117,4 @@ describe("Card-manager tests", () => {
         expect(messageTitle).to.equal("onError");
     });
 
-    it("Shoud throw an error because write path is non existent", () => {
-        try {
-            cardManagerService["stockImage"]("/non/existant/path", testImageOg);
-        } catch (error) {
-            if (error instanceof TypeError) {
-                expect(error.message).to.deep.equal("error while generating file");
-            }
-        }
-    });
 });

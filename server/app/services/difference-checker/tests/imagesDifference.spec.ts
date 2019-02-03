@@ -1,5 +1,6 @@
 import { expect } from "chai";
 import { ImagesDifference } from "../utilities/imagesDifference";
+import { Constants } from "../../../constants";
 
 // tslint:disable:no-magic-numbers
 
@@ -66,7 +67,7 @@ describe("Images Difference finder microservice tests", () => {
 
         } catch (error) {
             if (error instanceof TypeError) {
-                expect(error.message).to.deep.equal("Les images ne sont pas de la même taille");
+                expect(error.message).to.deep.equal(Constants.ERROR_UNEQUAL_DIMENSIONS);
             }
         }
         done();
