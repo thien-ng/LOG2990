@@ -1,8 +1,9 @@
 import { TestBed } from "@angular/core/testing";
-
 import { FileValidatorService } from "./game-validator.service";
 
-describe("FileValidatorService", () => {
+// tslint:disable:no-any no-floating-promises
+
+describe("FileValidatorService test", () => {
   beforeEach(() => TestBed.configureTestingModule({}));
   const fileValidatorService: FileValidatorService = new FileValidatorService();
 
