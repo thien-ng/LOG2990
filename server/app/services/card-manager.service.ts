@@ -2,7 +2,7 @@ import * as Axios from "axios";
 import * as fs from "fs";
 import { inject, injectable } from "inversify";
 import { Constants } from "../../../client/src/app/constants";
-import { DefaultCard, GameMode, ICard } from "../../../common/communication/iCard";
+import { GameMode, ICard, DefaultCard2D, DefaultCard3D } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
 import { Message } from "../../../common/communication/message";
 import Types from "../types";
@@ -34,7 +34,8 @@ export class CardManagerService {
     private uniqueId: number = 1000;
 
     public constructor(@inject(Types.HighscoreService) private highscoreService: HighscoreService) {
-        this.addCard2D(DefaultCard);
+        this.addCard2D(DefaultCard2D);
+        this.addCard3D(DefaultCard3D);
     }
 
     public async cardCreationRoutine(original: Buffer, modified: Buffer, cardTitle: string): Promise<Message> {
