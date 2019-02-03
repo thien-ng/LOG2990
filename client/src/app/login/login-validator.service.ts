@@ -42,7 +42,7 @@ export class LoginValidatorService {
     }
 
   public async addUsername(): Promise<boolean> {
-    if (this.usernameFormControl.errors === null && this.isWebsocketConnected()) {
+    if (this.usernameFormControl.errors === null) {
       const message: Message = this.generateMessage(this.usernameFormControl.value);
 
       const result: Object = await this.sendUsernameRequest(message);
@@ -67,10 +67,6 @@ export class LoginValidatorService {
   // Helpers
   private async sendUsernameRequest(message: Message): Promise<Object> {
     return this.httpClient.post(Constants.PATH_TO_LOGIN_VALIDATION, message).toPromise().catch();
-  }
-
-  private isWebsocketConnected(): boolean {
-    return (this.socketService) ? true : false;
   }
 
   private generateMessage(username: string): Message {
