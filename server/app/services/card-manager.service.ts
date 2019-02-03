@@ -2,7 +2,7 @@ import * as Axios from "axios";
 import * as fs from "fs";
 import { inject, injectable } from "inversify";
 import { Constants } from "../../../client/src/app/constants";
-import { GameMode, ICard, DefaultCard2D, DefaultCard3D } from "../../../common/communication/iCard";
+import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
 import { Message } from "../../../common/communication/message";
 import Types from "../types";

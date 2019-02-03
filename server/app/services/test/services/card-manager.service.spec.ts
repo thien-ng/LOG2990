@@ -2,11 +2,11 @@ import "reflect-metadata";
 // TOUS LES CHOSES EN COMMENTAIRES FONCTIONNE SUR UN ORDI MAIS PAS SUR
 // TRAVIS CI PCQ IL PX PAS FILE WRITE IL FAUT PTETRE MOCK LE FILE WRITE MAIS JSP CMT
 
-import { expect } from "chai";
 // import * as fs from "fs";
 // import * as path from "path";
+import { expect } from "chai";
 import { Constants } from "../../../../../client/src/app/constants";
-import { DefaultCard, GameMode, ICard } from "../../../../../common/communication/iCard";
+import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../../../common/communication/iCard";
 import { ICardLists } from "../../../../../common/communication/iCardLists";
 import { CardManagerService } from "../../../services/card-manager.service";
 import { HighscoreService } from "../../highscore.service";
@@ -64,8 +64,8 @@ describe("Card-manager tests", () => {
         gamemode: GameMode.free,
     };
     const cards: ICardLists = {
-        list2D: [DefaultCard],
-        list3D: [],
+        list2D: [DefaultCard2D],
+        list3D: [DefaultCard3D],
     };
 
     beforeEach(() => {
@@ -85,11 +85,11 @@ describe("Card-manager tests", () => {
     it("should return new length of 3D list after adding a card", () => {
         cardManagerService.addCard3D(c2);
         cardManagerService.addCard3D(c3);
-        expect(cardManagerService.getCards().list3D.length).to.equal(2);
+        expect(cardManagerService.getCards().list3D.length).to.equal(3);
     });
     it("should return the newly added card", () => {
         cardManagerService.addCard3D(c3);
-        expect(cardManagerService.getCards().list3D[0]).deep.equal(c3);
+        expect(cardManagerService.getCards().list3D[1]).deep.equal(c3);
     });
     // it("should remove the newly added card and return a success message", () => {
     //     cardManagerService.addCard2D(c3);
@@ -110,6 +110,6 @@ describe("Card-manager tests", () => {
     });
     it("corresponding highscore to the gameID should exist", () => {
         cardManagerService.addCard2D(c1);
-        expect(highscoreService.findHighScoreByID(1)).to.be.equal(1);
+        expect(highscoreService.findHighScoreByID(1)).to.be.equal(2);
     });
 });
