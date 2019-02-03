@@ -26,4 +26,8 @@ export class Constants {
   //Constants for imagesDifference.ts
   public static readonly ERROR_UNEQUAL_DIMENSIONS: string = "Taille des images ne sont pas pareilles";
 
+  //Constants for card-manager.service.ts
+  public static readonly ON_ERROR_MESSAGE: string = "onError";
+  public static readonly ON_SUCCESS_MESSAGE: string = "onSuccess";
+
 }

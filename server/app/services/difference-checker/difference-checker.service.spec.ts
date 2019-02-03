@@ -4,9 +4,9 @@ import { expect } from "chai";
 import * as fs from "fs";
 import * as path from "path";
 import { Message } from "../../../../common/communication/message";
+import { Constants } from "../../constants";
 import { DifferenceCheckerService } from "./difference-checker.service";
 import { ImageRequirements } from "./utilities/imageRequirements";
-import { Constants } from "../../constants";
 
 // tslint:disable:no-magic-numbers
 

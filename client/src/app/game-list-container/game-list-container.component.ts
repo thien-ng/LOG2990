@@ -15,8 +15,6 @@ import { GameModeService } from "./game-mode.service";
 })
 export class GameListContainerComponent implements OnInit, OnDestroy {
 
-  public index2D: number = 0;
-  public index3D: number = 1;
   public tabIndex: number = 0;
   private stateSubscription: Subscription;
 

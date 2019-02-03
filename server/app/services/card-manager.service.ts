@@ -2,7 +2,7 @@ import * as Axios from "axios";
 import * as fs from "fs";
 import { inject, injectable } from "inversify";
 import { Constants } from "../../../client/src/app/constants";
-import { GameMode, ICard } from "../../../common/communication/iCard";
+import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
 import { Message } from "../../../common/communication/message";
 import Types from "../types";
@@ -17,6 +17,9 @@ const REQUIRED_HEIGHT: number = 480;
 const REQUIRED_WIDTH: number = 640;
 const REQUIRED_NB_DIFF: number = 7;
 const IMAGES_PATH: string = "./app/asset/image";
+const FILE_GENERATION_ERROR: string = "error while generating file";
+const FILE_DELETION_ERROR: string = "error while deleting file";
+const DEFAULT_CARD_ID: number = 1;
 
 @injectable()
 export class CardManagerService {
@@ -31,22 +34,8 @@ export class CardManagerService {
     private uniqueId: number = 1000;
 
     public constructor(@inject(Types.HighscoreService) private highscoreService: HighscoreService) {
-        this.addCard2D({
-            gameID: 1,
-            title: "Default 2D",
-            subtitle: "default 2D",
-            avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image/elon.jpg",
-            gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image/elon.jpg",
-            gamemode: GameMode.simple,
-        });
-        this.addCard3D({
-            gameID: 2,
-            title: "Default 3D",
-            subtitle: "default 3D",
-            avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image/moutain.jpg",
-            gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image/moutain.jpg",
-            gamemode: GameMode.free,
-        });
+        this.addCard2D(DefaultCard2D);
+        this.addCard3D(DefaultCard3D);
     }
 
     public async cardCreationRoutine(original: Buffer, modified: Buffer, cardTitle: string): Promise<Message> {
@@ -86,7 +75,6 @@ export class CardManagerService {
         if (this.isMessage(result)) {
             return result;
         } else {
-            // creeate card
             const cardId: number = this.generateId();
             const originalImagePath: string = "/" + cardId + "_original.bmp";
             const modifiedImagePath: string = "/" + cardId + "_modified.bmp";
@@ -127,8 +115,18 @@ export class CardManagerService {
     private stockImage(path: string, buffer: Buffer): void {
         fs.writeFile(path, Buffer.from(buffer), (error: Error) => {
             if (error) {
-                throw TypeError("error while generating file");
+                throw TypeError(FILE_GENERATION_ERROR);
             }
+        });
+    }
+
+    private deleteStoredImages(paths: string[]): void {
+        paths.forEach((path: string) => {
+            fs.unlink(path, (error: Error) => {
+                if (error) {
+                    throw TypeError(FILE_DELETION_ERROR);
+                }
+            });
         });
     }
 
@@ -201,8 +199,20 @@ export class CardManagerService {
 
     public removeCard2D(id: number): string {
         const index: number = this.findCard2D(id);
+        const paths: string[] = [
+                                    IMAGES_PATH + "/generated/" + id + "_generated.bmp",
+                                    IMAGES_PATH + "/" + id + "_original.bmp",
+                                    IMAGES_PATH + "/" + id + "_modified.bmp",
+                                ];
         if (index !== DOESNT_EXIST) {
             this.cards.list2D.splice(index, 1);
+            try {
+                if (id !== DEFAULT_CARD_ID) {
+                    this.deleteStoredImages(paths);
+                }
+            } catch (error) {
+                return error.message;
+            }
 
             return CARD_DELETED;
         }
