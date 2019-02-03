@@ -1,9 +1,5 @@
 import "reflect-metadata";
-// TOUS LES CHOSES EN COMMENTAIRES FONCTIONNE SUR UN ORDI MAIS PAS SUR
-// TRAVIS CI PCQ IL PX PAS FILE WRITE IL FAUT PTETRE MOCK LE FILE WRITE MAIS JSP CMT
 
-// import * as fs from "fs";
-// import * as path from "path";
 import { expect } from "chai";
 import { Constants } from "../../../../../client/src/app/constants";
 import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../../../common/communication/iCard";
@@ -13,30 +9,11 @@ import { HighscoreService } from "../../highscore.service";
 
 // tslint:disable:no-magic-numbers
 
-// const CARD_DELETED: string = "Carte supprimée";
-// const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
 const FAKE_PATH: string = Constants.BASIC_SERVICE_BASE_URL + "/image";
 let cardManagerService: CardManagerService;
 let highscoreService: HighscoreService;
 
 describe("Card-manager tests", () => {
-
-    // fs.writeFile(path.resolve(__dirname, "../../../asset/image/generated/3_generated.bmp"), Buffer.from([1, 2 , 3]), (error: Error) => {
-    //     if (error) {
-    //         throw TypeError("Error");
-    //     }
-    // });
-    // fs.writeFile(path.resolve(__dirname, "../../../asset/image/3_original.bmp"), Buffer.from([1, 2 , 3]), (error: Error) => {
-    //     if (error) {
-    //         throw TypeError("Error");
-    //     }
-    // });
-    // fs.writeFile(path.resolve(__dirname, "../../../asset/image/3_modified.bmp"), Buffer.from([1, 2 , 3]), (error: Error) => {
-    //     if (error) {
-    //         throw TypeError("Error");
-    //     }
-    // });
-
     const c1: ICard = {
         gameID: 1,
         title: "Default 2D",
@@ -91,20 +68,6 @@ describe("Card-manager tests", () => {
         cardManagerService.addCard3D(c3);
         expect(cardManagerService.getCards().list3D[1]).deep.equal(c3);
     });
-    // it("should remove the newly added card and return a success message", () => {
-    //     cardManagerService.addCard2D(c3);
-    //     expect(cardManagerService.removeCard2D(3)).to.equal(CARD_DELETED);
-    // });
-    // it("should return false because the card doesnt exist", () => {
-    //     expect(cardManagerService.removeCard2D(0)).to.equal(CARD_NOT_FOUND);
-    // });
-    // it("should remove the newly added card and return true", () => {
-    //     cardManagerService.addCard3D(c3);
-    //     expect(cardManagerService.removeCard3D(3)).to.equal(CARD_DELETED);
-    // });
-    // it("should return false because the card doesnt exist", () => {
-    //     expect(cardManagerService.removeCard3D(0)).to.equal(CARD_NOT_FOUND);
-    // });
     it("should return undefined because there is no more card there", () => {
         expect(cardManagerService.getCards().list3D[1]).deep.equal(undefined);
     });
