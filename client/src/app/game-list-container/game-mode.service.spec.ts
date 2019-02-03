@@ -32,11 +32,4 @@ describe("GameModeService", () => {
     expect(result).toBe(0);
   });
 
-  // it("should be 1 if toggle, then getIndex is called", () => {
-  //   const result = gameModeService.getIndex();
-  //   gameModeService.toggle();
-  //   gameModeService.toggle();
-  //   expect(result).toBe(1);
-  // });
-
 });
