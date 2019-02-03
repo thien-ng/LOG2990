@@ -1,14 +1,14 @@
 import { TestBed } from "@angular/core/testing";
-import { RouterTestingModule } from "@angular/router/testing";
-import { TestingImportsModule } from ".././testing-imports/testing-imports.module";
 import { Router } from "@angular/router";
-import { GameModeService } from "./game-mode.service";
+import { RouterTestingModule } from "@angular/router/testing";
 import { mock } from "ts-mockito";
+import { TestingImportsModule } from ".././testing-imports/testing-imports.module";
+import { GameModeService } from "./game-mode.service";
 
 let gameModeService: GameModeService;
 let router: Router;
 
-fdescribe("GameModeService", () => {
+describe("GameModeService", () => {
   beforeEach(() => TestBed.configureTestingModule({
     providers: [GameModeService],
     imports: [
@@ -22,14 +22,13 @@ fdescribe("GameModeService", () => {
     gameModeService = new GameModeService(router);
   });
 
-
   it("should be created", () => {
     const service: GameModeService = TestBed.get(GameModeService);
     expect(service).toBeTruthy();
   });
 
   it("should be 0 if getIndex is called", () => {
-    const result = gameModeService.getIndex();
+    const result: number = gameModeService.getIndex();
     expect(result).toBe(0);
   });
 
