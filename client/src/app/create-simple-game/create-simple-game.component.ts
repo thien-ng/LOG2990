@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
 import { MatDialogRef, MatSnackBar } from "@angular/material";
 import { Message } from "../../../../common/communication/message";
@@ -14,7 +14,7 @@ const SUBMIT_PATH: string = "/api/card/submit";
   templateUrl: "./create-simple-game.component.html",
   styleUrls: ["./create-simple-game.component.css"],
 })
-export class CreateSimpleGameComponent implements OnInit {
+export class CreateSimpleGameComponent {
 
   public readonly TITLE: string = "Créer un jeu de point de vue simple";
   public readonly PLACE_HOLDER: string = "Nom du jeu";
@@ -52,10 +52,6 @@ export class CreateSimpleGameComponent implements OnInit {
     ) {
       // default constructor
     }
-
-  public ngOnInit(): void {
-    // default init
-  }
 
   public hasFormControlErrors(): boolean {
     return !( this.formControl.controls.gameName.errors == null &&

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import { ICard } from "../../../../common/communication/iCard";
@@ -14,7 +14,7 @@ import { HighscoreService } from "../highscore-display/highscore.service";
   providers: [HighscoreService],
 })
 
-export class CardComponent implements OnInit {
+export class CardComponent {
   public hsButtonIsClicked: boolean;
   public readonly TROPHY_IMAGE_URL: string = "https://img.icons8.com/metro/1600/trophy.png";
   public readonly TEXT_PLAY: string = "JOUER";
@@ -37,10 +37,6 @@ export class CardComponent implements OnInit {
     }
 
   @Output() public cardDeleted: EventEmitter<string> = new EventEmitter();
-
-  public ngOnInit(): void {
-    // default init
-  }
 
   public onDeleteButtonClick(): void {
     this.cardManagerService.removeCard(this.card.gameID, this.card.gamemode).subscribe((response: string) => {
