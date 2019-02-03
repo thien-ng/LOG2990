@@ -10,9 +10,7 @@ const INDEX_3D: number = 1;
 })
 export class GameModeService {
 
-  public constructor(
-    public router: Router,
-  ) {
+  public constructor( public router: Router) {
     // Default constructor
   }
 
