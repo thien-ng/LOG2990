@@ -31,13 +31,13 @@ describe("Card-manager tests", () => {
     cardManagerService = new CardManagerService(http);
   });
 
-  it("should return an Observable Object when calling removeCard()", () => {
+  it("should call http.get when calling getCards()", () => {
     http.get = jasmine.createSpy("get spy");
     cardManagerService.getCards();
     expect(http.get).toHaveBeenCalled();
   });
 
-  it("should return an Observable Object when calling removeCard()", () => {
+  it("should call http.delete when calling removeCard()", () => {
     http.delete = jasmine.createSpy("delete spy");
     cardManagerService.removeCard(cardId, gameMode);
     expect(http.delete).toHaveBeenCalled();
