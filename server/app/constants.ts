@@ -25,6 +25,8 @@ export class Constants {
   public static readonly BUFFER_MIDDLE_DIMENSION: number = 22;
   public static readonly BUFFER_END_DIMENSION: number = 26;
 
+  // card manager service
+  public static readonly BASIC_SERVICE_BASE_URL: string = "http://localhost:3000";
   public static readonly ON_ERROR_MESSAGE: string = "onError";
   public static readonly ON_SUCCESS_MESSAGE: string = "onSuccess";
 
