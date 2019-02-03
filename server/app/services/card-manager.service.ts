@@ -1,10 +1,10 @@
 import * as Axios from "axios";
 import * as fs from "fs";
 import { inject, injectable } from "inversify";
-import { Constants } from "../../../client/src/app/constants";
 import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
 import { Message } from "../../../common/communication/message";
+import { Constants } from "../constants";
 import Types from "../types";
 import { ImageRequirements } from "./difference-checker/utilities/imageRequirements";
 import { HighscoreService } from "./highscore.service";
