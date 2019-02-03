@@ -13,7 +13,7 @@ export class AdminToggleService {
     // Default constructor
   }
 
-  private isAdmin: boolean = false;
+  private isAdmin: boolean;
   private adminUpdated: Subject<boolean> = new Subject<boolean>();
 
   public get isAdminState(): boolean {
@@ -25,12 +25,12 @@ export class AdminToggleService {
   }
 
   public adminToggle(): void {
+    this.isAdmin = !this.isAdmin;
     if (this.isAdmin) {
       this.router.navigate([Constants.ADMIN_PATH]).catch(() => Constants.OBLIGATORY_CATCH);
     } else {
       this.router.navigate([Constants.GAMELIST_PATH]).catch(() => Constants.OBLIGATORY_CATCH);
     }
-    this.isAdmin = !this.isAdmin;
     this.adminUpdated.next(this.isAdmin);
   }
 
