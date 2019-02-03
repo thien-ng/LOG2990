@@ -42,7 +42,7 @@ export class CreateSimpleGameComponent implements OnInit {
   });
 
   public constructor(
-    public dialogRef: MatDialogRef<CreateSimpleGameComponent>,
+    private dialogRef: MatDialogRef<CreateSimpleGameComponent>,
     private fileValidatorService: FileValidatorService,
     private snackBar: MatSnackBar,
     private http: HttpClient,

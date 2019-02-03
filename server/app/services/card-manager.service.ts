@@ -18,6 +18,7 @@ const REQUIRED_WIDTH: number = 640;
 const REQUIRED_NB_DIFF: number = 7;
 const IMAGES_PATH: string = "./app/asset/image";
 const FILE_GENERATION_ERROR: string = "error while generating file";
+const FILE_DELETION_ERROR: string = "error while deleting file";
 
 @injectable()
 export class CardManagerService {
@@ -134,7 +135,11 @@ export class CardManagerService {
 
     private deleteStoredImages(paths: string[]): void {
         paths.forEach((path: string) => {
-            fs.unlinkSync(path);
+            fs.unlink(path, (error: Error) => {
+                if (error) {
+                    throw TypeError(FILE_DELETION_ERROR);
+                }
+            });
         });
     }
 
@@ -214,7 +219,11 @@ export class CardManagerService {
                                 ];
         if (index !== DOESNT_EXIST) {
             this.cards.list2D.splice(index, 1);
-            this.deleteStoredImages(paths);
+            try {
+                this.deleteStoredImages(paths);
+            } catch (error) {
+                return error.message;
+            }
 
             return CARD_DELETED;
         }

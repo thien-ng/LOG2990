@@ -1,6 +1,8 @@
 import "reflect-metadata";
 
 import { expect } from "chai";
+import * as fs from "fs";
+import * as path from "path";
 import { Constants } from "../../../../../client/src/app/constants";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { ICardLists } from "../../../../../common/communication/iCardLists";
@@ -17,6 +19,22 @@ let cards: ICardLists;
 let highscoreService: HighscoreService;
 
 describe("Card-manager tests", () => {
+
+    fs.writeFile(path.resolve(__dirname, "../../../asset/image/generated/3_generated.bmp"), Buffer.from([1, 2 , 3]), (error: Error) => {
+        if (error) {
+            throw TypeError("Error");
+        }
+    });
+    fs.writeFile(path.resolve(__dirname, "../../../asset/image/3_original.bmp"), Buffer.from([1, 2 , 3]), (error: Error) => {
+        if (error) {
+            throw TypeError("Error");
+        }
+    });
+    fs.writeFile(path.resolve(__dirname, "../../../asset/image/3_modified.bmp"), Buffer.from([1, 2 , 3]), (error: Error) => {
+        if (error) {
+            throw TypeError("Error");
+        }
+    });
 
     const c1: ICard = {
         gameID: 1,
@@ -77,7 +95,7 @@ describe("Card-manager tests", () => {
         cardManagerService.addCard3D(c3);
         expect(cardManagerService.getCards().list3D[1]).deep.equal(c3);
     });
-    it("should remove the newly added card and return true", () => {
+    it("should remove the newly added card and return a success message", () => {
         cardManagerService.addCard2D(c3);
         expect(cardManagerService.removeCard2D(3)).to.equal(CARD_DELETED);
     });

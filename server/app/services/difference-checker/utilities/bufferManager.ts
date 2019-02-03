@@ -3,7 +3,7 @@ import { Constants } from "../../../constants";
 
 const HEADER_SIZE: number =  54; // size in Bytes
 
-interface Test {
+interface JSONBuffer {
     type: string;
     data: Buffer;
 }
@@ -13,10 +13,7 @@ export class BufferManager {
 
     public splitHeader(input: Buffer): Buffer[] {
 
-        const jsonBuffer: string = JSON.stringify(input);
-        const dataBuffer: Buffer = JSON.parse( jsonBuffer, (key: number, value: Test) => {
-            return value && value.type === Constants.BUFFER_TYPE ? Buffer.from(value.data) : value;
-        });
+        const dataBuffer: Buffer = this.bufferFromInput(input);
 
         const header: Buffer = dataBuffer.slice(0, HEADER_SIZE);
         const image: Buffer = dataBuffer.slice(HEADER_SIZE, input.length);
@@ -27,6 +24,14 @@ export class BufferManager {
 
         return buffers;
 
+    }
+
+    private bufferFromInput(input: Buffer): Buffer {
+        const jsonBuffer: string = JSON.stringify(input);
+
+        return JSON.parse( jsonBuffer, (key: number, value: JSONBuffer) => {
+            return value && value.type === Constants.BUFFER_TYPE ? Buffer.from(value.data) : value;
+        });
     }
 
     public arrayToBuffer(array: number[]): Buffer {
