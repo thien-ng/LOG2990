@@ -1,6 +1,7 @@
 import { TestBed } from "@angular/core/testing";
-// import { mock, when } from "ts-mockito";
 import { FileValidatorService } from "./game-validator.service";
+
+// tslint:disable:no-any no-floating-promises
 
 let fileValidatorService: FileValidatorService;
 
@@ -14,29 +15,29 @@ describe("FileValidatorService test", () => {
 
   it("should return true if blob type is accepted", () => {
     fileValidatorService = new FileValidatorService();
-    let blob: Blob = {
+    const blob: Blob = {
       size: 0,
       type: "image/bmp",
-      slice(start?: number, end?: number, contentType?: string): Blob{
+      slice(start?: number, end?: number, contentType?: string): Blob {
         return new Blob();
-      }
+      },
     };
 
-    const result = fileValidatorService.validateFile(blob);
+    const result: any = fileValidatorService.validateFile(blob);
     expect(result).toBeTruthy();
   });
 
   it("should return false if blob type is not accepted", () => {
     fileValidatorService = new FileValidatorService();
-    let blob: Blob = {
+    const blob: Blob = {
       size: 0,
       type: "image/dylan",
-      slice(start?: number, end?: number, contentType?: string): Blob{
+      slice(start?: number, end?: number, contentType?: string): Blob {
         return new Blob();
-      }
+      },
     };
 
-    const result = fileValidatorService.validateFile(blob);
+    const result: any = fileValidatorService.validateFile(blob);
     expect(result).toBeFalsy();
   });
 
