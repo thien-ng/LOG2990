@@ -90,15 +90,14 @@ export class CreateSimpleGameComponent implements OnInit {
   public submit(data: NgForm): void {
     const formdata: FormData = this.createFormData(data);
     this.http.post(Constants.BASIC_SERVICE_BASE_URL + "/api/card/submit", formdata).subscribe((response: Message) => {
-      // TBD
       this.analyseResponse(response);
-      this.dialogRef.close();
     });
   }
 
   private analyseResponse(response: Message): void {
     if (response.title === "onSuccess") {
       this.cardManagerService.updateCards(true);
+      this.dialogRef.close();
     } else if (response.title === "onError") {
       this.openSnackBar(response.body, Constants.SNACK_ACTION);
     }

@@ -10,6 +10,8 @@ const CIRCLE_RADIUS: number = 3;
 const WIDTH_START: number = 18;
 const WIDTH_END: number = 22;
 const HEIGHT_END: number = 26;
+const HEADER_INDEX: number = 0;
+const BODY_INDEX: number = 1;
 
 @injectable()
 export class DifferenceCheckerService {
@@ -43,7 +45,7 @@ export class DifferenceCheckerService {
 
             const dataImageBuffer: Buffer = this.bufferManager.arrayToBuffer(this.circledDifferences);
 
-            return this.bufferManager.mergeBuffers(this.splittedOriginal[0], dataImageBuffer);
+            return this.bufferManager.mergeBuffers(this.splittedOriginal[HEADER_INDEX], dataImageBuffer);
 
         } else {
 
@@ -56,7 +58,7 @@ export class DifferenceCheckerService {
         this.splittedOriginal = this.bufferManager.splitHeader(requirements.originalImage);
         this.splittedDifferent = this.bufferManager.splitHeader(requirements.modifiedImage);
 
-        const differencesFound: number[] = this.findDifference(this.splittedOriginal[1], this.splittedDifferent[1]);
+        const differencesFound: number[] = this.findDifference(this.splittedOriginal[BODY_INDEX], this.splittedDifferent[BODY_INDEX]);
         this.circledDifferences = this.circleDifference(differencesFound, requirements.requiredWidth);
 
         return this.countAllClusters(this.circledDifferences, requirements.requiredWidth);
@@ -88,8 +90,8 @@ export class DifferenceCheckerService {
     }
 
     private imageHasNotDimensionsNeeded(splittedBuffer: Buffer[]): boolean {
-        const imageWidht: Buffer = this.extractWidth(splittedBuffer[0]);
-        const imageHeight: Buffer = this.extractHeight(splittedBuffer[0]);
+        const imageWidht: Buffer = this.extractWidth(splittedBuffer[HEADER_INDEX]);
+        const imageHeight: Buffer = this.extractHeight(splittedBuffer[HEADER_INDEX]);
 
         const requiredWidth: Buffer = Buffer.from("80020000", "hex");
         const requiredHeight: Buffer = Buffer.from("e0010000", "hex");

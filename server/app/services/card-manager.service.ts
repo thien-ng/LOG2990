@@ -17,6 +17,7 @@ const REQUIRED_HEIGHT: number = 480;
 const REQUIRED_WIDTH: number = 640;
 const REQUIRED_NB_DIFF: number = 7;
 const IMAGES_PATH: string = "./app/asset/image";
+const FILE_GENERATION_ERROR: string = "error while generating file";
 
 @injectable()
 export class CardManagerService {
@@ -86,7 +87,6 @@ export class CardManagerService {
         if (this.isMessage(result)) {
             return result;
         } else {
-            // creeate card
             const cardId: number = this.generateId();
             const originalImagePath: string = "/" + cardId + "_original.bmp";
             const modifiedImagePath: string = "/" + cardId + "_modified.bmp";
@@ -127,7 +127,7 @@ export class CardManagerService {
     private stockImage(path: string, buffer: Buffer): void {
         fs.writeFile(path, Buffer.from(buffer), (error: Error) => {
             if (error) {
-                throw TypeError("error while generating file");
+                throw TypeError(FILE_GENERATION_ERROR);
             }
         });
     }
