@@ -85,8 +85,8 @@ describe("Card-manager tests", () => {
     });
 
     it("should remove the newly added card and return a success message", () => {
-        cardManagerService.addCard2D(c3);
-        expect(cardManagerService.removeCard2D(3)).to.equal(CARD_DELETED);
+        cardManagerService.addCard2D(c1);
+        expect(cardManagerService.removeCard2D(1)).to.equal(CARD_DELETED);
     });
     
     it("should return false because the card doesnt exist", () => {
@@ -128,7 +128,7 @@ describe("Card-manager tests", () => {
         });
         expect(messageTitle).to.equal("onError");
     });
-    
+
     it("Shoud throw an error because write path is non existent", () => {
         try {
             cardManagerService["stockImage"]("/non/existant/path", testImageOg);
