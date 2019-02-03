@@ -51,7 +51,7 @@ export class CardManagerService {
                                                 };
         let returnValue: Message = {
             title: Constants.ON_ERROR_MESSAGE,
-            body: "Validation services failed",
+            body: Constants.VALIDATION_FAILED,
         };
         try {
             await axios.post(Constants.BASIC_SERVICE_BASE_URL + "/api/differenceChecker/validate", requirements)

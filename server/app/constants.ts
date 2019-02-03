@@ -1,7 +1,5 @@
 export class Constants {
 
-  public static readonly PATH_FROM_CONTROLLER_TO_ASSET: string = "../../../../app/asset";
-
   // Constants for websocket.ts
   public static readonly SOCKET_IO: string = "socket.io";
   public static readonly LOGIN_EVENT: string = "onLogin";
@@ -25,9 +23,13 @@ export class Constants {
   public static readonly BUFFER_MIDDLE_DIMENSION: number = 22;
   public static readonly BUFFER_END_DIMENSION: number = 26;
 
-  // card manager service
+  // Constants for imagesDifference.ts
+  public static readonly ERROR_UNEQUAL_DIMENSIONS: string = "Taille des images ne sont pas pareilles";
+
+  // Constants for card-manager.service.ts
+
   public static readonly BASIC_SERVICE_BASE_URL: string = "http://localhost:3000";
   public static readonly ON_ERROR_MESSAGE: string = "onError";
   public static readonly ON_SUCCESS_MESSAGE: string = "onSuccess";
-
+  public static readonly VALIDATION_FAILED: string = "Validation services failed";
 }
