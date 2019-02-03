@@ -20,22 +20,15 @@ describe("SocketService tests", () => {
   });
 
   it("should call socket.emit() when calling sendMsg()", () => {
-    spyOn(socketService["socket"], "emit").and.callThrough();
-    socketService.sendMsg<string>("string", "message bidon qui ne s'enverra nulle part");
+    spyOn(socketService["socket"], "emit");
+    socketService.sendMsg<string>("message", "message bidon qui ne s'enverra nulle part");
     expect(socketService["socket"].emit).toHaveBeenCalled();
   });
 
-  // it("should call socket.on() when calling sendMsg()", () => {
-  //   spyOn(socketService["socket"], "on");
-  //   socketService.onMsg<string>("string");
-  //   expect(socketService["socket"].on).toHaveBeenCalledWith("string", "data");
-  // });
-
-  it("should return an Observable when calling sendMsg()", () => {
-    spyOn(socketService["socket"], "on").and.callThrough().and.returnValue(Observable.of(["string"]));
-    socketService.onMsg<string>("string").subscribe( (value) => {
+  it("should return an Observable when calling onMsg()", () => {
+    spyOn(socketService["socket"], "on").and.callThrough().and.returnValue(Observable.of(["message"]));
+    socketService.onMsg<string>("message").subscribe( (value) => {
       expect(value).toBe("a string because I'm waiting an observable of a string here");
     });
-    expect(socketService["socket"].on).toHaveBeenCalled();
   });
 });
