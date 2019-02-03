@@ -5,8 +5,7 @@ import { CircleDifferences } from "./utilities/circleDifferences";
 import { ClusterCounter } from "./utilities/clusterCounter";
 import { ImageRequirements } from "./utilities/imageRequirements";
 import { ImagesDifference } from "./utilities/imagesDifference";
-
-const CIRCLE_RADIUS: number = 3;
+import { Constants } from "../../constants";
 
 @injectable()
 export class DifferenceCheckerService {
@@ -33,7 +32,7 @@ export class DifferenceCheckerService {
         if (this.imageHasNotDimensionsNeeded(this.splittedOriginal) ||
             this.imageHasNotDimensionsNeeded(this.splittedDifferent)){
 
-            return this.sendErrorMessage("Les images n'ont pas les bonnes dimensions");
+            return this.sendErrorMessage(Constants.ERROR_IMAGES_DIMENSIONS);
         }
 
         if (numberOfDifferences === requirements.requiredNbDiff) {
@@ -44,7 +43,7 @@ export class DifferenceCheckerService {
 
         } else {
 
-            return this.sendErrorMessage("Les images ne contiennent pas 7 erreures");
+            return this.sendErrorMessage(Constants.ERROR_MISSING_DIFFERENCES);
         }
     }
 
@@ -66,7 +65,7 @@ export class DifferenceCheckerService {
     }
 
     private circleDifference(differencesArray: number[], width: number): number[] {
-        const circleDifferences: CircleDifferences = new CircleDifferences( differencesArray, width, CIRCLE_RADIUS);
+        const circleDifferences: CircleDifferences = new CircleDifferences( differencesArray, width, Constants.CIRCLE_RADIUS);
 
         return circleDifferences.circleAllDifferences();
     }
@@ -88,8 +87,8 @@ export class DifferenceCheckerService {
         const imageWidht: Buffer = this.extractWidth(splittedBuffer[0]);
         const imageHeight: Buffer = this.extractHeight(splittedBuffer[0]);
 
-        const requiredWidth: Buffer = Buffer.from("80020000", "hex");
-        const requiredHeight: Buffer = Buffer.from("e0010000", "hex");
+        const requiredWidth: Buffer = Buffer.from(Constants.REQUIRED_WIDTH, Constants.BUFFER_FORMAT);
+        const requiredHeight: Buffer = Buffer.from(Constants.REQUIRED_HEIGTH, Constants.BUFFER_FORMAT);
 
         let isEqual: boolean = true;
 
@@ -104,11 +103,11 @@ export class DifferenceCheckerService {
     }
 
     private extractWidth(buffer: Buffer): Buffer {
-        return buffer.slice(18, 22);
+        return buffer.slice(Constants.BUFFER_START_DIMENSION, Constants.BUFFER_MIDDLE_DIMENSION);
     }
 
     private extractHeight(buffer: Buffer): Buffer {
-        return buffer.slice(22, 26);
+        return buffer.slice(Constants.BUFFER_MIDDLE_DIMENSION, Constants.BUFFER_END_DIMENSION);
     }
 
 }
