@@ -1,8 +1,10 @@
 import { expect } from "chai";
-import * as fs from "fs"
+import * as fs from "fs";
 import * as path from "path";
 import "reflect-metadata";
 import { BufferManager } from "../utilities/bufferManager";
+
+// tslint:disable:no-magic-numbers
 
 let bufferManager: BufferManager;
 
@@ -41,6 +43,5 @@ describe("BufferManager tests", () => {
         expect(result).instanceOf(Buffer);
 
         done();
-});
-
+    });
 });

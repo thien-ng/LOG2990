@@ -69,9 +69,8 @@ export class CardManagerService {
         await axios.post(Constants.BASIC_SERVICE_BASE_URL + "/api/differenceChecker/validate", requirements)
         .then((response: Axios.AxiosResponse< Buffer | Message>) => {
             returnValue = this.handlePostResponse(response, cardTitle);
-        }).catch((err: Error) => {
-            return err.message;
-        });
+            },
+        );
 
         return returnValue;
     }
