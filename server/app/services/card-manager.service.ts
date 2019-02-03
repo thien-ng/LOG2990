@@ -60,17 +60,22 @@ export class CardManagerService {
                                                     originalImage: original,
                                                     modifiedImage: modified,
                                                 };
-
         let returnValue: Message = {
             title: "onError",
             body: "Validation services failed",
         };
-
-        await axios.post(Constants.BASIC_SERVICE_BASE_URL + "/api/differenceChecker/validate", requirements)
-        .then((response: Axios.AxiosResponse< Buffer | Message>) => {
-            returnValue = this.handlePostResponse(response, cardTitle);
-            },
-        );
+        try {
+            await axios.post(Constants.BASIC_SERVICE_BASE_URL + "/api/differenceChecker/validate", requirements)
+            .then((response: Axios.AxiosResponse< Buffer | Message>) => {
+                returnValue = this.handlePostResponse(response, cardTitle);
+                },
+            );
+        } catch (error) {
+            return {
+                title: "onError",
+                body: error.message,
+            };
+        }
 
         return returnValue;
     }

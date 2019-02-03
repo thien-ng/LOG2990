@@ -28,9 +28,9 @@ export class DifferenceCheckerService {
         } catch (error) {
             return this.sendErrorMessage(error.message);
         }
-        
+
         if (this.imageHasNotDimensionsNeeded(this.splittedOriginal) ||
-            this.imageHasNotDimensionsNeeded(this.splittedDifferent)){
+            this.imageHasNotDimensionsNeeded(this.splittedDifferent)) {
 
             return this.sendErrorMessage(Constants.ERROR_IMAGES_DIMENSIONS);
         }
@@ -92,9 +92,9 @@ export class DifferenceCheckerService {
 
         let isEqual: boolean = true;
 
-        for (let i: number = 0; i < imageWidht.length; i++){
-            if(imageWidht[i] !== requiredWidth[i] ||
-               imageHeight[i] !== requiredHeight[i]){
+        for (let i: number = 0; i < imageWidht.length; i++) {
+            if (imageWidht[i] !== requiredWidth[i] ||
+               imageHeight[i] !== requiredHeight[i]) {
                    isEqual = false;
                }
         }

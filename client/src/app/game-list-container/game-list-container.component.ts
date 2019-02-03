@@ -43,7 +43,7 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
     });
     this.cardManagerService.cardCreatedObservable
     .subscribe((update: boolean) => {
-      if (update === true) {
+      if (update) {
         this.getCards();
       }
     });
