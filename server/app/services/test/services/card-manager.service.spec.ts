@@ -6,7 +6,7 @@ import { expect } from "chai";
 // import * as fs from "fs";
 // import * as path from "path";
 import { Constants } from "../../../../../client/src/app/constants";
-import { GameMode, ICard } from "../../../../../common/communication/iCard";
+import { DefaultCard, GameMode, ICard } from "../../../../../common/communication/iCard";
 import { ICardLists } from "../../../../../common/communication/iCardLists";
 import { CardManagerService } from "../../../services/card-manager.service";
 import { HighscoreService } from "../../highscore.service";
@@ -63,8 +63,8 @@ describe("Card-manager tests", () => {
         gameImageUrl: FAKE_PATH + "/poly.jpg",
         gamemode: GameMode.free,
     };
-    const emptyCards: ICardLists = {
-        list2D: [],
+    const cards: ICardLists = {
+        list2D: [DefaultCard],
         list3D: [],
     };
 
@@ -74,7 +74,7 @@ describe("Card-manager tests", () => {
     });
 
     it("should return the list of all cards", () => {
-        expect(cardManagerService.getCards()).deep.equal(emptyCards);
+        expect(cardManagerService.getCards()).deep.equal(cards);
     });
     it("should return true when adding a new 2D card", () => {
         expect(cardManagerService.addCard2D(c1)).to.equal(true);
@@ -110,6 +110,6 @@ describe("Card-manager tests", () => {
     });
     it("corresponding highscore to the gameID should exist", () => {
         cardManagerService.addCard2D(c1);
-        expect(highscoreService.findHighScoreByID(cardManagerService.getCards().list2D[0].gameID)).to.be.equal(0);
+        expect(highscoreService.findHighScoreByID(1)).to.be.equal(1);
     });
 });
