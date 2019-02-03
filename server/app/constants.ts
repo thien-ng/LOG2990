@@ -16,7 +16,7 @@ export class Constants {
   public static readonly BUFFER_TYPE: string = "Buffer";
 
   // Constants for difference-checker.service.ts
-  public static readonly ERROR_IMAGES_DIMENSIONS: string = "Les images n'ont pas les bonnes dimensions";
+  public static readonly ERROR_IMAGES_DIMENSIONS: string = "Les images n'ont pas les dimensions attendues (640x480)";
   public static readonly ERROR_MISSING_DIFFERENCES: string = "Les images ne contiennent pas 7 differences";
   public static readonly CIRCLE_RADIUS: number = 3;
   public static readonly REQUIRED_WIDTH: string = "80020000";

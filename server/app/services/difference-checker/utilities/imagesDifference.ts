@@ -8,7 +8,7 @@ export class ImagesDifference {
     private readonly VALUE_NEXT_PIXEL: number = 3;
     private readonly VALUE_DIFFERENCE: number = 1;
     private readonly VALUE_EQUAL: number = 0;
-    private readonly ERROR_MESSAGE: string = "Taille des images ne sont pas pareilles";
+    private readonly ERROR_MESSAGE: string = "Les images ne sont pas de la même taille";
     private differenceImage: number[];
 
     public constructor() {

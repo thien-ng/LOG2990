@@ -100,7 +100,7 @@ export class CardManagerService {
 
     private createBMP(buffer: Buffer, cardId: number): number {
 
-        const path: string = IMAGES_PATH + "/generated/" + cardId + "_generated.bmp";
+        const path: string = IMAGES_PATH + "/" + cardId + "_generated.bmp";
 
         this.stockImage(path, buffer);
 
@@ -200,7 +200,7 @@ export class CardManagerService {
     public removeCard2D(id: number): string {
         const index: number = this.findCard2D(id);
         const paths: string[] = [
-                                    IMAGES_PATH + "/generated/" + id + "_generated.bmp",
+                                    IMAGES_PATH + "/" + id + "_generated.bmp",
                                     IMAGES_PATH + "/" + id + "_original.bmp",
                                     IMAGES_PATH + "/" + id + "_modified.bmp",
                                 ];
