@@ -50,8 +50,8 @@ export class CardManagerService {
                                                     modifiedImage: modified,
                                                 };
         let returnValue: Message = {
-            title: "onError",
-            body: "Validation services failed",
+            title: Constants.ON_ERROR_MESSAGE,
+            body: Constants.VALIDATION_FAILED,
         };
         try {
             await axios.post(Constants.BASIC_SERVICE_BASE_URL + "/api/differenceChecker/validate", requirements)
@@ -61,7 +61,7 @@ export class CardManagerService {
             );
         } catch (error) {
             return {
-                title: "onError",
+                title: Constants.ON_ERROR_MESSAGE,
                 body: error.message,
             };
         }
@@ -92,7 +92,7 @@ export class CardManagerService {
             });
 
             return {
-                title: "onSuccess",
+                title: Constants.ON_SUCCESS_MESSAGE,
                 body: "Card " + cardId + " created",
             };
         }
