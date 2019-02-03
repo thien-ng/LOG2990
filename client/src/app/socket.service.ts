@@ -17,7 +17,9 @@ export class SocketService {
   // T is the message type you receive
   public onMsg<T>(msgType: string): Observable<T> {
     return new Observable<T> ((observer) => {
-      this.socket.on(msgType, (data: T) => observer.next(data));
+      this.socket.on(msgType, (data: T) => {
+        observer.next(data)
+      });
     });
   }
 }

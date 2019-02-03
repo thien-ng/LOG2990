@@ -3,7 +3,7 @@ import { Observable } from "rxjs";
 import "rxjs/add/observable/of";
 import { SocketService } from "./socket.service";
 
-describe("SocketService", () => {
+fdescribe("SocketService", () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it("should be created", () => {
@@ -12,7 +12,7 @@ describe("SocketService", () => {
   });
 });
 
-describe("SocketService tests", () => {
+fdescribe("SocketService tests", () => {
   let socketService: SocketService;
 
   beforeEach(() => {
@@ -21,14 +21,14 @@ describe("SocketService tests", () => {
 
   it("should call socket.emit() when calling sendMsg()", () => {
     spyOn(socketService["socket"], "emit");
-    socketService.sendMsg<string>("message", "message bidon qui ne s'enverra nulle part");
+    socketService.sendMsg<string>("message", "message body");
     expect(socketService["socket"].emit).toHaveBeenCalled();
   });
 
   it("should return an Observable when calling onMsg()", () => {
     spyOn(socketService["socket"], "on").and.callThrough().and.returnValue(Observable.of(["message"]));
     socketService.onMsg<string>("message").subscribe( (value) => {
-      expect(value).toBe("a string because I'm waiting an observable of a string here");
+      expect(value).toBe("message");
     });
   });
 });
