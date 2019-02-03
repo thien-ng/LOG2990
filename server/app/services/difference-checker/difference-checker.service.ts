@@ -13,6 +13,7 @@ export class DifferenceCheckerService {
 
     private bufferManager: BufferManager;
     private splittedOriginal: Buffer[];
+    private splittedDifferent: Buffer[];
     private circledDifferences: number[];
 
     public constructor() {
@@ -26,8 +27,15 @@ export class DifferenceCheckerService {
         try {
 
             numberOfDifferences = this.calculateDifferences(requirements);
+
         } catch (error) {
             return this.sendErrorMessage(error.message);
+        }
+        
+        if (this.imageHasNotDimensionsNeeded(this.splittedOriginal) ||
+            this.imageHasNotDimensionsNeeded(this.splittedDifferent)){
+
+            return this.sendErrorMessage("Les images n'ont pas les bonnes dimensions");
         }
 
         if (numberOfDifferences === requirements.requiredNbDiff) {
@@ -45,9 +53,9 @@ export class DifferenceCheckerService {
     private calculateDifferences(requirements: ImageRequirements): number {
 
         this.splittedOriginal = this.bufferManager.splitHeader(requirements.originalImage);
-        const splittedDifferent: Buffer[] = this.bufferManager.splitHeader(requirements.modifiedImage);
+        this.splittedDifferent = this.bufferManager.splitHeader(requirements.modifiedImage);
 
-        const differencesFound: number[] = this.findDifference(this.splittedOriginal[1], splittedDifferent[1]);
+        const differencesFound: number[] = this.findDifference(this.splittedOriginal[1], this.splittedDifferent[1]);
         this.circledDifferences = this.circleDifference(differencesFound, requirements.requiredWidth);
 
         return this.countAllClusters(this.circledDifferences, requirements.requiredWidth);
@@ -76,6 +84,33 @@ export class DifferenceCheckerService {
             title: "onError",
             body: message,
         } as Message
+    }
+
+    private imageHasNotDimensionsNeeded(splittedBuffer: Buffer[]): boolean {
+        const imageWidht: Buffer = this.extractWidth(splittedBuffer[0]);
+        const imageHeight: Buffer = this.extractHeight(splittedBuffer[0]);
+
+        const requiredWidth: Buffer = Buffer.from("80020000", "hex");
+        const requiredHeight: Buffer = Buffer.from("e0010000", "hex");
+
+        let isEqual: boolean = true;
+
+        for (let i: number = 0; i < imageWidht.length; i++){
+            if(imageWidht[i] !== requiredWidth[i] ||
+               imageHeight[i] !== requiredHeight[i]){
+                   isEqual = false;
+               }
+        }
+
+        return !isEqual;
+    }
+
+    private extractWidth(buffer: Buffer): Buffer {
+        return buffer.slice(18, 22);
+    }
+
+    private extractHeight(buffer: Buffer): Buffer {
+        return buffer.slice(22, 26);
     }
 
 }

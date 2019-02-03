@@ -14,6 +14,8 @@ export class BufferManager {
         });
 
         const header: Buffer = dataBuffer.slice(0, HEADER_SIZE);
+        // console.log(header.slice(18,22));
+        // console.log(header.slice(22,26));
         const image: Buffer = dataBuffer.slice(HEADER_SIZE, input.length);
 
         const buffers: Buffer[] = [];
