@@ -9,6 +9,7 @@ import { map } from "rxjs/operators";
 import { AdminToggleService } from "../admin-toggle.service";
 import { Constants } from "../constants";
 import { CreateSimpleGameComponent } from "../create-simple-game/create-simple-game.component";
+import { LoginValidatorService } from "../login/login-validator.service";
 
 @Component({
   selector: "app-main-nav",
@@ -36,11 +37,12 @@ export class MainNavComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     public adminService: AdminToggleService,
     public router: Router,
+    private loginService: LoginValidatorService,
   ) {}
 
   public isAdminMode: boolean;
   public LOGIN_PATH: string = Constants.LOGIN_REDIRECT;
-  public CLIENT: string = "client";
+  public CLIENT: string | null;
   public TEXT_ADMIN: string = "Vue Administration";
   public TEXT_BOUTON_2D: string = "Créer jeu simple";
   public TEXT_BOUTON_3D: string = "Créer jeu 3D";
@@ -66,6 +68,10 @@ export class MainNavComponent implements OnInit, OnDestroy {
       .subscribe((activeState: boolean) => {
         this.isAdminMode = activeState;
     });
+    this.loginService.getUserNameListener().subscribe(() => {
+      this.CLIENT = localStorage.getItem(Constants.USERNAME_KEY);
+    });
+    this.CLIENT = localStorage.getItem(Constants.USERNAME_KEY);
   }
 
   public ngOnDestroy(): void {
