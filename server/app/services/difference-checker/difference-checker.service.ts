@@ -1,10 +1,10 @@
 import { injectable } from "inversify";
+import { Message } from "../../../../common/communication/message";
 import { BufferManager } from "./utilities/bufferManager";
 import { CircleDifferences } from "./utilities/circleDifferences";
 import { ClusterCounter } from "./utilities/clusterCounter";
 import { ImageRequirements } from "./utilities/imageRequirements";
 import { ImagesDifference } from "./utilities/imagesDifference";
-import { Message } from "../../../../common/communication/message";
 
 const CIRCLE_RADIUS: number = 3;
 
@@ -24,8 +24,9 @@ export class DifferenceCheckerService {
         let numberOfDifferences: number = 0;
 
         try {
-
             numberOfDifferences = this.calculateDifferences(requirements);
+            console.log(numberOfDifferences);
+            
         } catch (error) {
             return this.sendErrorMessage(error.message);
         }
@@ -75,7 +76,7 @@ export class DifferenceCheckerService {
         return {
             title: "onError",
             body: message,
-        } as Message
+        } as Message;
     }
 
 }
