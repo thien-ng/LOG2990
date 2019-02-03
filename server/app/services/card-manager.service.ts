@@ -50,7 +50,7 @@ export class CardManagerService {
                                                     modifiedImage: modified,
                                                 };
         let returnValue: Message = {
-            title: "onError",
+            title: Constants.ON_ERROR_MESSAGE,
             body: "Validation services failed",
         };
         try {
@@ -61,7 +61,7 @@ export class CardManagerService {
             );
         } catch (error) {
             return {
-                title: "onError",
+                title: Constants.ON_ERROR_MESSAGE,
                 body: error.message,
             };
         }
@@ -92,7 +92,7 @@ export class CardManagerService {
             });
 
             return {
-                title: "onSuccess",
+                title: Constants.ON_SUCCESS_MESSAGE,
                 body: "Card " + cardId + " created",
             };
         }

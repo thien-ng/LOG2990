@@ -7,6 +7,8 @@ import { CardManagerService } from "../card-manager.service";
 import { Constants } from "../constants";
 import { FileValidatorService } from "./game-validator.service";
 
+const SUBMIT_PATH: string = "/api/card/submit";
+
 @Component({
   selector: "app-create-simple-game",
   templateUrl: "./create-simple-game.component.html",
@@ -89,16 +91,16 @@ export class CreateSimpleGameComponent implements OnInit {
 
   public submit(data: NgForm): void {
     const formdata: FormData = this.createFormData(data);
-    this.http.post(Constants.BASIC_SERVICE_BASE_URL + "/api/card/submit", formdata).subscribe((response: Message) => {
+    this.http.post(Constants.BASIC_SERVICE_BASE_URL + SUBMIT_PATH, formdata).subscribe((response: Message) => {
       this.analyseResponse(response);
     });
   }
 
   private analyseResponse(response: Message): void {
-    if (response.title === "onSuccess") {
+    if (response.title === Constants.ON_SUCCESS_MESSAGE) {
       this.cardManagerService.updateCards(true);
       this.dialogRef.close();
-    } else if (response.title === "onError") {
+    } else if (response.title === Constants.ON_ERROR_MESSAGE) {
       this.openSnackBar(response.body, Constants.SNACK_ACTION);
     }
   }

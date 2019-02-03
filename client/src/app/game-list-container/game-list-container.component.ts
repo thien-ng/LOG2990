@@ -21,8 +21,6 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
   public cardsLoaded: boolean = false;
   @Input() public cardListContainer: ICardLists;
 
-  public isLisEmpty: boolean = false;
-
   public constructor(
     public gameModeservice: GameModeService,
     public cardManagerService: CardManagerService,

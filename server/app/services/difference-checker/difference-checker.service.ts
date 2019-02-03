@@ -81,7 +81,7 @@ export class DifferenceCheckerService {
 
     private sendErrorMessage(message: string): Message {
         return {
-            title: "onError",
+            title: Constants.ON_ERROR_MESSAGE,
             body: message,
         } as Message;
     }

@@ -4,6 +4,7 @@ import { expect } from "chai";
 import * as fs from "fs";
 import * as path from "path";
 import { Message } from "../../../../common/communication/message";
+import { Constants } from "../../constants";
 import { DifferenceCheckerService } from "./difference-checker.service";
 
 // tslint:disable:no-magic-numbers
@@ -36,6 +37,6 @@ describe("Differece checker service tests", () => {
                                                                                 originalImage: testImageOg,
                                                                                 modifiedImage: testImageOg,
                                                                         });
-        expect((result as Message).title).to.deep.equal("onError");
+        expect((result as Message).title).to.deep.equal(Constants.ON_ERROR_MESSAGE);
     });
 });
