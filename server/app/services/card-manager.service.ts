@@ -132,6 +132,12 @@ export class CardManagerService {
         });
     }
 
+    private deleteStoredImages(paths: string[]): void {
+        paths.forEach((path: string) => {
+            fs.unlinkSync(path);
+        });
+    }
+
     private generateId(): number {
         return this.uniqueId++;
     }
@@ -201,8 +207,14 @@ export class CardManagerService {
 
     public removeCard2D(id: number): string {
         const index: number = this.findCard2D(id);
+        const paths: string[] = [
+                                    IMAGES_PATH + "/generated/" + id + "_generated.bmp",
+                                    IMAGES_PATH + "/" + id + "_original.bmp",
+                                    IMAGES_PATH + "/" + id + "_modified.bmp",
+                                ];
         if (index !== DOESNT_EXIST) {
             this.cards.list2D.splice(index, 1);
+            this.deleteStoredImages(paths);
 
             return CARD_DELETED;
         }

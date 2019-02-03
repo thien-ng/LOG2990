@@ -51,8 +51,12 @@ export class CardManagerController {
 
         router.delete("/remove/simple/:id", async (req: Request, res: Response, next: NextFunction) => {
             const cardId: number = parseInt(req.params.id, DECIMAL);
-            const message: string = this.cardManagerService.removeCard2D(cardId);
-            res.json(message);
+            try {
+                const message: string = this.cardManagerService.removeCard2D(cardId);
+                res.json(message);
+            } catch (error) {
+                res.json(error.message);
+            }
         });
 
         router.delete("/remove/free/:id", async (req: Request, res: Response, next: NextFunction) => {
