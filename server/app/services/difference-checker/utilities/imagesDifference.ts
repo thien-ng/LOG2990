@@ -1,4 +1,5 @@
 import { injectable } from "inversify";
+import { Constants } from "../../../constants";
 
 @injectable()
 export class ImagesDifference {
@@ -8,7 +9,6 @@ export class ImagesDifference {
     private readonly VALUE_NEXT_PIXEL: number = 3;
     private readonly VALUE_DIFFERENCE: number = 1;
     private readonly VALUE_EQUAL: number = 0;
-    private readonly ERROR_MESSAGE: string = "Taille des images ne sont pas pareilles";
     private differenceImage: number[];
 
     public constructor() {
@@ -18,7 +18,7 @@ export class ImagesDifference {
     public searchDifferenceImage(originalBuffer: Buffer, differenceBuffer: Buffer): number[] {
 
         if (this.buffersNotEqualSize(originalBuffer, differenceBuffer)) {
-            throw new TypeError(this.ERROR_MESSAGE);
+            throw new TypeError(Constants.ERROR_UNEQUAL_DIMENSIONS);
         }
 
         this.findDifference(originalBuffer, differenceBuffer);
