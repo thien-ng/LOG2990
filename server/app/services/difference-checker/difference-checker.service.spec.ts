@@ -28,21 +28,21 @@ describe("Differece checker service tests", () => {
             originalImage: testImageOg,
             modifiedImage: testImageDiff,
         };
-    
+
         const result: Message | Buffer = differenceCheckerService.generateDifferenceImage(requirements);
         expect(result).instanceOf(Buffer);
     });
 
     it("Should return an error of missing 7 differences", () => {
 
-        const testImageDiff: Buffer = fs.readFileSync(path.resolve(__dirname, "../../asset/image/testBitmap/7dots.bmp"));
+        const testImageDiff1: Buffer = fs.readFileSync(path.resolve(__dirname, "../../asset/image/testBitmap/7dots.bmp"));
 
         const requirements: ImageRequirements = {
             requiredHeight: 480,
             requiredWidth: 640,
             requiredNbDiff: 7,
             originalImage: testImageOg,
-            modifiedImage: testImageDiff,
+            modifiedImage: testImageDiff1,
         };
 
         const expectedMessage: Message = {
@@ -56,7 +56,7 @@ describe("Differece checker service tests", () => {
 
     it("Should return an error of wrong image dimensions", () => {
 
-        const testImageDiff: Buffer = fs.readFileSync(path.resolve(__dirname, "../../asset/image/testBitmap/image9x9_01.bmp"));
+        const testImageDiff2: Buffer = fs.readFileSync(path.resolve(__dirname, "../../asset/image/testBitmap/image9x9_01.bmp"));
         const testImageOg2: Buffer = fs.readFileSync(path.resolve(__dirname, "../../asset/image/testBitmap/image9x9_02.bmp"));
 
         const requirements: ImageRequirements = {
@@ -64,7 +64,7 @@ describe("Differece checker service tests", () => {
             requiredWidth: 640,
             requiredNbDiff: 7,
             originalImage: testImageOg2,
-            modifiedImage: testImageDiff,
+            modifiedImage: testImageDiff2,
         };
 
         const expectedMessage: Message = {
@@ -78,14 +78,14 @@ describe("Differece checker service tests", () => {
 
     it("Should return an error of images have unequal dimensions", () => {
 
-        const testImageDiff: Buffer = fs.readFileSync(path.resolve(__dirname, "../../asset/image/testBitmap/whiteTest.bmp"));
+        const testImageDiff3: Buffer = fs.readFileSync(path.resolve(__dirname, "../../asset/image/testBitmap/whiteTest.bmp"));
 
         const requirements: ImageRequirements = {
             requiredHeight: 480,
             requiredWidth: 640,
             requiredNbDiff: 7,
             originalImage: testImageOg,
-            modifiedImage: testImageDiff,
+            modifiedImage: testImageDiff3,
         };
 
         const expectedMessage: Message = {

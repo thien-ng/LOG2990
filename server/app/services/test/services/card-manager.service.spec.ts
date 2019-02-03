@@ -85,7 +85,7 @@ describe("Card-manager tests", () => {
         cardManagerService.addCard2D(c1);
         expect(cardManagerService.removeCard2D(1)).to.equal(CARD_DELETED);
     });
-    
+
     it("should return false because the card doesnt exist", () => {
         expect(cardManagerService.removeCard2D(0)).to.equal(CARD_NOT_FOUND);
     });
