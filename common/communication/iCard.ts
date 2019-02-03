@@ -11,3 +11,12 @@ export interface ICard {
     avatarImageUrl: string;
     gameImageUrl: string;
   }
+
+export const DefaultCard: ICard = {
+  gameID: 1,
+  gamemode: GameMode.simple,
+  title: "Stewie deathray",
+  subtitle: "Default Image",
+  avatarImageUrl: "http://localhost:3000/image/default.gif",
+  gameImageUrl: "http://localhost:3000/image/default.gif",
+}

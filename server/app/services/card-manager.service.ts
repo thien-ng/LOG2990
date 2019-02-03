@@ -33,22 +33,7 @@ export class CardManagerService {
     private uniqueId: number = 1000;
 
     public constructor(@inject(Types.HighscoreService) private highscoreService: HighscoreService) {
-        this.addCard2D({
-            gameID: 1,
-            title: "Default 2D",
-            subtitle: "default 2D",
-            avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image/elon.jpg",
-            gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image/elon.jpg",
-            gamemode: GameMode.simple,
-        });
-        this.addCard3D({
-            gameID: 2,
-            title: "Default 3D",
-            subtitle: "default 3D",
-            avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image/moutain.jpg",
-            gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image/moutain.jpg",
-            gamemode: GameMode.free,
-        });
+        // Default constructor
     }
 
     public async cardCreationRoutine(original: Buffer, modified: Buffer, cardTitle: string): Promise<Message> {
