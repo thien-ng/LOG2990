@@ -3,8 +3,8 @@ import { Injectable } from "@angular/core";
 
 import { BehaviorSubject, Observable } from "rxjs";
 import { GameMode } from "../../../common/communication/iCard";
-import { Constants } from "./constants";
 import { ICardLists } from "../../../common/communication/iCardLists";
+import { Constants } from "./constants";
 
 @Injectable({
   providedIn: "root",
