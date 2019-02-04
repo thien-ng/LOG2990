@@ -83,8 +83,8 @@ export class CreateSimpleGameComponent implements OnInit {
   private createFormData(data: NgForm): FormData {
     const formdata: FormData = new FormData();
     formdata.append("name", data.value.gameName);
-    formdata.append("original", this.selectedFiles[this.ORIGINAL_INDEX]);
-    formdata.append("modified", this.selectedFiles[this.MODIFIED_INDEX]);
+    formdata.append("originalImage", this.selectedFiles[this.ORIGINAL_INDEX]);
+    formdata.append("modifiedImage", this.selectedFiles[this.MODIFIED_INDEX]);
 
     return formdata;
   }
