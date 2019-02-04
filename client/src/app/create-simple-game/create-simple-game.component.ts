@@ -3,7 +3,7 @@ import { Component } from "@angular/core";
 import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
 import { MatDialogRef, MatSnackBar } from "@angular/material";
 import { Message } from "../../../../common/communication/message";
-import { CardManagerService } from "../card-manager.service";
+import { CardManagerService } from "../card/card-manager.service";
 import { Constants } from "../constants";
 import { FileValidatorService } from "./game-validator.service";
 

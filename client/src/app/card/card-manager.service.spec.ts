@@ -1,11 +1,10 @@
+import { HttpClient } from "@angular/common/http";
 import { TestBed } from "@angular/core/testing";
 import "rxjs/add/observable/of";
-
-import { HttpClient } from "@angular/common/http";
 import { mock } from "ts-mockito";
-import { GameMode } from "../../../common/communication/iCard";
+import { GameMode } from "../../../../common/communication/iCard";
+import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { CardManagerService } from "./card-manager.service";
-import { TestingImportsModule } from "./testing-imports/testing-imports.module";
 
 describe("CardManager.ServiceService", () => {
   beforeEach(() => TestBed.configureTestingModule({

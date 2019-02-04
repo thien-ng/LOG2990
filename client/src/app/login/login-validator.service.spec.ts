@@ -7,8 +7,8 @@ import { Observable } from "rxjs";
 import "rxjs/add/observable/of";
 import "rxjs/add/operator/toPromise";
 import { mock } from "ts-mockito";
-import { SocketService } from "../socket.service";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
+import { SocketService } from "../websocket/socket.service";
 import { LoginValidatorService } from "./login-validator.service";
 
 // tslint:disable:no-any no-floating-promises

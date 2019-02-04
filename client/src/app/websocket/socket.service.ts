@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import * as io from "socket.io-client";
-import { Constants } from "./constants";
+import { Constants } from "../constants";
 
 @Injectable({
   providedIn: "root",
