@@ -10,7 +10,7 @@ import { GameModeService } from "./game-mode.service";
 let gameModeService: GameModeService;
 let router: Router;
 
-fdescribe("GameModeService", () => {
+describe("GameModeService", () => {
   beforeEach(() => TestBed.configureTestingModule({
     providers: [GameModeService],
     imports: [
