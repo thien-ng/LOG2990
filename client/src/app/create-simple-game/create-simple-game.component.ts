@@ -56,6 +56,7 @@ export class CreateSimpleGameComponent {
   public hasFormControlErrors(): boolean {
     const hasErrorForm: Boolean = this.formControl.controls.gameName.errors == null;
     const isImageBmp: Boolean = this.IS_IMAGE_BMP[this.ORIGINAL_INDEX] && this.IS_IMAGE_BMP[this.MODIFIED_INDEX];
+
     return !(hasErrorForm && isImageBmp);
   }
 
