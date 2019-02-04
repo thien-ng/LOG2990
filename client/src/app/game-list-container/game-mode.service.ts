@@ -35,8 +35,8 @@ export class GameModeService {
         this.index = INDEX_2D;
         break;
 
-    // default for lint
       default:
+          // default for lint
         break;
     }
   }

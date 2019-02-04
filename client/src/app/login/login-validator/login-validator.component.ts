@@ -19,19 +19,19 @@ export class LoginValidatorComponent {
   public readonly ERROR_REQUIRED: string = "Nom d'utilisateur requis";
   public readonly BUTTON_SUBMIT: string = "Soumettre";
 
-  public constructor(@Inject(
-    LoginValidatorService)public loginValidatorService: LoginValidatorService,
-                     private snackbar: MatSnackBar) {}
+  public constructor(
+    @Inject(LoginValidatorService) public loginValidatorService: LoginValidatorService,
+    private snackbar: MatSnackBar) {}
 
   public async addUsername(): Promise<void> {
-      const isValid: boolean = await this.loginValidatorService.addUsername();
+    const isValid: boolean = await this.loginValidatorService.addUsername();
 
-      if (isValid) {
-        this.displayNameIsUnique();
-      } else if (this.loginValidatorService.usernameFormControl.errors === null) {
-        this.displayNameNotUnique();
-      }
+    if (isValid) {
+      this.displayNameIsUnique();
+    } else if (this.loginValidatorService.usernameFormControl.errors === null) {
+      this.displayNameNotUnique();
     }
+  }
 
   private displaySnackBar(message: string, closeStatement: string): void {
       this.snackbar.open(
