@@ -44,10 +44,10 @@ export class HighscoreService {
         const messageHighscore: [string, string, string] = ["", "", ""];
         let i: number = 0;
         times.forEach((element: number) => {
-                const minutes: string = Math.floor(element / SECONDS_IN_MINUTES).toString();
-                const seconds: string = (element - parseFloat(minutes) * SECONDS_IN_MINUTES).toString();
-                messageHighscore[i++] = minutes + ":" + this.formatZeroDecimal(parseFloat(seconds)) + seconds;
-            });
+            const minutes: string = Math.floor(element / SECONDS_IN_MINUTES).toString();
+            const seconds: string = (element - parseFloat(minutes) * SECONDS_IN_MINUTES).toString();
+            messageHighscore[i++] = minutes + ":" + this.formatZeroDecimal(parseFloat(seconds)) + seconds;
+        });
 
         return messageHighscore;
     }
@@ -67,14 +67,12 @@ export class HighscoreService {
     }
 
     public findHighScoreByID(id: number): number {
-            let index: number = DOESNT_EXIST;
-            this.highscores.forEach((highscore: Highscore) => {
-                    if (highscore.id === id) {
-                        index = this.highscores.indexOf(highscore);
-                    }
-            });
+        let index: number = DOESNT_EXIST;
+        this.highscores.forEach((highscore: Highscore) => {
+            index = highscore.id === id ? this.highscores.indexOf(highscore) : DOESNT_EXIST;
+        });
 
-            return index;
+        return index;
     }
 
     public randomTime(min: number, max: number): number {
@@ -84,9 +82,7 @@ export class HighscoreService {
     public getHighscoreById(id: number): Highscore | undefined {
         let score: Highscore | undefined;
         this.highscores.forEach((element: Highscore) => {
-            if (element.id === id) {
-                score = element;
-            }
+            score = element.id === id ? element : undefined;
         });
 
         return score;
@@ -118,7 +114,6 @@ export class HighscoreService {
                 hasBeenReplaced = true;
             }
         });
-
     }
 
     // Methods for testing
