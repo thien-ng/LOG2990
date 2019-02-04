@@ -9,7 +9,7 @@ export class ImageManagerService {
 
     public createBMP(buffer: Buffer, cardId: number): number {
 
-        const path: string = IMAGES_PATH + "/" + cardId + Constants.ORIGINAL_FILE;
+        const path: string = IMAGES_PATH + "/" + cardId + Constants.GENERATED_FILE;
 
         this.stockImage(path, buffer);
 

@@ -99,7 +99,7 @@ export class DifferenceCheckerService {
             if (imageWidht[i] !== requiredWidth[i] ||
                imageHeight[i] !== requiredHeight[i]) {
                    isEqual = false;
-               }
+            }
         }
 
         return !isEqual;
