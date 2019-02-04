@@ -31,6 +31,11 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
     }
 
   public ngOnInit(): void {
+    this.initSubscription();
+  }
+
+  public initSubscription(): void {
+
     this.tabIndex = this.gameModeservice.getIndex();
     if (this.router.url === Constants.ADMIN_REDIRECT) {
       this.adminService.adminTrue();
