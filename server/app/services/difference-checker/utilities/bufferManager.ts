@@ -30,7 +30,9 @@ export class BufferManager {
         const jsonBuffer: string = JSON.stringify(input);
 
         return JSON.parse( jsonBuffer, (key: number, value: JSONBuffer) => {
-            return value && value.type === Constants.BUFFER_TYPE ? Buffer.from(value.data) : value;
+            const isValidType: boolean = value.type === Constants.BUFFER_TYPE;
+
+            return value && isValidType ? Buffer.from(value.data) : value;
         });
     }
 

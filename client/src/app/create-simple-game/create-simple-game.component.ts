@@ -3,7 +3,7 @@ import { Component } from "@angular/core";
 import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
 import { MatDialogRef, MatSnackBar } from "@angular/material";
 import { Message } from "../../../../common/communication/message";
-import { CardManagerService } from "../card-manager.service";
+import { CardManagerService } from "../card/card-manager.service";
 import { Constants } from "../constants";
 import { FileValidatorService } from "./game-validator.service";
 
@@ -54,8 +54,10 @@ export class CreateSimpleGameComponent {
     }
 
   public hasFormControlErrors(): boolean {
-    return !( this.formControl.controls.gameName.errors == null &&
-              this.IS_IMAGE_BMP[this.ORIGINAL_INDEX] && this.IS_IMAGE_BMP[this.MODIFIED_INDEX]);
+    const hasErrorForm: Boolean = this.formControl.controls.gameName.errors == null;
+    const isImageBmp: Boolean = this.IS_IMAGE_BMP[this.ORIGINAL_INDEX] && this.IS_IMAGE_BMP[this.MODIFIED_INDEX];
+
+    return !(hasErrorForm && isImageBmp);
   }
 
   public hasErrorOfType(errorType: string): boolean {

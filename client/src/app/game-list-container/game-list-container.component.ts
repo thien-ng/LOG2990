@@ -1,11 +1,10 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-
 import { Subscription } from "rxjs";
 import { ICardLists } from "../../../../common/communication/iCardLists";
-import { AdminToggleService } from "../admin-toggle.service";
-import { CardManagerService } from "../card-manager.service";
+import { CardManagerService } from "../card/card-manager.service";
 import { Constants } from "../constants";
+import { AdminToggleService } from "../main-nav/admin-toggle.service";
 import { GameModeService } from "./game-mode.service";
 
 @Component({
@@ -31,6 +30,11 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
     }
 
   public ngOnInit(): void {
+    this.initSubscription();
+  }
+
+  public initSubscription(): void {
+
     this.tabIndex = this.gameModeservice.getIndex();
     if (this.router.url === Constants.ADMIN_REDIRECT) {
       this.adminService.adminTrue();

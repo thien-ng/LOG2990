@@ -2,10 +2,10 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import { ICard } from "../../../../common/communication/iCard";
-import { CardManagerService } from "../card-manager.service";
 import { Constants } from "../constants";
 import { GameModeService } from "../game-list-container/game-mode.service";
 import { HighscoreService } from "../highscore-display/highscore.service";
+import { CardManagerService } from "./card-manager.service";
 
 @Component({
   selector: "app-card",

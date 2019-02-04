@@ -8,7 +8,7 @@ import { Message } from "../../../../common/communication/message";
 
 import { Observable, Subject } from "rxjs";
 import { Constants } from "../constants";
-import { SocketService } from "../socket.service";
+import { SocketService } from "../websocket/socket.service";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   public isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
