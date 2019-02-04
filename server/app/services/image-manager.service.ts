@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import { Constants } from "../constants";
 
 const IMAGES_PATH: string = "./app/asset/image";
 const FILE_GENERATION_ERROR: string = "error while generating file";
@@ -8,7 +9,7 @@ export class ImageManagerService {
 
     public createBMP(buffer: Buffer, cardId: number): number {
 
-        const path: string = IMAGES_PATH + "/" + cardId + "_generated.bmp";
+        const path: string = IMAGES_PATH + "/" + cardId + Constants.ORIGINAL_FILE;
 
         this.stockImage(path, buffer);
 

@@ -1,7 +1,6 @@
 import "reflect-metadata";
 
-import * as chai from "chai";
-import * as spies from "chai-spies";
+import { expect } from "chai";
 import * as fs from "fs";
 import * as path from "path";
 import { Constants } from "../../../../../client/src/app/constants";
@@ -12,7 +11,6 @@ import { CardManagerService } from "../../../services/card-manager.service";
 import { HighscoreService } from "../../highscore.service";
 
 // tslint:disable:no-magic-numbers
-// tslint:disable:no-any
 
 const CARD_DELETED: string = "Carte supprimée";
 const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
@@ -21,8 +19,6 @@ let cardManagerService: CardManagerService;
 let highscoreService: HighscoreService;
 
 describe("Card-manager tests", () => {
-
-    chai.use(spies);
 
     const testImageOg: Buffer = fs.readFileSync(path.resolve(__dirname, "../../../asset/image/testBitmap/imagetestOg.bmp"));
 
@@ -52,7 +48,6 @@ describe("Card-manager tests", () => {
         gameImageUrl: FAKE_PATH + "/poly.jpg",
         gamemode: GameMode.free,
     };
-
     const cards: ICardLists = {
         list2D: [DefaultCard2D],
         list3D: [DefaultCard3D],
@@ -64,53 +59,53 @@ describe("Card-manager tests", () => {
     });
 
     it("should return the list of all cards", () => {
-        chai.expect(cardManagerService.getCards()).deep.equal(cards);
+        expect(cardManagerService.getCards()).deep.equal(cards);
     });
 
     it("should return true when adding a new 2D card", () => {
-        chai.expect(cardManagerService.addCard2D(c1)).to.equal(true);
+        expect(cardManagerService.addCard2D(c1)).to.equal(true);
     });
 
     it("should return true when adding a new 3D card", () => {
-        chai.expect(cardManagerService.addCard3D(c2)).to.equal(true);
+        expect(cardManagerService.addCard3D(c2)).to.equal(true);
     });
 
     it("should return new length of 3D list after adding a card", () => {
         cardManagerService.addCard3D(c2);
         cardManagerService.addCard3D(c3);
-        chai.expect(cardManagerService.getCards().list3D.length).to.equal(3);
+        expect(cardManagerService.getCards().list3D.length).to.equal(3);
     });
 
     it("should return the newly added card", () => {
         cardManagerService.addCard3D(c3);
-        chai.expect(cardManagerService.getCards().list3D[0]).deep.equal(c3);
+        expect(cardManagerService.getCards().list3D[0]).deep.equal(c3);
     });
 
     it("should remove the newly added card and return a success message", () => {
         cardManagerService.addCard2D(c1);
-        chai.expect(cardManagerService.removeCard2D(1)).to.equal(CARD_DELETED);
+        expect(cardManagerService.removeCard2D(1)).to.equal(CARD_DELETED);
     });
 
     it("should return false because the card doesnt exist", () => {
-        chai.expect(cardManagerService.removeCard2D(0)).to.equal(CARD_NOT_FOUND);
+        expect(cardManagerService.removeCard2D(0)).to.equal(CARD_NOT_FOUND);
     });
 
     it("should remove the newly added card and return true", () => {
         cardManagerService.addCard3D(c3);
-        chai.expect(cardManagerService.removeCard3D(3)).to.equal(CARD_DELETED);
+        expect(cardManagerService.removeCard3D(3)).to.equal(CARD_DELETED);
     });
 
     it("should return false because the card doesnt exist", () => {
-        chai.expect(cardManagerService.removeCard3D(0)).to.equal(CARD_NOT_FOUND);
+        expect(cardManagerService.removeCard3D(0)).to.equal(CARD_NOT_FOUND);
     });
 
     it("should return undefined because there is no more card there", () => {
-        chai.expect(cardManagerService.getCards().list3D[1]).deep.equal(undefined);
+        expect(cardManagerService.getCards().list3D[1]).deep.equal(undefined);
     });
 
     it("corresponding highscore to the gameID should exist", () => {
         cardManagerService.addCard2D(c1);
-        chai.expect(highscoreService.findHighScoreByID(1)).to.be.equal(2);
+        expect(highscoreService.findHighScoreByID(1)).to.be.equal(2);
     });
 
     it("Should return an error message", async () => {
@@ -119,7 +114,7 @@ describe("Card-manager tests", () => {
         .then((message: Message) => {
             messageTitle = message.title;
         });
-        chai.expect(messageTitle).to.equal("onError");
+        expect(messageTitle).to.equal("onError");
     });
 
 });

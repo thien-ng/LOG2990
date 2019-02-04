@@ -28,6 +28,9 @@ export class Constants {
 
   // Constants for card-manager.service.ts
 
+  public static readonly ORIGINAL_FILE: string = "_original.bmp";
+  public static readonly MODIFIED_FILE: string = "_modified.bmp";
+  public static readonly GENERATED_FILE: string = "_generated.bmp";
   public static readonly BASIC_SERVICE_BASE_URL: string = "http://localhost:3000";
   public static readonly ON_ERROR_MESSAGE: string = "onError";
   public static readonly ON_SUCCESS_MESSAGE: string = "onSuccess";

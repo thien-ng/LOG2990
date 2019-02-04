@@ -76,8 +76,8 @@ export class CardManagerService {
             return result;
         } else {
             const cardId: number = this.generateId();
-            const originalImagePath: string = "/" + cardId + "_original.bmp";
-            const modifiedImagePath: string = "/" + cardId + "_modified.bmp";
+            const originalImagePath: string = "/" + cardId + Constants.ORIGINAL_FILE;
+            const modifiedImagePath: string = "/" + cardId + Constants.MODIFIED_FILE;
             this.imageManagerService.stockImage(IMAGES_PATH + originalImagePath, this.originalImageRequest);
             this.imageManagerService.stockImage(IMAGES_PATH + modifiedImagePath, this.modifiedImageRequest);
             this.imageManagerService.createBMP(result, cardId);
@@ -173,9 +173,9 @@ export class CardManagerService {
     public removeCard2D(id: number): string {
         const index: number = this.findCard2D(id);
         const paths: string[] = [
-                                    IMAGES_PATH + "/" + id + "_generated.bmp",
-                                    IMAGES_PATH + "/" + id + "_original.bmp",
-                                    IMAGES_PATH + "/" + id + "_modified.bmp",
+                                    IMAGES_PATH + "/" + id + Constants.GENERATED_FILE,
+                                    IMAGES_PATH + "/" + id + Constants.ORIGINAL_FILE,
+                                    IMAGES_PATH + "/" + id + Constants.MODIFIED_FILE,
                                 ];
         if (index !== DOESNT_EXIST) {
             this.cards.list2D.splice(index, 1);
