@@ -148,7 +148,7 @@ export class CardManagerService {
             }
         });
         if (!isExisting) {
-            this.cards.list2D.push(card);
+            this.cards.list2D.unshift(card);
             this.highscoreService.createHighscore(card.gameID);
         }
 
@@ -163,7 +163,7 @@ export class CardManagerService {
             }
         });
         if (!isExisting) {
-            this.cards.list3D.push(card);
+            this.cards.list3D.unshift(card);
             this.highscoreService.createHighscore(card.gameID);
 
         }
