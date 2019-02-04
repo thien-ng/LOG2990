@@ -8,8 +8,8 @@ import { CardManagerService } from "../services/card-manager.service";
 import Types from "../types";
 
 const DECIMAL: number = 10;
-const ORIGINAL_IMAGE_NAME: string = "original";
-const MODIFIED_IMAGE_NAME: string = "modified";
+const ORIGINAL_IMAGE_NAME: string = "originalImage";
+const MODIFIED_IMAGE_NAME: string = "modifiedImage";
 
 @injectable()
 export class CardManagerController {
