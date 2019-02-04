@@ -31,6 +31,7 @@ export class CreateSimpleGameComponent {
                                   + Constants.MIN_GAME_LENGTH + "-"
                                   + Constants.MAX_GAME_LENGTH + " caractères";
   public readonly ERROR_REQUIRED: string = "Nom de jeu requis";
+  public isButtonEnabled: boolean = true;
 
   private selectedFiles: [Blob, Blob] = [new Blob(), new Blob()];
 
@@ -54,7 +55,7 @@ export class CreateSimpleGameComponent {
     }
 
   public hasFormControlErrors(): boolean {
-    return !( this.formControl.controls.gameName.errors == null &&
+    return !( this.formControl.controls.gameName.errors == null && this.isButtonEnabled &&
               this.IS_IMAGE_BMP[this.ORIGINAL_INDEX] && this.IS_IMAGE_BMP[this.MODIFIED_INDEX]);
   }
 
@@ -86,9 +87,11 @@ export class CreateSimpleGameComponent {
   }
 
   public submit(data: NgForm): void {
+    this.isButtonEnabled = false;
     const formdata: FormData = this.createFormData(data);
     this.http.post(Constants.BASIC_SERVICE_BASE_URL + SUBMIT_PATH, formdata).subscribe((response: Message) => {
       this.analyseResponse(response);
+      this.isButtonEnabled = true;
     });
   }
 
