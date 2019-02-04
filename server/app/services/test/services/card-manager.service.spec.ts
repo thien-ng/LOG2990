@@ -3,7 +3,6 @@ import "reflect-metadata";
 import * as chai from "chai";
 import * as spies from "chai-spies";
 import * as fs from "fs";
-// import * as mock from "mock-fs";
 import * as path from "path";
 import { Constants } from "../../../../../client/src/app/constants";
 import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../../../common/communication/iCard";
@@ -13,6 +12,7 @@ import { CardManagerService } from "../../../services/card-manager.service";
 import { HighscoreService } from "../../highscore.service";
 
 // tslint:disable:no-magic-numbers
+// tslint:disable:no-any
 
 const CARD_DELETED: string = "Carte supprimée";
 const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
@@ -52,6 +52,7 @@ describe("Card-manager tests", () => {
         gameImageUrl: FAKE_PATH + "/poly.jpg",
         gamemode: GameMode.free,
     };
+
     const cards: ICardLists = {
         list2D: [DefaultCard2D],
         list3D: [DefaultCard3D],

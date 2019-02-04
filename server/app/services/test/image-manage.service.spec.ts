@@ -2,7 +2,6 @@ import "reflect-metadata";
 
 import * as chai from "chai";
 import * as spies from "chai-spies";
-import * as mock from "mock-fs";
 import { ImageManagerService } from "../image-manager.service";
 
 /* tslint:disable:no-any */
@@ -17,7 +16,6 @@ describe("Image manager service tests", () => {
 
     beforeEach(() => {
         imageManagerService = new ImageManagerService();
-        mock.restore();
     });
 
     it("Should call the stockImage funciton when creating bmp", () => {
