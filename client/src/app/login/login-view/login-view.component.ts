@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { Constants } from "../../constants";
 
 @Component({
   selector: "app-login-view",
@@ -7,6 +8,6 @@ import { Component } from "@angular/core";
 })
 export class LoginViewComponent {
 
-  public LOGO_URL: string = "../../../assets/images/logo.png";
+  public LOGO_URL: string = Constants.PATH_TO_IMAGES + "/logo.png";
 
 }
