@@ -18,7 +18,7 @@ export class SocketService {
   public onMsg<T>(msgType: string): Observable<T> {
     return new Observable<T> ((observer) => {
       this.socket.on(msgType, (data: T) => {
-        observer.next(data)
+        observer.next(data);
       });
     });
   }
