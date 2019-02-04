@@ -1,5 +1,4 @@
 import * as Axios from "axios";
-import * as fs from "fs";
 import { inject, injectable } from "inversify";
 import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
@@ -8,6 +7,7 @@ import { Constants } from "../constants";
 import Types from "../types";
 import { ImageRequirements } from "./difference-checker/utilities/imageRequirements";
 import { HighscoreService } from "./highscore.service";
+import { ImageManagerService } from "./image-manager.service";
 
 const axios: Axios.AxiosInstance = require("axios");
 const DOESNT_EXIST: number = -1;
@@ -17,8 +17,6 @@ const REQUIRED_HEIGHT: number = 480;
 const REQUIRED_WIDTH: number = 640;
 const REQUIRED_NB_DIFF: number = 7;
 const IMAGES_PATH: string = "./app/asset/image";
-const FILE_GENERATION_ERROR: string = "error while generating file";
-const FILE_DELETION_ERROR: string = "error while deleting file";
 const DEFAULT_CARD_ID: number = 1;
 
 @injectable()
@@ -30,12 +28,14 @@ export class CardManagerService {
 
     private originalImageRequest: Buffer;
     private modifiedImageRequest: Buffer;
+    private imageManagerService: ImageManagerService;
 
     private uniqueId: number = 1000;
 
     public constructor(@inject(Types.HighscoreService) private highscoreService: HighscoreService) {
         this.addCard2D(DefaultCard2D);
         this.addCard3D(DefaultCard3D);
+        this.imageManagerService = new ImageManagerService();
     }
 
     public async cardCreationRoutine(original: Buffer, modified: Buffer, cardTitle: string): Promise<Message> {
@@ -76,11 +76,11 @@ export class CardManagerService {
             return result;
         } else {
             const cardId: number = this.generateId();
-            const originalImagePath: string = "/" + cardId + "_original.bmp";
-            const modifiedImagePath: string = "/" + cardId + "_modified.bmp";
-            this.stockImage(IMAGES_PATH + originalImagePath, this.originalImageRequest);
-            this.stockImage(IMAGES_PATH + modifiedImagePath, this.modifiedImageRequest);
-            this.createBMP(result, cardId);
+            const originalImagePath: string = "/" + cardId + Constants.ORIGINAL_FILE;
+            const modifiedImagePath: string = "/" + cardId + Constants.MODIFIED_FILE;
+            this.imageManagerService.stockImage(IMAGES_PATH + originalImagePath, this.originalImageRequest);
+            this.imageManagerService.stockImage(IMAGES_PATH + modifiedImagePath, this.modifiedImageRequest);
+            this.imageManagerService.createBMP(result, cardId);
 
             this.addCard2D({
                 gameID: cardId,
@@ -98,36 +98,9 @@ export class CardManagerService {
         }
     }
 
-    private createBMP(buffer: Buffer, cardId: number): number {
-
-        const path: string = IMAGES_PATH + "/" + cardId + "_generated.bmp";
-
-        this.stockImage(path, buffer);
-
-        return cardId;
-    }
-
     private isMessage(result: Buffer | Message): result is Message {
         return  (result as Message).body !== undefined &&
                 (result as Message).title !== undefined;
-    }
-
-    private stockImage(path: string, buffer: Buffer): void {
-        fs.writeFile(path, Buffer.from(buffer), (error: Error) => {
-            if (error) {
-                throw TypeError(FILE_GENERATION_ERROR);
-            }
-        });
-    }
-
-    private deleteStoredImages(paths: string[]): void {
-        paths.forEach((path: string) => {
-            fs.unlink(path, (error: Error) => {
-                if (error) {
-                    throw TypeError(FILE_DELETION_ERROR);
-                }
-            });
-        });
     }
 
     private generateId(): number {
@@ -200,15 +173,15 @@ export class CardManagerService {
     public removeCard2D(id: number): string {
         const index: number = this.findCard2D(id);
         const paths: string[] = [
-                                    IMAGES_PATH + "/" + id + "_generated.bmp",
-                                    IMAGES_PATH + "/" + id + "_original.bmp",
-                                    IMAGES_PATH + "/" + id + "_modified.bmp",
+                                    IMAGES_PATH + "/" + id + Constants.GENERATED_FILE,
+                                    IMAGES_PATH + "/" + id + Constants.ORIGINAL_FILE,
+                                    IMAGES_PATH + "/" + id + Constants.MODIFIED_FILE,
                                 ];
         if (index !== DOESNT_EXIST) {
             this.cards.list2D.splice(index, 1);
             try {
                 if (id !== DEFAULT_CARD_ID) {
-                    this.deleteStoredImages(paths);
+                    this.imageManagerService.deleteStoredImages(paths);
                 }
             } catch (error) {
                 return error.message;

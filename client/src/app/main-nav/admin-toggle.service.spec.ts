@@ -1,11 +1,10 @@
 import { TestBed } from "@angular/core/testing";
-import { RouterTestingModule } from "@angular/router/testing";
-
 import { Router } from "@angular/router";
+import { RouterTestingModule } from "@angular/router/testing";
 import { Observable } from "rxjs";
 import "rxjs/add/observable/of";
-import { AdminToggleService } from "./admin-toggle.service";
 import { Constants } from "../constants";
+import { AdminToggleService } from "./admin-toggle.service";
 
 // tslint:disable:no-any no-floating-promises
 
