@@ -27,7 +27,6 @@ export class Constants {
   public static readonly ERROR_UNEQUAL_DIMENSIONS: string = "Taille des images ne sont pas pareilles";
 
   // Constants for card-manager.service.ts
-
   public static readonly BASIC_SERVICE_BASE_URL: string = "http://localhost:3000";
   public static readonly ON_ERROR_MESSAGE: string = "onError";
   public static readonly ON_SUCCESS_MESSAGE: string = "onSuccess";
