@@ -10,14 +10,14 @@ import { LoginValidatorService } from "../login-validator.service";
 })
 export class LoginValidatorComponent {
 
-  public HINT_USERNAME: string = "Nom d'utilisateur";
-  public HINT: string = "Veuillez entrer un alias";
-  public ERROR_PATTERN: string = "Caractères autorisés: A-Z, a-z, 0-9";
-  public ERROR_SIZE: string = "Taille: "
+  public readonly HINT_USERNAME: string = "Nom d'utilisateur";
+  public readonly HINT: string = "Veuillez entrer un alias";
+  public readonly ERROR_PATTERN: string = "Caractères autorisés: A-Z, a-z, 0-9";
+  public readonly ERROR_SIZE: string = "Taille: "
                                   + Constants.MIN_LENGTH + "-"
                                   + Constants.MAX_LENGTH + " caractères";
-  public ERROR_REQUIRED: string = "Nom d'utilisateur requis";
-  public BUTTON_SUBMIT: string = "Soumettre";
+  public readonly ERROR_REQUIRED: string = "Nom d'utilisateur requis";
+  public readonly BUTTON_SUBMIT: string = "Soumettre";
 
   public constructor(@Inject(
     LoginValidatorService)public loginValidatorService: LoginValidatorService,
