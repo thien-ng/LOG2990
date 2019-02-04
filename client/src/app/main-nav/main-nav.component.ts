@@ -6,10 +6,10 @@ import { Router } from "@angular/router";
 
 import { Observable, Subscription } from "rxjs";
 import { map } from "rxjs/operators";
-import { AdminToggleService } from "../admin-toggle.service";
 import { Constants } from "../constants";
 import { CreateSimpleGameComponent } from "../create-simple-game/create-simple-game.component";
 import { LoginValidatorService } from "../login/login-validator.service";
+import { AdminToggleService } from "./admin-toggle.service";
 
 @Component({
   selector: "app-main-nav",
@@ -52,17 +52,11 @@ export class MainNavComponent implements OnInit, OnDestroy {
     .observe(Breakpoints.Handset)
     .pipe(map((event) => event.matches));
 
-  public openDialog(): void {
-
-    const dialogConfig: MatDialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = false;
-    dialogConfig.autoFocus = true;
-
-    this.dialog.open(CreateSimpleGameComponent, dialogConfig);
+  public ngOnInit(): void {
+    this.initMainNav();
   }
 
-  public ngOnInit(): void {
+  public initMainNav(): void {
     this.isAdminMode = this.adminService.isAdminState;
     this.stateSubscription = this.adminService.getAdminUpdateListener()
       .subscribe((activeState: boolean) => {
@@ -72,6 +66,16 @@ export class MainNavComponent implements OnInit, OnDestroy {
       this.client = localStorage.getItem(Constants.USERNAME_KEY);
     });
     this.client = localStorage.getItem(Constants.USERNAME_KEY);
+  }
+
+  public openDialog(): void {
+
+    const dialogConfig: MatDialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+
+    this.dialog.open(CreateSimpleGameComponent, dialogConfig);
   }
 
   public ngOnDestroy(): void {

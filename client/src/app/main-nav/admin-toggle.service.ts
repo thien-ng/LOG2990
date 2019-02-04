@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { Observable, Subject } from "rxjs";
-import { Constants } from "./constants";
+import { Constants } from "../constants";
 
 @Injectable({
   providedIn: "root",
