@@ -45,7 +45,7 @@ export class LoginValidatorService {
     if (this.usernameFormControl.errors === null) {
       const message: Message = this.generateMessage(this.usernameFormControl.value);
 
-      const result: Boolean = await this.sendUsernameRequest(message).catch(() => Constants.OBLIGATORY_CATCH);
+      const result: boolean = await this.sendUsernameRequest(message);
 
       if (result) {
         this.socketService.sendMsg(Constants.LOGIN_REQUEST, this.usernameFormControl.value);
@@ -65,8 +65,8 @@ export class LoginValidatorService {
   }
 
   // Helpers
-  private async sendUsernameRequest(message: Message): Promise<Boolean> {
-    return this.httpClient.post<Boolean>(Constants.PATH_TO_LOGIN_VALIDATION, message).toPromise();
+  private async sendUsernameRequest(message: Message): Promise<boolean> {
+    return this.httpClient.post<boolean>(Constants.PATH_TO_LOGIN_VALIDATION, message).toPromise().catch(() => false);
   }
 
   private generateMessage(username: string): Message {
