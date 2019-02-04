@@ -31,7 +31,7 @@ export class BufferManager {
 
         return JSON.parse( jsonBuffer, (key: number, value: JSONBuffer) => {
             const isValidType: boolean = value.type === Constants.BUFFER_TYPE;
-            
+
             return value && isValidType ? Buffer.from(value.data) : value;
         });
     }
