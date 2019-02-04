@@ -39,11 +39,7 @@ export class BufferManager {
     public arrayToBuffer(array: number[]): Buffer {
         let stringBuffer: string = "";
         array.forEach((element: number) => {
-            if (element === 0) {
-                stringBuffer += Constants.WHITE_PIXEL;
-            } else {
-                stringBuffer += Constants.BLACK_PIXEL;
-            }
+            stringBuffer += element === 0 ? Constants.WHITE_PIXEL :  Constants.BLACK_PIXEL;
         });
 
         return Buffer.from(stringBuffer, Constants.BUFFER_FORMAT);
