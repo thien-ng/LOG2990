@@ -3,7 +3,7 @@ import { Observable } from "rxjs";
 import "rxjs/add/observable/of";
 import { SocketService } from "./socket.service";
 
-fdescribe("SocketService", () => {
+describe("SocketService", () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it("should be created", () => {
@@ -12,7 +12,7 @@ fdescribe("SocketService", () => {
   });
 });
 
-fdescribe("SocketService tests", () => {
+describe("SocketService tests", () => {
   let socketService: SocketService;
 
   beforeEach(() => {
