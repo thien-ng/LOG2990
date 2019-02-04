@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { ICard } from "../../../../common/communication/iCard";
 import { CardComponent } from "../card/card.component";
 
@@ -7,7 +7,7 @@ import { CardComponent } from "../card/card.component";
   templateUrl: "./game-list.component.html",
   styleUrls: ["./game-list.component.css"],
 })
-export class GameListComponent implements OnInit {
+export class GameListComponent {
   @Input() public cards: ICard[];
   @Output() public cardDeleted: EventEmitter<string>;
 
@@ -19,10 +19,6 @@ export class GameListComponent implements OnInit {
 
   public constructor() {
     this.cardDeleted = new EventEmitter<string>();
-  }
-
-  public ngOnInit(): void {
-    // default ngOnInit
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import { ICard } from "../../../../common/communication/iCard";
@@ -14,15 +14,15 @@ import { HighscoreService } from "../highscore-display/highscore.service";
   providers: [HighscoreService],
 })
 
-export class CardComponent implements OnInit {
-  public HS_BUTTON_IS_CLICKED: boolean;
-  public TROPHY_IMAGE_URL: string = "https://img.icons8.com/metro/1600/trophy.png";
-  public TEXT_PLAY: string = "JOUER";
-  public TEXT_PLAY_SINGLE: string = "Jouer en simple";
-  public TEXT_PLAY_MULTI: string = "Jouer en multijoueur";
-  public TEXT_RESET_TIMERS: string = "Réinitialiser les temps";
-  public TEXT_DELETE: string = "Supprimer la carte";
-  public ADMIN_PATH: string = "/admin";
+export class CardComponent {
+  public hsButtonIsClicked: boolean;
+  public readonly TROPHY_IMAGE_URL: string = "https://img.icons8.com/metro/1600/trophy.png";
+  public readonly TEXT_PLAY: string = "JOUER";
+  public readonly TEXT_PLAY_SINGLE: string = "Jouer en simple";
+  public readonly TEXT_PLAY_MULTI: string = "Jouer en multijoueur";
+  public readonly TEXT_RESET_TIMERS: string = "Réinitialiser les temps";
+  public readonly TEXT_DELETE: string = "Supprimer la carte";
+  public readonly ADMIN_PATH: string = "/admin";
 
   @Input() public card: ICard;
 
@@ -37,10 +37,6 @@ export class CardComponent implements OnInit {
     }
 
   @Output() public cardDeleted: EventEmitter<string> = new EventEmitter();
-
-  public ngOnInit(): void {
-    // default init
-  }
 
   public onDeleteButtonClick(): void {
     this.cardManagerService.removeCard(this.card.gameID, this.card.gamemode).subscribe((response: string) => {
@@ -62,7 +58,7 @@ export class CardComponent implements OnInit {
   }
 
   public onHSButtonClick(): void {
-    this.HS_BUTTON_IS_CLICKED = !this.HS_BUTTON_IS_CLICKED;
+    this.hsButtonIsClicked = !this.hsButtonIsClicked;
     this.highscoreService.getHighscore(this.card.gameID);
   }
 }

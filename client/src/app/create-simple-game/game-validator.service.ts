@@ -8,7 +8,11 @@ const ACCEPTED_FILE_TYPE: string = "image/bmp";
 export class FileValidatorService {
 
   public validateFile(file: Blob): boolean {
-    return file.type === ACCEPTED_FILE_TYPE;
+    if (file !== undefined) {
+      return file.type === ACCEPTED_FILE_TYPE;
+    } else {
+      return false;
+    }
   }
 
 }

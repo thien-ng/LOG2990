@@ -5,6 +5,8 @@ import { mock } from "ts-mockito";
 import { TestingImportsModule } from ".././testing-imports/testing-imports.module";
 import { GameModeService } from "./game-mode.service";
 
+// tslint:disable:no-magic-numbers
+
 let gameModeService: GameModeService;
 let router: Router;
 
@@ -32,4 +34,29 @@ describe("GameModeService", () => {
     expect(result).toBe(0);
   });
 
+  it("should be 1 if toggle, when getIndex is called", () => {
+    gameModeService.toggle();
+    const result: number = gameModeService.getIndex();
+    expect(result).toBe(1);
+  });
+
+  it("should be 0 if toggle twice, when getIndex is called", () => {
+    gameModeService.toggle();
+    gameModeService.toggle();
+    const result: number = gameModeService.getIndex();
+    expect(result).toBe(0);
+  });
+
+  it("should not change index if doesnt correspond to any case", () => {
+    gameModeService["index"] = 2;
+    expect(gameModeService.getIndex()).toBe(2);
+  });
+
+  it("should update the index after suscribe", () => {
+    gameModeService.getGameModeUpdateListener()
+    .subscribe((value: number) => {
+      expect(value).toBe(1);
+    });
+    gameModeService.toggle();
+  });
 });

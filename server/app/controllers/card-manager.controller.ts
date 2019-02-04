@@ -3,12 +3,13 @@ import { inject, injectable } from "inversify";
 
 import * as multer from "multer";
 import { ICardLists } from "../../../common/communication/iCardLists";
+import { Message } from "../../../common/communication/message";
 import { CardManagerService } from "../services/card-manager.service";
 import Types from "../types";
 
 const DECIMAL: number = 10;
-const ORIGINAL_IMAGE_NAME: string = "original";
-const MODIFIED_IMAGE_NAME: string = "modified";
+const ORIGINAL_IMAGE_NAME: string = "originalImage";
+const MODIFIED_IMAGE_NAME: string = "modifiedImage";
 
 @injectable()
 export class CardManagerController {
@@ -37,9 +38,9 @@ export class CardManagerController {
             const originalBuffer: Buffer = req.files[ORIGINAL_IMAGE_NAME][0].buffer;
             const modifiedBuffer: Buffer = req.files[MODIFIED_IMAGE_NAME][0].buffer;
 
-            const val: boolean = await this.cardManagerService.cardCreationRoutine(originalBuffer, modifiedBuffer);
+            const result: Message = await this.cardManagerService.cardCreationRoutine(originalBuffer, modifiedBuffer, req.body.name);
 
-            res.json(val);
+            res.json(result);
         });
 
         router.get("/list", async (req: Request, res: Response, next: NextFunction) => {
@@ -50,8 +51,12 @@ export class CardManagerController {
 
         router.delete("/remove/simple/:id", async (req: Request, res: Response, next: NextFunction) => {
             const cardId: number = parseInt(req.params.id, DECIMAL);
-            const message: string = this.cardManagerService.removeCard2D(cardId);
-            res.json(message);
+            try {
+                const message: string = this.cardManagerService.removeCard2D(cardId);
+                res.json(message);
+            } catch (error) {
+                res.json(error.message);
+            }
         });
 
         router.delete("/remove/free/:id", async (req: Request, res: Response, next: NextFunction) => {

@@ -15,5 +15,5 @@
       <input mat-icon-button type="file" accept="image/bmp" (change)="onFileSelected($event.target.files[0], MODIFIED_INDEX)">
     </div>
     <button class="button-padding" [disabled]="hasFormControlErrors()" type="submit" mat-raised-button>{{SUBMIT}}</button>
-    <button class="button-padding" mat-raised-button (click)="closeDialog()">{{CANCEL}}</button>
+    <button class="button-padding" mat-raised-button type="button" (click)="closeDialog()">{{CANCEL}}</button>
 </form>

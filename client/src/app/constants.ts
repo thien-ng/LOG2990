@@ -51,4 +51,6 @@ export class Constants {
 
   public static readonly RESET_PATH: string = "generator/";
 
+  public static readonly ON_ERROR_MESSAGE: string = "onError";
+  public static readonly ON_SUCCESS_MESSAGE: string = "onSuccess";
 }
