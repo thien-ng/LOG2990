@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import "rxjs/add/observable/of";
 import { AdminToggleService } from "./admin-toggle.service";
-import { Constants } from "./constants";
+import { Constants } from "../constants";
 
 // tslint:disable:no-any no-floating-promises
 

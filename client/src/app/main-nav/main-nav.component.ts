@@ -6,7 +6,7 @@ import { Router } from "@angular/router";
 
 import { Observable, Subscription } from "rxjs";
 import { map } from "rxjs/operators";
-import { AdminToggleService } from "../admin-toggle.service";
+import { AdminToggleService } from "./admin-toggle.service";
 import { Constants } from "../constants";
 import { CreateSimpleGameComponent } from "../create-simple-game/create-simple-game.component";
 import { LoginValidatorService } from "../login/login-validator.service";
