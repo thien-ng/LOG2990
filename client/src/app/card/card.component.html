@@ -17,9 +17,9 @@
     </mat-menu>
   </mat-card-header>
 
-  <app-highscore-display class="highscorePanel" [(isExpanded)]="HS_BUTTON_IS_CLICKED"></app-highscore-display>
+  <app-highscore-display class="highscorePanel" [(isExpanded)]="hsButtonIsClicked"></app-highscore-display>
 
-  <img mat-card-image class="card-image" [ngClass]="HS_BUTTON_IS_CLICKED ? 'darkenImage' : 'brightenImage'" alt="GameCardImage" src="{{card.gameImageUrl}}">
+  <img mat-card-image class="card-image" [ngClass]="hsButtonIsClicked ? 'darkenImage' : 'brightenImage'" alt="GameCardImage" src="{{card.gameImageUrl}}">
 
   <div  class="optionBar">
       <mat-card-actions>
@@ -30,7 +30,7 @@
             <button mat-menu-item>{{TEXT_PLAY_MULTI}}</button>
           </mat-menu>
 
-        <button mat-button class="highscoreButton" [ngClass]="HS_BUTTON_IS_CLICKED ? 'clicked' : 'unclicked'" (click)="onHSButtonClick()">
+        <button mat-button class="highscoreButton" [ngClass]="hsButtonIsClicked ? 'clicked' : 'unclicked'" (click)="onHSButtonClick()">
           <img class="highscoreIcon"  [src]="TROPHY_IMAGE_URL">
         </button>
       </mat-card-actions>

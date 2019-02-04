@@ -78,7 +78,7 @@ describe("Card-manager tests", () => {
 
     it("should return the newly added card", () => {
         cardManagerService.addCard3D(c3);
-        expect(cardManagerService.getCards().list3D[1]).deep.equal(c3);
+        expect(cardManagerService.getCards().list3D[0]).deep.equal(c3);
     });
 
     it("should remove the newly added card and return a success message", () => {
