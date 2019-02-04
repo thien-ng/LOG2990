@@ -54,8 +54,9 @@ export class CreateSimpleGameComponent {
     }
 
   public hasFormControlErrors(): boolean {
-    return !( this.formControl.controls.gameName.errors == null &&
-              this.IS_IMAGE_BMP[this.ORIGINAL_INDEX] && this.IS_IMAGE_BMP[this.MODIFIED_INDEX]);
+    const hasErrorForm: Boolean = this.formControl.controls.gameName.errors == null;
+    const isImageBmp: Boolean = this.IS_IMAGE_BMP[this.ORIGINAL_INDEX] && this.IS_IMAGE_BMP[this.MODIFIED_INDEX];
+    return !(hasErrorForm && isImageBmp);
   }
 
   public hasErrorOfType(errorType: string): boolean {
