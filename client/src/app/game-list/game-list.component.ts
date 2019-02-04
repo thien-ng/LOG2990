@@ -20,5 +20,4 @@ export class GameListComponent {
   public constructor() {
     this.cardDeleted = new EventEmitter<string>();
   }
-
 }
