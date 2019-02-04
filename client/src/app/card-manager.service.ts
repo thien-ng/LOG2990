@@ -4,6 +4,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { GameMode } from "../../../common/communication/iCard";
 import { Constants } from "./constants";
+import { ICardLists } from "../../../common/communication/iCardLists";
 
 @Injectable({
   providedIn: "root",
@@ -17,12 +18,12 @@ export class CardManagerService {
     // Default Constructor
   }
 
-  public getCards(): Observable<Object> {
-    return this.http.get(Constants.BASIC_SERVICE_BASE_URL + Constants.CARDS_PATH);
+  public getCards(): Observable<ICardLists> {
+    return this.http.get<ICardLists>(Constants.BASIC_SERVICE_BASE_URL + Constants.CARDS_PATH);
   }
 
-  public removeCard(cardId: number, mode: GameMode): Observable<Object> {
-    return this.http.delete(Constants.BASIC_SERVICE_BASE_URL + Constants.REMOVE_CARD_PATH + "/" + mode + "/" + cardId);
+  public removeCard(cardId: number, mode: GameMode): Observable<string> {
+    return this.http.delete<string>(Constants.BASIC_SERVICE_BASE_URL + Constants.REMOVE_CARD_PATH + "/" + mode + "/" + cardId);
   }
 
   public updateCards(value: boolean): void {
