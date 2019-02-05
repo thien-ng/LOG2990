@@ -60,7 +60,22 @@ export class ClusterCounter {
         });
     }
 
-    private getAllNeighborsPosition(position: number): number[] {
+    private getNeighboringDifferences(position: number): number[] {
+
+        const allNeighbors: number[] = this.getAllNeighbors(position);
+        const allNeighboringDifferences: number[] = [];
+
+        allNeighbors.forEach((neighborsPos: number) => {
+            const neighborsExists: boolean = neighborsPos !== this.DOES_NOT_EXIST;
+            const neighborsIsADifference: boolean = this.differenceList[neighborsPos] === this.IS_A_DIFFERENCE;
+
+            if (neighborsExists && neighborsIsADifference) {
+                allNeighboringDifferences.push(neighborsPos);
+            }
+        });
+
+        return allNeighboringDifferences;
+    }
 
         const edges: IEdges = {
             isOnTopEdge: (position < this.width),
