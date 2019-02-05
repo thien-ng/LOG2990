@@ -54,6 +54,9 @@ export class ClusterCounter {
                 stackOfDifferences = stackOfDifferences.concat(allNeighboringDifferences);
                 stackOfDifferences.shift();
             }
+    private setAllToVisited(positions: number[]): void {
+        positions.forEach((position: number) => {
+            this.differenceList[position] = this.IS_VISITED;
         });
     }
 
