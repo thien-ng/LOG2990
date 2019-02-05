@@ -26,7 +26,7 @@
           <button class="playButton" mat-button [matMenuTriggerFor]="menu">{{TEXT_PLAY}}</button>
 
           <mat-menu #menu="matMenu">
-            <button mat-menu-item>{{TEXT_PLAY_SINGLE}}</button>
+            <button mat-menu-item routerLink="/game-view" >{{TEXT_PLAY_SINGLE}}</button>
             <button mat-menu-item>{{TEXT_PLAY_MULTI}}</button>
           </mat-menu>
 

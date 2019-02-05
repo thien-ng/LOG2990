@@ -61,4 +61,5 @@ export class CardComponent {
     this.hsButtonIsClicked = !this.hsButtonIsClicked;
     this.highscoreService.getHighscore(this.card.gameID);
   }
+
 }
