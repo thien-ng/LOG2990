@@ -81,6 +81,7 @@ export class ClusterCounter {
         return allNeighboringDifferences;
     }
 
+    private getAllNeighbors(position: number): number[]  {
         const edges: IEdges = {
             isOnTopEdge: (position < this.width),
             isOnBottomEdge: (position >= this.differenceList.length - this.width),
