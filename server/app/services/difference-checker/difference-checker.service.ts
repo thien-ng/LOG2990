@@ -13,8 +13,8 @@ const HEADER_SIZE: number = 54;
 export class DifferenceCheckerService {
 
     private bufferManager: BufferManager;
-    private splittedOriginal: Buffer[];
-    private splittedDifferent: Buffer[];
+    private bufferOriginal: Buffer;
+    private bufferModified: Buffer;
     private circledDifferences: number[];
 
     public constructor() {
