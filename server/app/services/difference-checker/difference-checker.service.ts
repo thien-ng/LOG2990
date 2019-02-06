@@ -41,7 +41,7 @@ export class DifferenceCheckerService {
 
             const dataImageBuffer: Buffer = this.bufferManager.arrayToBuffer(this.circledDifferences);
 
-            return this.bufferManager.mergeBuffers(this.splittedOriginal[HEADER_INDEX], dataImageBuffer);
+            return this.bufferManager.mergeBuffers(this.bufferOriginal.slice(0, HEADER_SIZE), dataImageBuffer);
 
         } else {
 
