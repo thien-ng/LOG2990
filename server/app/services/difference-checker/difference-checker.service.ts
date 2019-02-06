@@ -7,8 +7,7 @@ import { ClusterCounter } from "./utilities/clusterCounter";
 import { ImageRequirements } from "./utilities/imageRequirements";
 import { ImagesDifference } from "./utilities/imagesDifference";
 
-const HEADER_INDEX: number = 0;
-const BODY_INDEX: number = 1;
+const HEADER_SIZE: number = 54;
 
 @injectable()
 export class DifferenceCheckerService {
