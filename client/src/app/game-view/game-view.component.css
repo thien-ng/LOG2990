@@ -1,3 +1,8 @@
+#displayGame {
+    width: 100%;
+    display: flex;
+}
+
 canvas {
     height: 480px;
     width: 640px;

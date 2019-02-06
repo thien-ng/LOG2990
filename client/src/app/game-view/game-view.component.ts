@@ -1,7 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
-
-let x = 0;
-let y = 0;
+import { Component, ViewChild, ElementRef, Inject } from "@angular/core";
+import { GameViewService } from "./game-view.service";
 
 @Component({
   selector: "app-game-view",
@@ -9,27 +7,26 @@ let y = 0;
   styleUrls: ["./game-view.component.css"],
 })
 
-export class GameViewComponent implements OnInit {
+export class GameViewComponent {
 
-  @ViewChild('originalImage', {read: ElementRef}) canvasOriginal: ElementRef;
-  @ViewChild('modifiedImage', {read: ElementRef}) canvasModified: ElementRef;
+  @ViewChild('originalImage', {read: ElementRef})
+  public canvasOriginal: ElementRef;
+  @ViewChild('modifiedImage', {read: ElementRef})
+  public canvasModified: ElementRef;
 
-  public constructor() {
+  public constructor(@Inject(GameViewService) public gameViewService: GameViewService) {
     // default constructor
-    
   }
 
-  public ngOnInit(): void  {
-    // default ngOnInit
+  public getMousePositionOriginal(): void {
+    this.canvasOriginal.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
+      this.gameViewService.onCanvasClick(mouseEvent.offsetX, mouseEvent.offsetY);
+    }); 
   }
 
-  public async getMousePosition(): Promise<void> {
-    await this.canvasOriginal.nativeElement.addEventListener("click", (e: MouseEvent) => {
-      x = e.offsetX;
-      y = e.offsetY;
-
-      
+  public getMousePositionModified(): void {
+    this.canvasModified.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
+      this.gameViewService.onCanvasClick(mouseEvent.offsetX, mouseEvent.offsetY);
     });  
-    console.log("x: " + x + " y: " + y);
   }
 }
