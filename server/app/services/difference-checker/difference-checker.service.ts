@@ -51,10 +51,10 @@ export class DifferenceCheckerService {
 
     private calculateDifferences(requirements: ImageRequirements): number {
 
-        this.splittedOriginal = this.bufferManager.splitHeader(requirements.originalImage);
-        this.splittedDifferent = this.bufferManager.splitHeader(requirements.modifiedImage);
+        this.bufferOriginal = Buffer.from(requirements.originalImage);
+        this.bufferModified = Buffer.from(requirements.modifiedImage);
 
-        const differencesFound: number[] = this.findDifference(this.splittedOriginal[BODY_INDEX], this.splittedDifferent[BODY_INDEX]);
+        const differencesFound: number[] = this.findDifference(this.bufferOriginal, this.bufferModified);
         this.circledDifferences = this.circleDifference(differencesFound, requirements.requiredWidth);
 
         return this.countAllClusters(this.circledDifferences, requirements.requiredWidth);
