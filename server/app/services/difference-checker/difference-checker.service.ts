@@ -28,11 +28,11 @@ export class DifferenceCheckerService {
         try {
             numberOfDifferences = this.calculateDifferences(requirements);
         } catch (error) {
+
             return this.sendErrorMessage(error.message);
         }
-
-        if (this.imageHasNotDimensionsNeeded(this.splittedOriginal) ||
-            this.imageHasNotDimensionsNeeded(this.splittedDifferent)) {
+        if (this.imageHasNotDimensionsNeeded(this.bufferOriginal) ||
+            this.imageHasNotDimensionsNeeded(this.bufferModified)) {
 
             return this.sendErrorMessage(Constants.ERROR_IMAGES_DIMENSIONS);
         }
