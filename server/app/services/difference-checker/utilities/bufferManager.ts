@@ -23,10 +23,10 @@ export class BufferManager {
         buffers.push(image);
 
         return buffers;
-
     }
 
     private bufferFromInput(input: Buffer): Buffer {
+
         const jsonBuffer: string = JSON.stringify(input);
 
         return JSON.parse( jsonBuffer, (key: number, value: JSONBuffer) => {
