@@ -41,7 +41,7 @@ export class ClusterCounter {
         let nbVisitedNeighbors: number = 1;
         this.differenceList[position] = 0;
 
-        while (!(stackOfDifferences.length === 0)) {
+        while (stackOfDifferences.length !== 0) {
 
             let allNeighboringDifferences: number[];
             nbAddedDifferences = 0;
