@@ -18,7 +18,6 @@ describe("CreateFreeGameComponent", () => {
       },
                   {
         provide: MAT_DIALOG_DATA,
-        useValue: {}, // Add any data you wish to test if it is passed/used correctly
       }],
     })
     .compileComponents();

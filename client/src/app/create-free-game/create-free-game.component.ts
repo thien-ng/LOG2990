@@ -11,7 +11,8 @@ export class CreateFreeGameComponent {
   public readonly SUBMIT: string = "Soumettre";
   public readonly CANCEL: string = "Annuler";
   public readonly TITLE: string = "Créer un jeu de point de vue libre";
-  public readonly PLACE_HOLDER: string = "Nom du jeu";
+  public readonly PLACE_HOLDER_NAME: string = "Nom du jeu";
+  public readonly PLACE_HOLDER_TYPE: string = "Type d'objet";
   public readonly SPHERE_OPTION: string = "Sphère";
   public readonly CUBE_OPTION: string = "Cube";
   public readonly CONE_OPTION: string = "Cône";
