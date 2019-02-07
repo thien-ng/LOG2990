@@ -3,6 +3,7 @@ export class Constants {
   public static readonly LOGIN_PATH: string = "login";
   public static readonly ADMIN_PATH: string = "admin";
   public static readonly ADMIN_REDIRECT: string = "/admin";
+  public static readonly GAME_VIEW: string = "game-view";
   public static readonly ROOT_PATH: string = "";
   public static readonly NAV_PATH: string = "";
   public static readonly GAMELIST_PATH: string = "gamelist";
