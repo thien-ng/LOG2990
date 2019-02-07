@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { MatDialogRef } from "@angular/material";
 
 @Component({
   selector: "app-create-free-game",
@@ -17,7 +18,13 @@ export class CreateFreeGameComponent {
   public readonly CYLINDER_OPTION: string = "Cylindre";
   public readonly PYRAMID_OPTION: string = "Pyramide à base triangulaire";
 
-  public constructor() {
+  public constructor(
+    private dialogRef: MatDialogRef<CreateFreeGameComponent>,
+  ) {
     // default constructor
+  }
+
+  public closeDialog(): void {
+    this.dialogRef.close();
   }
 }
