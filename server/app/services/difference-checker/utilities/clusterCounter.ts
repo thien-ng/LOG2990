@@ -36,20 +36,52 @@ export class ClusterCounter {
 
     private findAllConnectedDifferences(position: number): void {
 
-        this.differenceList[position] = this.IS_VISITED;
-        const neighborsPosition: number[] = this.getAllNeighborsPosition(position);
+        let stackOfDifferences: number[] = [position];
+        let nbAddedDifferences: number = 1;
+        let nbVisitedNeighbors: number = 1;
+        this.differenceList[position] = 0;
 
-        neighborsPosition.forEach((neighborsPos: number) => {
-            if (neighborsPos !== this.DOES_NOT_EXIST) {
-                if (this.differenceList[neighborsPos] === this.IS_A_DIFFERENCE) {
-                    this.findAllConnectedDifferences(neighborsPos);
-                }
+        while (stackOfDifferences.length !== 0) {
+
+            let allNeighboringDifferences: number[];
+            nbAddedDifferences = 0;
+
+            for (let i: number = 0; i < nbVisitedNeighbors; i++) {
+                const currentDifference: number = stackOfDifferences[0];
+                allNeighboringDifferences = this.getNeighboringDifferences(currentDifference);
+                this.setAllToVisited(allNeighboringDifferences);
+                nbAddedDifferences += allNeighboringDifferences.length;
+                stackOfDifferences = stackOfDifferences.concat(allNeighboringDifferences);
+                stackOfDifferences.shift();
             }
+            nbVisitedNeighbors = nbAddedDifferences;
+        }
+    }
+
+    private setAllToVisited(positions: number[]): void {
+        positions.forEach((position: number) => {
+            this.differenceList[position] = this.IS_VISITED;
         });
     }
 
-    private getAllNeighborsPosition(position: number): number[] {
+    private getNeighboringDifferences(position: number): number[] {
 
+        const allNeighbors: number[] = this.getAllNeighbors(position);
+        const allNeighboringDifferences: number[] = [];
+
+        allNeighbors.forEach((neighborsPos: number) => {
+            const neighborsExists: boolean = neighborsPos !== this.DOES_NOT_EXIST;
+            const neighborsIsADifference: boolean = this.differenceList[neighborsPos] === this.IS_A_DIFFERENCE;
+
+            if (neighborsExists && neighborsIsADifference) {
+                allNeighboringDifferences.push(neighborsPos);
+            }
+        });
+
+        return allNeighboringDifferences;
+    }
+
+    private getAllNeighbors(position: number): number[]  {
         const edges: IEdges = {
             isOnTopEdge: (position < this.width),
             isOnBottomEdge: (position >= this.differenceList.length - this.width),
