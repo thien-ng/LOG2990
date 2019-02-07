@@ -15,8 +15,8 @@ export class CreateFreeGameComponent {
   public readonly SPHERE_OPTION: string = "Sphère";
   public readonly CUBE_OPTION: string = "Cube";
   public readonly CONE_OPTION: string = "Cône";
-  public readonly CYLINDRE_OPTION: string = "Cylindre";
-  public readonly PYRAMIDE_OPTION: string = "Pyramide à base triangulaire";
+  public readonly CYLINDER_OPTION: string = "Cylindre";
+  public readonly PYRAMID_OPTION: string = "Pyramide à base triangulaire";
 
   public constructor(private dialogRef: MatDialogRef<CreateFreeGameComponent>) { //
    }
