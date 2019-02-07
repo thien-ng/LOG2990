@@ -10,7 +10,7 @@ export class GameViewService {
     // default constructor
   }
 
-  public onCanvasClick(x: number, y: number): void{
+  public onCanvasClick(x: number, y: number): void {
     console.log("x: " + x + " y: " + y);
   }
 
