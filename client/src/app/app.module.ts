@@ -16,6 +16,7 @@ import { LoginValidatorComponent } from "./login/login-validator/login-validator
 import { LoginViewComponent } from "./login/login-view/login-view.component";
 import { MainNavComponent } from "./main-nav/main-nav.component";
 import { TestingImportsModule } from "./testing-imports/testing-imports.module";
+import { GameViewComponent } from './game-view/game-view.component';
 
 const routes: Routes = [
   { path: Constants.ROOT_PATH, redirectTo: Constants.NAV_PATH, pathMatch: Constants.PATH_MATCH_FULL },
@@ -27,6 +28,7 @@ const routes: Routes = [
       { path: Constants.LOGIN_PATH, component: LoginPageComponent },
       { path: Constants.GAMELIST_PATH, component: GameListContainerComponent },
       { path: Constants.ADMIN_PATH, component: GameListContainerComponent },
+      { path: Constants.GAME_VIEW, component: GameViewComponent},
     ],
   },
 ];
@@ -44,6 +46,7 @@ const routes: Routes = [
     GameListComponent,
     GameListContainerComponent,
     CreateSimpleGameComponent,
+    GameViewComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
