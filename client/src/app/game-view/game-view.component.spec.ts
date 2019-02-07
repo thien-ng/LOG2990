@@ -1,16 +1,17 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { Constants } from "../constants";
+import { GameViewComponent } from "./game-view.component";
 
-import { GameViewComponent } from './game-view.component';
-
-describe('GameViewComponent', () => {
+describe("GameViewComponent", () => {
   let component: GameViewComponent;
   let fixture: ComponentFixture<GameViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GameViewComponent ]
+      declarations: [ GameViewComponent ],
     })
-    .compileComponents();
+    .compileComponents()
+    .catch(() => Constants.OBLIGATORY_CATCH);
   }));
 
   beforeEach(() => {
@@ -19,7 +20,7 @@ describe('GameViewComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
