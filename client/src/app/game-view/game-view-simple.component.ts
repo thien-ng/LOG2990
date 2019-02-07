@@ -9,8 +9,6 @@ import { GameViewSimpleService } from "./game-view-simple.service";
 
 export class GameViewSimpleComponent implements AfterContentInit{
 
-  @ViewChild("displayGame", {read: ElementRef})
-  public displayGameDiv: ElementRef;
   @ViewChild("originalImage", {read: ElementRef})
   public canvasOriginal: ElementRef;
   @ViewChild("modifiedImage", {read: ElementRef})
