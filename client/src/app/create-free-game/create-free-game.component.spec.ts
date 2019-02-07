@@ -1,14 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { CreateFreeGameComponent } from './create-free-game.component';
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import { TestingImportsModule } from "../testing-imports/testing-imports.module";
+import { CreateFreeGameComponent } from "./create-free-game.component";
 
-describe('CreateFreeGameComponent', () => {
+describe("CreateFreeGameComponent", () => {
   let component: CreateFreeGameComponent;
   let fixture: ComponentFixture<CreateFreeGameComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateFreeGameComponent ]
+      declarations: [ CreateFreeGameComponent ],
+      imports: [TestingImportsModule],
+      providers: [{
+        provide: MatDialogRef,
+        useValue: {},
+      },
+                  {
+        provide: MAT_DIALOG_DATA,
+        useValue: {}, // Add any data you wish to test if it is passed/used correctly
+      }],
     })
     .compileComponents();
   }));
@@ -19,7 +30,7 @@ describe('CreateFreeGameComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
