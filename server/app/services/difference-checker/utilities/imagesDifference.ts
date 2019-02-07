@@ -10,6 +10,7 @@ export class ImagesDifference {
     private readonly VALUE_DIFFERENCE: number = 1;
     private readonly VALUE_EQUAL: number = 0;
     private differenceImage: number[];
+    private readonly HEADER_SIZE: number = 54;
 
     public constructor() {
         this.differenceImage = [];
@@ -33,7 +34,7 @@ export class ImagesDifference {
 
     private findDifference(originalBuffer: Buffer, modifiedBuffer: Buffer): void {
 
-        let bufferIndex: number = 0;
+        let bufferIndex: number = this.HEADER_SIZE;
         let differenceListIndex: number = 0;
         let assignedValue: number;
         let areEqual: Boolean;

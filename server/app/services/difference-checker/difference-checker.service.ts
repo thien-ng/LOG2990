@@ -7,15 +7,14 @@ import { ClusterCounter } from "./utilities/clusterCounter";
 import { ImageRequirements } from "./utilities/imageRequirements";
 import { ImagesDifference } from "./utilities/imagesDifference";
 
-const HEADER_INDEX: number = 0;
-const BODY_INDEX: number = 1;
+const HEADER_SIZE: number = 54;
 
 @injectable()
 export class DifferenceCheckerService {
 
     private bufferManager: BufferManager;
-    private splittedOriginal: Buffer[];
-    private splittedDifferent: Buffer[];
+    private bufferOriginal: Buffer;
+    private bufferModified: Buffer;
     private circledDifferences: number[];
 
     public constructor() {
@@ -29,11 +28,11 @@ export class DifferenceCheckerService {
         try {
             numberOfDifferences = this.calculateDifferences(requirements);
         } catch (error) {
+
             return this.sendErrorMessage(error.message);
         }
-
-        if (this.imageHasNotDimensionsNeeded(this.splittedOriginal) ||
-            this.imageHasNotDimensionsNeeded(this.splittedDifferent)) {
+        if (this.imageHasNotDimensionsNeeded(this.bufferOriginal) ||
+            this.imageHasNotDimensionsNeeded(this.bufferModified)) {
 
             return this.sendErrorMessage(Constants.ERROR_IMAGES_DIMENSIONS);
         }
@@ -42,7 +41,7 @@ export class DifferenceCheckerService {
 
             const dataImageBuffer: Buffer = this.bufferManager.arrayToBuffer(this.circledDifferences);
 
-            return this.bufferManager.mergeBuffers(this.splittedOriginal[HEADER_INDEX], dataImageBuffer);
+            return this.bufferManager.mergeBuffers(this.bufferOriginal.slice(0, HEADER_SIZE), dataImageBuffer);
 
         } else {
 
@@ -52,10 +51,10 @@ export class DifferenceCheckerService {
 
     private calculateDifferences(requirements: ImageRequirements): number {
 
-        this.splittedOriginal = this.bufferManager.splitHeader(requirements.originalImage);
-        this.splittedDifferent = this.bufferManager.splitHeader(requirements.modifiedImage);
+        this.bufferOriginal = Buffer.from(requirements.originalImage);
+        this.bufferModified = Buffer.from(requirements.modifiedImage);
 
-        const differencesFound: number[] = this.findDifference(this.splittedOriginal[BODY_INDEX], this.splittedDifferent[BODY_INDEX]);
+        const differencesFound: number[] = this.findDifference(this.bufferOriginal, this.bufferModified);
         this.circledDifferences = this.circleDifference(differencesFound, requirements.requiredWidth);
 
         return this.countAllClusters(this.circledDifferences, requirements.requiredWidth);
@@ -86,10 +85,10 @@ export class DifferenceCheckerService {
         } as Message;
     }
 
-    private imageHasNotDimensionsNeeded(splittedBuffer: Buffer[]): boolean {
-        const imageWidht: Buffer = this.extractWidth(splittedBuffer[HEADER_INDEX]);
-        const imageHeight: Buffer = this.extractHeight(splittedBuffer[HEADER_INDEX]);
+    private imageHasNotDimensionsNeeded(buffer: Buffer): boolean {
 
+        const imageWidht: Buffer = this.extractWidth(buffer);
+        const imageHeight: Buffer = this.extractHeight(buffer);
         const requiredWidth: Buffer = Buffer.from(Constants.REQUIRED_WIDTH, Constants.BUFFER_FORMAT);
         const requiredHeight: Buffer = Buffer.from(Constants.REQUIRED_HEIGTH, Constants.BUFFER_FORMAT);
 
