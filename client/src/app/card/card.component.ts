@@ -23,6 +23,7 @@ export class CardComponent {
   public readonly TEXT_RESET_TIMERS: string = "Réinitialiser les temps";
   public readonly TEXT_DELETE: string = "Supprimer la carte";
   public readonly ADMIN_PATH: string = "/admin";
+  public readonly GAME_VIEW_PATH: string = "/game-view";
 
   @Input() public card: ICard;
 
