@@ -26,8 +26,8 @@
           <button class="playButton" mat-button [matMenuTriggerFor]="menu">{{TEXT_PLAY}}</button>
 
           <mat-menu #menu="matMenu">
-            <button mat-menu-item routerLink="/game-view">{{TEXT_PLAY_SINGLE}}</button>
-            <button mat-menu-item routerLink="/game-view">{{TEXT_PLAY_MULTI}}</button>
+            <button mat-menu-item routerLink={{GAME_VIEW_PATH}}>{{TEXT_PLAY_SINGLE}}</button>
+            <button mat-menu-item routerLink={{GAME_VIEW_PATH}}>{{TEXT_PLAY_MULTI}}</button>
           </mat-menu>
 
         <button mat-button class="highscoreButton" [ngClass]="hsButtonIsClicked ? 'clicked' : 'unclicked'" (click)="onHSButtonClick()">
