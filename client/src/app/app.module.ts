@@ -10,7 +10,7 @@ import { Constants } from "./constants";
 import { CreateSimpleGameComponent } from "./create-simple-game/create-simple-game.component";
 import { GameListContainerComponent } from "./game-list-container/game-list-container.component";
 import { GameListComponent } from "./game-list/game-list.component";
-import { GameViewComponent } from "./game-view/game-view.component";
+import { GameViewSimpleComponent } from "./game-view/game-view-simple.component";
 import { HighscoreDisplayComponent } from "./highscore-display/highscore-display.component";
 import { LoginPageComponent } from "./login/login-page/login-page.component";
 import { LoginValidatorComponent } from "./login/login-validator/login-validator.component";
@@ -28,7 +28,7 @@ const routes: Routes = [
       { path: Constants.LOGIN_PATH, component: LoginPageComponent },
       { path: Constants.GAMELIST_PATH, component: GameListContainerComponent },
       { path: Constants.ADMIN_PATH, component: GameListContainerComponent },
-      { path: Constants.GAME_VIEW, component: GameViewComponent },
+      { path: Constants.GAME_VIEW, component: GameViewSimpleComponent },
     ],
   },
 ];
@@ -46,7 +46,7 @@ const routes: Routes = [
     GameListComponent,
     GameListContainerComponent,
     CreateSimpleGameComponent,
-    GameViewComponent,
+    GameViewSimpleComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
