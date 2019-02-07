@@ -6,7 +6,7 @@ import { Router } from "@angular/router";
 import "rxjs/add/operator/toPromise";
 import { Message } from "../../../../common/communication/message";
 
-import { Observable, Subject } from "rxjs";
+import { Observable, Subject, observable, Subscriber } from "rxjs";
 import { Constants } from "../constants";
 import { SocketService } from "../websocket/socket.service";
 
@@ -41,23 +41,28 @@ export class LoginValidatorService {
       // Default constructor
     }
 
-  public async addUsername(): Promise<boolean> {
+  public addUsername(): Observable<boolean> {
     if (this.usernameFormControl.errors === null) {
       const message: Message = this.generateMessage(this.usernameFormControl.value);
 
-      const result: boolean = await this.sendUsernameRequest(message);
+      return this.sendUsernameRequest(message);
+      // .subscribe(async (result: boolean) => {
 
-      if (result) {
-        this.socketService.sendMsg(Constants.LOGIN_REQUEST, this.usernameFormControl.value);
-        await this.router.navigate([Constants.ROUTER_LOGIN]);
-        localStorage.setItem(Constants.USERNAME_KEY, this.usernameFormControl.value);
-        this.userNameUpdated.next(localStorage.getItem(Constants.USERNAME_KEY));
+      //   if (result) {
+      //     this.socketService.sendMsg(Constants.LOGIN_REQUEST, this.usernameFormControl.value);
+      //     await this.router.navigate([Constants.ROUTER_LOGIN]);
+      //     localStorage.setItem(Constants.USERNAME_KEY, this.usernameFormControl.value);
+      //     this.userNameUpdated.next(localStorage.getItem(Constants.USERNAME_KEY));
 
-        return true;
-      }
+      //     return true;
+      //   }
+
+      //   return false;
+      // });
+
     }
 
-    return false;
+    return new Observable<boolean>((subscriber: Subscriber<boolean>) => subscriber.next(false));
   }
 
   public getUserNameListener(): Observable<string | null> {
@@ -65,8 +70,8 @@ export class LoginValidatorService {
   }
 
   // Helpers
-  private async sendUsernameRequest(message: Message): Promise<boolean> {
-    return this.httpClient.post<boolean>(Constants.PATH_TO_LOGIN_VALIDATION, message).toPromise().catch(() => false);
+  private sendUsernameRequest(message: Message): Observable<boolean> {
+    return this.httpClient.post<boolean>(Constants.PATH_TO_LOGIN_VALIDATION, message);
   }
 
   private generateMessage(username: string): Message {
