@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-
+import { Constants } from "../constants";
 import { GameViewComponent } from "./game-view.component";
 
 describe("GameViewComponent", () => {
@@ -8,9 +8,10 @@ describe("GameViewComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GameViewComponent ]
+      declarations: [ GameViewComponent ],
     })
-    .compileComponents();
+    .compileComponents()
+    .catch(() => Constants.OBLIGATORY_CATCH);
   }));
 
   beforeEach(() => {
