@@ -4,9 +4,11 @@ import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule, RouterOutlet, Routes } from "@angular/router";
 
+import { MatSelectModule } from "@angular/material";
 import { AppComponent } from "./app.component";
 import { CardComponent } from "./card/card.component";
 import { Constants } from "./constants";
+import { CreateFreeGameComponent } from "./create-free-game/create-free-game.component";
 import { CreateSimpleGameComponent } from "./create-simple-game/create-simple-game.component";
 import { GameListContainerComponent } from "./game-list-container/game-list-container.component";
 import { GameListComponent } from "./game-list/game-list.component";
@@ -44,6 +46,7 @@ const routes: Routes = [
     GameListComponent,
     GameListContainerComponent,
     CreateSimpleGameComponent,
+    CreateFreeGameComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -52,9 +55,10 @@ const routes: Routes = [
     RouterModule,
     TestingImportsModule,
     BrowserModule,
+    MatSelectModule,
   ],
   exports: [RouterOutlet],
-  entryComponents: [CreateSimpleGameComponent],
+  entryComponents: [CreateSimpleGameComponent, CreateFreeGameComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

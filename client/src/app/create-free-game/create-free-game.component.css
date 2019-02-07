@@ -1,0 +1,30 @@
+.form {
+    width: 700px;
+  }
+  
+  .input-role {
+    width: 80%;
+  }
+  
+  .mat-title {
+    font-size: 20pt;
+  }
+  
+  .mat-subheading-2 {
+    font-size: 16pt;
+  }
+  
+  .input-width, .mat-title {
+    padding-bottom: 40px;
+  }
+  
+  .button-padding {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 20px;
+  }
+  
+  .spacer {
+    flex: 1 1 auto;
+  }
+  
