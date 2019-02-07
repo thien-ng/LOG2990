@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, ViewChild } from "@angular/core";
+import { Component, ElementRef, Inject, ViewChild, AfterViewInit } from "@angular/core";
 import { GameViewService } from "./game-view.service";
 
 @Component({
@@ -7,7 +7,7 @@ import { GameViewService } from "./game-view.service";
   styleUrls: ["./game-view.component.css"],
 })
 
-export class GameViewComponent {
+export class GameViewComponent implements AfterViewInit{
 
   @ViewChild("originalImage", {read: ElementRef})
   public canvasOriginal: ElementRef;
@@ -16,6 +16,11 @@ export class GameViewComponent {
 
   public constructor(@Inject(GameViewService) public gameViewService: GameViewService) {
     // default constructor
+  }
+
+  public ngAfterViewInit(): void {
+    this.canvasOriginal.nativeElement.focus();
+    this.canvasModified.nativeElement.focus();
   }
 
   public getMousePositionOriginal(): void {
