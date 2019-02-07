@@ -1,16 +1,17 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { Constants } from "../../constants";
+import { GameViewFreeComponent } from "./game-view-free.component";
 
-import { GameViewFreeComponent } from './game-view-free.component';
-
-describe('GameViewFreeComponent', () => {
+describe("GameViewFreeComponent", () => {
   let component: GameViewFreeComponent;
   let fixture: ComponentFixture<GameViewFreeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GameViewFreeComponent ]
+      declarations: [ GameViewFreeComponent ],
     })
-    .compileComponents();
+    .compileComponents()
+    .catch(() => Constants.OBLIGATORY_CATCH);
   }));
 
   beforeEach(() => {
@@ -19,7 +20,7 @@ describe('GameViewFreeComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

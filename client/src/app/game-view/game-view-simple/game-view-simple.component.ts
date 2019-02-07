@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, ViewChild, AfterContentInit } from "@angular/core";
+import { AfterContentInit, Component, ElementRef, Inject, ViewChild } from "@angular/core";
 import { GameViewSimpleService } from "./game-view-simple.service";
 
 @Component({
@@ -7,7 +7,7 @@ import { GameViewSimpleService } from "./game-view-simple.service";
   styleUrls: ["./game-view-simple.component.css"],
 })
 
-export class GameViewSimpleComponent implements AfterContentInit{
+export class GameViewSimpleComponent implements AfterContentInit {
 
   @ViewChild("originalImage", {read: ElementRef})
   public canvasOriginal: ElementRef;
@@ -30,5 +30,5 @@ export class GameViewSimpleComponent implements AfterContentInit{
       this.gameViewService.onCanvasClick(mouseEvent.offsetX, mouseEvent.offsetY);
     });
   }
-  
+
 }

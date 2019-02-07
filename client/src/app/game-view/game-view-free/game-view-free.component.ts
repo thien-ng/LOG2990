@@ -1,15 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from "@angular/core";
 
 @Component({
-  selector: 'app-game-view-free',
-  templateUrl: './game-view-free.component.html',
-  styleUrls: ['./game-view-free.component.css']
+  selector: "app-game-view-free",
+  templateUrl: "./game-view-free.component.html",
+  styleUrls: ["./game-view-free.component.css"],
 })
-export class GameViewFreeComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
+export class GameViewFreeComponent {
 
 }

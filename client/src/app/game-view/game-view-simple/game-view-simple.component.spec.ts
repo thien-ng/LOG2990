@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { Constants } from "../constants";
+import { Constants } from "../../constants";
 import { GameViewSimpleComponent } from "./game-view-simple.component";
 
 describe("GameViewSimpleComponent", () => {
