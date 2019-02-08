@@ -1,6 +1,1 @@
-export class User {
-
-    public constructor() {
-        // default
-    }
-}
+export class User {}

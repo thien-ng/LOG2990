@@ -1,6 +1,1 @@
-export class PlayerMatcher {
-
-    public constructor() {
-        // default
-    }
-}
+export class PlayerMatcher {}

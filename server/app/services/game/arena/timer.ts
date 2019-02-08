@@ -1,6 +1,1 @@
-export class Timer {
-
-    public constructor() {
-        // default
-    }
-}
+export class Timer {}

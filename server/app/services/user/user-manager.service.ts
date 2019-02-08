@@ -1,6 +1,1 @@
-export class UserManager {
-
-    public constructor() {
-        // default
-    }
-}
+export class UserManager {}

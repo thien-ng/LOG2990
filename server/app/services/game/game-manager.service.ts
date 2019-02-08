@@ -1,6 +1,1 @@
-export class GameManager {
-
-    public constructor() {
-        // default
-    }
-}
+export class GameManager {}

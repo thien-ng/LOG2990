@@ -1,6 +1,1 @@
-export class Arena {
-
-    public constructor() {
-        // default
-    }
-}
+export class Arena {}

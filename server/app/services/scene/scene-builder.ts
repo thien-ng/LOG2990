@@ -1,6 +1,1 @@
-export class SceneBuilder {
-
-    public constructor() {
-        // default
-    }
-}
+export class SceneBuilder {}

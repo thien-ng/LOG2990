@@ -1,6 +1,1 @@
-export class UserInputDispatcher {
-
-    public constructor() {
-        // default
-    }
-}
+export class UserInputDispatcher {}

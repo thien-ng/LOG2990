@@ -1,6 +1,1 @@
-export class HitValidator {
-
-    public constructor() {
-        // default
-    }
-}
+export class HitValidator {}

@@ -1,6 +1,1 @@
-export class PointsCounter {
-
-    public constructor() {
-        // default
-    }
-}
+export class PointsCounter {}
