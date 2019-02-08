@@ -1,5 +1,7 @@
 import { Component } from "@angular/core";
 import { MatDialogRef } from "@angular/material";
+import { FormControl, Validators } from "@angular/forms";
+import { Constants } from "../constants";
 
 @Component({
   selector: "app-create-free-game",
@@ -11,6 +13,9 @@ export class CreateFreeGameComponent {
   public readonly MAX_VALUE: number = 200;
   public readonly MIN_VALUE: number = 10;
   public sliderValue: number = 100;
+  public addChecked: boolean = false;
+  public delChecked: boolean = false;
+  public colorChecked: boolean = false;
   public readonly SUBMIT: string = "Soumettre";
   public readonly CANCEL: string = "Annuler";
   public readonly TITLE: string = "Créer un jeu de point de vue libre";
@@ -25,6 +30,12 @@ export class CreateFreeGameComponent {
   public readonly EDIT_TYPE_DELETE: string = "Suppression";
   public readonly EDIT_TYPE_COLOR: string = "Changement de couleur";
 
+  public nameControl: FormControl =  new FormControl("", [
+      Validators.required,
+      Validators.pattern(Constants.GAME_REGEX_PATTERN),
+      Validators.minLength(Constants.MIN_GAME_LENGTH),
+      Validators.maxLength(Constants.MAX_GAME_LENGTH),
+    ]);
   public constructor(
     private dialogRef: MatDialogRef<CreateFreeGameComponent>,
   ) {
@@ -39,6 +50,20 @@ export class CreateFreeGameComponent {
     }
   }
 
+  public getChecked(): [boolean, boolean, boolean] {
+    return [this.addChecked, this.delChecked, this.colorChecked];
+  }
+
+  public atLeastOneIsChecked(): boolean {
+    let oneIsChecked: boolean = false;
+    this.getChecked().forEach((element: boolean) => {
+      if (element) {
+        oneIsChecked = true;
+      }
+    });
+
+    return oneIsChecked;
+  }
   public closeDialog(): void {
     this.dialogRef.close();
   }

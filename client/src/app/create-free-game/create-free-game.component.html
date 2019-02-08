@@ -4,11 +4,11 @@
 </div>
 <form class="form">
   <mat-form-field class="input">
-    <input type="text" name="gameName" matInput placeholder={{PLACE_HOLDER_NAME}}>
+    <input type="text" [formControl]="nameControl" name="gameName" matInput placeholder={{PLACE_HOLDER_NAME}} required>
   </mat-form-field>
 
   <mat-form-field class="selector">
-    <mat-select placeholder={{PLACE_HOLDER_TYPE}}>
+    <mat-select  placeholder={{PLACE_HOLDER_TYPE}} required>
       <mat-option value="sphere">{{SPHERE_OPTION}}</mat-option>
       <mat-option value="cube">{{CUBE_OPTION}}</mat-option>
       <mat-option value="cone">{{CONE_OPTION}}</mat-option>
@@ -29,9 +29,9 @@
     </div>
   </div>
   
-  <mat-checkbox class="checkbox">{{EDIT_TYPE_ADD}}</mat-checkbox>
-  <mat-checkbox class="checkbox">{{EDIT_TYPE_DELETE}}</mat-checkbox>
-  <mat-checkbox class="checkbox">{{EDIT_TYPE_COLOR}}</mat-checkbox>
+  <mat-checkbox class="checkbox" name="addChecked" [(ngModel)]="addChecked">{{EDIT_TYPE_ADD}}</mat-checkbox>
+  <mat-checkbox class="checkbox" name="delChecked" [(ngModel)]="delChecked">{{EDIT_TYPE_DELETE}}</mat-checkbox>
+  <mat-checkbox class="checkbox" name="colorChecked" [(ngModel)]="colorChecked">{{EDIT_TYPE_COLOR}}</mat-checkbox>
   
   <div>
   <button class="button-padding" mat-raised-button>{{SUBMIT}}</button>
