@@ -35,6 +35,7 @@ export class CreateFreeGameComponent {
       this.value = this.MAX_VALUE;
     }
   }
+
   public closeDialog(): void {
     this.dialogRef.close();
   }

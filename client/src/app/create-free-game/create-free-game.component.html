@@ -7,7 +7,7 @@
     <input type="text" name="gameName" matInput placeholder={{PLACE_HOLDER_NAME}}>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field class="selector">
     <mat-select placeholder={{PLACE_HOLDER_TYPE}}>
       <mat-option value="sphere">{{SPHERE_OPTION}}</mat-option>
       <mat-option value="cube">{{CUBE_OPTION}}</mat-option>
@@ -22,8 +22,8 @@
     name="slider"
     thumbLabel
     [(ngModel)]="value"
-    min="MIN_VALUE"
-    max="MAX_VALUE"></mat-slider>
+    min="{{MIN_VALUE}}"
+    max="{{MAX_VALUE}}"></mat-slider>
     <div class="sliderDiv">
       <input min="MIN_VALUE" max="MAX_VALUE" (change)="verify($event.srcElement.value)" class="sliderValue" name="sliderValue" type="number" matInput [(ngModel)]="value">
     </div>
