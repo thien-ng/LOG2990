@@ -21,13 +21,18 @@
     class="mat-slider-horizontal"
     name="slider"
     thumbLabel
-    [(ngModel)]="value"
+    [(ngModel)]="sliderValue"
     min="{{MIN_VALUE}}"
     max="{{MAX_VALUE}}"></mat-slider>
     <div class="sliderDiv">
-      <input min="MIN_VALUE" max="MAX_VALUE" (change)="verify($event.srcElement.value)" class="sliderValue" name="sliderValue" type="number" matInput [(ngModel)]="value">
+      <input min="MIN_VALUE" max="MAX_VALUE" (change)="verify($event.srcElement.value)" class="sliderValue" name="sliderValue" type="number" matInput [(ngModel)]="sliderValue">
     </div>
   </div>
+  
+  <mat-checkbox class="checkbox">{{EDIT_TYPE_ADD}}</mat-checkbox>
+  <mat-checkbox class="checkbox">{{EDIT_TYPE_DELETE}}</mat-checkbox>
+  <mat-checkbox class="checkbox">{{EDIT_TYPE_COLOR}}</mat-checkbox>
+  
   <div>
   <button class="button-padding" mat-raised-button>{{SUBMIT}}</button>
   <button class="button-padding" mat-raised-button type="button" (click)="closeDialog()">{{CANCEL}}</button>

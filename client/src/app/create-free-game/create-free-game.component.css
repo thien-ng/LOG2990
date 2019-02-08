@@ -37,3 +37,8 @@
 .selector {
   width: 250px;
 }
+
+.checkbox {
+  
+  display: block;
+}
