@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import "reflect-metadata";
-import { NameValidatorService } from "../../../validator/nameValidator.service";
+import { NameValidatorService } from "../../services/validator/nameValidator.service";
 
 let nameValidatorService: NameValidatorService;
 

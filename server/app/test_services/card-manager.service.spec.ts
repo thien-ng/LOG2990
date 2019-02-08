@@ -3,12 +3,12 @@ import "reflect-metadata";
 import { expect } from "chai";
 import * as fs from "fs";
 import * as path from "path";
-import { Constants } from "../../../../../client/src/app/constants";
-import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../../../common/communication/iCard";
-import { ICardLists } from "../../../../../common/communication/iCardLists";
-import { Message } from "../../../../../common/communication/message";
-import { CardManagerService } from "../../../services/card-manager.service";
-import { HighscoreService } from "../../highscore.service";
+import { Constants } from "../../../client/src/app/constants";
+import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/communication/iCard";
+import { ICardLists } from "../../../common/communication/iCardLists";
+import { Message } from "../../../common/communication/message";
+import { CardManagerService } from "../services/card-manager.service";
+import { HighscoreService } from "../services/highscore.service";
 
 // tslint:disable:no-magic-numbers
 
@@ -20,7 +20,7 @@ let highscoreService: HighscoreService;
 
 describe("Card-manager tests", () => {
 
-    const testImageOg: Buffer = fs.readFileSync(path.resolve(__dirname, "../../../asset/image/testBitmap/imagetestOg.bmp"));
+    const testImageOg: Buffer = fs.readFileSync(path.resolve(__dirname, "../asset/image/testBitmap/imagetestOg.bmp"));
 
     const c1: ICard = {
         gameID: 1,

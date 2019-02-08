@@ -1,7 +1,7 @@
 // tslint:disable:no-magic-numbers
 import { expect } from "chai";
-import { Highscore, HighscoreMessage, Mode } from "../../../../../common/communication/highscore";
-import { HighscoreService } from "../../../services/highscore.service";
+import { Highscore, HighscoreMessage, Mode } from "../../../common/communication/highscore";
+import { HighscoreService } from "../services/highscore.service";
 
 const UNDEFINED: number = 100;
 const MOCK_SCORE_VALUE_1: number = 400;
