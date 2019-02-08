@@ -19,3 +19,17 @@
   margin-right: 10px;
   margin-top: 20px;
  }
+
+ .mat-slider-horizontal {
+  width: 500px;
+}
+
+.sliderValue {
+  width: 70px;
+  float: left;
+}
+
+.sliderDiv {
+  width: 200px;
+  float: right;
+}
