@@ -31,7 +31,7 @@ const routes: Routes = [
       { path: Constants.GAMELIST_PATH, component: GameListContainerComponent },
       { path: Constants.ADMIN_PATH, component: GameListContainerComponent },
       { path: Constants.GAME_VIEW_SIMPLE, component: GameViewSimpleComponent },
-      { path: Constants.GAME_VIEW_FREE, component: GameViewFreeComponent }
+      { path: Constants.GAME_VIEW_FREE, component: GameViewFreeComponent },
     ],
   },
 ];
