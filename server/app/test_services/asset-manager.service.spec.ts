@@ -2,11 +2,11 @@ import "reflect-metadata";
 
 import * as chai from "chai";
 import * as spies from "chai-spies";
-import { ImageManagerService } from "../image-manager.service";
+import { AssetManagerService } from "../services/asset-manager.service";
 
 /* tslint:disable:no-any */
 
-let imageManagerService: ImageManagerService;
+let imageManagerService: AssetManagerService;
 
 describe("Image manager service tests", () => {
 
@@ -15,7 +15,7 @@ describe("Image manager service tests", () => {
     const buffer: Buffer = Buffer.from(["dfgx"]);
 
     beforeEach(() => {
-        imageManagerService = new ImageManagerService();
+        imageManagerService = new AssetManagerService();
     });
 
     it("Should call the stockImage funciton when creating bmp", () => {

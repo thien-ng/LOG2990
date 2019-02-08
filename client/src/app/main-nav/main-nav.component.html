@@ -5,8 +5,8 @@
       <div id="text">{{ TEXT_ADMIN }}</div>
       <mat-slide-toggle id="slider" [checked]="isAdminMode" (change)="this.adminService.adminToggle()"></mat-slide-toggle>
       <div id="buttons">
-        <button class="button" [disabled]="!isAdminMode" mat-raised-button (click)="openDialog()">{{ TEXT_BOUTON_2D }}</button>
-        <button class="button" [disabled]="!isAdminMode" mat-raised-button (click)="openDialog()">{{ TEXT_BOUTON_3D }}</button>
+        <button class="button" [disabled]="!isAdminMode" mat-raised-button (click)="openSimpleDialog()">{{ TEXT_BOUTON_2D }}</button>
+        <button class="button" [disabled]="!isAdminMode" mat-raised-button (click)="openFreeDialog()">{{ TEXT_BOUTON_3D }}</button>
       </div>
     </div>
   </div>

@@ -5,7 +5,7 @@ const IMAGES_PATH: string = "./app/asset/image";
 const FILE_GENERATION_ERROR: string = "error while generating file";
 const FILE_DELETION_ERROR: string = "error while deleting file";
 
-export class ImageManagerService {
+export class AssetManagerService {
 
     public createBMP(buffer: Buffer, cardId: number): number {
 
