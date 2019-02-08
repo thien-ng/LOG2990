@@ -1,6 +1,8 @@
 <form class="login-form">
     <mat-form-field class="login-input">
-      <input #newUsername matInput autocomplete="off"
+      <input #newUsername matInput
+          autocomplete="off"
+          autofocus
           (keyup.enter)="addUsername()"
           placeholder="{{HINT_USERNAME}}"
           [formControl]="this.usernameFormControl"
