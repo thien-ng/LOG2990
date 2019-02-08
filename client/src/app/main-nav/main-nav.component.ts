@@ -64,9 +64,9 @@ export class MainNavComponent implements OnInit, OnDestroy {
         this.isAdminMode = activeState;
     });
     this.loginService.getUserNameListener().subscribe(() => {
-      this.client = localStorage.getItem(Constants.USERNAME_KEY);
+      this.client = sessionStorage.getItem(Constants.USERNAME_KEY);
     });
-    this.client = localStorage.getItem(Constants.USERNAME_KEY);
+    this.client = sessionStorage.getItem(Constants.USERNAME_KEY);
   }
 
   public openSimpleDialog(): void {
