@@ -21,8 +21,8 @@ export class LoginValidatorService {
 
   public addUsername(username: string): Observable<boolean> {
     const message: Message = this.generateMessage(username);
-    localStorage.setItem(Constants.USERNAME_KEY, username);
-    this.userNameUpdated.next(localStorage.getItem(Constants.USERNAME_KEY));
+    sessionStorage.setItem(Constants.USERNAME_KEY, username);
+    this.userNameUpdated.next(sessionStorage.getItem(Constants.USERNAME_KEY));
 
     return this.sendUsernameRequest(message);
   }
