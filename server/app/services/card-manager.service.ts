@@ -5,9 +5,9 @@ import { ICardLists } from "../../../common/communication/iCardLists";
 import { Message } from "../../../common/communication/message";
 import { Constants } from "../constants";
 import Types from "../types";
+import { AssetManagerService } from "./asset-manager.service";
 import { ImageRequirements } from "./difference-checker/utilities/imageRequirements";
 import { HighscoreService } from "./highscore.service";
-import { ImageManagerService } from "./image-manager.service";
 
 const axios: Axios.AxiosInstance = require("axios");
 const DOESNT_EXIST: number = -1;
@@ -28,14 +28,14 @@ export class CardManagerService {
 
     private originalImageRequest: Buffer;
     private modifiedImageRequest: Buffer;
-    private imageManagerService: ImageManagerService;
+    private imageManagerService: AssetManagerService;
 
     private uniqueId: number = 1000;
 
     public constructor(@inject(Types.HighscoreService) private highscoreService: HighscoreService) {
         this.addCard2D(DefaultCard2D);
         this.addCard3D(DefaultCard3D);
-        this.imageManagerService = new ImageManagerService();
+        this.imageManagerService = new AssetManagerService();
     }
 
     public async cardCreationRoutine(original: Buffer, modified: Buffer, cardTitle: string): Promise<Message> {
