@@ -47,7 +47,7 @@ export class LoginValidatorComponent {
 
   public addUsername(): void {
     this.loginValidatorService.addUsername(this.usernameFormControl.value).subscribe(async (res: boolean) => {
-      if (res) {
+      if (res && this.usernameFormControl.errors == null) {
         this.displayNameIsUnique();
         this.socketService.sendMsg(Constants.LOGIN_REQUEST, this.usernameFormControl.value);
         await this.router.navigate([Constants.ROUTER_LOGIN]);
