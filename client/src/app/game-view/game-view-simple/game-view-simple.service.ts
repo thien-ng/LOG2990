@@ -6,12 +6,8 @@ import { Injectable } from "@angular/core";
 
 export class GameViewSimpleService {
 
-  public constructor() {
-    // default constructor
-  }
-
   public onCanvasClick(x: number, y: number): void {
-    console.log("x: " + x + " y: " + y);
+    // to implement, send signal
   }
 
 }
