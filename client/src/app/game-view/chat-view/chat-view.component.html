@@ -6,8 +6,12 @@
   <mat-card-content>
     <mat-list>
       <mat-list-item *ngFor="let message of showConversation()">
-        <span>{{message.userType}}</span>
-        <span>{{message.message}}</span>
+        <div class="chatMessageBox">
+          <span><strong>{{message.userType}}</strong></span>
+          <span>     {{message.time}}</span>
+          <br>
+          <span>{{message.message}}</span>
+        </div>
       </mat-list-item>
     </mat-list>
   </mat-card-content>

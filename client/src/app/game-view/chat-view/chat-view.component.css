@@ -1,3 +1,9 @@
 .notificationView {
     max-width: 100px;
+    display:block;
+    height: 30px;
+}
+
+.chatMessageBox {
+
 }
