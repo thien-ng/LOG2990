@@ -2,7 +2,7 @@ import "reflect-metadata";
 
 import * as chai from "chai";
 import * as spies from "chai-spies";
-import { AssetManagerService } from "../../asset-manager.service";
+import { AssetManagerService } from "../services/asset-manager.service";
 
 /* tslint:disable:no-any */
 

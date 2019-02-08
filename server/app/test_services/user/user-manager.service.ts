@@ -1,6 +1,6 @@
 // import { expect } from "chai";
 import "reflect-metadata";
-// import { UserManager } from "../../../user/user-manager.service";
+// import { UserManager } from "../../services/user/user-manager.service";
 
 beforeEach(() => {
     // const userManager: UserManager = new UserManager();
