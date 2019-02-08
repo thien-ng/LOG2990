@@ -8,7 +8,7 @@
     border-radius: 5px;
 }
 
-canvas {
+.gameCanvas {
     height: 480px;
     width: 640px;
     background: red;
