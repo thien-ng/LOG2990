@@ -5,8 +5,9 @@
   </mat-card-header>
   <mat-card-content>
     <mat-list>
-      <mat-list-item *ngFor="">
-        <!-- add senders and contents -->
+      <mat-list-item *ngFor="let message of showConversation()">
+        <span>{{message.userType}}</span>
+        <span>{{message.message}}</span>
       </mat-list-item>
     </mat-list>
   </mat-card-content>
