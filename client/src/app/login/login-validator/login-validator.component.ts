@@ -1,8 +1,18 @@
 import { Component, Inject } from "@angular/core";
-import { MatSnackBar } from "@angular/material";
+import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
+import { ErrorStateMatcher, MatSnackBar } from "@angular/material";
+import { Router } from "@angular/router";
 import { Constants } from "../../constants";
+import { SocketService } from "../../websocket/socket.service";
 import { LoginValidatorService } from "../login-validator.service";
 
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  public isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted: boolean | null = form && form.submitted;
+
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 @Component({
   selector: "app-login-validator",
   templateUrl: "./login-validator.component.html",
@@ -21,13 +31,27 @@ export class LoginValidatorComponent {
 
   public constructor(
     @Inject(LoginValidatorService) public loginValidatorService: LoginValidatorService,
-    private snackbar: MatSnackBar) {}
+    private snackbar: MatSnackBar,
+    private socketService: SocketService,
+    private router: Router,
+  ) {}
+
+  public matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
+
+  public usernameFormControl: FormControl = new FormControl("", [
+    Validators.required,
+    Validators.pattern(Constants.REGEX_PATTERN),
+    Validators.minLength(Constants.MIN_LENGTH),
+    Validators.maxLength(Constants.MAX_LENGTH),
+  ]);
 
   public addUsername(): void {
-    this.loginValidatorService.addUsername().subscribe(async (res: boolean) => {
+    this.loginValidatorService.addUsername(this.usernameFormControl.value).subscribe(async (res: boolean) => {
       if (res) {
         this.displayNameIsUnique();
-      } else if (this.loginValidatorService.usernameFormControl.errors === null) {
+        this.socketService.sendMsg(Constants.LOGIN_REQUEST, this.usernameFormControl.value);
+        await this.router.navigate([Constants.ROUTER_LOGIN]);
+      } else if (this.usernameFormControl.errors === null) {
         this.displayNameNotUnique();
       }
     });
@@ -42,12 +66,12 @@ export class LoginValidatorComponent {
   }
 
   private displayNameIsUnique(): void {
-    this.displaySnackBar(Constants.SNACKBAR_GREETINGS + this.loginValidatorService.usernameFormControl.value,
+    this.displaySnackBar(Constants.SNACKBAR_GREETINGS + this.usernameFormControl.value,
                          Constants.SNACKBAR_ACKNOWLEDGE);
   }
 
   private displayNameNotUnique(): void {
-    this.displaySnackBar(this.loginValidatorService.usernameFormControl.value + Constants.SNACKBAR_USED_NAME,
+    this.displaySnackBar(this.usernameFormControl.value + Constants.SNACKBAR_USED_NAME,
                          Constants.SNACKBAR_ATTENTION);
   }
 
