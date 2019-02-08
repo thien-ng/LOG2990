@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import { Constants } from "../constants";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { CreateFreeGameComponent } from "./create-free-game.component";
 
@@ -20,7 +21,8 @@ describe("CreateFreeGameComponent", () => {
         provide: MAT_DIALOG_DATA,
       }],
     })
-    .compileComponents();
+    .compileComponents()
+    .catch(() => Constants.OBLIGATORY_CATCH);
   }));
 
   beforeEach(() => {
