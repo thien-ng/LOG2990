@@ -7,6 +7,7 @@ import { Router } from "@angular/router";
 import { Observable, Subscription } from "rxjs";
 import { map } from "rxjs/operators";
 import { Constants } from "../constants";
+import { CreateFreeGameComponent } from "../create-free-game/create-free-game.component";
 import { CreateSimpleGameComponent } from "../create-simple-game/create-simple-game.component";
 import { LoginValidatorService } from "../login/login-validator.service";
 import { AdminToggleService } from "./admin-toggle.service";
@@ -68,7 +69,7 @@ export class MainNavComponent implements OnInit, OnDestroy {
     this.client = localStorage.getItem(Constants.USERNAME_KEY);
   }
 
-  public openDialog(): void {
+  public openSimpleDialog(): void {
 
     const dialogConfig: MatDialogConfig = new MatDialogConfig();
 
@@ -76,6 +77,16 @@ export class MainNavComponent implements OnInit, OnDestroy {
     dialogConfig.autoFocus = true;
 
     this.dialog.open(CreateSimpleGameComponent, dialogConfig);
+  }
+
+  public openFreeDialog(): void {
+
+    const dialogConfig: MatDialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+
+    this.dialog.open(CreateFreeGameComponent, dialogConfig);
   }
 
   public ngOnDestroy(): void {
