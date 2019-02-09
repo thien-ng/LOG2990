@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
+import { FormBuilder, FormControl, FormGroup, Validators, FormArray, ValidatorFn } from "@angular/forms";
 import { MatDialogRef } from "@angular/material";
-import { FormControl, Validators } from "@angular/forms";
 import { Constants } from "../constants";
 
 @Component({
@@ -30,16 +30,30 @@ export class CreateFreeGameComponent {
   public readonly EDIT_TYPE_DELETE: string = "Suppression";
   public readonly EDIT_TYPE_COLOR: string = "Changement de couleur";
 
-  public nameControl: FormControl =  new FormControl("", [
+  public nameControl: FormControl = new FormControl("", [
       Validators.required,
       Validators.pattern(Constants.GAME_REGEX_PATTERN),
       Validators.minLength(Constants.MIN_GAME_LENGTH),
       Validators.maxLength(Constants.MAX_GAME_LENGTH),
     ]);
+
+  public formCheckBox: FormGroup;
+
+  public modifTypes: {name: string, id: number}[] = [
+      { name: this.EDIT_TYPE_ADD, id: 1 },
+      { name: this.EDIT_TYPE_DELETE, id: 2 },
+      { name: this.EDIT_TYPE_COLOR, id: 3 },
+    ];
+
   public constructor(
     private dialogRef: MatDialogRef<CreateFreeGameComponent>,
+    private fb: FormBuilder,
   ) {
-    // default constructor
+
+    const controls: FormControl[] = this.modifTypes.map(() => new FormControl(false));
+    this.formCheckBox = this.fb.group({
+      modifTypes: new FormArray(controls, this.minSelectedCheckboxes(1)),
+    });
   }
 
   public verify(e: number): void {
@@ -48,6 +62,12 @@ export class CreateFreeGameComponent {
     } else if (e > this.MAX_VALUE) {
       this.sliderValue = this.MAX_VALUE;
     }
+  }
+
+  public hasFormControlErrors(): boolean {
+    const checkboxChecked: Boolean = this.formCheckBox.valid;
+
+    return !(hasErrorForm && checkboxChecked && selectedOne);
   }
 
   public getChecked(): [boolean, boolean, boolean] {
@@ -66,5 +86,15 @@ export class CreateFreeGameComponent {
   }
   public closeDialog(): void {
     this.dialogRef.close();
+  }
+
+  public minSelectedCheckboxes(min: number = 1): ValidatorFn {
+    return (formArray: FormArray) => {
+      const totalSelected = formArray.controls
+        .map((control) => control.value)
+        .reduce((prev, next) => next ? prev + next : prev, 0);
+
+      return totalSelected >= min ? null : { required: true };
+    };
   }
 }
