@@ -20,8 +20,8 @@ describe("ChatViewService", () => {
       time: "time",
     };
 
-    chatViewService.recoverConversation(mockIChat);
-    expect(chatViewService.bindConversation()[0]).toBe(mockIChat);
+    chatViewService.updateConversation(mockIChat);
+    expect(chatViewService.getConversation()[0]).toBe(mockIChat);
   });
 
 });

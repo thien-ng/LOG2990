@@ -12,25 +12,23 @@ export class SocketService {
   private socket: SocketIOClient.Socket = io(Constants.WEBSOCKET_URL);
 
   public constructor(private chatViewService: ChatViewService) {
-    this.createWebsocket();
+    this.initWebsocketListener();
   }
 
-  public createWebsocket(): void {
+  public initWebsocketListener(): void {
 
     this.socket.addEventListener(Constants.ON_CONNECT, () => {
       this.socket.on(Constants.ON_CHAT_MESSAGE, (data: IChat) => {
 
-        this.chatViewService.recoverConversation(data);
+        this.chatViewService.updateConversation(data);
       });
     });
   }
 
-  // T is the message type you send
   public sendMsg<T>(type: string, msg: T): void {
     this.socket.emit(type, msg);
   }
 
-  // T is the message type you receive
   public onMsg<T>(msgType: string): Observable<T> {
     return new Observable<T> ((observer) => {
       this.socket.on(msgType, (data: T) => {

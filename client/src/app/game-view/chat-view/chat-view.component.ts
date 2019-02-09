@@ -9,10 +9,13 @@ import { ChatViewService } from "./chat-view.service";
 })
 export class ChatViewComponent {
 
+  public readonly CHAT_TITLE = "Notification du serveur";
+  public readonly CHAT_DESCRIPTION = "クリスチャンサーバー";
+
   public conversations: IChat[] = [];
 
   public constructor(private chatViewService: ChatViewService) {
-    this.conversations = this.chatViewService.bindConversation();
+    this.conversations = this.chatViewService.getConversation();
   }
 
 }

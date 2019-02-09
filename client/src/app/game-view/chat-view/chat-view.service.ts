@@ -12,11 +12,11 @@ export class ChatViewService {
     this.conversation = [];
   }
 
-  public recoverConversation(data: IChat): void {
+  public updateConversation(data: IChat): void {
     this.conversation.unshift(data);
   }
 
-  public bindConversation(): IChat[] {
+  public getConversation(): IChat[] {
     return this.conversation;
   }
 
