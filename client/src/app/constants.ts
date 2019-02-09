@@ -56,4 +56,7 @@ export class Constants {
   // Constants for socket.service.ts
   public static readonly ON_CONNECT: string = "connect";
   public static readonly ON_CHAT_MESSAGE: string = "onChatMessage";
+
+  // Constants for game-view-simple.service.ts
+  public static readonly ON_POSITION_VALIDATION: string = "onPositionValidation";
 }
