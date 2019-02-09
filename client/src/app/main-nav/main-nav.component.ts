@@ -2,7 +2,7 @@ import { animate, state, style, transition, trigger } from "@angular/animations"
 import { Breakpoints, BreakpointObserver } from "@angular/cdk/layout";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { MatDialog, MatDialogConfig } from "@angular/material";
-import { Router } from "@angular/router";
+import { Router, NavigationEnd } from "@angular/router";
 
 import { Observable, Subscription } from "rxjs";
 import { map } from "rxjs/operators";
@@ -39,11 +39,20 @@ export class MainNavComponent implements OnInit, OnDestroy {
     public adminService: AdminToggleService,
     public router: Router,
     private loginService: LoginValidatorService,
-  ) {}
+  ) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.isValidUrl = this.router.url !== this.SIMPLE_GAME_PATH && this.router.url !== this.FREE_GAME_PATH;
+      }
+    });
+  }
 
   public isAdminMode: boolean;
   public client: string | null;
+  public isValidUrl: boolean = true;
   public readonly LOGIN_PATH: string = Constants.LOGIN_REDIRECT;
+  public readonly SIMPLE_GAME_PATH: string = "/game-view-simple";
+  public readonly FREE_GAME_PATH: string = "/game-view-free";
   public readonly TEXT_ADMIN: string = "Vue Administration";
   public readonly TEXT_BOUTON_2D: string = "Créer jeu simple";
   public readonly TEXT_BOUTON_3D: string = "Créer jeu 3D";
