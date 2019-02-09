@@ -9,12 +9,11 @@ import { IChat } from "../../../../../common/communication/iChat";
 })
 export class ChatViewComponent {
 
+  public conversations: IChat[] = [];
+
   constructor(private chatViewService: ChatViewService) {
     // default constructor
-   }
-
-   public showConversation(): IChat[] {
-    return this.chatViewService.getConversation();
-   } 
+    this.conversations = this.chatViewService.bindConversation();
+  }
 
 }

@@ -6,21 +6,19 @@ import { IChat } from "../../../../../common/communication/iChat";
 })
 export class ChatViewService {
   
-  private conversation: IChat[] = [
-    {userType: "server", message: "test1"},
-    {userType: "server", message: "test2"},
-    {userType: "server", message: "test3"},
-    {userType: "server", message: "test4"},
-    {userType: "server", message: "test5"},
-    {userType: "server", message: "test5"},
-    {userType: "server", message: "test5"},
-    {userType: "server", message: "test5"},
-  ];
+  private conversation: IChat[] = [];
 
-  constructor() { }
+  constructor() {
+    // default constructor
+  }
 
-  public getConversation(): IChat[] {
+  public recoverConversation(data: IChat): void {
+    this.conversation.push(data);
+  }
+
+  public bindConversation(): IChat[] {
     return this.conversation;
   }
+  
 
 }
