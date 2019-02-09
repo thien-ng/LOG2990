@@ -42,10 +42,5 @@ describe("AppComponent", () => {
       ],
     }).compileComponents();
   }));
-  it("should create the app", async(() => {
-    const fixture: ComponentFixture<AppComponent> = TestBed.createComponent(AppComponent);
-    const app: any = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
-  }));
 
 });
