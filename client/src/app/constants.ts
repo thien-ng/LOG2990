@@ -3,7 +3,8 @@ export class Constants {
   public static readonly LOGIN_PATH: string = "login";
   public static readonly ADMIN_PATH: string = "admin";
   public static readonly ADMIN_REDIRECT: string = "/admin";
-  public static readonly GAME_VIEW: string = "game-view";
+  public static readonly GAME_VIEW_SIMPLE: string = "game-view-simple";
+  public static readonly GAME_VIEW_FREE: string = "game-view-free";
   public static readonly ROOT_PATH: string = "";
   public static readonly NAV_PATH: string = "";
   public static readonly GAMELIST_PATH: string = "gamelist";
@@ -47,11 +48,8 @@ export class Constants {
   // constants for game list container
   public static readonly CARDS_PATH: string = "/api/card/list";
   public static readonly REMOVE_CARD_PATH: string = "/api/card/remove";
-
   public static readonly HIGHSCORE_PATH: string = "/api/highscore/";
-
   public static readonly RESET_PATH: string = "generator/";
-
   public static readonly ON_ERROR_MESSAGE: string = "onError";
   public static readonly ON_SUCCESS_MESSAGE: string = "onSuccess";
 }
