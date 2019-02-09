@@ -13,7 +13,7 @@ export class ChatViewService {
   }
 
   public recoverConversation(data: IChat): void {
-    this.conversation.push(data);
+    this.conversation.unshift(data);
   }
 
   public bindConversation(): IChat[] {

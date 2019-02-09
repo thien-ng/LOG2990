@@ -7,7 +7,7 @@
     <mat-list>
       <div #pet *ngFor="let message of conversations">
         <mat-list-item >
-            <app-message-view></app-message-view>
+            <app-message-view [chatMessage]="message"></app-message-view>
         </mat-list-item>
       </div>
     </mat-list>
