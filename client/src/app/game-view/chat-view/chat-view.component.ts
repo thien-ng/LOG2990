@@ -9,8 +9,8 @@ import { ChatViewService } from "./chat-view.service";
 })
 export class ChatViewComponent {
 
-  public readonly CHAT_TITLE = "Notification du serveur";
-  public readonly CHAT_DESCRIPTION = "クリスチャンサーバー";
+  public readonly CHAT_TITLE: string = "Notification du serveur";
+  public readonly CHAT_DESCRIPTION: string = "クリスチャンサーバー";
 
   public conversations: IChat[] = [];
 
