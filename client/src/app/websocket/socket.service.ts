@@ -19,7 +19,7 @@ export class SocketService {
 
     this.socket.addEventListener(Constants.ON_CONNECT, () => {
       this.socket.on(Constants.ON_CHAT_MESSAGE, (data: IChat) => {
-        console.log(data);
+        
         this.chatViewService.recoverConversation(data);
       });
     });
