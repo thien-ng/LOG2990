@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from "@angular/core";
 
 @Component({
-  selector: 'app-chronometre',
-  templateUrl: './chronometre.component.html',
-  styleUrls: ['./chronometre.component.css']
+  selector: "app-chronometre",
+  templateUrl: "./chronometre.component.html",
+  styleUrls: ["./chronometre.component.css"]
 })
-export class ChronometreComponent implements OnInit {
+export class ChronometreComponent {
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  public constructor() { /*default*/ }
 
 }

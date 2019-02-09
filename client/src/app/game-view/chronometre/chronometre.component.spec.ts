@@ -1,8 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ChronometreComponent } from './chronometre.component';
+import { ChronometreComponent } from "./chronometre.component";
 
-describe('ChronometreComponent', () => {
+describe("ChronometreComponent", () => {
   let component: ChronometreComponent;
   let fixture: ComponentFixture<ChronometreComponent>;
 
@@ -19,7 +19,7 @@ describe('ChronometreComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
