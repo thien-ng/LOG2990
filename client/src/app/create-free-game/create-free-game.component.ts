@@ -36,6 +36,9 @@ export class CreateFreeGameComponent {
       Validators.minLength(Constants.MIN_GAME_LENGTH),
       Validators.maxLength(Constants.MAX_GAME_LENGTH),
     ]);
+  public selectControl: FormControl = new FormControl("", [
+    Validators.required,
+  ]);
 
   public formCheckBox: FormGroup;
 
@@ -65,7 +68,9 @@ export class CreateFreeGameComponent {
   }
 
   public hasFormControlErrors(): boolean {
+    const hasErrorForm: Boolean = this.nameControl.errors == null;
     const checkboxChecked: Boolean = this.formCheckBox.valid;
+    const selectedOne: Boolean = this.selectControl.valid;
 
     return !(hasErrorForm && checkboxChecked && selectedOne);
   }
@@ -91,6 +96,7 @@ export class CreateFreeGameComponent {
   public minSelectedCheckboxes(min: number = 1): ValidatorFn {
     return (formArray: FormArray) => {
       const totalSelected = formArray.controls
+      const totalSelected: number = formArray.controls
         .map((control) => control.value)
         .reduce((prev, next) => next ? prev + next : prev, 0);
 
