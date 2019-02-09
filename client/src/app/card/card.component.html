@@ -23,7 +23,7 @@
 
   <div  class="optionBar">
       <mat-card-actions>
-          <button class="playButton" mat-button [matMenuTriggerFor]="menu">{{TEXT_PLAY}}</button>
+          <button *ngIf="this.router.url != ADMIN_PATH" class="playButton" mat-button [matMenuTriggerFor]="menu">{{TEXT_PLAY}}</button>
 
           <mat-menu #menu="matMenu">
             <button mat-menu-item routerLink={{GAME_VIEW_SIMPLE_PATH}}>{{TEXT_PLAY_SINGLE}}</button>

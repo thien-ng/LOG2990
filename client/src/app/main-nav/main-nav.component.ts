@@ -2,7 +2,7 @@ import { animate, state, style, transition, trigger } from "@angular/animations"
 import { Breakpoints, BreakpointObserver } from "@angular/cdk/layout";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { MatDialog, MatDialogConfig } from "@angular/material";
-import { Router, NavigationEnd } from "@angular/router";
+import { NavigationEnd, Router } from "@angular/router";
 
 import { Observable, Subscription } from "rxjs";
 import { map } from "rxjs/operators";
