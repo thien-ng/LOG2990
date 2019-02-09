@@ -55,7 +55,6 @@ export class CreateFreeGameComponent {
 
     const controls: FormControl[] = this.modifTypes.map(() => new FormControl(false));
     this.formCheckBox = this.fb.group({
-      modifTypes: new FormArray(controls, this.minSelectedCheckboxes(1)),
     });
   }
 
