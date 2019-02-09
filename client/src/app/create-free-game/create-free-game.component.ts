@@ -55,6 +55,7 @@ export class CreateFreeGameComponent {
 
     const controls: FormControl[] = this.modifTypes.map(() => new FormControl(false));
     this.formCheckBox = this.fb.group({
+      modifTypes: new FormArray(controls, this.atLeastOneIsChecked(1)),
     });
   }
 
@@ -78,23 +79,12 @@ export class CreateFreeGameComponent {
     return [this.addChecked, this.delChecked, this.colorChecked];
   }
 
-  public atLeastOneIsChecked(): boolean {
-    let oneIsChecked: boolean = false;
-    this.getChecked().forEach((element: boolean) => {
-      if (element) {
-        oneIsChecked = true;
-      }
-    });
-
-    return oneIsChecked;
-  }
   public closeDialog(): void {
     this.dialogRef.close();
   }
 
-  public minSelectedCheckboxes(min: number = 1): ValidatorFn {
+  public atLeastOneIsChecked(min: number = 1): ValidatorFn {
     return (formArray: FormArray) => {
-      const totalSelected = formArray.controls
       const totalSelected: number = formArray.controls
         .map((control) => control.value)
         .reduce((prev, next) => next ? prev + next : prev, 0);
