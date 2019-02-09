@@ -15,7 +15,7 @@ describe("ChatViewService", () => {
   it("should add IChat data in array", () => {
     chatViewService = new ChatViewService();
     const mockIChat: IChat = {
-      userType: "userType",
+      username: "userType",
       message: "message",
       time: "time",
     };
