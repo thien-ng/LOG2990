@@ -1,4 +1,18 @@
-<div id="displayGame">
-  <canvas #originalImage class="gameCanvas"></canvas>
-  <canvas #modifiedImage class="gameCanvas"></canvas>
-</div>
+<mat-grid-list cols="9" rowHeight="100%">
+  <mat-grid-tile
+  [colspan]="7"
+  [rowspan]="1"
+  [style.background]='lightblue'>
+    <div id="displayGame">
+      <canvas #originalImage class="gameCanvas"></canvas>
+      <canvas #modifiedImage class="gameCanvas"></canvas>
+    </div>
+    <button (click)="testSocket()">test</button>
+  </mat-grid-tile>
+  <mat-grid-tile
+    [colspan]="2"
+    [rowspan]="1"
+    [style.background]='lightgreen'>
+    <app-chat-view></app-chat-view>
+  </mat-grid-tile>
+</mat-grid-list>
