@@ -19,6 +19,5 @@ export class ChatViewService {
   public bindConversation(): IChat[] {
     return this.conversation;
   }
-  
 
 }

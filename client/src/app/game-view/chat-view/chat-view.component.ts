@@ -12,7 +12,6 @@ export class ChatViewComponent {
   public conversations: IChat[] = [];
 
   constructor(private chatViewService: ChatViewService) {
-    // default constructor
     this.conversations = this.chatViewService.bindConversation();
   }
 
