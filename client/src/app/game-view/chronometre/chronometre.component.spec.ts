@@ -8,7 +8,7 @@ describe("ChronometreComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChronometreComponent ]
+      declarations: [ ChronometreComponent ],
     })
     .compileComponents();
   }));

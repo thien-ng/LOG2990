@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { Constants } from "../../constants";
+import { ChronometreComponent } from "../chronometre/chronometre.component";
 import { GameViewSimpleComponent } from "./game-view-simple.component";
 
 describe("GameViewSimpleComponent", () => {
@@ -8,7 +9,8 @@ describe("GameViewSimpleComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GameViewSimpleComponent ],
+      declarations: [ GameViewSimpleComponent,
+                      ChronometreComponent ],
     })
     .compileComponents()
     .catch(() => Constants.OBLIGATORY_CATCH);
