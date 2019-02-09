@@ -4,8 +4,10 @@ import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {
   MatButtonModule,
+  MatProgressSpinnerModule,
   MatCardModule,
   MatDialogModule,
+  MatGridListModule,
   MatDividerModule,
   MatExpansionModule,
   MatFormFieldModule,
@@ -34,6 +36,8 @@ import { RouterTestingModule } from "@angular/router/testing";
     MatToolbarModule,
     HttpClientModule,
     MatButtonModule,
+    MatGridListModule,
+    MatProgressSpinnerModule,
     MatMenuModule,
     MatSidenavModule,
     MatIconModule,

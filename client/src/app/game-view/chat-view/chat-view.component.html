@@ -5,14 +5,13 @@
   </mat-card-header>
   <mat-card-content>
     <mat-list>
-      <mat-list-item *ngFor="let message of conversations">
-        <div class="chatMessageBox">
-          <span><strong>{{message.userType}}</strong></span>
-          <span>     {{message.time}}</span>
-          <br>
-          <span>{{message.message}}</span>
-        </div>
-      </mat-list-item>
+      <div #pet *ngFor="let message of conversations">
+        <mat-list-item >
+            <app-message-view></app-message-view>
+        </mat-list-item>
+      </div>
+      
     </mat-list>
   </mat-card-content>
 </mat-card>
+

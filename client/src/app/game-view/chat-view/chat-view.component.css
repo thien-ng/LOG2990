@@ -1,9 +1,20 @@
-.notificationView {
-    max-width: 100px;
-    display:block;
-    height: 30px;
+mat-card {
+    display: block;
+    position: absolute;
+    top: 0px;
+    left:0px;
+    height: 100%;
+    width: 100%;
 }
 
-.chatMessageBox {
+mat-card-content {
+    scroll-behavior: smooth;
+    height: 100%;
+}
+
+mat-list {
+    overflow-y: scroll;
+    height: 80%;
+    padding-bottom: 20px;
 
 }
