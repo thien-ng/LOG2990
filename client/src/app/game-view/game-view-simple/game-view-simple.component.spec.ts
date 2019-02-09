@@ -1,7 +1,9 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { Constants } from "../../constants";
-import { GameViewSimpleComponent } from "./game-view-simple.component";
+import { TestingImportsModule } from "../../testing-imports/testing-imports.module";
 import { ChatViewComponent } from "../chat-view/chat-view.component";
+import { MessageViewComponent } from "../chat-view/message-view/message-view.component";
+import { GameViewSimpleComponent } from "./game-view-simple.component";
 
 describe("GameViewSimpleComponent", () => {
   let component: GameViewSimpleComponent;
@@ -11,7 +13,12 @@ describe("GameViewSimpleComponent", () => {
     TestBed.configureTestingModule({
       declarations: [
         GameViewSimpleComponent,
-        ChatViewComponent],
+        ChatViewComponent,
+        MessageViewComponent,
+      ],
+      imports: [
+        TestingImportsModule,
+      ],
     })
     .compileComponents()
     .catch(() => Constants.OBLIGATORY_CATCH);
