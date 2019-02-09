@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import * as io from "socket.io-client";
-import { Constants } from "../constants";
 import { IChat } from "../../../../common/communication/iChat";
+import { Constants } from "../constants";
 import { ChatViewService } from "../game-view/chat-view/chat-view.service";
 
 @Injectable({
@@ -11,7 +11,7 @@ import { ChatViewService } from "../game-view/chat-view/chat-view.service";
 export class SocketService {
   private socket: SocketIOClient.Socket = io(Constants.WEBSOCKET_URL);
 
-  constructor(private chatViewService: ChatViewService){
+  public constructor(private chatViewService: ChatViewService) {
     this.createWebsocket();
   }
 
@@ -19,7 +19,7 @@ export class SocketService {
 
     this.socket.addEventListener(Constants.ON_CONNECT, () => {
       this.socket.on(Constants.ON_CHAT_MESSAGE, (data: IChat) => {
-        
+
         this.chatViewService.recoverConversation(data);
       });
     });

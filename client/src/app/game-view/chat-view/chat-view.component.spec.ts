@@ -1,16 +1,21 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { Constants } from "../../constants";
+import { ChatViewComponent } from "./chat-view.component";
+import { TestingImportsModule } from "../../testing-imports/testing-imports.module";
 
-import { ChatViewComponent } from './chat-view.component';
-
-describe('ChatViewComponent', () => {
+describe("ChatViewComponent", () => {
   let component: ChatViewComponent;
   let fixture: ComponentFixture<ChatViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChatViewComponent ]
+      declarations: [ ChatViewComponent ],
+      imports: [
+        TestingImportsModule,
+      ],
     })
-    .compileComponents();
+    .compileComponents()
+    .catch(() => Constants.OBLIGATORY_CATCH);
   }));
 
   beforeEach(() => {
@@ -19,7 +24,7 @@ describe('ChatViewComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

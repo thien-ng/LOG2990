@@ -1,7 +1,9 @@
 import { TestBed } from "@angular/core/testing";
 import { Observable } from "rxjs";
 import "rxjs/add/observable/of";
+import { mock } from "ts-mockito";
 import { SocketService } from "./socket.service";
+import { ChatViewService } from "../game-view/chat-view/chat-view.service"
 
 describe("SocketService", () => {
   beforeEach(() => TestBed.configureTestingModule({}));
@@ -16,7 +18,7 @@ describe("SocketService tests", () => {
   let socketService: SocketService;
 
   beforeEach(() => {
-    socketService = new SocketService();
+    socketService = new SocketService(mock(ChatViewService));
   });
 
   it("should call socket.emit() when calling sendMsg()", () => {

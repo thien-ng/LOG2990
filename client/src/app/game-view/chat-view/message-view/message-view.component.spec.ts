@@ -1,16 +1,21 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { Constants } from "../../../constants";
+import { MessageViewComponent } from "./message-view.component";
+import { TestingImportsModule } from "../../../testing-imports/testing-imports.module";
 
-import { MessageViewComponent } from './message-view.component';
-
-describe('MessageViewComponent', () => {
+describe("MessageViewComponent", () => {
   let component: MessageViewComponent;
   let fixture: ComponentFixture<MessageViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MessageViewComponent ]
+      declarations: [ MessageViewComponent ],
+      imports: [
+        TestingImportsModule,
+      ],
     })
-    .compileComponents();
+    .compileComponents()
+    .catch(() => Constants.OBLIGATORY_CATCH);
   }));
 
   beforeEach(() => {
@@ -19,7 +24,7 @@ describe('MessageViewComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

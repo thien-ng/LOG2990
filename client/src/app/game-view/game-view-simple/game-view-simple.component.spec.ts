@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { Constants } from "../../constants";
 import { GameViewSimpleComponent } from "./game-view-simple.component";
+import { ChatViewComponent } from "../chat-view/chat-view.component";
 
 describe("GameViewSimpleComponent", () => {
   let component: GameViewSimpleComponent;
@@ -8,7 +9,9 @@ describe("GameViewSimpleComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GameViewSimpleComponent ],
+      declarations: [
+        GameViewSimpleComponent,
+        ChatViewComponent],
     })
     .compileComponents()
     .catch(() => Constants.OBLIGATORY_CATCH);

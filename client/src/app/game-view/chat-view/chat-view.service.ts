@@ -1,15 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { IChat } from "../../../../../common/communication/iChat";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class ChatViewService {
-  
-  private conversation: IChat[] = [];
 
-  constructor() {
-    // default constructor
+  private conversation: IChat[];
+
+  public constructor() {
+    this.conversation = [];
   }
 
   public recoverConversation(data: IChat): void {
