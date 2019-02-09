@@ -23,8 +23,6 @@ export class CardComponent {
   public readonly TEXT_RESET_TIMERS: string = "Réinitialiser les temps";
   public readonly TEXT_DELETE: string = "Supprimer la carte";
   public readonly ADMIN_PATH: string = "/admin";
-  public readonly GAME_VIEW_SIMPLE_PATH: string = "/game-view-simple";
-  public readonly GAME_VIEW_FREE_PATH: string = "/game-view-free";
 
   @Input() public card: ICard;
 
@@ -62,6 +60,17 @@ export class CardComponent {
   public onHSButtonClick(): void {
     this.hsButtonIsClicked = !this.hsButtonIsClicked;
     this.highscoreService.getHighscore(this.card.gameID);
+  }
+
+  public onStartGameClick(): void {
+
+    if (this.card.gamemode === Constants.GAMEMODE_SIMPLE) {
+      
+      this.router.navigateByUrl(Constants.GAME_VIEW_SIMPLE_PATH);
+    } else {
+
+      this.router.navigateByUrl(Constants.GAME_VIEW_FREE_PATH);
+    }
   }
 
 }
