@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { MatCardModule } from "@angular/material/card";
 
 import { ChronometreComponent } from "./chronometre.component";
 
@@ -9,6 +10,7 @@ describe("ChronometreComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ ChronometreComponent ],
+      imports: [ MatCardModule ],
     })
     .compileComponents();
   }));
