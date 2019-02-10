@@ -21,11 +21,11 @@ export class ChronometreComponent {
 
   public startTimer(): void {
     setInterval(() => {
-                this.timeString = this.convertSeconds(++this.timeNumber);
+                this.timeString = this.convertSecondsToString(++this.timeNumber);
     },          this.INTERVAL);
   }
 
-  private convertSeconds(sec: number): string {
+  private convertSecondsToString(sec: number): string {
     const min: number = Math.floor((sec / this.MINUTE_TO_SECONDS));
     const seconds: number = sec - (min * this.MINUTE_TO_SECONDS);
 
