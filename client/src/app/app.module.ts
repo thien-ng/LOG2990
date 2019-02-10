@@ -11,9 +11,9 @@ import { CreateFreeGameComponent } from "./create-free-game/create-free-game.com
 import { CreateSimpleGameComponent } from "./create-simple-game/create-simple-game.component";
 import { GameListContainerComponent } from "./game-list-container/game-list-container.component";
 import { GameListComponent } from "./game-list/game-list.component";
-import { ChronometreComponent } from "./game-view/chronometre/chronometre.component";
 import { GameViewFreeComponent } from "./game-view/game-view-free/game-view-free.component";
 import { GameViewSimpleComponent } from "./game-view/game-view-simple/game-view-simple.component";
+import { TimerComponent } from "./game-view/timer/timer.component";
 import { HighscoreDisplayComponent } from "./highscore-display/highscore-display.component";
 import { LoginPageComponent } from "./login/login-page/login-page.component";
 import { LoginValidatorComponent } from "./login/login-validator/login-validator.component";
@@ -53,7 +53,7 @@ const routes: Routes = [
     GameViewSimpleComponent,
     GameViewFreeComponent,
     CreateFreeGameComponent,
-    ChronometreComponent,
+    TimerComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),

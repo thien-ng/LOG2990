@@ -1,22 +1,22 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatCardModule } from "@angular/material/card";
 
-import { ChronometreComponent } from "./chronometre.component";
+import { TimerComponent } from "./timer.component";
 
-describe("ChronometreComponent", () => {
-  let component: ChronometreComponent;
-  let fixture: ComponentFixture<ChronometreComponent>;
+describe("TimerComponent", () => {
+  let component: TimerComponent;
+  let fixture: ComponentFixture<TimerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChronometreComponent ],
+      declarations: [ TimerComponent ],
       imports: [ MatCardModule ],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ChronometreComponent);
+    fixture = TestBed.createComponent(TimerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

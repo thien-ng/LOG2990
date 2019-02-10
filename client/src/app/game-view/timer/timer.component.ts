@@ -1,10 +1,10 @@
 import { Component } from "@angular/core";
 @Component({
-  selector: "app-chronometre",
-  templateUrl: "./chronometre.component.html",
-  styleUrls: ["./chronometre.component.css"],
+  selector: "app-timer",
+  templateUrl: "./timer.component.html",
+  styleUrls: ["./timer.component.css"],
 })
-export class ChronometreComponent {
+export class TimerComponent {
   private readonly INTERVAL: number = 1000;
   private readonly MINUTE_TO_SECONDS: number = 60;
   private readonly TWO_DIGITS: number = 10;

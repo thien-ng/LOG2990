@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatCardModule } from "@angular/material/card";
 import { Constants } from "../../constants";
-import { ChronometreComponent } from "../chronometre/chronometre.component";
+import { TimerComponent } from "../timer/timer.component";
 import { GameViewSimpleComponent } from "./game-view-simple.component";
 
 describe("GameViewSimpleComponent", () => {
@@ -10,7 +10,7 @@ describe("GameViewSimpleComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GameViewSimpleComponent, ChronometreComponent ],
+      declarations: [ GameViewSimpleComponent, TimerComponent ],
       imports: [ MatCardModule ],
     })
     .compileComponents()
