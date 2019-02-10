@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@angular/core";
-import { SocketService } from "../../websocket/socket.service";
 import { ICanvasPosition } from "../../../../../common/communication/iGameplay";
 import { Constants } from "../../constants";
+import { SocketService } from "../../websocket/socket.service";
 
 @Injectable({
   providedIn: "root",
@@ -10,7 +10,7 @@ import { Constants } from "../../constants";
 export class GameViewSimpleService {
 
   public constructor(@Inject(SocketService) private socketService: SocketService) {
-    //default constructor
+    // default constructor
   }
 
   public onCanvasClick(xPosition: number, yPosision: number): void {
@@ -19,6 +19,10 @@ export class GameViewSimpleService {
       y: yPosision,
     };
 
+   this.sendMessage(positionMessage);
+  }
+
+  private sendMessage(positionMessage: ICanvasPosition): void {
     this.socketService.sendMsg(Constants.ON_POSITION_VALIDATION, positionMessage);
   }
 

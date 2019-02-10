@@ -1,10 +1,10 @@
 import * as http from "http";
 import { inject, injectable } from "inversify";
 import * as SocketIO from "socket.io";
+import { ICanvasPosition } from "../../../common/communication/iGameplay";
 import { Constants } from "../constants";
 import { NameValidatorService } from "../services/validator/nameValidator.service";
 import Types from "../types";
-import { ICanvasPosition } from "../../../common/communication/iGameplay";
 
 @injectable()
 export class WebsocketManager {

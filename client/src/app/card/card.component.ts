@@ -65,11 +65,11 @@ export class CardComponent {
   public onStartGameClick(): void {
 
     if (this.card.gamemode === Constants.GAMEMODE_SIMPLE) {
-      
-      this.router.navigateByUrl(Constants.GAME_VIEW_SIMPLE_PATH);
+
+      this.router.navigate([Constants.GAME_VIEW_SIMPLE_PATH]).catch();
     } else {
 
-      this.router.navigateByUrl(Constants.GAME_VIEW_FREE_PATH);
+      this.router.navigate([Constants.GAME_VIEW_FREE_PATH]).catch();
     }
   }
 
