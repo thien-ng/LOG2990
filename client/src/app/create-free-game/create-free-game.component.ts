@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Component } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup, NgForm, Validators, ValidatorFn } from "@angular/forms";
 import { MatDialogRef } from "@angular/material";
-import { Message } from "../../../../common/communication/message";
+import { FormMessage, Message } from "../../../../common/communication/message";
 import { CardManagerService } from "../card/card-manager.service";
 import { Constants } from "../constants";
 
@@ -102,21 +102,16 @@ export class CreateFreeGameComponent {
     };
   }
 
-  private createFormData(nameForm: NgForm, checkboxForm: NgForm, selectedForm: NgForm): FormData {
-    const formdata: FormData = new FormData();
-    formdata.append("name", nameForm.value);
-    formdata.append("checkBoxList", checkboxForm.controls.modifTypes.value);
-    formdata.append("quantityModif", this.sliderValue.toString());
-    formdata.append("selectedType", selectedForm.value);
-
-    return formdata;
-  }
-
   public submit(nameForm: NgForm, checkboxForm: NgForm, selectedForm: NgForm): void {
     this.isButtonEnabled = false;
-    const formdata: FormData = this.createFormData(nameForm, checkboxForm, selectedForm);
+    const formValue: FormMessage = {
+      gameName: nameForm.value,
+      checkedTypes: checkboxForm.controls.modifTypes.value,
+      selectedOption: selectedForm.value,
+      quantityChange: this.sliderValue,
+    };
 
-    this.http.post(Constants.BASIC_SERVICE_BASE_URL + SUBMIT_PATH, formdata).subscribe((response: Message) => {
+    this.http.post(Constants.BASIC_SERVICE_BASE_URL + SUBMIT_PATH, formValue).subscribe((response: Message) => {
       if (response.title === Constants.ON_SUCCESS_MESSAGE) {
         this.cardManagerService.updateCards(true);
         this.isButtonEnabled = true;

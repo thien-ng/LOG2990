@@ -44,8 +44,8 @@ export class CardManagerController {
         });
         router.post("/submitFree", async (req: Request, res: Response, next: NextFunction) => {
 
-            // req is formdata To be sent to sceneCreation
-            // DO not forget to send message On succes and onError
+            // req is formMessage To be sent to sceneCreation
+            // DO not forget to send back message On succes and onError
             res.json();
         });
 
