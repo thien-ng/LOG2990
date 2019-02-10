@@ -27,7 +27,6 @@ export class Constants {
   public static readonly ERROR_UNEQUAL_DIMENSIONS: string = "Taille des images ne sont pas pareilles";
 
   // Constants for card-manager.service.ts
-
   public static readonly ORIGINAL_FILE: string = "_original.bmp";
   public static readonly MODIFIED_FILE: string = "_modified.bmp";
   public static readonly GENERATED_FILE: string = "_generated.bmp";
@@ -35,4 +34,7 @@ export class Constants {
   public static readonly ON_ERROR_MESSAGE: string = "onError";
   public static readonly ON_SUCCESS_MESSAGE: string = "onSuccess";
   public static readonly VALIDATION_FAILED: string = "Validation services failed";
+
+  // Constants for points-counter.ts
+  public static readonly REQUIRED_DIFFERENCE_FOUND: number = 7;
 }
