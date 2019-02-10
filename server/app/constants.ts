@@ -35,6 +35,4 @@ export class Constants {
   public static readonly ON_SUCCESS_MESSAGE: string = "onSuccess";
   public static readonly VALIDATION_FAILED: string = "Validation services failed";
 
-  // Constants for points-counter.ts
-  public static readonly REQUIRED_DIFFERENCE_FOUND: number = 7;
 }

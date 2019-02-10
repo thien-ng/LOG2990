@@ -1,13 +1,13 @@
-import { Constants } from "../../../constants";
-
 export class PointsCounter {
 
     private counterPlayerOne: number;
     private counterPlayerTwo: number;
+    private requiredCouner: number;
 
-    public constructor() {
+    public constructor(requiredCouner: number) {
         this.counterPlayerOne = 0;
         this.counterPlayerTwo = 0;
+        this.requiredCouner = requiredCouner;
     }
 
     public getPlayerOneCounter(): number {
@@ -27,7 +27,7 @@ export class PointsCounter {
     }
 
     private hasRequiredNumber(counter: number): boolean {
-        return Constants.REQUIRED_DIFFERENCE_FOUND === counter;
+        return this.requiredCouner === counter;
     }
 
 }

@@ -2,10 +2,12 @@ import { expect } from "chai";
 import "reflect-metadata";
 import { PointsCounter } from "../../../services/game/arena/points-counter";
 
+// tslint:disable:no-magic-numbers
+
 let pointsCounter: PointsCounter;
 
 beforeEach(() => {
-    pointsCounter = new PointsCounter();
+    pointsCounter = new PointsCounter(7);
 });
 
 describe("PointsCounter tests", () => {
