@@ -1,7 +1,12 @@
+import { HttpClient } from "@angular/common/http";
 import { Component } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators, FormArray, ValidatorFn } from "@angular/forms";
+import { FormArray, FormBuilder, FormControl, FormGroup, NgForm, Validators, ValidatorFn } from "@angular/forms";
 import { MatDialogRef } from "@angular/material";
+import { Message } from "../../../../common/communication/message";
+import { CardManagerService } from "../card/card-manager.service";
 import { Constants } from "../constants";
+
+const  SUBMIT_PATH: string = "/api/card/submitFree";
 
 @Component({
   selector: "app-create-free-game",
@@ -10,12 +15,13 @@ import { Constants } from "../constants";
 })
 export class CreateFreeGameComponent {
 
-  public readonly MAX_VALUE: number = 200;
-  public readonly MIN_VALUE: number = 10;
+  public isButtonEnabled: boolean = true;
   public sliderValue: number = 100;
   public addChecked: boolean = false;
   public delChecked: boolean = false;
   public colorChecked: boolean = false;
+  public readonly MAX_VALUE: number = 200;
+  public readonly MIN_VALUE: number = 10;
   public readonly SUBMIT: string = "Soumettre";
   public readonly CANCEL: string = "Annuler";
   public readonly TITLE: string = "Créer un jeu de point de vue libre";
@@ -51,6 +57,8 @@ export class CreateFreeGameComponent {
   public constructor(
     private dialogRef: MatDialogRef<CreateFreeGameComponent>,
     private fb: FormBuilder,
+    private http: HttpClient,
+    private cardManagerService: CardManagerService,
   ) {
 
     const controls: FormControl[] = this.modifTypes.map(() => new FormControl(false));
@@ -72,7 +80,7 @@ export class CreateFreeGameComponent {
     const checkboxChecked: Boolean = this.formCheckBox.valid;
     const selectedOne: Boolean = this.selectControl.valid;
 
-    return !(hasErrorForm && checkboxChecked && selectedOne);
+    return !(hasErrorForm && checkboxChecked && selectedOne && this.isButtonEnabled);
   }
 
   public getChecked(): [boolean, boolean, boolean] {
@@ -91,5 +99,28 @@ export class CreateFreeGameComponent {
 
       return totalSelected >= min ? null : { required: true };
     };
+  }
+
+  private createFormData(nameForm: NgForm, checkboxForm: NgForm, selectedForm: NgForm): FormData {
+    const formdata: FormData = new FormData();
+    formdata.append("name", nameForm.value);
+    formdata.append("checkBoxList", checkboxForm.controls.modifTypes.value);
+    formdata.append("quantityModif", this.sliderValue.toString());
+    formdata.append("selectedType", selectedForm.value);
+
+    return formdata;
+  }
+
+  public submit(nameForm: NgForm, checkboxForm: NgForm, selectedForm: NgForm): void {
+    this.isButtonEnabled = false;
+    const formdata: FormData = this.createFormData(nameForm, checkboxForm, selectedForm);
+
+    this.http.post(Constants.BASIC_SERVICE_BASE_URL + SUBMIT_PATH, formdata).subscribe((response: Message) => {
+      if (response.title === Constants.ON_SUCCESS_MESSAGE) {
+        this.cardManagerService.updateCards(true);
+        this.isButtonEnabled = true;
+      }
+      this.dialogRef.close();
+    });
   }
 }

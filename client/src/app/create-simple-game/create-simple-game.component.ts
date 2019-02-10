@@ -7,7 +7,7 @@ import { CardManagerService } from "../card/card-manager.service";
 import { Constants } from "../constants";
 import { FileValidatorService } from "./game-validator.service";
 
-const SUBMIT_PATH: string = "/api/card/submit";
+const SUBMIT_PATH: string = "/api/card/submitSimple";
 
 @Component({
   selector: "app-create-simple-game",

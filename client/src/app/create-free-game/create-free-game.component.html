@@ -2,7 +2,7 @@
   {{TITLE}}
   <hr>
 </div>
-<form class="form" (ngSubmit)="submit()">
+<form class="form" (ngSubmit)="submit(nameControl,formCheckBox,selectControl)" #freeForm="ngForm">
   <mat-form-field class="input">
     <input type="text" [formControl]="nameControl" name="gameName" matInput placeholder={{PLACE_HOLDER_NAME}} required>
   </mat-form-field>
@@ -29,14 +29,14 @@
     </div>
   </div>
   
-  <form [formGroup]="formCheckBox">
+  <div [formGroup]="formCheckBox">
 <label formArrayName="modifTypes" *ngFor="let modifType of formCheckBox.controls.modifTypes.controls; let i = index">
   <mat-checkbox [formControlName]="i"  class="checkbox">
       {{modifTypes[i].name}}
   </mat-checkbox>
   
 </label>
-</form>
+</div>
 
   
   
