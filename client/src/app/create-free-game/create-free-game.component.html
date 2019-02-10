@@ -35,8 +35,8 @@
   <mat-checkbox [formControlName]="i"  class="checkbox">
       {{modifTypes[i].name}}
   </mat-checkbox>
-  
 </label>
+<div class="alertInvalideCheckbox" [hidden]="this.formCheckBox.valid || this.formCheckBox.pristine">{{ATLEASTONE_CHECKED}}</div> 
 </div>
 
   

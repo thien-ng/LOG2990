@@ -36,6 +36,7 @@ export class CreateFreeGameComponent {
   public readonly EDIT_TYPE_ADD: string = "Ajout";
   public readonly EDIT_TYPE_DELETE: string = "Suppression";
   public readonly EDIT_TYPE_COLOR: string = "Changement de couleur";
+  public readonly ATLEASTONE_CHECKED: string = "Au moins une option doit être cochée";
 
   public nameControl: FormControl = new FormControl("", [
       Validators.required,
