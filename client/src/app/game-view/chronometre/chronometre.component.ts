@@ -25,12 +25,12 @@ export class ChronometreComponent {
     },          this.INTERVAL);
   }
 
-  private convertSecondsToString(sec: number): string {
-    const min: number = Math.floor((sec / this.MINUTE_TO_SECONDS));
-    const seconds: number = sec - (min * this.MINUTE_TO_SECONDS);
+  private convertSecondsToString(secondsInput: number): string {
+    const min: number = Math.floor((secondsInput / this.MINUTE_TO_SECONDS));
+    const sec: number = secondsInput - (min * this.MINUTE_TO_SECONDS);
 
     let result: string = (min < this.TWO_DIGITS ? "0" + min.toString() : min.toString());
-    result += ":" + (seconds < this.TWO_DIGITS ? "0" + seconds.toString() : seconds.toString());
+    result += ":" + (sec < this.TWO_DIGITS ? "0" + sec.toString() : sec.toString());
 
     return result;
   }
