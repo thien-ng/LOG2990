@@ -6,6 +6,7 @@
   <mat-form-field class="input">
     <input type="text" [formControl]="nameControl" name="gameName" matInput placeholder={{PLACE_HOLDER_NAME}} required>
   </mat-form-field>
+  <div class="alertInvalide" [hidden]="this.nameControl.errors == null || this.nameControl.pristine">{{INVALID_NAME}}</div>
 
   <mat-form-field class="selector">
     <mat-select  placeholder={{PLACE_HOLDER_TYPE}} [formControl]="selectControl" required>

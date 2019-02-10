@@ -42,3 +42,12 @@
   
   display: block;
 }
+
+.alertInvalide {
+  color: red;
+  font-size: 11px;
+  line-height: 70%;
+  padding-bottom: 40px;
+  padding-left: 3%;
+
+}

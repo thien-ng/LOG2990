@@ -20,6 +20,7 @@ export class CreateFreeGameComponent {
   public addChecked: boolean = false;
   public delChecked: boolean = false;
   public colorChecked: boolean = false;
+  public readonly INVALID_NAME: string = "Nom invalide";
   public readonly MAX_VALUE: number = 200;
   public readonly MIN_VALUE: number = 10;
   public readonly SUBMIT: string = "Soumettre";
@@ -120,7 +121,7 @@ export class CreateFreeGameComponent {
         this.cardManagerService.updateCards(true);
         this.isButtonEnabled = true;
       }
-      this.dialogRef.close();
     });
+    this.dialogRef.close();
   }
 }
