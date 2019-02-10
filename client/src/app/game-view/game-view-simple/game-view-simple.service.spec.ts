@@ -1,8 +1,10 @@
 
 import { TestBed } from "@angular/core/testing";
+import { mock } from "ts-mockito";
 import { SocketService } from "../../websocket/socket.service";
 import { GameViewSimpleService } from "./game-view-simple.service";
-import { mock } from "ts-mockito";
+
+// tslint:disable:no-any
 
 describe("GameViewService", () => {
   beforeEach(() => TestBed.configureTestingModule({}));
@@ -13,11 +15,11 @@ describe("GameViewService", () => {
   });
 
   it("should send message with socketservice ", () => {
-    const gameViewSimpleService: GameViewSimpleService = new GameViewSimpleService(mock(SocketService));
-    const spiedMethod = spyOn<any>(gameViewSimpleService, "sendMessage");
-    gameViewSimpleService.onCanvasClick(0,0);
+    const mockedSocket: SocketService = mock(SocketService);
+    const gameViewSimpleService: GameViewSimpleService = new GameViewSimpleService(mockedSocket);
+    const spiedMethod: any = spyOn<any>(gameViewSimpleService, "sendMessage");
+    gameViewSimpleService.onCanvasClick(0, 0);
 
     expect(spiedMethod).toHaveBeenCalled();
-    
   });
 });

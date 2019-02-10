@@ -19,7 +19,7 @@ export class GameViewSimpleService {
       y: yPosision,
     };
 
-   this.sendMessage(positionMessage);
+    this.sendMessage(positionMessage);
   }
 
   private sendMessage(positionMessage: ICanvasPosition): void {
