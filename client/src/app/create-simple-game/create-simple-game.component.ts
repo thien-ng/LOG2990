@@ -17,6 +17,7 @@ const SUBMIT_PATH: string = "/api/card/submitSimple";
 export class CreateSimpleGameComponent {
 
   public readonly TITLE: string = "Créer un jeu de point de vue simple";
+  public readonly INVALID_NAME: string = "Nom invalide";
   public readonly PLACE_HOLDER: string = "Nom du jeu";
   public readonly ORIGINAL_IMAGE: string = "Image originale";
   public readonly MODIFIED_IMAGE: string = "Image modifiée";

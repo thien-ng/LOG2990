@@ -6,6 +6,7 @@
     <mat-form-field class="input">
       <input type="text" formControlName="gameName" name="gameName" matInput placeholder={{PLACE_HOLDER}}>
     </mat-form-field>
+    <div class="alertInvalide" [hidden]="this.formControl.controls.gameName.errors == null || this.formControl.controls.gameName.pristine">{{INVALID_NAME}}</div>
     <div class="mat-subheading-2">
       {{ORIGINAL_IMAGE}}:
       <input mat-icon-button type="file" accept="image/bmp" (change)="onFileSelected($event.target.files[0], ORIGINAL_INDEX)">
