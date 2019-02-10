@@ -10,10 +10,14 @@ export class ChronometreComponent {
   private readonly TWO_DIGITS: number = 10;
   private readonly START_TIME: string = "00:00";
 
-  private timeNumber: number = 0;
-  public timeString: string = this.START_TIME;
+  private timeNumber: number;
+  public timeString: string;
 
-  public constructor() { this.startTimer(); }
+  public constructor() {
+    this.timeNumber = 0;
+    this.timeString = this.START_TIME;
+    this.startTimer();
+  }
 
   public startTimer(): void {
     setInterval(() => {
