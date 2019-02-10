@@ -113,6 +113,9 @@ export class CreateFreeGameComponent {
     };
 
     this.http.post(Constants.BASIC_SERVICE_BASE_URL + SUBMIT_PATH, formValue).subscribe((response: Message) => {
+      if (response === null) {
+        return;
+      }
       if (response.title === Constants.ON_SUCCESS_MESSAGE) {
         this.cardManagerService.updateCards(true);
         this.isButtonEnabled = true;
