@@ -19,6 +19,7 @@ import { LoginValidatorComponent } from "./login/login-validator/login-validator
 import { LoginViewComponent } from "./login/login-view/login-view.component";
 import { MainNavComponent } from "./main-nav/main-nav.component";
 import { TestingImportsModule } from "./testing-imports/testing-imports.module";
+import { DiffCounterComponent } from './game-view/diff-counter/diff-counter.component';
 
 const routes: Routes = [
   { path: Constants.ROOT_PATH, redirectTo: Constants.NAV_PATH, pathMatch: Constants.PATH_MATCH_FULL },
@@ -52,6 +53,7 @@ const routes: Routes = [
     GameViewSimpleComponent,
     GameViewFreeComponent,
     CreateFreeGameComponent,
+    DiffCounterComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
