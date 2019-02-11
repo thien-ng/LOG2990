@@ -1,4 +1,4 @@
 export interface ICanvasPosition {
-    x: number;
-    y: number;
+    positionX: number;
+    positionY: number;
 }

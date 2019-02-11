@@ -11,10 +11,10 @@ export class GameViewSimpleService {
 
   public constructor(@Inject(SocketService) private socketService: SocketService) {}
 
-  public onCanvasClick(xPosition: number, yPosision: number): void {
+  public onCanvasClick(x: number, y: number): void {
     const positionMessage: ICanvasPosition = {
-      x: xPosition,
-      y: yPosision,
+      positionX: x,
+      positionY: y,
     };
 
     this.sendMessage(positionMessage);
