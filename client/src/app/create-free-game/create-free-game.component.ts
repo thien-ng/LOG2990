@@ -48,10 +48,10 @@ export class CreateFreeGameComponent {
 
   public formControl: FormGroup;
 
-  public modifTypes: {name: string, id: number}[] = [
-      { name: this.EDIT_TYPE_ADD, id: 1 },
-      { name: this.EDIT_TYPE_DELETE, id: 2 },
-      { name: this.EDIT_TYPE_COLOR, id: 3 },
+  public modifTypes: {name: string}[] = [
+      { name: this.EDIT_TYPE_ADD },
+      { name: this.EDIT_TYPE_DELETE},
+      { name: this.EDIT_TYPE_COLOR},
     ];
 
   public constructor(
