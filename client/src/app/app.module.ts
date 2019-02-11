@@ -1,6 +1,7 @@
 import { LayoutModule } from "@angular/cdk/layout";
 import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule, RouterOutlet, Routes } from "@angular/router";
 
@@ -62,6 +63,7 @@ const routes: Routes = [
     RouterModule,
     TestingImportsModule,
     BrowserModule,
+    MatProgressSpinnerModule,
   ],
   exports: [RouterOutlet],
   entryComponents: [

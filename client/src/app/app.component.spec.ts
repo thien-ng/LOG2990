@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { LayoutModule } from "@angular/cdk/layout";
 import { HttpClientModule } from "@angular/common/http";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { BrowserModule } from "@angular/platform-browser";
 import { AppComponent } from "./app.component";
 import { TestingImportsModule } from "./testing-imports/testing-imports.module";
@@ -41,6 +42,7 @@ describe("AppComponent", () => {
         HttpClientModule,
         LayoutModule,
         TestingImportsModule,
+        MatProgressSpinnerModule,
       ],
     }).compileComponents();
   }));
