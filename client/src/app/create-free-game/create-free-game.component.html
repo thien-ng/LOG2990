@@ -2,14 +2,14 @@
   {{TITLE}}
   <hr>
 </div>
-<form class="form" (ngSubmit)="submit(nameControl,formCheckBox,selectControl)" #freeForm="ngForm">
+<form class="form" (ngSubmit)="submit(formControl)" [formGroup]="formControl">
   <mat-form-field class="input">
-    <input type="text" [formControl]="nameControl" name="gameName" matInput placeholder={{PLACE_HOLDER_NAME}} required>
+    <input type="text" formControlName="nameControl" name="gameName" matInput placeholder={{PLACE_HOLDER_NAME}} required>
   </mat-form-field>
-  <div class="alertInvalide" [hidden]="this.nameControl.errors == null || this.nameControl.pristine">{{INVALID_NAME}}</div>
+  <div class="alertInvalide" [hidden]="hasNameControlErrors()">{{INVALID_NAME}}</div>
 
   <mat-form-field class="selector">
-    <mat-select  placeholder={{PLACE_HOLDER_TYPE}} [formControl]="selectControl" required>
+    <mat-select  placeholder={{PLACE_HOLDER_TYPE}} formControlName="selectControl" required>
       <mat-option value="sphere">{{SPHERE_OPTION}}</mat-option>
       <mat-option value="cube">{{CUBE_OPTION}}</mat-option>
       <mat-option value="cone">{{CONE_OPTION}}</mat-option>
@@ -22,25 +22,32 @@
     class="mat-slider-horizontal"
     name="slider"
     thumbLabel
-    [(ngModel)]="sliderValue"
     min="{{MIN_VALUE}}"
+    [(ngModel)]="sliderValue"
+    [ngModelOptions]="{standalone: true}"
     max="{{MAX_VALUE}}"></mat-slider>
     <div class="sliderDiv">
-      <input min="MIN_VALUE" max="MAX_VALUE" (change)="verify($event.srcElement.value)" class="sliderValue" name="sliderValue" type="number" matInput [(ngModel)]="sliderValue">
+      <input
+      min="MIN_VALUE"
+      max="MAX_VALUE"
+      class="sliderValue"
+      name="sliderValue"
+      type="number"
+      matInput
+      (change)="verify($event.srcElement.value)"
+      [ngModelOptions]="{standalone: true}"
+      [(ngModel)]="sliderValue">
     </div>
   </div>
-  
-  <div [formGroup]="formCheckBox">
-<label formArrayName="modifTypes" *ngFor="let modifType of formCheckBox.controls.modifTypes.controls; let i = index">
-  <mat-checkbox [formControlName]="i"  class="checkbox">
-      {{modifTypes[i].name}}
-  </mat-checkbox>
-</label>
-<div class="alertInvalideCheckbox" [hidden]="this.formCheckBox.valid || this.formCheckBox.pristine">{{ATLEASTONE_CHECKED}}</div> 
-</div>
 
-  
-  
+  <div>
+    <label formArrayName="modifTypes" *ngFor="let modifType of formControl.controls.modifTypes.controls; let i = index">
+      <mat-checkbox [formControlName]="i"  class="checkbox">
+          {{modifTypes[i].name}}
+      </mat-checkbox>
+    </label>
+  <div class="alertInvalideCheckbox" [hidden]="hasCheckboxControlErrors()">{{ATLEASTONE_CHECKED}}</div>
+  </div>
   <button class="button-padding" [disabled]="hasFormControlErrors()" mat-raised-button>{{SUBMIT}}</button>
   <button class="button-padding" mat-raised-button type="button" (click)="closeDialog()">{{CANCEL}}</button>
 </form>

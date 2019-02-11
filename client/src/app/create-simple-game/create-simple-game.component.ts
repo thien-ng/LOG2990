@@ -53,7 +53,11 @@ export class CreateSimpleGameComponent {
     private cardManagerService: CardManagerService,
     ) {
       // default constructor
-    }
+  }
+
+  public hasNameControlErrors(): boolean {
+    return this.formControl.controls.gameName.errors == null || this.formControl.controls.gameName.pristine;
+  }
 
   public hasFormControlErrors(): boolean {
     const hasErrorForm: Boolean = this.formControl.controls.gameName.errors == null;

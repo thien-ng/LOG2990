@@ -46,17 +46,7 @@ export class CreateFreeGameComponent {
   public readonly EDIT_TYPE_COLOR: string = "Changement de couleur";
   public readonly ATLEASTONE_CHECKED: string = "Au moins une option doit être cochée";
 
-  public nameControl: FormControl = new FormControl("", [
-      Validators.required,
-      Validators.pattern(Constants.GAME_REGEX_PATTERN),
-      Validators.minLength(Constants.MIN_GAME_LENGTH),
-      Validators.maxLength(Constants.MAX_GAME_LENGTH),
-    ]);
-  public selectControl: FormControl = new FormControl("", [
-    Validators.required,
-  ]);
-
-  public formCheckBox: FormGroup;
+  public formControl: FormGroup;
 
   public modifTypes: {name: string, id: number}[] = [
       { name: this.EDIT_TYPE_ADD, id: 1 },
@@ -66,15 +56,32 @@ export class CreateFreeGameComponent {
 
   public constructor(
     private dialogRef: MatDialogRef<CreateFreeGameComponent>,
-    private fb: FormBuilder,
-    private http: HttpClient,
+    private formBuilder: FormBuilder,
+    private httpClient: HttpClient,
     private cardManagerService: CardManagerService,
   ) {
 
     const controls: FormControl[] = this.modifTypes.map(() => new FormControl(false));
-    this.formCheckBox = this.fb.group({
+    this.formControl = this.formBuilder.group({
+      nameControl: new FormControl("", [
+        Validators.required,
+        Validators.pattern(Constants.GAME_REGEX_PATTERN),
+        Validators.minLength(Constants.MIN_GAME_LENGTH),
+        Validators.maxLength(Constants.MAX_GAME_LENGTH),
+      ]),
+      selectControl: new FormControl("", [
+        Validators.required,
+      ]),
       modifTypes: new FormArray(controls, this.atLeastOneIsChecked(1)),
     });
+  }
+
+  public hasNameControlErrors(): boolean {
+    return this.formControl.controls.nameControl.errors === null || this.formControl.controls.nameControl.pristine;
+  }
+
+  public hasCheckboxControlErrors(): boolean {
+    return this.formControl.controls.modifTypes.valid || this.formControl.controls.modifTypes.pristine;
   }
 
   public verify(e: number): void {
@@ -86,9 +93,9 @@ export class CreateFreeGameComponent {
   }
 
   public hasFormControlErrors(): boolean {
-    const hasErrorForm: Boolean = this.nameControl.errors == null;
-    const checkboxChecked: Boolean = this.formCheckBox.valid;
-    const selectedOne: Boolean = this.selectControl.valid;
+    const hasErrorForm: Boolean = this.formControl.controls.nameControl.errors == null;
+    const checkboxChecked: Boolean = this.formControl.controls.modifTypes.valid;
+    const selectedOne: Boolean = this.formControl.controls.selectControl.valid;
 
     return !(hasErrorForm && checkboxChecked && selectedOne && this.isButtonEnabled);
   }
@@ -111,16 +118,20 @@ export class CreateFreeGameComponent {
     };
   }
 
-  public submit(nameForm: NgForm, checkboxForm: NgForm, selectedForm: NgForm): void {
-    this.isButtonEnabled = false;
-    const formValue: FormMessage = {
-      gameName: nameForm.value,
-      checkedTypes: checkboxForm.controls.modifTypes.value,
-      selectedOption: selectedForm.value,
+  private createFormMessage(formData: NgForm): FormMessage {
+    return {
+      gameName: formData.value.nameControl,
+      checkedTypes: formData.value.modifTypes,
+      selectedOption: formData.value.selectControl,
       quantityChange: this.sliderValue,
-    };
+    } as FormMessage;
+  }
 
-    this.http.post(Constants.BASIC_SERVICE_BASE_URL + SUBMIT_PATH, formValue).subscribe((response: Message) => {
+  public submit(formData: NgForm): void {
+    this.isButtonEnabled = false;
+    const formValue: FormMessage = this.createFormMessage(formData);
+
+    this.httpClient.post(Constants.BASIC_SERVICE_BASE_URL + SUBMIT_PATH, formValue).subscribe((response: Message) => {
       if (response === null) {
         return;
       }
