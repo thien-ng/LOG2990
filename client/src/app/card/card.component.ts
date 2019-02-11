@@ -34,9 +34,7 @@ export class CardComponent {
     public cardManagerService: CardManagerService,
     private snackBar: MatSnackBar,
     private highscoreService: HighscoreService,
-    ) {
-      // default constructor
-    }
+    ) {}
 
   @Output() public cardDeleted: EventEmitter<string> = new EventEmitter();
 

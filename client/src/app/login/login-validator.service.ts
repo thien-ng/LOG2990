@@ -15,9 +15,7 @@ export class LoginValidatorService {
 
   public constructor(
     private httpClient: HttpClient,
-    ) {
-      // Default constructor
-    }
+    ) {}
 
   public addUsername(username: string): Observable<boolean> {
     const message: Message = this.generateMessage(username);

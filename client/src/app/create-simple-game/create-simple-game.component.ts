@@ -51,9 +51,7 @@ export class CreateSimpleGameComponent {
     private snackBar: MatSnackBar,
     private http: HttpClient,
     private cardManagerService: CardManagerService,
-    ) {
-      // default constructor
-  }
+    ) {}
 
   public hasNameControlErrors(): boolean {
     return this.formControl.controls.gameName.errors == null || this.formControl.controls.gameName.pristine;

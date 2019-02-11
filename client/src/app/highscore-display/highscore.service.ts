@@ -7,9 +7,7 @@ import { Constants } from "../constants";
 @Injectable()
 export class HighscoreService {
 
-  public constructor(private http: HttpClient) {
-    // Default constructor
-  }
+  public constructor(private http: HttpClient) {}
 
   private highscoreUpdated: Subject<HighscoreMessage> = new Subject<HighscoreMessage>();
 
