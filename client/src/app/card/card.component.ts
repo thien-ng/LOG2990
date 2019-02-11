@@ -65,7 +65,7 @@ export class CardComponent {
   public onStartGameClick(): void {
     const gameModeComparison: boolean = this.card.gamemode === Constants.GAMEMODE_SIMPLE;
     const gameModePath: string = gameModeComparison ? Constants.GAME_VIEW_SIMPLE_PATH : Constants.GAME_VIEW_FREE_PATH;
-    
+
     this.router.navigate([gameModePath]).catch();
   }
 
