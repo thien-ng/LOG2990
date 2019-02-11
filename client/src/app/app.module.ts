@@ -11,6 +11,8 @@ import { CreateFreeGameComponent } from "./create-free-game/create-free-game.com
 import { CreateSimpleGameComponent } from "./create-simple-game/create-simple-game.component";
 import { GameListContainerComponent } from "./game-list-container/game-list-container.component";
 import { GameListComponent } from "./game-list/game-list.component";
+import { ChatViewComponent } from "./game-view/chat-view/chat-view.component";
+import { MessageViewComponent } from "./game-view/chat-view/message-view/message-view.component";
 import { GameViewFreeComponent } from "./game-view/game-view-free/game-view-free.component";
 import { GameViewSimpleComponent } from "./game-view/game-view-simple/game-view-simple.component";
 import { HighscoreDisplayComponent } from "./highscore-display/highscore-display.component";
@@ -52,6 +54,8 @@ const routes: Routes = [
     GameViewSimpleComponent,
     GameViewFreeComponent,
     CreateFreeGameComponent,
+    ChatViewComponent,
+    MessageViewComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),

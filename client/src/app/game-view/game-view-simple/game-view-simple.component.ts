@@ -1,6 +1,5 @@
 import { AfterContentInit, Component, ElementRef, Inject, ViewChild } from "@angular/core";
 import { GameViewSimpleService } from "./game-view-simple.service";
-
 @Component({
   selector: "app-game-view-simple",
   templateUrl: "./game-view-simple.component.html",
