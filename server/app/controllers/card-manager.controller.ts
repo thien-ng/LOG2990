@@ -33,7 +33,7 @@ export class CardManagerController {
                 },
             ]);
 
-        router.post("/submit", receivedFile, async (req: Request, res: Response, next: NextFunction) => {
+        router.post("/submitSimple", receivedFile, async (req: Request, res: Response, next: NextFunction) => {
 
             const originalBuffer: Buffer = req.files[ORIGINAL_IMAGE_NAME][0].buffer;
             const modifiedBuffer: Buffer = req.files[MODIFIED_IMAGE_NAME][0].buffer;
@@ -41,6 +41,12 @@ export class CardManagerController {
             const result: Message = await this.cardManagerService.cardCreationRoutine(originalBuffer, modifiedBuffer, req.body.name);
 
             res.json(result);
+        });
+        router.post("/submitFree", async (req: Request, res: Response, next: NextFunction) => {
+
+            // req is formMessage To be sent to sceneCreation
+            // DO not forget to send back message On succes and onError
+            res.json();
         });
 
         router.get("/list", async (req: Request, res: Response, next: NextFunction) => {

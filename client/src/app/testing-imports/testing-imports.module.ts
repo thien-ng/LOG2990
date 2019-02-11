@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {
   MatButtonModule,
   MatCardModule,
+  MatCheckboxModule,
   MatDialogModule,
   MatDividerModule,
   MatExpansionModule,
@@ -62,6 +63,7 @@ import { RouterTestingModule } from "@angular/router/testing";
     MatSliderModule,
     MatSnackBarModule,
     MatTabsModule,
+    MatCheckboxModule,
   ],
 })
 export class TestingImportsModule { }

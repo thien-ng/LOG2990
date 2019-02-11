@@ -7,7 +7,7 @@ import { CardManagerService } from "../card/card-manager.service";
 import { Constants } from "../constants";
 import { FileValidatorService } from "./game-validator.service";
 
-const SUBMIT_PATH: string = "/api/card/submit";
+const SUBMIT_PATH: string = "/api/card/submitSimple";
 
 @Component({
   selector: "app-create-simple-game",
@@ -17,6 +17,7 @@ const SUBMIT_PATH: string = "/api/card/submit";
 export class CreateSimpleGameComponent {
 
   public readonly TITLE: string = "Créer un jeu de point de vue simple";
+  public readonly INVALID_NAME: string = "Nom invalide";
   public readonly PLACE_HOLDER: string = "Nom du jeu";
   public readonly ORIGINAL_IMAGE: string = "Image originale";
   public readonly MODIFIED_IMAGE: string = "Image modifiée";
@@ -52,7 +53,11 @@ export class CreateSimpleGameComponent {
     private cardManagerService: CardManagerService,
     ) {
       // default constructor
-    }
+  }
+
+  public hasNameControlErrors(): boolean {
+    return this.formControl.controls.gameName.errors == null || this.formControl.controls.gameName.pristine;
+  }
 
   public hasFormControlErrors(): boolean {
     const hasErrorForm: Boolean = this.formControl.controls.gameName.errors == null;
