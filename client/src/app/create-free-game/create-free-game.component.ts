@@ -1,6 +1,14 @@
 import { HttpClient } from "@angular/common/http";
 import { Component } from "@angular/core";
-import { FormArray, FormBuilder, FormControl, FormGroup, NgForm, Validators, ValidatorFn } from "@angular/forms";
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  NgForm,
+  Validators,
+  ValidatorFn
+} from "@angular/forms";
 import { MatDialogRef } from "@angular/material";
 import { FormMessage, Message } from "../../../../common/communication/message";
 import { CardManagerService } from "../card/card-manager.service";
