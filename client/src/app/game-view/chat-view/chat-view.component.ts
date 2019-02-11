@@ -12,7 +12,7 @@ export class ChatViewComponent {
   public readonly CHAT_TITLE: string = "Notification du serveur";
   public readonly CHAT_DESCRIPTION: string = "クリスチャンサーバー";
 
-  public conversations: IChat[] = [];
+  public conversations: IChat[];
 
   public constructor(private chatViewService: ChatViewService) {
     this.conversations = this.chatViewService.getConversation();

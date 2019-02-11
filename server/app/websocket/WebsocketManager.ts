@@ -1,6 +1,7 @@
 import * as http from "http";
 import { inject, injectable } from "inversify";
 import * as SocketIO from "socket.io";
+import { ICanvasPosition } from "../../../common/communication/iGameplay";
 import { Constants } from "../constants";
 import { NameValidatorService } from "../services/validator/nameValidator.service";
 import Types from "../types";
@@ -22,6 +23,10 @@ export class WebsocketManager {
 
             socket.on(Constants.DISCONNECT_EVENT, (data: string) => {
                 this.nameValidatorService.leaveBrowser(name);
+            });
+
+            socket.on(Constants.POSITION_VALIDATION_EVENT, (data: ICanvasPosition) => {
+                // recover data to make validation
             });
 
          });

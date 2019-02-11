@@ -14,9 +14,7 @@ export class CardManagerService {
   private cardCreated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public cardCreatedObservable: Observable<boolean> = this.cardCreated.asObservable();
 
-  public constructor(private http: HttpClient) {
-    // Default Constructor
-  }
+  public constructor(private http: HttpClient) {}
 
   public getCards(): Observable<ICardLists> {
     return this.http.get<ICardLists>(Constants.BASIC_SERVICE_BASE_URL + Constants.CARDS_PATH);
