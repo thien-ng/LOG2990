@@ -1,8 +1,6 @@
 #displayGame {
     text-align: center;
     margin-top: 50px;
-    margin-right: 10%;
-    margin-left: 10%;
     background: white;
     box-shadow:0px 1px 2px #333333;
     border-radius: 5px;
@@ -12,5 +10,5 @@
     height: 480px;
     width: 640px;
     background: red;
-    margin: 25px;
+    margin: 1px;
 }
