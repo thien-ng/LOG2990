@@ -9,9 +9,7 @@ import { SocketService } from "../../websocket/socket.service";
 
 export class GameViewSimpleService {
 
-  public constructor(@Inject(SocketService) private socketService: SocketService) {
-    // default constructor
-  }
+  public constructor(@Inject(SocketService) private socketService: SocketService) {}
 
   public onCanvasClick(xPosition: number, yPosision: number): void {
     const positionMessage: ICanvasPosition = {

@@ -13,9 +13,7 @@ export class GameViewSimpleComponent implements AfterContentInit {
   @ViewChild("modifiedImage", {read: ElementRef})
   public canvasModified: ElementRef;
 
-  public constructor(@Inject(GameViewSimpleService) public gameViewService: GameViewSimpleService) {
-    // default constructor
-  }
+  public constructor(@Inject(GameViewSimpleService) public gameViewService: GameViewSimpleService) {}
 
   public ngAfterContentInit(): void {
     this.initListener();
