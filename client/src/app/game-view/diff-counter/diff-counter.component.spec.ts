@@ -1,8 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { DiffCounterComponent } from './diff-counter.component';
+import { DiffCounterComponent } from "./diff-counter.component";
 
-describe('DiffCounterComponent', () => {
+describe("DiffCounterComponent", () => {
   let component: DiffCounterComponent;
   let fixture: ComponentFixture<DiffCounterComponent>;
 
@@ -19,7 +19,7 @@ describe('DiffCounterComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

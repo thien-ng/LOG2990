@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from "@angular/core";
 
 @Component({
-  selector: 'app-diff-counter',
-  templateUrl: './diff-counter.component.html',
-  styleUrls: ['./diff-counter.component.css']
+  selector: "app-diff-counter",
+  templateUrl: "./diff-counter.component.html",
+  styleUrls: ["./diff-counter.component.css"]
 })
-export class DiffCounterComponent implements OnInit {
+export class DiffCounterComponent {
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  public constructor() { /*default*/ }
 
 }
