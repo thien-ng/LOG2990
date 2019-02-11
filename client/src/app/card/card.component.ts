@@ -63,14 +63,10 @@ export class CardComponent {
   }
 
   public onStartGameClick(): void {
-
-    if (this.card.gamemode === Constants.GAMEMODE_SIMPLE) {
-
-      this.router.navigate([Constants.GAME_VIEW_SIMPLE_PATH]).catch();
-    } else {
-
-      this.router.navigate([Constants.GAME_VIEW_FREE_PATH]).catch();
-    }
+    const gameModeComparison: boolean = this.card.gamemode === Constants.GAMEMODE_SIMPLE;
+    const gameModePath: string = gameModeComparison ? Constants.GAME_VIEW_SIMPLE_PATH : Constants.GAME_VIEW_FREE_PATH;
+    
+    this.router.navigate([gameModePath]).catch();
   }
 
 }
