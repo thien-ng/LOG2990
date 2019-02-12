@@ -6,6 +6,7 @@ export class Constants {
   public static readonly CONNECTION: string = "connection";
   public static readonly DISCONNECT_EVENT: string = "disconnect";
   public static readonly WEBSOCKET_PORT_NUMBER: number = 3333;
+  public static readonly POSITION_VALIDATION_EVENT: string = "onPositionValidation";
 
   // Constants for buffermanager.ts
   public static readonly BUFFER_FORMAT: string = "hex";

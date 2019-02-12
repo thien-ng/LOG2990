@@ -28,7 +28,7 @@ export class DifferenceCheckerService {
         try {
             numberOfDifferences = this.calculateDifferences(requirements);
         } catch (error) {
-            this.generateError(error); // A DEMANDER AU CHARGE
+            return this.generateError(error); // A DEMANDER AU CHARGE
 
         }
         if (this.imageHasNotDimensionsNeeded(this.bufferOriginal) ||
