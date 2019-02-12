@@ -9,7 +9,7 @@ import {
   Validators,
   ValidatorFn
 } from "@angular/forms";
-import { MatDialogRef } from "@angular/material";
+import { MatDialogRef, MatSnackBar } from "@angular/material";
 import { FormMessage, Message } from "../../../../common/communication/message";
 import { CardManagerService } from "../card/card-manager.service";
 import { Constants } from "../constants";
@@ -58,6 +58,7 @@ export class CreateFreeGameComponent {
     private dialogRef: MatDialogRef<CreateFreeGameComponent>,
     private formBuilder: FormBuilder,
     private httpClient: HttpClient,
+    private snackBar: MatSnackBar,
     private cardManagerService: CardManagerService,
   ) {
 
@@ -132,14 +133,24 @@ export class CreateFreeGameComponent {
     const formValue: FormMessage = this.createFormMessage(formData);
 
     this.httpClient.post(Constants.BASIC_SERVICE_BASE_URL + SUBMIT_PATH, formValue).subscribe((response: Message) => {
-      if (response === null) {
-        return;
-      }
-      if (response.title === Constants.ON_SUCCESS_MESSAGE) {
-        this.cardManagerService.updateCards(true);
-        this.isButtonEnabled = true;
-      }
+      this.analyseResponse(response);
+      this.isButtonEnabled = true;
     });
-    this.dialogRef.close();
+  }
+
+  private analyseResponse(response: Message): void {
+    if (response.title === Constants.ON_SUCCESS_MESSAGE) {
+      this.cardManagerService.updateCards(true);
+      this.dialogRef.close();
+    } else if (response.title === Constants.ON_ERROR_MESSAGE) {
+      this.openSnackBar(response.body, Constants.SNACK_ACTION);
+    }
+  }
+
+  private openSnackBar(msg: string, action: string): void {
+    this.snackBar.open(msg, action, {
+      duration: Constants.SNACKBAR_DURATION,
+      verticalPosition: "top",
+    });
   }
 }
