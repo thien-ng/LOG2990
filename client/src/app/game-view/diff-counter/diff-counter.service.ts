@@ -20,7 +20,7 @@ export class DiffCounterService {
 
   public updateSpinner(elem: HTMLElement, nbErrorFound: number): void {
     const angle: number = this.computeAngleSpinner(nbErrorFound);
-    elem.setAttribute("data-value", this.convertedErrorToPercent.toString());
+    elem.setAttribute("data-value", this.convertedErrorToPercent.toFixed(1));
     elem.setAttribute("id", nbErrorFound.toString());
 
     if (this.progressBar.nativeElement) {
