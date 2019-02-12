@@ -6,6 +6,7 @@ import { ICardLists } from "../../../common/communication/iCardLists";
 import { Message } from "../../../common/communication/message";
 import { CardManagerService } from "../services/card-manager.service";
 import Types from "../types";
+import { Constants } from "../constants";
 
 const DECIMAL: number = 10;
 const ORIGINAL_IMAGE_NAME: string = "originalImage";
@@ -61,7 +62,9 @@ export class CardManagerController {
                 const message: string = this.cardManagerService.removeCard2D(cardId);
                 res.json(message);
             } catch (error) {
-                res.json(error.message);
+                const isTypeError: boolean = error instanceof TypeError;
+                const errorMessage: string = isTypeError ? error.message : Constants.UNKNOWN_ERROR;
+                res.json(errorMessage);
             }
         });
 
@@ -73,4 +76,5 @@ export class CardManagerController {
 
         return router;
     }
+
 }
