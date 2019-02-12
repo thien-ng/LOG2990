@@ -110,7 +110,7 @@ describe("Card-manager tests", () => {
 
     it("Should return an error message", async () => {
         let messageTitle: string = "";
-        await cardManagerService.cardCreationRoutine(testImageOg, testImageOg, "title")
+        await cardManagerService.simpleCardCreationRoutine(testImageOg, testImageOg, "title")
         .then((message: Message) => {
             messageTitle = message.title;
         });

@@ -38,7 +38,7 @@ export class CardManagerController {
             const originalBuffer: Buffer = req.files[ORIGINAL_IMAGE_NAME][0].buffer;
             const modifiedBuffer: Buffer = req.files[MODIFIED_IMAGE_NAME][0].buffer;
 
-            const result: Message = await this.cardManagerService.cardCreationRoutine(originalBuffer, modifiedBuffer, req.body.name);
+            const result: Message = await this.cardManagerService.simpleCardCreationRoutine(originalBuffer, modifiedBuffer, req.body.name);
 
             res.json(result);
         });
@@ -46,7 +46,7 @@ export class CardManagerController {
 
             // req is formMessage To be sent to sceneCreation
             // DO not forget to send back message On succes and onError
-            res.json();
+            res.json(this.cardManagerService.freeCardCreationRoutine(req.body));
         });
 
         router.get("/list", async (req: Request, res: Response, next: NextFunction) => {
