@@ -26,6 +26,16 @@ export class DiffCounterComponent implements AfterContentInit {
     this.updateSpinner(this.progressCircle.nativeElement, 6);
   }
 
+  public updateSpinner(elem: HTMLElement, nbErrorFound: number): void {
+    const angle: number = this.computeAngleSpinner(nbErrorFound);
+    elem.setAttribute("data-value", this.convertedErrorToPercent.toString());
+    elem.setAttribute("id", nbErrorFound.toString());
+
+    if (this.progressBarre.nativeElement) {
+      this.progressBarre.nativeElement.style.transform = "rotate(" + angle + "deg)";
+    }
+  }
+
   private convertValueToPercent(nbErrorFound: number): number {
     return nbErrorFound * this.PERCENT / this.nbErrorMax;
   }
