@@ -16,17 +16,17 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
 
   private stateSubscription: Subscription;
   @Input() public cardListContainer: ICardLists;
+  public tabIndex: number;
+  public cardsLoaded: boolean;
 
   public constructor(
     public gameModeservice: GameModeService,
     public cardManagerService: CardManagerService,
     private adminService: AdminToggleService,
     public router: Router,
-    public cardsLoaded: boolean,
-    public tabIndex: number,
     ) {
-    cardsLoaded = false;
-    tabIndex = 0;
+    this.cardsLoaded = false;
+    this.tabIndex = 0;
     }
 
   public ngOnInit(): void {

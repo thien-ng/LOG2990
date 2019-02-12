@@ -9,12 +9,13 @@ import { Constants } from "../constants";
 })
 export class AdminToggleService {
 
+  private adminUpdated: Subject<boolean>;
+  private isAdmin: boolean;
+
   public constructor(
     public router: Router,
-    private adminUpdated: Subject<boolean>,
-    private isAdmin: boolean,
     ) {
-      adminUpdated = new Subject<boolean>();
+      this.adminUpdated = new Subject<boolean>();
     }
 
   public get isAdminState(): boolean {

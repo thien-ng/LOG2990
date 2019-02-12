@@ -10,13 +10,14 @@ const INDEX_3D: number = 1;
 })
 export class GameModeService {
 
+  private gameModeUpdated: Subject<number>;
+  private index: number;
+
   public constructor(
     public router: Router,
-    private gameModeUpdated: Subject<number>,
-    private index: number,
     ) {
-      gameModeUpdated = new Subject<number>();
-      index = 0;
+      this.gameModeUpdated = new Subject<number>();
+      this.index = 0;
     }
 
   public getIndex(): number {

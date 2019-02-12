@@ -33,19 +33,20 @@ export class CreateSimpleGameComponent {
                                   + Constants.MAX_GAME_LENGTH + " caractères";
   public readonly ERROR_REQUIRED: string = "Nom de jeu requis";
 
+  public formControl: FormGroup;
+  private selectedFiles: [Blob, Blob];
+  public isButtonEnabled: boolean;
+
   public constructor(
     private dialogRef: MatDialogRef<CreateSimpleGameComponent>,
     private fileValidatorService: FileValidatorService,
     private snackBar: MatSnackBar,
     private httpClient: HttpClient,
     private cardManagerService: CardManagerService,
-    public isButtonEnabled: boolean,
-    private selectedFiles: [Blob, Blob],
-    public formControl: FormGroup,
     ) {
-      isButtonEnabled = true;
-      selectedFiles = [new Blob(), new Blob()];
-      formControl = new FormGroup({
+      this.isButtonEnabled = true;
+      this.selectedFiles = [new Blob(), new Blob()];
+      this.formControl = new FormGroup({
         gameName: new FormControl("", [
           Validators.required,
           Validators.pattern(Constants.GAME_REGEX_PATTERN),

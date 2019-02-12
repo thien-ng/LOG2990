@@ -25,6 +25,7 @@ export class CardComponent {
 
   public hsButtonIsClicked: boolean;
   @Input() public card: ICard;
+  @Output() public cardDeleted: EventEmitter<string>;
 
   public constructor(
     public router: Router,
@@ -32,8 +33,8 @@ export class CardComponent {
     public cardManagerService: CardManagerService,
     private snackBar: MatSnackBar,
     private highscoreService: HighscoreService,
-    @Output() public cardDeleted: EventEmitter<string>, ) {
-      cardDeleted = new EventEmitter();
+    ) {
+      this.cardDeleted = new EventEmitter();
     }
 
   public onDeleteButtonClick(): void {

@@ -28,15 +28,15 @@ export class LoginValidatorComponent {
                                   + Constants.MAX_LENGTH + " caractères";
   public readonly ERROR_REQUIRED: string = "Nom d'utilisateur requis";
   public readonly BUTTON_SUBMIT: string = "Soumettre";
+  public matcher: MyErrorStateMatcher;
 
   public constructor(
     @Inject(LoginValidatorService) public loginValidatorService: LoginValidatorService,
     private snackbar: MatSnackBar,
     private socketService: SocketService,
     private router: Router,
-    public matcher: MyErrorStateMatcher,
   ) {
-    matcher = new MyErrorStateMatcher();
+    this.matcher = new MyErrorStateMatcher();
   }
 
   public usernameFormControl: FormControl = new FormControl("", [

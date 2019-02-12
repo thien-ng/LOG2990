@@ -43,15 +43,16 @@ export class MainNavComponent implements OnInit, OnDestroy {
   public readonly TEXT_BOUTON_3D: string = "Créer jeu 3D";
   private stateSubscription: Subscription;
 
+  public isValidUrl: boolean;
+
   public constructor(
     private breakpointObserver: BreakpointObserver,
     public dialog: MatDialog,
     public adminService: AdminToggleService,
     public router: Router,
     private loginService: LoginValidatorService,
-    public isValidUrl: boolean,
   ) {
-    isValidUrl = true;
+    this.isValidUrl = true;
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.isValidUrl = this.router.url !== this.SIMPLE_GAME_PATH && this.router.url !== this.FREE_GAME_PATH;

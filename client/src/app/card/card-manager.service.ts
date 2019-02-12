@@ -11,13 +11,13 @@ import { Constants } from "../constants";
 })
 export class CardManagerService {
 
+  private cardCreated: BehaviorSubject<boolean>;
+  public cardCreatedObservable: Observable<boolean>;
   public constructor(
     private httpClient: HttpClient,
-    private cardCreated: BehaviorSubject<boolean>,
-    public cardCreatedObservable: Observable<boolean>,
     ) {
-    cardCreated = new BehaviorSubject<boolean>(false);
-    cardCreatedObservable = this.cardCreated.asObservable();
+    this.cardCreated = new BehaviorSubject<boolean>(false);
+    this.cardCreatedObservable = this.cardCreated.asObservable();
     }
 
   public getCards(): Observable<ICardLists> {

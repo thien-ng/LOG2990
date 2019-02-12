@@ -7,11 +7,12 @@ import { Constants } from "../constants";
 @Injectable()
 export class HighscoreService {
 
+  private highscoreUpdated: Subject<HighscoreMessage>;
+
   public constructor(
     private httpClient: HttpClient,
-    private highscoreUpdated: Subject<HighscoreMessage>,
     ) {
-      highscoreUpdated = new Subject<HighscoreMessage>();
+      this.highscoreUpdated = new Subject<HighscoreMessage>();
     }
 
   public getHighscoreUpdateListener(): Observable<HighscoreMessage> {
