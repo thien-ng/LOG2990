@@ -16,15 +16,15 @@ export class SceneBuilder {
 
     }
 
-    public generatePositions() {
-
-    }
-
-    public generateSceneLights() {
-
-    }
-
-    public generateSceneBackgroundColor() {
+    public generatePositions(): void {
         
+    }
+
+    public generateSceneLights(): void {
+
+    }
+
+    public generateSceneBackgroundColor(): void {
+
     }
 }
