@@ -1,0 +1,72 @@
+.progress-circle{
+  position: relative;             
+  box-sizing: border-box;         
+  font-size: 6em;                 
+  width: 1em;                     /* fixe la largeur */
+  height: 1em;                    /* fixe la hauteur */
+  border-radius: 50%;             
+  border: .15em solid #CDE;       
+  background-color: #FFF;         
+}
+
+/* masque partie gauche quand < 50% de la jauge */
+.progress-masque {
+  position: absolute;
+  width: 1em;                     
+  height: 1em;                    
+  left: -.15em;                   
+  top: -.15em;                    
+  clip: rect(0, 1em, 1em, .5em);  /* par défaut seule la partie droite est visible */
+}
+
+/* affiche tout le cercle quand > 50% de la jauge */
+.progress-circle[data-value^='5']:not([data-value='5']):not([data-value^='5.']) .progress-masque,
+.progress-circle[data-value^='6']:not([data-value='6']):not([data-value^='6.']) .progress-masque,
+.progress-circle[data-value^='7']:not([data-value='7']):not([data-value^='7.']) .progress-masque,
+.progress-circle[data-value^='8']:not([data-value='8']):not([data-value^='8.']) .progress-masque,
+.progress-circle[data-value^='9']:not([data-value='9']):not([data-value^='9.']) .progress-masque,
+.progress-circle[data-value^='100'] .progress-masque {
+  clip: rect(auto, auto, auto, auto);
+}
+
+.progress-barre,
+.progress-sup50 {
+  position: absolute;
+  box-sizing: border-box;         
+  border-width: .15em;            
+  border-style: solid;
+  border-color: #069;
+  border-radius: 50%;             
+  width: 1em;                     
+  height: 1em;                    
+  clip: rect(0, .5em, 1em, 0);    /* on ne garde que la partie gauche */
+}
+
+/* par défaut, on cache partie de gauche du cercle */
+.progress-sup50 {
+  display: none;
+  clip: rect(0, 1em, 1em, .5em);
+}
+
+/* quand > 50% de la jauge, on fait apparaitre tout le cercle */
+.progress-circle[data-value^='5']:not([data-value='5']):not([data-value^='5.']) .progress-sup50,
+.progress-circle[data-value^='6']:not([data-value='6']):not([data-value^='6.']) .progress-sup50,
+.progress-circle[data-value^='7']:not([data-value='7']):not([data-value^='7.']) .progress-sup50,
+.progress-circle[data-value^='8']:not([data-value='8']):not([data-value^='8.']) .progress-sup50,
+.progress-circle[data-value^='9']:not([data-value='9']):not([data-value^='9.']) .progress-sup50,
+.progress-circle[data-value^='100'] .progress-sup50 {
+  display:block;
+}
+
+/* affiche le nombre d erreurs trouve */
+.progress-circle:after {
+  content: attr(id);      /* récup. valeur de progression */
+  font-size: 0.15em;              
+  height: 100%;                   
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  border-radius: 50%;
+  box-shadow: 0 0 .5em rgba(0, 0, 0, .5) inset;
+}
