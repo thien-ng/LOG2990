@@ -73,6 +73,11 @@ describe("Card-manager tests", () => {
         expect(cardManagerService.addCard3D(c2)).to.equal(true);
     });
 
+    it("should return false when adding an existing 3D card", () => {
+        cardManagerService.addCard3D(c2)
+        expect(cardManagerService.addCard3D(c2)).to.equal(false);
+    });
+
     it("should return new length of 3D list after adding a card", () => {
         cardManagerService.addCard3D(c2);
         cardManagerService.addCard3D(c3);
@@ -124,5 +129,4 @@ describe("Card-manager tests", () => {
         expect(messageTitle).to.equal("onError");
         mock.restore();
     });
-
 });
