@@ -27,4 +27,8 @@ export class SceneBuilder {
     public generateSceneBackgroundColor(): void {
 
     }
+
+    private randomNumberFromInterval(min: number, max: number): number {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
 }
