@@ -77,6 +77,7 @@ export class CardManagerService {
             gamemode: GameMode.free,
             title: body.gameName,
             subtitle: body.gameName,
+            // The image is temporary, the screenshot will be generated later
             avatarImageUrl: "http://localhost:3000/image/dylan.jpg",
             gameImageUrl: "http://localhost:3000/image/dylan.jpg",
         };

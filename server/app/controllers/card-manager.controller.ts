@@ -43,14 +43,10 @@ export class CardManagerController {
             res.json(result);
         });
         router.post("/submitFree", async (req: Request, res: Response, next: NextFunction) => {
-
-            // req is formMessage To be sent to sceneCreation
-            // DO not forget to send back message On succes and onError
             res.json(this.cardManagerService.freeCardCreationRoutine(req.body));
         });
 
         router.get("/list", async (req: Request, res: Response, next: NextFunction) => {
-                // Send the request to the service and send the response
                 const list: ICardLists = this.cardManagerService.getCards();
                 res.json(list);
         });
