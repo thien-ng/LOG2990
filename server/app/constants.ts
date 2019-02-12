@@ -35,4 +35,5 @@ export class Constants {
   public static readonly ON_SUCCESS_MESSAGE: string = "onSuccess";
   public static readonly VALIDATION_FAILED: string = "Validation services failed";
 
+  public static readonly UNKNOWN_ERROR: string = "Erreur inconnue";
 }

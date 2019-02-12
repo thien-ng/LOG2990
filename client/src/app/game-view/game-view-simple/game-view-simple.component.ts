@@ -20,6 +20,7 @@ export class GameViewSimpleComponent implements AfterContentInit {
   }
 
   public initListener(): void {
+
     this.canvasOriginal.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
       this.gameViewService.onCanvasClick(mouseEvent.offsetX, mouseEvent.offsetY);
     });
