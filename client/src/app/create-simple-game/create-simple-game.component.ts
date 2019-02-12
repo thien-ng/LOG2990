@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient } from "@angular/common/httpClient";
 import { Component } from "@angular/core";
 import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
 import { MatDialogRef, MatSnackBar } from "@angular/material";
@@ -49,7 +49,7 @@ export class CreateSimpleGameComponent {
     private dialogRef: MatDialogRef<CreateSimpleGameComponent>,
     private fileValidatorService: FileValidatorService,
     private snackBar: MatSnackBar,
-    private http: HttpClient,
+    private httpClient: HttpClient,
     private cardManagerService: CardManagerService,
     ) {}
 
@@ -94,7 +94,7 @@ export class CreateSimpleGameComponent {
   public submit(data: NgForm): void {
     this.isButtonEnabled = false;
     const formdata: FormData = this.createFormData(data);
-    this.http.post(Constants.BASIC_SERVICE_BASE_URL + SUBMIT_PATH, formdata).subscribe((response: Message) => {
+    this.httpClient.post(Constants.BASIC_SERVICE_BASE_URL + SUBMIT_PATH, formdata).subscribe((response: Message) => {
       this.analyseResponse(response);
       this.isButtonEnabled = true;
     });
