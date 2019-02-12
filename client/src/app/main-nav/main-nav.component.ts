@@ -59,7 +59,6 @@ export class MainNavComponent implements OnInit, OnDestroy {
     });
   }
 
-
   public isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
     .pipe(map((event) => event.matches));

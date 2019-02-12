@@ -9,9 +9,7 @@ import Types from "../types";
 @injectable()
 export class WebsocketManager {
 
-    public constructor(@inject(Types.NameValidatorService) private nameValidatorService: NameValidatorService) {
-        // default constructor
-    }
+    public constructor(@inject(Types.NameValidatorService) private nameValidatorService: NameValidatorService) {}
 
     public createWebsocket(server: http.Server): void {
         const io: SocketIO.Server = SocketIO(server);

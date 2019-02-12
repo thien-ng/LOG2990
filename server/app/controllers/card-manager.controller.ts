@@ -4,9 +4,9 @@ import { inject, injectable } from "inversify";
 import * as multer from "multer";
 import { ICardLists } from "../../../common/communication/iCardLists";
 import { Message } from "../../../common/communication/message";
+import { Constants } from "../constants";
 import { CardManagerService } from "../services/card-manager.service";
 import Types from "../types";
-import { Constants } from "../constants";
 
 const DECIMAL: number = 10;
 const ORIGINAL_IMAGE_NAME: string = "originalImage";
