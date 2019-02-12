@@ -9,23 +9,23 @@ export class SceneBuilder {
     }
 
     public setSceneObjectsQuantity(): void {
-
+        //
     }
 
     public generateSceneObjectsTypes(): void {
-
+        //
     }
 
     public generatePositions(): void {
-        
+        //
     }
 
     public generateSceneLights(): void {
-
+        //
     }
 
     public generateSceneBackgroundColor(): void {
-
+        //
     }
 
     private randomNumberFromInterval(min: number, max: number): number {
