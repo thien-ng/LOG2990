@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/httpClient";
+import { HttpClient } from "@angular/common/http";
 import { Component } from "@angular/core";
 import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
 import { MatDialogRef, MatSnackBar } from "@angular/material";

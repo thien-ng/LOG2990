@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/httpClient";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { HighscoreMessage } from "../../../../common/communication/highscore";
