@@ -74,7 +74,7 @@ describe("Card-manager tests", () => {
     });
 
     it("should return false when adding an existing 3D card", () => {
-        cardManagerService.addCard3D(c2)
+        cardManagerService.addCard3D(c2);
         expect(cardManagerService.addCard3D(c2)).to.equal(false);
     });
 
