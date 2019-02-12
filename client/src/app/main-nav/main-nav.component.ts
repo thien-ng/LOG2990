@@ -33,23 +33,8 @@ import { AdminToggleService } from "./admin-toggle.service";
 })
 export class MainNavComponent implements OnInit, OnDestroy {
 
-  public constructor(
-    private breakpointObserver: BreakpointObserver,
-    public dialog: MatDialog,
-    public adminService: AdminToggleService,
-    public router: Router,
-    private loginService: LoginValidatorService,
-  ) {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.isValidUrl = this.router.url !== this.SIMPLE_GAME_PATH && this.router.url !== this.FREE_GAME_PATH;
-      }
-    });
-  }
-
   public isAdminMode: boolean;
   public client: string | null;
-  public isValidUrl: boolean = true;
   public readonly LOGIN_PATH: string = Constants.LOGIN_REDIRECT;
   public readonly SIMPLE_GAME_PATH: string = "/game-view-simple";
   public readonly FREE_GAME_PATH: string = "/game-view-free";
@@ -57,6 +42,23 @@ export class MainNavComponent implements OnInit, OnDestroy {
   public readonly TEXT_BOUTON_2D: string = "Créer jeu simple";
   public readonly TEXT_BOUTON_3D: string = "Créer jeu 3D";
   private stateSubscription: Subscription;
+
+  public constructor(
+    private breakpointObserver: BreakpointObserver,
+    public dialog: MatDialog,
+    public adminService: AdminToggleService,
+    public router: Router,
+    private loginService: LoginValidatorService,
+    public isValidUrl: boolean,
+  ) {
+    isValidUrl = true;
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.isValidUrl = this.router.url !== this.SIMPLE_GAME_PATH && this.router.url !== this.FREE_GAME_PATH;
+      }
+    });
+  }
+
 
   public isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)

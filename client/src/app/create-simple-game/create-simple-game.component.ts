@@ -32,18 +32,6 @@ export class CreateSimpleGameComponent {
                                   + Constants.MIN_GAME_LENGTH + "-"
                                   + Constants.MAX_GAME_LENGTH + " caractères";
   public readonly ERROR_REQUIRED: string = "Nom de jeu requis";
-  public isButtonEnabled: boolean = true;
-
-  private selectedFiles: [Blob, Blob] = [new Blob(), new Blob()];
-
-  public formControl: FormGroup = new FormGroup({
-    gameName: new FormControl("", [
-      Validators.required,
-      Validators.pattern(Constants.GAME_REGEX_PATTERN),
-      Validators.minLength(Constants.MIN_GAME_LENGTH),
-      Validators.maxLength(Constants.MAX_GAME_LENGTH),
-    ]),
-  });
 
   public constructor(
     private dialogRef: MatDialogRef<CreateSimpleGameComponent>,
@@ -51,7 +39,21 @@ export class CreateSimpleGameComponent {
     private snackBar: MatSnackBar,
     private httpClient: HttpClient,
     private cardManagerService: CardManagerService,
-    ) {}
+    public isButtonEnabled: boolean,
+    private selectedFiles: [Blob, Blob],
+    public formControl: FormGroup,
+    ) {
+      isButtonEnabled = true;
+      selectedFiles = [new Blob(), new Blob()];
+      formControl = new FormGroup({
+        gameName: new FormControl("", [
+          Validators.required,
+          Validators.pattern(Constants.GAME_REGEX_PATTERN),
+          Validators.minLength(Constants.MIN_GAME_LENGTH),
+          Validators.maxLength(Constants.MAX_GAME_LENGTH),
+        ]),
+      });
+    }
 
   public hasNameControlErrors(): boolean {
     return this.formControl.controls.gameName.errors == null || this.formControl.controls.gameName.pristine;

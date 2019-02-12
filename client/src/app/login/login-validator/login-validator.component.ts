@@ -34,9 +34,10 @@ export class LoginValidatorComponent {
     private snackbar: MatSnackBar,
     private socketService: SocketService,
     private router: Router,
-  ) {}
-
-  public matcher: MyErrorStateMatcher = new MyErrorStateMatcher();
+    public matcher: MyErrorStateMatcher,
+  ) {
+    matcher = new MyErrorStateMatcher();
+  }
 
   public usernameFormControl: FormControl = new FormControl("", [
     Validators.required,

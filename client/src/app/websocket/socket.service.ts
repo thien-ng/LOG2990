@@ -9,10 +9,13 @@ import { ChatViewService } from "../game-view/chat-view/chat-view.service";
   providedIn: "root",
 })
 export class SocketService {
-  private socket: SocketIOClient.Socket = io(Constants.WEBSOCKET_URL);
 
-  public constructor(private chatViewService: ChatViewService) {
+  public constructor(
+    private chatViewService: ChatViewService,
+    private socket: SocketIOClient.Socket,
+    ) {
     this.initWebsocketListener();
+    socket = io(Constants.WEBSOCKET_URL);
   }
 
   public initWebsocketListener(): void {

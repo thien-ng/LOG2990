@@ -14,10 +14,7 @@ import { GameModeService } from "./game-mode.service";
 })
 export class GameListContainerComponent implements OnInit, OnDestroy {
 
-  public tabIndex: number = 0;
   private stateSubscription: Subscription;
-
-  public cardsLoaded: boolean = false;
   @Input() public cardListContainer: ICardLists;
 
   public constructor(
@@ -25,7 +22,12 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
     public cardManagerService: CardManagerService,
     private adminService: AdminToggleService,
     public router: Router,
-    ) {}
+    public cardsLoaded: boolean,
+    public tabIndex: number,
+    ) {
+    cardsLoaded = false;
+    tabIndex = 0;
+    }
 
   public ngOnInit(): void {
     this.initSubscription();
