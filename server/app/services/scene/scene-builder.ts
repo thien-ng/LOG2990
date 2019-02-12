@@ -1,4 +1,4 @@
-import { AxisValues, ISceneVariables } from "../../../../common/communication/iSceneVariables";
+import { AxisValues, ISceneVariables, RGBColor } from "../../../../common/communication/iSceneVariables";
 import { SceneConstants } from "./sceneConstants";
 
 export class SceneBuilder {
@@ -53,6 +53,18 @@ export class SceneBuilder {
 
     public generateSceneBackgroundColor(): void {
         //
+    }
+
+    public generateRandomColor(): RGBColor {
+        const red: number = this.randomNumberFromInterval(0, 255);
+        const green: number = this.randomNumberFromInterval(0, 255);
+        const blue: number = this.randomNumberFromInterval(0, 255);
+
+        return {
+            red: red,
+            green: green,
+            blue: blue,
+        };
     }
 
     private randomNumberFromInterval(min: number, max: number): number {
