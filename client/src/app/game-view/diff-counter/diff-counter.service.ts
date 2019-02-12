@@ -23,8 +23,8 @@ export class DiffCounterService {
     elem.setAttribute("data-value", this.convertedErrorToPercent.toFixed(1));
     elem.setAttribute("id", nbErrorFound.toString());
 
-    if (this.progressBar.nativeElement) {
-      this.progressBar.nativeElement.style.transform = "rotate(" + angle + "deg)";
+    if (this.progressBar) {
+      this.progressBar.style.transform = "rotate(" + angle + "deg)";
     }
   }
 
