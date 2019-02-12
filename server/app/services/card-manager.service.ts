@@ -2,7 +2,7 @@ import * as Axios from "axios";
 import { inject, injectable } from "inversify";
 import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
-import { Message } from "../../../common/communication/message";
+import { FormMessage, Message } from "../../../common/communication/message";
 import { Constants } from "../constants";
 import Types from "../types";
 import { AssetManagerService } from "./asset-manager.service";
@@ -12,6 +12,8 @@ import { HighscoreService } from "./highscore.service";
 const axios: Axios.AxiosInstance = require("axios");
 const DOESNT_EXIST: number = -1;
 const CARD_DELETED: string = "Carte supprimée";
+const CARD_ADDED: string = "Carte ajoutée";
+const CARD_EXISTING: string = "Le ID ou le titre de la carte existe déja";
 const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
 const REQUIRED_HEIGHT: number = 480;
 const REQUIRED_WIDTH: number = 640;
@@ -38,7 +40,7 @@ export class CardManagerService {
         this.imageManagerService = new AssetManagerService();
     }
 
-    public async cardCreationRoutine(original: Buffer, modified: Buffer, cardTitle: string): Promise<Message> {
+    public async simpleCardCreationRoutine(original: Buffer, modified: Buffer, cardTitle: string): Promise<Message> {
         this.originalImageRequest = original;
         this.modifiedImageRequest = modified;
 
@@ -66,6 +68,30 @@ export class CardManagerService {
         return returnValue;
     }
 
+    public freeCardCreationRoutine(body: FormMessage): Message {
+        const cardReceived: ICard = {
+            gameID: this.generateId(),
+            gamemode: GameMode.free,
+            title: body.gameName,
+            subtitle: body.gameName,
+            // The image is temporary, the screenshot will be generated later
+            avatarImageUrl: "http://localhost:3000/image/dylan.jpg",
+            gameImageUrl: "http://localhost:3000/image/dylan.jpg",
+        };
+        if (this.addCard3D(cardReceived)) {
+            return {
+                title: Constants.ON_SUCCESS_MESSAGE,
+                body: CARD_ADDED,
+            } as Message;
+        } else {
+            return {
+                title: Constants.ON_ERROR_MESSAGE,
+                body: CARD_EXISTING,
+            } as Message;
+        }
+
+    }
+
     private handlePostResponse(response: Axios.AxiosResponse< Buffer | Message>, cardTitle: string): Message {
 
         const result: Buffer | Message = response.data;
@@ -78,20 +104,30 @@ export class CardManagerService {
             this.imageManagerService.stockImage(IMAGES_PATH + originalImagePath, this.originalImageRequest);
             this.imageManagerService.stockImage(IMAGES_PATH + modifiedImagePath, this.modifiedImageRequest);
             this.imageManagerService.createBMP(result, cardId);
+            const cardReceived: ICard = {
+                    gameID: cardId,
+                    title: cardTitle,
+                    subtitle: cardTitle,
+                    avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image" + originalImagePath,
+                    gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image" + originalImagePath,
+                    gamemode: GameMode.simple,
+            };
 
-            this.addCard2D({
-                gameID: cardId,
-                title: cardTitle,
-                subtitle: cardTitle,
-                avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image" + originalImagePath,
-                gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image" + originalImagePath,
-                gamemode: GameMode.simple,
-            });
+            return this.verifyCard(cardReceived);
+        }
+    }
 
+    private verifyCard(card: ICard): Message {
+        if (this.addCard2D(card)) {
             return {
                 title: Constants.ON_SUCCESS_MESSAGE,
-                body: "Card " + cardId + " created",
-            };
+                body: "Card " + card.gameID + " created",
+            } as Message;
+        } else {
+            return {
+                title: Constants.ON_ERROR_MESSAGE,
+                body: CARD_EXISTING,
+            } as Message;
         }
     }
 
@@ -105,8 +141,7 @@ export class CardManagerService {
     }
 
     private cardEqual(card: ICard, element: ICard): boolean {
-        return (element.gameID === card.gameID &&
-                element.gameImageUrl === card.gameImageUrl &&
+        return (element.gameID === card.gameID ||
                 element.title === card.title);
     }
 
