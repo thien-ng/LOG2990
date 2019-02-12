@@ -20,8 +20,16 @@ export class SceneBuilder {
         this.sceneVariables.sceneObjectsQuantity = this.sceneOptions.sceneObjectsQuantity;
     }
 
-    public generateSceneObjectsTypes(): void {
-        //
+    public callFunctionOnAllSceneObjects(func: () => void): void {
+        for (let index: number = 0; index < this.sceneVariables.sceneObjectsQuantity; index++) {
+            func.call(this);
+        }
+    }
+
+    // choisi un type d'objet au hasard parmis ceux possibles
+    public generateSceneObjectType(): void {
+        const randomNumber: number = this.randomNumberFromInterval(0, this.sceneOptions.possibleSceneObjectTypes.length);
+        this.sceneVariables.sceneObjectsTypes.push(this.sceneOptions.possibleSceneObjectTypes[randomNumber]);
     }
 
     public generatePositions(): void {
