@@ -2,10 +2,10 @@ export interface ISceneVariables {
     sceneObjectsQuantity: number;
     sceneObjectsTypes: SceneObjectType[];
     sceneBackgroundColor: RGBColor;
-    sceneObjectsPositions: axisValues[];
-    sceneObjectsOrientation: axisValues[];
+    sceneObjectsPositions: AxisValues[];
+    sceneObjectsOrientation: AxisValues[];
     sceneObjectsColors: RGBColor[];
-    sceneObjectsScales: axisValues[];
+    sceneObjectsScales: AxisValues[];
 }
 
 export enum SceneObjectType {
@@ -16,7 +16,7 @@ export enum SceneObjectType {
     TriangularPyramid,
 }
 
-export interface axisValues {
+export interface AxisValues {
     x: number;
     y: number;
     z: number;

@@ -1,4 +1,5 @@
-import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
+import { AxisValues, ISceneVariables } from "../../../../common/communication/iSceneVariables";
+import { SceneConstants } from "./sceneConstants";
 
 export class SceneBuilder {
 
@@ -32,8 +33,18 @@ export class SceneBuilder {
         this.sceneVariables.sceneObjectsTypes.push(this.sceneOptions.possibleSceneObjectTypes[randomNumber]);
     }
 
-    public generatePositions(): void {
-        //
+    public generatePosition(): void {
+        const randomPositionX: number = this.randomNumberFromInterval(0, SceneConstants.MAX_POSITION_X);
+        const randomPositionY: number = this.randomNumberFromInterval(0, SceneConstants.MAX_POSITION_Y);
+        const randomPositionZ: number = this.randomNumberFromInterval(0, SceneConstants.MAX_POSITION_Z);
+
+        const randomPositionVector: AxisValues = {
+            x: randomPositionX,
+            y: randomPositionY,
+            z: randomPositionZ,
+        };
+
+        this.sceneVariables.sceneObjectsPositions.push(randomPositionVector);
     }
 
     public generateSceneLights(): void {
