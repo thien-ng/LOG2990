@@ -20,6 +20,7 @@ export class SceneBuilder {
     // separeted class for object generation needed
     public generateSceneObjects(): void {
         for (let index: number = 0; index < this.sceneVariables.sceneObjectsQuantity; index++) {
+
             this.sceneVariables.sceneObjects.push(this.generateRandomSceneObject());
         }
     }
