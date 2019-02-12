@@ -14,8 +14,7 @@ export class GameModeService {
   private index: number;
 
   public constructor(
-    public router: Router,
-    ) {
+    public router: Router) {
       this.gameModeUpdated = new Subject<number>();
       this.index = 0;
     }

@@ -23,10 +23,7 @@ const DEFAULT_CARD_ID: number = 1;
 
 @injectable()
 export class CardManagerService {
-    private cards: ICardLists = {
-        list2D: [],
-        list3D: [],
-    };
+    private cards: ICardLists;
 
     private originalImageRequest: Buffer;
     private modifiedImageRequest: Buffer;
@@ -35,6 +32,10 @@ export class CardManagerService {
     private uniqueId: number = 1000;
 
     public constructor(@inject(Types.HighscoreService) private highscoreService: HighscoreService) {
+        this.cards = {
+            list2D: [],
+            list3D: [],
+        };
         this.addCard2D(DefaultCard2D);
         this.addCard3D(DefaultCard3D);
         this.imageManagerService = new AssetManagerService();

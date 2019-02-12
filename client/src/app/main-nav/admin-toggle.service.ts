@@ -13,8 +13,7 @@ export class AdminToggleService {
   private isAdmin: boolean;
 
   public constructor(
-    public router: Router,
-    ) {
+    public router: Router) {
       this.adminUpdated = new Subject<boolean>();
     }
 
