@@ -1,4 +1,4 @@
-import { SceneObjectType } from "./iSceneVariables";
+import { SceneObjectType } from "./iSceneObject";
 
 export interface ISceneOptions {
     sceneName: string;
