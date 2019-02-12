@@ -29,7 +29,7 @@
   clip: rect(auto, auto, auto, auto);
 }
 
-.progress-barre,
+.progress-bar,
 .progress-sup50 {
   position: absolute;
   box-sizing: border-box;         
@@ -66,7 +66,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   border-radius: 50%;
   box-shadow: 0 0 .5em rgba(0, 0, 0, .5) inset;
 }

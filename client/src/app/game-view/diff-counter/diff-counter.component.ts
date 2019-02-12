@@ -12,18 +12,17 @@ export class DiffCounterComponent implements AfterContentInit {
 
   @ViewChild("progressCircle", { read: ElementRef })
   public progressCircle: ElementRef;
-  @ViewChild("progressBarre", { read: ElementRef })
-  public progressBarre: ElementRef;
+  @ViewChild("progressBar", { read: ElementRef })
+  public progressBar: ElementRef;
 
-  private nbErrorMax: number;
   private convertedErrorToPercent: number;
 
   public constructor() {
-    this.nbErrorMax = this.NB_ERROR_MAX;
+    // default constructor
   }
 
   public ngAfterContentInit(): void {
-    this.updateSpinner(this.progressCircle.nativeElement, 6);
+    this.updateSpinner(this.progressCircle.nativeElement, 4);
   }
 
   public updateSpinner(elem: HTMLElement, nbErrorFound: number): void {
@@ -31,18 +30,18 @@ export class DiffCounterComponent implements AfterContentInit {
     elem.setAttribute("data-value", this.convertedErrorToPercent.toString());
     elem.setAttribute("id", nbErrorFound.toString());
 
-    if (this.progressBarre.nativeElement) {
-      this.progressBarre.nativeElement.style.transform = "rotate(" + angle + "deg)";
+    if (this.progressBar.nativeElement) {
+      this.progressBar.nativeElement.style.transform = "rotate(" + angle + "deg)";
     }
   }
 
-  private convertValueToPercent(nbErrorFound: number): number {
-    return nbErrorFound * this.PERCENT / this.nbErrorMax;
+  private convertErrorToPercent(nbErrorFound: number): number {
+    return nbErrorFound * this.PERCENT / this.NB_ERROR_MAX;
   }
 
   private computeAngleSpinner(nbErrorFound: number): number {
     let angle: number;
-    this.convertedErrorToPercent = this.convertValueToPercent(nbErrorFound);
+    this.convertedErrorToPercent = this.convertErrorToPercent(nbErrorFound);
     angle = this.convertedErrorToPercent * this.DEGREE_CIRCLE / this.PERCENT;
 
     return angle;
