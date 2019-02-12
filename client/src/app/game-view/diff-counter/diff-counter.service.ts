@@ -13,8 +13,9 @@ export class DiffCounterService {
 
   private convertedErrorToPercent: number;
 
-  public constructor() {
-    // default constructor
+  public constructor(progressCircle: ElementRef, progressBar: ElementRef) {
+    this.progressCircle = progressCircle;
+    this.progressBar = progressBar;
   }
 
   public updateSpinner(elem: HTMLElement, nbErrorFound: number): void {
