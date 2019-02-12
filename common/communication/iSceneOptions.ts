@@ -1,6 +1,7 @@
 import { SceneObjectType } from "./iSceneVariables";
 
 export interface ISceneOptions {
-    sceneObjectsQuantity: number;
+    sceneName: string;
     sceneObjectsType: SceneObjectType;
+    sceneObjectsQuantity: number;
 }

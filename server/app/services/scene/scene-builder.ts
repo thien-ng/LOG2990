@@ -6,7 +6,6 @@ export class SceneBuilder {
     private sceneVariables: ISceneVariables;
 
     public constructor (public sceneOptions: any) {
-        this.sceneVariables.sceneObjectsTypes = [];
         this.sceneVariables.sceneObjectsPositions = [];
         this.sceneVariables.sceneObjectsOrientation = [];
         this.sceneVariables.sceneObjectsColors = [];
