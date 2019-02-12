@@ -1,15 +1,23 @@
+import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
+
 export class SceneBuilder {
 
     private sceneVariables: ISceneVariables;
 
-    public constructor (public sceneOptions: ISceneOptions) { }
+    public constructor (public sceneOptions: any) {
+        this.sceneVariables.sceneObjectsTypes = [];
+        this.sceneVariables.sceneObjectsPositions = [];
+        this.sceneVariables.sceneObjectsOrientation = [];
+        this.sceneVariables.sceneObjectsColors = [];
+        this.sceneVariables.sceneObjectsScales = [];
+    }
 
-    public generateSceneVariables(sceneOptions: ISceneOptions): void {
+    public generateSceneVariables(sceneOptions: any): void {
         // takes sceneOptions and create the scene variables
     }
 
     public setSceneObjectsQuantity(): void {
-        //
+        this.sceneVariables.sceneObjectsQuantity = this.sceneOptions.sceneObjectsQuantity;
     }
 
     public generateSceneObjectsTypes(): void {
