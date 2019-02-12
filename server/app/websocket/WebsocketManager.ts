@@ -9,13 +9,15 @@ import Types from "../types";
 @injectable()
 export class WebsocketManager {
 
+    private io: SocketIO.Server;
+
     public constructor(@inject(Types.NameValidatorService) private nameValidatorService: NameValidatorService) {
         // default constructor
     }
 
     public createWebsocket(server: http.Server): void {
-        const io: SocketIO.Server = SocketIO(server);
-        io.on(Constants.CONNECTION, (socket: SocketIO.Socket) => {
+        this.io = SocketIO(server);
+        this.io.on(Constants.CONNECTION, (socket: SocketIO.Socket) => {
             let name: string;
             socket.on(Constants.LOGIN_EVENT, (data: string) => {
                 name = data;
@@ -29,8 +31,28 @@ export class WebsocketManager {
                 // recover data to make validation
             });
 
+            socket.on("onGameConnection", (data: string) => {
+
+            });
+
+            socket.emit("onChatMessage", {
+                username: "test",
+                message: "patate",
+                time: "123"
+            });
+
          });
-        io.listen(Constants.WEBSOCKET_PORT_NUMBER);
+        this.io.listen(Constants.WEBSOCKET_PORT_NUMBER);
+
+        this.io.emit("onChatMessage", {
+            username: "test",
+            message: "patate",
+            time: "123"
+        });
     }
+
+    public sendMsg<T>(type: string, msg: T): void {
+        this.io.emit(type, msg);
+      }
 
 }
