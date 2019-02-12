@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { Constants } from "../../constants";
+import { TestingImportsModule } from "../../testing-imports/testing-imports.module";
 import { DiffCounterComponent } from "../diff-counter/diff-counter.component";
 import { GameViewSimpleComponent } from "./game-view-simple.component";
 
@@ -12,7 +12,7 @@ describe("GameViewSimpleComponent", () => {
     TestBed.configureTestingModule({
       declarations: [ GameViewSimpleComponent,
                       DiffCounterComponent ],
-      imports: [ MatProgressSpinnerModule ],
+      imports: [ TestingImportsModule ],
     })
     .compileComponents()
     .catch(() => Constants.OBLIGATORY_CATCH);

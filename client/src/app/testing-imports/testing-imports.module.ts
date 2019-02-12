@@ -13,6 +13,7 @@ import {
   MatInputModule,
   MatListModule,
   MatMenuModule,
+  MatProgressSpinnerModule,
   MatSelectModule,
   MatSidenavModule,
   MatSliderModule,
@@ -58,6 +59,7 @@ import { RouterTestingModule } from "@angular/router/testing";
     MatSliderModule,
     MatSnackBarModule,
     MatTabsModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class TestingImportsModule { }
