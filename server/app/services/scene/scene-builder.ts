@@ -64,9 +64,9 @@ export class SceneBuilder {
     }
 
     public generateRandomColor(): IRGBColor {
-        const red: number = this.randomNumberFromInterval(0, 255);
-        const green: number = this.randomNumberFromInterval(0, 255);
-        const blue: number = this.randomNumberFromInterval(0, 255);
+        const red: number = this.randomNumberFromInterval(SceneConstants.MIN_COLOR_GRADIENT, SceneConstants.MAX_COLOR_GRADIENT);
+        const green: number = this.randomNumberFromInterval(SceneConstants.MIN_COLOR_GRADIENT, SceneConstants.MAX_COLOR_GRADIENT);
+        const blue: number = this.randomNumberFromInterval(SceneConstants.MIN_COLOR_GRADIENT, SceneConstants.MAX_COLOR_GRADIENT);
 
         return {
             red: red,
