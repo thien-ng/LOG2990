@@ -13,8 +13,7 @@ export class LoginValidatorService {
 
   public userNameUpdated: Subject<string | null>;
 
-  public constructor(
-    private httpClient: HttpClient) {
+  public constructor(private httpClient: HttpClient) {
       this.userNameUpdated = new Subject<string | null>();
     }
 

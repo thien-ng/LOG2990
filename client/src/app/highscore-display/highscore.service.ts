@@ -9,8 +9,7 @@ export class HighscoreService {
 
   private highscoreUpdated: Subject<HighscoreMessage>;
 
-  public constructor(
-    private httpClient: HttpClient) {
+  public constructor(private httpClient: HttpClient) {
       this.highscoreUpdated = new Subject<HighscoreMessage>();
     }
 
