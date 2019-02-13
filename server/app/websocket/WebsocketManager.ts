@@ -50,7 +50,7 @@ export class WebsocketManager {
                 message: "x: " + data.positionX + " y: " + data.positionY + " ( ͡° ͜ʖ ͡°)",
                 time: "1:30 pm",
             };
-            
+
             socket.emit(Constants.CHAT_MESSAGE, message);
         });
     }
