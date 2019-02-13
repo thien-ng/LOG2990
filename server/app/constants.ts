@@ -5,8 +5,11 @@ export class Constants {
   public static readonly LOGIN_EVENT: string = "onLogin";
   public static readonly CONNECTION: string = "connection";
   public static readonly DISCONNECT_EVENT: string = "disconnect";
-  public static readonly WEBSOCKET_PORT_NUMBER: number = 3333;
   public static readonly POSITION_VALIDATION_EVENT: string = "onPositionValidation";
+  public static readonly CHAT_MESSAGE: string = "onChatMessage";
+  public static readonly GAME_CONNECTION: string = "onGameConnection";
+  public static readonly GAME_DISCONNECT: string = "onGameDisconnect";
+  public static readonly WEBSOCKET_PORT_NUMBER: number = 3333;
 
   // Constants for buffermanager.ts
   public static readonly BUFFER_FORMAT: string = "hex";
