@@ -9,12 +9,12 @@ export class TimerComponent implements AfterContentInit {
   private readonly START_TIME: string = "00:00";
   private readonly INTERVAL: number = 1000;
 
-  public timeString: string;
-  private timeNumber: number;
+  public time: string;
+  private totalTime: number;
 
   public constructor(@Inject(TimerService) public timerService: TimerService) {
-    this.timeString = this.START_TIME;
-    this.timeNumber = 0;
+    this.time = this.START_TIME;
+    this.totalTime = 0;
   }
 
   public ngAfterContentInit(): void {
@@ -23,7 +23,7 @@ export class TimerComponent implements AfterContentInit {
 
   public startTimer(): void {
     setInterval(() => {
-                this.timeString = this.timerService.convertSecondsToString(++this.timeNumber);
+                this.time = this.timerService.convertSecondsToString(++this.totalTime);
     },          this.INTERVAL);
   }
 }
