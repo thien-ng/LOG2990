@@ -1,6 +1,6 @@
 import { AfterContentInit, Component, ElementRef, Inject, OnDestroy, ViewChild } from "@angular/core";
-import { GameViewSimpleService } from "./game-view-simple.service";
 import { SocketService } from "../../websocket/socket.service";
+import { GameViewSimpleService } from "./game-view-simple.service";
 
 @Component({
   selector: "app-game-view-simple",
@@ -16,7 +16,7 @@ export class GameViewSimpleComponent implements AfterContentInit, OnDestroy {
   public canvasModified: ElementRef;
 
   public constructor(@Inject(GameViewSimpleService) public gameViewService: GameViewSimpleService,
-                    @Inject(SocketService) private socketService: SocketService) {}
+                     @Inject(SocketService) private socketService: SocketService) {}
 
   public ngAfterContentInit(): void {
     this.socketService.sendMsg("onGameConnection", "test");

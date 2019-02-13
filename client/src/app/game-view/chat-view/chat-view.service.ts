@@ -20,4 +20,8 @@ export class ChatViewService {
     return this.conversation;
   }
 
+  public clearConversations(): void {
+    this.conversation = [];
+  }
+
 }
