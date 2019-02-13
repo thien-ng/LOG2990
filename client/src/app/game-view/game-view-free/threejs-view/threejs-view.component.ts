@@ -16,7 +16,7 @@ export class TheejsViewComponent {
   private _light2: THREE.DirectionalLight;
   private _material: THREE.MeshBasicMaterial;
   private sceneObjects: THREE.Mesh[] = [];
-  // private sphere: THREE.Mesh;
+  private sphere: THREE.Mesh;
   // private hidden: boolean = false;
   // private isCreated: boolean = false;
   public ambLight: THREE.AmbientLight;
@@ -36,7 +36,7 @@ export class TheejsViewComponent {
     for (let index: number = 0; index < 5; index++) {
       this.sceneObjects.push(new THREE.Mesh(new THREE.CubeGeometry(1,1,1), this._material));
     }
-    // this.sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5), this._material);
+    this.sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5), this._material);
   }
 
   public createScene(): void {
@@ -49,8 +49,8 @@ export class TheejsViewComponent {
     }
     // this._scene.add(this._axis);
     this._scene.add(this.ambLight);
-    this._light.position.set(100, 100, 100);
-    this._light.intensity = 1;
+    this._light.position.set(100, 100, 50);
+    this._light.intensity = 5;
     this._scene.add(this._light);
     this._light2.position.set(-10, 10, -10);
     this._light2.intensity = 0.5;
@@ -62,9 +62,9 @@ export class TheejsViewComponent {
       element.position.y = posDrift;
       posDrift += 1;
     });
-    // this._scene.add(this.sphere);
-    // this.sphere.position.x = 0.5;
-    // this.sphere.rotation.y = 0.5;
+    this._scene.add(this.sphere);
+    this.sphere.position.x = 0;
+    this.sphere.rotation.y = 0;
 
     this._camera.position.x = 0;
     this._camera.position.y = 0;
@@ -72,9 +72,13 @@ export class TheejsViewComponent {
 
     this._camera.lookAt(this._scene.position);
 }
-
+public angle: number = 100;
+public radius: number = 10;
 public animate(): void {
   requestAnimationFrame(this.animate.bind(this));
+  this._camera.position.x = this.radius * Math.cos( this.angle ) - 0;  
+  this._camera.position.z = this.radius * Math.sin( this.angle ) - 20;
+  this.angle += 0.01;
   this._render();
 }
 
@@ -84,9 +88,9 @@ private _render(): void {
   // this._box.position.x = 0.15*( 16*Math.pow(Math.sin(timer), 3));
   let multDrift: number = 0.1;
   this.sceneObjects.forEach(element => {
-    element.position.x = multDrift*( 16*Math.pow(Math.sin(timer), 3));
-    element.position.y = multDrift*( 13*Math.cos(timer) - 5*Math.cos(2*timer) - 4*Math.cos(4*timer));
-    multDrift += 0.025;
+    // element.position.x = multDrift*( 16*Math.pow(Math.sin(timer), 3));
+    // element.position.y = multDrift*( 13*Math.cos(timer) - 5*Math.cos(2*timer) - 4*Math.cos(4*timer));
+    // multDrift += 0.025;
   });
   this._renderer.render(this._scene, this._camera);
 }
@@ -112,6 +116,7 @@ private _render(): void {
 
 
 }
+
 window.onload = () => {
   const theejsViewComponent: TheejsViewComponent = new TheejsViewComponent();
   theejsViewComponent.createScene();

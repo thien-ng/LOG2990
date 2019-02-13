@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TheejsViewComponent } from './theejs-view.component';
+import { TheejsViewComponent } from './threejs-view.component';
 
 describe('TheejsViewComponent', () => {
   let component: TheejsViewComponent;
