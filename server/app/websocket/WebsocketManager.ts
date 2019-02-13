@@ -20,17 +20,19 @@ export class WebsocketManager {
         this.io.on(Constants.CONNECTION, (socket: SocketIO.Socket) => {
 
             let name: string;
-            let socketID: string;
+            let socketID: string = "";
             socket.on(Constants.LOGIN_EVENT, (data: string) => {
                 name = data;
             });
             
             socket.on(Constants.GAME_CONNECTION, () => {
-                console.log("test");
                 socketID = socket.id;
-                this.gameManager.getPlayerList().push(socket.id.toString());
-                console.log(this.gameManager.getPlayerList());
+                this.gameManager.subscribeSocketID(socket.id.toString());
                 console.log(socketID);
+            });
+
+            socket.on(Constants.GAME_DISCONNECT, () => {
+                this.gameManager.unsubscribeSocketID(socketID);
             });
 
             socket.on(Constants.POSITION_VALIDATION_EVENT, (data: ICanvasPosition) => {
@@ -39,6 +41,7 @@ export class WebsocketManager {
 
             socket.on(Constants.DISCONNECT_EVENT, (data: string) => {
                 this.nameValidatorService.leaveBrowser(name);
+                this.gameManager.unsubscribeSocketID(socketID);
             });
 
          });
