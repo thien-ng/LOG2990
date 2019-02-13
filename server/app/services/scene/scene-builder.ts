@@ -8,13 +8,14 @@ export class SceneBuilder {
     private sceneVariables: ISceneVariables;
 
     public constructor (public sceneOptions: ISceneOptions) {
-        this.sceneVariables = {};
-        this.sceneVariables.sceneObjectsQuantity = sceneOptions.sceneObjectsQuantity;
-        this.sceneVariables.sceneObjects = [];
+        this.sceneVariables = {
+            sceneObjectsQuantity: sceneOptions.sceneObjectsQuantity,
+            sceneObjects: [],
+            sceneBackgroundColor: this.generateRandomColor(),
+        };
     }
 
     public generateSceneVariables(): void {
-        this.generateSceneBackgroundColor();
         this.generateSceneObjects();
     }
 
@@ -58,10 +59,6 @@ export class SceneBuilder {
             y: randomY,
             z: randomZ,
         };
-    }
-
-    public generateSceneBackgroundColor(): void {
-        this.sceneVariables.sceneBackgroundColor = this.generateRandomColor();
     }
 
     public generateRandomColor(): IRGBColor {
