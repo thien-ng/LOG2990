@@ -25,6 +25,10 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit {
   }
 
   public ngOnInit(): void {
+    this.canvasRoutine();
+  }
+
+  private canvasRoutine(): void {
     const canvasOriginal: CanvasRenderingContext2D = this.canvasOriginal.nativeElement.getContext("2d");
     const canvasModified: CanvasRenderingContext2D = this.canvasModified.nativeElement.getContext("2d");
     const imgModified: HTMLImageElement = new Image();
