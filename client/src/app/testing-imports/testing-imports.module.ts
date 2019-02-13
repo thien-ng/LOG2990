@@ -63,7 +63,6 @@ import { RouterTestingModule } from "@angular/router/testing";
     MatSliderModule,
     MatSnackBarModule,
     MatTabsModule,
-    MatProgressSpinnerModule,
     MatCheckboxModule,
   ],
 })
