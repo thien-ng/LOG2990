@@ -22,12 +22,12 @@ export class DifferenceCounterComponent implements AfterContentInit {
     this.updateSpinner(this.DEFAULT_NB_ERROR_FOUND);
   }
 
-  public updateSpinner(nbErrorFound: number): void {
-    const angle: number = this.differenceCounterService.computeAngleSpinner(nbErrorFound);
-    const convertedErrorToPercent: number = this.differenceCounterService.convertErrorToPercent(nbErrorFound);
+  public updateSpinner(errorFoundCounter: number): void {
+    const angle: number = this.differenceCounterService.computeAngleSpinner(errorFoundCounter);
+    const convertedErrorToPercent: number = this.differenceCounterService.convertErrorToPercent(errorFoundCounter);
 
     this.progressCircle.nativeElement.setAttribute("data-value", convertedErrorToPercent.toFixed(1));
-    this.progressCircle.nativeElement.setAttribute("id", nbErrorFound.toString());
+    this.progressCircle.nativeElement.setAttribute("id", errorFoundCounter.toString());
 
     this.progressBar.nativeElement.style.transform = "rotate(" + angle + "deg)";
 

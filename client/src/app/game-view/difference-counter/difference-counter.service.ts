@@ -7,27 +7,27 @@ export class DifferenceCounterService {
   public readonly DEGREE_CIRCLE: number = 360;
   public readonly PERCENT: number = 100;
 
-  private nbErrorMax: number;
+  private maxError: number;
 
   public constructor() {
     // default constructor
   }
 
-  public convertErrorToPercent(nbErrorFound: number): number {
-    return nbErrorFound * this.PERCENT / this.nbErrorMax;
+  public convertErrorToPercent(errorFoundCounter: number): number {
+    return errorFoundCounter * this.PERCENT / this.maxError;
   }
 
-  public computeAngleSpinner(nbErrorFound: number): number {
+  public computeAngleSpinner(errorFoundCounter: number): number {
     let angle: number;
     let convertedErrorToPercent: number;
 
-    convertedErrorToPercent = this.convertErrorToPercent(nbErrorFound);
+    convertedErrorToPercent = this.convertErrorToPercent(errorFoundCounter);
     angle = convertedErrorToPercent * this.DEGREE_CIRCLE / this.PERCENT;
 
     return angle;
   }
 
-  public setNbErrorMax(nbErrorMax: number): void {
-    this.nbErrorMax = nbErrorMax;
+  public setNbErrorMax(maxError: number): void {
+    this.maxError = maxError;
   }
 }
