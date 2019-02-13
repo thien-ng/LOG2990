@@ -17,7 +17,7 @@ export class TheejsViewComponent {
   private _material: THREE.MeshBasicMaterial;
   private sceneObjects: THREE.Mesh[] = [];
   // private sphere: THREE.Mesh;
-  private hidden: boolean = false;
+  // private hidden: boolean = false;
   // private isCreated: boolean = false;
   public ambLight: THREE.AmbientLight;
 
