@@ -13,13 +13,13 @@ export class DiffCounterComponent implements AfterContentInit {
   public progressBar: ElementRef;
 
   public constructor(@Inject(DiffCounterService) public diffCounterService: DiffCounterService) {
-    // this.diffCounterService = new DiffCounterService(this.progressCircle.nativeElement, this.progressBar.nativeElement);
+    // default constructor
   }
 
   public ngAfterContentInit(): void {
-    this.diffCounterService = new DiffCounterService(this.progressCircle.nativeElement, this.progressBar.nativeElement);
+    this.diffCounterService = new DiffCounterService(this.progressCircle, this.progressBar);
 
-    this.diffCounterService.updateSpinner(this.progressCircle.nativeElement, 1);
+    this.diffCounterService.updateSpinner(2);
   }
 
 }
