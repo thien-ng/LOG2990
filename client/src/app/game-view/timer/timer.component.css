@@ -2,6 +2,6 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    width: 5%;
+    width: 6em;
 }
 
