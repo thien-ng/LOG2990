@@ -18,8 +18,6 @@ export class DiffCounterComponent implements AfterContentInit {
 
   public ngAfterContentInit(): void {
     this.diffCounterService = new DiffCounterService();
-    this.diffCounterService.setNbErrorMax(4);
-    this.updateSpinner(4);
   }
 
   public updateSpinner(nbErrorFound: number): void {
