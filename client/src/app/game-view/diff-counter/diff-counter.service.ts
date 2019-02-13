@@ -18,13 +18,13 @@ export class DiffCounterService {
     this.progressBar = progressBar;
   }
 
-  public updateSpinner(elem: HTMLElement, nbErrorFound: number): void {
+  public updateSpinner(nbErrorFound: number): void {
     const angle: number = this.computeAngleSpinner(nbErrorFound);
-    elem.setAttribute("data-value", this.convertedErrorToPercent.toFixed(1));
-    elem.setAttribute("id", nbErrorFound.toString());
+    this.progressCircle.nativeElement.setAttribute("data-value", this.convertedErrorToPercent.toFixed(1));
+    this.progressCircle.nativeElement.setAttribute("id", nbErrorFound.toString());
 
     if (this.progressBar) {
-      this.progressBar.style.transform = "rotate(" + angle + "deg)";
+      this.progressBar.nativeElement.style.transform = "rotate(" + angle + "deg)";
     }
   }
 
