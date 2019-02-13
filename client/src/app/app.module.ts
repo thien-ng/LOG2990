@@ -21,7 +21,7 @@ import { LoginValidatorComponent } from "./login/login-validator/login-validator
 import { LoginViewComponent } from "./login/login-view/login-view.component";
 import { MainNavComponent } from "./main-nav/main-nav.component";
 import { TestingImportsModule } from "./testing-imports/testing-imports.module";
-import { TheejsViewComponent } from './game-view/game-view-free/theejs-view/theejs-view.component';
+import { TheejsViewComponent } from './game-view/game-view-free/threejs-view/threejs-view.component';
 
 const routes: Routes = [
   { path: Constants.ROOT_PATH, redirectTo: Constants.NAV_PATH, pathMatch: Constants.PATH_MATCH_FULL },
