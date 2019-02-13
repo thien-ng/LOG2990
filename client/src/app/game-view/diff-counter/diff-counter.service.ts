@@ -1,4 +1,4 @@
-import { ElementRef, Injectable } from "@angular/core";
+import { Injectable } from "@angular/core";
 
 @Injectable({
   providedIn: "root",
@@ -8,34 +8,20 @@ export class DiffCounterService {
   public readonly PERCENT: number = 100;
   public readonly NB_ERROR_MAX: number = 7;
 
-  public progressCircle: ElementRef;
-  public progressBar: ElementRef;
-
-  private convertedErrorToPercent: number;
-
-  public constructor(progressCircle: ElementRef, progressBar: ElementRef) {
-    this.progressCircle = progressCircle;
-    this.progressBar = progressBar;
+  public constructor() {
+    // default constructor
   }
 
-  public updateSpinner(nbErrorFound: number): void {
-    const angle: number = this.computeAngleSpinner(nbErrorFound);
-    this.progressCircle.nativeElement.setAttribute("data-value", this.convertedErrorToPercent.toFixed(1));
-    this.progressCircle.nativeElement.setAttribute("id", nbErrorFound.toString());
-
-    if (this.progressBar) {
-      this.progressBar.nativeElement.style.transform = "rotate(" + angle + "deg)";
-    }
-  }
-
-  private convertErrorToPercent(nbErrorFound: number): number {
+  public convertErrorToPercent(nbErrorFound: number): number {
     return nbErrorFound * this.PERCENT / this.NB_ERROR_MAX;
   }
 
-  private computeAngleSpinner(nbErrorFound: number): number {
+  public computeAngleSpinner(nbErrorFound: number): number {
     let angle: number;
-    this.convertedErrorToPercent = this.convertErrorToPercent(nbErrorFound);
-    angle = this.convertedErrorToPercent * this.DEGREE_CIRCLE / this.PERCENT;
+    let convertedErrorToPercent: number;
+
+    convertedErrorToPercent = this.convertErrorToPercent(nbErrorFound);
+    angle = convertedErrorToPercent * this.DEGREE_CIRCLE / this.PERCENT;
 
     return angle;
   }

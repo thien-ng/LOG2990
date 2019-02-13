@@ -17,9 +17,20 @@ export class DiffCounterComponent implements AfterContentInit {
   }
 
   public ngAfterContentInit(): void {
-    this.diffCounterService = new DiffCounterService(this.progressCircle, this.progressBar);
+    this.diffCounterService = new DiffCounterService();
 
-    this.diffCounterService.updateSpinner(2);
+    this.updateSpinner(1);
   }
 
+  public updateSpinner(nbErrorFound: number): void {
+    const angle: number = this.diffCounterService.computeAngleSpinner(nbErrorFound);
+    const convertedErrorToPercent: number = this.diffCounterService.convertErrorToPercent(nbErrorFound);
+
+    this.progressCircle.nativeElement.setAttribute("data-value", convertedErrorToPercent.toFixed(1));
+    this.progressCircle.nativeElement.setAttribute("id", nbErrorFound.toString());
+
+    if (this.progressBar) {
+      this.progressBar.nativeElement.style.transform = "rotate(" + angle + "deg)";
+    }
+  }
 }
