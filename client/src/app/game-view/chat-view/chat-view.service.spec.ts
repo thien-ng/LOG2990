@@ -24,4 +24,17 @@ describe("ChatViewService", () => {
     expect(chatViewService.getConversation()[0]).toBe(mockIChat);
   });
 
+  it("should clear IChat data in array", () => {
+    chatViewService = new ChatViewService();
+    const mockIChat: IChat = {
+      username: "userType",
+      message: "message",
+      time: "time",
+    };
+
+    chatViewService.updateConversation(mockIChat);
+    chatViewService.clearConversations();
+    expect(chatViewService.getConversation().length).toBe(0);
+  });
+
 });
