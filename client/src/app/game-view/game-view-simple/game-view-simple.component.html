@@ -1,6 +1,40 @@
-<app-timer #timer></app-timer>
-
-<div id="displayGame">
-  <canvas #originalImage class="gameCanvas"></canvas>
-  <canvas #modifiedImage class="gameCanvas"></canvas>
-</div>
+<mat-grid-list cols="9" rowHeight="19.9%">
+  <mat-grid-tile
+    [colspan]="2"
+    [rowspan]="1"
+    [style.background]='lightgreen'>
+    Game difference name input
+  </mat-grid-tile>
+  <mat-grid-tile
+    [colspan]="5"
+    [rowspan]="1"
+    [style.background]='lightgreen'>
+  </mat-grid-tile>
+  <mat-grid-tile
+    [colspan]="2"
+    [rowspan]="5"
+    [style.background]='lightgreen'>
+    <app-chat-view></app-chat-view>
+  </mat-grid-tile>
+  <mat-grid-tile
+  [colspan]="7"
+  [rowspan]="3"
+  [style.background]='lightblue'>
+    <div id="displayGame">
+      <canvas #originalImage class="gameCanvas"></canvas>
+      <canvas #modifiedImage class="gameCanvas"></canvas>
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile
+    [colspan]="4"
+    [rowspan]="1"
+    [style.background]='lightgreen'>
+    <app-timer></app-timer>
+  </mat-grid-tile>
+  <mat-grid-tile
+    [colspan]="3"
+    [rowspan]="1"
+    [style.background]='lightgreen'>
+    add counter here
+  </mat-grid-tile>
+</mat-grid-list>

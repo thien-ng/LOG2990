@@ -15,7 +15,6 @@ import { CardManagerService } from "./card-manager.service";
 })
 
 export class CardComponent {
-  public hsButtonIsClicked: boolean;
   public readonly TROPHY_IMAGE_URL: string = "https://img.icons8.com/metro/1600/trophy.png";
   public readonly TEXT_PLAY: string = "JOUER";
   public readonly TEXT_PLAY_SINGLE: string = "Jouer en simple";
@@ -23,10 +22,10 @@ export class CardComponent {
   public readonly TEXT_RESET_TIMERS: string = "Réinitialiser les temps";
   public readonly TEXT_DELETE: string = "Supprimer la carte";
   public readonly ADMIN_PATH: string = "/admin";
-  public readonly GAME_VIEW_SIMPLE_PATH: string = "/game-view-simple";
-  public readonly GAME_VIEW_FREE_PATH: string = "/game-view-free";
 
+  public hsButtonIsClicked: boolean;
   @Input() public card: ICard;
+  @Output() public cardDeleted: EventEmitter<string>;
 
   public constructor(
     public router: Router,
@@ -35,10 +34,8 @@ export class CardComponent {
     private snackBar: MatSnackBar,
     private highscoreService: HighscoreService,
     ) {
-      // default constructor
+      this.cardDeleted = new EventEmitter();
     }
-
-  @Output() public cardDeleted: EventEmitter<string> = new EventEmitter();
 
   public onDeleteButtonClick(): void {
     this.cardManagerService.removeCard(this.card.gameID, this.card.gamemode).subscribe((response: string) => {
@@ -62,6 +59,13 @@ export class CardComponent {
   public onHSButtonClick(): void {
     this.hsButtonIsClicked = !this.hsButtonIsClicked;
     this.highscoreService.getHighscore(this.card.gameID);
+  }
+
+  public onStartGameClick(): void {
+    const gameModeComparison: boolean = this.card.gamemode === Constants.GAMEMODE_SIMPLE;
+    const gameModePath: string = gameModeComparison ? Constants.GAME_VIEW_SIMPLE_PATH : Constants.GAME_VIEW_FREE_PATH;
+
+    this.router.navigate([gameModePath]).catch(() => Constants.OBLIGATORY_CATCH);
   }
 
 }

@@ -28,8 +28,8 @@ export class DifferenceCheckerService {
         try {
             numberOfDifferences = this.calculateDifferences(requirements);
         } catch (error) {
+            return this.generateError(error); // A DEMANDER AU CHARGE
 
-            return this.sendErrorMessage(error.message);
         }
         if (this.imageHasNotDimensionsNeeded(this.bufferOriginal) ||
             this.imageHasNotDimensionsNeeded(this.bufferModified)) {
@@ -110,6 +110,13 @@ export class DifferenceCheckerService {
 
     private extractHeight(buffer: Buffer): Buffer {
         return buffer.slice(Constants.BUFFER_MIDDLE_DIMENSION, Constants.BUFFER_END_DIMENSION);
+    }
+
+    private generateError(error: Error): Message {
+        const isTypeError: boolean = error instanceof TypeError;
+        const errorMessage: string =  isTypeError ? error.message : Constants.UNKNOWN_ERROR;
+
+        return this.sendErrorMessage(errorMessage);
     }
 
 }
