@@ -17,14 +17,12 @@ export class DifferenceCounterService {
     return errorFoundCounter * this.PERCENT / this.maxError;
   }
 
-  public computeAngleSpinner(errorFoundCounter: number): number {
-    let angle: number;
+  public generateAngleSpinner(errorFoundCounter: number): number {
     let convertedErrorToPercent: number;
 
     convertedErrorToPercent = this.convertErrorToPercent(errorFoundCounter);
-    angle = convertedErrorToPercent * this.DEGREE_CIRCLE / this.PERCENT;
 
-    return angle;
+    return convertedErrorToPercent * this.DEGREE_CIRCLE / this.PERCENT;
   }
 
   public setNbErrorMax(maxError: number): void {

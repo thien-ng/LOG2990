@@ -23,7 +23,7 @@ export class DifferenceCounterComponent implements AfterContentInit {
   }
 
   public updateSpinner(errorFoundCounter: number): void {
-    const angle: number = this.differenceCounterService.computeAngleSpinner(errorFoundCounter);
+    const angle: number = this.differenceCounterService.generateAngleSpinner(errorFoundCounter);
     const convertedErrorToPercent: number = this.differenceCounterService.convertErrorToPercent(errorFoundCounter);
 
     this.progressCircle.nativeElement.setAttribute("data-value", convertedErrorToPercent.toFixed(1));
