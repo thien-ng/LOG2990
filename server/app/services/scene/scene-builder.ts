@@ -8,6 +8,7 @@ export class SceneBuilder {
     private sceneVariables: ISceneVariables;
 
     public constructor (public sceneOptions: ISceneOptions) {
+        this.sceneVariables = {};
         this.sceneVariables.sceneObjectsQuantity = sceneOptions.sceneObjectsQuantity;
         this.sceneVariables.sceneObjects = [];
     }
@@ -35,11 +36,11 @@ export class SceneBuilder {
         };
     }
 
-    public callFunctionOnAllSceneObjects(func: () => void): void {
-        for (let index: number = 0; index < this.sceneVariables.sceneObjectsQuantity; index++) {
-            func.call(this);
-        }
-    }
+    // public callFunctionOnAllSceneObjects(func: () => void): void {
+    //     for (let index: number = 0; index < this.sceneVariables.sceneObjectsQuantity; index++) {
+    //         func.call(this);
+    //     }
+    // }
 
     // choisi un type d'objet au hasard parmis ceux possibles
     // public generateSceneObjectType(): void {
