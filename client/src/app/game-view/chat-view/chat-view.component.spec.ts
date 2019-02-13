@@ -1,18 +1,16 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { Constants } from "../../constants";
 import { TestingImportsModule } from "../../testing-imports/testing-imports.module";
-import { ChatViewComponent } from "../chat-view/chat-view.component";
-import { MessageViewComponent } from "../chat-view/message-view/message-view.component";
-import { GameViewFreeComponent } from "./game-view-free.component";
+import { ChatViewComponent } from "./chat-view.component";
+import { MessageViewComponent } from "./message-view/message-view.component";
 
-describe("GameViewFreeComponent", () => {
-  let component: GameViewFreeComponent;
-  let fixture: ComponentFixture<GameViewFreeComponent>;
+describe("ChatViewComponent", () => {
+  let component: ChatViewComponent;
+  let fixture: ComponentFixture<ChatViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        GameViewFreeComponent,
         ChatViewComponent,
         MessageViewComponent,
       ],
@@ -25,7 +23,7 @@ describe("GameViewFreeComponent", () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GameViewFreeComponent);
+    fixture = TestBed.createComponent(ChatViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

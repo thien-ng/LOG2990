@@ -52,4 +52,16 @@ export class Constants {
   public static readonly RESET_PATH: string = "generator/";
   public static readonly ON_ERROR_MESSAGE: string = "onError";
   public static readonly ON_SUCCESS_MESSAGE: string = "onSuccess";
+
+  // Constants for socket.service.ts
+  public static readonly ON_CONNECT: string = "connect";
+  public static readonly ON_CHAT_MESSAGE: string = "onChatMessage";
+
+  // Constants for game-view-simple.service.ts
+  public static readonly ON_POSITION_VALIDATION: string = "onPositionValidation";
+
+  // Constants for card.component.ts
+  public static readonly GAME_VIEW_SIMPLE_PATH: string = "/game-view-simple";
+  public static readonly GAME_VIEW_FREE_PATH: string = "/game-view-free";
+  public static readonly GAMEMODE_SIMPLE: string = "simple";
 }

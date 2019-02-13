@@ -7,7 +7,7 @@ import { CardManagerService } from "../card/card-manager.service";
 import { Constants } from "../constants";
 import { FileValidatorService } from "./game-validator.service";
 
-const SUBMIT_PATH: string = "/api/card/submit";
+const SUBMIT_PATH: string = "/api/card/submitSimple";
 
 @Component({
   selector: "app-create-simple-game",
@@ -17,6 +17,7 @@ const SUBMIT_PATH: string = "/api/card/submit";
 export class CreateSimpleGameComponent {
 
   public readonly TITLE: string = "Créer un jeu de point de vue simple";
+  public readonly INVALID_NAME: string = "Nom invalide";
   public readonly PLACE_HOLDER: string = "Nom du jeu";
   public readonly ORIGINAL_IMAGE: string = "Image originale";
   public readonly MODIFIED_IMAGE: string = "Image modifiée";
@@ -31,28 +32,33 @@ export class CreateSimpleGameComponent {
                                   + Constants.MIN_GAME_LENGTH + "-"
                                   + Constants.MAX_GAME_LENGTH + " caractères";
   public readonly ERROR_REQUIRED: string = "Nom de jeu requis";
-  public isButtonEnabled: boolean = true;
 
-  private selectedFiles: [Blob, Blob] = [new Blob(), new Blob()];
-
-  public formControl: FormGroup = new FormGroup({
-    gameName: new FormControl("", [
-      Validators.required,
-      Validators.pattern(Constants.GAME_REGEX_PATTERN),
-      Validators.minLength(Constants.MIN_GAME_LENGTH),
-      Validators.maxLength(Constants.MAX_GAME_LENGTH),
-    ]),
-  });
+  public formControl: FormGroup;
+  private selectedFiles: [Blob, Blob];
+  public isButtonEnabled: boolean;
 
   public constructor(
     private dialogRef: MatDialogRef<CreateSimpleGameComponent>,
     private fileValidatorService: FileValidatorService,
     private snackBar: MatSnackBar,
-    private http: HttpClient,
+    private httpClient: HttpClient,
     private cardManagerService: CardManagerService,
     ) {
-      // default constructor
+      this.isButtonEnabled = true;
+      this.selectedFiles = [new Blob(), new Blob()];
+      this.formControl = new FormGroup({
+        gameName: new FormControl("", [
+          Validators.required,
+          Validators.pattern(Constants.GAME_REGEX_PATTERN),
+          Validators.minLength(Constants.MIN_GAME_LENGTH),
+          Validators.maxLength(Constants.MAX_GAME_LENGTH),
+        ]),
+      });
     }
+
+  public hasNameControlErrors(): boolean {
+    return this.formControl.controls.gameName.errors == null || this.formControl.controls.gameName.pristine;
+  }
 
   public hasFormControlErrors(): boolean {
     const hasErrorForm: Boolean = this.formControl.controls.gameName.errors == null;
@@ -91,7 +97,7 @@ export class CreateSimpleGameComponent {
   public submit(data: NgForm): void {
     this.isButtonEnabled = false;
     const formdata: FormData = this.createFormData(data);
-    this.http.post(Constants.BASIC_SERVICE_BASE_URL + SUBMIT_PATH, formdata).subscribe((response: Message) => {
+    this.httpClient.post(Constants.BASIC_SERVICE_BASE_URL + SUBMIT_PATH, formdata).subscribe((response: Message) => {
       this.analyseResponse(response);
       this.isButtonEnabled = true;
     });

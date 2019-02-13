@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { Constants } from "../../constants";
 import { TestingImportsModule } from "../../testing-imports/testing-imports.module";
+import { ChatViewComponent } from "../chat-view/chat-view.component";
+import { MessageViewComponent } from "../chat-view/message-view/message-view.component";
 import { DiffCounterComponent } from "../diff-counter/diff-counter.component";
 import { GameViewSimpleComponent } from "./game-view-simple.component";
 
@@ -11,7 +13,9 @@ describe("GameViewSimpleComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ GameViewSimpleComponent,
-                      DiffCounterComponent ],
+                      DiffCounterComponent,
+                      ChatViewComponent,
+                      MessageViewComponent, ],
       imports: [ TestingImportsModule ],
     })
     .compileComponents()

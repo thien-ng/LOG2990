@@ -5,10 +5,12 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {
   MatButtonModule,
   MatCardModule,
+  MatCheckboxModule,
   MatDialogModule,
   MatDividerModule,
   MatExpansionModule,
   MatFormFieldModule,
+  MatGridListModule,
   MatIconModule,
   MatInputModule,
   MatListModule,
@@ -35,6 +37,8 @@ import { RouterTestingModule } from "@angular/router/testing";
     MatToolbarModule,
     HttpClientModule,
     MatButtonModule,
+    MatGridListModule,
+    MatProgressSpinnerModule,
     MatMenuModule,
     MatSidenavModule,
     MatIconModule,
@@ -60,6 +64,7 @@ import { RouterTestingModule } from "@angular/router/testing";
     MatSnackBarModule,
     MatTabsModule,
     MatProgressSpinnerModule,
+    MatCheckboxModule,
   ],
 })
 export class TestingImportsModule { }

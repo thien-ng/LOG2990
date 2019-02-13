@@ -1,6 +1,6 @@
 // tslint:disable:no-any les attributs sont des types any
 // tslint:disable:no-floating-promises pour le before each
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { async, TestBed } from "@angular/core/testing";
 
 import { LayoutModule } from "@angular/cdk/layout";
 import { HttpClientModule } from "@angular/common/http";
@@ -43,11 +43,6 @@ describe("AppComponent", () => {
         TestingImportsModule,
       ],
     }).compileComponents();
-  }));
-  it("should create the app", async(() => {
-    const fixture: ComponentFixture<AppComponent> = TestBed.createComponent(AppComponent);
-    const app: any = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
   }));
 
 });

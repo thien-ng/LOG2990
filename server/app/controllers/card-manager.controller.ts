@@ -4,6 +4,7 @@ import { inject, injectable } from "inversify";
 import * as multer from "multer";
 import { ICardLists } from "../../../common/communication/iCardLists";
 import { Message } from "../../../common/communication/message";
+import { Constants } from "../constants";
 import { CardManagerService } from "../services/card-manager.service";
 import Types from "../types";
 
@@ -33,18 +34,20 @@ export class CardManagerController {
                 },
             ]);
 
-        router.post("/submit", receivedFile, async (req: Request, res: Response, next: NextFunction) => {
+        router.post("/submitSimple", receivedFile, async (req: Request, res: Response, next: NextFunction) => {
 
             const originalBuffer: Buffer = req.files[ORIGINAL_IMAGE_NAME][0].buffer;
             const modifiedBuffer: Buffer = req.files[MODIFIED_IMAGE_NAME][0].buffer;
 
-            const result: Message = await this.cardManagerService.cardCreationRoutine(originalBuffer, modifiedBuffer, req.body.name);
+            const result: Message = await this.cardManagerService.simpleCardCreationRoutine(originalBuffer, modifiedBuffer, req.body.name);
 
             res.json(result);
         });
+        router.post("/submitFree", async (req: Request, res: Response, next: NextFunction) => {
+            res.json(this.cardManagerService.freeCardCreationRoutine(req.body));
+        });
 
         router.get("/list", async (req: Request, res: Response, next: NextFunction) => {
-                // Send the request to the service and send the response
                 const list: ICardLists = this.cardManagerService.getCards();
                 res.json(list);
         });
@@ -55,7 +58,9 @@ export class CardManagerController {
                 const message: string = this.cardManagerService.removeCard2D(cardId);
                 res.json(message);
             } catch (error) {
-                res.json(error.message);
+                const isTypeError: boolean = error instanceof TypeError;
+                const errorMessage: string = isTypeError ? error.message : Constants.UNKNOWN_ERROR;
+                res.json(errorMessage);
             }
         });
 
@@ -67,4 +72,5 @@ export class CardManagerController {
 
         return router;
     }
+
 }

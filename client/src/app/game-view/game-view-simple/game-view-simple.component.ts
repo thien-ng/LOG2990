@@ -1,6 +1,5 @@
 import { AfterContentInit, Component, ElementRef, Inject, ViewChild } from "@angular/core";
 import { GameViewSimpleService } from "./game-view-simple.service";
-
 @Component({
   selector: "app-game-view-simple",
   templateUrl: "./game-view-simple.component.html",
@@ -14,15 +13,14 @@ export class GameViewSimpleComponent implements AfterContentInit {
   @ViewChild("modifiedImage", {read: ElementRef})
   public canvasModified: ElementRef;
 
-  public constructor(@Inject(GameViewSimpleService) public gameViewService: GameViewSimpleService) {
-    // default constructor
-  }
+  public constructor(@Inject(GameViewSimpleService) public gameViewService: GameViewSimpleService) {}
 
   public ngAfterContentInit(): void {
     this.initListener();
   }
 
   public initListener(): void {
+
     this.canvasOriginal.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
       this.gameViewService.onCanvasClick(mouseEvent.offsetX, mouseEvent.offsetY);
     });

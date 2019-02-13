@@ -13,9 +13,7 @@ export class ClusterCounter {
     private readonly IS_A_DIFFERENCE: number = 1;
     private readonly DOES_NOT_EXIST: number = -1;
 
-    public constructor(public differenceList: number[], public width: number) {
-        // default constructor
-    }
+    public constructor(public differenceList: number[], public width: number) {}
 
     public countAllClusters(): number {
 

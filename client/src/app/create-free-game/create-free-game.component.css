@@ -37,3 +37,21 @@
 .selector {
   width: 250px;
 }
+
+.checkbox {
+  
+  display: block;
+}
+
+.alertInvalide {
+  color: red;
+  font-size: 13px;
+  position: relative;
+  bottom: 15px;
+}
+
+.alertInvalideCheckbox {
+  color: red;
+  font-size: 13px;
+  position: relative;
+}
