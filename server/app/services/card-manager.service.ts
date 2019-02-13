@@ -63,7 +63,7 @@ export class CardManagerService {
                 },
             );
         } catch (error) {// A DEMANDER AU CHARGE
-            this.generateError(error);
+            this.generateErrorMessage(error);
         }
 
         return returnValue;
@@ -217,7 +217,7 @@ export class CardManagerService {
                     this.imageManagerService.deleteStoredImages(paths);
                 }
             } catch (error) {
-                this.generateError(error);
+                this.generateErrorMessage(error);
             }
 
             return CARD_DELETED;
@@ -237,7 +237,7 @@ export class CardManagerService {
         return CARD_NOT_FOUND;
     }
 
-    private generateError(error: Error): Message {
+    private generateErrorMessage(error: Error): Message {
         const isTypeError: boolean = error instanceof TypeError;
         const errorMessage: string = isTypeError ? error.message : Constants.UNKNOWN_ERROR;
 
