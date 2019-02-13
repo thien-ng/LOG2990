@@ -7,10 +7,6 @@ export class DifferenceCounterService {
 
   private maxError: number;
 
-  public constructor() {
-    // default constructor
-  }
-
   public convertErrorToPercent(errorFoundCounter: number): number {
     return errorFoundCounter * Constants.PERCENT / this.maxError;
   }
