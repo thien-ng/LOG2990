@@ -14,13 +14,14 @@ export class ThreejsViewService {
   private material: THREE.MeshBasicMaterial;
   private sceneObjects: THREE.Mesh[] = [];
   private sphere: THREE.Mesh;
+  private renderer: THREE.WebGLRenderer;
   public ambLight: THREE.AmbientLight;
 
   constructor() {
     this.scene = new THREE.Scene(); // create the scene
     // create the camera
     this.camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 100);
-    // this.renderer = new THREE.WebGLRenderer();
+    this.renderer = new THREE.WebGLRenderer();
 
     this.light = new THREE.DirectionalLight(0xea6117, 0.5); // add light1
     this.light2 = new THREE.DirectionalLight(0xea6117, 0.5); // add light2
@@ -33,13 +34,7 @@ export class ThreejsViewService {
     this.sphere = new THREE.Mesh(new THREE.SphereGeometry(1), this.material);
   }
   public createScene(): void {
-    // set size
-    // this.renderer.setSize(500, 500);
-    // const scene3D: HTMLElement | null = document.getElementById("scene3d");
-    // if (scene3D) {
-    //   scene3D.appendChild(this.renderer.domElement);
-    // }
-    // this._scene.add(this._axis);
+    this.renderer.setSize(500, 500);
     this.scene.add(this.ambLight);
     this.light.position.set(100, 100, 50);
     this.light.intensity = 5;
@@ -65,11 +60,23 @@ export class ThreejsViewService {
     this.camera.lookAt(this.scene.position);
   }
 
-  public getScene(): THREE.Scene {
-    return this.scene;
+  public angle: number = 100;
+  public radius: number = 10;
+  public animate(): void {
+    requestAnimationFrame(this.animate.bind(this));
+    this.camera.position.x = this.radius * Math.cos( this.angle );  
+    this.camera.position.z = this.radius * Math.sin( this.angle );
+    this.angle += 0.01;
+
+    this.camera.lookAt(this.scene.position);
+    this.renderObject();
   }
 
-  public getCamera(): THREE.PerspectiveCamera {
-    return this.camera;
+  private renderObject(): void {
+    this.renderer.render(this.scene, this.camera);
+  }
+
+  public getRenderer(): THREE.WebGLRenderer {
+    return this.renderer;
   }
 }
