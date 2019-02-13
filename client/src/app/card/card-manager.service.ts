@@ -11,17 +11,20 @@ import { Constants } from "../constants";
 })
 export class CardManagerService {
 
-  private cardCreated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  public cardCreatedObservable: Observable<boolean> = this.cardCreated.asObservable();
+  private cardCreated: BehaviorSubject<boolean>;
+  public cardCreatedObservable: Observable<boolean>;
 
-  public constructor(private http: HttpClient) {}
+  public constructor(private httpClient: HttpClient) {
+    this.cardCreated = new BehaviorSubject<boolean>(false);
+    this.cardCreatedObservable = this.cardCreated.asObservable();
+    }
 
   public getCards(): Observable<ICardLists> {
-    return this.http.get<ICardLists>(Constants.BASIC_SERVICE_BASE_URL + Constants.CARDS_PATH);
+    return this.httpClient.get<ICardLists>(Constants.BASIC_SERVICE_BASE_URL + Constants.CARDS_PATH);
   }
 
   public removeCard(cardId: number, mode: GameMode): Observable<string> {
-    return this.http.delete<string>(Constants.BASIC_SERVICE_BASE_URL + Constants.REMOVE_CARD_PATH + "/" + mode + "/" + cardId);
+    return this.httpClient.delete<string>(Constants.BASIC_SERVICE_BASE_URL + Constants.REMOVE_CARD_PATH + "/" + mode + "/" + cardId);
   }
 
   public updateCards(value: boolean): void {

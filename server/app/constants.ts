@@ -5,8 +5,8 @@ export class Constants {
   public static readonly LOGIN_EVENT: string = "onLogin";
   public static readonly CONNECTION: string = "connection";
   public static readonly DISCONNECT_EVENT: string = "disconnect";
-  public static readonly POSITION_VALIDATION_EVENT: string = "onPositionValidation";
   public static readonly WEBSOCKET_PORT_NUMBER: number = 3333;
+  public static readonly POSITION_VALIDATION_EVENT: string = "onPositionValidation";
 
   // Constants for buffermanager.ts
   public static readonly BUFFER_FORMAT: string = "hex";
@@ -36,4 +36,5 @@ export class Constants {
   public static readonly ON_SUCCESS_MESSAGE: string = "onSuccess";
   public static readonly VALIDATION_FAILED: string = "Validation services failed";
 
+  public static readonly UNKNOWN_ERROR: string = "Erreur inconnue";
 }
