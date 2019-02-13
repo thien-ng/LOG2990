@@ -12,10 +12,12 @@ describe("GameViewSimpleComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GameViewSimpleComponent,
-                      DifferenceCounterComponent,
-                      ChatViewComponent,
-                      MessageViewComponent, ],
+      declarations: [
+        GameViewSimpleComponent,
+        DifferenceCounterComponent,
+        ChatViewComponent,
+        MessageViewComponent,
+      ],
       imports: [ TestingImportsModule ],
     })
     .compileComponents()
