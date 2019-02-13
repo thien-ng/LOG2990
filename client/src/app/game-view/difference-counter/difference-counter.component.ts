@@ -1,10 +1,10 @@
 import { AfterContentInit, Component, ElementRef, Inject, ViewChild } from "@angular/core";
-import { DiffCounterService } from "./diff-counter.service";
+import { DifferenceCounterService } from "./difference-counter.service";
 @Component({
   selector: "app-difference-counter",
   templateUrl: "./difference-counter.component.html",
   styleUrls: ["./difference-counter.component.css"],
-  providers: [DiffCounterService],
+  providers: [DifferenceCounterService],
 })
 export class DifferenceCounterComponent implements AfterContentInit {
   public readonly DEFAULT_NB_ERROR_FOUND: number = 0;
@@ -15,7 +15,7 @@ export class DifferenceCounterComponent implements AfterContentInit {
   @ViewChild("progressBar", { read: ElementRef })
   public progressBar: ElementRef;
 
-  public constructor(@Inject(DiffCounterService) public diffCounterService: DiffCounterService) {}
+  public constructor(@Inject(DifferenceCounterService) public diffCounterService: DifferenceCounterService) {}
 
   public ngAfterContentInit(): void {
     this.diffCounterService.setNbErrorMax(this.DEFAULT_NB_ERROR_MAX);

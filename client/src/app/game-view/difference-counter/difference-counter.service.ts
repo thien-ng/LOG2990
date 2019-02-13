@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 @Injectable({
   providedIn: "root",
 })
-export class DiffCounterService {
+export class DifferenceCounterService {
   public readonly DEGREE_CIRCLE: number = 360;
   public readonly PERCENT: number = 100;
 
