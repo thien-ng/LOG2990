@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, ElementRef, Inject, ViewChild, OnInit } from "@angular/core";
+import { AfterContentInit, Component, ElementRef, Inject, OnInit, ViewChild } from "@angular/core";
 import { ActiveGameService } from "../active-game.service";
 import { GameViewSimpleService } from "./game-view-simple.service";
 
@@ -37,7 +37,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit {
 
     imgModified.onload = () => {
       canvasModified.drawImage(imgModified, 0, 0);
-    }
+    };
   }
 
   public initListener(): void {

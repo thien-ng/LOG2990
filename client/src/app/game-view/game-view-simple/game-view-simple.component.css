@@ -9,3 +9,10 @@
 .canvas {
     margin: 4px;
 }
+
+.gameName {
+    font-size: 40px;
+    font-weight: bold;
+    font: Roboto, "Helvetica Neue", sans-serif;
+    margin-top: 5%;
+}

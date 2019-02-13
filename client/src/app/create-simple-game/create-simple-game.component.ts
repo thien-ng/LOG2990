@@ -84,9 +84,13 @@ export class CreateSimpleGameComponent {
     }
   }
 
+  private capitalizeFirstLetter(word: string): string {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
   private createFormData(data: NgForm): FormData {
     const formdata: FormData = new FormData();
-    formdata.append("name", data.value.gameName);
+    formdata.append("name", this.capitalizeFirstLetter(data.value.gameName));
     formdata.append("originalImage", this.selectedFiles[this.ORIGINAL_INDEX]);
     formdata.append("modifiedImage", this.selectedFiles[this.MODIFIED_INDEX]);
 
