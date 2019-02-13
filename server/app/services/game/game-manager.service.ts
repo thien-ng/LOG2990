@@ -17,7 +17,7 @@ export class GameManager {
         this.playerList = this.playerList.filter( (element: String) => element !== socketID);
     }
 
-    public getPlayerList(): string [] {
+    public get userList(): string [] {
         return this.playerList;
     }
 }
