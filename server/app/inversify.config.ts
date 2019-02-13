@@ -7,11 +7,11 @@ import { Server } from "./server";
 import { CardManagerService } from "./services/card-manager.service";
 import { DifferenceCheckerController } from "./services/difference-checker/difference-checker.controller";
 import { DifferenceCheckerService } from "./services/difference-checker/difference-checker.service";
+import { GameManager } from "./services/game/game-manager.service";
 import { HighscoreService } from "./services/highscore.service";
 import { NameValidatorService } from "./services/validator/nameValidator.service";
 import Types from "./types";
 import { WebsocketManager } from "./websocket/WebsocketManager";
-import { GameManager } from "./services/game/game-manager.service";
 
 const container: Container = new Container();
 
