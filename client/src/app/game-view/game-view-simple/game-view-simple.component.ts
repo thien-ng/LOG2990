@@ -1,4 +1,5 @@
 import { AfterContentInit, Component, ElementRef, Inject, OnDestroy, ViewChild } from "@angular/core";
+import { Constants } from "../../constants";
 import { SocketService } from "../../websocket/socket.service";
 import { GameViewSimpleService } from "./game-view-simple.service";
 
@@ -19,12 +20,14 @@ export class GameViewSimpleComponent implements AfterContentInit, OnDestroy {
                      @Inject(SocketService) private socketService: SocketService) {}
 
   public ngAfterContentInit(): void {
-    this.socketService.sendMsg("onGameConnection", "test");
+    // test will be changed to something else, To be determined
+    this.socketService.sendMsg(Constants.ON_GAME_CONNECTION, "test");
     this.initListener();
   }
 
   public ngOnDestroy(): void {
-    this.socketService.sendMsg("onGameDisconnect", "test");
+    // test will be changed to something else, To be determined
+    this.socketService.sendMsg(Constants.ON_GAME_DISCONNECT, "test");
   }
 
   public initListener(): void {
