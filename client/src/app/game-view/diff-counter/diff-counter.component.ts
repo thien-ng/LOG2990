@@ -18,8 +18,8 @@ export class DiffCounterComponent implements AfterContentInit {
 
   public ngAfterContentInit(): void {
     this.diffCounterService = new DiffCounterService();
-
-    this.updateSpinner(1);
+    this.diffCounterService.setNbErrorMax(4);
+    this.updateSpinner(4);
   }
 
   public updateSpinner(nbErrorFound: number): void {
@@ -29,8 +29,7 @@ export class DiffCounterComponent implements AfterContentInit {
     this.progressCircle.nativeElement.setAttribute("data-value", convertedErrorToPercent.toFixed(1));
     this.progressCircle.nativeElement.setAttribute("id", nbErrorFound.toString());
 
-    if (this.progressBar) {
-      this.progressBar.nativeElement.style.transform = "rotate(" + angle + "deg)";
-    }
+    this.progressBar.nativeElement.style.transform = "rotate(" + angle + "deg)";
+
   }
 }

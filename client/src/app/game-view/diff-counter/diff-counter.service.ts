@@ -6,14 +6,15 @@ import { Injectable } from "@angular/core";
 export class DiffCounterService {
   public readonly DEGREE_CIRCLE: number = 360;
   public readonly PERCENT: number = 100;
-  public readonly NB_ERROR_MAX: number = 7;
+
+  private nbErrorMax: number;
 
   public constructor() {
     // default constructor
   }
 
   public convertErrorToPercent(nbErrorFound: number): number {
-    return nbErrorFound * this.PERCENT / this.NB_ERROR_MAX;
+    return nbErrorFound * this.PERCENT / this.nbErrorMax;
   }
 
   public computeAngleSpinner(nbErrorFound: number): number {
@@ -24,5 +25,9 @@ export class DiffCounterService {
     angle = convertedErrorToPercent * this.DEGREE_CIRCLE / this.PERCENT;
 
     return angle;
+  }
+
+  public setNbErrorMax(nbErrorMax: number): void {
+    this.nbErrorMax = nbErrorMax;
   }
 }
