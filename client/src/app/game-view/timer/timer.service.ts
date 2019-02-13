@@ -11,7 +11,7 @@ export class TimerService {
     // default constructo
   }
 
-  public convertSecondsToString(secondsInput: number): string {
+  public timeFormat(secondsInput: number): string {
     const min: number = Math.floor((secondsInput / this.MINUTE_TO_SECONDS));
     const sec: number = secondsInput - (min * this.MINUTE_TO_SECONDS);
 

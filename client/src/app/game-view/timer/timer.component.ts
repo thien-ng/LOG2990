@@ -23,7 +23,7 @@ export class TimerComponent implements AfterContentInit {
 
   public startTimer(): void {
     setInterval(() => {
-                this.time = this.timerService.convertSecondsToString(++this.totalTime);
+                this.time = this.timerService.timeFormat(++this.totalTime);
     },          this.INTERVAL);
   }
 }
