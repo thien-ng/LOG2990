@@ -15,16 +15,16 @@ export class DifferenceCounterComponent implements AfterContentInit {
   @ViewChild("progressBar", { read: ElementRef })
   public progressBar: ElementRef;
 
-  public constructor(@Inject(DifferenceCounterService) public diffCounterService: DifferenceCounterService) {}
+  public constructor(@Inject(DifferenceCounterService) public differenceCounterService: DifferenceCounterService) {}
 
   public ngAfterContentInit(): void {
-    this.diffCounterService.setNbErrorMax(this.DEFAULT_NB_ERROR_MAX);
+    this.differenceCounterService.setNbErrorMax(this.DEFAULT_NB_ERROR_MAX);
     this.updateSpinner(this.DEFAULT_NB_ERROR_FOUND);
   }
 
   public updateSpinner(nbErrorFound: number): void {
-    const angle: number = this.diffCounterService.computeAngleSpinner(nbErrorFound);
-    const convertedErrorToPercent: number = this.diffCounterService.convertErrorToPercent(nbErrorFound);
+    const angle: number = this.differenceCounterService.computeAngleSpinner(nbErrorFound);
+    const convertedErrorToPercent: number = this.differenceCounterService.convertErrorToPercent(nbErrorFound);
 
     this.progressCircle.nativeElement.setAttribute("data-value", convertedErrorToPercent.toFixed(1));
     this.progressCircle.nativeElement.setAttribute("id", nbErrorFound.toString());
