@@ -11,11 +11,13 @@ export class GameManager {
 
     public subscribeSocketID(socketID: string): void {
         this.playerList.push(socketID);
-        console.log(this.playerList);
     }
 
     public unsubscribeSocketID(socketID: string): void {
         this.playerList = this.playerList.filter( (element: String) => element !== socketID);
-        console.log(this.playerList);
+    }
+
+    public getPlayerList(): string [] {
+        return this.playerList;
     }
 }

@@ -21,14 +21,14 @@ export class WebsocketManager {
 
             let name: string;
             let socketID: string = "";
+
             socket.on(Constants.LOGIN_EVENT, (data: string) => {
                 name = data;
             });
             
             socket.on(Constants.GAME_CONNECTION, () => {
                 socketID = socket.id;
-                this.gameManager.subscribeSocketID(socket.id.toString());
-                console.log(socketID);
+                this.gameManager.subscribeSocketID(socketID);
             });
 
             socket.on(Constants.GAME_DISCONNECT, () => {
@@ -36,7 +36,14 @@ export class WebsocketManager {
             });
 
             socket.on(Constants.POSITION_VALIDATION_EVENT, (data: ICanvasPosition) => {
-                // recover data to make validation
+
+                // a new message should be returned
+                const message: any = {
+                    username: "test",
+                    message: "x: " + data.positionX + " y: " + data.positionY + " ( ͡° ͜ʖ ͡°)",
+                    time: "1:30 pm",
+                };
+                socket.emit(Constants.CHAT_MESSAGE, message);
             });
 
             socket.on(Constants.DISCONNECT_EVENT, (data: string) => {
