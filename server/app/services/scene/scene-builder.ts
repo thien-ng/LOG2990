@@ -13,9 +13,7 @@ export class SceneBuilder {
             sceneObjects: [],
             sceneBackgroundColor: this.generateRandomColor(),
         };
-    }
 
-    public generateSceneVariables(): void {
         this.generateSceneObjects();
     }
 
@@ -36,7 +34,6 @@ export class SceneBuilder {
             color: this.generateRandomColor(),
         };
     }
-
     // public callFunctionOnAllSceneObjects(func: () => void): void {
     //     for (let index: number = 0; index < this.sceneVariables.sceneObjectsQuantity; index++) {
     //         func.call(this);
