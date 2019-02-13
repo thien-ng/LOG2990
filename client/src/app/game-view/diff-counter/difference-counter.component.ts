@@ -1,12 +1,12 @@
 import { AfterContentInit, Component, ElementRef, Inject, ViewChild } from "@angular/core";
 import { DiffCounterService } from "./diff-counter.service";
 @Component({
-  selector: "app-diff-counter",
-  templateUrl: "./diff-counter.component.html",
-  styleUrls: ["./diff-counter.component.css"],
+  selector: "app-difference-counter",
+  templateUrl: "./difference-counter.component.html",
+  styleUrls: ["./difference-counter.component.css"],
   providers: [DiffCounterService],
 })
-export class DiffCounterComponent implements AfterContentInit {
+export class DifferenceCounterComponent implements AfterContentInit {
   public readonly DEFAULT_NB_ERROR_FOUND: number = 0;
   public readonly DEFAULT_NB_ERROR_MAX: number = 7;
 
