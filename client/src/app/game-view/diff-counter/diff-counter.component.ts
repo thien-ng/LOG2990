@@ -7,6 +7,9 @@ import { DiffCounterService } from "./diff-counter.service";
   providers: [DiffCounterService],
 })
 export class DiffCounterComponent implements AfterContentInit {
+  public readonly DEFAULT_NB_ERROR_FOUND: number = 0;
+  public readonly DEFAULT_NB_ERROR_MAX: number = 7;
+
   @ViewChild("progressCircle", { read: ElementRef })
   public progressCircle: ElementRef;
   @ViewChild("progressBar", { read: ElementRef })
@@ -18,6 +21,8 @@ export class DiffCounterComponent implements AfterContentInit {
 
   public ngAfterContentInit(): void {
     this.diffCounterService = new DiffCounterService();
+    this.diffCounterService.setNbErrorMax(this.DEFAULT_NB_ERROR_MAX);
+    this.updateSpinner(0);
   }
 
   public updateSpinner(nbErrorFound: number): void {
