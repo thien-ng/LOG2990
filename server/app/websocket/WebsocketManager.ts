@@ -13,8 +13,9 @@ export class WebsocketManager {
 
     private io: SocketIO.Server;
 
-    public constructor(@inject(Types.NameValidatorService) private nameValidatorService: NameValidatorService,
-                       @inject(Types.GameManager) private gameManager: GameManager) {}
+    public constructor(
+        @inject(Types.NameValidatorService) private nameValidatorService: NameValidatorService,
+        @inject(Types.GameManager) private gameManager: GameManager) {}
 
     public createWebsocket(server: http.Server): void {
         this.io = SocketIO(server);
