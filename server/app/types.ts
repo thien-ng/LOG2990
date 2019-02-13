@@ -10,4 +10,5 @@ export default  {
         DifferenceCheckerController: Symbol("DifferenceCheckerController"),
         DifferenceCheckerService: Symbol("DifferenceCheckerService"),
         LoginValidatorController: Symbol("LoginValidatorController"),
+        GameManager: Symbol("GameManager"),
 };

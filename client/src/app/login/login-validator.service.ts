@@ -11,12 +11,10 @@ import { Constants } from "../constants";
 
 export class LoginValidatorService {
 
-  public userNameUpdated: Subject<string | null> = new Subject<string | null>();
+  public userNameUpdated: Subject<string | null>;
 
-  public constructor(
-    private httpClient: HttpClient,
-    ) {
-      // Default constructor
+  public constructor(private httpClient: HttpClient) {
+      this.userNameUpdated = new Subject<string | null>();
     }
 
   public addUsername(username: string): Observable<boolean> {

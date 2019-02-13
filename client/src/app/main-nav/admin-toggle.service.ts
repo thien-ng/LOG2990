@@ -9,12 +9,12 @@ import { Constants } from "../constants";
 })
 export class AdminToggleService {
 
-  public constructor(public router: Router) {
-    // Default constructor
-  }
-
+  private adminUpdated: Subject<boolean>;
   private isAdmin: boolean;
-  private adminUpdated: Subject<boolean> = new Subject<boolean>();
+
+  public constructor(public router: Router) {
+      this.adminUpdated = new Subject<boolean>();
+    }
 
   public get isAdminState(): boolean {
     return this.isAdmin;
@@ -26,11 +26,8 @@ export class AdminToggleService {
 
   public adminToggle(): void {
     this.isAdmin = !this.isAdmin;
-    if (this.isAdmin) {
-      this.router.navigate([Constants.ADMIN_PATH]).catch(() => Constants.OBLIGATORY_CATCH);
-    } else {
-      this.router.navigate([Constants.GAMELIST_PATH]).catch(() => Constants.OBLIGATORY_CATCH);
-    }
+    const pathToGo: string = this.isAdmin ? Constants.ADMIN_PATH :  Constants.GAMELIST_PATH;
+    this.router.navigate([pathToGo]).catch(() => Constants.OBLIGATORY_CATCH);
     this.adminUpdated.next(this.isAdmin);
   }
 
