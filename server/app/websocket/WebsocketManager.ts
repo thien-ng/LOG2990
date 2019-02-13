@@ -14,44 +14,36 @@ export class WebsocketManager {
 
     public constructor(@inject(Types.NameValidatorService) private nameValidatorService: NameValidatorService,
                        @inject(Types.GameManager) private gameManager: GameManager) {}
-    // public constructor(@inject(Types.NameValidatorService) private nameValidatorService: NameValidatorService) {}
 
     public createWebsocket(server: http.Server): void {
         this.io = SocketIO(server);
         this.io.on(Constants.CONNECTION, (socket: SocketIO.Socket) => {
 
             let name: string;
+            let socketID: string;
             socket.on(Constants.LOGIN_EVENT, (data: string) => {
                 name = data;
             });
-
-            socket.on(Constants.DISCONNECT_EVENT, (data: string) => {
-                this.nameValidatorService.leaveBrowser(name);
+            
+            socket.on(Constants.GAME_CONNECTION, () => {
+                console.log("test");
+                socketID = socket.id;
+                this.gameManager.getPlayerList().push(socket.id.toString());
+                console.log(this.gameManager.getPlayerList());
+                console.log(socketID);
             });
 
             socket.on(Constants.POSITION_VALIDATION_EVENT, (data: ICanvasPosition) => {
                 // recover data to make validation
             });
 
-            socket.on("onGameConnection", (data: any) => {
-                console.log(socket.id.toString());
-                this.gameManager.getPlayerList().push(socket.id.toString());
-            });
-
-            socket.emit("onChatMessage", {
-                username: "test",
-                message: "patate",
-                time: "123"
+            socket.on(Constants.DISCONNECT_EVENT, (data: string) => {
+                this.nameValidatorService.leaveBrowser(name);
             });
 
          });
         this.io.listen(Constants.WEBSOCKET_PORT_NUMBER);
 
-        this.io.emit("onChatMessage", {
-            username: "test",
-            message: "patate",
-            time: "123"
-        });
     }
 
 }
