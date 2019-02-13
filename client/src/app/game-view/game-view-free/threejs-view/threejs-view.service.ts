@@ -8,12 +8,9 @@ export class ThreejsViewService {
 
   private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
-  // private renderer: THREE.WebGLRenderer;
   private light: THREE.DirectionalLight;
   private light2: THREE.DirectionalLight;
   private material: THREE.MeshBasicMaterial;
-  private sceneObjects: THREE.Mesh[] = [];
-  private sphere: THREE.Mesh;
   private renderer: THREE.WebGLRenderer;
   public ambLight: THREE.AmbientLight;
 
@@ -27,45 +24,35 @@ export class ThreejsViewService {
     this.light2 = new THREE.DirectionalLight(0xea6117, 0.5); // add light2
     this.material = new THREE.MeshPhongMaterial({color:0xea6117});
     this.ambLight = new THREE.AmbientLight(0xea6117, 0.4);
-    // create a box and add it to the scene
-    for (let index: number = 0; index < 5; index++) {
-      this.sceneObjects.push(new THREE.Mesh(new THREE.CubeGeometry(1,1,1), this.material));
-    }
-    this.sphere = new THREE.Mesh(new THREE.SphereGeometry(1), this.material);
   }
   public createScene(): void {
-    this.renderer.setSize(500, 500);
+    this.renderer.setSize(640, 480);
     this.scene.add(this.ambLight);
+    this.createLighting();
+
+    const cube: THREE.Mesh= new THREE.Mesh(new THREE.CubeGeometry(3,3,3), this.material);
+    this.scene.add(cube);
+
+    this.camera.lookAt(this.scene.position);
+  }
+
+  private createLighting(): void {
     this.light.position.set(100, 100, 50);
     this.light.intensity = 5;
     this.scene.add(this.light);
     this.light2.position.set(-10, 10, -10);
     this.light2.intensity = 0.5;
     this.scene.add(this.light2);
-    let posDrift: number = 0.5;
-    this.sceneObjects.forEach((element) => {
-      this.scene.add(element);
-      element.position.x = posDrift;
-      element.position.y = posDrift;
-      posDrift += 1;
-    });
-    this.scene.add(this.sphere);
-    this.sphere.position.x = 0;
-    this.sphere.rotation.y = 0;
-
-    this.camera.position.x = 0;
-    this.camera.position.y = 0;
-    this.camera.position.z = 0;
-
-    this.camera.lookAt(this.scene.position);
   }
 
+  // to remove
   public angle: number = 100;
   public radius: number = 10;
   public animate(): void {
     requestAnimationFrame(this.animate.bind(this));
     this.camera.position.x = this.radius * Math.cos( this.angle );  
     this.camera.position.z = this.radius * Math.sin( this.angle );
+    this.camera.position.y = this.radius * Math.cos( this.angle );
     this.angle += 0.01;
 
     this.camera.lookAt(this.scene.position);

@@ -11,7 +11,7 @@ export class TheejsViewComponent implements AfterContentInit{
 
   private renderer: THREE.WebGLRenderer;
 
-  @ViewChild("scene3d", {read: ElementRef})
+  @ViewChild("originalScene", {read: ElementRef})
   private originalScene: ElementRef;
 
   public constructor(@Inject(ThreejsViewService) private threejsViewService: ThreejsViewService) {}
