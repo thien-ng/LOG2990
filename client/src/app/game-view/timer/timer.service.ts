@@ -4,20 +4,16 @@ import { Injectable } from "@angular/core";
   providedIn: "root",
 })
 export class TimerService {
-  private readonly MINUTE_TO_SECONDS: number = 60;
+  private readonly MINUTE_IN_SECONDS: number = 60;
   private readonly TWO_DIGITS: number = 10;
 
-  public constructor() {
-    // default constructo
-  }
+  public timeFormat(totalTimeInSeconds: number): string {
+    const min: number = Math.floor((totalTimeInSeconds / this.MINUTE_IN_SECONDS));
+    const sec: number = totalTimeInSeconds - (min * this.MINUTE_IN_SECONDS);
 
-  public timeFormat(secondsInput: number): string {
-    const min: number = Math.floor((secondsInput / this.MINUTE_TO_SECONDS));
-    const sec: number = secondsInput - (min * this.MINUTE_TO_SECONDS);
+    let timeFormat: string = (min < this.TWO_DIGITS ? "0" + min.toString() : min.toString());
+    timeFormat += ":" + (sec < this.TWO_DIGITS ? "0" + sec.toString() : sec.toString());
 
-    let result: string = (min < this.TWO_DIGITS ? "0" + min.toString() : min.toString());
-    result += ":" + (sec < this.TWO_DIGITS ? "0" + sec.toString() : sec.toString());
-
-    return result;
+    return timeFormat;
   }
 }
