@@ -15,14 +15,11 @@ export class DiffCounterComponent implements AfterContentInit {
   @ViewChild("progressBar", { read: ElementRef })
   public progressBar: ElementRef;
 
-  public constructor(@Inject(DiffCounterService) public diffCounterService: DiffCounterService) {
-    // default constructor
-  }
+  public constructor(@Inject(DiffCounterService) public diffCounterService: DiffCounterService) {}
 
   public ngAfterContentInit(): void {
-    this.diffCounterService = new DiffCounterService();
     this.diffCounterService.setNbErrorMax(this.DEFAULT_NB_ERROR_MAX);
-    this.updateSpinner(0);
+    this.updateSpinner(this.DEFAULT_NB_ERROR_FOUND);
   }
 
   public updateSpinner(nbErrorFound: number): void {

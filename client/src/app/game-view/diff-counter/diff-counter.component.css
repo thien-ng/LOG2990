@@ -10,7 +10,7 @@
 }
 
 /* masque partie gauche quand < 50% de la jauge */
-.progress-masque {
+.progress-mask {
   position: absolute;
   width: 1em;                     
   height: 1em;                    
@@ -20,12 +20,12 @@
 }
 
 /* affiche tout le cercle quand > 50% de la jauge */
-.progress-circle[data-value^='5']:not([data-value='5']):not([data-value^='5.']) .progress-masque,
-.progress-circle[data-value^='6']:not([data-value='6']):not([data-value^='6.']) .progress-masque,
-.progress-circle[data-value^='7']:not([data-value='7']):not([data-value^='7.']) .progress-masque,
-.progress-circle[data-value^='8']:not([data-value='8']):not([data-value^='8.']) .progress-masque,
-.progress-circle[data-value^='9']:not([data-value='9']):not([data-value^='9.']) .progress-masque,
-.progress-circle[data-value^='100'] .progress-masque {
+.progress-circle[data-value^='5']:not([data-value='5']):not([data-value^='5.']) .progress-mask,
+.progress-circle[data-value^='6']:not([data-value='6']):not([data-value^='6.']) .progress-mask,
+.progress-circle[data-value^='7']:not([data-value='7']):not([data-value^='7.']) .progress-mask,
+.progress-circle[data-value^='8']:not([data-value='8']):not([data-value^='8.']) .progress-mask,
+.progress-circle[data-value^='9']:not([data-value='9']):not([data-value^='9.']) .progress-mask,
+.progress-circle[data-value^='100'] .progress-mask {
   clip: rect(auto, auto, auto, auto);
 }
 
