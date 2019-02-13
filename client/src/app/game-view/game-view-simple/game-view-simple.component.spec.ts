@@ -18,7 +18,9 @@ describe("GameViewSimpleComponent", () => {
         ChatViewComponent,
         MessageViewComponent,
       ],
-      imports: [ TestingImportsModule ],
+      imports: [
+        TestingImportsModule,
+      ],
     })
     .compileComponents()
     .catch(() => Constants.OBLIGATORY_CATCH);
