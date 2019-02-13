@@ -64,4 +64,7 @@ export class Constants {
   public static readonly GAME_VIEW_SIMPLE_PATH: string = "/game-view-simple";
   public static readonly GAME_VIEW_FREE_PATH: string = "/game-view-free";
   public static readonly GAMEMODE_SIMPLE: string = "simple";
+
+  // Constants for ActiveGameService
+  public static readonly MODIFIED_FILE: string = "_modified.bmp";
 }

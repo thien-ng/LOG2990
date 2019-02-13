@@ -3,7 +3,7 @@
     [colspan]="2"
     [rowspan]="1"
     [style.background]='lightgreen'>
-    Game difference name input
+    {{this.activeGameService.activeGame.title}}
   </mat-grid-tile>
   <mat-grid-tile
     [colspan]="5"
@@ -21,8 +21,8 @@
   [rowspan]="3"
   [style.background]='lightblue'>
     <div id="displayGame">
-      <canvas #originalImage class="gameCanvas"></canvas>
-      <canvas #modifiedImage class="gameCanvas"></canvas>
+      <canvas #originalImage class="canvas" width="640" height="480"></canvas>
+      <canvas #modifiedImage class="canvas" width="640" height="480"></canvas>
     </div>
   </mat-grid-tile>
   <mat-grid-tile

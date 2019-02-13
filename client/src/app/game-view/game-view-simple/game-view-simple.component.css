@@ -6,9 +6,6 @@
     border-radius: 5px;
 }
 
-.gameCanvas {
-    height: 480px;
-    width: 640px;
-    background: red;
+.canvas {
     margin: 4px;
 }
