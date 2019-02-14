@@ -1,8 +1,8 @@
 export interface ISceneObject {
     type: SceneObjectType;
     position: IAxisValues;
-    orientation: IAxisValues;
-    color: IRGBColor;
+    rotation: IAxisValues;
+    color: string;
     scale: IAxisValues;
 }
 
@@ -18,10 +18,4 @@ export interface IAxisValues {
     x: number;
     y: number;
     z: number;
-}
-
-export interface IRGBColor {
-    red: number;
-    green: number;
-    blue: number;
 }
