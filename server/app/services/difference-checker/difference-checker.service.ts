@@ -16,6 +16,7 @@ export class DifferenceCheckerService {
     private bufferOriginal: Buffer;
     private bufferModified: Buffer;
     private circledDifferences: number[];
+    private differencesBuffer: Buffer;
 
     public constructor() {
         this.bufferManager = new BufferManager();
@@ -39,9 +40,11 @@ export class DifferenceCheckerService {
 
         if (numberOfDifferences === requirements.requiredNbDiff) {
 
-            const dataImageBuffer: Buffer = this.bufferManager.arrayToBuffer(this.circledDifferences);
+            // const dataImageBuffer: Buffer = this.bufferManager.arrayToBuffer(this.circledDifferences);
 
-            return this.bufferManager.mergeBuffers(this.bufferOriginal.slice(0, HEADER_SIZE), dataImageBuffer);
+            // return this.bufferManager.mergeBuffers(this.bufferOriginal.slice(0, HEADER_SIZE), dataImageBuffer);
+
+            return this.differencesBuffer;
 
         } else {
 
