@@ -65,4 +65,10 @@ export class BMPBuilder {
     private getFileSize(): number {
         return this.width * this.height * this.getBitDepthInBytes() + this.HEADER_DATAOFFSET;
     }
+
+    private set24BitCol(R: number, G: number, B: number, startPos: number): void {
+        this.buffer[startPos + this.BLUE_OFFSET ] = B;
+        this.buffer[startPos + this.GREEN_OFFSET] = G;
+        this.buffer[startPos + this.RED_OFFSET  ] = R;
+    }
 }
