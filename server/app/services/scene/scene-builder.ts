@@ -30,7 +30,7 @@ export class SceneBuilder {
         return {
             type: this.sceneOptions.sceneObjectsType,
             position: this.generateRandomAxisValues(),
-            rotation: this.generateRandomAxisValues(),
+            rotation: this.generateRandomRotationValues(),
             scale: this.generateRandomScaleValues(),
             color: this.generateRandomColor(),
         };

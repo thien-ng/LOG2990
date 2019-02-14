@@ -28,4 +28,10 @@ describe("Scene builder tests", () => {
         sceneBuilder.generateSceneObjects();
         chai.expect(spy).to.have.been.called();
     });
+
+    it("should call the generateRandomRotationValues function when generating scene objects", () => {
+        const spy: any = chai.spy.on(sceneBuilder, "generateRandomRotationValues");
+        sceneBuilder.generateSceneObjects();
+        chai.expect(spy).to.have.been.called();
+    });
 });
