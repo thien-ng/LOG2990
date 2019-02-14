@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import * as THREE from "three";
 import { SceneObjectType } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class ThreejsViewService {
 
@@ -16,8 +16,7 @@ export class ThreejsViewService {
   private renderer: THREE.WebGLRenderer;
   private ambLight: THREE.AmbientLight;
 
-
-  //test
+  // test
   private iAxisValues = {
     x: 2,
     y: 3,
@@ -37,43 +36,44 @@ export class ThreejsViewService {
           x: 0,
           y: 0,
           z: 0,
-        },
+      },
         rotation: this.iAxisValues,
         color: "#0000ff",
         scale: this.iAxisValues},
-        {type: SceneObjectType.Cone,
-          position: {
-            x: -10,
-            y: -10,
-            z: -10,
-          },
+      {type: SceneObjectType.Cone,
+        position: {
+          x: -10,
+          y: -10,
+          z: -10,
+        },
         rotation: this.iAxisValues,
         color: "#00ff00",
         scale: this.iAxisValues},
-        {type: SceneObjectType.Sphere,
-          position: {
-            x: 10,
-            y: 0,
-            z: 0,
-          },
-        rotation: this.iAxisValues,
-        color: "#ff0000",
-        scale: this.iAxisValues},
-        {type: SceneObjectType.Cylinder,
-          position: {
-            x: -15,
-            y: -5,
-            z: 0,
-          },
-        rotation: this.iAxisValues,
-        color: "#ea6117",
-        scale: this.iAxisValues},
+      {type: SceneObjectType.Sphere,
+        position: {
+          x: 10,
+          y: 0,
+          z: 0,
+        },
+      rotation: this.iAxisValues,
+      color: "#ff0000",
+      scale: this.iAxisValues},
+      {type: SceneObjectType.Cylinder,
+        position: {
+          x: -15,
+          y: -5,
+          z: 0,
+        },
+      rotation: this.iAxisValues,
+      color: "#ea6117",
+      scale: this.iAxisValues},
     ],
     sceneBackgroundColor: "#aaaaaa",
   };
   private threejsGenerator: ThreejsGenerator;
 
-  constructor() {
+  public constructor() {
+
     this.scene = new THREE.Scene();
     this.threejsGenerator = new ThreejsGenerator(this.scene);
     this.init();
@@ -106,17 +106,14 @@ export class ThreejsViewService {
     this.light2.intensity = 0.5;
     this.scene.add(this.light2);
 
-    this.scene.add(new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 ));
-
   }
     // to remove
-  public angle: number = 100;
-  public radius: number = 10;
+  // public angle: number = 100;
+  // public radius: number = 10;
   public animate(): void {
     requestAnimationFrame(this.animate.bind(this));
 
-
-    // this.camera.position.x = this.radius * Math.cos( this.angle );  
+    // this.camera.position.x = this.radius * Math.cos( this.angle );
     // this.camera.position.z = this.radius * Math.sin( this.angle );
     // this.angle += 0.01;
     this.camera.position.x = 0;

@@ -8,37 +8,31 @@ export class ThreejsGenerator {
   public initiateObject(object3D: ISceneObject): void {
 
     switch (object3D.type) {
-      case SceneObjectType.Sphere: {
+      case SceneObjectType.Sphere:
         this.generateSphere(object3D);
         break;
-      }
-      
-      case SceneObjectType.Cube: {
+
+      case SceneObjectType.Cube:
         this.generateCube(object3D);
         break;
-      }
 
-      case SceneObjectType.Cone: {
+      case SceneObjectType.Cone:
         this.generateCone(object3D);
         break;
-      }
 
-      case SceneObjectType.Cylinder: {
+      case SceneObjectType.Cylinder:
         this.generateCylinder(object3D);
         break;
-      }
 
-      case SceneObjectType.TriangularPyramid: {
+      case SceneObjectType.TriangularPyramid:
         this.generateTriangularPyramid(object3D);
         break;
-      }
 
-      default: {
+      default:
         break;
-      }
     }
   }
-  
+
   private generateSphere(object3D: ISceneObject): void {
 
     const generatedColor: THREE.MeshBasicMaterial = this.createObjectColor(object3D.color);
@@ -98,7 +92,7 @@ export class ThreejsGenerator {
   }
 
   private createObjectColor(colorHex: string): THREE.MeshBasicMaterial {
-    return new THREE.MeshPhongMaterial({color: colorHex});;
+    return new THREE.MeshPhongMaterial( {color: colorHex} );
   }
 
   private addObjectToScene(object3D: THREE.Mesh, position: IAxisValues, orientation: IAxisValues): void {
@@ -115,7 +109,7 @@ export class ThreejsGenerator {
     object3D.position.z = position.z;
   }
 
-  private setObjectRotation(object3D: THREE.Mesh, orientation: IAxisValues) {
+  private setObjectRotation(object3D: THREE.Mesh, orientation: IAxisValues): void {
 
     object3D.rotation.x = orientation.x;
     object3D.rotation.y = orientation.y;

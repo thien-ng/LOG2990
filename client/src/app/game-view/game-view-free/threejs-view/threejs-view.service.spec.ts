@@ -1,11 +1,11 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { ThreejsViewService } from './threejs-view.service';
+import { ThreejsViewService } from "./threejs-view.service";
 
-describe('ThreejsViewService', () => {
+describe("ThreejsViewService", () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
-  it('should be created', () => {
+  it("should be created", () => {
     const service: ThreejsViewService = TestBed.get(ThreejsViewService);
     expect(service).toBeTruthy();
   });

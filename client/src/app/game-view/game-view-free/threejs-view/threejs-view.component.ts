@@ -1,13 +1,13 @@
-import { AfterContentInit, Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { AfterContentInit, Component, ElementRef, Inject, ViewChild } from "@angular/core";
 import * as THREE from "three";
 import { ThreejsViewService } from "./threejs-view.service";
 
 @Component({
-  selector: 'app-threejs-view',
-  templateUrl: './threejs-view.component.html',
-  styleUrls: ['./threejs-view.component.css']
+  selector: "app-threejs-view",
+  templateUrl: "./threejs-view.component.html",
+  styleUrls: ["./threejs-view.component.css"],
 })
-export class TheejsViewComponent implements AfterContentInit{
+export class TheejsViewComponent implements AfterContentInit {
 
   private renderer: THREE.WebGLRenderer;
 

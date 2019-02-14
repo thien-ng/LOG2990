@@ -14,6 +14,7 @@ import { GameListComponent } from "./game-list/game-list.component";
 import { ChatViewComponent } from "./game-view/chat-view/chat-view.component";
 import { MessageViewComponent } from "./game-view/chat-view/message-view/message-view.component";
 import { GameViewFreeComponent } from "./game-view/game-view-free/game-view-free.component";
+import { TheejsViewComponent } from "./game-view/game-view-free/threejs-view/threejs-view.component";
 import { GameViewSimpleComponent } from "./game-view/game-view-simple/game-view-simple.component";
 import { HighscoreDisplayComponent } from "./highscore-display/highscore-display.component";
 import { LoginPageComponent } from "./login/login-page/login-page.component";
@@ -21,7 +22,6 @@ import { LoginValidatorComponent } from "./login/login-validator/login-validator
 import { LoginViewComponent } from "./login/login-view/login-view.component";
 import { MainNavComponent } from "./main-nav/main-nav.component";
 import { TestingImportsModule } from "./testing-imports/testing-imports.module";
-import { TheejsViewComponent } from './game-view/game-view-free/threejs-view/threejs-view.component';
 
 const routes: Routes = [
   { path: Constants.ROOT_PATH, redirectTo: Constants.NAV_PATH, pathMatch: Constants.PATH_MATCH_FULL },

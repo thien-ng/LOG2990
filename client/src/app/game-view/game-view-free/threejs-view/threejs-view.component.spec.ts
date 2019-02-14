@@ -1,16 +1,17 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { Constants } from "../../../constants";
+import { TheejsViewComponent } from "./threejs-view.component";
 
-import { TheejsViewComponent } from './threejs-view.component';
-
-describe('TheejsViewComponent', () => {
+describe("TheejsViewComponent", () => {
   let component: TheejsViewComponent;
   let fixture: ComponentFixture<TheejsViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TheejsViewComponent ]
+      declarations: [ TheejsViewComponent ],
     })
-    .compileComponents();
+    .compileComponents()
+    .catch(() => Constants.OBLIGATORY_CATCH);
   }));
 
   beforeEach(() => {
@@ -19,7 +20,7 @@ describe('TheejsViewComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
