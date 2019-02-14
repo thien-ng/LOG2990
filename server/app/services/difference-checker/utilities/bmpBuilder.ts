@@ -57,4 +57,8 @@ export class BMPBuilder {
     private getBitDepthInBytes(): number {
         return Math.ceil(this.BITDEPTH_24 / this.NUM_BITS_IN_BYTE);
     }
+
+    private paddingPerRow(): number {
+        return this.BYTE_SPAN_4 - (this.width * this.getBitDepthInBytes()) % this.BYTE_SPAN_4;
+    }
 }
