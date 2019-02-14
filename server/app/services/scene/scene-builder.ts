@@ -3,6 +3,7 @@ import { IAxisValues, ISceneObject } from "../../../../common/communication/iSce
 import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
 import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { SceneConstants } from "./sceneConstants";
+import { CollisionValidator } from "./utilitaries/collision-validator";
 
 export class SceneBuilder {
 
@@ -46,6 +47,12 @@ export class SceneBuilder {
             y: randomY,
             z: randomZ,
         };
+    }
+
+    public generateRandomPosition(): IAxisValues {
+        let randomPosion: IAxisValues = this.generateRandomAxisValues();
+        const collisionValidator: CollisionValidator = new CollisionValidator();
+        
     }
 
     public generateRandomRotationValues(): IAxisValues {
