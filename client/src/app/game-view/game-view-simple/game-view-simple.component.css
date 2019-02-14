@@ -6,9 +6,13 @@
     border-radius: 5px;
 }
 
-.gameCanvas {
-    height: 480px;
-    width: 640px;
-    background: red;
+.canvas {
     margin: 4px;
+}
+
+.gameName {
+    font-size: 40px;
+    font-weight: bold;
+    font: Roboto, "Helvetica Neue", sans-serif;
+    margin-top: 5%;
 }
