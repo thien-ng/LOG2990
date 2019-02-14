@@ -49,10 +49,12 @@ export class SceneBuilder {
         };
     }
 
+    // TODO: doit prendre le nouveau objet et la liste des objets deja existant en parametres, ensuite vérifier pour collisions (si oui regenerer la position, sinon retourner lobjet)
     public generateRandomPosition(): IAxisValues {
         let randomPosion: IAxisValues = this.generateRandomAxisValues();
         const collisionValidator: CollisionValidator = new CollisionValidator();
         
+        collisionValidator.hasCollidingPositions()
     }
 
     public generateRandomRotationValues(): IAxisValues {
