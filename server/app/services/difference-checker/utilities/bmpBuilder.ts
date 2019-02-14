@@ -144,6 +144,20 @@ export class BMPBuilder {
         return spannedBuffer;
     }
 
+    public setColorAtPos(R: number, G: number, B: number, posX: number, posY: number): void {
+
+        const trueYpos: number = this.height - posY - 1;
+        const xOffset: number = posX * this.getBitDepthInBytes();
+        const yOffset: number = trueYpos * (this.paddingPerRow() + this.width * this.getBitDepthInBytes());
+        const absolutePos: number = yOffset + xOffset + this.HEADER_DATAOFFSET;
+
+        if (absolutePos > this.buffer.length) {
+            throw new RangeError("Entered position (" + posX + ", " + posY + ") is out of bounds");
+        }
+
+        this.set24BitCol(R, G, B, absolutePos);
+    }
+
     private set24BitCol(R: number, G: number, B: number, startPos: number): void {
         this.buffer[startPos + this.BLUE_OFFSET ] = B;
         this.buffer[startPos + this.GREEN_OFFSET] = G;
