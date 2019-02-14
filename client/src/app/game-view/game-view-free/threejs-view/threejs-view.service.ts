@@ -19,8 +19,8 @@ export class ThreejsViewService {
 
   //test
   private iAxisValues = {
-    x: 1,
-    y: 1,
+    x: 2,
+    y: 3,
     z: 1,
   };
 
@@ -30,55 +30,46 @@ export class ThreejsViewService {
       {type: SceneObjectType.TriangularPyramid,
         position: this.iAxisValues,
         rotation: this.iAxisValues,
-        color: "ff00ff",
+        color: "#ff00ff",
         scale: this.iAxisValues},
       {type: SceneObjectType.Cube,
         position: {
-          x: 5,
-          y: 5,
-          z: 5,
+          x: 0,
+          y: 0,
+          z: 0,
         },
         rotation: this.iAxisValues,
-        color: "ea6117",
+        color: "#0000ff",
         scale: this.iAxisValues},
         {type: SceneObjectType.Cone,
           position: {
-            x: -5,
-            y: -5,
-            z: -5,
+            x: -10,
+            y: -10,
+            z: -10,
           },
         rotation: this.iAxisValues,
-        color: "ea6117",
+        color: "#00ff00",
         scale: this.iAxisValues},
         {type: SceneObjectType.Sphere,
           position: {
-            x: 0,
-            y: -5,
+            x: 10,
+            y: 0,
             z: 0,
           },
         rotation: this.iAxisValues,
-        color: "ea6117",
-        scale: this.iAxisValues},
-        {type: SceneObjectType.Sphere,
-          position: {
-            x: 0,
-            y: -5,
-            z: 0,
-          },
-        rotation: this.iAxisValues,
-        color: "ea6117",
+        color: "#ff0000",
         scale: this.iAxisValues},
         {type: SceneObjectType.Cylinder,
           position: {
-            x: -3,
+            x: -15,
             y: -5,
             z: 0,
           },
         rotation: this.iAxisValues,
-        color: "ea6117",
+        color: "#ea6117",
         scale: this.iAxisValues},
     ],
-    sceneBackgroundColor: "ffffff",
+    sceneBackgroundColor: "#aaaaaa",
   };
   private threejsGenerator: ThreejsGenerator;
 
@@ -113,6 +104,9 @@ export class ThreejsViewService {
     this.light2.position.set(-10, 10, -10);
     this.light2.intensity = 0.5;
     this.scene.add(this.light2);
+
+    // this.scene.add(new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 ));
+
   }
     // to remove
   public angle: number = 100;
@@ -124,7 +118,10 @@ export class ThreejsViewService {
 
     this.camera.position.x = this.radius * Math.cos( this.angle );  
     this.camera.position.z = this.radius * Math.sin( this.angle );
-    this.angle += 0.01;
+    this.angle += 0.05;
+    // this.camera.position.x = 0;
+    // this.camera.position.z = 20;
+    // this.camera.position.y = 0;
 
     this.camera.lookAt(this.scene.position);
     this.renderObject();
