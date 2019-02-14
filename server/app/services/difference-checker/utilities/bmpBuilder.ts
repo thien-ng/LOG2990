@@ -144,6 +144,10 @@ export class BMPBuilder {
         return spannedBuffer;
     }
 
+    public getBuffer(): Buffer {
+        return this.buffer;
+    }
+
     public setColorAtPos(R: number, G: number, B: number, posX: number, posY: number): void {
 
         const trueYpos: number = this.height - posY - 1;
