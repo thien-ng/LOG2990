@@ -23,15 +23,20 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     @Inject(SocketService) private socketService: SocketService,
     ) {}
 
-  public ngAfterContentInit(): void {
-    // test will be changed to something else, To be determined
-    this.socketService.sendMsg(Constants.ON_GAME_CONNECTION, "test");
-    this.initListener();
-  }
-
   public ngOnInit(): void {
-    this.canvasRoutine();
-  }
+      this.canvasRoutine();
+    }
+
+  public ngAfterContentInit(): void {
+      // test will be changed to something else, To be determined
+      this.socketService.sendMsg(Constants.ON_GAME_CONNECTION, "test");
+      this.initListener();
+    }
+
+  public ngOnDestroy(): void {
+        // test will be changed to something else, To be determined
+        this.socketService.sendMsg(Constants.ON_GAME_DISCONNECT, "test");
+      }
 
   private canvasRoutine(): void {
     const canvasOriginal: CanvasRenderingContext2D = this.canvasOriginal.nativeElement.getContext("2d");
@@ -48,10 +53,6 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       canvasModified.drawImage(imgModified, 0, 0);
     };
   }
-  public ngOnDestroy(): void {
-      // test will be changed to something else, To be determined
-      this.socketService.sendMsg(Constants.ON_GAME_DISCONNECT, "test");
-    }
 
   public initListener(): void {
 
