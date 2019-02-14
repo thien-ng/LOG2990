@@ -1,5 +1,5 @@
 export class BMPBuilder {
-
+    // relative to BMP header
     private readonly BASE_HEADER_SIZE: number = 14;
     private readonly INFOHEADER_SIZE: number = 40;
 
@@ -13,6 +13,7 @@ export class BMPBuilder {
     private readonly COLOR_USED: number  = 0;
     private readonly IMPORTANT_COLOR_USED: number  = 0;
 
+    // constants necessary for work on bytes
     private readonly BYTE_SPAN_2: number = 2;
     private readonly BYTE_SPAN_4: number = 4;
     private readonly BITDEPTH_24: number = 24;
@@ -25,6 +26,13 @@ export class BMPBuilder {
     private readonly MIN_ENTRY: number  = 0;
     private readonly MAX_ENTRY: number  = 255;
 
+    // error messages
+    private readonly ERROR_INVALIDWIDTH:  string = "Invalid width entered. Width must be a positive number.";
+    private readonly ERROR_INVALIDHEIGHT:  string = "Invalid height entered. Height must be a positive number.";
+    private readonly ERROR_INVALIDFILLER:  string = "Invalid fill number entered. Must be comprised between 0 and 255 inclusively.";
+    private readonly ERROR_OUT_OF_BOUNDS:  string = "Entered position is out of bounds";
+    private readonly HEXA: string = "hex";
+
     private buffer: Buffer;
 
     public constructor(
@@ -35,21 +43,22 @@ export class BMPBuilder {
 
         this.validateDimensions();
         this.validateFillEntry();
-        // this.buffer = this.buildBuffer();
+        this.buffer = this.buildBuffer();
+
     }
 
     private validateDimensions(): void {
         if (this.width < 0) {
-            throw new RangeError("Invalid width entered. Width must be a positive number.");
+            throw new RangeError(this.ERROR_INVALIDWIDTH);
         }
         if (this.height < 0) {
-            throw new RangeError("Invalid height entered. Height must be a positive number.");
+            throw new RangeError(this.ERROR_INVALIDHEIGHT);
         }
     }
 
     private validateFillEntry(): void {
         if (this.fillWith < this.MIN_ENTRY || this.fillWith > this.MAX_ENTRY) {
-            throw new RangeError("Invalid fill number entered. Must be comprised between 0 and 255 inclusively.");
+            throw new RangeError(this.ERROR_INVALIDFILLER);
         }
     }
     private buildBuffer(): Buffer {
@@ -75,7 +84,7 @@ export class BMPBuilder {
     }
 
     private buildBaseHeader(): Buffer {
-        const signature:    Buffer = Buffer.from(this.HEADER_SIGNATURE.toString(this.BASE_HEXA), "hex");
+        const signature:    Buffer = Buffer.from(this.HEADER_SIGNATURE.toString(this.BASE_HEXA), this.HEXA);
         const fileSize:     Buffer = Buffer.from(this.spanNumberOnNBytes(this.getFileSize(),        this.BYTE_SPAN_4));
         const reserved:     Buffer = Buffer.from(this.spanNumberOnNBytes(this.HEADER_RESERVED,      this.BYTE_SPAN_4));
         const dataOffset:   Buffer = Buffer.from(this.spanNumberOnNBytes(this.HEADER_DATAOFFSET,    this.BYTE_SPAN_4));
@@ -156,7 +165,7 @@ export class BMPBuilder {
         const absolutePos: number = yOffset + xOffset + this.HEADER_DATAOFFSET;
 
         if (absolutePos > this.buffer.length) {
-            throw new RangeError("Entered position (" + posX + ", " + posY + ") is out of bounds");
+            throw new RangeError(this.ERROR_OUT_OF_BOUNDS);
         }
 
         this.set24BitCol(R, G, B, absolutePos);
