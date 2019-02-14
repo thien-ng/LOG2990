@@ -54,6 +54,22 @@ export class BMPBuilder {
         }
     }
 
+    private buildBaseHeader(): Buffer {
+        const signature:    Buffer = Buffer.from(this.HEADER_SIGNATURE.toString(this.BASE_HEXA), "hex");
+        const fileSize:     Buffer = Buffer.from(this.spanNumberOnNBytes(this.getFileSize(),        this.BYTE_SPAN_4));
+        const reserved:     Buffer = Buffer.from(this.spanNumberOnNBytes(this.HEADER_RESERVED,      this.BYTE_SPAN_4));
+        const dataOffset:   Buffer = Buffer.from(this.spanNumberOnNBytes(this.HEADER_DATAOFFSET,    this.BYTE_SPAN_4));
+
+        const bufferArray: Buffer[] = [
+            signature,
+            fileSize,
+            reserved,
+            dataOffset,
+        ];
+
+        return Buffer.concat(bufferArray, this.BASE_HEADER_SIZE);
+    }
+
     private getBitDepthInBytes(): number {
         return Math.ceil(this.BITDEPTH_24 / this.NUM_BITS_IN_BYTE);
     }
