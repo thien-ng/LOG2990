@@ -1,7 +1,7 @@
 export interface ISceneObject {
     type: SceneObjectType;
     position: IAxisValues;
-    orientation: IAxisValues;
+    rotation: IAxisValues;
     color: string;
     scale: IAxisValues;
 }

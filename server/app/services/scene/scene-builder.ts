@@ -30,16 +30,16 @@ export class SceneBuilder {
         return {
             type: this.sceneOptions.sceneObjectsType,
             position: this.generateRandomAxisValues(),
-            orientation: this.generateRandomAxisValues(),
+            rotation: this.generateRandomAxisValues(),
             scale: this.generateRandomScaleValues(),
             color: this.generateRandomColor(),
         };
     }
 
     public generateRandomAxisValues(): IAxisValues {
-        const randomX: number = this.randomNumberFromInterval(0, SceneConstants.MAX_POSITION_X);
-        const randomY: number = this.randomNumberFromInterval(0, SceneConstants.MAX_POSITION_Y);
-        const randomZ: number = this.randomNumberFromInterval(0, SceneConstants.MAX_POSITION_Z);
+        const randomX: number = this.randomIntegerFromInterval(0, SceneConstants.MAX_POSITION_X);
+        const randomY: number = this.randomIntegerFromInterval(0, SceneConstants.MAX_POSITION_Y);
+        const randomZ: number = this.randomIntegerFromInterval(0, SceneConstants.MAX_POSITION_Z);
 
         return {
             x: randomX,
@@ -48,10 +48,22 @@ export class SceneBuilder {
         };
     }
 
+    public generateRandomRotationValues(): IAxisValues {
+        const randomRadX: number = this.randomFloatFromInterval(0, SceneConstants.TWO_PI);
+        const randomRadY: number = this.randomFloatFromInterval(0, SceneConstants.TWO_PI);
+        const randomRadZ: number = this.randomFloatFromInterval(0, SceneConstants.TWO_PI);
+
+        return {
+            x: randomRadX,
+            y: randomRadY,
+            z: randomRadZ,
+        };
+    }
+
     public generateRandomScaleValues(): IAxisValues {
-        const randomX: number = this.randomNumberFromInterval(SceneConstants.MIN_SCALE, SceneConstants.MAX_SCALE);
-        const randomY: number = this.randomNumberFromInterval(SceneConstants.MIN_SCALE, SceneConstants.MAX_SCALE);
-        const randomZ: number = this.randomNumberFromInterval(SceneConstants.MIN_SCALE, SceneConstants.MAX_SCALE);
+        const randomX: number = this.randomIntegerFromInterval(SceneConstants.MIN_SCALE, SceneConstants.MAX_SCALE);
+        const randomY: number = this.randomIntegerFromInterval(SceneConstants.MIN_SCALE, SceneConstants.MAX_SCALE);
+        const randomZ: number = this.randomIntegerFromInterval(SceneConstants.MIN_SCALE, SceneConstants.MAX_SCALE);
 
         return {
             x: randomX,
@@ -61,9 +73,9 @@ export class SceneBuilder {
     }
 
     public generateRandomColor(): string {
-        const red: number = this.randomNumberFromInterval(SceneConstants.MIN_COLOR_GRADIENT, SceneConstants.MAX_COLOR_GRADIENT);
-        const green: number = this.randomNumberFromInterval(SceneConstants.MIN_COLOR_GRADIENT, SceneConstants.MAX_COLOR_GRADIENT);
-        const blue: number = this.randomNumberFromInterval(SceneConstants.MIN_COLOR_GRADIENT, SceneConstants.MAX_COLOR_GRADIENT);
+        const red: number = this.randomIntegerFromInterval(SceneConstants.MIN_COLOR_GRADIENT, SceneConstants.MAX_COLOR_GRADIENT);
+        const green: number = this.randomIntegerFromInterval(SceneConstants.MIN_COLOR_GRADIENT, SceneConstants.MAX_COLOR_GRADIENT);
+        const blue: number = this.randomIntegerFromInterval(SceneConstants.MIN_COLOR_GRADIENT, SceneConstants.MAX_COLOR_GRADIENT);
 
         return this.rgbToHex(red, green, blue);
     }
@@ -76,7 +88,11 @@ export class SceneBuilder {
         return SceneConstants.HEX_PREFIX + red + green + blue;
     }
 
-    private randomNumberFromInterval(min: number, max: number): number {
+    private randomIntegerFromInterval(min: number, max: number): number {
         return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    private randomFloatFromInterval(min: number, max: number): number {
+        return Math.random() * (max - min + 1) + min;
     }
 }

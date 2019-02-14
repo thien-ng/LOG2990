@@ -14,4 +14,7 @@ export class SceneConstants {
     // Scales
     public static readonly MIN_SCALE: number = 0.5;
     public static readonly MAX_SCALE: number = 1.5;
+    // Rotation
+    /* tslint:disable:no-magic-numbers */
+    public static readonly TWO_PI: number = Math.PI * 2;
 }
