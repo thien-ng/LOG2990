@@ -1,8 +1,10 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import * as THREE from "three";
 import { SceneObjectType } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -72,7 +74,7 @@ export class ThreejsViewService {
   };
   private threejsGenerator: ThreejsGenerator;
 
-  public constructor() {
+  public constructor(private httpClient: HttpClient) {
 
     this.scene = new THREE.Scene();
     this.threejsGenerator = new ThreejsGenerator(this.scene);
@@ -80,6 +82,7 @@ export class ThreejsViewService {
   }
 
   private init(): void {
+    this.getSceneData();
     this.camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 100);
     this.renderer = new THREE.WebGLRenderer();
 
@@ -140,6 +143,10 @@ export class ThreejsViewService {
     this.sceneVariable.sceneObjects.forEach((element) => {
       this.threejsGenerator.initiateObject(element);
     });
+  }
+
+  private getSceneData(): Observable<ISceneVariables> {
+    return this.httpClient.get<ISceneVariables>("path_to_detemrine");
   }
 
 }
