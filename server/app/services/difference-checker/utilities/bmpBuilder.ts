@@ -34,9 +34,17 @@ export class BMPBuilder {
         private fillWith: number = 0,
     ) {
 
-        // this.validateDimensions();
+        this.validateDimensions();
         // this.validateFillEntry();
         // this.buffer = this.buildBuffer();
-}
+    }
 
+    private validateDimensions(): void {
+        if (this.width < 0) {
+            throw new RangeError("Invalid width entered. Width must be a positive number.");
+        }
+        if (this.height < 0) {
+            throw new RangeError("Invalid height entered. Height must be a positive number.");
+        }
+    }
 }
