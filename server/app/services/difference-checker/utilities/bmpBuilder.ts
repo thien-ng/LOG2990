@@ -28,4 +28,15 @@ export class BMPBuilder {
 
     private buffer: Buffer;
 
+    public constructor(
+        private width: number,
+        private height: number,
+        private fillWith: number = 0,
+    ) {
+
+        // this.validateDimensions();
+        // this.validateFillEntry();
+        // this.buffer = this.buildBuffer();
+}
+
 }
