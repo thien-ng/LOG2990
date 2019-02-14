@@ -70,6 +70,36 @@ export class BMPBuilder {
         return Buffer.concat(bufferArray, this.BASE_HEADER_SIZE);
     }
 
+    private buildInfoHeader(): Buffer {
+        const size:         Buffer = Buffer.from(this.spanNumberOnNBytes(this.INFOHEADER_SIZE,       this.BYTE_SPAN_4));
+        const width:        Buffer = Buffer.from(this.spanNumberOnNBytes(this.width,                 this.BYTE_SPAN_4));
+        const height:       Buffer = Buffer.from(this.spanNumberOnNBytes(this.height,                this.BYTE_SPAN_4));
+        const planes:       Buffer = Buffer.from(this.spanNumberOnNBytes(this.PLANES,                this.BYTE_SPAN_2));
+        const bitDepth:     Buffer = Buffer.from(this.spanNumberOnNBytes(this.BITDEPTH_24,              this.BYTE_SPAN_2));
+        const compression:  Buffer = Buffer.from(this.spanNumberOnNBytes(this.COMPRESSION,           this.BYTE_SPAN_4));
+        const imageSize:    Buffer = Buffer.from(this.spanNumberOnNBytes(this.width * this.height,   this.BYTE_SPAN_4));
+        const horizRes:     Buffer = Buffer.from(this.spanNumberOnNBytes(this.HORIZONTAL_RESOLUTION, this.BYTE_SPAN_4));
+        const vertiRes:     Buffer = Buffer.from(this.spanNumberOnNBytes(this.VERTICAL_RESOLUTION,   this.BYTE_SPAN_4));
+        const color:        Buffer = Buffer.from(this.spanNumberOnNBytes(this.COLOR_USED,            this.BYTE_SPAN_4));
+        const impColor:     Buffer = Buffer.from(this.spanNumberOnNBytes(this.IMPORTANT_COLOR_USED,  this.BYTE_SPAN_4));
+
+        const infoHeaderArray: Buffer[] = [
+            size,
+            width,
+            height,
+            planes,
+            bitDepth,
+            compression,
+            imageSize,
+            horizRes,
+            vertiRes,
+            color,
+            impColor,
+        ];
+
+        return Buffer.concat(infoHeaderArray, this.INFOHEADER_SIZE);
+    }
+
     private getBitDepthInBytes(): number {
         return Math.ceil(this.BITDEPTH_24 / this.NUM_BITS_IN_BYTE);
     }
