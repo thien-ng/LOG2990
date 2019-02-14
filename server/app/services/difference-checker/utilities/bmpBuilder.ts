@@ -27,8 +27,8 @@ export class BMPBuilder {
     private readonly MAX_ENTRY: number  = 255;
 
     // error messages
-    private readonly ERROR_INVALIDWIDTH:  string = "Invalid width entered. Width must be a positive number.";
-    private readonly ERROR_INVALIDHEIGHT:  string = "Invalid height entered. Height must be a positive number.";
+    private readonly ERROR_INVALIDWIDTH:  string = "Invalid width entered. Width must be a positive number higher than 0.";
+    private readonly ERROR_INVALIDHEIGHT:  string = "Invalid height entered. Height must be a positive number higher than 0.";
     private readonly ERROR_INVALIDFILLER:  string = "Invalid fill number entered. Must be comprised between 0 and 255 inclusively.";
     private readonly ERROR_OUT_OF_BOUNDS:  string = "Entered position is out of bounds";
     private readonly HEXA: string = "hex";
@@ -38,7 +38,7 @@ export class BMPBuilder {
     public constructor(
         private width: number,
         private height: number,
-        private fillWith: number = 0,
+        private fillWith: number,
     ) {
 
         this.validateDimensions();
@@ -48,10 +48,10 @@ export class BMPBuilder {
     }
 
     private validateDimensions(): void {
-        if (this.width < 0) {
+        if (this.width <= 0) {
             throw new RangeError(this.ERROR_INVALIDWIDTH);
         }
-        if (this.height < 0) {
+        if (this.height <= 0) {
             throw new RangeError(this.ERROR_INVALIDHEIGHT);
         }
     }
@@ -164,7 +164,7 @@ export class BMPBuilder {
         const yOffset: number = trueYpos * (this.paddingPerRow() + this.width * this.getBitDepthInBytes());
         const absolutePos: number = yOffset + xOffset + this.HEADER_DATAOFFSET;
 
-        if (absolutePos > this.buffer.length) {
+        if (absolutePos > this.buffer.length || absolutePos < this.HEADER_DATAOFFSET) {
             throw new RangeError(this.ERROR_OUT_OF_BOUNDS);
         }
 
