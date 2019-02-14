@@ -81,9 +81,9 @@ export class SceneBuilder {
     }
 
     private rgbToHex(r: number, g: number, b: number): string {
-        const red: string = stringify(r, "hex");
-        const green: string = stringify(r, "hex");
-        const blue: string = stringify(r, "hex");
+        const red: string = stringify(r, SceneConstants.HEX_TYPE);
+        const green: string = stringify(r, SceneConstants.HEX_TYPE);
+        const blue: string = stringify(r, SceneConstants.HEX_TYPE);
 
         return SceneConstants.HEX_PREFIX + red + green + blue;
     }

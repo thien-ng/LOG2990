@@ -4,6 +4,7 @@ export class SceneConstants {
     // Camera
 
     // Colors
+    public static readonly HEX_TYPE: string = "hex";
     public static readonly HEX_PREFIX: string = "0x";
     public static readonly MIN_COLOR_GRADIENT: number = 0;
     public static readonly MAX_COLOR_GRADIENT: number = 255;
