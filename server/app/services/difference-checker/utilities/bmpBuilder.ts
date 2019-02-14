@@ -33,7 +33,7 @@ export class BMPBuilder {
     private readonly ERROR_OUT_OF_BOUNDS:  string = "Entered position is out of bounds";
     private readonly HEXA: string = "hex";
 
-    private buffer: Buffer;
+    private bmpBuffer: Buffer;
 
     public constructor(
         private width: number,
@@ -43,7 +43,7 @@ export class BMPBuilder {
 
         this.validateDimensions();
         this.validateFillEntry();
-        this.buffer = this.buildBuffer();
+        this.bmpBuffer = this.buildBuffer();
 
     }
 
@@ -153,8 +153,8 @@ export class BMPBuilder {
         return spannedBuffer;
     }
 
-    public getBuffer(): Buffer {
-        return this.buffer;
+    public get buffer(): Buffer {
+        return this.bmpBuffer;
     }
 
     public setColorAtPos(R: number, G: number, B: number, posX: number, posY: number): void {
@@ -164,7 +164,7 @@ export class BMPBuilder {
         const yOffset: number = truePosY * (this.paddingPerRow() + this.width * this.getBitDepthInBytes());
         const absolutePos: number = yOffset + xOffset + this.HEADER_DATAOFFSET;
 
-        if (absolutePos > this.buffer.length || absolutePos < this.HEADER_DATAOFFSET) {
+        if (absolutePos > this.bmpBuffer.length || absolutePos < this.HEADER_DATAOFFSET) {
             throw new RangeError(this.ERROR_OUT_OF_BOUNDS);
         }
 
@@ -172,8 +172,8 @@ export class BMPBuilder {
     }
 
     private set24BitCol(R: number, G: number, B: number, startPos: number): void {
-        this.buffer[startPos + this.BLUE_OFFSET ] = B;
-        this.buffer[startPos + this.GREEN_OFFSET] = G;
-        this.buffer[startPos + this.RED_OFFSET  ] = R;
+        this.bmpBuffer[startPos + this.BLUE_OFFSET ] = B;
+        this.bmpBuffer[startPos + this.GREEN_OFFSET] = G;
+        this.bmpBuffer[startPos + this.RED_OFFSET  ] = R;
     }
 }

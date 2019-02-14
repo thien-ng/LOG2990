@@ -10,7 +10,7 @@ describe("BMPBuilder tests", () => {
 
     beforeEach(() => {
          builder = new BMPBuilder(2, 3, 255);
-         bufferObtained = builder.getBuffer();
+         bufferObtained = builder.buffer;
     });
 
     it("should return an object of type Buffer", (done: Function) => {
@@ -82,7 +82,7 @@ describe("BMPBuilder tests", () => {
 
     it("should correctly change a pixel color", (done: Function) => {
         builder.setColorAtPos(5, 6, 7, 0, 0);
-        bufferObtained = builder.getBuffer();
+        bufferObtained = builder.buffer;
         const topLeftPixelIndex: number = 16 + 54;
         const topLeftPixelColor: Buffer = bufferObtained.slice(topLeftPixelIndex, topLeftPixelIndex + 3);
         const expectedtopLeftPixelColorBuffer: Buffer = Buffer.from([7, 6, 5]);
