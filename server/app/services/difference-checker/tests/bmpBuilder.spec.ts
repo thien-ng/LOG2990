@@ -11,7 +11,6 @@ describe("BMPBuilder tests", () => {
     beforeEach(() => {
          builder = new BMPBuilder(2, 3, 255);
          bufferObtained = builder.getBuffer();
-
     });
 
     it("should return an object of type Buffer", (done: Function) => {
@@ -92,10 +91,6 @@ describe("BMPBuilder tests", () => {
     });
 
     it("should return an error when trying to change a pixel out of bound", (done: Function) => {
-        // bufferObtained = builder.getBuffer();
-        // const topLeftPixelIndex: number = 16 + 54;
-        // const topLeftPixelColor: Buffer = bufferObtained.slice(topLeftPixelIndex, topLeftPixelIndex + 3);
-        // const expectedtopLeftPixelColorBuffer: Buffer = Buffer.from([7, 6, 5]);
         expect(() => {
             builder.setColorAtPos(5, 6, 7, 10, 20);
         }).to.throw("Entered position is out of bounds");

@@ -104,7 +104,7 @@ export class BMPBuilder {
         const width:        Buffer = Buffer.from(this.spanNumberOnNBytes(this.width,                 this.BYTE_SPAN_4));
         const height:       Buffer = Buffer.from(this.spanNumberOnNBytes(this.height,                this.BYTE_SPAN_4));
         const planes:       Buffer = Buffer.from(this.spanNumberOnNBytes(this.PLANES,                this.BYTE_SPAN_2));
-        const bitDepth:     Buffer = Buffer.from(this.spanNumberOnNBytes(this.BITDEPTH_24,              this.BYTE_SPAN_2));
+        const bitDepth:     Buffer = Buffer.from(this.spanNumberOnNBytes(this.BITDEPTH_24,           this.BYTE_SPAN_2));
         const compression:  Buffer = Buffer.from(this.spanNumberOnNBytes(this.COMPRESSION,           this.BYTE_SPAN_4));
         const imageSize:    Buffer = Buffer.from(this.spanNumberOnNBytes(this.width * this.height,   this.BYTE_SPAN_4));
         const horizRes:     Buffer = Buffer.from(this.spanNumberOnNBytes(this.HORIZONTAL_RESOLUTION, this.BYTE_SPAN_4));
@@ -159,9 +159,9 @@ export class BMPBuilder {
 
     public setColorAtPos(R: number, G: number, B: number, posX: number, posY: number): void {
 
-        const trueYpos: number = this.height - posY - 1;
+        const truePosY: number = this.height - posY - 1;
         const xOffset: number = posX * this.getBitDepthInBytes();
-        const yOffset: number = trueYpos * (this.paddingPerRow() + this.width * this.getBitDepthInBytes());
+        const yOffset: number = truePosY * (this.paddingPerRow() + this.width * this.getBitDepthInBytes());
         const absolutePos: number = yOffset + xOffset + this.HEADER_DATAOFFSET;
 
         if (absolutePos > this.buffer.length || absolutePos < this.HEADER_DATAOFFSET) {
