@@ -1,0 +1,105 @@
+import { expect } from "chai";
+import { BMPBuilder } from "../utilities/bmpBuilder";
+
+// tslint:disable:no-magic-numbers
+
+let builder: BMPBuilder;
+let bufferObtained: Buffer;
+
+describe("BMPBuilder tests", () => {
+
+    beforeEach(() => {
+         builder = new BMPBuilder(2, 3, 255);
+         bufferObtained = builder.getBuffer();
+
+    });
+
+    it("should return an object of type Buffer", (done: Function) => {
+        // Chai's [type-detect](https://github.com/chaijs/type-detect)
+        // module is currently classifying Node.js `buffer` objects
+        // as the underlying `Uint8Array`
+        expect(bufferObtained).to.be.an("uint8array");
+        done();
+    });
+
+    it("should build a buffer of the correct width", (done: Function) => {
+        const widthBuffer: Buffer = bufferObtained.slice(18, 22);
+        const expectedWidthBuffer: Buffer = Buffer.from("02000000", "hex");
+        expect(widthBuffer).to.deep.equal(expectedWidthBuffer);
+        done();
+    });
+
+    it("should build a buffer of the correct height", (done: Function) => {
+        const widthBuffer: Buffer = bufferObtained.slice(22, 26);
+        const expectedWidthBuffer: Buffer = Buffer.from("03000000", "hex");
+        expect(widthBuffer).to.deep.equal(expectedWidthBuffer);
+        done();
+    });
+
+    it("should build a buffer of the right lenght", (done: Function) => {
+        const totalBufferLenght: number = bufferObtained.length;
+        const headerSize: number = 54;
+        const pixelCount: number = 2 * 3;
+        const paddingTotal: number = 6;
+        const expectedBufferLenght: number = headerSize + pixelCount * 3 + paddingTotal;
+        expect(totalBufferLenght).to.equal(expectedBufferLenght);
+        done();
+    });
+
+    it("should return an error on negative width entered", (done: Function) => {
+        expect(() => {
+            builder = new BMPBuilder(-2, 3, 255);
+        }).to.throw("Invalid width entered. Width must be a positive number higher than 0.");
+        done();
+    });
+
+    it("should return an error on negative height entered", (done: Function) => {
+        expect(() => {
+            builder = new BMPBuilder(2, -3, 255);
+        }).to.throw("Invalid height entered. Height must be a positive number higher than 0.");
+        done();
+    });
+
+    it("should return an error on entry 0 for width", (done: Function) => {
+        expect(() => {
+            builder = new BMPBuilder(0, 3, 255);
+        }).to.throw("Invalid width entered. Width must be a positive number higher than 0.");
+        done();
+    });
+
+    it("should return an error on entry 0 for height", (done: Function) => {
+        expect(() => {
+            builder = new BMPBuilder(2, 0, 255);
+        }).to.throw("Invalid height entered. Height must be a positive number higher than 0.");
+        done();
+    });
+
+    it("should return a error on invalid entry for the filler number", (done: Function) => {
+        expect(() => {
+            builder = new BMPBuilder(2, 3, 256);
+        }).to.throw("Invalid fill number entered. Must be comprised between 0 and 255 inclusively.");
+        done();
+    });
+
+    it("should correctly change a pixel color", (done: Function) => {
+        builder.setColorAtPos(5, 6, 7, 0, 0);
+        bufferObtained = builder.getBuffer();
+        const topLeftPixelIndex: number = 16 + 54;
+        const topLeftPixelColor: Buffer = bufferObtained.slice(topLeftPixelIndex, topLeftPixelIndex + 3);
+        const expectedtopLeftPixelColorBuffer: Buffer = Buffer.from([7, 6, 5]);
+        expect(topLeftPixelColor).to.deep.equal(expectedtopLeftPixelColorBuffer);
+        done();
+    });
+
+    it("should return an error when trying to change a pixel out of bound", (done: Function) => {
+        // bufferObtained = builder.getBuffer();
+        // const topLeftPixelIndex: number = 16 + 54;
+        // const topLeftPixelColor: Buffer = bufferObtained.slice(topLeftPixelIndex, topLeftPixelIndex + 3);
+        // const expectedtopLeftPixelColorBuffer: Buffer = Buffer.from([7, 6, 5]);
+        expect(() => {
+            builder.setColorAtPos(5, 6, 7, 10, 20);
+        }).to.throw("Entered position is out of bounds");
+        done();
+    });
+
+});
