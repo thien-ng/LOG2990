@@ -23,7 +23,6 @@ describe("Scene builder tests", () => {
         sceneBuilder = new SceneBuilder(sceneOptions);
     });
 
-    // tests
     it("should call the generateRandomAxisValues function when generating scene objects", () => {
         const spy: any = chai.spy.on(sceneBuilder, "generateRandomAxisValues");
         sceneBuilder.generateSceneObjects();
