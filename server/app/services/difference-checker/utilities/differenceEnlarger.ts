@@ -1,26 +1,27 @@
 import { injectable } from "inversify";
 
 @injectable()
-export class CircleDifferences {
-    private readonly IS_A_DIFFERENCE: number = 1;
-    private circledDifferenceList: number[];
+export class DifferenceEnlarger {
 
-    public constructor(public differencesArray: number[], public width: number, public radius: number) {
-        // deep copy array
-        this.circledDifferenceList = JSON.parse(JSON.stringify(differencesArray));
+    private readonly IS_A_DIFFERENCE: number = 0;
+
+    private enlargedDifferences: Buffer;
+
+    public constructor(public readonly differencesFound: Buffer, public width: number, public radius: number) {
+        this.enlargedDifferences = Buffer.from(differencesFound);
     }
 
-    public circleAllDifferences(): number[] {
+    public circleAllDifferences(): Buffer {
         let index: number = 0;
 
-        this.differencesArray.forEach( (value: number) => {
+        this.differencesFound.forEach( (value: number) => {
             if (value === this.IS_A_DIFFERENCE) {
                 this.drawCircle(index);
             }
             index++;
         });
 
-        return this.circledDifferenceList;
+        return this.enlargedDifferences;
     }
 
     private drawCircle(positionToCircle: number): void {
@@ -32,11 +33,11 @@ export class CircleDifferences {
             for (let col: number = 0; col < squareSize; col++) {
 
                 const currentPosition: number = row * this.width + col + startIndex;
-                if (currentPosition >= 0 && currentPosition < this.differencesArray.length) {
+                if (currentPosition >= 0 && currentPosition < this.differencesFound.length) {
                     const currentDistanceToCenter: number = this.findDistanceBetween(positionToCircle, currentPosition);
 
                     if (this.isInAdjustedRadius(currentDistanceToCenter)) {
-                        this.circledDifferenceList[currentPosition] = this.IS_A_DIFFERENCE;
+                        this.enlargedDifferences[currentPosition] = this.IS_A_DIFFERENCE;
                     }
                 }
             }
