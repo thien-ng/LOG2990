@@ -93,6 +93,7 @@ export class ThreejsViewService {
     this.scene.add(this.ambLight);
     this.renderer.setClearColor(this.sceneVariable.sceneBackgroundColor);
     this.createLighting();
+    this.generateSceneObjects();
 
     this.camera.lookAt(this.scene.position);
   }
@@ -105,7 +106,7 @@ export class ThreejsViewService {
     this.light2.intensity = 0.5;
     this.scene.add(this.light2);
 
-    // this.scene.add(new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 ));
+    this.scene.add(new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 ));
 
   }
     // to remove
@@ -114,14 +115,13 @@ export class ThreejsViewService {
   public animate(): void {
     requestAnimationFrame(this.animate.bind(this));
 
-    this.generateSceneObjects();
 
-    this.camera.position.x = this.radius * Math.cos( this.angle );  
-    this.camera.position.z = this.radius * Math.sin( this.angle );
-    this.angle += 0.05;
-    // this.camera.position.x = 0;
-    // this.camera.position.z = 20;
-    // this.camera.position.y = 0;
+    // this.camera.position.x = this.radius * Math.cos( this.angle );  
+    // this.camera.position.z = this.radius * Math.sin( this.angle );
+    // this.angle += 0.01;
+    this.camera.position.x = 0;
+    this.camera.position.z = 20;
+    this.camera.position.y = 0;
 
     this.camera.lookAt(this.scene.position);
     this.renderObject();
