@@ -53,4 +53,8 @@ export class BMPBuilder {
             throw new RangeError("Invalid fill number entered. Must be comprised between 0 and 255 inclusively.");
         }
     }
+
+    private getBitDepthInBytes(): number {
+        return Math.ceil(this.BITDEPTH_24 / this.NUM_BITS_IN_BYTE);
+    }
 }
