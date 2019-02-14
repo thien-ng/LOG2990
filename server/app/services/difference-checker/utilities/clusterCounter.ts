@@ -36,22 +36,43 @@ export class ClusterCounter {
         return clusterCounter;
     }
 
-        // will only work with an image that's a width multiple of 4
+    // will only work with an image that's a width multiple of 4
     private convertToPixelPosition(bytePosition: number): number {
             return Math.floor(bytePosition / this.PIXEL_SIZE);
-        }
+    }
 
-        // will only work with an image that's a width multiple of 4
+    // will only work with an image that's a width multiple of 4
     private convertToBytePosition(pixelPosition: number): number {
             return pixelPosition * this.PIXEL_SIZE;
+    }
+
+        // will only work with an image that's a width multiple of 4
+    private numberOfPixelsInImage(): number {
+        const imageSizeInBytes: number = this.differenceBuffer.length - this.BMP_HEADER_SIZE;
+
+        return Math.floor(imageSizeInBytes / this.PIXEL_SIZE);
+    }
+
+    private setPixelAsDifference(pixelPosition: number, color: number): void {
+        const firstByte: number = this.convertToBytePosition(pixelPosition);
+
+        for (let offset: number = 0; offset < this.PIXEL_SIZE; offset++) {
+            this.differenceBuffer[firstByte + offset] = color;
         }
+    }
 
-    private findAllConnectedDifferences(position: number): void {
+    private pixelIsADifference(pixelPosition: number): boolean {
+        const firstByte: number = this.convertToBytePosition(pixelPosition);
 
-        let stackOfDifferences: number[] = [position];
+        return this.differenceBuffer[firstByte] === this.IS_A_DIFFERENCE;
+    }
+
+    private findAllConnectedDifferences(pixelPosition: number): void {
+
+        let stackOfDifferences: number[] = [pixelPosition];
         let nbAddedDifferences: number = 1;
         let nbVisitedNeighbors: number = 1;
-        this.differenceBuffer[position] = 0;
+        this.setPixelAsDifference(pixelPosition, this.visitedColor);
 
         while (stackOfDifferences.length !== 0) {
 
@@ -59,8 +80,8 @@ export class ClusterCounter {
             nbAddedDifferences = 0;
 
             for (let i: number = 0; i < nbVisitedNeighbors; i++) {
-                const currentDifference: number = stackOfDifferences[0];
-                allNeighboringDifferences = this.getNeighboringDifferences(currentDifference);
+                const currentDifferencePixel: number = stackOfDifferences[0];
+                allNeighboringDifferences = this.getNeighboringDifferences(currentDifferencePixel);
                 this.setAllToVisited(allNeighboringDifferences);
                 nbAddedDifferences += allNeighboringDifferences.length;
                 stackOfDifferences = stackOfDifferences.concat(allNeighboringDifferences);
@@ -70,20 +91,21 @@ export class ClusterCounter {
         }
     }
 
-    private setAllToVisited(positions: number[]): void {
-        positions.forEach((position: number) => {
-            this.differenceBuffer[position] = this.IS_VISITED;
+    private setAllToVisited(pixelPositions: number[]): void {
+        pixelPositions.forEach((pixel: number) => {
+            this.setPixelAsDifference(pixel, this.visitedColor);
         });
     }
 
-    private getNeighboringDifferences(position: number): number[] {
+    private getNeighboringDifferences(pixelPosition: number): number[] {
 
-        const allNeighbors: number[] = this.getAllNeighbors(position);
+        const allNeighbors: number[] = this.getAllNeighbors(pixelPosition);
         const allNeighboringDifferences: number[] = [];
 
         allNeighbors.forEach((neighborsPos: number) => {
             const neighborsExists: boolean = neighborsPos !== this.DOES_NOT_EXIST;
-            const neighborsIsADifference: boolean = this.differenceBuffer[neighborsPos] === this.IS_A_DIFFERENCE;
+            // const neighborsIsADifference: boolean = this.differenceBuffer[neighborsPos] === this.IS_A_DIFFERENCE;
+            const neighborsIsADifference: boolean = this.pixelIsADifference(neighborsPos);
 
             if (neighborsExists && neighborsIsADifference) {
                 allNeighboringDifferences.push(neighborsPos);
@@ -93,70 +115,70 @@ export class ClusterCounter {
         return allNeighboringDifferences;
     }
 
-    private getAllNeighbors(position: number): number[]  {
+    private getAllNeighbors(pixelPosition: number): number[]  {
         const edges: IEdges = {
-            isOnTopEdge: (position < this.width),
-            isOnBottomEdge: (position >= this.differenceBuffer.length - this.width),
-            isOnLeftEdge: (position % this.width === 0),
-            isOnRightEdge: (position % this.width === this.width - 1),
+            isOnTopEdge:    (pixelPosition <  this.width),
+            isOnBottomEdge: (pixelPosition >= this.numberOfPixelsInImage() - this.width),
+            isOnLeftEdge:   (pixelPosition %  this.width === 0),
+            isOnRightEdge:  (pixelPosition %  this.width === this.width - 1),
         };
 
         return [
-            this.getTopLeftNeighborPosition(position, edges),
-            this.getTopNeighborPosition(position, edges),
-            this.getTopRightNeighborPosition(position, edges),
-            this.getLeftNeighborPosition(position, edges),
-            this.getRightNeighborPosition(position, edges),
-            this.getBottomLeftNeighborPosition(position, edges),
-            this.getBottomNeighborPosition(position, edges),
-            this.getBottomRightNeighborPosition(position, edges),
+            this.getTopLeftNeighborPosition     (pixelPosition, edges),
+            this.getTopNeighborPosition         (pixelPosition, edges),
+            this.getTopRightNeighborPosition    (pixelPosition, edges),
+            this.getLeftNeighborPosition        (pixelPosition, edges),
+            this.getRightNeighborPosition       (pixelPosition, edges),
+            this.getBottomLeftNeighborPosition  (pixelPosition, edges),
+            this.getBottomNeighborPosition      (pixelPosition, edges),
+            this.getBottomRightNeighborPosition (pixelPosition, edges),
         ];
     }
 
-    private getTopLeftNeighborPosition(position: number, constraints: IEdges): number {
-        const topLeftPos: number = position - this.width + this.DECALAGE_GAUCHE;
+    private getTopLeftNeighborPosition(pixelPosition: number, constraints: IEdges): number {
+        const topLeftPos: number = pixelPosition - this.width + this.DECALAGE_GAUCHE;
 
         return (!constraints.isOnTopEdge && !constraints.isOnLeftEdge) ? topLeftPos : this.DOES_NOT_EXIST;
     }
 
-    private getTopNeighborPosition(position: number, constraints: IEdges): number {
-        const topPos: number = position - this.width;
+    private getTopNeighborPosition(pixelPosition: number, constraints: IEdges): number {
+        const topPos: number = pixelPosition - this.width;
 
         return !constraints.isOnTopEdge ? topPos : this.DOES_NOT_EXIST;
     }
 
-    private getTopRightNeighborPosition(position: number, constraints: IEdges): number {
-        const topRightPos: number = position - this.width + this.DECALAGE_DROITE;
+    private getTopRightNeighborPosition(pixelPosition: number, constraints: IEdges): number {
+        const topRightPos: number = pixelPosition - this.width + this.DECALAGE_DROITE;
 
         return (!constraints.isOnTopEdge && !constraints.isOnRightEdge) ? topRightPos : this.DOES_NOT_EXIST;
     }
 
-    private getLeftNeighborPosition(position: number, constraints: IEdges): number {
-        const leftPos: number = position + this.DECALAGE_GAUCHE;
+    private getLeftNeighborPosition(pixelPosition: number, constraints: IEdges): number {
+        const leftPos: number = pixelPosition + this.DECALAGE_GAUCHE;
 
         return !constraints.isOnLeftEdge ? leftPos : this.DOES_NOT_EXIST;
     }
 
-    private getRightNeighborPosition(position: number, constraints: IEdges): number {
-        const rightPos: number = position + this.DECALAGE_DROITE;
+    private getRightNeighborPosition(pixelPosition: number, constraints: IEdges): number {
+        const rightPos: number = pixelPosition + this.DECALAGE_DROITE;
 
         return !constraints.isOnRightEdge ? rightPos : this.DOES_NOT_EXIST;
     }
 
-    private getBottomLeftNeighborPosition(position: number, constraints: IEdges): number {
-        const bottomLeftPos: number = position + this.width + this.DECALAGE_GAUCHE;
+    private getBottomLeftNeighborPosition(pixelPosition: number, constraints: IEdges): number {
+        const bottomLeftPos: number = pixelPosition + this.width + this.DECALAGE_GAUCHE;
 
         return (!constraints.isOnBottomEdge && !constraints.isOnLeftEdge) ? bottomLeftPos : this.DOES_NOT_EXIST;
     }
 
-    private getBottomNeighborPosition(position: number, constraints: IEdges): number {
-        const bottomPos: number = position + this.width;
+    private getBottomNeighborPosition(pixelPosition: number, constraints: IEdges): number {
+        const bottomPos: number = pixelPosition + this.width;
 
         return !constraints.isOnBottomEdge ? bottomPos : this.DOES_NOT_EXIST;
     }
 
-    private getBottomRightNeighborPosition(position: number, constraints: IEdges): number {
-        const bottomRightPos: number = position + this.width + this.DECALAGE_DROITE;
+    private getBottomRightNeighborPosition(pixelPosition: number, constraints: IEdges): number {
+        const bottomRightPos: number = pixelPosition + this.width + this.DECALAGE_DROITE;
 
         return !constraints.isOnBottomEdge && !constraints.isOnRightEdge ? bottomRightPos : this.DOES_NOT_EXIST;
     }
