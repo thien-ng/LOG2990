@@ -61,4 +61,8 @@ export class BMPBuilder {
     private paddingPerRow(): number {
         return this.BYTE_SPAN_4 - (this.width * this.getBitDepthInBytes()) % this.BYTE_SPAN_4;
     }
+
+    private getFileSize(): number {
+        return this.width * this.height * this.getBitDepthInBytes() + this.HEADER_DATAOFFSET;
+    }
 }
