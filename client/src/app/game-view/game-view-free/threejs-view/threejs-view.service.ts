@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as THREE from "three";
-import { IAxisValues, IRGBColor, ISceneObject, SceneObjectType} from "../../../../../../common/communication/iSceneObject";
+import { IAxisValues, ISceneObject, SceneObjectType} from "../../../../../../common/communication/iSceneObject";
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +16,8 @@ export class ThreejsViewService {
   public ambLight: THREE.AmbientLight;
 
   constructor() {
-    this.scene = new THREE.Scene(); // create the scene
-    // create the camera
+    this.scene = new THREE.Scene();
+
     this.camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 100);
     this.renderer = new THREE.WebGLRenderer();
 
@@ -31,11 +31,8 @@ export class ThreejsViewService {
     this.scene.add(this.ambLight);
     this.createLighting();
 
+    //to remove
     const cube: THREE.Mesh = new THREE.Mesh(new THREE.CubeGeometry(3,3,3), this.material);
-    // const cube = new THREE.Mesh(new THREE.CubeGeometry(1, 1, 1), this.material);
-    // const cube = new THREE.Mesh(new THREE.ConeGeometry(5,5,1000), this.material);
-    // const cube = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 10), this.material);
-    // const cube = new THREE.Mesh(new THREE.ConeGeometry(5, 5, 3), this.material);
     cube.rotation.x = Math.PI / 3;
     this.scene.add(cube);
 
@@ -112,7 +109,7 @@ export class ThreejsViewService {
     const sphereGeometry: THREE.Geometry = new THREE.SphereGeometry(object3D.scale.x);
     const generatedObject: THREE.Mesh = new THREE.Mesh(sphereGeometry, generatedColor);
 
-    this.addObjectToScene(generatedObject, object3D.position, object3D.orientation);
+    this.addObjectToScene(generatedObject, object3D.position, object3D.rotation);
   }
 
   private generateCube(object3D: ISceneObject): void {
@@ -124,7 +121,7 @@ export class ThreejsViewService {
                                                               object3D.scale.y);
     const generatedObject: THREE.Mesh = new THREE.Mesh(sphereGeometry, generatedColor);
 
-    this.addObjectToScene(generatedObject, object3D.position, object3D.orientation);
+    this.addObjectToScene(generatedObject, object3D.position, object3D.rotation);
   }
 
   private generateCone(object3D: ISceneObject): void {
@@ -135,7 +132,7 @@ export class ThreejsViewService {
                                                               object3D.scale.z);
     const generatedObject: THREE.Mesh = new THREE.Mesh(sphereGeometry, generatedColor);
 
-    this.addObjectToScene(generatedObject, object3D.position, object3D.orientation);
+    this.addObjectToScene(generatedObject, object3D.position, object3D.rotation);
   }
 
   private generateCylinder(object3D: ISceneObject): void {
@@ -147,7 +144,7 @@ export class ThreejsViewService {
                                                               object3D.scale.y);
     const generatedObject: THREE.Mesh = new THREE.Mesh(sphereGeometry, generatedColor);
 
-    this.addObjectToScene(generatedObject, object3D.position, object3D.orientation);
+    this.addObjectToScene(generatedObject, object3D.position, object3D.rotation);
   }
 
   private generateTriangularPyramid(object3D: ISceneObject): void {
@@ -159,17 +156,17 @@ export class ThreejsViewService {
                                                               3);
     const generatedObject: THREE.Mesh = new THREE.Mesh(sphereGeometry, generatedColor);
 
-    this.addObjectToScene(generatedObject, object3D.position, object3D.orientation);
+    this.addObjectToScene(generatedObject, object3D.position, object3D.rotation);
   }
 
-  private createObjectColor(colorHex: number): THREE.MeshBasicMaterial {
+  private createObjectColor(colorHex: string): THREE.MeshBasicMaterial {
     return new THREE.MeshPhongMaterial({color: colorHex});;
   }
 
   private addObjectToScene(object3D: THREE.Mesh, position: IAxisValues, orientation: IAxisValues): void {
 
     this.setObjectPosition(object3D, position);
-    this.setObjectOrientation(object3D, orientation);
+    this.setObjectRotation(object3D, orientation);
     this.scene.add(object3D);
   }
 
@@ -180,7 +177,7 @@ export class ThreejsViewService {
     object3D.position.z = position.z;
   }
 
-  private setObjectOrientation(object3D: THREE.Mesh, orientation: IAxisValues) {
+  private setObjectRotation(object3D: THREE.Mesh, orientation: IAxisValues) {
 
     object3D.rotation.x = orientation.x;
     object3D.rotation.y = orientation.y;
