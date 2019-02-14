@@ -13,7 +13,7 @@ export class DifferenceEnlarger {
         this.enlargedDifferences = Buffer.from(differencesFound);
     }
 
-    public circleAllDifferences(): Buffer {
+    public enlargeAllDifferences(): Buffer {
 
         for (let bytePos: number = this.BMP_HEADER_SIZE; bytePos < this.enlargedDifferences.length; bytePos += this.PIXEL_SIZE) {
             if (this.differencesFound[bytePos] === this.IS_A_DIFFERENCE) {
