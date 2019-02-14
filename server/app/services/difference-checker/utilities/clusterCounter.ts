@@ -1,43 +1,57 @@
 interface IEdges {
-    isOnTopEdge: boolean;
+    isOnTopEdge:    boolean;
     isOnBottomEdge: boolean;
-    isOnLeftEdge: boolean;
-    isOnRightEdge: boolean;
+    isOnLeftEdge:   boolean;
+    isOnRightEdge:  boolean;
 }
 
 export class ClusterCounter {
 
-    private readonly DECALAGE_GAUCHE: number = -1;
-    private readonly DECALAGE_DROITE: number = 1;
-    private readonly IS_VISITED: number = 2;
-    private readonly IS_A_DIFFERENCE: number = 1;
-    private readonly DOES_NOT_EXIST: number = -1;
+    private readonly BMP_HEADER_SIZE: number = 54;  // a mettre dans les constantes
+    private readonly PIXEL_SIZE:      number = 3;   // a mettre dans les constantes
 
-    public constructor(public differenceList: number[], public width: number) {}
+    private readonly DECALAGE_GAUCHE: number = -1;
+    private readonly DECALAGE_DROITE: number =  1;
+    private readonly DOES_NOT_EXIST:  number = -1;   // a mettre dans les constantes
+    private readonly IS_A_DIFFERENCE: number =  0;   // a mettre dans les constantes
+
+    private visitedColor: number = 1;
+
+    public constructor(public differenceBuffer: Buffer, public width: number) { /* */ }
 
     public countAllClusters(): number {
 
         let clusterCounter: number = 0;
-        let indexInList: number = 0;
 
-        this.differenceList.forEach((value: number) => {
+        for (let bytePos: number = this.BMP_HEADER_SIZE; bytePos < this.differenceBuffer.length; bytePos += this.PIXEL_SIZE) {
+            if (this.differenceBuffer[bytePos] === this.IS_A_DIFFERENCE) {
 
-            if (value === this.IS_A_DIFFERENCE) {
-                this.findAllConnectedDifferences(indexInList);
+                const pixelIndex: number = this.convertToPixelPosition(bytePos);
+                this.findAllConnectedDifferences(pixelIndex);
                 clusterCounter++;
+                this.visitedColor++;
             }
-            indexInList++;
-        });
+        }
 
         return clusterCounter;
     }
+
+        // will only work with an image that's a width multiple of 4
+    private convertToPixelPosition(bytePosition: number): number {
+            return Math.floor(bytePosition / this.PIXEL_SIZE);
+        }
+
+        // will only work with an image that's a width multiple of 4
+    private convertToBytePosition(pixelPosition: number): number {
+            return pixelPosition * this.PIXEL_SIZE;
+        }
 
     private findAllConnectedDifferences(position: number): void {
 
         let stackOfDifferences: number[] = [position];
         let nbAddedDifferences: number = 1;
         let nbVisitedNeighbors: number = 1;
-        this.differenceList[position] = 0;
+        this.differenceBuffer[position] = 0;
 
         while (stackOfDifferences.length !== 0) {
 
@@ -58,7 +72,7 @@ export class ClusterCounter {
 
     private setAllToVisited(positions: number[]): void {
         positions.forEach((position: number) => {
-            this.differenceList[position] = this.IS_VISITED;
+            this.differenceBuffer[position] = this.IS_VISITED;
         });
     }
 
@@ -69,7 +83,7 @@ export class ClusterCounter {
 
         allNeighbors.forEach((neighborsPos: number) => {
             const neighborsExists: boolean = neighborsPos !== this.DOES_NOT_EXIST;
-            const neighborsIsADifference: boolean = this.differenceList[neighborsPos] === this.IS_A_DIFFERENCE;
+            const neighborsIsADifference: boolean = this.differenceBuffer[neighborsPos] === this.IS_A_DIFFERENCE;
 
             if (neighborsExists && neighborsIsADifference) {
                 allNeighboringDifferences.push(neighborsPos);
@@ -82,7 +96,7 @@ export class ClusterCounter {
     private getAllNeighbors(position: number): number[]  {
         const edges: IEdges = {
             isOnTopEdge: (position < this.width),
-            isOnBottomEdge: (position >= this.differenceList.length - this.width),
+            isOnBottomEdge: (position >= this.differenceBuffer.length - this.width),
             isOnLeftEdge: (position % this.width === 0),
             isOnRightEdge: (position % this.width === this.width - 1),
         };
