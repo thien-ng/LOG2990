@@ -1,4 +1,6 @@
-import { AfterContentInit, Component, ElementRef, Inject, OnInit, ViewChild } from "@angular/core";
+import { AfterContentInit, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { Constants } from "../../constants";
+import { SocketService } from "../../websocket/socket.service";
 import { ActiveGameService } from "../active-game.service";
 import { GameViewSimpleService } from "./game-view-simple.service";
 
@@ -8,7 +10,7 @@ import { GameViewSimpleService } from "./game-view-simple.service";
   styleUrls: ["./game-view-simple.component.css"],
 })
 
-export class GameViewSimpleComponent implements OnInit, AfterContentInit {
+export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDestroy {
 
   @ViewChild("originalImage", {read: ElementRef})
   public canvasOriginal: ElementRef;
@@ -18,9 +20,12 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit {
   public constructor(
     @Inject(GameViewSimpleService) public gameViewService: GameViewSimpleService,
     public activeGameService: ActiveGameService,
+    @Inject(SocketService) private socketService: SocketService,
     ) {}
 
   public ngAfterContentInit(): void {
+    // test will be changed to something else, To be determined
+    this.socketService.sendMsg(Constants.ON_GAME_CONNECTION, "test");
     this.initListener();
   }
 
@@ -43,6 +48,10 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit {
       canvasModified.drawImage(imgModified, 0, 0);
     };
   }
+  public ngOnDestroy(): void {
+      // test will be changed to something else, To be determined
+      this.socketService.sendMsg(Constants.ON_GAME_DISCONNECT, "test");
+    }
 
   public initListener(): void {
 

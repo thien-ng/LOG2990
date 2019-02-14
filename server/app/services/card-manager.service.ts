@@ -23,10 +23,7 @@ const DEFAULT_CARD_ID: number = 1;
 
 @injectable()
 export class CardManagerService {
-    private cards: ICardLists = {
-        list2D: [],
-        list3D: [],
-    };
+    private cards: ICardLists;
 
     private originalImageRequest: Buffer;
     private modifiedImageRequest: Buffer;
@@ -35,6 +32,10 @@ export class CardManagerService {
     private uniqueId: number = 1000;
 
     public constructor(@inject(Types.HighscoreService) private highscoreService: HighscoreService) {
+        this.cards = {
+            list2D: [],
+            list3D: [],
+        };
         this.addCard2D(DefaultCard2D);
         this.addCard3D(DefaultCard3D);
         this.imageManagerService = new AssetManagerService();
@@ -61,11 +62,8 @@ export class CardManagerService {
                 returnValue = this.handlePostResponse(response, cardTitle);
                 },
             );
-        } catch (error) {
-            return {
-                title: Constants.ON_ERROR_MESSAGE,
-                body: error.message,
-            };
+        } catch (error) {// A DEMANDER AU CHARGE
+            this.generateErrorMessage(error);
         }
 
         return returnValue;
@@ -219,7 +217,7 @@ export class CardManagerService {
                     this.imageManagerService.deleteStoredImages(paths);
                 }
             } catch (error) {
-                return error.message;
+                this.generateErrorMessage(error);
             }
 
             return CARD_DELETED;
@@ -237,5 +235,15 @@ export class CardManagerService {
         }
 
         return CARD_NOT_FOUND;
+    }
+
+    private generateErrorMessage(error: Error): Message {
+        const isTypeError: boolean = error instanceof TypeError;
+        const errorMessage: string = isTypeError ? error.message : Constants.UNKNOWN_ERROR;
+
+        return {
+            title: Constants.ON_ERROR_MESSAGE,
+            body: errorMessage,
+        };
     }
 }

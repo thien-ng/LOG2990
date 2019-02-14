@@ -6,6 +6,9 @@ export class Constants {
   public static readonly CONNECTION: string = "connection";
   public static readonly DISCONNECT_EVENT: string = "disconnect";
   public static readonly POSITION_VALIDATION_EVENT: string = "onPositionValidation";
+  public static readonly CHAT_MESSAGE: string = "onChatMessage";
+  public static readonly GAME_CONNECTION: string = "onGameConnection";
+  public static readonly GAME_DISCONNECT: string = "onGameDisconnect";
   public static readonly WEBSOCKET_PORT_NUMBER: number = 3333;
 
   // Constants for buffermanager.ts
@@ -36,4 +39,5 @@ export class Constants {
   public static readonly ON_SUCCESS_MESSAGE: string = "onSuccess";
   public static readonly VALIDATION_FAILED: string = "Validation services failed";
 
+  public static readonly UNKNOWN_ERROR: string = "Erreur inconnue";
 }

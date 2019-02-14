@@ -32,28 +32,29 @@ export class CreateSimpleGameComponent {
                                   + Constants.MIN_GAME_LENGTH + "-"
                                   + Constants.MAX_GAME_LENGTH + " caractères";
   public readonly ERROR_REQUIRED: string = "Nom de jeu requis";
-  public isButtonEnabled: boolean = true;
 
-  private selectedFiles: [Blob, Blob] = [new Blob(), new Blob()];
-
-  public formControl: FormGroup = new FormGroup({
-    gameName: new FormControl("", [
-      Validators.required,
-      Validators.pattern(Constants.GAME_REGEX_PATTERN),
-      Validators.minLength(Constants.MIN_GAME_LENGTH),
-      Validators.maxLength(Constants.MAX_GAME_LENGTH),
-    ]),
-  });
+  public formControl: FormGroup;
+  private selectedFiles: [Blob, Blob];
+  public isButtonEnabled: boolean;
 
   public constructor(
     private dialogRef: MatDialogRef<CreateSimpleGameComponent>,
     private fileValidatorService: FileValidatorService,
     private snackBar: MatSnackBar,
-    private http: HttpClient,
+    private httpClient: HttpClient,
     private cardManagerService: CardManagerService,
     ) {
-      // default constructor
-  }
+      this.isButtonEnabled = true;
+      this.selectedFiles = [new Blob(), new Blob()];
+      this.formControl = new FormGroup({
+        gameName: new FormControl("", [
+          Validators.required,
+          Validators.pattern(Constants.GAME_REGEX_PATTERN),
+          Validators.minLength(Constants.MIN_GAME_LENGTH),
+          Validators.maxLength(Constants.MAX_GAME_LENGTH),
+        ]),
+      });
+    }
 
   public hasNameControlErrors(): boolean {
     return this.formControl.controls.gameName.errors == null || this.formControl.controls.gameName.pristine;
@@ -100,7 +101,7 @@ export class CreateSimpleGameComponent {
   public submit(data: NgForm): void {
     this.isButtonEnabled = false;
     const formdata: FormData = this.createFormData(data);
-    this.http.post(Constants.BASIC_SERVICE_BASE_URL + SUBMIT_PATH, formdata).subscribe((response: Message) => {
+    this.httpClient.post(Constants.BASIC_SERVICE_BASE_URL + SUBMIT_PATH, formdata).subscribe((response: Message) => {
       this.analyseResponse(response);
       this.isButtonEnabled = true;
     });

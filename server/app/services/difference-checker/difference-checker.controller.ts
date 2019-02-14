@@ -8,9 +8,7 @@ import Types from "../../types";
 @injectable()
 export class DifferenceCheckerController {
 
-    public constructor(@inject(Types.DifferenceCheckerService) private differenceCheckerService: DifferenceCheckerService) {
-        // default constructor
-    }
+    public constructor(@inject(Types.DifferenceCheckerService) private differenceCheckerService: DifferenceCheckerService) {}
 
     public get router(): Router {
 

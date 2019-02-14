@@ -27,9 +27,7 @@ export class HighscoreDisplayComponent implements OnInit , OnDestroy {
   public readonly RANKING: string = "- Classement -";
   private highscoreSubscription: Subscription;
 
-  public constructor(private highscoreService: HighscoreService) {
-    // Default constructor
-  }
+  public constructor(private highscoreService: HighscoreService) {}
 
   public ngOnInit(): void {
     this.highscoreSubscription = this.highscoreService.getHighscoreUpdateListener()
