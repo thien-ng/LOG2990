@@ -66,6 +66,18 @@ export class BMPBuilder {
         return this.width * this.height * this.getBitDepthInBytes() + this.HEADER_DATAOFFSET;
     }
 
+    private spanNumberOnNBytes(num: number, spanRange: number): Buffer {
+        const spannedBuffer: Buffer = Buffer.allocUnsafe(spanRange);
+        const byteNumericalSpan: number = 256;
+        for (let i: number = 0; i < spanRange; i++) {
+            const value: number = num % byteNumericalSpan;
+            spannedBuffer[i] = value;
+            num = Math.floor(num / byteNumericalSpan);
+        }
+
+        return spannedBuffer;
+    }
+
     private set24BitCol(R: number, G: number, B: number, startPos: number): void {
         this.buffer[startPos + this.BLUE_OFFSET ] = B;
         this.buffer[startPos + this.GREEN_OFFSET] = G;
