@@ -5,7 +5,7 @@ export class ThreejsGenerator {
 
     public constructor(private scene: THREE.Scene) {}
 
-    private initiateObject(object3D: ISceneObject): void {
+    public initiateObject(object3D: ISceneObject): void {
 
         switch (object3D.type) {
           case SceneObjectType.Sphere: {
@@ -37,7 +37,6 @@ export class ThreejsGenerator {
             break;
           }
         }
-    
       }
     
       private generateSphere(object3D: ISceneObject): void {
@@ -66,7 +65,8 @@ export class ThreejsGenerator {
         const generatedColor: THREE.MeshBasicMaterial = this.createObjectColor(object3D.color);
         const sphereGeometry: THREE.Geometry = new THREE.ConeGeometry(
                                                                   object3D.scale.x,
-                                                                  object3D.scale.z);
+                                                                  object3D.scale.z,
+                                                                  1000);
         const generatedObject: THREE.Mesh = new THREE.Mesh(sphereGeometry, generatedColor);
     
         this.addObjectToScene(generatedObject, object3D.position, object3D.rotation);
@@ -78,7 +78,8 @@ export class ThreejsGenerator {
         const sphereGeometry: THREE.Geometry = new THREE.CylinderGeometry(
                                                                   object3D.scale.x,
                                                                   object3D.scale.x,
-                                                                  object3D.scale.y);
+                                                                  object3D.scale.y,
+                                                                  1000);
         const generatedObject: THREE.Mesh = new THREE.Mesh(sphereGeometry, generatedColor);
     
         this.addObjectToScene(generatedObject, object3D.position, object3D.rotation);
