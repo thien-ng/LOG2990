@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as THREE from "three";
+import { IAxisValues, IRGBColor, ISceneObject, SceneObjectType} from "../../../../../../common/communication/iSceneObject";
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,10 @@ export class ThreejsViewService {
     this.createLighting();
 
     const cube: THREE.Mesh = new THREE.Mesh(new THREE.CubeGeometry(3,3,3), this.material);
+    // const cube = new THREE.Mesh(new THREE.CubeGeometry(1, 1, 1), this.material);
+    // const cube = new THREE.Mesh(new THREE.ConeGeometry(5,5,1000), this.material);
+    // const cube = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 10), this.material);
+    // const cube = new THREE.Mesh(new THREE.ConeGeometry(5, 5, 3), this.material);
     cube.rotation.x = Math.PI / 3;
     this.scene.add(cube);
 
@@ -45,50 +50,7 @@ export class ThreejsViewService {
     this.light2.intensity = 0.5;
     this.scene.add(this.light2);
   }
-
-  // private initiateObject(): void {
-
-  //   const tempString: string = "sphere";
-  //   let generatedObject: THREE.Mesh;
-
-  //   switch (tempString) {
-  //     case "sphere": {
-  //       generatedObject = new THREE.Mesh(new THREE.SphereGeometry(1));
-  //       break;
-  //     }
-      
-  //     case "cube": {
-  //       generatedObject = new THREE.Mesh(new THREE.CubeGeometry(1, 1, 1));
-  //       break;
-  //     }
-
-  //     case "cone": {
-  //       generatedObject = new THREE.Mesh(new THREE.ConeGeometry(1, 1));
-  //       break;
-  //     }
-
-  //     case "cylinder": {
-  //       generatedObject = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 1));
-  //       break;
-  //     }
-
-  //     case "triangularPyramid": {
-  //       generatedObject = new THREE.Mesh(new THREE.)
-  //       break;
-  //     }
-
-  //     default: {
-  //       console.log("mauvais types");
-  //       break;
-  //     }
-  //   }
-  // }
-
-  // private createObjectColor(): void {
-
-  // }
-
-  // to remove
+    // to remove
   public angle: number = 100;
   public radius: number = 10;
   public animate(): void {
@@ -108,4 +70,121 @@ export class ThreejsViewService {
   public getRenderer(): THREE.WebGLRenderer {
     return this.renderer;
   }
+
+  private initiateObject(object3D: ISceneObject): void {
+
+    switch (object3D.type) {
+      case SceneObjectType.Sphere: {
+        this.generateSphere(object3D);
+        break;
+      }
+      
+      case SceneObjectType.Cube: {
+        this.generateCube(object3D);
+        break;
+      }
+
+      case SceneObjectType.Cone: {
+        this.generateCone(object3D);
+        break;
+      }
+
+      case SceneObjectType.Cylinder: {
+        this.generateCylinder(object3D);
+        break;
+      }
+
+      case SceneObjectType.TriangularPyramid: {
+        this.generateTriangularPyramid(object3D);
+        break;
+      }
+
+      default: {
+        break;
+      }
+    }
+
+  }
+
+  private generateSphere(object3D: ISceneObject): void {
+
+    const generatedColor: THREE.MeshBasicMaterial = this.createObjectColor(object3D.color);
+    const sphereGeometry: THREE.Geometry = new THREE.SphereGeometry(object3D.scale.x);
+    const generatedObject: THREE.Mesh = new THREE.Mesh(sphereGeometry, generatedColor);
+
+    this.addObjectToScene(generatedObject, object3D.position, object3D.orientation);
+  }
+
+  private generateCube(object3D: ISceneObject): void {
+
+    const generatedColor: THREE.MeshBasicMaterial = this.createObjectColor(object3D.color);
+    const sphereGeometry: THREE.Geometry = new THREE.CubeGeometry(
+                                                              object3D.scale.x,
+                                                              object3D.scale.z,
+                                                              object3D.scale.y);
+    const generatedObject: THREE.Mesh = new THREE.Mesh(sphereGeometry, generatedColor);
+
+    this.addObjectToScene(generatedObject, object3D.position, object3D.orientation);
+  }
+
+  private generateCone(object3D: ISceneObject): void {
+
+    const generatedColor: THREE.MeshBasicMaterial = this.createObjectColor(object3D.color);
+    const sphereGeometry: THREE.Geometry = new THREE.ConeGeometry(
+                                                              object3D.scale.x,
+                                                              object3D.scale.z);
+    const generatedObject: THREE.Mesh = new THREE.Mesh(sphereGeometry, generatedColor);
+
+    this.addObjectToScene(generatedObject, object3D.position, object3D.orientation);
+  }
+
+  private generateCylinder(object3D: ISceneObject): void {
+
+    const generatedColor: THREE.MeshBasicMaterial = this.createObjectColor(object3D.color);
+    const sphereGeometry: THREE.Geometry = new THREE.CylinderGeometry(
+                                                              object3D.scale.x,
+                                                              object3D.scale.x,
+                                                              object3D.scale.y);
+    const generatedObject: THREE.Mesh = new THREE.Mesh(sphereGeometry, generatedColor);
+
+    this.addObjectToScene(generatedObject, object3D.position, object3D.orientation);
+  }
+
+  private generateTriangularPyramid(object3D: ISceneObject): void {
+
+    const generatedColor: THREE.MeshBasicMaterial = this.createObjectColor(object3D.color);
+    const sphereGeometry: THREE.Geometry = new THREE.ConeGeometry(
+                                                              object3D.scale.x,
+                                                              object3D.scale.z,
+                                                              3);
+    const generatedObject: THREE.Mesh = new THREE.Mesh(sphereGeometry, generatedColor);
+
+    this.addObjectToScene(generatedObject, object3D.position, object3D.orientation);
+  }
+
+  private createObjectColor(colorHex: number): THREE.MeshBasicMaterial {
+    return new THREE.MeshPhongMaterial({color: colorHex});;
+  }
+
+  private addObjectToScene(object3D: THREE.Mesh, position: IAxisValues, orientation: IAxisValues): void {
+
+    this.setObjectPosition(object3D, position);
+    this.setObjectOrientation(object3D, orientation);
+    this.scene.add(object3D);
+  }
+
+  private setObjectPosition(object3D: THREE.Mesh, position: IAxisValues): void {
+
+    object3D.position.x = position.x;
+    object3D.position.y = position.y;
+    object3D.position.z = position.z;
+  }
+
+  private setObjectOrientation(object3D: THREE.Mesh, orientation: IAxisValues) {
+
+    object3D.rotation.x = orientation.x;
+    object3D.rotation.y = orientation.y;
+    object3D.rotation.z = orientation.z;
+  }
+
 }
