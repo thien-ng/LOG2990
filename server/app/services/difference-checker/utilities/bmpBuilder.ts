@@ -35,7 +35,7 @@ export class BMPBuilder {
     ) {
 
         this.validateDimensions();
-        // this.validateFillEntry();
+        this.validateFillEntry();
         // this.buffer = this.buildBuffer();
     }
 
@@ -45,6 +45,12 @@ export class BMPBuilder {
         }
         if (this.height < 0) {
             throw new RangeError("Invalid height entered. Height must be a positive number.");
+        }
+    }
+
+    private validateFillEntry(): void {
+        if (this.fillWith < this.MIN_ENTRY || this.fillWith > this.MAX_ENTRY) {
+            throw new RangeError("Invalid fill number entered. Must be comprised between 0 and 255 inclusively.");
         }
     }
 }
