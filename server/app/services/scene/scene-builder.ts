@@ -30,7 +30,7 @@ export class SceneBuilder {
             type: this.sceneOptions.sceneObjectsType,
             position: this.generateRandomAxisValues(),
             orientation: this.generateRandomAxisValues(),
-            scale: this.generateRandomAxisValues(),
+            scale: this.generateRandomScaleValues(),
             color: this.generateRandomColor(),
         };
     }
@@ -39,6 +39,18 @@ export class SceneBuilder {
         const randomX: number = this.randomNumberFromInterval(0, SceneConstants.MAX_POSITION_X);
         const randomY: number = this.randomNumberFromInterval(0, SceneConstants.MAX_POSITION_Y);
         const randomZ: number = this.randomNumberFromInterval(0, SceneConstants.MAX_POSITION_Z);
+
+        return {
+            x: randomX,
+            y: randomY,
+            z: randomZ,
+        };
+    }
+
+    public generateRandomScaleValues(): IAxisValues {
+        const randomX: number = this.randomNumberFromInterval(SceneConstants.MIN_SCALE, SceneConstants.MAX_SCALE);
+        const randomY: number = this.randomNumberFromInterval(SceneConstants.MIN_SCALE, SceneConstants.MAX_SCALE);
+        const randomZ: number = this.randomNumberFromInterval(SceneConstants.MIN_SCALE, SceneConstants.MAX_SCALE);
 
         return {
             x: randomX,
