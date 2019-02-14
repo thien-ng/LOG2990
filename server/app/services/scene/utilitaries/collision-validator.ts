@@ -9,11 +9,11 @@ export class CollisionValidator {
         existingSceneObjects.forEach((element: ISceneObject) => {
 
             if (this.areColliding(newSceneObject.position, element.position)) {
-                // hasCollision =  true;
-                return true;
+                hasCollision =  true;
             }
         });
-        return false;
+
+        return hasCollision;
 
     }
 
