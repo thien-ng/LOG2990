@@ -12,7 +12,6 @@ export class BMPBuilder {
     private readonly VERTICAL_RESOLUTION: number  = 2835;
     private readonly COLOR_USED: number  = 0;
     private readonly IMPORTANT_COLOR_USED: number  = 0;
-    // private readonly TOTAL_HEADER_SIZE: number = 54;
 
     private readonly BYTE_SPAN_2: number = 2;
     private readonly BYTE_SPAN_4: number = 4;
@@ -52,6 +51,17 @@ export class BMPBuilder {
         if (this.fillWith < this.MIN_ENTRY || this.fillWith > this.MAX_ENTRY) {
             throw new RangeError("Invalid fill number entered. Must be comprised between 0 and 255 inclusively.");
         }
+    }
+
+    private buildFullHeader(): Buffer {
+        const baseHeader: Buffer = this.buildBaseHeader();
+        const infoHeader: Buffer = this.buildInfoHeader();
+        const bufferArray: Buffer[] = [
+            baseHeader,
+            infoHeader,
+        ];
+
+        return Buffer.concat(bufferArray, this.HEADER_DATAOFFSET);
     }
 
     private buildBaseHeader(): Buffer {
