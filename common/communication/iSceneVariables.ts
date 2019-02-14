@@ -1,7 +1,7 @@
-import { ISceneObject, IRGBColor } from "./iSceneObject";
+import { ISceneObject } from "./iSceneObject";
 
 export interface ISceneVariables {
     sceneObjectsQuantity: number;
     sceneObjects: ISceneObject[];
-    sceneBackgroundColor: IRGBColor;
+    sceneBackgroundColor: string;
 }
