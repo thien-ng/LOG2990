@@ -1,4 +1,5 @@
-import { IAxisValues, IRGBColor, ISceneObject } from "../../../../common/communication/iSceneObject";
+import { stringify } from "querystring";
+import { IAxisValues, ISceneObject } from "../../../../common/communication/iSceneObject";
 import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
 import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { SceneConstants } from "./sceneConstants";
@@ -59,16 +60,20 @@ export class SceneBuilder {
         };
     }
 
-    public generateRandomColor(): IRGBColor {
+    public generateRandomColor(): string {
         const red: number = this.randomNumberFromInterval(SceneConstants.MIN_COLOR_GRADIENT, SceneConstants.MAX_COLOR_GRADIENT);
         const green: number = this.randomNumberFromInterval(SceneConstants.MIN_COLOR_GRADIENT, SceneConstants.MAX_COLOR_GRADIENT);
         const blue: number = this.randomNumberFromInterval(SceneConstants.MIN_COLOR_GRADIENT, SceneConstants.MAX_COLOR_GRADIENT);
 
-        return {
-            red: red,
-            green: green,
-            blue: blue,
-        };
+        return this.rgbToHex(red, green, blue);
+    }
+
+    private rgbToHex(r: number, g: number, b: number): string {
+        const red: string = stringify(r, "hex");
+        const green: string = stringify(r, "hex");
+        const blue: string = stringify(r, "hex");
+
+        return SceneConstants.HEX_PREFIX + red + green + blue;
     }
 
     private randomNumberFromInterval(min: number, max: number): number {
