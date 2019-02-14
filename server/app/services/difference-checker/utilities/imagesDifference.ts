@@ -16,20 +16,20 @@ export class ImagesDifference {
     private readonly WIDTH_OFFSET:      number = 18;
     private readonly HEIGHT_OFFSET:     number = 22;
 
-    private differenceImage: Buffer;
+    private differenceBuffer: Buffer;
 
     public constructor() { /* */ }
 
-    public searchDifferenceImage(originalBuffer: Buffer, differenceBuffer: Buffer): Buffer {
+    public searchDifferenceImage(originalBuffer: Buffer, modifiedBuffer: Buffer): Buffer {
 
-        if (this.buffersNotEqualSize(originalBuffer, differenceBuffer)) {
+        if (this.buffersNotEqualSize(originalBuffer, modifiedBuffer)) {
             throw new TypeError(Constants.ERROR_UNEQUAL_DIMENSIONS);
         }
 
-        this.differenceImage = this.generateEmpty24BitBuffer(originalBuffer);
-        this.findDifference(originalBuffer, differenceBuffer);
+        this.differenceBuffer = this.generateEmpty24BitBuffer(originalBuffer);
+        this.findDifference(originalBuffer, modifiedBuffer);
 
-        return this.differenceImage;
+        return this.differenceBuffer;
     }
 
     private generateEmpty24BitBuffer(buffer: Buffer): Buffer {
@@ -49,7 +49,7 @@ export class ImagesDifference {
     private findDifference(originalBuffer: Buffer, modifiedBuffer: Buffer): void {
 
         let bufferIndex: number = this.HEADER_SIZE;
-        let differenceListIndex: number = 0;
+        // let differenceListIndex: number = 0;
         let assignedValue: number;
         let areEqual: Boolean;
 
@@ -57,10 +57,11 @@ export class ImagesDifference {
             areEqual = this.bufferHasEqualPixel(originalBuffer, modifiedBuffer, bufferIndex);
             assignedValue = areEqual ? this.VALUE_EQUAL : this.VALUE_DIFFERENCE;
 
-            this.differenceImage[differenceListIndex++] = assignedValue;
+            for (let offset: number = 0; offset < this.VALUE_NEXT_PIXEL; offset++) {
+                this.differenceBuffer[bufferIndex + offset] = assignedValue;
+            }
             bufferIndex += this.VALUE_NEXT_PIXEL;
         }
-
     }
 
     private bufferHasEqualPixel(originalBuffer: Buffer, modifiedBuffer: Buffer, bufferIndex: number): Boolean {
