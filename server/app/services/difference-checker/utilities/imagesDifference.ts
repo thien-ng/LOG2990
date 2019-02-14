@@ -5,12 +5,12 @@ import { BMPBuilder } from "./bmpBuilder";
 @injectable()
 export class ImagesDifference {
 
-    private readonly RED_SHIFT:         number = 0;
-    private readonly GREEN_SHIFT:       number = 1;
-    private readonly BLUE_SHIFT:        number = 2;
+    // private readonly RED_SHIFT:         number = 0;
+    // private readonly GREEN_SHIFT:       number = 1;
+    // private readonly BLUE_SHIFT:        number = 2;
     private readonly VALUE_NEXT_PIXEL:  number = 3;
     private readonly VALUE_DIFFERENCE:  number = 1;
-    private readonly VALUE_EQUAL:       number = 0;
+    private readonly VALUE_EQUAL:       number = 255;
     private readonly HEADER_SIZE:       number = 54;
 
     private readonly WIDTH_OFFSET:      number = 18;
@@ -65,9 +65,14 @@ export class ImagesDifference {
     }
 
     private bufferHasEqualPixel(originalBuffer: Buffer, modifiedBuffer: Buffer, bufferIndex: number): Boolean {
-        return originalBuffer[bufferIndex] === modifiedBuffer[bufferIndex] &&
-               originalBuffer[bufferIndex + this.GREEN_SHIFT] === modifiedBuffer[bufferIndex + this.GREEN_SHIFT] &&
-               originalBuffer[bufferIndex + this.BLUE_SHIFT] === modifiedBuffer[bufferIndex + this.BLUE_SHIFT];
+
+        let isEqual: Boolean = true;
+
+        for (let offset: number = 0; offset < this.VALUE_NEXT_PIXEL && isEqual; offset++) {
+            isEqual = originalBuffer[bufferIndex + offset] === modifiedBuffer[bufferIndex + offset];
+        }
+
+        return isEqual;
     }
 
 }
