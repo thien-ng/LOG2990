@@ -46,7 +46,7 @@ export class Constants {
   public static readonly SNACK_POS_TOP: string = "top";
   public static readonly NAME_KEY: string = "name";
   public static readonly ORIGINAL_IMAGE_KEY: string = "originalImage";
-  public static readonly MODIFIED_IMAGE_KEY: string = "modifiedImage;
+  public static readonly MODIFIED_IMAGE_KEY: string = "modifiedImage";
 
   // constants for game list container
   public static readonly CARDS_PATH: string = "/api/card/list";
