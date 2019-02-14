@@ -4,7 +4,7 @@ import { GameMode, ICard } from "../../../../common/communication/iCard";
 import { Constants } from "../constants";
 import { ActiveGameService } from "./active-game.service";
 
-fdescribe("ActiveGameService Test", () => {
+describe("ActiveGameService Test", () => {
   beforeEach(() => TestBed.configureTestingModule({}));
   const activeGameService: ActiveGameService = new ActiveGameService();
   const card: ICard = {
