@@ -5,16 +5,12 @@ import { BMPBuilder } from "./bmpBuilder";
 @injectable()
 export class ImagesDifference {
 
-    // private readonly RED_SHIFT:         number = 0;
-    // private readonly GREEN_SHIFT:       number = 1;
-    // private readonly BLUE_SHIFT:        number = 2;
     private readonly VALUE_NEXT_PIXEL:  number = 3;
-    private readonly VALUE_DIFFERENCE:  number = 1;
+    private readonly VALUE_DIFFERENCE:  number = 0;
     private readonly VALUE_EQUAL:       number = 255;
-    private readonly HEADER_SIZE:       number = 54;
-
-    private readonly WIDTH_OFFSET:      number = 18;
-    private readonly HEIGHT_OFFSET:     number = 22;
+    private readonly HEADER_SIZE:       number = 54;    // a bouger dans les constantes ?
+    private readonly WIDTH_OFFSET:      number = 18;    // a bouger dans les constantes ?
+    private readonly HEIGHT_OFFSET:     number = 22;    // a bouger dans les constantes ?
 
     private differenceBuffer: Buffer;
 
