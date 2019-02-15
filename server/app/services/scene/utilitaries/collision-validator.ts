@@ -31,7 +31,7 @@ export class CollisionValidator {
         return (firstRadius + secondRadius) >= distanceBetweenCenters;
     }
 
-    public calculateDistanceBetweenCenters (firstCenter: IAxisValues, secondCenter: IAxisValues): number {
+    private calculateDistanceBetweenCenters (firstCenter: IAxisValues, secondCenter: IAxisValues): number {
 
         // tslint:disable-next-line:no-magic-numbers
         const xSqared: number = Math.pow(secondCenter.x - firstCenter.x, 2);

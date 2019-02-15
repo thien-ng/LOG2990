@@ -1,7 +1,7 @@
 import * as chai from "chai";
 import * as spies from "chai-spies";
 import "reflect-metadata";
-import { ISceneObject, SceneObjectType } from "../../../../common/communication/iSceneObject";
+import { ISceneObject } from "../../../../common/communication/iSceneObject";
 import { CollisionValidator } from "../../services/scene/utilitaries/collision-validator";
 
 /* tslint:disable:no-any no-magic-numbers */
@@ -55,6 +55,44 @@ describe("Scene builder tests", () => {
         chai.use(spies);
 
         collisionValidator = new CollisionValidator();
+    });
+
+    it("should return false if there is no collision between new and already existing scene objects", () => {
+        const newCube: ISceneObject = {
+            type: 1,
+            position: {
+                x: 500, y: 500, z: 500 },
+            rotation: {
+                x: 1, y: 1, z: 1,
+            },
+            scale: {
+                x: 10, y: 10, z: 10,
+            },
+            color: "#8cadbb",
+        };
+
+        const isColliding: boolean = collisionValidator.hasCollidingPositions(newCube, existingSceneObjects);
+
+        chai.expect(isColliding).equal(false);
+    });
+
+    it("should return true if there is collision between new and already existing scene objects", () => {
+        const newCube: ISceneObject = {
+            type: 1,
+            position: {
+                x: 220, y: 220, z: 220 },
+            rotation: {
+                x: 1, y: 1, z: 1,
+            },
+            scale: {
+                x: 10, y: 10, z: 10,
+            },
+            color: "#8cadbb",
+        };
+
+        const isColliding: boolean = collisionValidator.hasCollidingPositions(newCube, existingSceneObjects);
+
+        chai.expect(isColliding).equal(true);
     });
 
 });
