@@ -8,10 +8,7 @@ export class ThreejsGenerator {
   public initiateObject(object3D: ISceneObject): void {
 
     switch (object3D.type) {
-      case SceneObjectType.Sphere:
-        this.generateSphere(object3D);
-        break;
-
+      
       case SceneObjectType.Cube:
         this.generateCube(object3D);
         break;
@@ -29,6 +26,7 @@ export class ThreejsGenerator {
         break;
 
       default:
+        this.generateSphere(object3D);
         break;
     }
   }
