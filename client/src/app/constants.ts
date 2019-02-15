@@ -74,4 +74,8 @@ export class Constants {
 
   // Constants for ActiveGameService
   public static readonly MODIFIED_FILE: string = "_modified.bmp";
+
+  // Constants for timer.service
+  public static readonly MINUTE_IN_SECONDS: number = 60;
+  public static readonly TWO_DIGITS: number = 10;
 }

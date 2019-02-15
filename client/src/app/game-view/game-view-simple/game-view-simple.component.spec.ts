@@ -4,6 +4,7 @@ import { Constants } from "../../constants";
 import { TestingImportsModule } from "../../testing-imports/testing-imports.module";
 import { ChatViewComponent } from "../chat-view/chat-view.component";
 import { MessageViewComponent } from "../chat-view/message-view/message-view.component";
+import { TimerComponent } from "../timer/timer.component";
 import { GameViewSimpleComponent } from "./game-view-simple.component";
 
 describe("GameViewSimpleComponent", () => {
@@ -16,6 +17,7 @@ describe("GameViewSimpleComponent", () => {
         GameViewSimpleComponent,
         ChatViewComponent,
         MessageViewComponent,
+        TimerComponent,
       ],
       imports: [
         TestingImportsModule,
