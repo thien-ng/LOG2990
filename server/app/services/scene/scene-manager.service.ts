@@ -1,23 +1,56 @@
 import { injectable } from "inversify";
-import { SceneBuilder } from "./scene-builder";
 import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
+import { FormMessage } from "../../../../common/communication/message";
+import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
+import { SceneObjectType } from "../../../../common/communication/iSceneObject";
+import { SceneBuilder } from "./scene-builder";
 
 @injectable()
 export class SceneManager {
 
-    private SceneBuilder: SceneBuilder;
-    private iSceneOptions: ISceneOptions;
+    private sceneBuilder: SceneBuilder;
 
     public constructor() {
-        this.init();
+        this.sceneBuilder = new SceneBuilder();
     }
 
-    public setSceneOptions(iSceneOptions: ISceneOptions): void {
-        this.iSceneOptions = iSceneOptions;
+    public createScene(body: FormMessage): ISceneVariables {
+
+        const iSceneOptions: ISceneOptions = this.sceneOptionsMapper(body);
+
+        return this.sceneBuilder.generateScene(iSceneOptions);
     }
 
-    private init(): void {
-        this.SceneBuilder = new SceneBuilder(this.iSceneOptions);
+    private sceneOptionsMapper(body: FormMessage): ISceneOptions {
+
+        // il manque le mapping pour les selected options!!!!!
+        return {
+            sceneName: body.gameName,
+            sceneObjectsType: this.objectTypeIdentifier(body.selectedOption),
+            sceneObjectsQuantity: body.quantityChange,
+        };
     }
+
+    private objectTypeIdentifier(objectType: string): SceneObjectType {
+
+        switch(objectType) {
+            case "cube":
+                return SceneObjectType.Cube;
+
+            case "cone":
+                return SceneObjectType.Cone;
+
+            case "cylinder":
+                return SceneObjectType.Cylinder;
+
+            case "pyramid":
+                return SceneObjectType.TriangularPyramid;
+
+            default:
+                return SceneObjectType.Sphere;
+        }
+    }
+
+
 
 }
