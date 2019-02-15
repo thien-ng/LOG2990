@@ -16,7 +16,7 @@ export class WebsocketManager {
 
     public constructor(
         @inject(Types.UserManagerService) private userManagerService: UserManagerService,
-        @inject(Types.GameManager) private gameManager: GameManager,) {}
+        @inject(Types.GameManager) private gameManager: GameManager) {}
 
     public createWebsocket(server: http.Server): void {
         this.io = SocketIO(server);
