@@ -32,13 +32,8 @@ export class CollisionBoxGenerator {
     }
 
     public calculateCubeCollisionRadius(sceneObject: ISceneObject): number {
-        const halfXsquared: number = Math.pow(sceneObject.scale.x / 2, 2);
-        const halfYsquared: number = Math.pow(sceneObject.scale.y / 2, 2);
-        const halfZsquared: number = Math.pow(sceneObject.scale.z / 2, 2);
 
-        const radiusTempSquared: number = halfXsquared + halfZsquared;
-
-        return Math.sqrt( halfYsquared + radiusTempSquared );
+        return this.pythagore(sceneObject.scale.x, sceneObject.scale.y, sceneObject.scale.z);
     }
 
     public calculatePyramidCollisionRadius(sceneObject: ISceneObject): number {
@@ -51,10 +46,19 @@ export class CollisionBoxGenerator {
 
     public calculateCylinderCollisionRadius(sceneObject: ISceneObject): number {
 
+        return this.pythagore(sceneObject.scale.x, sceneObject.scale.y, sceneObject.scale.z);
     }
 
     public calculateSphereCollisionRadius(sceneObject: ISceneObject): number {
         return sceneObject.scale.x;
+    }
+
+    private pythagore(x: number, y: number, z: number): number {
+        const halfXsquared: number = Math.pow(x / 2, 2);
+        const halfYsquared: number = Math.pow(y / 2, 2);
+        const halfZsquared: number = Math.pow(z / 2, 2);
+
+        return Math.sqrt( halfXsquared + halfYsquared + halfZsquared );
     }
 
 }
