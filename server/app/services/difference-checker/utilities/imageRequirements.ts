@@ -1,7 +1,7 @@
 export interface ImageRequirements {
     requiredHeight: number;
-    requiredWidth: number;
+    requiredWidth:  number;
     requiredNbDiff: number;
-    originalImage: Buffer;
-    modifiedImage: Buffer;
+    originalImage:  Buffer;
+    modifiedImage:  Buffer;
 }
