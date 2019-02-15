@@ -11,8 +11,8 @@ export class Constants {
   public static readonly GAMELIST_PATH: string = "gamelist";
   public static readonly GAMELIST_REDIRECT: string = "/gamelist";
   public static readonly PATH_MATCH_FULL: string = "full";
-  public static readonly PATH_TO_ICONS: string = "/icon";
-  public static readonly PATH_TO_IMAGES: string = "/image";
+  public static readonly PATH_TO_ICONS: string = Constants.BASE_URL + "/icon";
+  public static readonly PATH_TO_IMAGES: string = Constants.BASE_URL + "/image";
 
   public static readonly OBLIGATORY_CATCH: string = "obligatory catch";
   public static readonly ANIMATION_TIME: number = 300; // ms
@@ -25,7 +25,7 @@ export class Constants {
   public static readonly REGEX_PATTERN: string = "^[a-zA-Z0-9]+$";
   public static readonly LOGIN_REQUEST: string = "onLogin";
   public static readonly WEBSOCKET_URL: string = "http://localhost:3333";
-  public static readonly PATH_TO_LOGIN_VALIDATION: string = "/api/user/newUsername";
+  public static readonly PATH_TO_LOGIN_VALIDATION: string =  Constants.BASE_URL + "/api/user/newUsername";
   public static readonly LOGIN_MESSAGE_TITLE: string = "onUserSubscribe";
   public static readonly NAME_VALID_VALUE: string = "true";
   public static readonly ROUTER_LOGIN: string = "gamelist";
@@ -46,9 +46,9 @@ export class Constants {
   public static readonly MODIFIED_IMAGE_KEY: string = "modifiedImage";
 
   // constants for game list container
-  public static readonly CARDS_PATH: string = "/api/card/list";
+  public static readonly CARDS_PATH: string = Constants.BASE_URL + "/api/card/list";
   public static readonly REMOVE_CARD_PATH: string = "/api/card/remove";
-  public static readonly HIGHSCORE_PATH: string = "/api/highscore/";
+  public static readonly HIGHSCORE_PATH: string = Constants.BASE_URL + "/api/highscore/";
   public static readonly RESET_PATH: string = "generator/";
   public static readonly ON_ERROR_MESSAGE: string = "onError";
   public static readonly ON_SUCCESS_MESSAGE: string = "onSuccess";
@@ -80,4 +80,10 @@ export class Constants {
 
   // Constants for main nav
   public static readonly USER_PATH: string = "/user";
+
+  // Constants for create simple game
+  public static readonly FREE_SUBMIT_PATH: string = Constants.BASE_URL + "/api/card/submitFree";
+
+  // Constants for create free game
+  public static readonly SIMPLE_SUBMIT_PATH: string = Constants.BASE_URL + "/api/card/submitSimple";
 }

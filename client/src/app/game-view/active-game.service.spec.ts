@@ -27,7 +27,7 @@ describe("ActiveGameService Test", () => {
   });
   it("should return the path of the modified image", () => {
     activeGameService.activeGame = card;
-    const imgPath: string = Constants.BASE_URL + Constants.PATH_TO_IMAGES + "/" + card.gameID + Constants.MODIFIED_FILE;
+    const imgPath: string = Constants.PATH_TO_IMAGES + "/" + card.gameID + Constants.MODIFIED_FILE;
     expect(activeGameService.modifiedImage).toEqual(imgPath);
   });
 });

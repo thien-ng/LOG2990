@@ -57,7 +57,7 @@ export class CardManagerService {
             body: Constants.VALIDATION_FAILED,
         };
         try {
-            await axios.post(Constants.BASE_URL + "/api/differenceChecker/validate", requirements)
+            await axios.post(Constants.PATH_FOR_2D_VALIDATION, requirements)
             .then((response: Axios.AxiosResponse< Buffer | Message>) => {
                 returnValue = this.handlePostResponse(response, cardTitle);
                 },

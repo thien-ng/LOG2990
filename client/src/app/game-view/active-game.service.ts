@@ -14,7 +14,7 @@ export class ActiveGameService {
   }
 
   public get modifiedImage(): string {
-    return Constants.BASE_URL + Constants.PATH_TO_IMAGES + "/" + this.activeGame.gameID + Constants.MODIFIED_FILE;
+    return Constants.PATH_TO_IMAGES + "/" + this.activeGame.gameID + Constants.MODIFIED_FILE;
   }
 
 }

@@ -20,7 +20,7 @@ export class LoginValidatorService {
   }
 
   private sendUsernameRequest(message: Message): Observable<boolean> {
-    return this.httpClient.post<boolean>(Constants.BASE_URL + Constants.PATH_TO_LOGIN_VALIDATION, message);
+    return this.httpClient.post<boolean>(Constants.PATH_TO_LOGIN_VALIDATION, message);
   }
 
   private generateMessage(username: string): Message {

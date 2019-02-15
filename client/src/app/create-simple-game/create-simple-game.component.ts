@@ -7,8 +7,6 @@ import { CardManagerService } from "../card/card-manager.service";
 import { Constants } from "../constants";
 import { FileValidatorService } from "./game-validator.service";
 
-const SUBMIT_PATH: string = "/api/card/submitSimple";
-
 @Component({
   selector: "app-create-simple-game",
   templateUrl: "./create-simple-game.component.html",
@@ -101,7 +99,7 @@ export class CreateSimpleGameComponent {
   public submit(data: NgForm): void {
     this.isButtonEnabled = false;
     const formdata: FormData = this.createFormData(data);
-    this.httpClient.post(Constants.BASE_URL + SUBMIT_PATH, formdata).subscribe((response: Message) => {
+    this.httpClient.post(Constants.SIMPLE_SUBMIT_PATH, formdata).subscribe((response: Message) => {
       this.analyseResponse(response);
       this.isButtonEnabled = true;
     });

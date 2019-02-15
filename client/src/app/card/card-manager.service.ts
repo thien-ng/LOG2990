@@ -20,11 +20,11 @@ export class CardManagerService {
     }
 
   public getCards(): Observable<ICardLists> {
-    return this.httpClient.get<ICardLists>(Constants.BASE_URL + Constants.CARDS_PATH);
+    return this.httpClient.get<ICardLists>(Constants.CARDS_PATH);
   }
 
   public removeCard(cardId: number, mode: GameMode): Observable<string> {
-    return this.httpClient.delete<string>(Constants.BASE_URL + Constants.REMOVE_CARD_PATH + "/" + mode + "/" + cardId);
+    return this.httpClient.delete<string>(Constants.REMOVE_CARD_PATH + "/" + mode + "/" + cardId);
   }
 
   public updateCards(value: boolean): void {
