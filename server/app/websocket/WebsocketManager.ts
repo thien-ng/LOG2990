@@ -68,7 +68,7 @@ export class WebsocketManager {
                 socketID: socket.id,
             };
             this.userManagerService.updateSocketID(user);
-            socket.emit(Constants.NEW_USER_EVENT, user);
+            socket.emit(Constants.USER_EVENT, user);
         });
 
         socket.on(Constants.DISCONNECT_EVENT, () => {

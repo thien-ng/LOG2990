@@ -9,17 +9,17 @@ let userManagerService: UserManagerService;
 beforeEach(() => {
     userManagerService = new UserManagerService;
     userManagerService.users.push({
-                                                username: "patate",
-                                                socketID: "socketid",
-                                            });
+                                    username: "patate",
+                                    socketID: "socketid",
+                                });
     userManagerService.users.push({
-                                                username: "roger",
-                                                socketID: "socketid",
-                                            });
+                                    username: "roger",
+                                    socketID: "socketid",
+                                });
     userManagerService.users.push({
-                                                username: "dylan",
-                                                socketID: "socketid",
-                                            });
+                                    username: "dylan",
+                                    socketID: "socketid",
+                                });
 });
 
 describe("UserManagerService test", () => {

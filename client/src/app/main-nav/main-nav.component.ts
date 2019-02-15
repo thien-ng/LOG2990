@@ -80,7 +80,7 @@ export class MainNavComponent implements OnInit, OnDestroy {
         this.isAdminMode = activeState;
     });
 
-    this.socketService.onMsg(Constants.NEW_USER_EVENT).subscribe((answer: User) => {
+    this.socketService.onMsg(Constants.ON_USER_EVENT).subscribe((answer: User) => {
       this.assignUser(answer);
     });
 
