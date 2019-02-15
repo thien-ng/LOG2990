@@ -44,6 +44,9 @@ export class Constants {
   public static readonly SNACK_ERROR_MSG: string = "Veuillez entrer un fichier BMP";
   public static readonly SNACK_ACTION: string = "OK";
   public static readonly SNACK_POS_TOP: string = "top";
+  public static readonly NAME_KEY: string = "name";
+  public static readonly ORIGINAL_IMAGE_KEY: string = "originalImage";
+  public static readonly MODIFIED_IMAGE_KEY: string = "modifiedImage";
 
   // constants for game list container
   public static readonly CARDS_PATH: string = "/api/card/list";
@@ -60,6 +63,10 @@ export class Constants {
   // Constants for game-view-simple.service.ts
   public static readonly ON_POSITION_VALIDATION: string = "onPositionValidation";
 
+  // Constants for game-view-simple.component.ts
+  public static readonly ON_GAME_CONNECTION: string = "onGameConnection";
+  public static readonly ON_GAME_DISCONNECT: string = "onGameDisconnect";
+
   // Constants for card.component.ts
   public static readonly GAME_VIEW_SIMPLE_PATH: string = "/game-view-simple";
   public static readonly GAME_VIEW_FREE_PATH: string = "/game-view-free";
@@ -68,4 +75,7 @@ export class Constants {
   // Constants for difference-counter.service.ts
   public static readonly DEGREE_CIRCLE: number = 360;
   public static readonly PERCENT: number = 100;
+
+  // Constants for ActiveGameService
+  public static readonly MODIFIED_FILE: string = "_modified.bmp";
 }
