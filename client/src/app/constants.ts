@@ -71,6 +71,10 @@ export class Constants {
   public static readonly GAME_VIEW_FREE_PATH: string = "/game-view-free";
   public static readonly GAMEMODE_SIMPLE: string = "simple";
 
+  // Constants for difference-counter.service.ts
+  public static readonly DEGREE_CIRCLE: number = 360;
+  public static readonly PERCENT: number = 100;
+
   // Constants for ActiveGameService
   public static readonly MODIFIED_FILE: string = "_modified.bmp";
 
