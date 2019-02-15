@@ -17,6 +17,7 @@ export class ThreejsViewService {
   private light2: THREE.DirectionalLight;
   private renderer: THREE.WebGLRenderer;
   private ambLight: THREE.AmbientLight;
+  private iSceneVariables: ISceneVariables;
 
   // test
   private iAxisValues = {
@@ -133,6 +134,10 @@ export class ThreejsViewService {
 
   public getRenderer(): THREE.WebGLRenderer {
     return this.renderer;
+  }
+
+  public updateISceneVariables(iSceneVariables: ISceneVariables): void {
+    this.iSceneVariables = iSceneVariables;
   }
 
   public updateSceneVariable(sceneVariable: ISceneVariables): void {
