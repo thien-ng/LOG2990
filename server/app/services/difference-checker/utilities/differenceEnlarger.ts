@@ -4,8 +4,6 @@ import { Constants } from "./constants";
 @injectable()
 export class DifferenceEnlarger {
 
-    private readonly IS_A_DIFFERENCE: number =  0;   // a mettre dans les constantes
-
     private enlargedDifferences: Buffer;
 
     public constructor(public readonly differencesFound: Buffer, public width: number, public radius: number) {
@@ -16,7 +14,7 @@ export class DifferenceEnlarger {
 
         const bufferLenght: number = this.enlargedDifferences.length;
         for (let bytePos: number = Constants.BMP_HEADER_SIZE; bytePos < bufferLenght; bytePos += Constants.PIXEL_24B_SIZE) {
-            if (this.differencesFound[bytePos] === this.IS_A_DIFFERENCE) {
+            if (this.differencesFound[bytePos] === Constants.IS_A_DIFFERENCE) {
                 const pixelIndex: number = this.convertToPixelPosition(bytePos);
                 this.drawCircleAround(pixelIndex);
             }
@@ -51,7 +49,7 @@ export class DifferenceEnlarger {
         const firstByte: number = this.convertToBytePosition(pixelPosition);
 
         for (let offset: number = 0; offset < Constants.PIXEL_24B_SIZE; offset++) {
-            this.enlargedDifferences[firstByte + offset] = this.IS_A_DIFFERENCE;
+            this.enlargedDifferences[firstByte + offset] = Constants.IS_A_DIFFERENCE;
         }
     }
 
@@ -88,7 +86,6 @@ export class DifferenceEnlarger {
     }
 
     private adjustedRadius(): number {
-        // adjustment formula
         const COEFFICIENT: number = 0.4461;
         const POWER: number = 0.9511;
         const ADJUSTMENT_DEGREE: number = 1.1;

@@ -13,8 +13,6 @@ export class DifferenceCheckerService {
     private bufferModified:  Buffer;
     private differenceImage: Buffer;
 
-    public constructor() { /* */ }
-
     public generateDifferenceImage(requirements: ImageRequirements): Buffer | Message {
 
         let numberOfDifferences: number = 0;
@@ -79,10 +77,10 @@ export class DifferenceCheckerService {
 
     private imageHasNotDimensionsNeeded(buffer: Buffer): boolean {
 
-        const imageWidht: Buffer = this.extractWidth(buffer);
-        const imageHeight: Buffer = this.extractHeight(buffer);
-        const requiredWidth: Buffer = Buffer.from(Constants.REQUIRED_WIDTH, Constants.BUFFER_FORMAT);
-        const requiredHeight: Buffer = Buffer.from(Constants.REQUIRED_HEIGTH, Constants.BUFFER_FORMAT);
+        const imageWidht:       Buffer = this.extractWidth(buffer);
+        const imageHeight:      Buffer = this.extractHeight(buffer);
+        const requiredWidth:    Buffer = Buffer.from(Constants.REQUIRED_WIDTH, Constants.BUFFER_FORMAT);
+        const requiredHeight:   Buffer = Buffer.from(Constants.REQUIRED_HEIGTH, Constants.BUFFER_FORMAT);
 
         let isEqual: boolean = true;
 

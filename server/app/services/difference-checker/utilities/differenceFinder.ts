@@ -7,8 +7,6 @@ export class DifferenceFinder {
 
     private differenceBuffer: Buffer;
 
-    public constructor() { /* */ }
-
     public searchDifferenceImage(originalBuffer: Buffer, modifiedBuffer: Buffer): Buffer {
 
         if (this.buffersNotEqualSize(originalBuffer, modifiedBuffer)) {

@@ -45,7 +45,7 @@ export class ClusterCounter {
             return pixelPosition * Constants.PIXEL_24B_SIZE + Constants.BMP_HEADER_SIZE;
     }
 
-        // will only work with an image that's a width multiple of 4
+    // will only work with an image that's a width multiple of 4
     private numberOfPixelsInImage(): number {
         const imageSizeInBytes: number = this.differenceBuffer.length - Constants.BMP_HEADER_SIZE;
 
@@ -103,7 +103,6 @@ export class ClusterCounter {
 
         allNeighbors.forEach((neighborsPos: number) => {
             const neighborsExists: boolean = neighborsPos !== this.DOES_NOT_EXIST;
-            // const neighborsIsADifference: boolean = this.differenceBuffer[neighborsPos] === Constants.IS_A_DIFFERENCE;
             const neighborsIsADifference: boolean = this.pixelIsADifference(neighborsPos);
 
             if (neighborsExists && neighborsIsADifference) {
