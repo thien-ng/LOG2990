@@ -19,7 +19,6 @@ export class DifferenceCounterComponent implements AfterContentInit {
 
   public ngAfterContentInit(): void {
     this.differenceCounterService.setNbErrorMax(this.DEFAULT_NB_ERROR_MAX);
-    this.updateSpinner(this.DEFAULT_NB_ERROR_FOUND);
   }
 
   public updateSpinner(errorFoundCounter: number): void {

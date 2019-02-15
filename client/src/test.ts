@@ -19,6 +19,6 @@ getTestBed().initTestEnvironment(
 
 // Then we find all the tests.
 // tslint:disable-next-line:typedef from cli
-const context = require.context("./", true, /\.spec\.ts$/);
+const context = require.context("./", true, /difference-counter.service\.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);
