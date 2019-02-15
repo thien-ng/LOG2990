@@ -51,7 +51,7 @@ export class CollisionBoxGenerator {
 
     private calculateCylinderCollisionRadius(sceneObject: ISceneObject): number {
 
-        return this.pythagore3D( sceneObject.scale.x / 2, sceneObject.scale.y / 2, sceneObject.scale.z / 2 );
+        return this.pythagore( sceneObject.scale.x / 2, sceneObject.scale.y / 2 );
     }
 
     private calculateSphereCollisionRadius(sceneObject: ISceneObject): number {
