@@ -1,25 +1,17 @@
 import { injectable } from "inversify";
-import { Message } from "../../../../common/communication/message";
-import { Constants } from "../../constants";
-import { BufferManager } from "./utilities/bufferManager";
-import { CircleDifferences } from "./utilities/circleDifferences";
 import { ClusterCounter } from "./utilities/clusterCounter";
+import { Constants } from "./utilities/constants";
+import { DifferenceEnlarger } from "./utilities/differenceEnlarger";
+import { DifferenceFinder } from "./utilities/differenceFinder";
 import { ImageRequirements } from "./utilities/imageRequirements";
-import { ImagesDifference } from "./utilities/imagesDifference";
-
-const HEADER_SIZE: number = 54;
+import { Message } from "./utilities/message";
 
 @injectable()
 export class DifferenceCheckerService {
 
-    private bufferManager: BufferManager;
-    private bufferOriginal: Buffer;
-    private bufferModified: Buffer;
-    private circledDifferences: number[];
-
-    public constructor() {
-        this.bufferManager = new BufferManager();
-    }
+    private bufferOriginal:  Buffer;
+    private bufferModified:  Buffer;
+    private differenceImage: Buffer;
 
     public generateDifferenceImage(requirements: ImageRequirements): Buffer | Message {
 
@@ -39,9 +31,7 @@ export class DifferenceCheckerService {
 
         if (numberOfDifferences === requirements.requiredNbDiff) {
 
-            const dataImageBuffer: Buffer = this.bufferManager.arrayToBuffer(this.circledDifferences);
-
-            return this.bufferManager.mergeBuffers(this.bufferOriginal.slice(0, HEADER_SIZE), dataImageBuffer);
+            return this.differenceImage;
 
         } else {
 
@@ -54,26 +44,26 @@ export class DifferenceCheckerService {
         this.bufferOriginal = Buffer.from(requirements.originalImage);
         this.bufferModified = Buffer.from(requirements.modifiedImage);
 
-        const differencesFound: number[] = this.findDifference(this.bufferOriginal, this.bufferModified);
-        this.circledDifferences = this.circleDifference(differencesFound, requirements.requiredWidth);
+        this.differenceImage = this.findDifference(this.bufferOriginal, this.bufferModified);
+        this.differenceImage = this.enlargeDifferences(this.differenceImage, requirements.requiredWidth);
 
-        return this.countAllClusters(this.circledDifferences, requirements.requiredWidth);
+        return this.countAllClusters(this.differenceImage, requirements.requiredWidth);
     }
 
-    private findDifference(orignalBuffer: Buffer, differenceBuffer: Buffer): number[] {
-        const imagesDifference: ImagesDifference = new ImagesDifference();
+    private findDifference(originalBuffer: Buffer, modifiedBuffer: Buffer): Buffer {
+        const differenceFinder: DifferenceFinder = new DifferenceFinder();
 
-        return imagesDifference.searchDifferenceImage(orignalBuffer, differenceBuffer);
+        return differenceFinder.searchDifferenceImage(originalBuffer, modifiedBuffer);
     }
 
-    private circleDifference(differencesArray: number[], width: number): number[] {
-        const circleDifferences: CircleDifferences = new CircleDifferences( differencesArray, width, Constants.CIRCLE_RADIUS);
+    private enlargeDifferences(differenceBuffer: Buffer, width: number): Buffer {
+        const differenceEnlarger: DifferenceEnlarger = new DifferenceEnlarger(differenceBuffer, width, Constants.CIRCLE_RADIUS);
 
-        return circleDifferences.circleAllDifferences();
+        return differenceEnlarger.enlargeAllDifferences();
     }
 
-    private countAllClusters(differenceList: number[], width: number): number {
-        const clusterCounter: ClusterCounter = new ClusterCounter(differenceList, width);
+    private countAllClusters(differenceBuffer: Buffer, width: number): number {
+        const clusterCounter: ClusterCounter = new ClusterCounter(differenceBuffer, width);
 
         return clusterCounter.countAllClusters();
     }
@@ -87,10 +77,10 @@ export class DifferenceCheckerService {
 
     private imageHasNotDimensionsNeeded(buffer: Buffer): boolean {
 
-        const imageWidht: Buffer = this.extractWidth(buffer);
-        const imageHeight: Buffer = this.extractHeight(buffer);
-        const requiredWidth: Buffer = Buffer.from(Constants.REQUIRED_WIDTH, Constants.BUFFER_FORMAT);
-        const requiredHeight: Buffer = Buffer.from(Constants.REQUIRED_HEIGTH, Constants.BUFFER_FORMAT);
+        const imageWidht:       Buffer = this.extractWidth(buffer);
+        const imageHeight:      Buffer = this.extractHeight(buffer);
+        const requiredWidth:    Buffer = Buffer.from(Constants.REQUIRED_WIDTH, Constants.BUFFER_FORMAT);
+        const requiredHeight:   Buffer = Buffer.from(Constants.REQUIRED_HEIGTH, Constants.BUFFER_FORMAT);
 
         let isEqual: boolean = true;
 

@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { ICard } from "../../../../common/communication/iCard";
 import { Constants } from "../constants";
 import { GameModeService } from "../game-list-container/game-mode.service";
+import { ActiveGameService } from "../game-view/active-game.service";
 import { HighscoreService } from "../highscore-display/highscore.service";
 import { CardManagerService } from "./card-manager.service";
 
@@ -33,6 +34,7 @@ export class CardComponent {
     public cardManagerService: CardManagerService,
     private snackBar: MatSnackBar,
     private highscoreService: HighscoreService,
+    private activeGameService: ActiveGameService,
     ) {
       this.cardDeleted = new EventEmitter();
     }
@@ -64,6 +66,7 @@ export class CardComponent {
   public onStartGameClick(): void {
     const gameModeComparison: boolean = this.card.gamemode === Constants.GAMEMODE_SIMPLE;
     const gameModePath: string = gameModeComparison ? Constants.GAME_VIEW_SIMPLE_PATH : Constants.GAME_VIEW_FREE_PATH;
+    this.activeGameService.activeGame = this.card;
 
     this.router.navigate([gameModePath]).catch(() => Constants.OBLIGATORY_CATCH);
   }
