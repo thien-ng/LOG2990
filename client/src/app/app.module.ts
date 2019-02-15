@@ -23,13 +23,13 @@ import { MainNavComponent } from "./main-nav/main-nav.component";
 import { TestingImportsModule } from "./testing-imports/testing-imports.module";
 
 const routes: Routes = [
-  { path: Constants.ROOT_PATH, redirectTo: Constants.NAV_PATH, pathMatch: Constants.PATH_MATCH_FULL },
+  { path: Constants.ROOT_PATH, redirectTo: Constants.LOGIN_PATH, pathMatch: Constants.PATH_MATCH_FULL },
+  { path: Constants.LOGIN_PATH, component: LoginPageComponent },
   {
     path: Constants.NAV_PATH,
     component: MainNavComponent,
     children: [
       { path: Constants.ROOT_PATH, redirectTo: Constants.LOGIN_REDIRECT, pathMatch: Constants.PATH_MATCH_FULL },
-      { path: Constants.LOGIN_PATH, component: LoginPageComponent },
       { path: Constants.GAMELIST_PATH, component: GameListContainerComponent },
       { path: Constants.ADMIN_PATH, component: GameListContainerComponent },
       { path: Constants.GAME_VIEW_SIMPLE, component: GameViewSimpleComponent },

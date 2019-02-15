@@ -8,7 +8,7 @@ export class Constants {
   public static readonly ROOT_PATH: string = "";
   public static readonly NAV_PATH: string = "";
   public static readonly GAMELIST_PATH: string = "gamelist";
-  public static readonly GAMELIST_REDIRECT: string = "//gamelist";
+  public static readonly GAMELIST_REDIRECT: string = "/gamelist";
   public static readonly PATH_MATCH_FULL: string = "full";
   public static readonly PATH_TO_ASSETS: string = "http://localhost:3000/api/asset";
   public static readonly PATH_TO_ICONS: string = "http://localhost:3000/icon";
@@ -25,7 +25,8 @@ export class Constants {
   public static readonly REGEX_PATTERN: string = "^[a-zA-Z0-9]+$";
   public static readonly LOGIN_REQUEST: string = "onLogin";
   public static readonly WEBSOCKET_URL: string = "http://localhost:3333";
-  public static readonly PATH_TO_LOGIN_VALIDATION: string = "http://localhost:3000/api/loginValidation/newUsername";
+  public static readonly PATH_TO_LOGIN_VALIDATION: string = "http://localhost:3000/api/user/newUsername";
+  public static readonly PATH_TO_USER: string = "http://localhost:3000/api/user/";
   public static readonly LOGIN_MESSAGE_TITLE: string = "onUserSubscribe";
   public static readonly NAME_VALID_VALUE: string = "true";
   public static readonly ROUTER_LOGIN: string = "gamelist";
@@ -56,6 +57,7 @@ export class Constants {
   // Constants for socket.service.ts
   public static readonly ON_CONNECT: string = "connect";
   public static readonly ON_CHAT_MESSAGE: string = "onChatMessage";
+  public static readonly NEW_USER_EVENT: string = "onNewUser";
 
   // Constants for game-view-simple.service.ts
   public static readonly ON_POSITION_VALIDATION: string = "onPositionValidation";

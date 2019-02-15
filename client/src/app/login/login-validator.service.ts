@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import "rxjs/add/operator/toPromise";
 import { Message } from "../../../../common/communication/message";
 
-import { Observable, Subject } from "rxjs";
+import { Observable } from "rxjs";
 import { Constants } from "../constants";
 @Injectable({
   providedIn: "root",
@@ -11,22 +11,12 @@ import { Constants } from "../constants";
 
 export class LoginValidatorService {
 
-  public userNameUpdated: Subject<string | null>;
-
-  public constructor(private httpClient: HttpClient) {
-      this.userNameUpdated = new Subject<string | null>();
-    }
+  public constructor(private httpClient: HttpClient) {}
 
   public addUsername(username: string): Observable<boolean> {
     const message: Message = this.generateMessage(username);
-    sessionStorage.setItem(Constants.USERNAME_KEY, username);
-    this.userNameUpdated.next(sessionStorage.getItem(Constants.USERNAME_KEY));
 
     return this.sendUsernameRequest(message);
-  }
-
-  public getUserNameListener(): Observable<string | null> {
-    return this.userNameUpdated;
   }
 
   // Helpers

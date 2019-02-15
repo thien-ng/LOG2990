@@ -16,7 +16,7 @@ export class WebsocketManager {
 
     public constructor(
         @inject(Types.UserManagerService) private userManagerService: UserManagerService,
-        @inject(Types.GameManager) private gameManager: GameManager) {}
+        @inject(Types.GameManager) private gameManager: GameManager,) {}
 
     public createWebsocket(server: http.Server): void {
         this.io = SocketIO(server);
@@ -66,11 +66,13 @@ export class WebsocketManager {
             user = {
                 username: data,
                 socketID: socket.id,
-            }
+            };
+            this.userManagerService.updateSocketID(user);
+            socket.emit(Constants.NEW_USER_EVENT, user);
         });
 
-        socket.on(Constants.DISCONNECT_EVENT, (data: User) => {
-            this.userManagerService.leaveBrowser(data);
+        socket.on(Constants.DISCONNECT_EVENT, () => {
+            this.userManagerService.leaveBrowser(user);
             this.gameManager.unsubscribeSocketID(socketID);
         });
     }

@@ -1,5 +1,9 @@
 import { injectable } from "inversify";
 import { User } from "../../../common/communication/iUser";
+// import { Message } from "../../../common/communication/message";
+// import { Constants } from "../constants";
+
+// const USERNAME_ERROR: string = "Aucun utilisateur n'est associé au socket ID";
 
 @injectable()
 export class UserManagerService {
@@ -10,13 +14,35 @@ export class UserManagerService {
         this.nameList = [];
     }
 
-    public get usernameList(): User[] {
+    public get users(): User[] {
         return this.nameList;
     }
 
-    public validateName(user: User): Boolean {
+    public updateSocketID(updateUser: User): void {
+        this.nameList.some((user: User): boolean => {
+            if (user.socketID === updateUser.socketID) {
+                user.username = updateUser.username;
 
-        if (this.isUnique(user.username)) {
+                return true;
+            } else if (user.username === updateUser.username) {
+                user.socketID = updateUser.socketID;
+            }
+
+            return false;
+        });
+
+        this.nameList = this.nameList.filter((user: User) => {
+            return user.socketID !== "undefined";
+        });
+    }
+
+    public validateName(username: string): Boolean {
+
+        if (this.isUnique(username)) {
+            const user: User = {
+                username: username,
+                socketID: "undefined",
+            };
             this.nameList.push(user);
 
             return true;

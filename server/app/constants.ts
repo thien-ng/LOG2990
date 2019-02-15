@@ -9,6 +9,7 @@ export class Constants {
   public static readonly CHAT_MESSAGE: string = "onChatMessage";
   public static readonly GAME_CONNECTION: string = "onGameConnection";
   public static readonly GAME_DISCONNECT: string = "onGameDisconnect";
+  public static readonly NEW_USER_EVENT: string = "onNewUser";
   public static readonly WEBSOCKET_PORT_NUMBER: number = 3333;
 
   // Constants for buffermanager.ts

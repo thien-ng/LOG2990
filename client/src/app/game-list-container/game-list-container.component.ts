@@ -61,7 +61,9 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.stateSubscription.unsubscribe();
+    if ( this.stateSubscription !== undefined){
+      this.stateSubscription.unsubscribe();
+    }
   }
 
 }

@@ -6,10 +6,11 @@ import { NavigationEnd, Router } from "@angular/router";
 
 import { Observable, Subscription } from "rxjs";
 import { map } from "rxjs/operators";
+import { User } from "../../../../common/communication/iUser";
 import { Constants } from "../constants";
 import { CreateFreeGameComponent } from "../create-free-game/create-free-game.component";
 import { CreateSimpleGameComponent } from "../create-simple-game/create-simple-game.component";
-import { LoginValidatorService } from "../login/login-validator.service";
+import { SocketService } from "../websocket/socket.service";
 import { AdminToggleService } from "./admin-toggle.service";
 
 @Component({
@@ -50,9 +51,11 @@ export class MainNavComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     public adminService: AdminToggleService,
     public router: Router,
-    private loginService: LoginValidatorService,
+    private socketService: SocketService,
   ) {
+    this.client = null;
     this.isValidUrl = true;
+
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.isValidUrl = this.router.url !== this.SIMPLE_GAME_PATH && this.router.url !== this.FREE_GAME_PATH;
@@ -69,15 +72,23 @@ export class MainNavComponent implements OnInit, OnDestroy {
   }
 
   public initMainNav(): void {
+    this.client = sessionStorage.getItem(Constants.USERNAME_KEY);
+
     this.isAdminMode = this.adminService.isAdminState;
     this.stateSubscription = this.adminService.getAdminUpdateListener()
       .subscribe((activeState: boolean) => {
         this.isAdminMode = activeState;
     });
-    this.loginService.getUserNameListener().subscribe(() => {
-      this.client = sessionStorage.getItem(Constants.USERNAME_KEY);
+
+    this.socketService.onMsg(Constants.NEW_USER_EVENT).subscribe((answer: User) => {
+      this.assignUser(answer);
     });
-    this.client = sessionStorage.getItem(Constants.USERNAME_KEY);
+
+  }
+
+  private assignUser(user: User): void {
+    sessionStorage.setItem(Constants.USERNAME_KEY, user.username);
+    this.client = user.username;
   }
 
   public openSimpleDialog(): void {
@@ -101,7 +112,8 @@ export class MainNavComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.stateSubscription.unsubscribe();
+    if (this.stateSubscription !== undefined) {
+      this.stateSubscription.unsubscribe();
+    }
   }
-
 }
