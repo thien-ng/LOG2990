@@ -2,24 +2,24 @@
   position: relative;             
   box-sizing: border-box;         
   font-size: 6em;                 
-  width: 1em;                     /* fixe la largeur */
-  height: 1em;                    /* fixe la hauteur */
+  width: 1em;                     /* fix width */
+  height: 1em;                    /* fix height */
   border-radius: 50%;             
   border: .15em solid #CDE;       
   background-color: #FFF;         
 }
 
-/* masque partie gauche quand < 50% de la jauge */
+/* hide left part when spinner < 50% */
 .progress-mask {
   position: absolute;
   width: 1em;                     
   height: 1em;                    
   left: -.15em;                   
   top: -.15em;                    
-  clip: rect(0, 1em, 1em, .5em);  /* par défaut seule la partie droite est visible */
+  clip: rect(0, 1em, 1em, .5em);  /* only left part spinner visible by default */
 }
 
-/* affiche tout le cercle quand > 50% de la jauge */
+/* print all spinner when spinner > 50% */
 .progress-circle[data-value^='5']:not([data-value='5']):not([data-value^='5.']) .progress-mask,
 .progress-circle[data-value^='6']:not([data-value='6']):not([data-value^='6.']) .progress-mask,
 .progress-circle[data-value^='7']:not([data-value='7']):not([data-value^='7.']) .progress-mask,
@@ -39,16 +39,16 @@
   border-radius: 50%;             
   width: 1em;                     
   height: 1em;                    
-  clip: rect(0, .5em, 1em, 0);    /* on ne garde que la partie gauche */
+  clip: rect(0, .5em, 1em, 0);    /* only keep left part of spinner */
 }
 
-/* par défaut, on cache partie de gauche du cercle */
+/* default hidding left part spinner */
 .progress-sup50 {
   display: none;
   clip: rect(0, 1em, 1em, .5em);
 }
 
-/* quand > 50% de la jauge, on fait apparaitre tout le cercle */
+/* when spinner > 50%, print all spinner */
 .progress-circle[data-value^='5']:not([data-value='5']):not([data-value^='5.']) .progress-sup50,
 .progress-circle[data-value^='6']:not([data-value='6']):not([data-value^='6.']) .progress-sup50,
 .progress-circle[data-value^='7']:not([data-value='7']):not([data-value^='7.']) .progress-sup50,
@@ -58,9 +58,9 @@
   display:block;
 }
 
-/* affiche le nombre d erreurs trouve */
+/* print number differences */
 .progress-circle:after {
-  content: attr(id);      /* récup. valeur de progression */
+  content: attr(id);      /* retrieve number differences */
   font-size: 0.15em;              
   height: 100%;                   
   display: flex;
