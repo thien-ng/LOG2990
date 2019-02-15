@@ -4,6 +4,7 @@ import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
 import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
 import { SceneBuilder } from "./scene-builder";
+import { SceneConstants } from "./sceneConstants";
 
 @injectable()
 export class SceneManager {
@@ -34,22 +35,31 @@ export class SceneManager {
 
     private objectTypeIdentifier(objectType: string): SceneObjectType {
 
+        let sceneObjectIdentified: SceneObjectType = SceneObjectType.Sphere;
+
         switch (objectType) {
-            case "cube":
-                return SceneObjectType.Cube;
+            case SceneConstants.TYPE_CUBE:
+                sceneObjectIdentified = SceneObjectType.Cube;
+                break;
 
-            case "cone":
-                return SceneObjectType.Cone;
+            case SceneConstants.TYPE_CONE:
+                sceneObjectIdentified = SceneObjectType.Cone;
+                break;
 
-            case "cylinder":
-                return SceneObjectType.Cylinder;
+            case SceneConstants.TYPE_CYLINDER:
+                sceneObjectIdentified = SceneObjectType.Cylinder;
+                break;
 
-            case "pyramid":
-                return SceneObjectType.TriangularPyramid;
+            case SceneConstants.TYPE_PYRAMID:
+                sceneObjectIdentified = SceneObjectType.TriangularPyramid;
+                break;
 
             default:
-                return SceneObjectType.Sphere;
+                sceneObjectIdentified = SceneObjectType.Sphere;
+                break;
         }
+
+        return sceneObjectIdentified;
     }
 
 }
