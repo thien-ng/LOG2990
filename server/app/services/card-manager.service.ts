@@ -57,7 +57,7 @@ export class CardManagerService {
             body: Constants.VALIDATION_FAILED,
         };
         try {
-            await axios.post(Constants.BASIC_SERVICE_BASE_URL + "/api/differenceChecker/validate", requirements)
+            await axios.post(Constants.PATH_FOR_2D_VALIDATION, requirements)
             .then((response: Axios.AxiosResponse< Buffer | Message>) => {
                 returnValue = this.handlePostResponse(response, cardTitle);
                 },
@@ -109,8 +109,8 @@ export class CardManagerService {
                     gameID: cardId,
                     title: cardTitle,
                     subtitle: cardTitle,
-                    avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image" + originalImagePath,
-                    gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image" + originalImagePath,
+                    avatarImageUrl: Constants.BASE_URL + "/image" + originalImagePath,
+                    gameImageUrl: Constants.BASE_URL + "/image" + originalImagePath,
                     gamemode: GameMode.simple,
             };
 
