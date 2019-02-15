@@ -1,8 +1,8 @@
 import { injectable } from "inversify";
-import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
-import { FormMessage } from "../../../../common/communication/message";
-import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { SceneObjectType } from "../../../../common/communication/iSceneObject";
+import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
+import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
+import { FormMessage } from "../../../../common/communication/message";
 import { SceneBuilder } from "./scene-builder";
 
 @injectable()
@@ -34,7 +34,7 @@ export class SceneManager {
 
     private objectTypeIdentifier(objectType: string): SceneObjectType {
 
-        switch(objectType) {
+        switch (objectType) {
             case "cube":
                 return SceneObjectType.Cube;
 
@@ -51,7 +51,5 @@ export class SceneManager {
                 return SceneObjectType.Sphere;
         }
     }
-
-
 
 }
