@@ -1,5 +1,4 @@
 import * as chai from "chai";
-import * as spies from "chai-spies";
 import "reflect-metadata";
 import { ISceneObject } from "../../../../common/communication/iSceneObject";
 import { CollisionValidator } from "../../services/scene/utilitaries/collision-validator";
@@ -51,8 +50,6 @@ describe("Scene builder tests", () => {
     const existingSceneObjects: ISceneObject[] = [cube1, cube2, cube3];
 
     beforeEach(() => {
-
-        chai.use(spies);
 
         collisionValidator = new CollisionValidator();
     });
