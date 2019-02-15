@@ -1,14 +1,9 @@
 <mat-grid-list cols="9" rowHeight="19.9%">
   <mat-grid-tile
-    [colspan]="2"
+    [colspan]="7"
     [rowspan]="1"
     [style.background]='lightgreen'>
-    Game difference name input
-  </mat-grid-tile>
-  <mat-grid-tile
-    [colspan]="5"
-    [rowspan]="1"
-    [style.background]='lightgreen'>
+    <div class="gameName">{{this.activeGameService.activeGame.title}}</div>
   </mat-grid-tile>
   <mat-grid-tile
     [colspan]="2"
@@ -21,15 +16,15 @@
   [rowspan]="3"
   [style.background]='lightblue'>
     <div id="displayGame">
-      <canvas #originalImage class="gameCanvas"></canvas>
-      <canvas #modifiedImage class="gameCanvas"></canvas>
+      <canvas #originalImage class="canvas" width="640" height="480"></canvas>
+      <canvas #modifiedImage class="canvas" width="640" height="480"></canvas>
     </div>
   </mat-grid-tile>
   <mat-grid-tile
     [colspan]="4"
     [rowspan]="1"
     [style.background]='lightgreen'>
-    Add timer here
+    <app-timer></app-timer>
   </mat-grid-tile>
   <mat-grid-tile
     [colspan]="3"
