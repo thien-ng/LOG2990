@@ -11,46 +11,45 @@ describe("TimerService", () => {
   });
 });
 
-// describe("TimerComponent tests", () => {
-//   let timer: TimerComponent;
+describe("TimerService tests", () => {
+  let timerService: TimerService;
 
-//   beforeEach(() => {
-//     timer = new TimerComponent();
-//   });
+  beforeEach(() => {
+    timerService = new TimerService();
+  });
 
-//   it("should return the right time format given 2 seconds", () => {
-//     const min: number = 2;
-//     const timeFormat: string = "00:02";
+  it("should not return the right time format given 1 second", () => {
+    const seconds: number = 1;
+    const expectedTimerFormat: string = "04:15";
+    const result: string = timerService.timeFormat(seconds);
+    expect(result).not.toEqual(expectedTimerFormat);
+  });
 
-//     spyOn(timer, "startTimer").and.callFake(() => {
-//       timer.timeString = timer["convertSecondsToString"](min);
-//     });
+  it("should return the right time format given 1 second", () => {
+    const seconds: number = 1;
+    const expectedTimerFormat: string = "00:01";
+    const result: string = timerService.timeFormat(seconds);
+    expect(result).toEqual(expectedTimerFormat);
+  });
 
-//     timer.startTimer();
-//     expect(timer.timeString).toEqual(timeFormat);
-//   });
+  it("should return the right time format given 10 seconds", () => {
+    const seconds: number = 10;
+    const expectedTimerFormat: string = "00:10";
+    const result: string = timerService.timeFormat(seconds);
+    expect(result).toEqual(expectedTimerFormat);
+  });
 
-//   it("should return the right time format given 720 seconds", () => {
-//     const min: number = 720;
-//     const timeFormat: string = "12:00";
+  it("should return the right time format given 255 seconds", () => {
+    const seconds: number = 255;
+    const expectedTimerFormat: string = "04:15";
+    const result: string = timerService.timeFormat(seconds);
+    expect(result).toEqual(expectedTimerFormat);
+  });
 
-//     spyOn(timer, "startTimer").and.callFake(() => {
-//       timer.timeString = timer["convertSecondsToString"](min);
-//     });
-
-//     timer.startTimer();
-//     expect(timer.timeString).toEqual(timeFormat);
-//   });
-
-//   it("should return the right time format given 72 seconds", () => {
-//     const min: number = 72;
-//     const timeFormat: string = "01:12";
-
-//     spyOn(timer, "startTimer").and.callFake(() => {
-//       timer.timeString = timer["convertSecondsToString"](min);
-//     });
-
-//     timer.startTimer();
-//     expect(timer.timeString).toEqual(timeFormat);
-//   });
-// });
+  it("should return the right time format given 600 seconds", () => {
+    const seconds: number = 600;
+    const expectedTimerFormat: string = "10:00";
+    const result: string = timerService.timeFormat(seconds);
+    expect(result).toEqual(expectedTimerFormat);
+  });
+});
