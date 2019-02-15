@@ -16,6 +16,7 @@ import { MessageViewComponent } from "./game-view/chat-view/message-view/message
 import { GameViewFreeComponent } from "./game-view/game-view-free/game-view-free.component";
 import { TheejsViewComponent } from "./game-view/game-view-free/threejs-view/threejs-view.component";
 import { GameViewSimpleComponent } from "./game-view/game-view-simple/game-view-simple.component";
+import { TimerComponent } from "./game-view/timer/timer.component";
 import { HighscoreDisplayComponent } from "./highscore-display/highscore-display.component";
 import { LoginPageComponent } from "./login/login-page/login-page.component";
 import { LoginValidatorComponent } from "./login/login-validator/login-validator.component";
@@ -55,6 +56,7 @@ const routes: Routes = [
     GameViewSimpleComponent,
     GameViewFreeComponent,
     CreateFreeGameComponent,
+    TimerComponent,
     ChatViewComponent,
     MessageViewComponent,
     TheejsViewComponent,

@@ -20,18 +20,18 @@ describe("Scene builder tests", () => {
 
         chai.use(spies);
 
-        sceneBuilder = new SceneBuilder(sceneOptions);
+        sceneBuilder = new SceneBuilder();
     });
 
-    it("should call the generateRandomAxisValues function when generating scene objects", () => {
+    it("should call the generateRandomAxisValues function when generating scene", () => {
         const spy: any = chai.spy.on(sceneBuilder, "generateRandomAxisValues");
-        sceneBuilder.generateSceneObjects();
+        sceneBuilder.generateScene(sceneOptions);
         chai.expect(spy).to.have.been.called();
     });
 
     it("should call the generateRandomRotationValues function when generating scene objects", () => {
         const spy: any = chai.spy.on(sceneBuilder, "generateRandomRotationValues");
-        sceneBuilder.generateSceneObjects();
+        sceneBuilder.generateScene(sceneOptions);
         chai.expect(spy).to.have.been.called();
     });
 });

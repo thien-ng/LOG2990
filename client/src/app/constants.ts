@@ -44,6 +44,9 @@ export class Constants {
   public static readonly SNACK_ERROR_MSG: string = "Veuillez entrer un fichier BMP";
   public static readonly SNACK_ACTION: string = "OK";
   public static readonly SNACK_POS_TOP: string = "top";
+  public static readonly NAME_KEY: string = "name";
+  public static readonly ORIGINAL_IMAGE_KEY: string = "originalImage";
+  public static readonly MODIFIED_IMAGE_KEY: string = "modifiedImage";
 
   // constants for game list container
   public static readonly CARDS_PATH: string = "/api/card/list";
@@ -69,4 +72,11 @@ export class Constants {
   public static readonly GAME_VIEW_SIMPLE_PATH: string = "/game-view-simple";
   public static readonly GAME_VIEW_FREE_PATH: string = "/game-view-free";
   public static readonly GAMEMODE_SIMPLE: string = "simple";
+
+  // Constants for ActiveGameService
+  public static readonly MODIFIED_FILE: string = "_modified.bmp";
+
+  // Constants for timer.service
+  public static readonly MINUTE_IN_SECONDS: number = 60;
+  public static readonly TWO_DIGITS: number = 10;
 }
