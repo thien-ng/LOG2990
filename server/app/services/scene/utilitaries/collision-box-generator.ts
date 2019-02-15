@@ -54,7 +54,7 @@ export class CollisionBoxGenerator {
     }
 
     public calculateSphereCollisionRadius(sceneObject: ISceneObject): number {
-
+        return sceneObject.scale.x;
     }
 
 }
