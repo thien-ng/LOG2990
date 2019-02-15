@@ -1,9 +1,5 @@
 import { injectable } from "inversify";
 import { User } from "../../../common/communication/iUser";
-// import { Message } from "../../../common/communication/message";
-// import { Constants } from "../constants";
-
-// const USERNAME_ERROR: string = "Aucun utilisateur n'est associé au socket ID";
 
 @injectable()
 export class UserManagerService {
