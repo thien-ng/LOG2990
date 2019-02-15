@@ -47,7 +47,7 @@ export class Constants {
 
   // constants for game list container
   public static readonly CARDS_PATH: string = Constants.BASE_URL + "/api/card/list";
-  public static readonly REMOVE_CARD_PATH: string = "/api/card/remove";
+  public static readonly REMOVE_CARD_PATH: string = Constants.BASE_URL + "/api/card/remove";
   public static readonly HIGHSCORE_PATH: string = Constants.BASE_URL + "/api/highscore/";
   public static readonly RESET_PATH: string = "generator/";
   public static readonly ON_ERROR_MESSAGE: string = "onError";
@@ -77,9 +77,6 @@ export class Constants {
   // Constants for timer.service
   public static readonly MINUTE_IN_SECONDS: number = 60;
   public static readonly TWO_DIGITS: number = 10;
-
-  // Constants for main nav
-  public static readonly USER_PATH: string = "/user";
 
   // Constants for create simple game
   public static readonly FREE_SUBMIT_PATH: string = Constants.BASE_URL + "/api/card/submitFree";

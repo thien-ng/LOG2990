@@ -14,8 +14,6 @@ import { FormMessage, Message } from "../../../../common/communication/message";
 import { CardManagerService } from "../card/card-manager.service";
 import { Constants } from "../constants";
 
-const  SUBMIT_PATH: string = "/api/card/submitFree";
-
 @Component({
   selector: "app-create-free-game",
   templateUrl: "./create-free-game.component.html",
