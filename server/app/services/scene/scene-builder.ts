@@ -27,7 +27,6 @@ export class SceneBuilder {
         return this.sceneVariables;
     }
 
-
     public generateRandomAxisValues(): IAxisValues {
         const randomX: number = this.randomIntegerFromInterval(0, SceneConstants.MAX_POSITION_X);
         const randomY: number = this.randomIntegerFromInterval(0, SceneConstants.MAX_POSITION_Y);
