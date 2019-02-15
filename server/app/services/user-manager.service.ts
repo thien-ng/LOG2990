@@ -14,14 +14,14 @@ export class UserManagerService {
         return this.nameList;
     }
 
-    public updateSocketID(updateUser: User): void {
+    public updateSocketID(newUserInfo: User): void {
         this.nameList.some((user: User): boolean => {
-            if (user.socketID === updateUser.socketID) {
-                user.username = updateUser.username;
+            if (user.socketID === newUserInfo.socketID) {
+                user.username = newUserInfo.username;
 
                 return true;
-            } else if (user.username === updateUser.username) {
-                user.socketID = updateUser.socketID;
+            } else if (user.username === newUserInfo.username) {
+                user.socketID = newUserInfo.socketID;
             }
 
             return false;

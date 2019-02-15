@@ -1,4 +1,5 @@
 export class Constants {
+  public static readonly BASE_URL: string = "http://localhost:3000";
   public static readonly LOGIN_REDIRECT: string = "/login";
   public static readonly LOGIN_PATH: string = "login";
   public static readonly ADMIN_PATH: string = "admin";
@@ -35,9 +36,6 @@ export class Constants {
   public static readonly USERNAME_KEY: string = "userName";
   public static readonly SNACKBAR_DURATION: number = 5000;
 
-  // Constant for basic.service.ts
-  public static readonly BASE_URL: string = "http://localhost:3000";
-
   // constant for create-simple-game.component.ts
   public static readonly GAME_REGEX_PATTERN: string = "^[a-z A-Z]+$";
   public static readonly SNACK_ERROR_MSG: string = "Veuillez entrer un fichier BMP";
@@ -59,6 +57,7 @@ export class Constants {
   public static readonly ON_CONNECT: string = "connect";
   public static readonly ON_CHAT_MESSAGE: string = "onChatMessage";
   public static readonly ON_USER_EVENT: string = "onNewUser";
+  public static readonly ON_RETRIEVE_USER: string = "onRetrieveUser";
 
   // Constants for game-view-simple.service.ts
   public static readonly ON_POSITION_VALIDATION: string = "onPositionValidation";
@@ -78,4 +77,7 @@ export class Constants {
   // Constants for timer.service
   public static readonly MINUTE_IN_SECONDS: number = 60;
   public static readonly TWO_DIGITS: number = 10;
+
+  // Constants for main nav
+  public static readonly USER_PATH: string = "/user";
 }

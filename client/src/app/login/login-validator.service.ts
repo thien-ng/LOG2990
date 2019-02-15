@@ -19,7 +19,6 @@ export class LoginValidatorService {
     return this.sendUsernameRequest(message);
   }
 
-  // Helpers
   private sendUsernameRequest(message: Message): Observable<boolean> {
     return this.httpClient.post<boolean>(Constants.BASE_URL + Constants.PATH_TO_LOGIN_VALIDATION, message);
   }
