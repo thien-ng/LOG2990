@@ -2,7 +2,7 @@ import "reflect-metadata";
 
 import { expect } from "chai";
 import { User } from "../../../../common/communication/iUser";
-import { UserManagerService } from "../../services/validator/user-manager.service";
+import { UserManagerService } from "../../services/user-manager.service";
 
 let userManagerService: UserManagerService;
 

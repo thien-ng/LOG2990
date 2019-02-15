@@ -9,7 +9,7 @@ import { DifferenceCheckerController } from "./services/difference-checker/diffe
 import { DifferenceCheckerService } from "./services/difference-checker/difference-checker.service";
 import { GameManager } from "./services/game/game-manager.service";
 import { HighscoreService } from "./services/highscore.service";
-import { UserManagerService } from "./services/validator/user-manager.service";
+import { UserManagerService } from "./services/user-manager.service";
 import Types from "./types";
 import { WebsocketManager } from "./websocket/WebsocketManager";
 

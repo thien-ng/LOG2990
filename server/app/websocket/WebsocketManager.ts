@@ -6,7 +6,7 @@ import { ICanvasPosition } from "../../../common/communication/iGameplay";
 import { User } from "../../../common/communication/iUser";
 import { Constants } from "../constants";
 import { GameManager } from "../services/game/game-manager.service";
-import { UserManagerService } from "../services/validator/user-manager.service";
+import { UserManagerService } from "../services/user-manager.service";
 import Types from "../types";
 
 @injectable()

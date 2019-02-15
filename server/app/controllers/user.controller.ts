@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { inject, injectable } from "inversify";
 
-import { UserManagerService } from "../services/validator/user-manager.service";
+import { UserManagerService } from "../services/user-manager.service";
 
 import Types from "../types";
 

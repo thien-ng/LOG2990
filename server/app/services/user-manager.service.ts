@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import { User } from "../../../../common/communication/iUser";
+import { User } from "../../../common/communication/iUser";
 
 @injectable()
 export class UserManagerService {
