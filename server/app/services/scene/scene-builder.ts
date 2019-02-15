@@ -10,9 +10,12 @@ export class SceneBuilder {
     private sceneVariables: ISceneVariables;
     private collisionValidator: CollisionValidator;
 
-    public constructor (public sceneOptions: ISceneOptions) {
+    public constructor () {
 
         this.collisionValidator = new CollisionValidator();
+    }
+
+    public generateScene(sceneOptions: ISceneOptions): ISceneVariables {
 
         this.sceneVariables = {
             sceneObjectsQuantity: sceneOptions.sceneObjectsQuantity,
@@ -20,23 +23,25 @@ export class SceneBuilder {
             sceneBackgroundColor: this.generateRandomColor(),
         };
 
-        this.generateSceneObjects();
+        this.generateSceneObjects(sceneOptions);
+
+        return this.sceneVariables;
     }
 
     // separeted class for object generation needed
-    public generateSceneObjects(): void {
+    private generateSceneObjects(sceneOptions: ISceneOptions): void {
 
         const sceneObjectsQuantity: number = this.sceneVariables.sceneObjectsQuantity;
 
         for (let index: number = 0; index < sceneObjectsQuantity; index++) {
 
-            this.sceneVariables.sceneObjects.push(this.generateRandomSceneObject());
+            this.sceneVariables.sceneObjects.push(this.generateRandomSceneObject(sceneOptions));
         }
     }
 
-    public generateRandomSceneObject(): ISceneObject {
+    private generateRandomSceneObject(sceneOptions: ISceneOptions): ISceneObject {
         const newSceneObject: ISceneObject = {
-            type: this.sceneOptions.sceneObjectsType,
+            type: sceneOptions.sceneObjectsType,
             position: this.generateRandomAxisValues(),
             rotation: this.generateRandomRotationValues(),
             scale: this.generateRandomScaleValues(),
@@ -100,7 +105,7 @@ export class SceneBuilder {
         return this.rgbToHex(red, green, blue);
     }
 
-    private rgbToHex(r: number, g: number, b: number): string {
+    public rgbToHex(r: number, g: number, b: number): string {
         const red: string = stringify(r, SceneConstants.HEX_TYPE);
         const green: string = stringify(g, SceneConstants.HEX_TYPE);
         const blue: string = stringify(b, SceneConstants.HEX_TYPE);
@@ -108,11 +113,11 @@ export class SceneBuilder {
         return SceneConstants.HEX_PREFIX + red + green + blue;
     }
 
-    private randomIntegerFromInterval(min: number, max: number): number {
+    public randomIntegerFromInterval(min: number, max: number): number {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
-    private randomFloatFromInterval(min: number, max: number): number {
+    public randomFloatFromInterval(min: number, max: number): number {
         return Math.random() * (max - min + 1) + min;
     }
 }
