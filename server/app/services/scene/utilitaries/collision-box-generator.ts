@@ -55,14 +55,15 @@ export class CollisionBoxGenerator {
 
     private pythagore(x: number, y: number): number {
 
+
     }
 
     private pythagore3D(x: number, y: number, z: number): number {
-        const halfXsquared: number = Math.pow(x, 2);
-        const halfYsquared: number = Math.pow(y, 2);
-        const halfZsquared: number = Math.pow(z, 2);
+        const xSquared: number = Math.pow(x, 2);
+        const ySquared: number = Math.pow(y, 2);
+        const zSquared: number = Math.pow(z, 2);
 
-        return Math.sqrt( halfXsquared + halfYsquared + halfZsquared );
+        return Math.sqrt( xSquared + ySquared + zSquared );
     }
 
 }
