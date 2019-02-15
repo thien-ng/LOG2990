@@ -1,11 +1,9 @@
 import * as chai from "chai";
 import * as spies from "chai-spies";
 import "reflect-metadata";
-import * as sinon from "sinon";
 import { SceneObjectType } from "../../../../common/communication/iSceneObject";
 import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
 import { SceneBuilder } from "../../services/scene/scene-builder";
-// import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
 
 /* tslint:disable:no-any */
 let sceneBuilder: SceneBuilder;
@@ -36,8 +34,4 @@ describe("Scene builder tests", () => {
         sceneBuilder.generateScene(sceneOptions);
         chai.expect(spy).to.have.been.called();
     });
-
-    // it("should change position of a new sceneObject until there is no collision", () =>) {
-
-    // });
 });
