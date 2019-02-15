@@ -101,7 +101,7 @@ export class CreateSimpleGameComponent {
   public submit(data: NgForm): void {
     this.isButtonEnabled = false;
     const formdata: FormData = this.createFormData(data);
-    this.httpClient.post(Constants.BASIC_SERVICE_BASE_URL + SUBMIT_PATH, formdata).subscribe((response: Message) => {
+    this.httpClient.post(Constants.BASE_URL + SUBMIT_PATH, formdata).subscribe((response: Message) => {
       this.analyseResponse(response);
       this.isButtonEnabled = true;
     });

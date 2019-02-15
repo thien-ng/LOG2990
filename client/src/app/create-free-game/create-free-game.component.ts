@@ -132,7 +132,7 @@ export class CreateFreeGameComponent {
     this.isButtonEnabled = false;
     const formValue: FormMessage = this.createFormMessage(formData);
 
-    this.httpClient.post(Constants.BASIC_SERVICE_BASE_URL + SUBMIT_PATH, formValue).subscribe((response: Message) => {
+    this.httpClient.post(Constants.BASE_URL + SUBMIT_PATH, formValue).subscribe((response: Message) => {
       this.analyseResponse(response);
       this.isButtonEnabled = true;
     });

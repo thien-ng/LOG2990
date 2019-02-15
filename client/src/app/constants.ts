@@ -10,9 +10,8 @@ export class Constants {
   public static readonly GAMELIST_PATH: string = "gamelist";
   public static readonly GAMELIST_REDIRECT: string = "/gamelist";
   public static readonly PATH_MATCH_FULL: string = "full";
-  public static readonly PATH_TO_ASSETS: string = "http://localhost:3000/api/asset";
-  public static readonly PATH_TO_ICONS: string = "http://localhost:3000/icon";
-  public static readonly PATH_TO_IMAGES: string = "http://localhost:3000/image";
+  public static readonly PATH_TO_ICONS: string = "/icon";
+  public static readonly PATH_TO_IMAGES: string = "/image";
 
   public static readonly OBLIGATORY_CATCH: string = "obligatory catch";
   public static readonly ANIMATION_TIME: number = 300; // ms
@@ -25,8 +24,7 @@ export class Constants {
   public static readonly REGEX_PATTERN: string = "^[a-zA-Z0-9]+$";
   public static readonly LOGIN_REQUEST: string = "onLogin";
   public static readonly WEBSOCKET_URL: string = "http://localhost:3333";
-  public static readonly PATH_TO_LOGIN_VALIDATION: string = "http://localhost:3000/api/user/newUsername";
-  public static readonly PATH_TO_USER: string = "http://localhost:3000/api/user/";
+  public static readonly PATH_TO_LOGIN_VALIDATION: string = "/api/user/newUsername";
   public static readonly LOGIN_MESSAGE_TITLE: string = "onUserSubscribe";
   public static readonly NAME_VALID_VALUE: string = "true";
   public static readonly ROUTER_LOGIN: string = "gamelist";
@@ -38,7 +36,7 @@ export class Constants {
   public static readonly SNACKBAR_DURATION: number = 5000;
 
   // Constant for basic.service.ts
-  public static readonly BASIC_SERVICE_BASE_URL: string = "http://localhost:3000";
+  public static readonly BASE_URL: string = "http://localhost:3000";
 
   // constant for create-simple-game.component.ts
   public static readonly GAME_REGEX_PATTERN: string = "^[a-z A-Z]+$";
