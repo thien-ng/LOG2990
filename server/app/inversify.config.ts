@@ -12,6 +12,7 @@ import { HighscoreService } from "./services/highscore.service";
 import { UserManagerService } from "./services/user-manager.service";
 import Types from "./types";
 import { WebsocketManager } from "./websocket/WebsocketManager";
+import { SceneManager } from "./services/scene/scene-manager.service";
 
 const container: Container = new Container();
 
@@ -32,5 +33,7 @@ container.bind(Types.DifferenceCheckerController).to(DifferenceCheckerController
 container.bind(Types.DifferenceCheckerService).to(DifferenceCheckerService);
 
 container.bind(Types.GameManager).to(GameManager).inSingletonScope();
+
+container.bind(Types.SceneManager).to(SceneManager).inSingletonScope();
 
 export { container };
