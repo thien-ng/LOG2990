@@ -1,9 +1,11 @@
+/* NoSmoking. (2016) Progress-Bar circulaire. [En ligne]. Disponible: https://nosmoking.developpez.com/demos/css/gauge_circulaire.html */
+
 .progress-circle{
   position: relative;             
   box-sizing: border-box;         
   font-size: 6em;                 
-  width: 1em;                     /* fix width */
-  height: 1em;                    /* fix height */
+  width: 1em;                     
+  height: 1em;                    
   border-radius: 50%;             
   border: .15em solid #CDE;       
   background-color: #FFF;         

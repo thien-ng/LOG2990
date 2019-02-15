@@ -21,6 +21,7 @@ export class DifferenceCounterComponent implements AfterContentInit {
     this.differenceCounterService.setNbErrorMax(this.DEFAULT_NB_ERROR_MAX);
   }
 
+  /* NoSmoking. (2016) Progress-Bar circulaire. [En ligne]. Disponible: https://nosmoking.developpez.com/demos/css/gauge_circulaire.html */
   public updateSpinner(errorFoundCounter: number): void {
     const angle: number = this.differenceCounterService.generateAngleSpinner(errorFoundCounter);
     const convertedErrorToPercent: number = this.differenceCounterService.convertErrorToPercent(errorFoundCounter);
