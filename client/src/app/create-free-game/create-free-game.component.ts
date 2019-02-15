@@ -13,6 +13,7 @@ import { MatDialogRef, MatSnackBar } from "@angular/material";
 import { FormMessage, Message } from "../../../../common/communication/message";
 import { CardManagerService } from "../card/card-manager.service";
 import { Constants } from "../constants";
+import { FreeGameManagerService } from "./free-game-manager.service";
 
 const  SUBMIT_PATH: string = "/api/card/submitFree";
 
@@ -60,6 +61,7 @@ export class CreateFreeGameComponent {
     private httpClient: HttpClient,
     private snackBar: MatSnackBar,
     private cardManagerService: CardManagerService,
+    private freeGameManagerService: FreeGameManagerService,
   ) {
 
     const controls: FormControl[] = this.modifTypes.map(() => new FormControl(false));
@@ -131,6 +133,8 @@ export class CreateFreeGameComponent {
   public submit(formData: NgForm): void {
     this.isButtonEnabled = false;
     const formValue: FormMessage = this.createFormMessage(formData);
+
+    this.freeGameManagerService.submitFormData(formValue);
 
     this.httpClient.post(Constants.BASIC_SERVICE_BASE_URL + SUBMIT_PATH, formValue).subscribe((response: Message) => {
       this.analyseResponse(response);

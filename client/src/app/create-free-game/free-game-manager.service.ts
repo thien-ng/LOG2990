@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { FormMessage, Message } from "../../../../common/communication/message";
 import { Constants } from "../constants";
 
+const  SUBMIT_PATH: string = "/api/scene/generator";
+
 @Injectable({
   providedIn: 'root'
 })
