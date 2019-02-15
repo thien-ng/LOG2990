@@ -41,6 +41,23 @@ describe("Cluster Counter tests", () => {
         done();
     });
 
+    it("should count all the distinct clusters in grid", (done: Function) => {
+        const width:    number = 4;
+        const height:   number = 4;
+
+        const newBuilder: BMPBuilder = new BMPBuilder(width, height, WHITE);
+        newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 3);
+        newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 2);
+
+        const bufferWIthDiff: Buffer = Buffer.from(newBuilder.buffer);
+
+        const clusterCounter: ClusterCounter = new ClusterCounter(bufferWIthDiff, width);
+        const numberOfDiffFound: number = clusterCounter.countAllClusters();
+
+        expect(numberOfDiffFound).equal(1);
+        done();
+    });
+
     // it("should count touching clusters (diagonal) as one", (done: Function) => {
     //     const width:    number = 4;
     //     const height:   number = 4;
