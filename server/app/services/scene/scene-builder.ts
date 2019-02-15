@@ -27,29 +27,6 @@ export class SceneBuilder {
         return this.sceneVariables;
     }
 
-    // separeted class for object generation needed
-    private generateSceneObjects(sceneOptions: ISceneOptions): void {
-
-        const sceneObjectsQuantity: number = sceneOptions.sceneObjectsQuantity;
-
-        for (let index: number = 0; index < sceneObjectsQuantity; index++) {
-            this.sceneVariables.sceneObjects.push(this.generateRandomSceneObject(sceneOptions));
-        }
-    }
-
-    private generateRandomSceneObject(sceneOptions: ISceneOptions): ISceneObject {
-        const newSceneObject: ISceneObject = {
-            type: sceneOptions.sceneObjectsType,
-            position: this.generateRandomAxisValues(),
-            rotation: this.generateRandomRotationValues(),
-            scale: this.generateRandomScaleValues(),
-            color: this.generateRandomColor(),
-        };
-
-        this.validatePosition(newSceneObject);
-
-        return newSceneObject;
-    }
 
     public generateRandomAxisValues(): IAxisValues {
         const randomX: number = this.randomIntegerFromInterval(0, SceneConstants.MAX_POSITION_X);
@@ -61,15 +38,6 @@ export class SceneBuilder {
             y: randomY,
             z: randomZ,
         };
-    }
-
-    public validatePosition(newSceneObject: ISceneObject): void {
-
-        while (this.collisionValidator.hasCollidingPositions(newSceneObject, this.sceneVariables.sceneObjects)) {
-
-            newSceneObject.position = this.generateRandomAxisValues();
-        }
-
     }
 
     public generateRandomRotationValues(): IAxisValues {
@@ -118,5 +86,37 @@ export class SceneBuilder {
 
     public randomFloatFromInterval(min: number, max: number): number {
         return Math.random() * (max - min + 1) + min;
+    }
+
+    private generateSceneObjects(sceneOptions: ISceneOptions): void {
+
+        const sceneObjectsQuantity: number = sceneOptions.sceneObjectsQuantity;
+
+        for (let index: number = 0; index < sceneObjectsQuantity; index++) {
+            this.sceneVariables.sceneObjects.push(this.generateRandomSceneObject(sceneOptions));
+        }
+    }
+
+    private generateRandomSceneObject(sceneOptions: ISceneOptions): ISceneObject {
+        const newSceneObject: ISceneObject = {
+            type: sceneOptions.sceneObjectsType,
+            position: this.generateRandomAxisValues(),
+            rotation: this.generateRandomRotationValues(),
+            scale: this.generateRandomScaleValues(),
+            color: this.generateRandomColor(),
+        };
+
+        this.validatePosition(newSceneObject);
+
+        return newSceneObject;
+    }
+
+    private validatePosition(newSceneObject: ISceneObject): void {
+
+        while (this.collisionValidator.hasCollidingPositions(newSceneObject, this.sceneVariables.sceneObjects)) {
+
+            newSceneObject.position = this.generateRandomAxisValues();
+        }
+
     }
 }

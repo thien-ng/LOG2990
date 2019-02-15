@@ -14,13 +14,19 @@ describe("Scene builder tests", () => {
     const sceneOptions10: ISceneOptions = {
         sceneName: "1 objet",
         sceneObjectsType: SceneObjectType.Cube,
-        sceneObjectsQuantity: 1,
+        sceneObjectsQuantity: 10,
     };
 
     const sceneOptions200: ISceneOptions = {
         sceneName: "200 objet",
         sceneObjectsType: SceneObjectType.Cube,
         sceneObjectsQuantity: 200,
+    };
+
+    const sceneOptions2000: ISceneOptions = {
+        sceneName: "2000 objet",
+        sceneObjectsType: SceneObjectType.Cube,
+        sceneObjectsQuantity: 2000,
     };
 
     beforeEach(() => {
@@ -40,11 +46,9 @@ describe("Scene builder tests", () => {
         chai.expect(scene.sceneObjects.length).equal(200);
     });
 
-    // it("should call the generateRandomRotationValues function when generating scene objects", () => {
-    //     const spy: any = chai.spy.on(sceneBuilder, "generateRandomRotationValues");
-    //     sceneBuilder.generateScene(sceneOptions1);
-    //     chai.expect(spy).to.have.been.called();
-    // });
-
+    it("should generate a SceneObject[] of length 2000", () => {
+        const scene: ISceneVariables = sceneBuilder.generateScene(sceneOptions2000);
+        chai.expect(scene.sceneObjects.length).equal(2000);
+    });
 
 });
