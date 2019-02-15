@@ -2,34 +2,34 @@ import "reflect-metadata";
 
 import { expect } from "chai";
 import { User } from "../../../../common/communication/iUser";
-import { NameValidatorService } from "../../services/validator/nameValidator.service";
+import { UserManagerService } from "../../services/validator/user-manager.service";
 
-let nameValidatorService: NameValidatorService;
+let userManagerService: UserManagerService;
 
 beforeEach(() => {
-    nameValidatorService = new NameValidatorService;
-    nameValidatorService.usernameList.push({
+    userManagerService = new UserManagerService;
+    userManagerService.usernameList.push({
                                                 username: "patate",
                                                 socketID: "socketid",
                                             });
-    nameValidatorService.usernameList.push({
+    userManagerService.usernameList.push({
                                                 username: "roger",
                                                 socketID: "socketid",
                                             });
-    nameValidatorService.usernameList.push({
+    userManagerService.usernameList.push({
                                                 username: "dylan",
                                                 socketID: "socketid",
                                             });
 });
 
-describe("NameValidatorService test", () => {
+describe("UserManagerService test", () => {
 
     it ("should return True if name input is unique", (done: Function) => {
         const user: User = {
                                 username: "ligma",
                                 socketID: "socketid",
                             };
-        const result: Boolean = nameValidatorService.validateName(user);
+        const result: Boolean = userManagerService.validateName(user);
 
         expect(result).to.equal(true);
         done();
@@ -40,7 +40,7 @@ describe("NameValidatorService test", () => {
                                 username: "patate",
                                 socketID: "socketid",
                             };
-        const result: Boolean = nameValidatorService.validateName(user);
+        const result: Boolean = userManagerService.validateName(user);
 
         expect(result).to.equal(false);
         done();
@@ -48,7 +48,7 @@ describe("NameValidatorService test", () => {
 
     it ("should return True if name input is unique", (done: Function) => {
         const name: string = "bob";
-        const result: Boolean = nameValidatorService.isUnique(name);
+        const result: Boolean = userManagerService.isUnique(name);
 
         expect(result).to.equal(true);
         done();
@@ -56,7 +56,7 @@ describe("NameValidatorService test", () => {
 
     it ("should return false if name input is unique", (done: Function) => {
         const name: string = "patate";
-        const result: Boolean = nameValidatorService.isUnique(name);
+        const result: Boolean = userManagerService.isUnique(name);
 
         expect(result).to.equal(false);
         done();
@@ -67,9 +67,9 @@ describe("NameValidatorService test", () => {
                                 username: "patate",
                                 socketID: "socketid",
                             };
-        nameValidatorService.leaveBrowser(user);
+        userManagerService.leaveBrowser(user);
 
-        const result: Boolean = nameValidatorService.isUnique(user.username);
+        const result: Boolean = userManagerService.isUnique(user.username);
         expect(result).to.equal(true);
         done();
     });
@@ -79,9 +79,9 @@ describe("NameValidatorService test", () => {
                                 username: "patate",
                                 socketID: "socketid",
                             };
-        nameValidatorService.leaveBrowser(user);
+        userManagerService.leaveBrowser(user);
 
-        const result: Boolean = nameValidatorService.isUnique(user.username);
+        const result: Boolean = userManagerService.isUnique(user.username);
         expect(result).to.equal(true);
         done();
     });

@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 import { User } from "../../../../common/communication/iUser";
 
 @injectable()
-export class NameValidatorService {
+export class UserManagerService {
 
     private nameList: User[];
 

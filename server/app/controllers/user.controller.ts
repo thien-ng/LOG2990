@@ -1,21 +1,21 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { inject, injectable } from "inversify";
 
-import { NameValidatorService } from "../services/validator/nameValidator.service";
+import { UserManagerService } from "../services/validator/user-manager.service";
 
 import Types from "../types";
 
 @injectable()
-export class LoginValidatorController {
+export class UserController {
 
-    public constructor(@inject(Types.NameValidatorService) private nameValidatorService: NameValidatorService) { }
+    public constructor(@inject(Types.UserManagerService) private userManagerService: UserManagerService) { }
 
     public get router(): Router {
 
         const router: Router = Router();
 
         router.post("/newUsername", (req: Request, res: Response, next: NextFunction) => {
-            const isValidated: Boolean = this.nameValidatorService.validateName(req.body.body);
+            const isValidated: Boolean = this.userManagerService.validateName(req.body.body);
             res.json(isValidated);
         });
 

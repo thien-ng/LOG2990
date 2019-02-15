@@ -6,7 +6,7 @@ import { inject, injectable } from "inversify";
 import * as logger from "morgan";
 import { CardManagerController } from "./controllers/card-manager.controller";
 import { HighscoreController } from "./controllers/highscore.controller";
-import { LoginValidatorController } from "./controllers/loginValidator.controller";
+import { UserController } from "./controllers/user.controller";
 import { DifferenceCheckerController } from "./services/difference-checker/difference-checker.controller";
 import Types from "./types";
 
@@ -19,7 +19,7 @@ export class Application {
     public constructor(
         @inject(Types.CardManagerController) private cardManagerController: CardManagerController,
         @inject(Types.HighscoreController) private highscoreController: HighscoreController,
-        @inject(Types.LoginValidatorController) private loginValidatorController: LoginValidatorController,
+        @inject(Types.UserController) private loginValidatorController: UserController,
         @inject(Types.DifferenceCheckerController) private differenceCheckerController: DifferenceCheckerController,
 
         ) {

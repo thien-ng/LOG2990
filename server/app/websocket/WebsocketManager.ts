@@ -6,7 +6,7 @@ import { ICanvasPosition } from "../../../common/communication/iGameplay";
 import { User } from "../../../common/communication/iUser";
 import { Constants } from "../constants";
 import { GameManager } from "../services/game/game-manager.service";
-import { NameValidatorService } from "../services/validator/nameValidator.service";
+import { UserManagerService } from "../services/validator/user-manager.service";
 import Types from "../types";
 
 @injectable()
@@ -15,7 +15,7 @@ export class WebsocketManager {
     private io: SocketIO.Server;
 
     public constructor(
-        @inject(Types.NameValidatorService) private nameValidatorService: NameValidatorService,
+        @inject(Types.UserManagerService) private userManagerService: UserManagerService,
         @inject(Types.GameManager) private gameManager: GameManager) {}
 
     public createWebsocket(server: http.Server): void {
@@ -70,7 +70,7 @@ export class WebsocketManager {
         });
 
         socket.on(Constants.DISCONNECT_EVENT, (data: User) => {
-            this.nameValidatorService.leaveBrowser(data);
+            this.userManagerService.leaveBrowser(data);
             this.gameManager.unsubscribeSocketID(socketID);
         });
     }
