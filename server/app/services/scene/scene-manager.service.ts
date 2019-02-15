@@ -24,6 +24,7 @@ export class SceneManager {
     private sceneOptionsMapper(body: FormMessage): ISceneOptions {
 
         // il manque le mapping pour les selected options!!!!!
+        // ca sera implementer lorsquon travaille sur les modifications de scenes
         return {
             sceneName: body.gameName,
             sceneObjectsType: this.objectTypeIdentifier(body.selectedOption),

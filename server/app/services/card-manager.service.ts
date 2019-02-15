@@ -8,8 +8,6 @@ import Types from "../types";
 import { AssetManagerService } from "./asset-manager.service";
 import { ImageRequirements } from "./difference-checker/utilities/imageRequirements";
 import { HighscoreService } from "./highscore.service";
-import { SceneManager } from "./scene/scene-manager.service";
-import { ISceneVariables } from "../../../common/communication/iSceneVariables";
 
 const axios: Axios.AxiosInstance = require("axios");
 const DOESNT_EXIST: number = -1;
@@ -34,8 +32,7 @@ export class CardManagerService {
     private uniqueId: number = 1000;
 
     public constructor(
-        @inject(Types.HighscoreService) private highscoreService: HighscoreService,
-        @inject(Types.SceneManager) private sceneManager: SceneManager) {
+        @inject(Types.HighscoreService) private highscoreService: HighscoreService) {
         this.cards = {
             list2D: [],
             list3D: [],
