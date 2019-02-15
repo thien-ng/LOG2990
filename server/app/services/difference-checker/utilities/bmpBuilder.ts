@@ -1,43 +1,43 @@
-export class BMPBuilder {
-    // relative to BMP header
-    private readonly BASE_HEADER_SIZE: number = 14;
-    private readonly INFOHEADER_SIZE: number = 40;
+import { Constants } from "./Constants";
 
-    private readonly HEADER_SIGNATURE: number = 0x424D; // BM in ascii
-    private readonly HEADER_RESERVED: number = 0;       // unused => 0
-    private readonly HEADER_DATAOFFSET: number = 54;
-    private readonly PLANES: number  = 1;
-    private readonly COMPRESSION: number  = 0;
-    private readonly HORIZONTAL_RESOLUTION: number  = 2835;
-    private readonly VERTICAL_RESOLUTION: number  = 2835;
-    private readonly COLOR_USED: number  = 0;
-    private readonly IMPORTANT_COLOR_USED: number  = 0;
+export class BMPBuilder {
+
+    private readonly HEADER_SIGNATURE:      number = 0x424D; // BM in ascii
+    private readonly HEADER_RESERVED:       number =      0;       // unused => 0
+    private readonly HEADER_DATAOFFSET:     number =     54;
+    private readonly PLANES:                number =      1;
+    private readonly COMPRESSION:           number =      0;
+    private readonly HORIZONTAL_RESOLUTION: number =   2835;
+    private readonly VERTICAL_RESOLUTION:   number =   2835;
+    private readonly COLOR_USED:            number =      0;
+    private readonly IMPORTANT_COLOR_USED:  number =      0;
 
     // constants necessary for work on bytes
-    private readonly BYTE_SPAN_2: number = 2;
-    private readonly BYTE_SPAN_4: number = 4;
-    private readonly BITDEPTH_24: number = 24;
-    private readonly NUM_BITS_IN_BYTE: number = 8;
-    private readonly BASE_HEXA: number = 16;
+    private readonly BYTE_SPAN_2:           number =      2;
+    private readonly BYTE_SPAN_4:           number =      4;
+    private readonly BITDEPTH_24:           number =     24;
+    private readonly NUM_BITS_IN_BYTE:      number =      8;
+    private readonly BASE_HEXA:             number =     16;
 
-    private readonly BLUE_OFFSET:  number = 0;
-    private readonly GREEN_OFFSET: number = 1;
-    private readonly RED_OFFSET:   number = 2;
-    private readonly MIN_ENTRY: number  = 0;
-    private readonly MAX_ENTRY: number  = 255;
+    private readonly BLUE_OFFSET:           number =      0;
+    private readonly GREEN_OFFSET:          number =      1;
+    private readonly RED_OFFSET:            number =      2;
+    private readonly MIN_ENTRY:             number =      0;
+    private readonly MAX_ENTRY:             number =    255;
+
+    private readonly HEXA:                  string =  "hex";
 
     // error messages
-    private readonly ERROR_INVALIDWIDTH:  string = "Invalid width entered. Width must be a positive number higher than 0.";
-    private readonly ERROR_INVALIDHEIGHT:  string = "Invalid height entered. Height must be a positive number higher than 0.";
-    private readonly ERROR_INVALIDFILLER:  string = "Invalid fill number entered. Must be comprised between 0 and 255 inclusively.";
-    private readonly ERROR_OUT_OF_BOUNDS:  string = "Entered position is out of bounds";
-    private readonly HEXA: string = "hex";
+    private readonly ERROR_INVALIDWIDTH:    string = "Invalid width entered. Width must be a positive number higher than 0.";
+    private readonly ERROR_INVALIDHEIGHT:   string = "Invalid height entered. Height must be a positive number higher than 0.";
+    private readonly ERROR_INVALIDFILLER:   string = "Invalid fill number entered. Must be comprised between 0 and 255 inclusively.";
+    private readonly ERROR_OUT_OF_BOUNDS:   string = "Entered position is out of bounds";
 
     private bmpBuffer: Buffer;
 
     public constructor(
-        private width: number,
-        private height: number,
+        private width:    number,
+        private height:   number,
         private fillWith: number,
     ) {
 
@@ -73,8 +73,8 @@ export class BMPBuilder {
     }
 
     private buildFullHeader(): Buffer {
-        const baseHeader: Buffer = this.buildBaseHeader();
-        const infoHeader: Buffer = this.buildInfoHeader();
+        const baseHeader:  Buffer   = this.buildBaseHeader();
+        const infoHeader:  Buffer   = this.buildInfoHeader();
         const bufferArray: Buffer[] = [
             baseHeader,
             infoHeader,
@@ -84,10 +84,10 @@ export class BMPBuilder {
     }
 
     private buildBaseHeader(): Buffer {
-        const signature:    Buffer = Buffer.from(this.HEADER_SIGNATURE.toString(this.BASE_HEXA), this.HEXA);
-        const fileSize:     Buffer = Buffer.from(this.spanNumberOnNBytes(this.getFileSize(),        this.BYTE_SPAN_4));
-        const reserved:     Buffer = Buffer.from(this.spanNumberOnNBytes(this.HEADER_RESERVED,      this.BYTE_SPAN_4));
-        const dataOffset:   Buffer = Buffer.from(this.spanNumberOnNBytes(this.HEADER_DATAOFFSET,    this.BYTE_SPAN_4));
+        const signature:   Buffer = Buffer.from(this.HEADER_SIGNATURE.toString(this.BASE_HEXA), this.HEXA);
+        const fileSize:    Buffer = Buffer.from(this.spanNumberOnNBytes(this.getFileSize(),        this.BYTE_SPAN_4));
+        const reserved:    Buffer = Buffer.from(this.spanNumberOnNBytes(this.HEADER_RESERVED,      this.BYTE_SPAN_4));
+        const dataOffset:  Buffer = Buffer.from(this.spanNumberOnNBytes(this.HEADER_DATAOFFSET,    this.BYTE_SPAN_4));
 
         const bufferArray: Buffer[] = [
             signature,
@@ -96,11 +96,11 @@ export class BMPBuilder {
             dataOffset,
         ];
 
-        return Buffer.concat(bufferArray, this.BASE_HEADER_SIZE);
+        return Buffer.concat(bufferArray, Constants.BASE_BMP_HEADER_SIZE);
     }
 
     private buildInfoHeader(): Buffer {
-        const size:         Buffer = Buffer.from(this.spanNumberOnNBytes(this.INFOHEADER_SIZE,       this.BYTE_SPAN_4));
+        const size:         Buffer = Buffer.from(this.spanNumberOnNBytes(Constants.BMP_INFOHEADER_SIZE,       this.BYTE_SPAN_4));
         const width:        Buffer = Buffer.from(this.spanNumberOnNBytes(this.width,                 this.BYTE_SPAN_4));
         const height:       Buffer = Buffer.from(this.spanNumberOnNBytes(this.height,                this.BYTE_SPAN_4));
         const planes:       Buffer = Buffer.from(this.spanNumberOnNBytes(this.PLANES,                this.BYTE_SPAN_2));
@@ -126,7 +126,7 @@ export class BMPBuilder {
             impColor,
         ];
 
-        return Buffer.concat(infoHeaderArray, this.INFOHEADER_SIZE);
+        return Buffer.concat(infoHeaderArray, Constants.BMP_INFOHEADER_SIZE);
     }
 
     private getBitDepthInBytes(): number {
@@ -134,11 +134,13 @@ export class BMPBuilder {
     }
 
     private paddingPerRow(): number {
-        return this.BYTE_SPAN_4 - (this.width * this.getBitDepthInBytes()) % this.BYTE_SPAN_4;
+        return this.width % this.BYTE_SPAN_4;
     }
 
     private getFileSize(): number {
-        return this.width * this.height * this.getBitDepthInBytes() + this.HEADER_DATAOFFSET;
+        const totalPadding: number = this.height * this.paddingPerRow();
+
+        return this.width * this.height * this.getBitDepthInBytes() + totalPadding + this.HEADER_DATAOFFSET;
     }
 
     private spanNumberOnNBytes(num: number, spanRange: number): Buffer {
@@ -158,7 +160,6 @@ export class BMPBuilder {
     }
 
     public setColorAtPos(R: number, G: number, B: number, posX: number, posY: number): void {
-
         const truePosY: number = this.height - posY - 1;
         const xOffset: number = posX * this.getBitDepthInBytes();
         const yOffset: number = truePosY * (this.paddingPerRow() + this.width * this.getBitDepthInBytes());

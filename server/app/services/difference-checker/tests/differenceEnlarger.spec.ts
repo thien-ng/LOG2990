@@ -1,82 +1,102 @@
-// import { expect } from "chai";
+import { expect } from "chai";
 import "reflect-metadata";
-// import { DifferenceEnlarger } from "../utilities/differenceEnlarger";
+import { BMPBuilder } from "../utilities/bmpBuilder";
+import { DifferenceEnlarger } from "../utilities/differenceEnlarger";
 
-// tslint:disable:no-magic-numbers
+// tslint:disable:no-magic-numbers max-func-body-length
 
-describe("CircleDifferences tests", () => {
+const RADIUS:  number =   3;
+const WHITE:   number = 255;
+const BLACK:   number =   0;
 
-    // it("should return an empty array when given an empty array", (done: Function) => {
-    //     let circleDifferences: DifferenceEnlarger;
-    //     const givenArray: number[] = [];
+let   builder: BMPBuilder;
 
-    //     const expectedArray: number[] = [];
-    //     const width: number = 0;
-    //     const radius: number = 1;
+describe("Difference Enlarger tests", () => {
 
-    //     circleDifferences = new DifferenceEnlarger(givenArray, width, radius);
-    //     const computedArray: number[] = circleDifferences.enlargeAllDifferences();
-    //     expect(computedArray).deep.equal(expectedArray);
-    //     done();
-    // });
+    beforeEach(() => {
+        builder = new BMPBuilder(2, 3, WHITE);
+   });
 
-    // it("should return the same array when given an not valid number", (done: Function) => {
-    //     let circleDifferences: DifferenceEnlarger;
-    //     const givenArray: number[] = [2];
+    it("should return the same array when given an invalid number", (done: Function) => {
 
-    //     const expectedArray: number[] = [2];
-    //     const width: number = 1;
-    //     const radius: number = 3;
+        builder.setColorAtPos(100, 100, 100, 1, 1);
+        const bufferWithWrongColor: Buffer = builder.buffer;
+        const expectedOutputBuffer: Buffer = Buffer.from(bufferWithWrongColor);
 
-    //     circleDifferences = new DifferenceEnlarger(givenArray, width, radius);
-    //     const computedArray: number[] = circleDifferences.enlargeAllDifferences();
-    //     expect(computedArray).deep.equal(expectedArray);
-    //     done();
-    // });
+        const enlarger: DifferenceEnlarger = new DifferenceEnlarger(bufferWithWrongColor, 2, RADIUS);
+        const bufferAfterEnlarger: Buffer = enlarger.enlargeAllDifferences();
 
-    // it("should work when given a single difference array (without difference)", (done: Function) => {
-    //     let circleDifferences: DifferenceEnlarger;
-    //     const givenArray: number[] = [0];
+        expect(bufferAfterEnlarger).deep.equal(expectedOutputBuffer);
+        done();
+    });
 
-    //     const expectedArray: number[] =   [0];
-    //     const width: number = 1;
-    //     const radius: number = 3;
+    it("should work when given a single pixel buffer (without difference)", (done: Function) => {
+        const width:  number = 1;
+        const height: number = 2;
 
-    //     circleDifferences = new DifferenceEnlarger(givenArray, width, radius);
-    //     const computedArray: number[] = circleDifferences.enlargeAllDifferences();
-    //     expect(computedArray).deep.equal(expectedArray);
-    //     done();
-    // });
+        const newBuilder: BMPBuilder = new BMPBuilder(width, height, WHITE);
+        const singlePixelBuffer: Buffer = Buffer.from(newBuilder.buffer);
+        const expectedOutputBuffer: Buffer = Buffer.from(newBuilder.buffer);
 
-    // it("should work when given a single difference array (with difference)", (done: Function) => {
-    //     let circleDifferences: DifferenceEnlarger;
-    //     const givenArray: number[] = [1];
+        const enlarger:             DifferenceEnlarger = new DifferenceEnlarger(singlePixelBuffer, width, RADIUS);
+        const bufferAfterEnlarger:  Buffer = enlarger.enlargeAllDifferences();
 
-    //     const expectedArray: number[] =   [1];
-    //     const width: number = 1;
-    //     const radius: number = 3;
+        expect(bufferAfterEnlarger).deep.equal(expectedOutputBuffer);
+        done();
+    });
 
-    //     circleDifferences = new DifferenceEnlarger(givenArray, width, radius);
-    //     const computedArray: number[] = circleDifferences.enlargeAllDifferences();
-    //     expect(computedArray).deep.equal(expectedArray);
-    //     done();
-    // });
+    it("should work when given a single difference array (with difference)", (done: Function) => {
+        const width:  number = 1;
+        const height: number = 1;
 
-    // it("should work when given an array 1x2 with 1 difference", (done: Function) => {
-    //     let circleDifferences: DifferenceEnlarger;
-    //     const givenArray: number[] = [0,
-    //                                   1];
+        const singlePixelBuilder: BMPBuilder = new BMPBuilder(width, height, WHITE);
+        singlePixelBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 0);
 
-    //     const expectedArray: number[] = [1,
-    //                                      1];
-    //     const width: number = 1;
-    //     const radius: number = 3;
+        const singlePixelBuffer:    Buffer = singlePixelBuilder.buffer;
+        const expectedOutputBuffer: Buffer = Buffer.from(singlePixelBuilder.buffer);
 
-    //     circleDifferences = new DifferenceEnlarger(givenArray, width, radius);
-    //     const computedArray: number[] = circleDifferences.enlargeAllDifferences();
-    //     expect(computedArray).deep.equal(expectedArray);
-    //     done();
-    // });
+        const enlarger: DifferenceEnlarger = new DifferenceEnlarger(singlePixelBuffer, width, RADIUS);
+        const bufferAfterEnlarger: Buffer = enlarger.enlargeAllDifferences();
+
+        expect(bufferAfterEnlarger).to.deep.equal(expectedOutputBuffer);
+        done();
+    });
+
+    it("should work when given an difference in a corner", (done: Function) => {
+        const width:  number = 4;
+        const height: number = 4;
+        const inputBuilder: BMPBuilder = new BMPBuilder(width, height, WHITE);
+        inputBuilder.setColorAtPos(BLACK, BLACK, BLACK, 3, 3);
+        const diffInBottomCornerBuffer: Buffer = Buffer.from(inputBuilder.buffer);
+
+        const expectedBuilder: BMPBuilder = new BMPBuilder(width, height, WHITE);
+        const positions: number [][] = [
+            [2, 0],
+            [3, 0],
+            [1, 1],
+            [2, 1],
+            [3, 1],
+            [0, 2],
+            [1, 2],
+            [2, 2],
+            [3, 2],
+            [0, 3],
+            [1, 3],
+            [2, 3],
+            [3, 3],
+        ];
+        const xIndex: number = 0;
+        const yIndex: number = 1;
+        positions.forEach((position: number[]) => {
+            expectedBuilder.setColorAtPos(BLACK, BLACK, BLACK, position[xIndex], position[yIndex]);
+        });
+
+        const expectedOutputBuffer: Buffer = expectedBuilder.buffer;
+        const enlarger: DifferenceEnlarger = new DifferenceEnlarger(diffInBottomCornerBuffer, width, RADIUS);
+        const bufferAfterEnlarger: Buffer = enlarger.enlargeAllDifferences();
+        expect(bufferAfterEnlarger).deep.equal(expectedOutputBuffer);
+        done();
+    });
 
     // it("should work when given an array with 1 in a corner", (done: Function) => {
     //     let circleDifferences: DifferenceEnlarger;
@@ -86,22 +106,6 @@ describe("CircleDifferences tests", () => {
     //     const expectedArray: number[] = [1, 1, 1, 1,
     //                                      1, 1, 1, 1];
     //     const width: number = 4;
-    //     const radius: number = 3;
-
-    //     circleDifferences = new DifferenceEnlarger(givenArray, width, radius);
-    //     const computedArray: number[] = circleDifferences.enlargeAllDifferences();
-    //     expect(computedArray).deep.equal(expectedArray);
-    //     done();
-    // });
-
-    // it("should work when given an array with missing value", (done: Function) => {
-    //     let circleDifferences: DifferenceEnlarger;
-    //     const givenArray: number[] =   [0, 0, 0, 0, 0,
-    //                                     1, 0, 0];
-
-    //     const expectedArray: number[] = [1, 1, 1, 1, 0,
-    //                                      1, 1, 1];
-    //     const width: number = 5;
     //     const radius: number = 3;
 
     //     circleDifferences = new DifferenceEnlarger(givenArray, width, radius);
@@ -169,5 +173,4 @@ describe("CircleDifferences tests", () => {
     //     expect(computedArray).deep.equal(expectedArray);
     //     done();
     // });
-
 });

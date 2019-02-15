@@ -1,3 +1,5 @@
+import { Constants } from "./constants";
+
 interface IEdges {
     isOnTopEdge:    boolean;
     isOnBottomEdge: boolean;
@@ -7,13 +9,9 @@ interface IEdges {
 
 export class ClusterCounter {
 
-    private readonly BMP_HEADER_SIZE: number = 54;  // a mettre dans les constantes
-    private readonly PIXEL_SIZE:      number = 3;   // a mettre dans les constantes
-
     private readonly DECALAGE_GAUCHE: number = -1;
     private readonly DECALAGE_DROITE: number =  1;
-    private readonly DOES_NOT_EXIST:  number = -1;   // a mettre dans les constantes
-    private readonly IS_A_DIFFERENCE: number =  0;   // a mettre dans les constantes
+    private readonly DOES_NOT_EXIST:  number = -1;
 
     private visitedColor: number = 1;
 
@@ -23,8 +21,9 @@ export class ClusterCounter {
 
         let clusterCounter: number = 0;
 
-        for (let bytePos: number = this.BMP_HEADER_SIZE; bytePos < this.differenceBuffer.length; bytePos += this.PIXEL_SIZE) {
-            if (this.differenceBuffer[bytePos] === this.IS_A_DIFFERENCE) {
+        const bufferLenght: number = this.differenceBuffer.length;
+        for (let bytePos: number = Constants.BMP_HEADER_SIZE; bytePos < bufferLenght; bytePos += Constants.PIXEL_24B_SIZE) {
+            if (this.differenceBuffer[bytePos] === Constants.IS_A_DIFFERENCE) {
 
                 const pixelIndex: number = this.convertToPixelPosition(bytePos);
                 this.findAllConnectedDifferences(pixelIndex);
@@ -38,25 +37,25 @@ export class ClusterCounter {
 
     // will only work with an image that's a width multiple of 4
     private convertToPixelPosition(bytePosition: number): number {
-            return Math.floor(bytePosition / this.PIXEL_SIZE);
+            return Math.floor((bytePosition - Constants.BMP_HEADER_SIZE) / Constants.PIXEL_24B_SIZE);
     }
 
     // will only work with an image that's a width multiple of 4
     private convertToBytePosition(pixelPosition: number): number {
-            return pixelPosition * this.PIXEL_SIZE;
+            return pixelPosition * Constants.PIXEL_24B_SIZE + Constants.BMP_HEADER_SIZE;
     }
 
         // will only work with an image that's a width multiple of 4
     private numberOfPixelsInImage(): number {
-        const imageSizeInBytes: number = this.differenceBuffer.length - this.BMP_HEADER_SIZE;
+        const imageSizeInBytes: number = this.differenceBuffer.length - Constants.BMP_HEADER_SIZE;
 
-        return Math.floor(imageSizeInBytes / this.PIXEL_SIZE);
+        return Math.floor(imageSizeInBytes / Constants.PIXEL_24B_SIZE);
     }
 
     private setPixelAsDifference(pixelPosition: number, color: number): void {
         const firstByte: number = this.convertToBytePosition(pixelPosition);
 
-        for (let offset: number = 0; offset < this.PIXEL_SIZE; offset++) {
+        for (let offset: number = 0; offset < Constants.PIXEL_24B_SIZE; offset++) {
             this.differenceBuffer[firstByte + offset] = color;
         }
     }
@@ -64,7 +63,7 @@ export class ClusterCounter {
     private pixelIsADifference(pixelPosition: number): boolean {
         const firstByte: number = this.convertToBytePosition(pixelPosition);
 
-        return this.differenceBuffer[firstByte] === this.IS_A_DIFFERENCE;
+        return this.differenceBuffer[firstByte] === Constants.IS_A_DIFFERENCE;
     }
 
     private findAllConnectedDifferences(pixelPosition: number): void {
@@ -104,7 +103,7 @@ export class ClusterCounter {
 
         allNeighbors.forEach((neighborsPos: number) => {
             const neighborsExists: boolean = neighborsPos !== this.DOES_NOT_EXIST;
-            // const neighborsIsADifference: boolean = this.differenceBuffer[neighborsPos] === this.IS_A_DIFFERENCE;
+            // const neighborsIsADifference: boolean = this.differenceBuffer[neighborsPos] === Constants.IS_A_DIFFERENCE;
             const neighborsIsADifference: boolean = this.pixelIsADifference(neighborsPos);
 
             if (neighborsExists && neighborsIsADifference) {

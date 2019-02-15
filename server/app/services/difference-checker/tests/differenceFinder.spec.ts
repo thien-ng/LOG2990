@@ -1,15 +1,15 @@
 import { expect } from "chai";
-import { Constants } from "../../../constants";
-import { ImagesDifference } from "../utilities/imagesDifference";
+import { Constants } from "../utilities/constants";
+import { DifferenceFinder } from "../utilities/differenceFinder";
 
 // tslint:disable:no-magic-numbers
 
-let imagesDifference: ImagesDifference;
+let differenceFinder: DifferenceFinder;
 
-describe("Images Difference finder microservice tests", () => {
+describe("Difference finder microservice tests", () => {
 
     beforeEach(() => {
-        imagesDifference = new ImagesDifference();
+        differenceFinder = new DifferenceFinder();
     });
 
     it("should be throw TypeError", (done: Function) => {
@@ -21,7 +21,7 @@ describe("Images Difference finder microservice tests", () => {
 
         try {
 
-            imagesDifference.searchDifferenceImage(buffer1, buffer2);
+            differenceFinder.searchDifferenceImage(buffer1, buffer2);
 
         } catch (error) {
             if (error instanceof TypeError) {

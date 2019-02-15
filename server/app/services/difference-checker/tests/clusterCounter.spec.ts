@@ -1,36 +1,60 @@
-// import { expect } from "chai";
-// import { ClusterCounter } from "../utilities/clusterCounter";
+import { expect } from "chai";
+import { BMPBuilder } from "../utilities/bmpBuilder";
+import { ClusterCounter } from "../utilities/clusterCounter";
 
 // tslint:disable:no-magic-numbers
+const WHITE:    number = 255;
+const BLACK:    number =   0;
 
-describe("Cluster Counter microservice tests", () => {
+describe("Cluster Counter tests", () => {
 
-    // it("should count all the distinct clusters in grid", (done: Function) => {
-    //     const diffList: number[] = [ 0, 0, 1,
-    //                                  1, 0, 0,
-    //                                  0, 0, 1,
-    //                                 ];
-    //     const width: number = 3;
+    it("should count one clusters in a grid", (done: Function) => {
+        const width:    number = 4;
+        const height:   number = 4;
 
-    //     const clusterCounter: ClusterCounter = new ClusterCounter(diffList, width);
-    //     const count: number = clusterCounter.countAllClusters();
-    //     const expectedAnswer: number = 3;
-    //     expect(count).to.equal(expectedAnswer);
-    //     done();
-    // });
+        const newBuilder: BMPBuilder = new BMPBuilder(width, height, WHITE);
+        newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 2, 2);
+
+        const bufferWIthDiff: Buffer = Buffer.from(newBuilder.buffer);
+
+        const clusterCounter: ClusterCounter = new ClusterCounter(bufferWIthDiff, width);
+        const numberOfDiffFound: number = clusterCounter.countAllClusters();
+
+        expect(numberOfDiffFound).equal(1);
+        done();
+    });
+
+    it("should count all the distinct clusters in grid", (done: Function) => {
+        const width:    number = 4;
+        const height:   number = 4;
+
+        const newBuilder: BMPBuilder = new BMPBuilder(width, height, WHITE);
+        newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 3);
+        newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 3, 0);
+
+        const bufferWIthDiff: Buffer = Buffer.from(newBuilder.buffer);
+
+        const clusterCounter: ClusterCounter = new ClusterCounter(bufferWIthDiff, width);
+        const numberOfDiffFound: number = clusterCounter.countAllClusters();
+
+        expect(numberOfDiffFound).equal(2);
+        done();
+    });
 
     // it("should count touching clusters (diagonal) as one", (done: Function) => {
-    //     const diffList: number[] = [ 1, 0, 1, 1,
-    //                                  1, 0, 0, 1,
-    //                                  0, 0, 1, 1,
-    //                                  1, 1, 0, 0,
-    //                                 ];
-    //     const WIDTH: number = 4;
+    //     const width:    number = 4;
+    //     const height:   number = 4;
 
-    //     const clusterCounter: ClusterCounter = new ClusterCounter(diffList, WIDTH);
-    //     const count: number = clusterCounter.countAllClusters();
-    //     const expectedAnswer: number = 2;
-    //     expect(count).to.equal(expectedAnswer);
+    //     const newBuilder: BMPBuilder = new BMPBuilder(width, height, WHITE);
+    //     newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 0);
+    //     newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 1, 1);
+
+    //     const bufferWIthDiff: Buffer = Buffer.from(newBuilder.buffer);
+
+    //     const clusterCounter: ClusterCounter = new ClusterCounter(bufferWIthDiff, width);
+    //     const numberOfDiffFound: number = clusterCounter.countAllClusters();
+
+    //     expect(numberOfDiffFound).equal(1);
     //     done();
     // });
 
@@ -68,31 +92,21 @@ describe("Cluster Counter microservice tests", () => {
     //     done();
     // });
 
-    // it("should count clusters in an non-rectangular array", (done: Function) => {
-    //     const diffList: number[] = [ 0, 0, 1, 1,
-    //                                  0, 0, 0, 1,
-    //                                  0, 0, 0, 1,
-    //                                  1,
-    //                                 ];
-    //     const WIDTH: number = 4;
+    it("should count clusters in an single cell array with a difference", (done: Function) => {
+        const width:    number = 1;
+        const height:   number = 1;
 
-    //     const clusterCounter: ClusterCounter = new ClusterCounter(diffList, WIDTH);
-    //     const count: number = clusterCounter.countAllClusters();
-    //     const expectedAnswer: number = 2;
-    //     expect(count).to.equal(expectedAnswer);
-    //     done();
-    // });
+        const newBuilder: BMPBuilder = new BMPBuilder(width, height, WHITE);
+        newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 0);
 
-    // it("should count clusters in an single cell array with a difference", (done: Function) => {
-    //     const diffList: number[] = [ 1 ];
-    //     const WIDTH: number = 1;
+        const bufferWIthDiff: Buffer = Buffer.from(newBuilder.buffer);
 
-    //     const clusterCounter: ClusterCounter = new ClusterCounter(diffList, WIDTH);
-    //     const count: number = clusterCounter.countAllClusters();
-    //     const expectedAnswer: number = 1;
-    //     expect(count).to.equal(expectedAnswer);
-    //     done();
-    // });
+        const clusterCounter: ClusterCounter = new ClusterCounter(bufferWIthDiff, width);
+        const numberOfDiffFound: number = clusterCounter.countAllClusters();
+
+        expect(numberOfDiffFound).equal(1);
+        done();
+    });
 
     // it("should count clusters in an single cell array without a difference", (done: Function) => {
     //     const diffList: number[] = [ 0 ];

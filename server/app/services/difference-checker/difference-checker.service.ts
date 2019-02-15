@@ -1,26 +1,19 @@
 import { injectable } from "inversify";
-import { Message } from "../../../../common/communication/message";
-import { Constants } from "../../constants";
 import { ClusterCounter } from "./utilities/clusterCounter";
-// import { BufferManager } from "./utilities/bufferManager";
+import { Constants } from "./utilities/constants";
 import { DifferenceEnlarger } from "./utilities/differenceEnlarger";
+import { DifferenceFinder } from "./utilities/differenceFinder";
 import { ImageRequirements } from "./utilities/imageRequirements";
-import { ImagesDifference } from "./utilities/imagesDifference";
-
-// const HEADER_SIZE: number = 54;
+import { Message } from "./utilities/message";
 
 @injectable()
 export class DifferenceCheckerService {
 
-    // private bufferManager: BufferManager;
-    private bufferOriginal: Buffer;
-    private bufferModified: Buffer;
-    // private enlargedDifferences: number[];
+    private bufferOriginal:  Buffer;
+    private bufferModified:  Buffer;
     private differenceImage: Buffer;
 
-    public constructor() {
-        // this.bufferManager = new BufferManager();
-    }
+    public constructor() { /* */ }
 
     public generateDifferenceImage(requirements: ImageRequirements): Buffer | Message {
 
@@ -40,10 +33,6 @@ export class DifferenceCheckerService {
 
         if (numberOfDifferences === requirements.requiredNbDiff) {
 
-            // const dataImageBuffer: Buffer = this.bufferManager.arrayToBuffer(this.circledDifferences);
-
-            // return this.bufferManager.mergeBuffers(this.bufferOriginal.slice(0, HEADER_SIZE), dataImageBuffer);
-
             return this.differenceImage;
 
         } else {
@@ -58,16 +47,15 @@ export class DifferenceCheckerService {
         this.bufferModified = Buffer.from(requirements.modifiedImage);
 
         this.differenceImage = this.findDifference(this.bufferOriginal, this.bufferModified);
-        // this.enlargedDifferences = this.circleDifference(differencesFound, requirements.requiredWidth);
         this.differenceImage = this.enlargeDifferences(this.differenceImage, requirements.requiredWidth);
 
         return this.countAllClusters(this.differenceImage, requirements.requiredWidth);
     }
 
     private findDifference(originalBuffer: Buffer, modifiedBuffer: Buffer): Buffer {
-        const imagesDifference: ImagesDifference = new ImagesDifference();
+        const differenceFinder: DifferenceFinder = new DifferenceFinder();
 
-        return imagesDifference.searchDifferenceImage(originalBuffer, modifiedBuffer);
+        return differenceFinder.searchDifferenceImage(originalBuffer, modifiedBuffer);
     }
 
     private enlargeDifferences(differenceBuffer: Buffer, width: number): Buffer {

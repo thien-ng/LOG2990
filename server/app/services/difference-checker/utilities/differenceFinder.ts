@@ -1,16 +1,9 @@
 import { injectable } from "inversify";
-import { Constants } from "../../../constants";
 import { BMPBuilder } from "./bmpBuilder";
+import { Constants } from "./constants";
 
 @injectable()
-export class ImagesDifference {
-
-    private readonly VALUE_NEXT_PIXEL:  number = 3;
-    private readonly VALUE_DIFFERENCE:  number = 0;
-    private readonly VALUE_EQUAL:       number = 255;
-    private readonly HEADER_SIZE:       number = 54;    // a bouger dans les constantes ?
-    private readonly WIDTH_OFFSET:      number = 18;    // a bouger dans les constantes ?
-    private readonly HEIGHT_OFFSET:     number = 22;    // a bouger dans les constantes ?
+export class DifferenceFinder {
 
     private differenceBuffer: Buffer;
 
@@ -30,9 +23,9 @@ export class ImagesDifference {
 
     private generateEmpty24BitBuffer(buffer: Buffer): Buffer {
 
-        const width: number = buffer.readUInt32LE(this.WIDTH_OFFSET);
-        const height: number = buffer.readUInt32LE(this.HEIGHT_OFFSET);
-        const bmpBuilder: BMPBuilder = new BMPBuilder(width, height, this.VALUE_EQUAL);
+        const width:  number = buffer.readUInt32LE(Constants.WIDTH_OFFSET);
+        const height: number = buffer.readUInt32LE(Constants.HEIGHT_OFFSET);
+        const bmpBuilder: BMPBuilder = new BMPBuilder(width, height, Constants.VALUE_EQUAL);
 
         return bmpBuilder.buffer;
     }
@@ -44,19 +37,18 @@ export class ImagesDifference {
 
     private findDifference(originalBuffer: Buffer, modifiedBuffer: Buffer): void {
 
-        let bufferIndex: number = this.HEADER_SIZE;
-        // let differenceListIndex: number = 0;
+        let bufferIndex: number = Constants.BMP_HEADER_SIZE;
         let assignedValue: number;
         let areEqual: Boolean;
 
         while (bufferIndex < originalBuffer.length) {
             areEqual = this.bufferHasEqualPixel(originalBuffer, modifiedBuffer, bufferIndex);
-            assignedValue = areEqual ? this.VALUE_EQUAL : this.VALUE_DIFFERENCE;
+            assignedValue = areEqual ? Constants.VALUE_EQUAL : Constants.IS_A_DIFFERENCE;
 
-            for (let offset: number = 0; offset < this.VALUE_NEXT_PIXEL; offset++) {
+            for (let offset: number = 0; offset < Constants.PIXEL_24B_SIZE; offset++) {
                 this.differenceBuffer[bufferIndex + offset] = assignedValue;
             }
-            bufferIndex += this.VALUE_NEXT_PIXEL;
+            bufferIndex += Constants.PIXEL_24B_SIZE;
         }
     }
 
@@ -64,7 +56,7 @@ export class ImagesDifference {
 
         let isEqual: Boolean = true;
 
-        for (let offset: number = 0; offset < this.VALUE_NEXT_PIXEL && isEqual; offset++) {
+        for (let offset: number = 0; offset < Constants.PIXEL_24B_SIZE && isEqual; offset++) {
             isEqual = originalBuffer[bufferIndex + offset] === modifiedBuffer[bufferIndex + offset];
         }
 

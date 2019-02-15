@@ -1,11 +1,10 @@
 import { injectable } from "inversify";
+import { Constants } from "./constants";
 
 @injectable()
 export class DifferenceEnlarger {
 
-    private readonly IS_A_DIFFERENCE: number = 0;   // a mettre dans les constantes
-    private readonly BMP_HEADER_SIZE: number = 54;  // a mettre dans les constantes
-    private readonly PIXEL_SIZE:      number = 3;   // a mettre dans les constantes
+    private readonly IS_A_DIFFERENCE: number =  0;   // a mettre dans les constantes
 
     private enlargedDifferences: Buffer;
 
@@ -15,7 +14,8 @@ export class DifferenceEnlarger {
 
     public enlargeAllDifferences(): Buffer {
 
-        for (let bytePos: number = this.BMP_HEADER_SIZE; bytePos < this.enlargedDifferences.length; bytePos += this.PIXEL_SIZE) {
+        const bufferLenght: number = this.enlargedDifferences.length;
+        for (let bytePos: number = Constants.BMP_HEADER_SIZE; bytePos < bufferLenght; bytePos += Constants.PIXEL_24B_SIZE) {
             if (this.differencesFound[bytePos] === this.IS_A_DIFFERENCE) {
                 const pixelIndex: number = this.convertToPixelPosition(bytePos);
                 this.drawCircleAround(pixelIndex);
@@ -50,26 +50,26 @@ export class DifferenceEnlarger {
     private setPixelAsDifference(pixelPosition: number): void {
         const firstByte: number = this.convertToBytePosition(pixelPosition);
 
-        for (let offset: number = 0; offset < this.PIXEL_SIZE; offset++) {
+        for (let offset: number = 0; offset < Constants.PIXEL_24B_SIZE; offset++) {
             this.enlargedDifferences[firstByte + offset] = this.IS_A_DIFFERENCE;
         }
     }
 
     // will only work with an image that's a width multiple of 4
     private numberOfPixelsInImage(): number {
-        const imageSizeInBytes: number = this.differencesFound.length - this.BMP_HEADER_SIZE;
+        const imageSizeInBytes: number = this.differencesFound.length - Constants.BMP_HEADER_SIZE;
 
-        return Math.floor(imageSizeInBytes / this.PIXEL_SIZE);
+        return Math.floor(imageSizeInBytes / Constants.PIXEL_24B_SIZE);
     }
 
     // will only work with an image that's a width multiple of 4
     private convertToPixelPosition(bytePosition: number): number {
-        return Math.floor(bytePosition / this.PIXEL_SIZE);
+        return Math.floor((bytePosition - Constants.BMP_HEADER_SIZE) / Constants.PIXEL_24B_SIZE);
     }
 
     // will only work with an image that's a width multiple of 4
     private convertToBytePosition(pixelPosition: number): number {
-        return pixelPosition * this.PIXEL_SIZE;
+        return pixelPosition * Constants.PIXEL_24B_SIZE + Constants.BMP_HEADER_SIZE;
     }
 
     private getSquareStartPixelIndex(pixelCenterPosition: number): number {
