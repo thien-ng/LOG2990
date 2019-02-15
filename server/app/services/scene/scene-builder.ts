@@ -1,4 +1,3 @@
-import { stringify } from "querystring";
 import { IAxisValues, ISceneObject } from "../../../../common/communication/iSceneObject";
 import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
 import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
@@ -31,10 +30,9 @@ export class SceneBuilder {
     // separeted class for object generation needed
     private generateSceneObjects(sceneOptions: ISceneOptions): void {
 
-        const sceneObjectsQuantity: number = this.sceneVariables.sceneObjectsQuantity;
+        const sceneObjectsQuantity: number = sceneOptions.sceneObjectsQuantity;
 
         for (let index: number = 0; index < sceneObjectsQuantity; index++) {
-
             this.sceneVariables.sceneObjects.push(this.generateRandomSceneObject(sceneOptions));
         }
     }
@@ -71,6 +69,7 @@ export class SceneBuilder {
 
             newSceneObject.position = this.generateRandomAxisValues();
         }
+
     }
 
     public generateRandomRotationValues(): IAxisValues {
@@ -106,9 +105,9 @@ export class SceneBuilder {
     }
 
     public rgbToHex(r: number, g: number, b: number): string {
-        const red: string = stringify(r, SceneConstants.HEX_TYPE);
-        const green: string = stringify(g, SceneConstants.HEX_TYPE);
-        const blue: string = stringify(b, SceneConstants.HEX_TYPE);
+        const red: string = r.toString( SceneConstants.HEX_TYPE );
+        const green: string = g.toString( SceneConstants.HEX_TYPE );
+        const blue: string = b.toString( SceneConstants.HEX_TYPE );
 
         return SceneConstants.HEX_PREFIX + red + green + blue;
     }

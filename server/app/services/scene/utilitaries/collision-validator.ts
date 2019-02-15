@@ -8,7 +8,6 @@ export class CollisionValidator {
     public hasCollidingPositions(newSceneObject: ISceneObject, existingSceneObjects: ISceneObject[]): boolean {
 
         let hasCollision: boolean = false;
-
         existingSceneObjects.forEach((element: ISceneObject) => {
 
             if (this.checkForCollision(newSceneObject, element)) {
@@ -22,12 +21,14 @@ export class CollisionValidator {
 
     private checkForCollision(firstSceneObject: ISceneObject, secondSceneObject: ISceneObject): boolean {
 
+        // firstSceneObject.position = secondSceneObject.position;
+
         const firstRadius: number   = this.collisionBoxGenerator.generateCollisionRadius(firstSceneObject);
         const secondRadius: number  = this.collisionBoxGenerator.generateCollisionRadius(secondSceneObject);
 
         const distanceBetweenCenters: number =  this.calculateDistanceBetweenCenters(firstSceneObject.position, secondSceneObject.position);
 
-        return (firstRadius + secondRadius) <= distanceBetweenCenters;
+        return (firstRadius + secondRadius) >= distanceBetweenCenters;
     }
 
     public calculateDistanceBetweenCenters (firstCenter: IAxisValues, secondCenter: IAxisValues): number {
