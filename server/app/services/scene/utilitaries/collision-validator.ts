@@ -21,8 +21,6 @@ export class CollisionValidator {
 
     private checkForCollision(firstSceneObject: ISceneObject, secondSceneObject: ISceneObject): boolean {
 
-        // firstSceneObject.position = secondSceneObject.position;
-
         const firstRadius: number   = this.collisionBoxGenerator.generateCollisionRadius(firstSceneObject);
         const secondRadius: number  = this.collisionBoxGenerator.generateCollisionRadius(secondSceneObject);
 
