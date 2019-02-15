@@ -8,8 +8,12 @@ import { CollisionValidator } from "./utilitaries/collision-validator";
 export class SceneBuilder {
 
     private sceneVariables: ISceneVariables;
+    private collisionValidator: CollisionValidator;
 
     public constructor (public sceneOptions: ISceneOptions) {
+
+        this.collisionValidator = new CollisionValidator();
+
         this.sceneVariables = {
             sceneObjectsQuantity: sceneOptions.sceneObjectsQuantity,
             sceneObjects: [],
@@ -55,9 +59,7 @@ export class SceneBuilder {
 
     public validatePosition(newSceneObject: ISceneObject): void {
 
-        const collisionValidator: CollisionValidator = new CollisionValidator();
-
-        while (collisionValidator.hasCollidingPositions(newSceneObject, this.sceneVariables.sceneObjects)) {
+        while (this.collisionValidator.hasCollidingPositions(newSceneObject, this.sceneVariables.sceneObjects)) {
 
             newSceneObject.position = this.generateRandomAxisValues();
         }

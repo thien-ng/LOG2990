@@ -34,4 +34,8 @@ describe("Scene builder tests", () => {
         sceneBuilder.generateSceneObjects();
         chai.expect(spy).to.have.been.called();
     });
+
+    it("should change position of a new sceneObject until there is no collision", () =>) {
+        
+    });
 });
