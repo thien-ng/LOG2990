@@ -19,7 +19,7 @@ export class Application {
     public constructor(
         @inject(Types.CardManagerController) private cardManagerController: CardManagerController,
         @inject(Types.HighscoreController) private highscoreController: HighscoreController,
-        @inject(Types.UserController) private loginValidatorController: UserController,
+        @inject(Types.UserController) private userController: UserController,
         @inject(Types.DifferenceCheckerController) private differenceCheckerController: DifferenceCheckerController,
 
         ) {
@@ -43,7 +43,7 @@ export class Application {
         // Notre application utilise le routeur de notre API `Index`
         this.app.use("/api/card", this.cardManagerController.router);
         this.app.use("/api/highscore", this.highscoreController.router);
-        this.app.use("/api/loginValidation", this.loginValidatorController.router);
+        this.app.use("/api/user", this.userController.router);
         this.app.use("/api/differenceChecker", this.differenceCheckerController.router);
         this.app.use(express.static("./app/asset"));
         this.errorHandeling();

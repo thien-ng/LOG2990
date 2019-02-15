@@ -66,11 +66,13 @@ export class WebsocketManager {
             user = {
                 username: data,
                 socketID: socket.id,
-            }
+            };
+            this.userManagerService.updateSocketID(user);
+            socket.emit(Constants.USER_EVENT, user);
         });
 
-        socket.on(Constants.DISCONNECT_EVENT, (data: User) => {
-            this.userManagerService.leaveBrowser(data);
+        socket.on(Constants.DISCONNECT_EVENT, () => {
+            this.userManagerService.leaveBrowser(user);
             this.gameManager.unsubscribeSocketID(socketID);
         });
     }

@@ -8,18 +8,18 @@ let userManagerService: UserManagerService;
 
 beforeEach(() => {
     userManagerService = new UserManagerService;
-    userManagerService.usernameList.push({
-                                                username: "patate",
-                                                socketID: "socketid",
-                                            });
-    userManagerService.usernameList.push({
-                                                username: "roger",
-                                                socketID: "socketid",
-                                            });
-    userManagerService.usernameList.push({
-                                                username: "dylan",
-                                                socketID: "socketid",
-                                            });
+    userManagerService.users.push({
+                                    username: "patate",
+                                    socketID: "socketid",
+                                });
+    userManagerService.users.push({
+                                    username: "roger",
+                                    socketID: "socketid",
+                                });
+    userManagerService.users.push({
+                                    username: "dylan",
+                                    socketID: "socketid",
+                                });
 });
 
 describe("UserManagerService test", () => {
@@ -29,7 +29,7 @@ describe("UserManagerService test", () => {
                                 username: "ligma",
                                 socketID: "socketid",
                             };
-        const result: Boolean = userManagerService.validateName(user);
+        const result: Boolean = userManagerService.validateName(user.username);
 
         expect(result).to.equal(true);
         done();
@@ -40,7 +40,7 @@ describe("UserManagerService test", () => {
                                 username: "patate",
                                 socketID: "socketid",
                             };
-        const result: Boolean = userManagerService.validateName(user);
+        const result: Boolean = userManagerService.validateName(user.username);
 
         expect(result).to.equal(false);
         done();
