@@ -16,6 +16,7 @@ import { MessageViewComponent } from "./game-view/chat-view/message-view/message
 import { DifferenceCounterComponent } from "./game-view/difference-counter/difference-counter.component";
 import { GameViewFreeComponent } from "./game-view/game-view-free/game-view-free.component";
 import { GameViewSimpleComponent } from "./game-view/game-view-simple/game-view-simple.component";
+import { TimerComponent } from "./game-view/timer/timer.component";
 import { HighscoreDisplayComponent } from "./highscore-display/highscore-display.component";
 import { LoginPageComponent } from "./login/login-page/login-page.component";
 import { LoginValidatorComponent } from "./login/login-validator/login-validator.component";
@@ -56,6 +57,7 @@ const routes: Routes = [
     GameViewFreeComponent,
     CreateFreeGameComponent,
     DifferenceCounterComponent,
+    TimerComponent,
     ChatViewComponent,
     MessageViewComponent,
   ],

@@ -5,6 +5,7 @@ import { TestingImportsModule } from "../../testing-imports/testing-imports.modu
 import { ChatViewComponent } from "../chat-view/chat-view.component";
 import { MessageViewComponent } from "../chat-view/message-view/message-view.component";
 import { DifferenceCounterComponent } from "../difference-counter/difference-counter.component";
+import { TimerComponent } from "../timer/timer.component";
 import { GameViewSimpleComponent } from "./game-view-simple.component";
 
 describe("GameViewSimpleComponent", () => {
@@ -18,6 +19,7 @@ describe("GameViewSimpleComponent", () => {
         DifferenceCounterComponent,
         ChatViewComponent,
         MessageViewComponent,
+        TimerComponent,
       ],
       imports: [
         TestingImportsModule,
