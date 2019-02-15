@@ -28,13 +28,17 @@ export class SceneBuilder {
     }
 
     public generateRandomSceneObject(): ISceneObject {
-        return {
+        const newSceneObject: ISceneObject = {
             type: this.sceneOptions.sceneObjectsType,
             position: this.generateRandomAxisValues(),
             rotation: this.generateRandomRotationValues(),
             scale: this.generateRandomScaleValues(),
             color: this.generateRandomColor(),
         };
+
+        this.validatePosition(newSceneObject);
+
+        return newSceneObject;
     }
 
     public generateRandomAxisValues(): IAxisValues {
@@ -49,12 +53,14 @@ export class SceneBuilder {
         };
     }
 
-    // TODO: doit prendre le nouveau objet et la liste des objets deja existant en parametres, ensuite vérifier pour collisions (si oui regenerer la position, sinon retourner lobjet)
-    public generateRandomPosition(): IAxisValues {
-        let randomPosion: IAxisValues = this.generateRandomAxisValues();
+    public validatePosition(newSceneObject: ISceneObject): void {
+
         const collisionValidator: CollisionValidator = new CollisionValidator();
-        
-        collisionValidator.hasCollidingPositions()
+
+        while (collisionValidator.hasCollidingPositions(newSceneObject, this.sceneVariables.sceneObjects)) {
+
+            newSceneObject.position = this.generateRandomAxisValues();
+        }
     }
 
     public generateRandomRotationValues(): IAxisValues {
