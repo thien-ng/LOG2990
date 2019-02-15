@@ -1,5 +1,6 @@
 import { ISceneObject, SceneObjectType } from "../../../../../common/communication/iSceneObject";
 
+/* tslint:disable:no-magic-numbers */
 export class CollisionBoxGenerator {
 
     public generateCollisionRadius(sceneObject: ISceneObject): number {
@@ -39,7 +40,7 @@ export class CollisionBoxGenerator {
     public calculatePyramidCollisionRadius(sceneObject: ISceneObject): number {
 
         // for now scale.x = radius and scale.y = heigth
-        return this.pythagore( sceneObject.scale.x, sceneObject.scale.y / 2 ); 
+        return this.pythagore( sceneObject.scale.x, sceneObject.scale.y / 2 );
     }
 
     public calculateConeCollisionRadius(sceneObject: ISceneObject): number {
