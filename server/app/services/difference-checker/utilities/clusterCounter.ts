@@ -9,9 +9,9 @@ interface IEdges {
 
 export class ClusterCounter {
 
-    private readonly DECALAGE_GAUCHE: number = -1;
-    private readonly DECALAGE_DROITE: number =  1;
-    private readonly DOES_NOT_EXIST:  number = -1;
+    private readonly OFFSET_LEFT:    number = -1;
+    private readonly OFFSET_RIGHT:   number =  1;
+    private readonly DOES_NOT_EXIST: number = -1;
 
     private visitedColor: number = 1;
 
@@ -135,7 +135,7 @@ export class ClusterCounter {
     }
 
     private getTopLeftNeighborPosition(pixelPosition: number, constraints: IEdges): number {
-        const topLeftPos: number = pixelPosition - this.width + this.DECALAGE_GAUCHE;
+        const topLeftPos: number = pixelPosition - this.width + this.OFFSET_LEFT;
 
         return (!constraints.isOnTopEdge && !constraints.isOnLeftEdge) ? topLeftPos : this.DOES_NOT_EXIST;
     }
@@ -147,25 +147,25 @@ export class ClusterCounter {
     }
 
     private getTopRightNeighborPosition(pixelPosition: number, constraints: IEdges): number {
-        const topRightPos: number = pixelPosition - this.width + this.DECALAGE_DROITE;
+        const topRightPos: number = pixelPosition - this.width + this.OFFSET_RIGHT;
 
         return (!constraints.isOnTopEdge && !constraints.isOnRightEdge) ? topRightPos : this.DOES_NOT_EXIST;
     }
 
     private getLeftNeighborPosition(pixelPosition: number, constraints: IEdges): number {
-        const leftPos: number = pixelPosition + this.DECALAGE_GAUCHE;
+        const leftPos: number = pixelPosition + this.OFFSET_LEFT;
 
         return !constraints.isOnLeftEdge ? leftPos : this.DOES_NOT_EXIST;
     }
 
     private getRightNeighborPosition(pixelPosition: number, constraints: IEdges): number {
-        const rightPos: number = pixelPosition + this.DECALAGE_DROITE;
+        const rightPos: number = pixelPosition + this.OFFSET_RIGHT;
 
         return !constraints.isOnRightEdge ? rightPos : this.DOES_NOT_EXIST;
     }
 
     private getBottomLeftNeighborPosition(pixelPosition: number, constraints: IEdges): number {
-        const bottomLeftPos: number = pixelPosition + this.width + this.DECALAGE_GAUCHE;
+        const bottomLeftPos: number = pixelPosition + this.width + this.OFFSET_LEFT;
 
         return (!constraints.isOnBottomEdge && !constraints.isOnLeftEdge) ? bottomLeftPos : this.DOES_NOT_EXIST;
     }
@@ -177,7 +177,7 @@ export class ClusterCounter {
     }
 
     private getBottomRightNeighborPosition(pixelPosition: number, constraints: IEdges): number {
-        const bottomRightPos: number = pixelPosition + this.width + this.DECALAGE_DROITE;
+        const bottomRightPos: number = pixelPosition + this.width + this.OFFSET_RIGHT;
 
         return !constraints.isOnBottomEdge && !constraints.isOnRightEdge ? bottomRightPos : this.DOES_NOT_EXIST;
     }
