@@ -90,4 +90,7 @@ export class HitValidatorService {
         this.cache.insert(newCacheElement);
     }
 
+    private isStoredInCache(imageUrl: string): boolean {
+        return this.cache.contains(imageUrl);
+    }
 }
