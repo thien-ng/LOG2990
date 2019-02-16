@@ -7,7 +7,7 @@ import { CollisionBoxGenerator } from "../../services/scene/utilitaries/collisio
 /* tslint:disable:no-any no-magic-numbers */
 let collisionBoxGenerator: CollisionBoxGenerator;
 
-describe("Scene builder tests", () => {
+describe("Collision box generator tests", () => {
 
     const cube: ISceneObject = {
         type: SceneObjectType.Cube,

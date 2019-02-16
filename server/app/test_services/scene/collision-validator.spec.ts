@@ -6,7 +6,7 @@ import { CollisionValidator } from "../../services/scene/utilitaries/collision-v
 /* tslint:disable:no-any no-magic-numbers */
 let collisionValidator: CollisionValidator;
 
-describe("Scene builder tests", () => {
+describe("Collision validator tests", () => {
 
     const cube1: ISceneObject = {
         type: 1,
