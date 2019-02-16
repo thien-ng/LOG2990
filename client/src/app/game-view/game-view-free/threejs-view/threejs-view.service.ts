@@ -66,13 +66,13 @@ export class ThreejsViewService {
     this.camera.lookAt(this.scene.position);
     this.renderObject();
   }
+  
+  public getRenderer(): THREE.WebGLRenderer {
+    return this.renderer;
+  }
 
   private renderObject(): void {
     this.renderer.render(this.scene, this.camera);
-  }
-
-  public getRenderer(): THREE.WebGLRenderer {
-    return this.renderer;
   }
 
   private generateSceneObjects(): void {
