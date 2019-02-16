@@ -1,15 +1,20 @@
-import * as Axios from "axios";
+import { AxiosInstance, AxiosResponse } from "axios";
 import { injectable } from "inversify";
 import { Cache } from "./cache";
-// import Axios, { AxiosInstance } from "axios";
+import { IHitConfirmation, IHitToValidate, IImageToCache } from "./interfaces";
 
 @injectable()
 export class HitValidatorService {
 
-    // private axios: Axios.AxiosInstance = require("axios");
+    private readonly ERROR_ON_HTTPGET:      string =
+    "Didn't succeed to get image buffer from URL given. File: hitValidator.service.ts. Line: 64.";
+    private readonly BUFFER_OFFSET_WIDTH:   number = 18;
+    private readonly BUFFER_OFFSET_HEIGHT:  number = 22;
+    private readonly BUFFER_HEADER_SIZE:    number = 54;
+    private readonly BUFFER_24BIT_SIZE:     number = 3;
+    private readonly CACHE_SIZE:            number = 5;
 
     private cache: Cache;
-    private readonly CACHE_SIZE: number = 5;
 
     public constructor() {
         this.cache = new Cache(this.CACHE_SIZE);
