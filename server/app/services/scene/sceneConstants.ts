@@ -1,7 +1,4 @@
 export class SceneConstants {
-    // Lights
-
-    // Camera
 
     // Colors
     public static readonly HEX_TYPE: number = 16;
@@ -18,4 +15,10 @@ export class SceneConstants {
     // Rotation
     /* tslint:disable:no-magic-numbers */
     public static readonly TWO_PI: number = Math.PI * 2;
+
+    // Constants for scene-manager.service.ts
+    public static readonly TYPE_CUBE: string = "cube";
+    public static readonly TYPE_CONE: string = "cone";
+    public static readonly TYPE_CYLINDER: string = "cylinder";
+    public static readonly TYPE_PYRAMID: string = "pyramid";
 }

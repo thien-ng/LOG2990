@@ -47,15 +47,18 @@ export class LoginValidatorComponent {
   ]);
 
   public addUsername(): void {
-    this.loginValidatorService.addUsername(this.usernameFormControl.value).subscribe(async (res: boolean) => {
-      if (res && this.usernameFormControl.errors == null) {
-        this.displayNameIsUnique();
-        this.socketService.sendMsg(Constants.LOGIN_REQUEST, this.usernameFormControl.value);
-        await this.router.navigate([Constants.ROUTER_LOGIN]);
-      } else if (this.usernameFormControl.errors === null) {
-        this.displayNameNotUnique();
-      }
-    });
+    if (this.usernameFormControl.errors === null) {
+      this.loginValidatorService.addUsername(this.usernameFormControl.value).subscribe(async (response: boolean) => {
+
+        if (response) {
+          this.displayNameIsUnique();
+          this.socketService.sendMsg(Constants.LOGIN_REQUEST, this.usernameFormControl.value);
+          await this.router.navigate([Constants.ROUTER_LOGIN]);
+        } else {
+          this.displayNameNotUnique();
+        }
+      });
+    }
 
   }
 

@@ -1,4 +1,5 @@
 export class Constants {
+  public static readonly BASE_URL: string = "http://localhost:3000";
   public static readonly LOGIN_REDIRECT: string = "/login";
   public static readonly LOGIN_PATH: string = "login";
   public static readonly ADMIN_PATH: string = "admin";
@@ -8,11 +9,10 @@ export class Constants {
   public static readonly ROOT_PATH: string = "";
   public static readonly NAV_PATH: string = "";
   public static readonly GAMELIST_PATH: string = "gamelist";
-  public static readonly GAMELIST_REDIRECT: string = "//gamelist";
+  public static readonly GAMELIST_REDIRECT: string = "/gamelist";
   public static readonly PATH_MATCH_FULL: string = "full";
-  public static readonly PATH_TO_ASSETS: string = "http://localhost:3000/api/asset";
-  public static readonly PATH_TO_ICONS: string = "http://localhost:3000/icon";
-  public static readonly PATH_TO_IMAGES: string = "http://localhost:3000/image";
+  public static readonly PATH_TO_ICONS: string = Constants.BASE_URL + "/icon";
+  public static readonly PATH_TO_IMAGES: string = Constants.BASE_URL + "/image";
 
   public static readonly OBLIGATORY_CATCH: string = "obligatory catch";
   public static readonly ANIMATION_TIME: number = 300; // ms
@@ -25,7 +25,7 @@ export class Constants {
   public static readonly REGEX_PATTERN: string = "^[a-zA-Z0-9]+$";
   public static readonly LOGIN_REQUEST: string = "onLogin";
   public static readonly WEBSOCKET_URL: string = "http://localhost:3333";
-  public static readonly PATH_TO_LOGIN_VALIDATION: string = "http://localhost:3000/api/loginValidation/newUsername";
+  public static readonly PATH_TO_LOGIN_VALIDATION: string =  Constants.BASE_URL + "/api/user/newUsername";
   public static readonly LOGIN_MESSAGE_TITLE: string = "onUserSubscribe";
   public static readonly NAME_VALID_VALUE: string = "true";
   public static readonly ROUTER_LOGIN: string = "gamelist";
@@ -35,9 +35,6 @@ export class Constants {
   public static readonly SNACKBAR_ACKNOWLEDGE: string = "Merci!";
   public static readonly USERNAME_KEY: string = "userName";
   public static readonly SNACKBAR_DURATION: number = 5000;
-
-  // Constant for basic.service.ts
-  public static readonly BASIC_SERVICE_BASE_URL: string = "http://localhost:3000";
 
   // constant for create-simple-game.component.ts
   public static readonly GAME_REGEX_PATTERN: string = "^[a-z A-Z]+$";
@@ -49,9 +46,9 @@ export class Constants {
   public static readonly MODIFIED_IMAGE_KEY: string = "modifiedImage";
 
   // constants for game list container
-  public static readonly CARDS_PATH: string = "/api/card/list";
-  public static readonly REMOVE_CARD_PATH: string = "/api/card/remove";
-  public static readonly HIGHSCORE_PATH: string = "/api/highscore/";
+  public static readonly CARDS_PATH: string = Constants.BASE_URL + "/api/card/list";
+  public static readonly REMOVE_CARD_PATH: string = Constants.BASE_URL + "/api/card/remove";
+  public static readonly HIGHSCORE_PATH: string = Constants.BASE_URL + "/api/highscore/";
   public static readonly RESET_PATH: string = "generator/";
   public static readonly ON_ERROR_MESSAGE: string = "onError";
   public static readonly ON_SUCCESS_MESSAGE: string = "onSuccess";
@@ -59,6 +56,8 @@ export class Constants {
   // Constants for socket.service.ts
   public static readonly ON_CONNECT: string = "connect";
   public static readonly ON_CHAT_MESSAGE: string = "onChatMessage";
+  public static readonly ON_USER_EVENT: string = "onNewUser";
+  public static readonly ON_RETRIEVE_USER: string = "onRetrieveUser";
 
   // Constants for game-view-simple.service.ts
   public static readonly ON_POSITION_VALIDATION: string = "onPositionValidation";
@@ -72,10 +71,20 @@ export class Constants {
   public static readonly GAME_VIEW_FREE_PATH: string = "/game-view-free";
   public static readonly GAMEMODE_SIMPLE: string = "simple";
 
+  // Constants for difference-counter.service.ts
+  public static readonly DEGREE_CIRCLE: number = 360;
+  public static readonly PERCENT: number = 100;
+
   // Constants for ActiveGameService
   public static readonly MODIFIED_FILE: string = "_modified.bmp";
 
   // Constants for timer.service
   public static readonly MINUTE_IN_SECONDS: number = 60;
   public static readonly TWO_DIGITS: number = 10;
+
+  // Constants for create simple game
+  public static readonly FREE_SUBMIT_PATH: string = Constants.BASE_URL + "/api/card/submitFree";
+
+  // Constants for create free game
+  public static readonly SIMPLE_SUBMIT_PATH: string = Constants.BASE_URL + "/api/card/submitSimple";
 }

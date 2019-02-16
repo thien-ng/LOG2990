@@ -9,15 +9,22 @@ export class Constants {
   public static readonly CHAT_MESSAGE:              string = "onChatMessage";
   public static readonly GAME_CONNECTION:           string = "onGameConnection";
   public static readonly GAME_DISCONNECT:           string = "onGameDisconnect";
+  public static readonly USER_EVENT:                string = "onNewUser";
   public static readonly WEBSOCKET_PORT_NUMBER:     number = 3333;
+  public static readonly ON_RETRIEVE_USER:          string = "onRetrieveUser";
 
   // Constants for card-manager.service.ts
   public static readonly ORIGINAL_FILE:             string = "_original.bmp";
   public static readonly MODIFIED_FILE:             string = "_modified.bmp";
   public static readonly GENERATED_FILE:            string = "_generated.bmp";
-  public static readonly BASIC_SERVICE_BASE_URL:    string = "http://localhost:3000";
+  public static readonly BASE_URL:                  string = "http://localhost:3000";
+  public static readonly PATH_FOR_2D_VALIDATION:    string = Constants.BASE_URL + "/api/differenceChecker/validate";
   public static readonly ON_ERROR_MESSAGE:          string = "onError";
   public static readonly ON_SUCCESS_MESSAGE:        string = "onSuccess";
   public static readonly VALIDATION_FAILED:         string = "Validation services failed";
   public static readonly UNKNOWN_ERROR:             string = "Erreur inconnue";
+
+  // Constants for card-manager-controller
+  public static readonly DEFAULT_CARD_ID:           number = 1;
+  public static readonly DELETION_ERROR_MESSAGE:    string = "Impossible de supprimer la carte par défault";
 }

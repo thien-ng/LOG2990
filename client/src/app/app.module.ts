@@ -13,6 +13,7 @@ import { GameListContainerComponent } from "./game-list-container/game-list-cont
 import { GameListComponent } from "./game-list/game-list.component";
 import { ChatViewComponent } from "./game-view/chat-view/chat-view.component";
 import { MessageViewComponent } from "./game-view/chat-view/message-view/message-view.component";
+import { DifferenceCounterComponent } from "./game-view/difference-counter/difference-counter.component";
 import { GameViewFreeComponent } from "./game-view/game-view-free/game-view-free.component";
 import { GameViewSimpleComponent } from "./game-view/game-view-simple/game-view-simple.component";
 import { TimerComponent } from "./game-view/timer/timer.component";
@@ -24,13 +25,13 @@ import { MainNavComponent } from "./main-nav/main-nav.component";
 import { TestingImportsModule } from "./testing-imports/testing-imports.module";
 
 const routes: Routes = [
-  { path: Constants.ROOT_PATH, redirectTo: Constants.NAV_PATH, pathMatch: Constants.PATH_MATCH_FULL },
+  { path: Constants.ROOT_PATH, redirectTo: Constants.LOGIN_PATH, pathMatch: Constants.PATH_MATCH_FULL },
+  { path: Constants.LOGIN_PATH, component: LoginPageComponent },
   {
     path: Constants.NAV_PATH,
     component: MainNavComponent,
     children: [
       { path: Constants.ROOT_PATH, redirectTo: Constants.LOGIN_REDIRECT, pathMatch: Constants.PATH_MATCH_FULL },
-      { path: Constants.LOGIN_PATH, component: LoginPageComponent },
       { path: Constants.GAMELIST_PATH, component: GameListContainerComponent },
       { path: Constants.ADMIN_PATH, component: GameListContainerComponent },
       { path: Constants.GAME_VIEW_SIMPLE, component: GameViewSimpleComponent },
@@ -55,6 +56,7 @@ const routes: Routes = [
     GameViewSimpleComponent,
     GameViewFreeComponent,
     CreateFreeGameComponent,
+    DifferenceCounterComponent,
     TimerComponent,
     ChatViewComponent,
     MessageViewComponent,

@@ -31,7 +31,8 @@ export class CardManagerService {
 
     private uniqueId: number = 1000;
 
-    public constructor(@inject(Types.HighscoreService) private highscoreService: HighscoreService) {
+    public constructor(
+        @inject(Types.HighscoreService) private highscoreService: HighscoreService) {
         this.cards = {
             list2D: [],
             list3D: [],
@@ -57,7 +58,7 @@ export class CardManagerService {
             body: Constants.VALIDATION_FAILED,
         };
         try {
-            await axios.post(Constants.BASIC_SERVICE_BASE_URL + "/api/differenceChecker/validate", requirements)
+            await axios.post(Constants.PATH_FOR_2D_VALIDATION, requirements)
             .then((response: Axios.AxiosResponse< Buffer | Message>) => {
                 returnValue = this.handlePostResponse(response, cardTitle);
                 },
@@ -79,6 +80,7 @@ export class CardManagerService {
             avatarImageUrl: "http://localhost:3000/image/dylan.jpg",
             gameImageUrl: "http://localhost:3000/image/dylan.jpg",
         };
+
         if (this.addCard3D(cardReceived)) {
             return {
                 title: Constants.ON_SUCCESS_MESSAGE,
@@ -109,8 +111,8 @@ export class CardManagerService {
                     gameID: cardId,
                     title: cardTitle,
                     subtitle: cardTitle,
-                    avatarImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image" + originalImagePath,
-                    gameImageUrl: Constants.BASIC_SERVICE_BASE_URL + "/image" + originalImagePath,
+                    avatarImageUrl: Constants.BASE_URL + "/image" + originalImagePath,
+                    gameImageUrl: Constants.BASE_URL + "/image" + originalImagePath,
                     gamemode: GameMode.simple,
             };
 
@@ -204,6 +206,9 @@ export class CardManagerService {
     }
 
     public removeCard2D(id: number): string {
+        if (id === Constants.DEFAULT_CARD_ID) {
+            return Constants.DELETION_ERROR_MESSAGE;
+        }
         const index: number = this.findCard2D(id);
         const paths: string[] = [
                                     IMAGES_PATH + "/" + id + Constants.GENERATED_FILE,
@@ -217,7 +222,7 @@ export class CardManagerService {
                     this.imageManagerService.deleteStoredImages(paths);
                 }
             } catch (error) {
-                this.generateErrorMessage(error);
+                return this.generateErrorMessage(error).title;
             }
 
             return CARD_DELETED;
@@ -227,6 +232,9 @@ export class CardManagerService {
     }
 
     public removeCard3D(id: number): string {
+        if (id === Constants.DEFAULT_CARD_ID) {
+            return Constants.DELETION_ERROR_MESSAGE;
+        }
         const index: number = this.findCard3D(id);
         if (index !== DOESNT_EXIST) {
             this.cards.list3D.splice(index, 1);
