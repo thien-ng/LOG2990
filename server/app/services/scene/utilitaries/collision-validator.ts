@@ -32,11 +32,11 @@ export class CollisionValidator {
 
     private calculateDistanceBetweenCenters (firstCenter: IAxisValues, secondCenter: IAxisValues): number {
 
-        const xSqared: number = Math.pow(secondCenter.x - firstCenter.x, SceneConstants.TWO);
-        const ySqared: number = Math.pow(secondCenter.y - firstCenter.y, SceneConstants.TWO);
-        const zSqared: number = Math.pow(secondCenter.z - firstCenter.z, SceneConstants.TWO);
+        const xMedian: number = secondCenter.x - firstCenter.x;
+        const yMedian: number = secondCenter.y - firstCenter.y;
+        const zMedian: number = secondCenter.z - firstCenter.z;
 
-        return Math.sqrt( xSqared + ySqared + zSqared );
+        return this.collisionBoxGenerator.pythagore( [xMedian, yMedian, zMedian] );
     }
 
 }

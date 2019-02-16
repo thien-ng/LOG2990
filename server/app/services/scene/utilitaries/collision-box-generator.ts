@@ -34,47 +34,7 @@ export class CollisionBoxGenerator {
         return radius;
     }
 
-    private calculateCubeCollisionRadius(sceneObject: ISceneObject): number {
-
-        const width: number = this.getHalf(sceneObject.scale.x);
-        const height: number = this.getHalf(sceneObject.scale.y);
-        const depth: number = this.getHalf(sceneObject.scale.z);
-
-        return this.pythagore( [width, height, depth] );
-    }
-
-    private calculatePyramidCollisionRadius(sceneObject: ISceneObject): number {
-
-        // for now scale.x = radius and scale.y = heigth
-        const radius: number = sceneObject.scale.x;
-        const height: number = this.getThird(sceneObject.scale.y);
-
-        return this.pythagore( [radius, height] );
-    }
-
-    private calculateConeCollisionRadius(sceneObject: ISceneObject): number {
-
-        // for now scale.x = radius and scale.y = heigth
-        const radius: number = sceneObject.scale.x;
-        const height: number = this.getThird(sceneObject.scale.y);
-
-        return Math.sqrt( this.pythagore( [radius, height] ) );
-    }
-
-    private calculateCylinderCollisionRadius(sceneObject: ISceneObject): number {
-
-        const radius: number = this.getHalf(sceneObject.scale.x);
-        const height: number = this.getHalf(sceneObject.scale.y);
-
-        return this.pythagore( [radius, height] );
-    }
-
-    private calculateSphereCollisionRadius(sceneObject: ISceneObject): number {
-
-        return sceneObject.scale.x;
-    }
-
-    private pythagore(values: number[]): number {
+    public pythagore(values: number[]): number {
 
         let result: number = 0;
 
@@ -85,12 +45,52 @@ export class CollisionBoxGenerator {
         return Math.sqrt(result);
     }
 
-    private getHalf(value: number): number {
+    private calculateCubeCollisionRadius(sceneObject: ISceneObject): number {
+
+        const halfWidth: number = this.divideByTwo(sceneObject.scale.x);
+        const halfHeight: number = this.divideByTwo(sceneObject.scale.y);
+        const halfDepth: number = this.divideByTwo(sceneObject.scale.z);
+
+        return this.pythagore( [halfWidth, halfHeight, halfDepth] );
+    }
+
+    private calculatePyramidCollisionRadius(sceneObject: ISceneObject): number {
+
+        // for now scale.x = radius and scale.y = heigth
+        const radius: number = sceneObject.scale.x;
+        const thirdOfHeight: number = this.divideByThree(sceneObject.scale.y);
+
+        return this.pythagore( [radius, thirdOfHeight] );
+    }
+
+    private calculateConeCollisionRadius(sceneObject: ISceneObject): number {
+
+        // for now scale.x = radius and scale.y = heigth
+        const radius: number = sceneObject.scale.x;
+        const thirdOfHeight: number = this.divideByThree(sceneObject.scale.y);
+
+        return this.pythagore( [radius, thirdOfHeight] );
+    }
+
+    private calculateCylinderCollisionRadius(sceneObject: ISceneObject): number {
+
+        const halfRadius: number = this.divideByTwo(sceneObject.scale.x);
+        const halfHeight: number = this.divideByTwo(sceneObject.scale.y);
+
+        return this.pythagore( [halfRadius, halfHeight] );
+    }
+
+    private calculateSphereCollisionRadius(sceneObject: ISceneObject): number {
+
+        return sceneObject.scale.x;
+    }
+
+    private divideByTwo(value: number): number {
 
         return value / SceneConstants.TWO;
     }
 
-    private getThird(value: number): number {
+    private divideByThree(value: number): number {
 
         return value / SceneConstants.THREE;
     }
