@@ -2,13 +2,13 @@ import * as Axios from "axios";
 import { inject, injectable } from "inversify";
 import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
+import { ISceneMessage } from "../../../common/communication/iSceneMessage";
 import { Message } from "../../../common/communication/message";
 import { Constants } from "../constants";
 import Types from "../types";
 import { AssetManagerService } from "./asset-manager.service";
 import { ImageRequirements } from "./difference-checker/utilities/imageRequirements";
 import { HighscoreService } from "./highscore.service";
-import { ISceneMessage } from "../../../common/communication/iSceneMessage";
 
 const axios: Axios.AxiosInstance = require("axios");
 const DOESNT_EXIST: number = -1;
@@ -20,7 +20,8 @@ const REQUIRED_HEIGHT: number = 480;
 const REQUIRED_WIDTH: number = 640;
 const REQUIRED_NB_DIFF: number = 7;
 const IMAGES_PATH: string = "./app/asset/image";
-const DEFAULT_CARD_ID: number = 1;
+const START_ID_2D: number = 1000;
+const START_ID_3D: number = 2000;
 
 @injectable()
 export class CardManagerService {
@@ -35,9 +36,9 @@ export class CardManagerService {
 
     public constructor(
         @inject(Types.HighscoreService) private highscoreService: HighscoreService) {
-        
-        this.uniqueId = 1000;
-        this.uniqueIdScene = 2000;
+
+        this.uniqueId = START_ID_2D;
+        this.uniqueIdScene = START_ID_3D;
         this.cards = {
             list2D: [],
             list3D: [],
@@ -222,6 +223,9 @@ export class CardManagerService {
     }
 
     public removeCard2D(id: number): string {
+        if (id === Constants.DEFAULT_CARD_ID) {
+            return Constants.DELETION_ERROR_MESSAGE;
+        }
         const index: number = this.findCard2D(id);
         const paths: string[] = [
                                     IMAGES_PATH + "/" + id + Constants.GENERATED_FILE,
@@ -231,11 +235,9 @@ export class CardManagerService {
         if (index !== DOESNT_EXIST) {
             this.cards.list2D.splice(index, 1);
             try {
-                if (id !== DEFAULT_CARD_ID) {
                     this.imageManagerService.deleteStoredImages(paths);
-                }
             } catch (error) {
-                this.generateErrorMessage(error);
+                return this.generateErrorMessage(error).title;
             }
 
             return CARD_DELETED;
@@ -245,6 +247,9 @@ export class CardManagerService {
     }
 
     public removeCard3D(id: number): string {
+        if (id === Constants.DEFAULT_CARD_ID) {
+            return Constants.DELETION_ERROR_MESSAGE;
+        }
         const index: number = this.findCard3D(id);
         if (index !== DOESNT_EXIST) {
             const paths: string[] = [
