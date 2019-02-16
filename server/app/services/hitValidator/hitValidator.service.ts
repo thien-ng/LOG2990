@@ -38,20 +38,15 @@ export class HitValidatorService {
         };
     }
 
-    private findColorAtPoint(posX: number, posY: number, buffer: Buffer): number {
+    private isValidHit(hitToValidate: IHitToValidate, hitPixelColor: number[]): boolean {
 
-        // console.log();
-        const trueX: number = posX;
-        const imageWidth: number = 640;
-        const imageHeight: number = 640;
-        const trueY: number = imageHeight - posY;
-        const headerSize: number = 54;
-        const pixelSize: number = 3;
-        const absolutePosition: number = trueX * pixelSize + trueY * imageWidth * pixelSize + headerSize;
-        // console.log("absolutePosition " + absolutePosition );
-        // console.log("buffer lenght " + buffer.length );
+        let colorsAreEqual: boolean = true;
 
-        return buffer[absolutePosition];
+        for (let i: number = 0; i < hitPixelColor.length && colorsAreEqual; i++) {
+            colorsAreEqual = hitPixelColor[i] === hitToValidate.colorToIgnore[i];
+        }
+
+        return !colorsAreEqual;
     }
 
     private isStoredInCache(imageUrl: string): boolean {
