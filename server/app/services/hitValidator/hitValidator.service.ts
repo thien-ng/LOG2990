@@ -78,4 +78,8 @@ export class HitValidatorService {
         return buffer.readInt32LE(this.BUFFER_OFFSET_WIDTH);
     }
 
+    private getImageHeight(buffer: Buffer): number {
+        return buffer.readInt32LE(this.BUFFER_OFFSET_HEIGHT);
+    }
+
 }
