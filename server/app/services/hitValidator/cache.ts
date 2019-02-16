@@ -19,6 +19,13 @@ export class Cache {
         }
     }
 
+    public contains(imageUrl: string): boolean {
+        return this.storage.some((cachedElement: ICacheElement): boolean => {
+            return cachedElement.imageUrl === imageUrl;
+        });
+    }
+
+
     private updateInsertionIndex(): void {
         this.insertionIndex = ++this.insertionIndex % this.cacheSize;
     }
