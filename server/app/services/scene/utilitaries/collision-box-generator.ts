@@ -11,9 +11,6 @@ export class CollisionBoxGenerator {
                 radius = this.calculateCubeCollisionRadius(sceneObject);
                 break;
 
-            case SceneObjectType.Sphere:
-                radius = this.calculateSphereCollisionRadius(sceneObject);
-                break;
             case SceneObjectType.Cylinder:
                 radius = this.calculateCylinderCollisionRadius(sceneObject);
                 break;
@@ -26,7 +23,7 @@ export class CollisionBoxGenerator {
                 radius = this.calculateConeCollisionRadius(sceneObject);
                 break;
 
-            default: // Default case is a sphere
+            default:
                 radius = this.calculateSphereCollisionRadius(sceneObject);
                 break;
         }
@@ -36,37 +33,37 @@ export class CollisionBoxGenerator {
 
     private calculateCubeCollisionRadius(sceneObject: ISceneObject): number {
 
-        const a: number = this.getHalf(sceneObject.scale.x);
-        const b: number = this.getHalf(sceneObject.scale.y);
-        const c: number = this.getHalf(sceneObject.scale.z);
+        const width: number = this.getHalf(sceneObject.scale.x);
+        const height: number = this.getHalf(sceneObject.scale.y);
+        const depth: number = this.getHalf(sceneObject.scale.z);
 
-        return Math.sqrt( this.pythagore( [a, b, c] ) );
+        return this.pythagore( [width, height, depth] );
     }
 
     private calculatePyramidCollisionRadius(sceneObject: ISceneObject): number {
 
         // for now scale.x = radius and scale.y = heigth
-        const a: number = sceneObject.scale.x;
-        const b: number = this.getThird(sceneObject.scale.y);
+        const radius: number = sceneObject.scale.x;
+        const height: number = this.getThird(sceneObject.scale.y);
 
-        return Math.sqrt( this.pythagore( [a, b] ) );
+        return this.pythagore( [radius, height] );
     }
 
     private calculateConeCollisionRadius(sceneObject: ISceneObject): number {
 
         // for now scale.x = radius and scale.y = heigth
-        const a: number = sceneObject.scale.x;
-        const b: number = this.getThird(sceneObject.scale.y);
+        const radius: number = sceneObject.scale.x;
+        const height: number = this.getThird(sceneObject.scale.y);
 
-        return Math.sqrt( this.pythagore( [a, b] ) );
+        return Math.sqrt( this.pythagore( [radius, height] ) );
     }
 
     private calculateCylinderCollisionRadius(sceneObject: ISceneObject): number {
 
-        const a: number = this.getHalf(sceneObject.scale.x);
-        const b: number = this.getHalf(sceneObject.scale.y);
+        const radius: number = this.getHalf(sceneObject.scale.x);
+        const height: number = this.getHalf(sceneObject.scale.y);
 
-        return Math.sqrt( this.pythagore( [a, b] ) );
+        return this.pythagore( [radius, height] );
     }
 
     private calculateSphereCollisionRadius(sceneObject: ISceneObject): number {
@@ -82,7 +79,7 @@ export class CollisionBoxGenerator {
             result += Math.pow(element, SceneConstants.TWO);
         });
 
-        return result;
+        return Math.sqrt(result);
     }
 
     private getHalf(value: number): number {
