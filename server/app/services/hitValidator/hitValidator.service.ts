@@ -18,7 +18,6 @@ export class HitValidatorService {
 
     public constructor() {
         this.cache = new Cache(this.CACHE_SIZE);
-        // this.cache.insert( { imageUrl: "url de l'image", buffer: Buffer.from("FUCKING SHIT")});
     }
 
     public async confirmHit(posX: number, posY: number, imageUrl: string): Promise<number> {
