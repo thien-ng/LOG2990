@@ -206,6 +206,9 @@ export class CardManagerService {
     }
 
     public removeCard2D(id: number): string {
+        if (id === Constants.DEFAULT_CARD_ID) {
+            return Constants.DELETION_ERROR_MESSAGE;
+        }
         const index: number = this.findCard2D(id);
         const paths: string[] = [
                                     IMAGES_PATH + "/" + id + Constants.GENERATED_FILE,
@@ -219,7 +222,7 @@ export class CardManagerService {
                     this.imageManagerService.deleteStoredImages(paths);
                 }
             } catch (error) {
-                this.generateErrorMessage(error);
+                return this.generateErrorMessage(error).title;
             }
 
             return CARD_DELETED;
@@ -229,6 +232,9 @@ export class CardManagerService {
     }
 
     public removeCard3D(id: number): string {
+        if (id === Constants.DEFAULT_CARD_ID) {
+            return Constants.DELETION_ERROR_MESSAGE;
+        }
         const index: number = this.findCard3D(id);
         if (index !== DOESNT_EXIST) {
             this.cards.list3D.splice(index, 1);

@@ -23,4 +23,8 @@ export class Constants {
   public static readonly ON_SUCCESS_MESSAGE:        string = "onSuccess";
   public static readonly VALIDATION_FAILED:         string = "Validation services failed";
   public static readonly UNKNOWN_ERROR:             string = "Erreur inconnue";
+
+  // Constants for card-manager-controller
+  public static readonly DEFAULT_CARD_ID:           number = 1;
+  public static readonly DELETION_ERROR_MESSAGE:    string = "Impossible de supprimer la carte par défault";
 }
