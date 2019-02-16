@@ -13,6 +13,7 @@ import { HighscoreService } from "../services/highscore.service";
 /*tslint:disable no-magic-numbers no-any */
 
 const mockAdapter: any = require("axios-mock-adapter");
+// const FILE_DELETION_ERROR: string = "error while deleting file";
 const axios: any = require("axios");
 const mock: any = new mockAdapter(axios);
 const CARD_DELETED: string = "Carte supprimée";
@@ -89,9 +90,12 @@ describe("Card-manager tests", () => {
         expect(cardManagerService.getCards().list3D[0]).deep.equal(c3);
     });
 
-    it("should remove the newly added card and return a success message", () => {
-        cardManagerService.addCard2D(c1);
-        expect(cardManagerService.removeCard2D(1)).to.equal(CARD_DELETED);
+    it("should return an error while deleting the default 2D card", () => {
+        expect(cardManagerService.removeCard2D(1)).deep.equal(Constants.DELETION_ERROR_MESSAGE);
+    });
+
+    it("should return an error while deleting the default 3D card", () => {
+        expect(cardManagerService.removeCard3D(1)).deep.equal(Constants.DELETION_ERROR_MESSAGE);
     });
 
     it("should return false because the card doesnt exist", () => {
