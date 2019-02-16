@@ -48,4 +48,26 @@ export class HitValidatorService {
         return this.cache.contains(imageUrl);
     }
 
+    private cacheImageFromUrl(imageUrl: string): void {
+
+        // let buffer: Buffer = Buffer.from("FUCK");
+
+        const axios: Axios.AxiosInstance = require("axios");
+
+        axios.get(imageUrl)
+        .then( (response: Axios.AxiosResponse<Buffer>) => {
+             return response.data;
+        })
+        .then(async (buffer: Buffer) => {
+            this.cache.insert({ imageUrl: imageUrl, buffer: buffer });
+
+            return buffer;
+        })
+        .catch((error: Error) => {
+            // console.log(error);
+        });
+
+        // return buffer;
+    }
+
 }
