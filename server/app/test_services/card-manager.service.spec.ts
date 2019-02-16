@@ -13,7 +13,6 @@ import { HighscoreService } from "../services/highscore.service";
 /*tslint:disable no-magic-numbers no-any */
 
 const mockAdapter: any = require("axios-mock-adapter");
-// const FILE_DELETION_ERROR: string = "error while deleting file";
 const axios: any = require("axios");
 const mock: any = new mockAdapter(axios);
 const CARD_DELETED: string = "Carte supprimée";
