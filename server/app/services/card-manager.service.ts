@@ -82,9 +82,9 @@ export class CardManagerService {
 
         this.imageManagerService.saveImage(IMAGES_PATH + sceneId, body.image);
         this.imageManagerService.saveSceneGenerated(IMAGES_PATH + "testData.txt", body.sceneVariable);
-        
+
         const cardReceived: ICard = {
-            gameID: this.generateId(),
+            gameID: cardId,
             gamemode: GameMode.free,
             title: body.sceneVariable.gameName,
             subtitle: body.sceneVariable.gameName,
@@ -247,6 +247,10 @@ export class CardManagerService {
     public removeCard3D(id: number): string {
         const index: number = this.findCard3D(id);
         if (index !== DOESNT_EXIST) {
+            const paths: string[] = [
+                IMAGES_PATH + "/" + id + Constants.GENERATED_SNAPSHOT,
+            ];
+            this.imageManagerService.deleteStoredImages(paths);
             this.cards.list3D.splice(index, 1);
 
             return CARD_DELETED;
