@@ -74,20 +74,8 @@ export class HitValidatorService {
             });
     }
 
-        axios.get(imageUrl)
-        .then( (response: Axios.AxiosResponse<Buffer>) => {
-             return response.data;
-        })
-        .then(async (buffer: Buffer) => {
-            this.cache.insert({ imageUrl: imageUrl, buffer: buffer });
-
-            return buffer;
-        })
-        .catch((error: Error) => {
-            // console.log(error);
-        });
-
-        // return buffer;
+    private getImageWidth(buffer: Buffer): number {
+        return buffer.readInt32LE(this.BUFFER_OFFSET_WIDTH);
     }
 
 }
