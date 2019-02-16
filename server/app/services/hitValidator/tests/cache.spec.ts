@@ -37,4 +37,52 @@ describe("Cache tests", () => {
         done();
     });
 
+    it("should be able to store an object of type ICachedElement", (done: Function) => {
+
+        const spy: any = chai.spy.on(cache, "updateInsertionIndex");
+        cache.insert(elements[0]);
+
+        chai.expect(spy).to.have.been.called();
+        done();
+    });
+
+    it("should be inserting elements without loss until cache size is reached", (done: Function) => {
+
+        cache = new Cache(2);
+        cache.insert(elements[0]);
+        cache.insert(elements[1]);
+
+        const element0isCached: boolean = cache.contains(elements[0].imageUrl);
+        const element1isCached: boolean = cache.contains(elements[1].imageUrl);
+
+        chai.expect(element0isCached && element1isCached).to.equal(true);
+        done();
+    });
+
+    it("should be overwriting an element once cache size is reached", (done: Function) => {
+
+        cache = new Cache(2);
+        cache.insert(elements[0]);
+        cache.insert(elements[1]);
+        cache.insert(elements[2]);
+
+        const element0isCached: boolean = cache.contains(elements[0].imageUrl);
+        chai.expect(element0isCached).to.equal(false);
+        done();
+    });
+
+    it("should not be inserting element that is already cached", (done: Function) => {
+
+        cache = new Cache(2);
+        cache.insert(elements[0]);
+        cache.insert(elements[1]);
+        cache.insert(elements[0]);
+        cache.insert(elements[0]);
+
+        const element1isCached: boolean = cache.contains(elements[1].imageUrl);
+
+        chai.expect(element1isCached).to.equal(true);
+        done();
+    });
+
 });
