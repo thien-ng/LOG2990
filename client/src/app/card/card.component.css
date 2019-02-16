@@ -63,11 +63,3 @@
     margin-top: -150px;;
     margin-left: -200px;
 }
-
-::ng-deep snack-bar-container.snackbar {
-  background: #231728;
-}
-
-::ng-deep .snackbar .mat-simple-snackbar {
-  color: white;
-}
