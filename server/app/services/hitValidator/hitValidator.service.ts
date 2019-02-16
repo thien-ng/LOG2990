@@ -82,4 +82,12 @@ export class HitValidatorService {
         return buffer.readInt32LE(this.BUFFER_OFFSET_HEIGHT);
     }
 
+    private insertElementInCache(imageUrl: string, buffer: Buffer): void {
+        const newCacheElement: IImageToCache = {
+            imageUrl:   imageUrl,
+            buffer:     buffer,
+        };
+        this.cache.insert(newCacheElement);
+    }
+
 }
