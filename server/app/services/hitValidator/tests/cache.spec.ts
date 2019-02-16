@@ -100,4 +100,23 @@ describe("Cache tests", () => {
         done();
     });
 
+    it("should be returning an element cached correctly", (done: Function) => {
+
+        cache = new Cache(2);
+        cache.insert(elements[0]);
+
+        const elementRetrieved: Buffer | undefined = cache.get(elements[0].imageUrl);
+
+        chai.expect(elementRetrieved).to.deep.equal(elements[0].buffer);
+        done();
+    });
+
+    it("should be returning an undefined object if get function cannot find the object in cache", (done: Function) => {
+
+        const elementRetrieved: Buffer | undefined = cache.get(elements[0].imageUrl);
+
+        chai.expect(elementRetrieved === undefined).to.equal(true);
+        done();
+    });
+
 });
