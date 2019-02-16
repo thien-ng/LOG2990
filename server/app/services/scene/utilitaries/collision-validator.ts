@@ -1,5 +1,4 @@
 import { IAxisValues, ISceneObject } from "../../../../../common/communication/iSceneObject";
-import { SceneConstants } from "../sceneConstants";
 import { CollisionBoxGenerator } from "./collision-box-generator";
 
 export class CollisionValidator {
