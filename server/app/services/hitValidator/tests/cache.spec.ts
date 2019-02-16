@@ -31,4 +31,10 @@ describe("Cache tests", () => {
         chai.use(spies);
     });
 
+    it("should create an object of type Cache", (done: Function) => {
+
+        chai.expect(new Cache(3)).instanceOf(Cache);
+        done();
+    });
+
 });
