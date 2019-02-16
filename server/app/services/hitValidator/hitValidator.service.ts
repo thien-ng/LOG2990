@@ -20,16 +20,22 @@ export class HitValidatorService {
         this.cache = new Cache(this.CACHE_SIZE);
     }
 
-    public async confirmHit(posX: number, posY: number, imageUrl: string): Promise<number> {
+    public async confirmHit(hitToValidate: IHitToValidate): Promise<IHitConfirmation> {
 
-        if (!this.isStoredInCache(imageUrl)) {
-            this.cacheImageFromUrl(imageUrl);
+        let buffer: Buffer;
+
+        if (this.isStoredInCache(hitToValidate.imageUrl)) {
+            buffer = this.cache.get(hitToValidate.imageUrl);
+        } else {
+            buffer = await this.getImageFromUrl(hitToValidate.imageUrl);
+            this.insertElementInCache(hitToValidate.imageUrl, buffer);
         }
-        const buffer: Buffer | undefined = this.cache.get(imageUrl);
-        // console.log("buffer apres lavoir mis dans la cache : " + buffer);
+        const colorFound: number[] = this.findColorAtPoint(hitToValidate.posX, hitToValidate.posY, buffer);
 
-        return buffer ? this.findColorAtPoint(posX, posY, buffer) : -1;
-
+        return {
+            isAHit: this.isValidHit(hitToValidate, colorFound),
+            hitPixelColor: colorFound,
+        };
     }
 
     private findColorAtPoint(posX: number, posY: number, buffer: Buffer): number {
