@@ -44,4 +44,8 @@ export class HitValidatorService {
         return buffer[absolutePosition];
     }
 
+    private isStoredInCache(imageUrl: string): boolean {
+        return this.cache.contains(imageUrl);
+    }
+
 }
