@@ -9,6 +9,7 @@ import { DifferenceCheckerController } from "./services/difference-checker/diffe
 import { DifferenceCheckerService } from "./services/difference-checker/difference-checker.service";
 import { GameManager } from "./services/game/game-manager.service";
 import { HighscoreService } from "./services/highscore.service";
+import { SceneManager } from "./services/scene/scene-manager.service";
 import { UserManagerService } from "./services/user-manager.service";
 import Types from "./types";
 import { WebsocketManager } from "./websocket/WebsocketManager";
@@ -32,5 +33,7 @@ container.bind(Types.DifferenceCheckerController).to(DifferenceCheckerController
 container.bind(Types.DifferenceCheckerService).to(DifferenceCheckerService);
 
 container.bind(Types.GameManager).to(GameManager).inSingletonScope();
+
+container.bind(Types.SceneManager).to(SceneManager).inSingletonScope();
 
 export { container };

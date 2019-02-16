@@ -31,7 +31,8 @@ export class CardManagerService {
 
     private uniqueId: number = 1000;
 
-    public constructor(@inject(Types.HighscoreService) private highscoreService: HighscoreService) {
+    public constructor(
+        @inject(Types.HighscoreService) private highscoreService: HighscoreService) {
         this.cards = {
             list2D: [],
             list3D: [],
@@ -79,6 +80,7 @@ export class CardManagerService {
             avatarImageUrl: "http://localhost:3000/image/dylan.jpg",
             gameImageUrl: "http://localhost:3000/image/dylan.jpg",
         };
+
         if (this.addCard3D(cardReceived)) {
             return {
                 title: Constants.ON_SUCCESS_MESSAGE,

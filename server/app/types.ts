@@ -11,4 +11,5 @@ export default  {
         DifferenceCheckerService: Symbol("DifferenceCheckerService"),
         UserController: Symbol("UserController"),
         GameManager: Symbol("GameManager"),
+        SceneManager: Symbol("SceneManager"),
 };
