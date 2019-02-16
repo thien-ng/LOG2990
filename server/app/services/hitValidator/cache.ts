@@ -18,4 +18,8 @@ export class Cache {
             this.updateInsertionIndex();
         }
     }
+
+    private updateInsertionIndex(): void {
+        this.insertionIndex = ++this.insertionIndex % this.cacheSize;
+    }
 }
