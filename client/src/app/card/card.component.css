@@ -64,10 +64,10 @@
     margin-left: -200px;
 }
 
-::ng-deep snack-bar-container.green-snackbar {
-  background: #4a553e;
+::ng-deep snack-bar-container.snackbar {
+  background: #231728;
 }
 
-::ng-deep .green-snackbar .mat-simple-snackbar {
-  color: #b1fe59;
+::ng-deep .snackbar .mat-simple-snackbar {
+  color: white;
 }

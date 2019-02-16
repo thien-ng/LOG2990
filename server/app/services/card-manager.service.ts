@@ -233,9 +233,9 @@ export class CardManagerService {
                                     IMAGES_PATH + "/" + id + Constants.MODIFIED_FILE,
                                 ];
         if (index !== DOESNT_EXIST) {
-            this.cards.list2D.splice(index, 1);
             try {
-                    this.imageManagerService.deleteStoredImages(paths);
+                this.imageManagerService.deleteStoredImages(paths);
+                this.cards.list2D.splice(index, 1);
             } catch (error) {
                 return this.generateErrorMessage(error).title;
             }
@@ -255,8 +255,12 @@ export class CardManagerService {
             const paths: string[] = [
                 IMAGES_PATH + "/" + id + Constants.GENERATED_SNAPSHOT,
             ];
-            this.imageManagerService.deleteStoredImages(paths);
-            this.cards.list3D.splice(index, 1);
+            try {
+                this.imageManagerService.deleteStoredImages(paths);
+                this.cards.list3D.splice(index, 1);
+            } catch (error) {
+                return this.generateErrorMessage(error).title;
+            }
 
             return CARD_DELETED;
         }

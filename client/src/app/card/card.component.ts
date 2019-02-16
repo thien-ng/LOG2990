@@ -54,7 +54,7 @@ export class CardComponent {
     this.snackBar.open( response, Constants.SNACK_ACTION, {
       duration: Constants.SNACKBAR_DURATION,
       verticalPosition: "top",
-      panelClass: ["green-snackbar"],
+      panelClass: ["snackbar"],
     });
   }
 
