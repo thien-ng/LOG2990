@@ -16,6 +16,18 @@ export class HitValidatorService {
         // this.cache.insert( { imageUrl: "url de l'image", buffer: Buffer.from("FUCKING SHIT")});
     }
 
+    public async confirmHit(posX: number, posY: number, imageUrl: string): Promise<number> {
+
+        if (!this.isStoredInCache(imageUrl)) {
+            this.cacheImageFromUrl(imageUrl);
+        }
+        const buffer: Buffer | undefined = this.cache.get(imageUrl);
+        // console.log("buffer apres lavoir mis dans la cache : " + buffer);
+
+        return buffer ? this.findColorAtPoint(posX, posY, buffer) : -1;
+
+    }
+
     private findColorAtPoint(posX: number, posY: number, buffer: Buffer): number {
 
         // console.log();
