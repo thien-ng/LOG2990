@@ -60,11 +60,19 @@ export class HitValidatorService {
         return [...buffer.slice(absolutePosition, absolutePosition + this.BUFFER_24BIT_SIZE)];
     }
 
-    private cacheImageFromUrl(imageUrl: string): void {
+    private async getImageFromUrl(imageUrl: string): Promise<Buffer> {
 
-        // let buffer: Buffer = Buffer.from("FUCK");
+        const axios: AxiosInstance = require("axios");
 
-        const axios: Axios.AxiosInstance = require("axios");
+        return axios
+            .get(imageUrl, {
+                responseType: "arraybuffer",
+            })
+            .then((response: AxiosResponse) => Buffer.from(response.data, "binary"))
+            .catch((error: Error) => {
+                throw new TypeError(this.ERROR_ON_HTTPGET);
+            });
+    }
 
         axios.get(imageUrl)
         .then( (response: Axios.AxiosResponse<Buffer>) => {
