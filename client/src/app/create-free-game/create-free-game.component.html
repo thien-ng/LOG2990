@@ -51,3 +51,6 @@
   <button class="button-padding" [disabled]="hasFormControlErrors()" mat-raised-button>{{SUBMIT}}</button>
   <button class="button-padding" mat-raised-button type="button" (click)="closeDialog()">{{CANCEL}}</button>
 </form>
+<div *ngIf="isSceneGenerated" style="display: none">
+  <app-threejs-view [iSceneVariables]="iSceneVariables" [neededSnapshot]="NEEDED_SNAPSHOT"></app-threejs-view>
+</div>

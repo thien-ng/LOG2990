@@ -13,7 +13,8 @@ import { MatDialogRef, MatSnackBar } from "@angular/material";
 import { FormMessage, Message } from "../../../../common/communication/message";
 import { CardManagerService } from "../card/card-manager.service";
 import { Constants } from "../constants";
-import { FreeGameManagerService } from "./free-game-manager.service";
+import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
+import { SceneObjectType } from "../../../../common/communication/iSceneObject";
 
 @Component({
   selector: "app-create-free-game",
@@ -44,8 +45,24 @@ export class CreateFreeGameComponent {
   public readonly EDIT_TYPE_DELETE: string = "Suppression";
   public readonly EDIT_TYPE_COLOR: string = "Changement de couleur";
   public readonly ATLEASTONE_CHECKED: string = "Au moins une option doit être cochée";
+  public readonly NEEDED_SNAPSHOT: boolean = true;
 
   public formControl: FormGroup;
+
+  private isSceneGenerated: boolean;
+
+  // to be removed
+  private iSceneVariables: ISceneVariables = {
+    sceneObjectsQuantity: 1,
+    sceneObjects: [{
+      type: SceneObjectType.Cone,
+      position: {x: 1, y: 1, z: 1},
+      rotation:  {x: 1, y: 1, z: 1},
+      color: "#ff0000",
+      scale:  {x: 1, y: 1, z: 1},
+    }],
+    sceneBackgroundColor: "#00ff00",
+  };
 
   public modifTypes: {name: string}[] = [
       { name: this.EDIT_TYPE_ADD },
@@ -59,7 +76,6 @@ export class CreateFreeGameComponent {
     private httpClient: HttpClient,
     private snackBar: MatSnackBar,
     private cardManagerService: CardManagerService,
-    private freeGameManagerService: FreeGameManagerService,
   ) {
 
     const controls: FormControl[] = this.modifTypes.map(() => new FormControl(false));
@@ -75,6 +91,7 @@ export class CreateFreeGameComponent {
       ]),
       modifTypes: new FormArray(controls, this.atLeastOneIsChecked(1)),
     });
+    this.isSceneGenerated = false;
   }
 
   public hasNameControlErrors(): boolean {
@@ -128,11 +145,17 @@ export class CreateFreeGameComponent {
     } as FormMessage;
   }
 
-  public submit(formData: NgForm): void {
+  public async submit(formData: NgForm): Promise<void> {
     this.isButtonEnabled = false;
     const formValue: FormMessage = this.createFormMessage(formData);
+    console.log(formValue);
 
-    this.freeGameManagerService.submitFormData(formValue);
+    await this.httpClient.post(Constants.BASE_URL + "/api/scene/generator", formValue).subscribe((response: ISceneVariables) => {
+      this.iSceneVariables = response;
+      this.isSceneGenerated = true;
+      console.log(this.isSceneGenerated);
+      console.log(this.iSceneVariables);
+    });
 
     this.httpClient.post(Constants.FREE_SUBMIT_PATH, formValue).subscribe((response: Message) => {
       this.analyseResponse(response);

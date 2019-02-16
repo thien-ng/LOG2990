@@ -6,9 +6,9 @@ export class SceneConstants {
     public static readonly MIN_COLOR_GRADIENT: number = 0;
     public static readonly MAX_COLOR_GRADIENT: number = 255;
     // Positions
-    public static readonly MAX_POSITION_X: number = 1000;
-    public static readonly MAX_POSITION_Y: number = 1000;
-    public static readonly MAX_POSITION_Z: number = 1000;
+    public static readonly MAX_POSITION_X: number = 100;
+    public static readonly MAX_POSITION_Y: number = 100;
+    public static readonly MAX_POSITION_Z: number = 100;
     // Scales
     public static readonly MIN_SCALE: number = 0.5;
     public static readonly MAX_SCALE: number = 1.5;
