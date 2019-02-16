@@ -18,13 +18,13 @@ export class HighscoreService {
   }
 
   public getHighscore(id: number): void {
-    this.httpClient.get(Constants.BASIC_SERVICE_BASE_URL + Constants.HIGHSCORE_PATH + id).subscribe((data: HighscoreMessage) => {
+    this.httpClient.get(Constants.HIGHSCORE_PATH + id).subscribe((data: HighscoreMessage) => {
       this.highscoreUpdated.next(data);
     });
   }
 
   public resetHighscore(id: number): void {
-    this.httpClient.get(Constants.BASIC_SERVICE_BASE_URL + Constants.HIGHSCORE_PATH + Constants.RESET_PATH + id).subscribe(() => {
+    this.httpClient.get(Constants.HIGHSCORE_PATH + Constants.RESET_PATH + id).subscribe(() => {
       this.getHighscore(id);
     });
   }

@@ -3,13 +3,16 @@ import { BMPBuilder } from "../utilities/bmpBuilder";
 
 // tslint:disable:no-magic-numbers
 
+const WIDTH:    number = 2;
+const HEIGHT:   number = 3;
+const WHITE:    number = 255;
 let builder: BMPBuilder;
 let bufferObtained: Buffer;
 
 describe("BMPBuilder tests", () => {
 
     beforeEach(() => {
-         builder = new BMPBuilder(2, 3, 255);
+         builder = new BMPBuilder(WIDTH, HEIGHT, WHITE);
          bufferObtained = builder.buffer;
     });
 
@@ -94,6 +97,28 @@ describe("BMPBuilder tests", () => {
         expect(() => {
             builder.setColorAtPos(5, 6, 7, 10, 20);
         }).to.throw("Entered position is out of bounds");
+        done();
+    });
+
+    it("should create a buffer with the right amount of padding at each row", (done: Function) => {
+        const HEADER_SIZE: number = 54;
+        const pixelSize: number = 3;
+        const paddingExpected: number = 6;
+        const totalLenghtExpected: number = HEADER_SIZE + paddingExpected + WIDTH * HEIGHT * pixelSize;
+        expect(bufferObtained.length).to.equal(totalLenghtExpected);
+        done();
+    });
+
+    it("should create a buffer with the right amount of padding at each row", (done: Function) => {
+        const width: number = 3;
+        const height: number = 3;
+        builder = new BMPBuilder(width, height, WHITE);
+        bufferObtained = builder.buffer;
+        const HEADER_SIZE: number = 54;
+        const pixelSize: number = 3;
+        const paddingExpected: number = 9;
+        const totalLenghtExpected: number = HEADER_SIZE + paddingExpected + width * height * pixelSize;
+        expect(bufferObtained.length).to.equal(totalLenghtExpected);
         done();
     });
 

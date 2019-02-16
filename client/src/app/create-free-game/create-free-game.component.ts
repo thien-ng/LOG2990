@@ -15,8 +15,6 @@ import { CardManagerService } from "../card/card-manager.service";
 import { Constants } from "../constants";
 import { FreeGameManagerService } from "./free-game-manager.service";
 
-const  SUBMIT_PATH: string = "/api/card/submitFree";
-
 @Component({
   selector: "app-create-free-game",
   templateUrl: "./create-free-game.component.html",
@@ -136,7 +134,7 @@ export class CreateFreeGameComponent {
 
     this.freeGameManagerService.submitFormData(formValue);
 
-    this.httpClient.post(Constants.BASIC_SERVICE_BASE_URL + SUBMIT_PATH, formValue).subscribe((response: Message) => {
+    this.httpClient.post(Constants.FREE_SUBMIT_PATH, formValue).subscribe((response: Message) => {
       this.analyseResponse(response);
       this.isButtonEnabled = true;
     });

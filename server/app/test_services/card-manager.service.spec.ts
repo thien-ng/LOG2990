@@ -17,7 +17,7 @@ const axios: any = require("axios");
 const mock: any = new mockAdapter(axios);
 const CARD_DELETED: string = "Carte supprimée";
 const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
-const FAKE_PATH: string = Constants.BASIC_SERVICE_BASE_URL + "/image";
+const FAKE_PATH: string = Constants.BASE_URL + "/image";
 let cardManagerService: CardManagerService;
 let highscoreService: HighscoreService;
 
