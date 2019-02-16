@@ -1,4 +1,5 @@
 import { IAxisValues, ISceneObject } from "../../../../../common/communication/iSceneObject";
+import { SceneConstants } from "../sceneConstants";
 import { CollisionBoxGenerator } from "./collision-box-generator";
 
 export class CollisionValidator {
@@ -31,12 +32,9 @@ export class CollisionValidator {
 
     private calculateDistanceBetweenCenters (firstCenter: IAxisValues, secondCenter: IAxisValues): number {
 
-        // tslint:disable-next-line:no-magic-numbers
-        const xSqared: number = Math.pow(secondCenter.x - firstCenter.x, 2);
-        // tslint:disable-next-line:no-magic-numbers
-        const ySqared: number = Math.pow(secondCenter.y - firstCenter.y, 2);
-        // tslint:disable-next-line:no-magic-numbers
-        const zSqared: number = Math.pow(secondCenter.z - firstCenter.z, 2);
+        const xSqared: number = Math.pow(secondCenter.x - firstCenter.x, SceneConstants.TWO);
+        const ySqared: number = Math.pow(secondCenter.y - firstCenter.y, SceneConstants.TWO);
+        const zSqared: number = Math.pow(secondCenter.z - firstCenter.z, SceneConstants.TWO);
 
         return Math.sqrt( xSqared + ySqared + zSqared );
     }

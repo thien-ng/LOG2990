@@ -15,6 +15,9 @@ export class SceneConstants {
     // Rotation
     /* tslint:disable:no-magic-numbers */
     public static readonly TWO_PI: number = Math.PI * 2;
+    // Math
+    public static readonly TWO: number = 2;
+    public static readonly THREE: number = 3;
 
     // Constants for scene-manager.service.ts
     public static readonly TYPE_CUBE: string = "cube";

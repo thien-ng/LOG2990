@@ -1,6 +1,6 @@
 import { ISceneObject, SceneObjectType } from "../../../../../common/communication/iSceneObject";
+import { SceneConstants } from "../sceneConstants";
 
-/* tslint:disable:no-magic-numbers */
 export class CollisionBoxGenerator {
 
     public generateCollisionRadius(sceneObject: ISceneObject): number {
@@ -34,24 +34,24 @@ export class CollisionBoxGenerator {
 
     private calculateCubeCollisionRadius(sceneObject: ISceneObject): number {
 
-        return this.pythagore3D( sceneObject.scale.x / 2, sceneObject.scale.y / 2, sceneObject.scale.z / 2 );
+        return this.pythagore3D( sceneObject.scale.x / SceneConstants.TWO, sceneObject.scale.y / SceneConstants.TWO, sceneObject.scale.z / SceneConstants.TWO );
     }
 
     private calculatePyramidCollisionRadius(sceneObject: ISceneObject): number {
 
         // for now scale.x = radius and scale.y = heigth
-        return this.pythagore( sceneObject.scale.x, sceneObject.scale.y / 3 );
+        return this.pythagore( sceneObject.scale.x, sceneObject.scale.y / SceneConstants.THREE );
     }
 
     private calculateConeCollisionRadius(sceneObject: ISceneObject): number {
 
         // for now scale.x = radius and scale.y = heigth
-        return this.pythagore( sceneObject.scale.x, sceneObject.scale.y / 3 );
+        return this.pythagore( sceneObject.scale.x, sceneObject.scale.y / SceneConstants.THREE );
     }
 
     private calculateCylinderCollisionRadius(sceneObject: ISceneObject): number {
 
-        return this.pythagore( sceneObject.scale.x / 2, sceneObject.scale.y / 2 );
+        return this.pythagore( sceneObject.scale.x / SceneConstants.TWO, sceneObject.scale.y / SceneConstants.TWO );
     }
 
     private calculateSphereCollisionRadius(sceneObject: ISceneObject): number {
@@ -61,17 +61,17 @@ export class CollisionBoxGenerator {
 
     private pythagore(x: number, y: number): number {
 
-        const xSquared: number = Math.pow(x, 2);
-        const ySquared: number = Math.pow(y, 2);
+        const xSquared: number = Math.pow(x, SceneConstants.TWO);
+        const ySquared: number = Math.pow(y, SceneConstants.TWO);
 
         return Math.sqrt( xSquared + ySquared );
     }
 
     private pythagore3D(x: number, y: number, z: number): number {
 
-        const xSquared: number = Math.pow(x, 2);
-        const ySquared: number = Math.pow(y, 2);
-        const zSquared: number = Math.pow(z, 2);
+        const xSquared: number = Math.pow(x, SceneConstants.TWO);
+        const ySquared: number = Math.pow(y, SceneConstants.TWO);
+        const zSquared: number = Math.pow(z, SceneConstants.TWO);
 
         return Math.sqrt( xSquared + ySquared + zSquared );
     }
