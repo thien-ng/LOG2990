@@ -46,6 +46,21 @@ describe("Cache tests", () => {
         done();
     });
 
+    it("should be returning false on contains if cache is empty", (done: Function) => {
+
+        const result: boolean = cache.contains(urls[0]);
+        chai.expect(result).to.equal(false);
+        done();
+    });
+
+    it("should be returning true on contains element is in cache", (done: Function) => {
+
+        cache.insert(elements[0]);
+        const result: boolean = cache.contains(urls[0]);
+        chai.expect(result).to.equal(true);
+        done();
+    });
+
     it("should be inserting elements without loss until cache size is reached", (done: Function) => {
 
         cache = new Cache(2);
