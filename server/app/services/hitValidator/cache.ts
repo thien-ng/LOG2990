@@ -25,6 +25,13 @@ export class Cache {
         });
     }
 
+    public get(imageUrl: string): Buffer | undefined {
+        const query: ICacheElement[] = this.storage.filter((element: ICacheElement) => {
+            return element.imageUrl === imageUrl;
+        });
+
+        return query.length > 0 ? query[0].buffer : undefined;
+    }
 
     private updateInsertionIndex(): void {
         this.insertionIndex = ++this.insertionIndex % this.cacheSize;
