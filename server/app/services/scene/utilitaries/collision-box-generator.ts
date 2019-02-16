@@ -4,12 +4,15 @@ import { SceneConstants } from "../sceneConstants";
 export class CollisionBoxGenerator {
 
     public generateCollisionRadius(sceneObject: ISceneObject): number {
-
         let radius: number;
         switch (sceneObject.type) {
             case SceneObjectType.Cube:
                 radius = this.calculateCubeCollisionRadius(sceneObject);
                 break;
+
+            case SceneObjectType.Sphere:
+            radius = this.calculateSphereCollisionRadius(sceneObject);
+            break;
 
             case SceneObjectType.Cylinder:
                 radius = this.calculateCylinderCollisionRadius(sceneObject);
