@@ -4,7 +4,6 @@ import { ISceneVariables } from "../../../common/communication/iSceneVariables";
 import { SceneManager } from "../services/scene/scene-manager.service";
 import Types from "../types";
 
-
 @injectable()
 export class SceneManagerController {
 

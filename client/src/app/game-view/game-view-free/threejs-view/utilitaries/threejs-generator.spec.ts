@@ -1,7 +1,7 @@
 import * as THREE from "three";
-import { ThreejsGenerator } from "./threejs-generator";
-import { IAxisValues, ISceneObject, SceneObjectType } from "../../../../../../../common/communication/iSceneObject";
 import { mock } from "ts-mockito";
+import { IAxisValues, ISceneObject, SceneObjectType } from "../../../../../../../common/communication/iSceneObject";
+import { ThreejsGenerator } from "./threejs-generator";
 
 // tslint:disable:no-any
 
@@ -20,13 +20,13 @@ beforeEach(() => {
         rotation: iAxisValues,
         color: "#ffffff",
         scale: iAxisValues,
-    }
+    };
 });
 
-fdescribe("Tests on ThreejsGenerator", () => {
+describe("Tests on ThreejsGenerator", () => {
 
     it("should generate sphere when initiateObject is called", () => {
-        
+
         const spiedScene: any = spyOn<any>(scene, "add");
         threejsGenerator.initiateObject(sceneObject);
 
@@ -50,13 +50,13 @@ fdescribe("Tests on ThreejsGenerator", () => {
 
         expect(spiedScene).toHaveBeenCalled();
     });
-    
+
     it("should generate cylinder when initiateObject is called", () => {
 
         sceneObject.type = SceneObjectType.Cylinder;
         const spiedScene: any = spyOn<any>(scene, "add");
         threejsGenerator.initiateObject(sceneObject);
-        
+
         expect(spiedScene).toHaveBeenCalled();
     });
 
@@ -65,9 +65,8 @@ fdescribe("Tests on ThreejsGenerator", () => {
         sceneObject.type = SceneObjectType.TriangularPyramid;
         const spiedScene: any = spyOn<any>(scene, "add");
         threejsGenerator.initiateObject(sceneObject);
-        
+
         expect(spiedScene).toHaveBeenCalled();
     });
 
 });
-  

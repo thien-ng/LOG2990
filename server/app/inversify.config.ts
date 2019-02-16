@@ -2,6 +2,7 @@ import { Container } from "inversify";
 import { Application } from "./app";
 import { CardManagerController } from "./controllers/card-manager.controller";
 import { HighscoreController } from "./controllers/highscore.controller";
+import { SceneManagerController } from "./controllers/scene-manager.controller";
 import { UserController } from "./controllers/user.controller";
 import { Server } from "./server";
 import { CardManagerService } from "./services/card-manager.service";
@@ -13,7 +14,6 @@ import { SceneManager } from "./services/scene/scene-manager.service";
 import { UserManagerService } from "./services/user-manager.service";
 import Types from "./types";
 import { WebsocketManager } from "./websocket/WebsocketManager";
-import { SceneManagerController } from "./controllers/scene-manager.controller";
 
 const container: Container = new Container();
 

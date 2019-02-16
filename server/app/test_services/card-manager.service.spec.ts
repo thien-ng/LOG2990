@@ -15,7 +15,6 @@ import { HighscoreService } from "../services/highscore.service";
 const mockAdapter: any = require("axios-mock-adapter");
 const axios: any = require("axios");
 const mock: any = new mockAdapter(axios);
-const CARD_DELETED: string = "Carte supprimée";
 const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
 const FAKE_PATH: string = Constants.BASE_URL + "/image";
 let cardManagerService: CardManagerService;
@@ -99,11 +98,6 @@ describe("Card-manager tests", () => {
 
     it("should return false because the card doesnt exist", () => {
         expect(cardManagerService.removeCard2D(0)).to.equal(CARD_NOT_FOUND);
-    });
-
-    it("should remove the newly added card and return true", () => {
-        cardManagerService.addCard3D(c3);
-        expect(cardManagerService.removeCard3D(3)).to.equal(CARD_DELETED);
     });
 
     it("should return false because the card doesnt exist", () => {

@@ -3,12 +3,15 @@ import { IAxisValues, ISceneObject, SceneObjectType} from "../../../../../../../
 
 export class ThreejsGenerator {
 
+  private readonly NUMBER_CORNERS_PYRAMID: number = 3;
+  private readonly INFINITE_CORNERS: number = 1000;
+
   public constructor(private scene: THREE.Scene) {}
 
   public initiateObject(object3D: ISceneObject): void {
 
     switch (object3D.type) {
-      
+
       case SceneObjectType.Cube:
         this.generateCube(object3D);
         break;
@@ -43,11 +46,11 @@ export class ThreejsGenerator {
   private generateCube(object3D: ISceneObject): void {
 
     const generatedColor: THREE.MeshBasicMaterial = this.createObjectColor(object3D.color);
-    const sphereGeometry: THREE.Geometry = new THREE.CubeGeometry(
+    const cubeGeometry: THREE.Geometry = new THREE.BoxGeometry(
                                                               object3D.scale.x,
                                                               object3D.scale.z,
                                                               object3D.scale.y);
-    const generatedObject: THREE.Mesh = new THREE.Mesh(sphereGeometry, generatedColor);
+    const generatedObject: THREE.Mesh = new THREE.Mesh(cubeGeometry, generatedColor);
 
     this.addObjectToScene(generatedObject, object3D.position, object3D.rotation);
   }
@@ -55,11 +58,11 @@ export class ThreejsGenerator {
   private generateCone(object3D: ISceneObject): void {
 
     const generatedColor: THREE.MeshBasicMaterial = this.createObjectColor(object3D.color);
-    const sphereGeometry: THREE.Geometry = new THREE.ConeGeometry(
+    const coneGeometry: THREE.Geometry = new THREE.ConeGeometry(
                                                               object3D.scale.x,
                                                               object3D.scale.z,
-                                                              1000);
-    const generatedObject: THREE.Mesh = new THREE.Mesh(sphereGeometry, generatedColor);
+                                                              this.INFINITE_CORNERS);
+    const generatedObject: THREE.Mesh = new THREE.Mesh(coneGeometry, generatedColor);
 
     this.addObjectToScene(generatedObject, object3D.position, object3D.rotation);
   }
@@ -67,12 +70,12 @@ export class ThreejsGenerator {
   private generateCylinder(object3D: ISceneObject): void {
 
     const generatedColor: THREE.MeshBasicMaterial = this.createObjectColor(object3D.color);
-    const sphereGeometry: THREE.Geometry = new THREE.CylinderGeometry(
+    const cylinderGeometry: THREE.Geometry = new THREE.CylinderGeometry(
                                                               object3D.scale.x,
                                                               object3D.scale.x,
                                                               object3D.scale.y,
-                                                              1000);
-    const generatedObject: THREE.Mesh = new THREE.Mesh(sphereGeometry, generatedColor);
+                                                              this.INFINITE_CORNERS);
+    const generatedObject: THREE.Mesh = new THREE.Mesh(cylinderGeometry, generatedColor);
 
     this.addObjectToScene(generatedObject, object3D.position, object3D.rotation);
   }
@@ -80,11 +83,11 @@ export class ThreejsGenerator {
   private generateTriangularPyramid(object3D: ISceneObject): void {
 
     const generatedColor: THREE.MeshBasicMaterial = this.createObjectColor(object3D.color);
-    const sphereGeometry: THREE.Geometry = new THREE.ConeGeometry(
+    const pyramidGeometry: THREE.Geometry = new THREE.ConeGeometry(
                                                               object3D.scale.x,
                                                               object3D.scale.z,
-                                                              3);
-    const generatedObject: THREE.Mesh = new THREE.Mesh(sphereGeometry, generatedColor);
+                                                              this.NUMBER_CORNERS_PYRAMID);
+    const generatedObject: THREE.Mesh = new THREE.Mesh(pyramidGeometry, generatedColor);
 
     this.addObjectToScene(generatedObject, object3D.position, object3D.rotation);
   }

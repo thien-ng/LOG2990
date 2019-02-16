@@ -1,13 +1,13 @@
-import { AfterContentInit, Component, ElementRef, Inject, Input, ViewChild } from "@angular/core";
-import * as THREE from "three";
 import { HttpClient } from "@angular/common/http";
-import { ThreejsViewService } from "./threejs-view.service";
+import { AfterContentInit, Component, ElementRef, Inject, Input, ViewChild } from "@angular/core";
+import { MatSnackBar } from "@angular/material";
+import * as THREE from "three";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
+import { Message } from "../../../../../../common/communication/message";
 import { CardManagerService } from "../../../card/card-manager.service";
 import { Constants } from "../../../constants";
-import { MatSnackBar } from "@angular/material";
-import { Message } from "../../../../../../common/communication/message";
+import { ThreejsViewService } from "./threejs-view.service";
 
 @Component({
   selector: "app-threejs-view",
@@ -60,13 +60,6 @@ export class TheejsViewComponent implements AfterContentInit {
     }
   }
 
-  private sendSnapshot(message: ISceneMessage): void {
-    console.log(message);
-    this.httpClient.post(Constants.FREE_SUBMIT_PATH, message).subscribe((response: Message) => {
-      this.analyseResponse(response);
-    });
-  }
-
   private createMessage(image: string): ISceneMessage {
     return {
       sceneVariable: this.iSceneVariables,
@@ -74,11 +67,17 @@ export class TheejsViewComponent implements AfterContentInit {
     } as ISceneMessage;
   }
 
+  private sendSnapshot(message: ISceneMessage): void {
+    this.httpClient.post(Constants.FREE_SUBMIT_PATH, message).subscribe((response: Message) => {
+      this.analyseResponse(response);
+    });
+  }
+
   private analyseResponse(response: Message): void {
 
     if (response.title === Constants.ON_SUCCESS_MESSAGE) {
       this.cardManagerService.updateCards(true);
-      
+
     } else if (response.title === Constants.ON_ERROR_MESSAGE) {
       this.openSnackBar(response.body, Constants.SNACK_ACTION);
     }

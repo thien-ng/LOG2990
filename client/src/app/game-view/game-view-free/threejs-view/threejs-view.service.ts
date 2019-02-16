@@ -1,8 +1,12 @@
 import { Injectable } from "@angular/core";
 import * as THREE from "three";
-import { SceneObjectType } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
+
+// je disable les magic number pour linstant, car les chiffres ici sont pour les position et les vecteurs
+// je suis pas trop sur encore comment les placer alors je les garde comme ca, on changera les valeurs apres
+
+// tslint:disable:no-magic-numbers
 
 @Injectable({
   providedIn: "root",
@@ -11,64 +15,9 @@ export class ThreejsViewService {
 
   private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
-  private light: THREE.DirectionalLight;
-  private light2: THREE.DirectionalLight;
   private renderer: THREE.WebGLRenderer;
   private ambLight: THREE.AmbientLight;
-
-  private iAxisValues = {
-    x: 2,
-    y: 3,
-    z: 1,
-  };
-
-  private sceneVariable: ISceneVariables = {sceneObjectsQuantity: 1,
-  gameName: "game",
-  sceneObjects: [
-    {type: SceneObjectType.TriangularPyramid,
-      position: this.iAxisValues,
-      rotation: this.iAxisValues,
-      color: "#ff00ff",
-      scale: this.iAxisValues},
-    {type: SceneObjectType.Cube,
-      position: {
-        x: 0,
-        y: 0,
-        z: 0,
-    },
-      rotation: this.iAxisValues,
-      color: "#0000ff",
-      scale: this.iAxisValues},
-    {type: SceneObjectType.Cone,
-      position: {
-        x: -10,
-        y: -10,
-        z: -10,
-      },
-      rotation: this.iAxisValues,
-      color: "#00ff00",
-      scale: this.iAxisValues},
-    {type: SceneObjectType.Sphere,
-      position: {
-        x: 10,
-        y: 0,
-        z: 0,
-      },
-    rotation: this.iAxisValues,
-    color: "#ff0000",
-    scale: this.iAxisValues},
-    {type: SceneObjectType.Cylinder,
-      position: {
-        x: -15,
-        y: -5,
-        z: 0,
-      },
-    rotation: this.iAxisValues,
-    color: "#ea6117",
-    scale: this.iAxisValues},
-  ],
-  sceneBackgroundColor: "#aaaaaa",
-};
+  private sceneVariable: ISceneVariables;
   private threejsGenerator: ThreejsGenerator;
 
   public constructor() {
@@ -78,10 +27,7 @@ export class ThreejsViewService {
   private init(): void {
     this.camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 100);
     this.renderer = new THREE.WebGLRenderer();
-
-    this.light = new THREE.DirectionalLight(0xea6117, 0.5); // add light1
-    this.light2 = new THREE.DirectionalLight(0xea6117, 0.5); // add light2
-    this.ambLight = new THREE.AmbientLight(0xea6117, 0.4);
+    this.ambLight = new THREE.AmbientLight(0xEA6117, 0.4);
   }
 
   public createScene(scene: THREE.Scene, iSceneVariables: ISceneVariables): void {
@@ -99,24 +45,24 @@ export class ThreejsViewService {
 
   private createLighting(): void {
 
-    this.light.position.set(100, 100, 50);
-    this.light.intensity = 5;
-    this.scene.add(this.light);
-    this.light2.position.set(-10, 10, -10);
-    this.light2.intensity = 0.5;
-    this.scene.add(this.light2);
+    const firstLight: THREE.DirectionalLight = new THREE.DirectionalLight(0xEA6117, 0.5);
+    const secondLight: THREE.DirectionalLight = new THREE.DirectionalLight(0xEA6117, 0.5);
+
+    firstLight.position.set(100, 100, 50);
+    secondLight.position.set(-10, 10, -10);
+
+    firstLight.intensity = 5;
+    secondLight.intensity = 0.5;
+
+    this.scene.add(firstLight);
+    this.scene.add(secondLight);
   }
 
-  public angle: number = 100;
-  public radius: number = 10;
-
   public animate(): void {
-    // requestAnimationFrame(this.animate.bind(this));
-    
+
     this.camera.position.x = -10;
     this.camera.position.z = -10;
     this.camera.position.y = -10;
-    console.log(this.scene.position);
     this.camera.lookAt(this.scene.position);
     this.renderObject();
   }

@@ -3,7 +3,6 @@ import { Constants } from "../../../constants";
 import { TheejsViewComponent } from "./threejs-view.component";
 
 describe("TheejsViewComponent", () => {
-  let component: TheejsViewComponent;
   let fixture: ComponentFixture<TheejsViewComponent>;
 
   beforeEach(async(() => {
@@ -16,11 +15,7 @@ describe("TheejsViewComponent", () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TheejsViewComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
-  });
 });

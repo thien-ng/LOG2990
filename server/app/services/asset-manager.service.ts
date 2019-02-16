@@ -1,6 +1,6 @@
 import * as fs from "fs";
-import { Constants } from "../constants";
 import { ISceneVariables } from "../../../common/communication/iSceneVariables";
+import { Constants } from "../constants";
 
 const IMAGES_PATH: string = "./app/asset/image";
 const FILE_GENERATION_ERROR: string = "error while generating file";
@@ -38,7 +38,7 @@ export class AssetManagerService {
 
     public saveImage(path: string, image: string): void {
 
-        let base64Image = image.split(";base64,").pop();
+        const base64Image: string | undefined = image.split(";base64,").pop();
         fs.writeFile(path, base64Image, {encoding: "base64"}, (error: Error) => {
             if (error) {
                 throw TypeError(FILE_GENERATION_ERROR);
