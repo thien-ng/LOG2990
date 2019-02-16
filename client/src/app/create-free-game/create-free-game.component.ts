@@ -9,9 +9,8 @@ import {
   Validators,
   ValidatorFn
 } from "@angular/forms";
-import { MatDialogRef, MatSnackBar } from "@angular/material";
-import { FormMessage, Message } from "../../../../common/communication/message";
-import { CardManagerService } from "../card/card-manager.service";
+import { MatDialogRef } from "@angular/material";
+import { FormMessage } from "../../../../common/communication/message";
 import { Constants } from "../constants";
 import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { SceneObjectType } from "../../../../common/communication/iSceneObject";
@@ -53,6 +52,7 @@ export class CreateFreeGameComponent {
 
   // to be removed
   private iSceneVariables: ISceneVariables = {
+    gameName: "game",
     sceneObjectsQuantity: 1,
     sceneObjects: [{
       type: SceneObjectType.Cone,
@@ -74,8 +74,6 @@ export class CreateFreeGameComponent {
     private dialogRef: MatDialogRef<CreateFreeGameComponent>,
     private formBuilder: FormBuilder,
     private httpClient: HttpClient,
-    private snackBar: MatSnackBar,
-    private cardManagerService: CardManagerService,
   ) {
 
     const controls: FormControl[] = this.modifTypes.map(() => new FormControl(false));
@@ -148,34 +146,16 @@ export class CreateFreeGameComponent {
   public async submit(formData: NgForm): Promise<void> {
     this.isButtonEnabled = false;
     const formValue: FormMessage = this.createFormMessage(formData);
-    console.log(formValue);
 
     await this.httpClient.post(Constants.BASE_URL + "/api/scene/generator", formValue).subscribe((response: ISceneVariables) => {
       this.iSceneVariables = response;
       this.isSceneGenerated = true;
       console.log(this.isSceneGenerated);
       console.log(this.iSceneVariables);
+  
     });
-
-    this.httpClient.post(Constants.FREE_SUBMIT_PATH, formValue).subscribe((response: Message) => {
-      this.analyseResponse(response);
-      this.isButtonEnabled = true;
-    });
+    this.isButtonEnabled = true;
+    this.dialogRef.close();
   }
 
-  private analyseResponse(response: Message): void {
-    if (response.title === Constants.ON_SUCCESS_MESSAGE) {
-      this.cardManagerService.updateCards(true);
-      this.dialogRef.close();
-    } else if (response.title === Constants.ON_ERROR_MESSAGE) {
-      this.openSnackBar(response.body, Constants.SNACK_ACTION);
-    }
-  }
-
-  private openSnackBar(msg: string, action: string): void {
-    this.snackBar.open(msg, action, {
-      duration: Constants.SNACKBAR_DURATION,
-      verticalPosition: "top",
-    });
-  }
 }

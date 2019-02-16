@@ -14,6 +14,7 @@ export class Constants {
   public static readonly ON_RETRIEVE_USER:          string = "onRetrieveUser";
 
   // Constants for card-manager.service.ts
+  public static readonly SCENE_SNAPSHOT:            string = "_snapshot.jpeg";
   public static readonly ORIGINAL_FILE:             string = "_original.bmp";
   public static readonly MODIFIED_FILE:             string = "_modified.bmp";
   public static readonly GENERATED_FILE:            string = "_generated.bmp";

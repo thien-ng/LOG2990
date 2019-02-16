@@ -2,12 +2,13 @@ import * as Axios from "axios";
 import { inject, injectable } from "inversify";
 import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
-import { FormMessage, Message } from "../../../common/communication/message";
+import { Message } from "../../../common/communication/message";
 import { Constants } from "../constants";
 import Types from "../types";
 import { AssetManagerService } from "./asset-manager.service";
 import { ImageRequirements } from "./difference-checker/utilities/imageRequirements";
 import { HighscoreService } from "./highscore.service";
+import { ISceneMessage } from "../../../common/communication/iSceneMessage";
 
 const axios: Axios.AxiosInstance = require("axios");
 const DOESNT_EXIST: number = -1;
@@ -29,10 +30,14 @@ export class CardManagerService {
     private modifiedImageRequest: Buffer;
     private imageManagerService: AssetManagerService;
 
-    private uniqueId: number = 1000;
+    private uniqueId: number;
+    private uniqueIdScene: number;
 
     public constructor(
         @inject(Types.HighscoreService) private highscoreService: HighscoreService) {
+        
+        this.uniqueId = 1000;
+        this.uniqueIdScene = 2000;
         this.cards = {
             list2D: [],
             list3D: [],
@@ -70,15 +75,22 @@ export class CardManagerService {
         return returnValue;
     }
 
-    public freeCardCreationRoutine(body: FormMessage): Message {
+    public freeCardCreationRoutine(body: ISceneMessage): Message {
+
+        const cardId: number = this.generateSceneId();
+        const sceneId: string = "/" + cardId + Constants.SCENE_SNAPSHOT;
+
+        this.imageManagerService.saveImage(IMAGES_PATH + sceneId, body.image);
+        this.imageManagerService.saveSceneGenerated(IMAGES_PATH + "testData.txt", body.sceneVariable);
+        
         const cardReceived: ICard = {
             gameID: this.generateId(),
             gamemode: GameMode.free,
-            title: body.gameName,
-            subtitle: body.gameName,
+            title: body.sceneVariable.gameName,
+            subtitle: body.sceneVariable.gameName,
             // The image is temporary, the screenshot will be generated later
-            avatarImageUrl: "http://localhost:3000/image/dylan.jpg",
-            gameImageUrl: "http://localhost:3000/image/dylan.jpg",
+            avatarImageUrl: Constants.BASE_URL + "/image" + sceneId,
+            gameImageUrl: Constants.BASE_URL + "/image" + sceneId,
         };
 
         if (this.addCard3D(cardReceived)) {
@@ -141,6 +153,10 @@ export class CardManagerService {
 
     private generateId(): number {
         return this.uniqueId++;
+    }
+
+    private generateSceneId(): number {
+        return this.uniqueIdScene++;
     }
 
     private cardEqual(card: ICard, element: ICard): boolean {

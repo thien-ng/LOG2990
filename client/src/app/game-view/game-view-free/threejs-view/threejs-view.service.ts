@@ -23,6 +23,7 @@ export class ThreejsViewService {
   };
 
   private sceneVariable: ISceneVariables = {sceneObjectsQuantity: 1,
+  gameName: "game",
   sceneObjects: [
     {type: SceneObjectType.TriangularPyramid,
       position: this.iAxisValues,
@@ -71,9 +72,6 @@ export class ThreejsViewService {
   private threejsGenerator: ThreejsGenerator;
 
   public constructor() {
-
-    this.scene = new THREE.Scene();
-    this.threejsGenerator = new ThreejsGenerator(this.scene);
     this.init();
   }
 
@@ -86,7 +84,9 @@ export class ThreejsViewService {
     this.ambLight = new THREE.AmbientLight(0xea6117, 0.4);
   }
 
-  public createScene(iSceneVariables: ISceneVariables): void {
+  public createScene(scene: THREE.Scene, iSceneVariables: ISceneVariables): void {
+    this.scene = scene;
+    this.threejsGenerator = new ThreejsGenerator(this.scene);
     this.sceneVariable = iSceneVariables;
     this.renderer.setSize(640, 480);
     this.scene.add(this.ambLight);
@@ -112,10 +112,7 @@ export class ThreejsViewService {
 
   public animate(): void {
     // requestAnimationFrame(this.animate.bind(this));
-
-    // this.camera.position.x = this.radius * Math.cos( this.angle );
-    // this.camera.position.z = this.radius * Math.sin( this.angle );
-    // this.angle += 0.1;
+    
     this.camera.position.x = -10;
     this.camera.position.z = -10;
     this.camera.position.y = -10;
@@ -134,7 +131,6 @@ export class ThreejsViewService {
 
   private generateSceneObjects(): void {
     this.sceneVariable.sceneObjects.forEach((element) => {
-      console.log(element);
       this.threejsGenerator.initiateObject(element);
     });
   }

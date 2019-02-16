@@ -9,7 +9,11 @@ import { SceneObjectType } from "../../../../../common/communication/iSceneObjec
 })
 export class GameViewFreeComponent {
 
-  public readonly NEEDED_SNAPSHOT = true;
+  public constructor() {
+    console.log(this.iSceneVariables);
+  }
+
+  public readonly NEEDED_SNAPSHOT = false;
 
   private iAxisValues = {
     x: 2,
@@ -18,6 +22,7 @@ export class GameViewFreeComponent {
   };
   
   private iSceneVariables: ISceneVariables = {
+    gameName: "game",
     sceneObjectsQuantity: 5,
     sceneObjects: [
       {type: SceneObjectType.TriangularPyramid,
