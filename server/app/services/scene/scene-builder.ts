@@ -112,10 +112,12 @@ export class SceneBuilder {
 
     private validatePosition(newSceneObject: ISceneObject): void {
 
-        while (this.collisionValidator.hasCollidingPositions(newSceneObject, this.sceneVariables.sceneObjects)) {
+        let hasCollision: boolean;
 
+        do {
+
+            hasCollision = this.collisionValidator.hasCollidingPositions(newSceneObject, this.sceneVariables.sceneObjects);
             newSceneObject.position = this.generateRandomAxisValues();
-        }
-
+        } while (hasCollision);
     }
 }
