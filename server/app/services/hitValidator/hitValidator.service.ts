@@ -49,8 +49,15 @@ export class HitValidatorService {
         return !colorsAreEqual;
     }
 
-    private isStoredInCache(imageUrl: string): boolean {
-        return this.cache.contains(imageUrl);
+    private findColorAtPoint(posX: number, posY: number, buffer: Buffer): number[] {
+
+        const reversedY: number = (this.getImageHeight(buffer) - 1) - posY;
+        const offsetX: number = posX * this.BUFFER_24BIT_SIZE;
+        const offsetY: number = reversedY * this.getImageWidth(buffer) * this.BUFFER_24BIT_SIZE;
+
+        const absolutePosition: number = offsetX + offsetY + this.BUFFER_HEADER_SIZE;
+
+        return [...buffer.slice(absolutePosition, absolutePosition + this.BUFFER_24BIT_SIZE)];
     }
 
     private cacheImageFromUrl(imageUrl: string): void {
