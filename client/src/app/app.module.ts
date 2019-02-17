@@ -15,6 +15,7 @@ import { ChatViewComponent } from "./game-view/chat-view/chat-view.component";
 import { MessageViewComponent } from "./game-view/chat-view/message-view/message-view.component";
 import { DifferenceCounterComponent } from "./game-view/difference-counter/difference-counter.component";
 import { GameViewFreeComponent } from "./game-view/game-view-free/game-view-free.component";
+import { TheejsViewComponent } from "./game-view/game-view-free/threejs-view/threejs-view.component";
 import { GameViewSimpleComponent } from "./game-view/game-view-simple/game-view-simple.component";
 import { TimerComponent } from "./game-view/timer/timer.component";
 import { HighscoreDisplayComponent } from "./highscore-display/highscore-display.component";
@@ -60,6 +61,7 @@ const routes: Routes = [
     TimerComponent,
     ChatViewComponent,
     MessageViewComponent,
+    TheejsViewComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),

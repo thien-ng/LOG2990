@@ -17,6 +17,7 @@ export class SceneBuilder {
     public generateScene(sceneOptions: ISceneOptions): ISceneVariables {
 
         this.sceneVariables = {
+            gameName: sceneOptions.sceneName,
             sceneObjectsQuantity: sceneOptions.sceneObjectsQuantity,
             sceneObjects: [],
             sceneBackgroundColor: this.generateRandomColor(),

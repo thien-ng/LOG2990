@@ -20,10 +20,7 @@
   [colspan]="7"
   [rowspan]="3"
   [style.background]='lightblue'>
-    <div id="displayGame">
-      <canvas #originalImage class="gameCanvas"></canvas>
-      <canvas #modifiedImage class="gameCanvas"></canvas>
-    </div>
+  <app-threejs-view [iSceneVariables]="iSceneVariables" [neededSnapshot]="NEEDED_SNAPSHOT"></app-threejs-view>
   </mat-grid-tile>
   <mat-grid-tile
     [colspan]="4"

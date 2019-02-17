@@ -13,15 +13,18 @@ export class SocketService {
   private socket: SocketIOClient.Socket = io(Constants.WEBSOCKET_URL);
 
   public constructor(private chatViewService: ChatViewService) {
+
     this.initWebsocketListener();
   }
 
   public initWebsocketListener(): void {
 
     this.socket.addEventListener(Constants.ON_CONNECT, () => {
+
       this.socket.on(Constants.ON_CHAT_MESSAGE, (data: IChat) => {
         this.chatViewService.updateConversation(data);
       });
+
     });
   }
 

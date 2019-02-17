@@ -29,12 +29,6 @@ describe("Scene builder tests", () => {
         sceneObjectsQuantity: 200,
     };
 
-    const sceneOptions2000: ISceneOptions = {
-        sceneName: "2000 objet",
-        sceneObjectsType: SceneObjectType.Cube,
-        sceneObjectsQuantity: 2000,
-    };
-
     beforeEach(() => {
 
         chai.use(spies);
@@ -50,11 +44,6 @@ describe("Scene builder tests", () => {
     it("should generate a SceneObject[] of length 200", () => {
         const scene: ISceneVariables = sceneBuilder.generateScene(sceneOptions200);
         chai.expect(scene.sceneObjects.length).equal(200);
-    });
-
-    it("should generate a SceneObject[] of length 2000", () => {
-        const scene: ISceneVariables = sceneBuilder.generateScene(sceneOptions2000);
-        chai.expect(scene.sceneObjects.length).equal(2000);
     });
 
     it("should generate scene objects of type Cube", () => {

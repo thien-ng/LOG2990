@@ -29,6 +29,7 @@ cache:
 script:
   - cd client
   - npm install
+  - npm i three --save
   - npm test
   - npm run lint
   - cd ..

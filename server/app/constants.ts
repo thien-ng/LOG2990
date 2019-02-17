@@ -14,6 +14,7 @@ export class Constants {
   public static readonly ON_RETRIEVE_USER:          string = "onRetrieveUser";
 
   // Constants for card-manager.service.ts
+  public static readonly SCENE_SNAPSHOT:            string = "_snapshot.jpeg";
   public static readonly ORIGINAL_FILE:             string = "_original.bmp";
   public static readonly MODIFIED_FILE:             string = "_modified.bmp";
   public static readonly GENERATED_FILE:            string = "_generated.bmp";
@@ -23,6 +24,7 @@ export class Constants {
   public static readonly ON_SUCCESS_MESSAGE:        string = "onSuccess";
   public static readonly VALIDATION_FAILED:         string = "Validation services failed";
   public static readonly UNKNOWN_ERROR:             string = "Erreur inconnue";
+  public static readonly GENERATED_SNAPSHOT:        string = "_snapshot.jpeg";
 
   // Constants for card-manager-controller
   public static readonly DEFAULT_CARD_ID:           number = 1;

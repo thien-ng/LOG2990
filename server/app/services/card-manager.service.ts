@@ -2,7 +2,8 @@ import * as Axios from "axios";
 import { inject, injectable } from "inversify";
 import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
-import { FormMessage, Message } from "../../../common/communication/message";
+import { ISceneMessage } from "../../../common/communication/iSceneMessage";
+import { Message } from "../../../common/communication/message";
 import { Constants } from "../constants";
 import Types from "../types";
 import { AssetManagerService } from "./asset-manager.service";
@@ -19,7 +20,8 @@ const REQUIRED_HEIGHT: number = 480;
 const REQUIRED_WIDTH: number = 640;
 const REQUIRED_NB_DIFF: number = 7;
 const IMAGES_PATH: string = "./app/asset/image";
-const DEFAULT_CARD_ID: number = 1;
+const START_ID_2D: number = 1000;
+const START_ID_3D: number = 2000;
 
 @injectable()
 export class CardManagerService {
@@ -29,10 +31,14 @@ export class CardManagerService {
     private modifiedImageRequest: Buffer;
     private imageManagerService: AssetManagerService;
 
-    private uniqueId: number = 1000;
+    private uniqueId: number;
+    private uniqueIdScene: number;
 
     public constructor(
         @inject(Types.HighscoreService) private highscoreService: HighscoreService) {
+
+        this.uniqueId = START_ID_2D;
+        this.uniqueIdScene = START_ID_3D;
         this.cards = {
             list2D: [],
             list3D: [],
@@ -70,15 +76,22 @@ export class CardManagerService {
         return returnValue;
     }
 
-    public freeCardCreationRoutine(body: FormMessage): Message {
+    public freeCardCreationRoutine(body: ISceneMessage): Message {
+
+        const cardId: number = this.generateSceneId();
+        const sceneId: string = "/" + cardId + Constants.SCENE_SNAPSHOT;
+
+        this.imageManagerService.saveImage(IMAGES_PATH + sceneId, body.image);
+        this.imageManagerService.saveSceneGenerated(IMAGES_PATH + "testData.txt", body.sceneVariable);
+
         const cardReceived: ICard = {
-            gameID: this.generateId(),
+            gameID: cardId,
             gamemode: GameMode.free,
-            title: body.gameName,
-            subtitle: body.gameName,
+            title: body.sceneVariable.gameName,
+            subtitle: body.sceneVariable.gameName,
             // The image is temporary, the screenshot will be generated later
-            avatarImageUrl: "http://localhost:3000/image/dylan.jpg",
-            gameImageUrl: "http://localhost:3000/image/dylan.jpg",
+            avatarImageUrl: Constants.BASE_URL + "/image" + sceneId,
+            gameImageUrl: Constants.BASE_URL + "/image" + sceneId,
         };
 
         if (this.addCard3D(cardReceived)) {
@@ -141,6 +154,10 @@ export class CardManagerService {
 
     private generateId(): number {
         return this.uniqueId++;
+    }
+
+    private generateSceneId(): number {
+        return this.uniqueIdScene++;
     }
 
     private cardEqual(card: ICard, element: ICard): boolean {
@@ -216,11 +233,9 @@ export class CardManagerService {
                                     IMAGES_PATH + "/" + id + Constants.MODIFIED_FILE,
                                 ];
         if (index !== DOESNT_EXIST) {
-            this.cards.list2D.splice(index, 1);
             try {
-                if (id !== DEFAULT_CARD_ID) {
-                    this.imageManagerService.deleteStoredImages(paths);
-                }
+                this.imageManagerService.deleteStoredImages(paths);
+                this.cards.list2D.splice(index, 1);
             } catch (error) {
                 return this.generateErrorMessage(error).title;
             }
@@ -237,7 +252,15 @@ export class CardManagerService {
         }
         const index: number = this.findCard3D(id);
         if (index !== DOESNT_EXIST) {
-            this.cards.list3D.splice(index, 1);
+            const paths: string[] = [
+                IMAGES_PATH + "/" + id + Constants.GENERATED_SNAPSHOT,
+            ];
+            try {
+                this.imageManagerService.deleteStoredImages(paths);
+                this.cards.list3D.splice(index, 1);
+            } catch (error) {
+                return this.generateErrorMessage(error).title;
+            }
 
             return CARD_DELETED;
         }

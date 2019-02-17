@@ -56,6 +56,7 @@ export class Constants {
   // Constants for socket.service.ts
   public static readonly ON_CONNECT: string = "connect";
   public static readonly ON_CHAT_MESSAGE: string = "onChatMessage";
+  public static readonly ON_GAME_FREE_DATA: string = "onGameFreeData";
   public static readonly ON_USER_EVENT: string = "onNewUser";
   public static readonly ON_RETRIEVE_USER: string = "onRetrieveUser";
 
@@ -86,5 +87,6 @@ export class Constants {
   public static readonly FREE_SUBMIT_PATH: string = Constants.BASE_URL + "/api/card/submitFree";
 
   // Constants for create free game
+  public static readonly FREE_SCENE_GENERATOR_PATH: string = Constants.BASE_URL + "/api/scene/generator";
   public static readonly SIMPLE_SUBMIT_PATH: string = Constants.BASE_URL + "/api/card/submitSimple";
 }
