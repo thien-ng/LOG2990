@@ -7,6 +7,15 @@ import { Player } from "./player";
 const FF: number = 255;
 const WHITE: number[] = [FF, FF, FF];
 const URL_HIT_VALIDATOR: string = "http://localhost:3000/api/hitvalidator";
+
+export class Arena {
+
+    private _players: Player[];
+
+    public constructor(private arenaInfos: IArenaInfos) {
+        this.createPlayers();
+    }
+
     // public async getAnswer(posX: number, posY: number): Promise<IHitConfirmation> {
     //     // tslint:disable-next-line:no-magic-numbers
     //     return (this.playerClickHandler(posX, posY));
