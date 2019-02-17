@@ -134,7 +134,7 @@ export class CreateFreeGameComponent {
     this.isButtonEnabled = false;
     const formValue: FormMessage = this.createFormMessage(formData);
 
-    this.httpClient.post(Constants.BASE_URL + "/api/scene/generator", formValue).subscribe((response: ISceneVariables) => {
+    this.httpClient.post(Constants.FREE_SCENE_GENERATOR_PATH, formValue).subscribe((response: ISceneVariables) => {
       this.iSceneVariables = response;
       this.isSceneGenerated = true;
 

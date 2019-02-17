@@ -87,5 +87,6 @@ export class Constants {
   public static readonly FREE_SUBMIT_PATH: string = Constants.BASE_URL + "/api/card/submitFree";
 
   // Constants for create free game
+  public static readonly FREE_SCENE_GENERATOR_PATH: string = Constants.BASE_URL + "/api/scene/generator";
   public static readonly SIMPLE_SUBMIT_PATH: string = Constants.BASE_URL + "/api/card/submitSimple";
 }

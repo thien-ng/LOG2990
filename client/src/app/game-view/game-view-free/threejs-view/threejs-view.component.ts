@@ -23,7 +23,7 @@ export class TheejsViewComponent implements AfterContentInit {
   private iSceneVariables: ISceneVariables;
 
   @Input()
-  private neededSnapshot: boolean;
+  private isSnapshotNeeded: boolean;
 
   @ViewChild("originalScene", {read: ElementRef})
   private originalScene: ElementRef;
@@ -53,7 +53,7 @@ export class TheejsViewComponent implements AfterContentInit {
 
   private takeSnapShot(): void {
 
-    if (this.neededSnapshot) {
+    if (this.isSnapshotNeeded) {
       const snapshot: string = this.renderer.domElement.toDataURL("image/jpeg");
       const message: ISceneMessage = this.createMessage(snapshot);
       this.sendSnapshot(message);
