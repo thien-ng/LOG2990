@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import * as THREE from "three";
+import { ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 
@@ -76,7 +77,7 @@ export class ThreejsViewService {
   }
 
   private generateSceneObjects(): void {
-    this.sceneVariable.sceneObjects.forEach((element) => {
+    this.sceneVariable.sceneObjects.forEach((element: ISceneObject) => {
       this.threejsGenerator.initiateObject(element);
     });
   }
