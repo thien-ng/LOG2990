@@ -39,3 +39,12 @@ export class Arena {
             colorToIgnore:      WHITE,
         };
     }
+
+    private buildPostConfig(): AxiosRequestConfig {
+        return {
+            headers: {
+                "Content-Type": "application/json;charset=UTF-8",
+                "Access-Control-Allow-Origin": "*",
+            },
+        };
+    }
