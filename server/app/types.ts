@@ -13,4 +13,5 @@ export default  {
         GameManager: Symbol("GameManager"),
         SceneManagerController: Symbol("SceneManagerController"),
         SceneManager: Symbol("SceneManager"),
+        GameManagerController: Symbol("GameManagerController"),
 };

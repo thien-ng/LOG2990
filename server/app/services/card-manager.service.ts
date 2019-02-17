@@ -11,6 +11,7 @@ import { ImageRequirements } from "./difference-checker/utilities/imageRequireme
 import { HighscoreService } from "./highscore.service";
 
 const axios: Axios.AxiosInstance = require("axios");
+const DECIMAL: number = 10;
 const DOESNT_EXIST: number = -1;
 const CARD_DELETED: string = "Carte supprimée";
 const CARD_ADDED: string = "Carte ajoutée";
@@ -264,6 +265,7 @@ export class CardManagerService {
         if (index !== DOESNT_EXIST) {
             const paths: string[] = [
                 IMAGES_PATH + "/" + id + Constants.GENERATED_SNAPSHOT,
+                SCENE_PATH + "/" + id + "_sceneOriginal.txt",
             ];
             try {
                 this.imageManagerService.deleteStoredImages(paths);
@@ -276,6 +278,12 @@ export class CardManagerService {
         }
 
         return CARD_NOT_FOUND;
+    }
+
+    public getCardById(id: string, gamemode: GameMode): ICard {
+        const cardID: number = parseInt(id, DECIMAL);
+
+        return (gamemode === GameMode.simple) ? this.cards.list2D[this.findCard2D(cardID)] : this.cards.list3D[this.findCard3D(cardID)];
     }
 
     private generateErrorMessage(error: Error): Message {
