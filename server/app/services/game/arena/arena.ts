@@ -24,3 +24,9 @@ export class Arena {
     //     // return reponse;
 
     // }
+
+    private createPlayers(): void {
+        this.arenaInfos.users.forEach((user: User) => {
+            this._players.push(new Player(user));
+        });
+    }
