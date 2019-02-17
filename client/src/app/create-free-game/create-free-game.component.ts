@@ -135,8 +135,6 @@ export class CreateFreeGameComponent {
     const formValue: FormMessage = this.createFormMessage(formData);
 
     this.httpClient.post(Constants.BASE_URL + "/api/scene/generator", formValue).subscribe((response: ISceneVariables) => {
-      console.log("received");
-      console.log(response);
       this.iSceneVariables = response;
       this.isSceneGenerated = true;
 

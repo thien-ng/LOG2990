@@ -4,6 +4,8 @@ import { TestBed } from "@angular/core/testing";
 // import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 // import { ThreejsViewService } from "./threejs-view.service";
 
+// IL FAUT PARLE AU CHARGE POUR CETTE CRISSE DE MERDE
+
 // let threejsViewService: ThreejsViewService;
 // let scene: THREE.Scene;
 // let sceneVariables: ISceneVariables = {
@@ -21,13 +23,13 @@ import { TestBed } from "@angular/core/testing";
 //   sceneBackgroundColor: "#FFFFFF",
 // }
 
-fdescribe("ThreejsViewService Tests", () => {
+describe("ThreejsViewService Tests", () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
-  beforeEach(() => {
-    // threejsViewService = new ThreejsViewService();
-    // scene = new THREE.Scene();
-  });
+  // beforeEach(() => {
+  //   // threejsViewService = new ThreejsViewService();
+  //   // scene = new THREE.Scene();
+  // });
 
   // it("should create scene", () => {
   //   // spyOn<any>(threejsViewService, "generateSceneObjects");

@@ -47,12 +47,12 @@ export class TheejsViewComponent implements AfterContentInit {
     this.originalScene.nativeElement.appendChild(this.renderer.domElement);
     this.threejsViewService.createScene(this.scene, this.iSceneVariables);
     this.threejsViewService.animate();
-    console.log(this.iSceneVariables);
+
     this.takeSnapShot();
   }
 
   private takeSnapShot(): void {
-    console.log(this.neededSnapshot);
+
     if (this.neededSnapshot) {
       const snapshot: string = this.renderer.domElement.toDataURL("image/jpeg");
       const message: ISceneMessage = this.createMessage(snapshot);

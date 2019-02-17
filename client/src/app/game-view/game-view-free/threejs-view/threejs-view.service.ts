@@ -50,7 +50,7 @@ export class ThreejsViewService {
 
     firstLight.position.set(100, 100, 50);
     secondLight.position.set(-10, -10, -10);
-    
+
     this.scene.add(firstLight);
     this.scene.add(secondLight);
   }
@@ -66,7 +66,7 @@ export class ThreejsViewService {
     this.camera.lookAt(this.scene.position);
     this.renderObject();
   }
-  
+
   public getRenderer(): THREE.WebGLRenderer {
     return this.renderer;
   }
