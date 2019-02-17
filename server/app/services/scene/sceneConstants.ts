@@ -10,11 +10,14 @@ export class SceneConstants {
     public static readonly MAX_POSITION_Y: number = 1000;
     public static readonly MAX_POSITION_Z: number = 1000;
     // Scales
-    public static readonly MIN_SCALE: number = 0.5;
-    public static readonly MAX_SCALE: number = 1.5;
+    public static readonly MIN_SCALE: number = 5;
+    public static readonly MAX_SCALE: number = 15;
     // Rotation
     /* tslint:disable:no-magic-numbers */
     public static readonly TWO_PI: number = Math.PI * 2;
+    // Math
+    public static readonly TWO: number = 2;
+    public static readonly THREE: number = 3;
 
     // Constants for scene-manager.service.ts
     public static readonly TYPE_CUBE: string = "cube";
