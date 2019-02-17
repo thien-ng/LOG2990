@@ -15,18 +15,21 @@ describe("Scene builder tests", () => {
         sceneName: "10 cubes",
         sceneObjectsType: SceneObjectType.Cube,
         sceneObjectsQuantity: 10,
+        selectedOptions: [true, true, true],
     };
 
     const sceneOptions10Spheres: ISceneOptions = {
         sceneName: "10 cubes",
         sceneObjectsType: SceneObjectType.Sphere,
         sceneObjectsQuantity: 10,
+        selectedOptions: [true, true, true],
     };
 
     const sceneOptions200: ISceneOptions = {
         sceneName: "200 objet",
         sceneObjectsType: SceneObjectType.Cube,
         sceneObjectsQuantity: 200,
+        selectedOptions: [true, true, true],
     };
 
     beforeEach(() => {

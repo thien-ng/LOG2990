@@ -4,32 +4,37 @@ import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
 import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
 import { SceneBuilder } from "./scene-builder";
+import { SceneModifier } from "./scene-modifier";
 import { SceneConstants } from "./sceneConstants";
 
 @injectable()
 export class SceneManager {
 
     private sceneBuilder: SceneBuilder;
+    private sceneModifier: SceneModifier;
 
     public constructor() {
         this.sceneBuilder = new SceneBuilder();
+        this.sceneModifier = new SceneModifier(this.sceneBuilder);
     }
 
     public createScene(body: FormMessage): ISceneVariables {
 
         const iSceneOptions: ISceneOptions = this.sceneOptionsMapper(body);
-
-        return this.sceneBuilder.generateScene(iSceneOptions);
+        const generateOriginalScene = this.sceneBuilder.generateScene(iSceneOptions);
+        const generateModifiedScene = this.sceneModifier.modifyScene(iSceneOptions, generateOriginalScene);
+        console.log(generateOriginalScene);
+        console.log(generateModifiedScene);
+        return generateOriginalScene;
     }
 
     private sceneOptionsMapper(body: FormMessage): ISceneOptions {
 
-        // il manque le mapping pour les selected options!!!!!
-        // ca sera implementer lorsquon travaille sur les modifications de scenes
         return {
             sceneName: body.gameName,
             sceneObjectsType: this.objectTypeIdentifier(body.selectedOption),
             sceneObjectsQuantity: body.quantityChange,
+            selectedOptions: body.checkedTypes,
         };
     }
 
