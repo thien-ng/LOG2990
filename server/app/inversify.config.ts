@@ -2,6 +2,7 @@ import { Container } from "inversify";
 import { Application } from "./app";
 import { CardManagerController } from "./controllers/card-manager.controller";
 import { HighscoreController } from "./controllers/highscore.controller";
+import { SceneManagerController } from "./controllers/scene-manager.controller";
 import { UserController } from "./controllers/user.controller";
 import { Server } from "./server";
 import { CardManagerService } from "./services/card-manager.service";
@@ -39,6 +40,7 @@ container.bind(Types.HitValidatorService).to(HitValidatorService);
 
 container.bind(Types.GameManager).to(GameManager).inSingletonScope();
 
+container.bind(Types.SceneManagerController).to(SceneManagerController);
 container.bind(Types.SceneManager).to(SceneManager).inSingletonScope();
 
 export { container };

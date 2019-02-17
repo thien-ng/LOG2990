@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { ISceneVariables } from "../../../../../common/communication/iSceneVariables";
 
 @Component({
   selector: "app-game-view-free",
@@ -6,5 +7,8 @@ import { Component } from "@angular/core";
   styleUrls: ["./game-view-free.component.css"],
 })
 export class GameViewFreeComponent {
+
+  public readonly NEEDED_SNAPSHOT: boolean = false;
+  public iSceneVariables: ISceneVariables;
 
 }

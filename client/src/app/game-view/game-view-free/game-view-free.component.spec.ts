@@ -4,9 +4,10 @@ import { TestingImportsModule } from "../../testing-imports/testing-imports.modu
 import { ChatViewComponent } from "../chat-view/chat-view.component";
 import { MessageViewComponent } from "../chat-view/message-view/message-view.component";
 import { GameViewFreeComponent } from "./game-view-free.component";
+import { TheejsViewComponent } from "./threejs-view/threejs-view.component";
 
 describe("GameViewFreeComponent", () => {
-  let component: GameViewFreeComponent;
+
   let fixture: ComponentFixture<GameViewFreeComponent>;
 
   beforeEach(async(() => {
@@ -15,6 +16,7 @@ describe("GameViewFreeComponent", () => {
         GameViewFreeComponent,
         ChatViewComponent,
         MessageViewComponent,
+        TheejsViewComponent,
       ],
       imports: [
         TestingImportsModule,
@@ -26,11 +28,6 @@ describe("GameViewFreeComponent", () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GameViewFreeComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  it("should create", () => {
-    expect(component).toBeTruthy();
   });
 });

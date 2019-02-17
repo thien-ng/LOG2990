@@ -13,5 +13,6 @@ export default  {
         HitValidatorService: Symbol("HitValidatorService"),
         HitValidatorController: Symbol("HitValidatorController"),
         GameManager: Symbol("GameManager"),
+        SceneManagerController: Symbol("SceneManagerController"),
         SceneManager: Symbol("SceneManager"),
 };

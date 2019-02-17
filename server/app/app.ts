@@ -6,6 +6,7 @@ import { inject, injectable } from "inversify";
 import * as logger from "morgan";
 import { CardManagerController } from "./controllers/card-manager.controller";
 import { HighscoreController } from "./controllers/highscore.controller";
+import { SceneManagerController } from "./controllers/scene-manager.controller";
 import { UserController } from "./controllers/user.controller";
 import { DifferenceCheckerController } from "./services/difference-checker/difference-checker.controller";
 import { HitValidatorController } from "./services/hitValidator/hitValidator.controller";
@@ -23,6 +24,7 @@ export class Application {
         @inject(Types.UserController) private userController: UserController,
         @inject(Types.DifferenceCheckerController) private differenceCheckerController: DifferenceCheckerController,
         @inject(Types.HitValidatorController)       private hitValidatorController:      HitValidatorController,
+        @inject(Types.SceneManagerController) private sceneManagerController: SceneManagerController,
 
         ) {
         this.app = express();
@@ -48,6 +50,7 @@ export class Application {
         this.app.use("/api/user", this.userController.router);
         this.app.use("/api/differenceChecker", this.differenceCheckerController.router);
         this.app.use("/api/hitValidator", this.hitValidatorController.router);
+        this.app.use("/api/scene", this.sceneManagerController.router);
         this.app.use(express.static("./app/asset"));
         this.errorHandeling();
     }

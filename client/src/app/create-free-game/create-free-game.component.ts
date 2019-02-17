@@ -9,9 +9,9 @@ import {
   Validators,
   ValidatorFn
 } from "@angular/forms";
-import { MatDialogRef, MatSnackBar } from "@angular/material";
-import { FormMessage, Message } from "../../../../common/communication/message";
-import { CardManagerService } from "../card/card-manager.service";
+import { MatDialogRef } from "@angular/material";
+import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
+import { FormMessage } from "../../../../common/communication/message";
 import { Constants } from "../constants";
 
 @Component({
@@ -43,8 +43,13 @@ export class CreateFreeGameComponent {
   public readonly EDIT_TYPE_DELETE: string = "Suppression";
   public readonly EDIT_TYPE_COLOR: string = "Changement de couleur";
   public readonly ATLEASTONE_CHECKED: string = "Au moins une option doit être cochée";
+  public readonly NEEDED_SNAPSHOT: boolean = true;
 
   public formControl: FormGroup;
+  public isSceneGenerated: boolean;
+
+  // to be removed
+  public iSceneVariables: ISceneVariables;
 
   public modifTypes: {name: string}[] = [
       { name: this.EDIT_TYPE_ADD },
@@ -56,8 +61,6 @@ export class CreateFreeGameComponent {
     private dialogRef: MatDialogRef<CreateFreeGameComponent>,
     private formBuilder: FormBuilder,
     private httpClient: HttpClient,
-    private snackBar: MatSnackBar,
-    private cardManagerService: CardManagerService,
   ) {
 
     const controls: FormControl[] = this.modifTypes.map(() => new FormControl(false));
@@ -73,6 +76,7 @@ export class CreateFreeGameComponent {
       ]),
       modifTypes: new FormArray(controls, this.atLeastOneIsChecked(1)),
     });
+    this.isSceneGenerated = false;
   }
 
   public hasNameControlErrors(): boolean {
@@ -130,25 +134,13 @@ export class CreateFreeGameComponent {
     this.isButtonEnabled = false;
     const formValue: FormMessage = this.createFormMessage(formData);
 
-    this.httpClient.post(Constants.FREE_SUBMIT_PATH, formValue).subscribe((response: Message) => {
-      this.analyseResponse(response);
-      this.isButtonEnabled = true;
+    this.httpClient.post(Constants.FREE_SCENE_GENERATOR_PATH, formValue).subscribe((response: ISceneVariables) => {
+      this.iSceneVariables = response;
+      this.isSceneGenerated = true;
+
     });
+    this.isButtonEnabled = true;
+    this.dialogRef.close();
   }
 
-  private analyseResponse(response: Message): void {
-    if (response.title === Constants.ON_SUCCESS_MESSAGE) {
-      this.cardManagerService.updateCards(true);
-      this.dialogRef.close();
-    } else if (response.title === Constants.ON_ERROR_MESSAGE) {
-      this.openSnackBar(response.body, Constants.SNACK_ACTION);
-    }
-  }
-
-  private openSnackBar(msg: string, action: string): void {
-    this.snackBar.open(msg, action, {
-      duration: Constants.SNACKBAR_DURATION,
-      verticalPosition: "top",
-    });
-  }
 }
