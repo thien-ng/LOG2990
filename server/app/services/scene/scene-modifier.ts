@@ -26,7 +26,12 @@ export class SceneModifier {
             this.chooseOperation(selectedOpstion);
         }
 
-        return cloneSceneVariables;
+        return {
+            gameName: cloneSceneVariables.gameName,
+            sceneObjectsQuantity: cloneSceneVariables.sceneObjectsQuantity,
+            sceneObjects: this.sceneObjects,
+            sceneBackgroundColor: cloneSceneVariables.sceneBackgroundColor,
+        } as ISceneVariables;
     }
 
     private generateSelectedIndex(selectedOptions: boolean[]): string {
@@ -38,7 +43,6 @@ export class SceneModifier {
                 listSelected.push(listSelectionOption[index]);
             }
         });
-        console.log(listSelectionOption);
         const maxIndex: number = listSelected.length - 1;
         const minIndex: number = 0;
         const generatedIndex: number = this.sceneBuilder.randomIntegerFromInterval(maxIndex, minIndex);
@@ -51,7 +55,6 @@ export class SceneModifier {
         switch (selectedOption) {
 
             case "add":
-                console.log("is adding");
                 this.addObject();
                 break;
 
