@@ -29,7 +29,7 @@ cache:
 script:
   - cd client
   - npm install
-  - npm i three
+  - npm install -D @types/three
   - npm test
   - npm run lint
   - cd ..
