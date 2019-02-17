@@ -1,27 +1,27 @@
 import { expect } from "chai";
 import "reflect-metadata";
-import { GameManager } from "../../services/game/game-manager.service";
+import { GameManagerService } from "../../services/game/game-manager.service";
 
-let gameManager: GameManager;
+let gameManagerService: GameManagerService;
 beforeEach(() => {
-    gameManager = new GameManager();
+    gameManagerService = new GameManagerService();
 });
 
-describe("GameManager tests", () => {
+describe("GameManagerService tests", () => {
 
     it("should add socketID in playerList", () => {
 
-        gameManager.subscribeSocketID("dylan");
-        const result: string = gameManager.userList[0];
+        gameManagerService.subscribeSocketID("dylan");
+        const result: string = gameManagerService.userList[0];
         expect(result).to.be.equal("dylan");
     });
 
     it("should remove socketID in playerList", () => {
 
-        gameManager.subscribeSocketID("dylan");
-        gameManager.subscribeSocketID("michelGagnon");
-        gameManager.unsubscribeSocketID("dylan");
-        const result: string = gameManager.userList[0];
+        gameManagerService.subscribeSocketID("dylan");
+        gameManagerService.subscribeSocketID("michelGagnon");
+        gameManagerService.unsubscribeSocketID("dylan");
+        const result: string = gameManagerService.userList[0];
         expect(result).to.be.equal("michelGagnon");
     });
 

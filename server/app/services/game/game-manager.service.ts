@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 
 @injectable()
-export class GameManager {
+export class GameManagerService {
 
     private playerList: string [];
 

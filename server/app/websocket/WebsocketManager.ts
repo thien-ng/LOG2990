@@ -5,7 +5,7 @@ import { IChat } from "../../../common/communication/iChat";
 import { ICanvasPosition } from "../../../common/communication/iGameplay";
 import { User } from "../../../common/communication/iUser";
 import { Constants } from "../constants";
-import { GameManager } from "../services/game/game-manager.service";
+import { GameManagerService } from "../services/game/game-manager.service";
 import { UserManagerService } from "../services/user-manager.service";
 import Types from "../types";
 
@@ -16,7 +16,7 @@ export class WebsocketManager {
 
     public constructor(
         @inject(Types.UserManagerService) private userManagerService: UserManagerService,
-        @inject(Types.GameManager) private gameManager: GameManager) {}
+        @inject(Types.GameManagerService) private gameManagerService: GameManagerService) {}
 
     public createWebsocket(server: http.Server): void {
         this.io = SocketIO(server);
@@ -40,11 +40,11 @@ export class WebsocketManager {
 
         socket.on(Constants.GAME_CONNECTION, () => {
             socketID = socket.id;
-            this.gameManager.subscribeSocketID(socketID);
+            this.gameManagerService.subscribeSocketID(socketID);
         });
 
         socket.on(Constants.GAME_DISCONNECT, () => {
-            this.gameManager.unsubscribeSocketID(socketID);
+            this.gameManagerService.unsubscribeSocketID(socketID);
         });
 
         socket.on(Constants.POSITION_VALIDATION_EVENT, (data: ICanvasPosition) => {
@@ -73,7 +73,7 @@ export class WebsocketManager {
 
         socket.on(Constants.DISCONNECT_EVENT, () => {
             this.userManagerService.leaveBrowser(user);
-            this.gameManager.unsubscribeSocketID(socketID);
+            this.gameManagerService.unsubscribeSocketID(socketID);
         });
     }
 
