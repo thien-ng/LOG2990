@@ -45,8 +45,7 @@ export class SceneModifier {
         });
         const maxIndex: number = listSelected.length - 1;
         const minIndex: number = 0;
-        const generatedIndex: number = this.sceneBuilder.randomIntegerFromInterval(maxIndex, minIndex);
-
+        const generatedIndex: number = this.sceneBuilder.randomIntegerFromInterval(minIndex, maxIndex);
         return listSelected[generatedIndex];
     }
 
@@ -112,7 +111,7 @@ export class SceneModifier {
 
     private generateRandomIndex(): number {
         const lastObjectElement: ISceneObject = this.sceneObjects[this.sceneObjects.length - 1];
-        return this.sceneBuilder.randomIntegerFromInterval(lastObjectElement.id, 0);
+        return this.sceneBuilder.randomIntegerFromInterval(0, lastObjectElement.id);
     }
 
     private containsInModifedList(generatedIndex: number): boolean {
