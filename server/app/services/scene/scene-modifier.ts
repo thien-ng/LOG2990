@@ -21,35 +21,45 @@ export class SceneModifier {
         this.sceneOptions = iSceneOptions;
 
         for (let i = 0; i < 7; i++) {
-            const generatedIndex: number = this.generateSelectedIndex(iSceneOptions.selectedOptions);
+            const selectedOpstion: string = this.generateSelectedIndex(iSceneOptions.selectedOptions);
 
-            this.chooseOperation(generatedIndex);
+            this.chooseOperation(selectedOpstion);
         }
 
         return cloneSceneVariables;
     }
 
-    private generateSelectedIndex(selectedOptions: boolean[]): number {
+    private generateSelectedIndex(selectedOptions: boolean[]): string {
+        const listSelectionOption: string[] = ["add", "remove", "changeColor"];
+        let listSelected: string [] = [];
 
-        const maxIndex: number = selectedOptions.length;
-        const minIndex: number = 1;
-        return this.sceneBuilder.randomIntegerFromInterval(maxIndex, minIndex);
+        selectedOptions.forEach((option, index) => {
+            if (option) {
+                listSelected.push(listSelectionOption[index]);
+            }
+        });
+        console.log(listSelectionOption);
+        const maxIndex: number = listSelected.length - 1;
+        const minIndex: number = 0;
+        const generatedIndex: number = this.sceneBuilder.randomIntegerFromInterval(maxIndex, minIndex);
+
+        return listSelected[generatedIndex];
     }
 
-    private chooseOperation(selectedOption: number): void {
+    private chooseOperation(selectedOption: string): void {
         console.log(selectedOption);
         switch (selectedOption) {
 
-            case 1:
+            case "add":
                 console.log("is adding");
                 this.addObject();
                 break;
 
-            case 2:
+            case "remove":
                 this.removeObject();
                 break;
 
-            case 3:
+            case "changeColor":
                 this.changeObjectColor();
                 break;
 
