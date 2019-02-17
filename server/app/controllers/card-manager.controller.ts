@@ -44,6 +44,7 @@ export class CardManagerController {
             res.json(result);
         });
         router.post("/submitFree", async (req: Request, res: Response, next: NextFunction) => {
+            console.log(req.body);
             res.json(this.cardManagerService.freeCardCreationRoutine(req.body));
         });
 

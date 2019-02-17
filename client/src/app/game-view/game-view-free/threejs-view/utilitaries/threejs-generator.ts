@@ -9,7 +9,6 @@ export class ThreejsGenerator {
   public constructor(private scene: THREE.Scene) {}
 
   public initiateObject(object3D: ISceneObject): void {
-
     switch (object3D.type) {
 
       case SceneObjectType.Cube:

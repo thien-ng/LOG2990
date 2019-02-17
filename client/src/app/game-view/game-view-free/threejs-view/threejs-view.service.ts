@@ -45,24 +45,24 @@ export class ThreejsViewService {
 
   private createLighting(): void {
 
-    const firstLight: THREE.DirectionalLight = new THREE.DirectionalLight(0xEA6117, 0.5);
-    const secondLight: THREE.DirectionalLight = new THREE.DirectionalLight(0xEA6117, 0.5);
+    const firstLight: THREE.DirectionalLight = new THREE.DirectionalLight(0xEA6117, 5);
+    const secondLight: THREE.DirectionalLight = new THREE.DirectionalLight(0xEA6117, 1);
 
     firstLight.position.set(100, 100, 50);
-    secondLight.position.set(-10, 10, -10);
-
-    firstLight.intensity = 5;
-    secondLight.intensity = 0.5;
-
+    secondLight.position.set(-10, -10, -10);
+    
     this.scene.add(firstLight);
     this.scene.add(secondLight);
   }
 
   public animate(): void {
 
-    this.camera.position.x = -10;
-    this.camera.position.z = -10;
-    this.camera.position.y = -10;
+    this.camera.position.x = 0;
+    this.camera.position.z = 0;
+    this.camera.position.y = 0;
+    this.scene.position.x = 5;
+    this.scene.position.y = 5;
+    this.scene.position.z = 5;
     this.camera.lookAt(this.scene.position);
     this.renderObject();
   }
