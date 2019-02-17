@@ -69,3 +69,15 @@ export class Arena {
     public getPlayers(): Player[] {
         return this._players;
     }
+
+}
+// const aInfos: IArenaInfos = {
+//     arenaId:            1234,
+//     users:              [],
+//     originalGameUrl:    "http://localhost:3000/image/1_original.bmp",
+//     differenceGameUrl:  "http://localhost:3000/image/1_generated.bmp",
+// };
+
+// const arena: Arena = new Arena(aInfos);
+// const confirm: Promise<IHitConfirmation> = arena.getAnswer(367, 163);
+// console.log("CONFIRM : " + confirm);
