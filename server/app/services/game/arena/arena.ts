@@ -30,3 +30,12 @@ export class Arena {
             this._players.push(new Player(user));
         });
     }
+
+    private buildPostData(posX: number, posY: number): IHitToValidate {
+        return {
+            posX:               posX,
+            posY:               posY,
+            imageUrl:           this.arenaInfos.differenceGameUrl,
+            colorToIgnore:      WHITE,
+        };
+    }
