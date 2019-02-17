@@ -54,8 +54,8 @@ export class CardManagerController {
         });
 
         router.get("/:id/:gameMode", async (req: Request, res: Response, next: NextFunction) => {
-            const list: ICard = this.cardManagerService.getCardById(req.params.id, req.params.gameMode);
-            res.json(list);
+            const card: ICard = this.cardManagerService.getCardById(req.params.id, req.params.gameMode);
+            res.json(card);
         });
 
 

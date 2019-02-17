@@ -17,6 +17,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   @ViewChild("originalImage", {read: ElementRef})
   public canvasOriginal: ElementRef;
   public activeCard: ICard;
+  public cardLoaded: boolean;
   @ViewChild("modifiedImage", {read: ElementRef})
   public canvasModified: ElementRef;
   private originalPath: string;
@@ -28,19 +29,20 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     private route: ActivatedRoute,
     private httpClient: HttpClient,
     ) {
-      const temp: string | null = this.route.snapshot.paramMap.get("id");
-      if (temp !== null) {
-        this.activeCard.gameID = parseInt(temp, 10);
-        this.originalPath = Constants.PATH_TO_IMAGES + "/" + this.activeCard.gameID + Constants.ORIGINAL_FILE;
-        this.modifiedPath = Constants.PATH_TO_IMAGES + "/" + this.activeCard.gameID + Constants.MODIFIED_FILE;
-      }
+      this.cardLoaded = false;
     }
 
   public ngOnInit(): void {
-    this.httpClient.get(Constants.PATH_TO_GET_CARD + this.activeCard.gameID + "/" + GameMode.simple).subscribe((response: ICard) => {
-
-    })
-    this.canvasRoutine();
+    const gameID: string | null = this.route.snapshot.paramMap.get("id");
+    if (gameID !== null) {
+      this.httpClient.get(Constants.PATH_TO_GET_CARD + gameID + "/" + GameMode.simple).subscribe((response: ICard) => {
+        this.activeCard = response;
+        this.cardLoaded = true;
+      });
+      this.originalPath = Constants.PATH_TO_IMAGES + "/" + gameID + Constants.ORIGINAL_FILE;
+      this.modifiedPath = Constants.PATH_TO_IMAGES + "/" + gameID + Constants.MODIFIED_FILE;
+      this.canvasRoutine();
+    }
   }
 
   public ngAfterContentInit(): void {
