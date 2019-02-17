@@ -27,31 +27,6 @@ export class SceneBuilder {
         return this.sceneVariables;
     }
 
-    // separeted class for object generation needed
-    private generateSceneObjects(sceneOptions: ISceneOptions): void {
-
-        const sceneObjectsQuantity: number = this.sceneVariables.sceneObjectsQuantity;
-
-        for (let index: number = 0; index < sceneObjectsQuantity; index++) {
-
-            this.sceneVariables.sceneObjects.push(this.generateRandomSceneObject(sceneOptions));
-        }
-    }
-
-    private generateRandomSceneObject(sceneOptions: ISceneOptions): ISceneObject {
-        const newSceneObject: ISceneObject = {
-            type: sceneOptions.sceneObjectsType,
-            position: this.generateRandomAxisValues(),
-            rotation: this.generateRandomRotationValues(),
-            scale: this.generateRandomScaleValues(),
-            color: this.generateRandomColor(),
-        };
-
-        this.validatePosition(newSceneObject);
-
-        return newSceneObject;
-    }
-
     public generateRandomAxisValues(): IAxisValues {
         const randomX: number = this.randomIntegerFromInterval(0, SceneConstants.MAX_POSITION_X);
         const randomY: number = this.randomIntegerFromInterval(0, SceneConstants.MAX_POSITION_Y);
@@ -62,14 +37,6 @@ export class SceneBuilder {
             y: randomY,
             z: randomZ,
         };
-    }
-
-    public validatePosition(newSceneObject: ISceneObject): void {
-
-        while (this.collisionValidator.hasCollidingPositions(newSceneObject, this.sceneVariables.sceneObjects)) {
-
-            newSceneObject.position = this.generateRandomAxisValues();
-        }
     }
 
     public generateRandomRotationValues(): IAxisValues {
@@ -104,13 +71,24 @@ export class SceneBuilder {
         return this.rgbToHex(red, green, blue);
     }
 
-    public rgbToHex(r: number, g: number, b: number): string {
-        const red:   string = r.toString(SceneConstants.HEX_TYPE);
-        const green: string = g.toString(SceneConstants.HEX_TYPE);
-        const blue:  string = b.toString(SceneConstants.HEX_TYPE);
+    private forceTwoDigitsColor(hex: string): string {
 
-        return SceneConstants.HEX_PREFIX + red + green + blue;
-    }
+        return (hex.length < SceneConstants.TWO) ? "0" + hex : hex;
+   }
+
+    public rgbToHex(r: number, g: number, b: number): string {
+
+       let red: string = r.toString( SceneConstants.HEX_TYPE );
+       red = this.forceTwoDigitsColor(red);
+
+       let green: string = g.toString( SceneConstants.HEX_TYPE );
+       green = this.forceTwoDigitsColor(green);
+
+       let blue: string = b.toString( SceneConstants.HEX_TYPE );
+       blue = this.forceTwoDigitsColor(blue);
+
+       return SceneConstants.HEX_PREFIX + red + green + blue;
+   }
 
     public randomIntegerFromInterval(min: number, max: number): number {
         return Math.floor(Math.random() * (max - min + 1) + min);
@@ -118,5 +96,39 @@ export class SceneBuilder {
 
     public randomFloatFromInterval(min: number, max: number): number {
         return Math.random() * (max - min + 1) + min;
+    }
+
+    private generateSceneObjects(sceneOptions: ISceneOptions): void {
+
+        const sceneObjectsQuantity: number = sceneOptions.sceneObjectsQuantity;
+
+        for (let index: number = 0; index < sceneObjectsQuantity; index++) {
+            this.sceneVariables.sceneObjects.push(this.generateRandomSceneObject(sceneOptions));
+        }
+    }
+
+    private generateRandomSceneObject(sceneOptions: ISceneOptions): ISceneObject {
+        const newSceneObject: ISceneObject = {
+            type: sceneOptions.sceneObjectsType,
+            position: this.generateRandomAxisValues(),
+            rotation: this.generateRandomRotationValues(),
+            scale: this.generateRandomScaleValues(),
+            color: this.generateRandomColor(),
+        };
+
+        this.validatePosition(newSceneObject);
+
+        return newSceneObject;
+    }
+
+    private validatePosition(newSceneObject: ISceneObject): void {
+
+        let hasCollision: boolean;
+
+        do {
+
+            hasCollision = this.collisionValidator.hasCollidingPositions(newSceneObject, this.sceneVariables.sceneObjects);
+            newSceneObject.position = this.generateRandomAxisValues();
+        } while (hasCollision);
     }
 }
