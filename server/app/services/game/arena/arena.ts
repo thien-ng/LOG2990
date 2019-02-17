@@ -48,3 +48,20 @@ export class Arena {
             },
         };
     }
+
+    public async playerClickHandler(posX: number, posY: number): Promise<IHitConfirmation> {
+
+        const axios:        AxiosInstance       = require("axios");
+        const postData:     IHitToValidate      = this.buildPostData(posX, posY);
+        const postConfig:   AxiosRequestConfig  = this.buildPostConfig();
+
+        return axios.post(URL_HIT_VALIDATOR, postData, postConfig)
+            .then((res: AxiosResponse) => {
+                // console.log("RESPONSE RECEIVED: ", res.data);
+
+                return res.data;
+            })
+            .catch((err: AxiosError) => {
+                // console.log("AXIOS ERROR: ", err);
+            });
+    }
