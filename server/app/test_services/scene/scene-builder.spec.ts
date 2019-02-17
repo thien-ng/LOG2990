@@ -83,4 +83,16 @@ describe("Scene builder tests", () => {
         chai.expect(isAllCubes).equal(true);
     });
 
+    it("should generate colors in hex format", () => {
+
+        const color: string = sceneBuilder.generateRandomColor();
+        chai.expect(color.slice(0, 1)).equal("#");
+    });
+
+    it("should generate colors as string of length 8", () => {
+
+        const color: string = sceneBuilder.generateRandomColor();
+        chai.expect(color.length).equal(7);
+    });
+
 });

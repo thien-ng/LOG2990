@@ -72,13 +72,24 @@ export class SceneBuilder {
         return this.rgbToHex(red, green, blue);
     }
 
-    public rgbToHex(r: number, g: number, b: number): string {
-        const red:   string = r.toString(SceneConstants.HEX_TYPE);
-        const green: string = g.toString(SceneConstants.HEX_TYPE);
-        const blue:  string = b.toString(SceneConstants.HEX_TYPE);
+    private forceTwoDigitsColor(hex: string): string {
 
-        return SceneConstants.HEX_PREFIX + red + green + blue;
-    }
+        return (hex.length < SceneConstants.TWO) ? "0" + hex : hex;
+   }
+
+    public rgbToHex(r: number, g: number, b: number): string {
+
+       let red: string = r.toString( SceneConstants.HEX_TYPE );
+       red = this.forceTwoDigitsColor(red);
+
+       let green: string = g.toString( SceneConstants.HEX_TYPE );
+       green = this.forceTwoDigitsColor(green);
+
+       let blue: string = b.toString( SceneConstants.HEX_TYPE );
+       blue = this.forceTwoDigitsColor(blue);
+
+       return SceneConstants.HEX_PREFIX + red + green + blue;
+   }
 
     public randomIntegerFromInterval(min: number, max: number): number {
         return Math.floor(Math.random() * (max - min + 1) + min);
