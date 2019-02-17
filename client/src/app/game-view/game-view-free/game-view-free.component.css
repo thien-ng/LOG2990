@@ -12,3 +12,10 @@
     background: red;
     margin: 1px;
 }
+
+.gameName {
+  font-size: 40px;
+  font-weight: bold;
+  font: Roboto, "Helvetica Neue", sans-serif;
+  margin-top: 5%;
+}

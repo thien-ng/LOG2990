@@ -66,7 +66,7 @@ export class CardComponent {
     let gameModePath: string = gameModeComparison ? Constants.GAME_VIEW_SIMPLE_PATH : Constants.GAME_VIEW_FREE_PATH;
     gameModePath += "/" + this.card.gameID;
 
-    this.router.navigate([gameModePath]).catch((error) => console.log(error));
+    this.router.navigate([gameModePath]).catch((error) => alert(error));
   }
 
 }
