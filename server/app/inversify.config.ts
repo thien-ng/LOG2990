@@ -25,7 +25,7 @@ container.bind(Types.WebsocketManager).to(WebsocketManager);
 container.bind(Types.UserController).to(UserController);
 container.bind(Types.UserManagerService).to(UserManagerService).inSingletonScope();
 container.bind(Types.CardManagerController).to(CardManagerController);
-container.bind(Types.CardManagerService).to(CardManagerService);
+container.bind(Types.CardManagerService).to(CardManagerService).inSingletonScope();
 
 container.bind(Types.HighscoreController).to(HighscoreController);
 container.bind(Types.HighscoreService).to(HighscoreService).inSingletonScope();

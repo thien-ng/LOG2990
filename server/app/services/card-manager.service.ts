@@ -20,6 +20,7 @@ const REQUIRED_HEIGHT: number = 480;
 const REQUIRED_WIDTH: number = 640;
 const REQUIRED_NB_DIFF: number = 7;
 const IMAGES_PATH: string = "./app/asset/image";
+const SCENE_PATH: string = "./app/asset/scene";
 const START_ID_2D: number = 1000;
 const START_ID_3D: number = 2000;
 
@@ -76,24 +77,34 @@ export class CardManagerService {
         return returnValue;
     }
 
+    private saveSeceneJson(body: ISceneMessage, path: string): void {
+        const sceneObject: string = JSON.stringify(body.sceneVariable);
+        this.imageManagerService.saveSceneGenerated(path, sceneObject);
+    }
+
     public freeCardCreationRoutine(body: ISceneMessage): Message {
 
         const cardId: number = this.generateSceneId();
-        const sceneId: string = "/" + cardId + Constants.SCENE_SNAPSHOT;
+        const sceneImage: string = "/" + cardId + Constants.SCENE_SNAPSHOT;
+        const sceneOriginal: string = SCENE_PATH + "/" + cardId + "_sceneOriginal.txt";
 
-        this.imageManagerService.saveImage(IMAGES_PATH + sceneId, body.image);
-        this.imageManagerService.saveSceneGenerated(IMAGES_PATH + "testData.txt", body.sceneVariable);
+        this.imageManagerService.saveImage(IMAGES_PATH + sceneImage, body.image);
+        this.saveSeceneJson(body, sceneOriginal);
 
         const cardReceived: ICard = {
             gameID: cardId,
             gamemode: GameMode.free,
             title: body.sceneVariable.gameName,
             subtitle: body.sceneVariable.gameName,
-            // The image is temporary, the screenshot will be generated later
-            avatarImageUrl: Constants.BASE_URL + "/image" + sceneId,
-            gameImageUrl: Constants.BASE_URL + "/image" + sceneId,
+            avatarImageUrl: Constants.BASE_URL + "/image" + sceneImage,
+            gameImageUrl: Constants.BASE_URL + "/image" + sceneImage,
         };
 
+        return this.generateMessage(cardReceived);
+
+    }
+
+    private generateMessage(cardReceived: ICard): Message {
         if (this.addCard3D(cardReceived)) {
             return {
                 title: Constants.ON_SUCCESS_MESSAGE,
@@ -105,7 +116,6 @@ export class CardManagerService {
                 body: CARD_EXISTING,
             } as Message;
         }
-
     }
 
     private handlePostResponse(response: Axios.AxiosResponse< Buffer | Message>, cardTitle: string): Message {
