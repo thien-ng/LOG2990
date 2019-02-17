@@ -65,3 +65,7 @@ export class Arena {
                 // console.log("AXIOS ERROR: ", err);
             });
     }
+
+    public getPlayers(): Player[] {
+        return this._players;
+    }
