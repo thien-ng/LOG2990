@@ -82,6 +82,7 @@ export class GameViewFreeComponent implements OnInit {
     } else {
       await response.json().then((variables: ISceneVariables) => {
         this.iSceneVariables = {
+          theme: variables.theme,
           gameName: variables.gameName,
           sceneBackgroundColor: variables.sceneBackgroundColor,
           sceneObjects: variables.sceneObjects,

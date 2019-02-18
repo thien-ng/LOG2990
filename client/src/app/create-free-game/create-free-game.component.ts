@@ -123,7 +123,7 @@ export class CreateFreeGameComponent {
     return {
       gameName: formData.value.nameControl,
       checkedTypes: formData.value.modifTypes,
-      selectedOption: formData.value.selectControl,
+      theme: formData.value.selectControl,
       quantityChange: this.sliderValue,
     } as FormMessage;
   }
