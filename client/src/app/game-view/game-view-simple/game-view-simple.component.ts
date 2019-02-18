@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { AfterContentInit, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { GameMode, ICard } from "../../../../../common/communication/iCard"
+import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { Constants } from "../../constants";
 import { SocketService } from "../../websocket/socket.service";
 import { GameViewSimpleService } from "./game-view-simple.service";

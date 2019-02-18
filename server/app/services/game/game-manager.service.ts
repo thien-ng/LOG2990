@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import { GameMode } from "../../../../common/communication/iCard"
+import { GameMode } from "../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../common/communication/iGameRequest";
 import { Message } from "../../../../common/communication/message";
 import { Constants } from "../../constants";
@@ -30,7 +30,7 @@ export class GameManagerService {
                 return {
                     title: Constants.ON_ERROR_MESSAGE,
                     body: REQUEST_ERROR_MESSAGE,
-                }
+                };
                 break;
         }
     }
