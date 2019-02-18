@@ -1,6 +1,7 @@
 export enum GameMode {
   simple = "simple",
   free = "free",
+  invalid = "invalid",
 }
 
 export interface ICard {

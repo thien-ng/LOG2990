@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { Constants } from "../../constants";
 import { TestingImportsModule } from "../../testing-imports/testing-imports.module";
 import { ChatViewComponent } from "../chat-view/chat-view.component";
@@ -32,15 +31,6 @@ describe("GameViewSimpleComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GameViewSimpleComponent);
     component = fixture.componentInstance;
-    const card: ICard = {
-      gameID: 12,
-      title: "string",
-      subtitle: "string",
-      avatarImageUrl: "string",
-      gameImageUrl: "string",
-      gamemode: GameMode.simple,
-    };
-    component.activeGameService.activeGame = card;
     fixture.detectChanges();
   });
 
