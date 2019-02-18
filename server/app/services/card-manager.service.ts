@@ -87,7 +87,7 @@ export class CardManagerService {
 
         const cardId: number = this.generateSceneId();
         const sceneImage: string = "/" + cardId + Constants.SCENE_SNAPSHOT;
-        const sceneOriginal: string = SCENE_PATH + "/" + cardId + "_sceneOriginal.txt";
+        const sceneOriginal: string = SCENE_PATH + "/" + cardId + Constants.ORIGINAL_SCENE_FILE;
 
         this.imageManagerService.saveImage(IMAGES_PATH + sceneImage, body.image);
         this.saveSeceneJson(body, sceneOriginal);
@@ -265,7 +265,7 @@ export class CardManagerService {
         if (index !== DOESNT_EXIST) {
             const paths: string[] = [
                 IMAGES_PATH + "/" + id + Constants.GENERATED_SNAPSHOT,
-                SCENE_PATH + "/" + id + "_sceneOriginal.txt",
+                SCENE_PATH + "/" + id + Constants.ORIGINAL_SCENE_FILE,
             ];
             try {
                 this.imageManagerService.deleteStoredImages(paths);

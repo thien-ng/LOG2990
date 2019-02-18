@@ -15,8 +15,7 @@ export class GameManagerController {
         const router: Router = Router();
 
         router.post("/request", (req: Request, res: Response, next: NextFunction) => {
-            this.gameManagerService.subscribeSocketID("sad");
-            console.log("req");
+            res.json(this.gameManagerService.analyseRequest(req.body));
         });
 
         return router;
