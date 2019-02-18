@@ -32,7 +32,7 @@ describe("SceneManager Tests", () => {
         chai.expect(spy).to.have.been.called.with("Geometric");
     });
 
-    it("should return scene variables with Geometric theme", async () => {
+    it("should return scene variables with Geometric theme", () => {
         formMessage = {
             gameName: "gameName",
             checkedTypes: [true, true, true],
@@ -40,7 +40,7 @@ describe("SceneManager Tests", () => {
             quantityChange: 10,
         };
 
-        const sceneVariables: ISceneVariables = await sceneManager.createScene(formMessage);
+        const sceneVariables: ISceneVariables = sceneManager.createScene(formMessage);
 
         chai.expect(sceneVariables.theme).equal(0);
     });
@@ -60,7 +60,7 @@ describe("SceneManager Tests", () => {
         chai.expect(spy).to.have.been.called.with("Thematic");
     });
 
-    it("should return scene variables with Thematic theme", async () => {
+    it("should return scene variables with Thematic theme", () => {
         formMessage = {
             gameName: "gameName",
             checkedTypes: [true, true, true],
@@ -68,12 +68,12 @@ describe("SceneManager Tests", () => {
             quantityChange: 10,
         };
 
-        const sceneVariables: ISceneVariables = await sceneManager.createScene(formMessage);
+        const sceneVariables: ISceneVariables = sceneManager.createScene(formMessage);
 
         chai.expect(sceneVariables.theme).equal(1);
     });
 
-    it("should return scene variables with Geometric theme by default", async () => {
+    it("should return scene variables with Geometric theme by default", () => {
         formMessage = {
             gameName: "gameName",
             checkedTypes: [true, true, true],
@@ -81,7 +81,7 @@ describe("SceneManager Tests", () => {
             quantityChange: 10,
         };
 
-        const sceneVariables: ISceneVariables = await sceneManager.createScene(formMessage);
+        const sceneVariables: ISceneVariables = sceneManager.createScene(formMessage);
 
         chai.expect(sceneVariables.theme).equal(0);
     });
