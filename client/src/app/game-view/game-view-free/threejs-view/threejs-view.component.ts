@@ -45,20 +45,24 @@ export class TheejsViewComponent implements AfterContentInit {
   }
 
   public ngAfterContentInit(): void {
-    this.httpClient.post(Constants.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
-      fetch(data.body).then((response) => {
-        this.loadFileInObject(response)
-        .then(() => {
-          this.initScene();
+    if (!this.isSnapshotNeeded) {
+      this.httpClient.post(Constants.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
+        fetch(data.body).then((response) => {
+          this.loadFileInObject(response)
+          .then(() => {
+            this.initScene();
+          })
+          .catch((error) => {
+            this.openSnackBar(error, Constants.SNACK_ACTION);
+          });
         })
         .catch((error) => {
           this.openSnackBar(error, Constants.SNACK_ACTION);
         });
-      })
-      .catch((error) => {
-        this.openSnackBar(error, Constants.SNACK_ACTION);
       });
-    });
+    } else {
+      this.initScene();
+    }
   }
 
   private async loadFileInObject(response: Response): Promise<void> {
