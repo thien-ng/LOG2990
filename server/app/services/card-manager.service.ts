@@ -179,8 +179,6 @@ export class CardManagerService {
 
     public isSceneNameNew(title: string): boolean {
         return !this.cards.list3D.some((card: ICard): boolean => {
-            console.log(card.title === title);
-            
             if (card.title === title) {
 
                 return true;
