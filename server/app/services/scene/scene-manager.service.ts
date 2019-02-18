@@ -1,6 +1,5 @@
 import { injectable } from "inversify";
-import { SceneObjectType } from "../../../../common/communication/iSceneObject";
-import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
+import { ISceneOptions, SceneType } from "../../../../common/communication/iSceneOptions";
 import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
 import { SceneBuilder } from "./scene-builder";
@@ -33,29 +32,21 @@ export class SceneManager {
         };
     }
 
-    private objectTypeIdentifier(objectType: string): SceneObjectType {
+    private objectTypeIdentifier(objectType: string): SceneType {
 
-        let sceneObjectIdentified: SceneObjectType = SceneObjectType.Sphere;
+        let sceneObjectIdentified: SceneType;
 
         switch (objectType) {
-            case SceneConstants.TYPE_CUBE:
-                sceneObjectIdentified = SceneObjectType.Cube;
+            case SceneConstants.TYPE_GEOMETRIC:
+                sceneObjectIdentified = SceneType.Geometric;
                 break;
 
-            case SceneConstants.TYPE_CONE:
-                sceneObjectIdentified = SceneObjectType.Cone;
-                break;
-
-            case SceneConstants.TYPE_CYLINDER:
-                sceneObjectIdentified = SceneObjectType.Cylinder;
-                break;
-
-            case SceneConstants.TYPE_PYRAMID:
-                sceneObjectIdentified = SceneObjectType.TriangularPyramid;
+            case SceneConstants.TYPE_THEMATIC:
+                sceneObjectIdentified = SceneType.Thematic;
                 break;
 
             default:
-                sceneObjectIdentified = SceneObjectType.Sphere;
+                sceneObjectIdentified = SceneType.Geometric;
                 break;
         }
 

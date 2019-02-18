@@ -20,8 +20,6 @@ export class SceneConstants {
     public static readonly THREE: number = 3;
 
     // Constants for scene-manager.service.ts
-    public static readonly TYPE_CUBE: string = "cube";
-    public static readonly TYPE_CONE: string = "cone";
-    public static readonly TYPE_CYLINDER: string = "cylinder";
-    public static readonly TYPE_PYRAMID: string = "pyramid";
+    public static readonly TYPE_GEOMETRIC: string = "geometric";
+    public static readonly TYPE_THEMATIC: string = "thematic";
 }
