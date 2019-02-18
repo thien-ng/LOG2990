@@ -1,4 +1,5 @@
 import { ISceneObject } from "./iSceneObject";
+import { SceneType } from "./iSceneOptions";
 
 export interface ISceneVariablesMessage {
     originalScene: ISceneVariables;
@@ -6,6 +7,7 @@ export interface ISceneVariablesMessage {
 }
 
 export interface ISceneVariables {
+    theme: SceneType;
     gameName: string;
     sceneObjectsQuantity: number;
     sceneObjects: ISceneObject[];
