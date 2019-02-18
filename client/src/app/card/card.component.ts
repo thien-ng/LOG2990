@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import { ICard } from "../../../../common/communication/iCard";
+import { GameType } from "../../../../common/communication/iGameRequest"
 import { Constants } from "../constants";
 import { GameModeService } from "../game-list-container/game-mode.service";
 import { HighscoreService } from "../highscore-display/highscore.service";
@@ -61,12 +62,11 @@ export class CardComponent {
     this.highscoreService.getHighscore(this.card.gameID);
   }
 
-  public onStartGameClick(): void {
+  public onStartGameClick(type: GameType): void {
     const gameModeComparison: boolean = this.card.gamemode === Constants.GAMEMODE_SIMPLE;
-    let gameModePath: string = gameModeComparison ? Constants.GAME_VIEW_SIMPLE_PATH : Constants.GAME_VIEW_FREE_PATH;
-    gameModePath += "/" + this.card.gameID;
+    const gameModePath: string = gameModeComparison ? Constants.GAME_VIEW_SIMPLE_PATH : Constants.GAME_VIEW_FREE_PATH;
 
-    this.router.navigate([gameModePath]).catch((error) => alert(error));
+    this.router.navigate([gameModePath, this.card.gameID, type]).catch((error) => alert(error));
   }
 
 }

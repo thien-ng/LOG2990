@@ -4,8 +4,8 @@ export class Constants {
   public static readonly LOGIN_PATH: string = "login";
   public static readonly ADMIN_PATH: string = "admin";
   public static readonly ADMIN_REDIRECT: string = "/admin";
-  public static readonly GAME_VIEW_SIMPLE: string = "game-view-simple/:id";
-  public static readonly GAME_VIEW_FREE: string = "game-view-free/:id";
+  public static readonly GAME_VIEW_SIMPLE: string = "game-view-simple/:id/:gamemode";
+  public static readonly GAME_VIEW_FREE: string = "game-view-free/:id/:gamemode";
   public static readonly ROOT_PATH: string = "";
   public static readonly NAV_PATH: string = "";
   public static readonly GAMELIST_PATH: string = "gamelist";

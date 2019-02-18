@@ -37,8 +37,8 @@ export class MainNavComponent implements OnInit, OnDestroy {
   public isAdminMode: boolean;
   public client: string | null;
   public readonly LOGIN_PATH: string = Constants.LOGIN_REDIRECT;
-  public readonly SIMPLE_GAME_PATH: string = "/game-view-simple";
-  public readonly FREE_GAME_PATH: string = "/game-view-free";
+  public readonly GAME_LIST_PATH: string = "/gamelist";
+  public readonly ADMIN_PATH: string = "/admin";
   public readonly TEXT_ADMIN: string = "Vue Administration";
   public readonly TEXT_BOUTON_2D: string = "Créer jeu simple";
   public readonly TEXT_BOUTON_3D: string = "Créer jeu 3D";
@@ -58,7 +58,7 @@ export class MainNavComponent implements OnInit, OnDestroy {
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.isValidUrl = this.router.url !== this.SIMPLE_GAME_PATH && this.router.url !== this.FREE_GAME_PATH;
+        this.isValidUrl = this.router.url === this.ADMIN_PATH || this.router.url === this.GAME_LIST_PATH;
       }
     });
   }

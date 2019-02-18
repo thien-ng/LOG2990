@@ -26,8 +26,8 @@
           <button *ngIf="this.router.url != ADMIN_PATH" class="playButton" mat-button [matMenuTriggerFor]="menu">{{TEXT_PLAY}}</button>
 
           <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="onStartGameClick()">{{TEXT_PLAY_SINGLE}}</button>
-            <button mat-menu-item (click)="onStartGameClick()">{{TEXT_PLAY_MULTI}}</button>
+            <button mat-menu-item (click)="onStartGameClick(0)">{{TEXT_PLAY_SINGLE}}</button>
+            <button mat-menu-item (click)="onStartGameClick(1)">{{TEXT_PLAY_MULTI}}</button>
           </mat-menu>
 
         <button mat-button class="highscoreButton" [ngClass]="hsButtonIsClicked ? 'clicked' : 'unclicked'" (click)="onHSButtonClick()">

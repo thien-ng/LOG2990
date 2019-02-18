@@ -8,6 +8,6 @@ export interface IGameRequest {
 }
 
 export enum GameType {
-    singlePlayer,
-    multiPlayer,
+    singlePlayer = 0,
+    multiPlayer = 1,
 }
