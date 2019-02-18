@@ -1,6 +1,5 @@
 import { inject, injectable } from "inversify";
-import { SceneObjectType } from "../../../../common/communication/iSceneObject";
-import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
+import { ISceneOptions, SceneType } from "../../../../common/communication/iSceneOptions";
 import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
 import { Constants } from "../../constants";
@@ -35,38 +34,30 @@ export class SceneManager {
         // ca sera implementer lorsquon travaille sur les modifications de scenes
         return {
             sceneName: body.gameName,
-            sceneObjectsType: this.objectTypeIdentifier(body.selectedOption),
+            sceneType: this.objectTypeIdentifier(body.theme),
             sceneObjectsQuantity: body.quantityChange,
         };
     }
 
-    private objectTypeIdentifier(objectType: string): SceneObjectType {
+    private objectTypeIdentifier(objectType: string): SceneType {
 
-        let sceneObjectIdentified: SceneObjectType = SceneObjectType.Sphere;
+        let sceneTypeIdentified: SceneType;
 
         switch (objectType) {
-            case SceneConstants.TYPE_CUBE:
-                sceneObjectIdentified = SceneObjectType.Cube;
+            case SceneConstants.TYPE_GEOMETRIC:
+                sceneTypeIdentified = SceneType.Geometric;
                 break;
 
-            case SceneConstants.TYPE_CONE:
-                sceneObjectIdentified = SceneObjectType.Cone;
-                break;
-
-            case SceneConstants.TYPE_CYLINDER:
-                sceneObjectIdentified = SceneObjectType.Cylinder;
-                break;
-
-            case SceneConstants.TYPE_PYRAMID:
-                sceneObjectIdentified = SceneObjectType.TriangularPyramid;
+            case SceneConstants.TYPE_THEMATIC:
+                sceneTypeIdentified = SceneType.Thematic;
                 break;
 
             default:
-                sceneObjectIdentified = SceneObjectType.Sphere;
+                sceneTypeIdentified = SceneType.Geometric;
                 break;
         }
 
-        return sceneObjectIdentified;
+        return sceneTypeIdentified;
     }
 
 }

@@ -4,8 +4,8 @@ export interface Message {
 }
 
 export interface FormMessage {
+    theme: string;
     gameName: string;
     checkedTypes: [boolean, boolean, boolean];
-    selectedOption: string;
     quantityChange: number;
 }
