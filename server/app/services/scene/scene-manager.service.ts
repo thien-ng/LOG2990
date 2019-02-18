@@ -1,8 +1,11 @@
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 import { SceneObjectType } from "../../../../common/communication/iSceneObject";
 import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
 import { ISceneVariables, ISceneVariablesMessage } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
+import { Constants } from "../../constants";
+import Types from "../../types";
+import { CardManagerService } from "../card-manager.service";
 import { SceneBuilder } from "./scene-builder";
 import { SceneModifier } from "./scene-modifier";
 import { SceneConstants } from "./sceneConstants";
@@ -13,20 +16,26 @@ export class SceneManager {
     private sceneBuilder: SceneBuilder;
     private sceneModifier: SceneModifier;
 
-    public constructor() {
+    public constructor(@inject(Types.CardManagerService) private cardManagerService: CardManagerService) {
         this.sceneBuilder = new SceneBuilder();
         this.sceneModifier = new SceneModifier(this.sceneBuilder);
     }
 
-    public createScene(body: FormMessage): ISceneVariablesMessage {
 
-        const iSceneOptions: ISceneOptions = this.sceneOptionsMapper(body);
-        const generatedOriginalScene: ISceneVariables = this.sceneBuilder.generateScene(iSceneOptions);
-        const generatedModifiedScene: ISceneVariables = this.sceneModifier.modifyScene(iSceneOptions, generatedOriginalScene);
-        return {
-            originalScene: generatedOriginalScene,
-            modifiedScene: generatedModifiedScene,
-        } as ISceneVariablesMessage;
+    public createScene(body: FormMessage): ISceneVariablesMessage | string {
+
+        if (this.cardManagerService.isSceneNameNew(body.gameName)) {
+            const iSceneOptions: ISceneOptions = this.sceneOptionsMapper(body);
+            const generatedOriginalScene: ISceneVariables = this.sceneBuilder.generateScene(iSceneOptions);
+            const generatedModifiedScene: ISceneVariables = this.sceneModifier.modifyScene(iSceneOptions, generatedOriginalScene);
+
+            return {
+                originalScene: generatedOriginalScene,
+                modifiedScene: generatedModifiedScene,
+            } as ISceneVariablesMessage;
+        } else {
+            return Constants.CARD_EXISTING;
+        }
     }
 
     private sceneOptionsMapper(body: FormMessage): ISceneOptions {
