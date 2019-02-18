@@ -33,7 +33,7 @@ export class GameViewFreeComponent implements OnInit {
   public ngOnInit(): void {
       const gameID: string | null = this.route.snapshot.paramMap.get("id");
       const username: string | null = sessionStorage.getItem(Constants.USERNAME_KEY);
-      if (gameID !== null && username !== null){
+      if (gameID !== null && username !== null) {
         this.createGameRequest(gameID, username);
       }
   }

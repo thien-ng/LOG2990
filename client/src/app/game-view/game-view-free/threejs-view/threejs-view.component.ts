@@ -40,7 +40,7 @@ export class TheejsViewComponent implements OnChanges {
   }
 
   public ngOnChanges(): void {
-    if (this.iSceneVariables !== undefined){
+    if (this.iSceneVariables !== undefined) {
       this.initScene();
     }
   }
