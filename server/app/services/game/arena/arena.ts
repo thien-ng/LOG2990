@@ -35,8 +35,27 @@ export class Arena {
         // return this.originalImageSegments;
     }
 
+    private async extractOriginalImageSegments(): Promise<void> {
 
-    // }
+        const originalImage:   Buffer = await this.getImageFromUrl(this.arenaInfos.originalGameUrl);
+        const differenceImage: Buffer = await this.getImageFromUrl(this.arenaInfos.differenceGameUrl);
+        const extractor: DifferencesExtractor = new DifferencesExtractor();
+        this.originalImageSegments = extractor.extractDifferences(originalImage, differenceImage);
+    }
+
+    private async getImageFromUrl(imageUrl: string): Promise<Buffer> {
+
+        const axios: AxiosInstance = require("axios");
+
+        return axios
+            .get(imageUrl, {
+                responseType: "arraybuffer",
+            })
+            .then((response: AxiosResponse) => Buffer.from(response.data, "binary"))
+            .catch((error: Error) => {
+                throw new TypeError(this.ERROR_ON_HTTPGET);
+            });
+    }
 
     private createPlayers(): void {
         this.arenaInfos.users.forEach((user: User) => {
