@@ -11,18 +11,30 @@ const URL_HIT_VALIDATOR: string = "http://localhost:3000/api/hitvalidator";
 
 export class Arena {
 
+    private readonly ERROR_ON_HTTPGET: string = "Didn't succeed to get image buffer from URL given. File: arena.ts.";
+
     private _players: Player[];
+    private originalImageSegments: IOriginalImageSegment[];
 
     public constructor(private arenaInfos: IArenaInfos) {
         this.createPlayers();
     }
 
-    // public async getAnswer(posX: number, posY: number): Promise<IHitConfirmation> {
-    //     // tslint:disable-next-line:no-magic-numbers
-    //     return (this.playerClickHandler(posX, posY));
-    //     // console.log(reponse);
+    public async prepareArenaForGameplay(): Promise<void> {
+        await this.extractOriginalImageSegments();
+        // set timer
+        console.log("Lenght du array d'images : " + this.originalImageSegments.length);
 
-    //     // return reponse;
+        this.originalImageSegments.forEach((image: IOriginalImageSegment, index: number) => {
+            console.log("\nImage #" + (index + 1));
+            console.log("Start position : (" + image.startPosition.x + ", " + image.startPosition.y + ")");
+            console.log("Width : " + image.width);
+            console.log("Height : " + image.height);
+
+        });
+        // return this.originalImageSegments;
+    }
+
 
     // }
 
