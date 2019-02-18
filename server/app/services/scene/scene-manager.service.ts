@@ -27,30 +27,30 @@ export class SceneManager {
         // ca sera implementer lorsquon travaille sur les modifications de scenes
         return {
             sceneName: body.gameName,
-            sceneObjectsType: this.objectTypeIdentifier(body.selectedOption),
+            sceneType: this.objectTypeIdentifier(body.selectedOption),
             sceneObjectsQuantity: body.quantityChange,
         };
     }
 
     private objectTypeIdentifier(objectType: string): SceneType {
 
-        let sceneObjectIdentified: SceneType;
+        let sceneTypeIdentified: SceneType;
 
         switch (objectType) {
             case SceneConstants.TYPE_GEOMETRIC:
-                sceneObjectIdentified = SceneType.Geometric;
+                sceneTypeIdentified = SceneType.Geometric;
                 break;
 
             case SceneConstants.TYPE_THEMATIC:
-                sceneObjectIdentified = SceneType.Thematic;
+                sceneTypeIdentified = SceneType.Thematic;
                 break;
 
             default:
-                sceneObjectIdentified = SceneType.Geometric;
+                sceneTypeIdentified = SceneType.Geometric;
                 break;
         }
 
-        return sceneObjectIdentified;
+        return sceneTypeIdentified;
     }
 
 }

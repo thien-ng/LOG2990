@@ -6,6 +6,6 @@ export enum SceneType {
 
 export interface ISceneOptions {
     sceneName: string;
-    sceneObjectsType: SceneType;
+    sceneType: SceneType;
     sceneObjectsQuantity: number;
 }
