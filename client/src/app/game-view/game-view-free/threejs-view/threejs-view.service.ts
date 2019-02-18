@@ -9,9 +9,7 @@ import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 
 // tslint:disable:no-magic-numbers
 
-@Injectable({
-  providedIn: "root",
-})
+@Injectable()
 export class ThreejsViewService {
 
   private scene: THREE.Scene;
