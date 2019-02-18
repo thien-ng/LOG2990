@@ -18,3 +18,20 @@ export interface IHitConfirmation {
     isAHit:         Boolean;
     hitPixelColor: number[];
 }
+
+export interface IPosition2D {
+    x: number;
+    y: number;
+}
+
+export interface IOriginalPixelsFound {
+    position: IPosition2D;
+    color:  number[];
+}
+
+export interface IOriginalImageSegment {
+    startPosition: IPosition2D;
+    width:      number;
+    height:     number;
+    image:      Buffer;
+}
