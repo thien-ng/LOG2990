@@ -22,7 +22,9 @@ export class HighscoreService {
 
   public getHighscore(id: number): void {
     this.httpClient.get(Constants.HIGHSCORE_PATH + id).subscribe((data: HighscoreMessage) => {
-      this.highscoreUpdated.next(data);
+      if (this.validateId(data.id) && this.validateTimes(data.timesSingle) && this.validateTimes(data.timesMulti)) {
+        this.highscoreUpdated.next(data);
+      }
     });
   }
 
