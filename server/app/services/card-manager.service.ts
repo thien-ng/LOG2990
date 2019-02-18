@@ -272,6 +272,7 @@ export class CardManagerService {
         const paths: string[] = [
             IMAGES_PATH + "/" + id + Constants.GENERATED_SNAPSHOT,
             SCENE_PATH + "/" + id + Constants.ORIGINAL_SCENE_FILE,
+            SCENE_PATH + "/" + id + Constants.MODIFIED_SCENE_FILE,
         ];
         try {
             this.imageManagerService.deleteStoredImages(paths);
