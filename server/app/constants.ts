@@ -40,7 +40,7 @@ export class Constants {
   public static readonly START_ID_2D:               number = 1000;
   public static readonly START_ID_3D:               number = 2000;
 
-  public static readonly CARD_EXISTING: string = "Le ID ou le titre de la carte existe déja";
+  public static readonly CARD_EXISTING: string = "Le titre de la carte existe déja";
 
   // Constants for card-manager-controller
   public static readonly DEFAULT_CARD_ID:           number = 1;
