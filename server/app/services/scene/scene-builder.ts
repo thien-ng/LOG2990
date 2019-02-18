@@ -17,6 +17,7 @@ export class SceneBuilder {
     public generateScene(sceneOptions: ISceneOptions): ISceneVariables {
 
         this.sceneVariables = {
+            theme: sceneOptions.sceneType,
             gameName: sceneOptions.sceneName,
             sceneObjectsQuantity: sceneOptions.sceneObjectsQuantity,
             sceneObjects: [],

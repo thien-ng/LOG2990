@@ -1,6 +1,7 @@
 import * as chai from "chai";
 import * as spies from "chai-spies";
 import "reflect-metadata";
+import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
 import { SceneManager } from "../../services/scene/scene-manager.service";
 
@@ -16,11 +17,11 @@ beforeEach(() => {
 
 describe("SceneManager Tests", () => {
 
-    it("should return scene variables with Geometric theme", () => {
+    it("should receive Geometric theme string", () => {
         formMessage = {
             gameName: "gameName",
             checkedTypes: [true, true, true],
-            selectedOption: "Geometric",
+            theme: "Geometric",
             quantityChange: 10,
         };
 
@@ -31,11 +32,24 @@ describe("SceneManager Tests", () => {
         chai.expect(spy).to.have.been.called.with("Geometric");
     });
 
-    it("should return scene variables with Thematic theme", () => {
+    it("should return scene variables with Geometric theme", async () => {
         formMessage = {
             gameName: "gameName",
             checkedTypes: [true, true, true],
-            selectedOption: "Thematic",
+            theme: "Geometric",
+            quantityChange: 10,
+        };
+
+        const sceneVariables: ISceneVariables = await sceneManager.createScene(formMessage);
+
+        chai.expect(sceneVariables.theme).equal(0);
+    });
+
+    it("should should receive Thematic theme string", () => {
+        formMessage = {
+            gameName: "gameName",
+            checkedTypes: [true, true, true],
+            theme: "Thematic",
             quantityChange: 10,
         };
 
@@ -46,69 +60,29 @@ describe("SceneManager Tests", () => {
         chai.expect(spy).to.have.been.called.with("Thematic");
     });
 
-    // it("should generate new interface for cube of ISceneVariables", () => {
+    it("should return scene variables with Thematic theme", async () => {
+        formMessage = {
+            gameName: "gameName",
+            checkedTypes: [true, true, true],
+            theme: "Thematic",
+            quantityChange: 10,
+        };
 
-    //     formMessage = {
-    //         gameName: "gameName",
-    //         checkedTypes: [true, true, true],
-    //         selectedOption: "cube",
-    //         quantityChange: 1,
-    //     };
+        const sceneVariables: ISceneVariables = await sceneManager.createScene(formMessage);
 
-    //     const result: ISceneVariables = sceneManager.createScene(formMessage);
-    //     expect(result.sceneObjects[0].type).to.be.equal(SceneObjectType.Cube);
-    // });
+        chai.expect(sceneVariables.theme).equal(1);
+    });
 
-    // it("should generate new interface for sphere of ISceneVariables", () => {
+    it("should return scene variables with Geometric theme by default", async () => {
+        formMessage = {
+            gameName: "gameName",
+            checkedTypes: [true, true, true],
+            theme: "default",
+            quantityChange: 10,
+        };
 
-    //     formMessage = {
-    //         gameName: "gameName",
-    //         checkedTypes: [true, true, true],
-    //         selectedOption: "sphere",
-    //         quantityChange: 1,
-    //     };
+        const sceneVariables: ISceneVariables = await sceneManager.createScene(formMessage);
 
-    //     const result: ISceneVariables = sceneManager.createScene(formMessage);
-    //     expect(result.sceneObjects[0].type).to.be.equal(SceneObjectType.Sphere);
-    // });
-
-    // it("should generate new interface for cylinder of ISceneVariables", () => {
-
-    //     formMessage = {
-    //         gameName: "gameName",
-    //         checkedTypes: [true, true, true],
-    //         selectedOption: "cylinder",
-    //         quantityChange: 3,
-    //     };
-
-    //     const result: ISceneVariables = sceneManager.createScene(formMessage);
-    //     expect(result.sceneObjects[0].type).to.be.equal(SceneObjectType.Cylinder);
-    // });
-
-    // it("should generate new interface for cone of ISceneVariables", () => {
-
-    //     formMessage = {
-    //         gameName: "gameName",
-    //         checkedTypes: [true, true, true],
-    //         selectedOption: "cone",
-    //         quantityChange: 4,
-    //     };
-
-    //     const result: ISceneVariables = sceneManager.createScene(formMessage);
-    //     expect(result.sceneObjects[0].type).to.be.equal(SceneObjectType.Cone);
-    // });
-
-    // it("should generate new interface for pyramid of ISceneVariables", () => {
-
-    //     formMessage = {
-    //         gameName: "gameName",
-    //         checkedTypes: [true, true, true],
-    //         selectedOption: "pyramid",
-    //         quantityChange: 5,
-    //     };
-
-    //     const result: ISceneVariables = sceneManager.createScene(formMessage);
-    //     expect(result.sceneObjects[0].type).to.be.equal(SceneObjectType.TriangularPyramid);
-    // });
-
+        chai.expect(sceneVariables.theme).equal(0);
+    });
 });

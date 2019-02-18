@@ -27,7 +27,7 @@ export class SceneManager {
         // ca sera implementer lorsquon travaille sur les modifications de scenes
         return {
             sceneName: body.gameName,
-            sceneType: this.objectTypeIdentifier(body.selectedOption),
+            sceneType: this.objectTypeIdentifier(body.theme),
             sceneObjectsQuantity: body.quantityChange,
         };
     }
