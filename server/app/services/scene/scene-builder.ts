@@ -110,6 +110,7 @@ export class SceneBuilder {
     }
 
     public generateRandomSceneObject(index: number, sceneOptions: ISceneOptions): ISceneObject {
+
         const newSceneObject: ISceneObject = {
             id: index,
             type: sceneOptions.sceneObjectsType,
@@ -133,5 +134,23 @@ export class SceneBuilder {
             hasCollision = this.collisionValidator.hasCollidingPositions(newSceneObject, this.sceneVariables.sceneObjects);
             newSceneObject.position = this.generateRandomAxisValues();
         } while (hasCollision);
+    }
+
+    public generateModifyObject(index: number, sceneOptions: ISceneOptions, iSceneVariables: ISceneVariables): ISceneObject {
+
+        this.sceneVariables = iSceneVariables;
+        
+        const newSceneObject: ISceneObject = {
+            id: index,
+            type: sceneOptions.sceneObjectsType,
+            position: this.generateRandomAxisValues(),
+            rotation: this.generateRandomRotationValues(),
+            scale: this.generateRandomScaleValues(),
+            color: this.generateRandomColor(),
+        };
+
+        this.validatePosition(newSceneObject);
+
+        return newSceneObject;
     }
 }

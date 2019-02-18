@@ -13,6 +13,7 @@ export class SceneModifier {
     private modifiedIndex: number[];
     private sceneObjects: ISceneObject[];
     private sceneOptions: ISceneOptions;
+    private cloneSceneVariables: ISceneVariables
 
     public constructor(sceneBuilder: SceneBuilder) {
         this.sceneBuilder = sceneBuilder;
@@ -20,21 +21,19 @@ export class SceneModifier {
     }
 
     public modifyScene(iSceneOptions: ISceneOptions, iSceneVariables: ISceneVariables): ISceneVariables {
-        const cloneSceneVariables: ISceneVariables = this.clone(iSceneVariables);
-        this.sceneObjects = cloneSceneVariables.sceneObjects;
+        this.cloneSceneVariables = this.clone(iSceneVariables);
+        this.sceneObjects = this.cloneSceneVariables.sceneObjects;
         this.sceneOptions = iSceneOptions;
-
         for (let i: number = 0; i < this.NUMBER_ITERATION; i++) {
             const selectedOpstion: string = this.generateSelectedIndex(iSceneOptions.selectedOptions);
 
             this.chooseOperation(selectedOpstion);
         }
-
         return {
-            gameName: cloneSceneVariables.gameName,
-            sceneObjectsQuantity: cloneSceneVariables.sceneObjectsQuantity,
+            gameName: this.cloneSceneVariables.gameName,
+            sceneObjectsQuantity: this.cloneSceneVariables.sceneObjectsQuantity,
             sceneObjects: this.sceneObjects,
-            sceneBackgroundColor: cloneSceneVariables.sceneBackgroundColor,
+            sceneBackgroundColor: this.cloneSceneVariables.sceneBackgroundColor,
         } as ISceneVariables;
     }
 
@@ -78,8 +77,7 @@ export class SceneModifier {
 
         const lastObjectElement: ISceneObject = this.sceneObjects[this.sceneObjects.length - 1];
         const newIndex: number = lastObjectElement.id + 1;
-        const generatedObject: ISceneObject = this.sceneBuilder.generateRandomSceneObject(newIndex, this.sceneOptions);
-
+        const generatedObject: ISceneObject = this.sceneBuilder.generateModifyObject(newIndex, this.sceneOptions, this.cloneSceneVariables);
         this.modifiedIndex.push(newIndex);
         this.sceneObjects.push(generatedObject);
     }
