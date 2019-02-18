@@ -6,12 +6,15 @@ import { Constants } from "../constants";
 
 @Injectable()
 export class HighscoreService {
+  private readonly SELECTOR: string = ":";
+  private readonly MIN_TIME: number = 0;
+  private readonly MAX_TIME: number = 60;
 
   private highscoreUpdated: Subject<HighscoreMessage>;
 
   public constructor(private httpClient: HttpClient) {
-      this.highscoreUpdated = new Subject<HighscoreMessage>();
-    }
+    this.highscoreUpdated = new Subject<HighscoreMessage>();
+  }
 
   public getHighscoreUpdateListener(): Observable<HighscoreMessage> {
     return this.highscoreUpdated.asObservable();
