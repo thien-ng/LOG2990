@@ -35,4 +35,8 @@ export class HighscoreService {
   private validateId(id: number): boolean {
     return id > 0;
   }
+
+  private validateSelector(timeElement: string, selector: string): boolean {
+    return timeElement.indexOf(selector) >= 0;
+  }
 }
