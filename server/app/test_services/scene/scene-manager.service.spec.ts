@@ -3,6 +3,7 @@ import "reflect-metadata";
 import { SceneObjectType } from "../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
+import { Constants } from "../../constants";
 import { CardManagerService } from "../../services/card-manager.service";
 import { HighscoreService } from "../../services/highscore.service";
 import { SceneManager } from "../../services/scene/scene-manager.service";
@@ -92,6 +93,21 @@ describe("SceneManager Tests", () => {
         const result: ISceneVariables | string = sceneManager.createScene(formMessage);
         if (typeof result !== "string") {
             expect(result.sceneObjects[0].type).to.be.equal(SceneObjectType.TriangularPyramid);
+        }
+    });
+
+    it("should return an error message when a game with the same name exists", () => {
+
+        formMessage = {
+            gameName: "Dylan QT",
+            checkedTypes: [true, true, true],
+            selectedOption: "pyramid",
+            quantityChange: 5,
+        };
+
+        const result: ISceneVariables | string = sceneManager.createScene(formMessage);
+        if (typeof result === "string") {
+            expect(result).to.equal(Constants.CARD_EXISTING);
         }
     });
 
