@@ -27,6 +27,18 @@ export class Constants {
   public static readonly GENERATED_SNAPSHOT:        string = "_snapshot.jpeg";
   public static readonly ORIGINAL_SCENE_FILE:       string = "_sceneOriginal.txt";
   public static readonly MODIFIED_SCENE_FILE:       string = "_sceneModified.txt";
+  public static readonly DECIMAL:                   number = 10;
+  public static readonly DOESNT_EXIST:              number = -1;
+  public static readonly CARD_DELETED:              string = "Carte supprimée";
+  public static readonly CARD_ADDED:                string = "Carte ajoutée";
+  public static readonly IMAGES_PATH:               string = "./app/asset/image";
+  public static readonly SCENE_PATH:                string = "./app/asset/scene";
+  public static readonly CARD_NOT_FOUND:            string = "Erreur de suppression, carte pas trouvée";
+  public static readonly REQUIRED_HEIGHT:           number = 480;
+  public static readonly REQUIRED_WIDTH:            number = 640;
+  public static readonly REQUIRED_NB_DIFF:          number = 7;
+  public static readonly START_ID_2D:               number = 1000;
+  public static readonly START_ID_3D:               number = 2000;
 
   public static readonly CARD_EXISTING: string = "Le ID ou le titre de la carte existe déja";
 
