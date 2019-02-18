@@ -28,6 +28,8 @@ export class Constants {
   public static readonly ORIGINAL_SCENE_FILE:       string = "_sceneOriginal.txt";
   public static readonly MODIFIED_SCENE_FILE:       string = "_sceneModified.txt";
 
+  public static readonly CARD_EXISTING: string = "Le ID ou le titre de la carte existe déja";
+
   // Constants for card-manager-controller
   public static readonly DEFAULT_CARD_ID:           number = 1;
   public static readonly DELETION_ERROR_MESSAGE:    string = "Impossible de supprimer la carte par défault";

@@ -15,7 +15,6 @@ const DECIMAL: number = 10;
 const DOESNT_EXIST: number = -1;
 const CARD_DELETED: string = "Carte supprimée";
 const CARD_ADDED: string = "Carte ajoutée";
-const CARD_EXISTING: string = "Le ID ou le titre de la carte existe déja";
 const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
 const REQUIRED_HEIGHT: number = 480;
 const REQUIRED_WIDTH: number = 640;
@@ -113,7 +112,7 @@ export class CardManagerService {
         } else {
             return {
                 title: Constants.ON_ERROR_MESSAGE,
-                body: CARD_EXISTING,
+                body: Constants.CARD_EXISTING,
             } as Message;
         }
     }
@@ -152,7 +151,7 @@ export class CardManagerService {
         } else {
             return {
                 title: Constants.ON_ERROR_MESSAGE,
-                body: CARD_EXISTING,
+                body: Constants.CARD_EXISTING,
             } as Message;
         }
     }
@@ -188,6 +187,17 @@ export class CardManagerService {
         }
 
         return !isExisting;
+    }
+
+    public isSceneNameNew(title: string): boolean {
+        return !this.cards.list3D.some((card: ICard): boolean => {
+            if (card.title === title) {
+
+                return true;
+            }
+
+            return false;
+        });
     }
 
     public addCard3D(card: ICard): boolean {
