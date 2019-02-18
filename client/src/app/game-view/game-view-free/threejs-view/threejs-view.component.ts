@@ -2,7 +2,6 @@ import { HttpClient } from "@angular/common/http";
 import { Component, ElementRef, Inject, Input, OnChanges, ViewChild } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import * as THREE from "three";
-// import { IGameRequest } from "../../../../../../common/communication/iGameRequest";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../../common/communication/message";
