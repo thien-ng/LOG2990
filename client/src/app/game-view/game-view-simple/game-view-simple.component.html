@@ -3,7 +3,7 @@
     [colspan]="7"
     [rowspan]="1"
     [style.background]='lightgreen'>
-    <div class="gameName">{{this.activeGameService.activeGame.title}}</div>
+    <div class="gameName" *ngIf="cardLoaded">{{activeCard.title}}</div>
   </mat-grid-tile>
   <mat-grid-tile
     [colspan]="2"

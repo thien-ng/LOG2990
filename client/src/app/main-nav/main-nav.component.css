@@ -1,5 +1,6 @@
 .logo {
   padding: 10px;
+  cursor: pointer;
 }
 
 .mat-toolbar.mat-primary {

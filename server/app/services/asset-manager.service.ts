@@ -1,5 +1,4 @@
 import * as fs from "fs";
-import { ISceneVariables } from "../../../common/communication/iSceneVariables";
 import { Constants } from "../constants";
 
 const IMAGES_PATH: string = "./app/asset/image";
@@ -46,7 +45,7 @@ export class AssetManagerService {
         });
     }
 
-    public saveSceneGenerated(path: string, data: ISceneVariables): void {
+    public saveGeneratedScene(path: string, data: string): void {
         fs.writeFile(path, data, (error: Error) => {
             if (error) {
                 throw TypeError(FILE_SAVING_ERROR);
