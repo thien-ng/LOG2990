@@ -1,4 +1,4 @@
-import { IAxisValues, ISceneObject } from "../../../../common/communication/iSceneObject";
+import { IAxisValues, ISceneObject, SceneObjectType } from "../../../../common/communication/iSceneObject";
 import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
 import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { SceneConstants } from "./sceneConstants";
@@ -110,7 +110,7 @@ export class SceneBuilder {
 
     private generateRandomSceneObject(sceneOptions: ISceneOptions): ISceneObject {
         const newSceneObject: ISceneObject = {
-            type: sceneOptions.sceneObjectsType,
+            type: this.selectRandomType(),
             position: this.generateRandomAxisValues(),
             rotation: this.generateRandomRotationValues(),
             scale: this.generateRandomScaleValues(),
@@ -120,6 +120,11 @@ export class SceneBuilder {
         this.validatePosition(newSceneObject);
 
         return newSceneObject;
+    }
+
+    private selectRandomType(): SceneObjectType {
+
+        return this.randomIntegerFromInterval(0, SceneConstants.MAX_TYPE_INDEX);
     }
 
     private validatePosition(newSceneObject: ISceneObject): void {

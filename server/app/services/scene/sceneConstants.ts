@@ -1,5 +1,7 @@
 export class SceneConstants {
 
+    // Scene object types
+    public static readonly MAX_TYPE_INDEX: number = 4;
     // Colors
     public static readonly HEX_TYPE: number = 16;
     public static readonly HEX_PREFIX: string = "#";
