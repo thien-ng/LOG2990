@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { AfterContentInit, Component, ElementRef, Inject, Input, ViewChild } from "@angular/core";
+import { Component, ElementRef, Inject, Input, OnChanges, ViewChild } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import * as THREE from "three";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
@@ -14,7 +14,7 @@ import { ThreejsViewService } from "./threejs-view.service";
   templateUrl: "./threejs-view.component.html",
   styleUrls: ["./threejs-view.component.css"],
 })
-export class TheejsViewComponent implements AfterContentInit {
+export class TheejsViewComponent implements OnChanges {
 
   private renderer: THREE.WebGLRenderer;
   private scene: THREE.Scene;
@@ -38,11 +38,14 @@ export class TheejsViewComponent implements AfterContentInit {
     this.scene = new THREE.Scene();
   }
 
-  public ngAfterContentInit(): void {
-    this.initScene();
+  public ngOnChanges(): void {
+    if (this.iSceneVariables !== undefined) {
+      this.initScene();
+    }
   }
 
   private initScene(): void {
+
     this.renderer = this.threejsViewService.getRenderer();
     this.originalScene.nativeElement.appendChild(this.renderer.domElement);
     this.threejsViewService.createScene(this.scene, this.iSceneVariables);

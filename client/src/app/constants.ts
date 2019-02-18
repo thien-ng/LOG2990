@@ -4,8 +4,8 @@ export class Constants {
   public static readonly LOGIN_PATH: string = "login";
   public static readonly ADMIN_PATH: string = "admin";
   public static readonly ADMIN_REDIRECT: string = "/admin";
-  public static readonly GAME_VIEW_SIMPLE: string = "game-view-simple";
-  public static readonly GAME_VIEW_FREE: string = "game-view-free";
+  public static readonly GAME_VIEW_SIMPLE: string = "game-view-simple/:id/:gamemode";
+  public static readonly GAME_VIEW_FREE: string = "game-view-free/:id/:gamemode";
   public static readonly ROOT_PATH: string = "";
   public static readonly NAV_PATH: string = "";
   public static readonly GAMELIST_PATH: string = "gamelist";
@@ -13,6 +13,7 @@ export class Constants {
   public static readonly PATH_MATCH_FULL: string = "full";
   public static readonly PATH_TO_ICONS: string = Constants.BASE_URL + "/icon";
   public static readonly PATH_TO_IMAGES: string = Constants.BASE_URL + "/image";
+  public static readonly PATH_TO_GET_CARD: string = Constants.BASE_URL + "/api/card/";
 
   public static readonly OBLIGATORY_CATCH: string = "obligatory catch";
   public static readonly ANIMATION_TIME: number = 300; // ms
@@ -67,6 +68,10 @@ export class Constants {
   public static readonly ON_GAME_CONNECTION: string = "onGameConnection";
   public static readonly ON_GAME_DISCONNECT: string = "onGameDisconnect";
 
+  // Constants for game view free component
+  public static readonly GAME_REQUEST_PATH: string = Constants.BASE_URL + "/api/game/request";
+  public static readonly SUCCESS_STATUS: number = 200;
+
   // Constants for card.component.ts
   public static readonly GAME_VIEW_SIMPLE_PATH: string = "/game-view-simple";
   public static readonly GAME_VIEW_FREE_PATH: string = "/game-view-free";
@@ -77,6 +82,7 @@ export class Constants {
   public static readonly PERCENT: number = 100;
 
   // Constants for ActiveGameService
+  public static readonly ORIGINAL_FILE: string = "_original.bmp";
   public static readonly MODIFIED_FILE: string = "_modified.bmp";
 
   // Constants for timer.service

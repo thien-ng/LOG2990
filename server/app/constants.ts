@@ -25,6 +25,8 @@ export class Constants {
   public static readonly VALIDATION_FAILED:         string = "Validation services failed";
   public static readonly UNKNOWN_ERROR:             string = "Erreur inconnue";
   public static readonly GENERATED_SNAPSHOT:        string = "_snapshot.jpeg";
+  public static readonly ORIGINAL_SCENE_FILE:       string = "_sceneOriginal.txt";
+  public static readonly MODIFIED_SCENE_FILE:       string = "_sceneModified.txt";
 
   // Constants for card-manager-controller
   public static readonly DEFAULT_CARD_ID:           number = 1;

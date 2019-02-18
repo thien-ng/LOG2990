@@ -1,14 +1,9 @@
 <mat-grid-list cols="9" rowHeight="19.9%">
   <mat-grid-tile
-    [colspan]="2"
+    [colspan]="7"
     [rowspan]="1"
     [style.background]='lightgreen'>
-    Game difference name input
-  </mat-grid-tile>
-  <mat-grid-tile
-    [colspan]="5"
-    [rowspan]="1"
-    [style.background]='lightgreen'>
+    <div class="gameName" *ngIf="cardLoaded">{{activeCard.title}}</div>
   </mat-grid-tile>
   <mat-grid-tile
     [colspan]="2"
@@ -20,18 +15,18 @@
   [colspan]="7"
   [rowspan]="3"
   [style.background]='lightblue'>
-  <app-threejs-view [iSceneVariables]="iSceneVariables" [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
+  <app-threejs-view *ngIf="cardLoaded" [iSceneVariables]="iSceneVariables" [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
   </mat-grid-tile>
   <mat-grid-tile
     [colspan]="4"
     [rowspan]="1"
     [style.background]='lightgreen'>
-    Add timer here
+    <app-timer></app-timer>
   </mat-grid-tile>
   <mat-grid-tile
     [colspan]="3"
     [rowspan]="1"
     [style.background]='lightgreen'>
-    add counter here
+    <app-difference-counter></app-difference-counter>
   </mat-grid-tile>
 </mat-grid-list>

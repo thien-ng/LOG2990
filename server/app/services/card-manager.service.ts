@@ -11,6 +11,7 @@ import { ImageRequirements } from "./difference-checker/utilities/imageRequireme
 import { HighscoreService } from "./highscore.service";
 
 const axios: Axios.AxiosInstance = require("axios");
+const DECIMAL: number = 10;
 const DOESNT_EXIST: number = -1;
 const CARD_DELETED: string = "Carte supprimée";
 const CARD_ADDED: string = "Carte ajoutée";
@@ -20,6 +21,7 @@ const REQUIRED_HEIGHT: number = 480;
 const REQUIRED_WIDTH: number = 640;
 const REQUIRED_NB_DIFF: number = 7;
 const IMAGES_PATH: string = "./app/asset/image";
+const SCENE_PATH: string = "./app/asset/scene";
 const START_ID_2D: number = 1000;
 const START_ID_3D: number = 2000;
 
@@ -76,24 +78,33 @@ export class CardManagerService {
         return returnValue;
     }
 
+    private saveSceneJson(body: ISceneMessage, path: string): void {
+        const sceneObject: string = JSON.stringify(body.sceneVariable);
+        this.imageManagerService.saveGeneratedScene(path, sceneObject);
+    }
+
     public freeCardCreationRoutine(body: ISceneMessage): Message {
 
         const cardId: number = this.generateSceneId();
-        const sceneId: string = "/" + cardId + Constants.SCENE_SNAPSHOT;
+        const sceneImage: string = "/" + cardId + Constants.SCENE_SNAPSHOT;
+        const sceneOriginal: string = SCENE_PATH + "/" + cardId + Constants.ORIGINAL_SCENE_FILE;
 
-        this.imageManagerService.saveImage(IMAGES_PATH + sceneId, body.image);
-        this.imageManagerService.saveSceneGenerated(IMAGES_PATH + "testData.txt", body.sceneVariable);
+        this.imageManagerService.saveImage(IMAGES_PATH + sceneImage, body.image);
+        this.saveSceneJson(body, sceneOriginal);
 
         const cardReceived: ICard = {
             gameID: cardId,
             gamemode: GameMode.free,
             title: body.sceneVariable.gameName,
             subtitle: body.sceneVariable.gameName,
-            // The image is temporary, the screenshot will be generated later
-            avatarImageUrl: Constants.BASE_URL + "/image" + sceneId,
-            gameImageUrl: Constants.BASE_URL + "/image" + sceneId,
+            avatarImageUrl: Constants.BASE_URL + "/image" + sceneImage,
+            gameImageUrl: Constants.BASE_URL + "/image" + sceneImage,
         };
 
+        return this.generateMessage(cardReceived);
+    }
+
+    private generateMessage(cardReceived: ICard): Message {
         if (this.addCard3D(cardReceived)) {
             return {
                 title: Constants.ON_SUCCESS_MESSAGE,
@@ -105,7 +116,6 @@ export class CardManagerService {
                 body: CARD_EXISTING,
             } as Message;
         }
-
     }
 
     private handlePostResponse(response: Axios.AxiosResponse< Buffer | Message>, cardTitle: string): Message {
@@ -232,18 +242,18 @@ export class CardManagerService {
                                     IMAGES_PATH + "/" + id + Constants.ORIGINAL_FILE,
                                     IMAGES_PATH + "/" + id + Constants.MODIFIED_FILE,
                                 ];
-        if (index !== DOESNT_EXIST) {
-            try {
-                this.imageManagerService.deleteStoredImages(paths);
-                this.cards.list2D.splice(index, 1);
-            } catch (error) {
-                return this.generateErrorMessage(error).title;
-            }
-
-            return CARD_DELETED;
+        if (index === DOESNT_EXIST) {
+            return CARD_NOT_FOUND;
         }
 
-        return CARD_NOT_FOUND;
+        try {
+            this.imageManagerService.deleteStoredImages(paths);
+            this.cards.list2D.splice(index, 1);
+        } catch (error) {
+            return this.generateErrorMessage(error).title;
+        }
+
+        return CARD_DELETED;
     }
 
     public removeCard3D(id: number): string {
@@ -251,21 +261,29 @@ export class CardManagerService {
             return Constants.DELETION_ERROR_MESSAGE;
         }
         const index: number = this.findCard3D(id);
-        if (index !== DOESNT_EXIST) {
-            const paths: string[] = [
-                IMAGES_PATH + "/" + id + Constants.GENERATED_SNAPSHOT,
-            ];
-            try {
-                this.imageManagerService.deleteStoredImages(paths);
-                this.cards.list3D.splice(index, 1);
-            } catch (error) {
-                return this.generateErrorMessage(error).title;
-            }
-
-            return CARD_DELETED;
+        if (index === DOESNT_EXIST) {
+            return CARD_NOT_FOUND;
         }
 
-        return CARD_NOT_FOUND;
+        const paths: string[] = [
+            IMAGES_PATH + "/" + id + Constants.GENERATED_SNAPSHOT,
+            SCENE_PATH + "/" + id + Constants.ORIGINAL_SCENE_FILE,
+        ];
+        try {
+            this.imageManagerService.deleteStoredImages(paths);
+            this.cards.list3D.splice(index, 1);
+        } catch (error) {
+            return this.generateErrorMessage(error).title;
+        }
+
+        return CARD_DELETED;
+    }
+
+    public getCardById(id: string, gamemode: GameMode): ICard {
+        const cardID: number = parseInt(id, DECIMAL);
+        const index: number = (gamemode === GameMode.simple) ? this.findCard2D(cardID) : this.findCard3D(cardID);
+
+        return (gamemode === GameMode.simple) ? this.cards.list2D[index] : this.cards.list3D[index];
     }
 
     private generateErrorMessage(error: Error): Message {

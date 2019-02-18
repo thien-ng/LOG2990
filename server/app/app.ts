@@ -5,6 +5,7 @@ import * as express from "express";
 import { inject, injectable } from "inversify";
 import * as logger from "morgan";
 import { CardManagerController } from "./controllers/card-manager.controller";
+import { GameManagerController } from "./controllers/game-manager.controller";
 import { HighscoreController } from "./controllers/highscore.controller";
 import { SceneManagerController } from "./controllers/scene-manager.controller";
 import { UserController } from "./controllers/user.controller";
@@ -25,6 +26,7 @@ export class Application {
         @inject(Types.DifferenceCheckerController) private differenceCheckerController: DifferenceCheckerController,
         @inject(Types.HitValidatorController)       private hitValidatorController:      HitValidatorController,
         @inject(Types.SceneManagerController) private sceneManagerController: SceneManagerController,
+        @inject(Types.GameManagerController) private gameManagerController: GameManagerController,
 
         ) {
         this.app = express();
@@ -51,6 +53,7 @@ export class Application {
         this.app.use("/api/differenceChecker", this.differenceCheckerController.router);
         this.app.use("/api/hitValidator", this.hitValidatorController.router);
         this.app.use("/api/scene", this.sceneManagerController.router);
+        this.app.use("/api/game", this.gameManagerController.router);
         this.app.use(express.static("./app/asset"));
         this.errorHandeling();
     }

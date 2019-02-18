@@ -2,6 +2,7 @@ import { NextFunction, Request, RequestHandler, Response, Router } from "express
 import { inject, injectable } from "inversify";
 
 import * as multer from "multer";
+import { ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
 import { Message } from "../../../common/communication/message";
 import { Constants } from "../constants";
@@ -50,6 +51,11 @@ export class CardManagerController {
         router.get("/list", async (req: Request, res: Response, next: NextFunction) => {
                 const list: ICardLists = this.cardManagerService.getCards();
                 res.json(list);
+        });
+
+        router.get("/:id/:gameMode", async (req: Request, res: Response, next: NextFunction) => {
+            const card: ICard = this.cardManagerService.getCardById(req.params.id, req.params.gameMode);
+            res.json(card);
         });
 
         router.delete("/remove/simple/:id", async (req: Request, res: Response, next: NextFunction) => {
