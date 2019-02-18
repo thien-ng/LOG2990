@@ -1,11 +1,11 @@
 import * as chai from "chai";
 import * as spies from "chai-spies";
 import "reflect-metadata";
-import { ISceneObject } from "../../../../common/communication/iSceneObject";
+import { ISceneObject} from "../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { SceneModifier } from "../../services/scene/scene-modifier";
 import { SceneBuilder } from "../../services/scene/scene-builder";
-import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
+import { ISceneOptions, SceneType } from "../../../../common/communication/iSceneOptions";
 
 // tslint:disable:no-any
 
@@ -33,6 +33,7 @@ beforeEach(() => {
         iSceneObjectGenerated.push(tempObject);
     }
     iSceneVariables = {
+        theme: SceneType.Thematic,
         gameName: "game",
         sceneObjectsQuantity: 10,
         sceneObjects: iSceneObjectGenerated,
@@ -45,7 +46,7 @@ describe("Scene-modifier tests", () => {
     it("should add 7 objects to sceneObject array", () => {
         iSceneOptions = {
             sceneName: "game",
-            sceneObjectsType: 1,
+            sceneType: SceneType.Thematic,
             sceneObjectsQuantity: 10,
             selectedOptions: [true, false, false],
         };
@@ -57,7 +58,7 @@ describe("Scene-modifier tests", () => {
     it("should remove 7 objects to sceneObject array", () => {
         iSceneOptions = {
             sceneName: "game",
-            sceneObjectsType: 1,
+            sceneType: SceneType.Thematic,
             sceneObjectsQuantity: 10,
             selectedOptions: [false, true, false],
         };
@@ -70,7 +71,7 @@ describe("Scene-modifier tests", () => {
     it("should change color 7 objects to sceneObject array", () => {
         iSceneOptions = {
             sceneName: "game",
-            sceneObjectsType: 1,
+            sceneType: SceneType.Thematic,
             sceneObjectsQuantity: 10,
             selectedOptions: [false, false, true],
         };

@@ -12,7 +12,6 @@ export class SceneModifier {
     private sceneBuilder: SceneBuilder;
     private modifiedIndex: number[];
     private sceneObjects: ISceneObject[];
-    private sceneOptions: ISceneOptions;
     private cloneSceneVariables: ISceneVariables
 
     public constructor(sceneBuilder: SceneBuilder) {
@@ -23,7 +22,6 @@ export class SceneModifier {
     public modifyScene(iSceneOptions: ISceneOptions, iSceneVariables: ISceneVariables): ISceneVariables {
         this.cloneSceneVariables = this.clone(iSceneVariables);
         this.sceneObjects = this.cloneSceneVariables.sceneObjects;
-        this.sceneOptions = iSceneOptions;
         for (let i: number = 0; i < this.NUMBER_ITERATION; i++) {
             const selectedOpstion: string = this.generateSelectedIndex(iSceneOptions.selectedOptions);
 
@@ -77,7 +75,7 @@ export class SceneModifier {
 
         const lastObjectElement: ISceneObject = this.sceneObjects[this.sceneObjects.length - 1];
         const newIndex: number = lastObjectElement.id + 1;
-        const generatedObject: ISceneObject = this.sceneBuilder.generateModifyObject(newIndex, this.sceneOptions, this.cloneSceneVariables);
+        const generatedObject: ISceneObject = this.sceneBuilder.generateModifyObject(newIndex, this.cloneSceneVariables);
         this.modifiedIndex.push(newIndex);
         this.sceneObjects.push(generatedObject);
     }

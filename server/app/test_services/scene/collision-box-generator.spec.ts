@@ -80,6 +80,7 @@ describe("Collision box generator tests", () => {
     };
 
     const defaultObject: ISceneObject = {
+        id: 1,
         type: 10,
         position: {
             x: 20, y: 20, z: 20 },

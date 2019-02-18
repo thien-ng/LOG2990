@@ -105,12 +105,12 @@ export class SceneBuilder {
         const sceneObjectsQuantity: number = sceneOptions.sceneObjectsQuantity;
 
         for (let index: number = 0; index < sceneObjectsQuantity; index++) {
-            const generatedObject: ISceneObject = this.generateRandomSceneObject(index, sceneOptions);
+            const generatedObject: ISceneObject = this.generateRandomSceneObject(index);
             this.sceneVariables.sceneObjects.push(generatedObject);
         }
     }
 
-    public generateRandomSceneObject(index: number, sceneOptions: ISceneOptions): ISceneObject {
+    public generateRandomSceneObject(index: number): ISceneObject {
 
         const newSceneObject: ISceneObject = {
             id: index,
@@ -142,13 +142,13 @@ export class SceneBuilder {
         } while (hasCollision);
     }
 
-    public generateModifyObject(index: number, sceneOptions: ISceneOptions, iSceneVariables: ISceneVariables): ISceneObject {
+    public generateModifyObject(index: number, iSceneVariables: ISceneVariables): ISceneObject {
 
         this.sceneVariables = iSceneVariables;
         
         const newSceneObject: ISceneObject = {
             id: index,
-            type: sceneOptions.sceneObjectsType,
+            type: this.selectRandomType(),
             position: this.generateRandomAxisValues(),
             rotation: this.generateRandomRotationValues(),
             scale: this.generateRandomScaleValues(),
