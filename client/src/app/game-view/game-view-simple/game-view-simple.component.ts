@@ -33,6 +33,22 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     }
 
   public ngOnInit(): void {
+    this.getActiveCard();
+    this.canvasRoutine();
+  }
+
+  public ngAfterContentInit(): void {
+    // test will be changed to something else, To be determined
+    this.socketService.sendMsg(Constants.ON_GAME_CONNECTION, "test");
+    this.initListener();
+  }
+
+  public ngOnDestroy(): void {
+    // test will be changed to something else, To be determined
+    this.socketService.sendMsg(Constants.ON_GAME_DISCONNECT, "test");
+  }
+
+  private getActiveCard(): void {
     const gameID: string | null = this.route.snapshot.paramMap.get("id");
     if (gameID !== null) {
       this.httpClient.get(Constants.PATH_TO_GET_CARD + gameID + "/" + GameMode.simple).subscribe((response: ICard) => {
@@ -41,20 +57,8 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       });
       this.originalPath = Constants.PATH_TO_IMAGES + "/" + gameID + Constants.ORIGINAL_FILE;
       this.modifiedPath = Constants.PATH_TO_IMAGES + "/" + gameID + Constants.MODIFIED_FILE;
-      this.canvasRoutine();
     }
   }
-
-  public ngAfterContentInit(): void {
-      // test will be changed to something else, To be determined
-      this.socketService.sendMsg(Constants.ON_GAME_CONNECTION, "test");
-      this.initListener();
-    }
-
-  public ngOnDestroy(): void {
-        // test will be changed to something else, To be determined
-        this.socketService.sendMsg(Constants.ON_GAME_DISCONNECT, "test");
-      }
 
   private canvasRoutine(): void {
     const canvasOriginal: CanvasRenderingContext2D = this.canvasOriginal.nativeElement.getContext("2d");
@@ -73,7 +77,6 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   }
 
   public initListener(): void {
-
     this.canvasOriginal.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
       this.gameViewService.onCanvasClick(mouseEvent.offsetX, mouseEvent.offsetY);
     });

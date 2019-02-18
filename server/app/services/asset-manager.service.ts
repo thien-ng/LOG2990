@@ -45,7 +45,7 @@ export class AssetManagerService {
         });
     }
 
-    public saveSceneGenerated(path: string, data: string): void {
+    public saveGeneratedScene(path: string, data: string): void {
         fs.writeFile(path, data, (error: Error) => {
             if (error) {
                 throw TypeError(FILE_SAVING_ERROR);

@@ -4,7 +4,7 @@ import { IGameRequest } from "../../../../common/communication/iGameRequest";
 import { Message } from "../../../../common/communication/message";
 import { Constants } from "../../constants";
 
-const ARENA_CREATED: string = "Arena Créée";
+const ARENA_CREATED: string = "Arène Créée";
 const REQUEST_ERROR_MESSAGE: string = "Game mode invalide";
 
 @injectable()

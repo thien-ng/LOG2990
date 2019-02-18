@@ -78,9 +78,9 @@ export class CardManagerService {
         return returnValue;
     }
 
-    private saveSeceneJson(body: ISceneMessage, path: string): void {
+    private saveSceneJson(body: ISceneMessage, path: string): void {
         const sceneObject: string = JSON.stringify(body.sceneVariable);
-        this.imageManagerService.saveSceneGenerated(path, sceneObject);
+        this.imageManagerService.saveGeneratedScene(path, sceneObject);
     }
 
     public freeCardCreationRoutine(body: ISceneMessage): Message {
@@ -90,7 +90,7 @@ export class CardManagerService {
         const sceneOriginal: string = SCENE_PATH + "/" + cardId + Constants.ORIGINAL_SCENE_FILE;
 
         this.imageManagerService.saveImage(IMAGES_PATH + sceneImage, body.image);
-        this.saveSeceneJson(body, sceneOriginal);
+        this.saveSceneJson(body, sceneOriginal);
 
         const cardReceived: ICard = {
             gameID: cardId,
@@ -102,7 +102,6 @@ export class CardManagerService {
         };
 
         return this.generateMessage(cardReceived);
-
     }
 
     private generateMessage(cardReceived: ICard): Message {
@@ -243,18 +242,18 @@ export class CardManagerService {
                                     IMAGES_PATH + "/" + id + Constants.ORIGINAL_FILE,
                                     IMAGES_PATH + "/" + id + Constants.MODIFIED_FILE,
                                 ];
-        if (index !== DOESNT_EXIST) {
-            try {
-                this.imageManagerService.deleteStoredImages(paths);
-                this.cards.list2D.splice(index, 1);
-            } catch (error) {
-                return this.generateErrorMessage(error).title;
-            }
-
-            return CARD_DELETED;
+        if (index === DOESNT_EXIST) {
+            return CARD_NOT_FOUND;
         }
 
-        return CARD_NOT_FOUND;
+        try {
+            this.imageManagerService.deleteStoredImages(paths);
+            this.cards.list2D.splice(index, 1);
+        } catch (error) {
+            return this.generateErrorMessage(error).title;
+        }
+
+        return CARD_DELETED;
     }
 
     public removeCard3D(id: number): string {
@@ -262,28 +261,29 @@ export class CardManagerService {
             return Constants.DELETION_ERROR_MESSAGE;
         }
         const index: number = this.findCard3D(id);
-        if (index !== DOESNT_EXIST) {
-            const paths: string[] = [
-                IMAGES_PATH + "/" + id + Constants.GENERATED_SNAPSHOT,
-                SCENE_PATH + "/" + id + Constants.ORIGINAL_SCENE_FILE,
-            ];
-            try {
-                this.imageManagerService.deleteStoredImages(paths);
-                this.cards.list3D.splice(index, 1);
-            } catch (error) {
-                return this.generateErrorMessage(error).title;
-            }
-
-            return CARD_DELETED;
+        if (index === DOESNT_EXIST) {
+            return CARD_NOT_FOUND;
         }
 
-        return CARD_NOT_FOUND;
+        const paths: string[] = [
+            IMAGES_PATH + "/" + id + Constants.GENERATED_SNAPSHOT,
+            SCENE_PATH + "/" + id + Constants.ORIGINAL_SCENE_FILE,
+        ];
+        try {
+            this.imageManagerService.deleteStoredImages(paths);
+            this.cards.list3D.splice(index, 1);
+        } catch (error) {
+            return this.generateErrorMessage(error).title;
+        }
+
+        return CARD_DELETED;
     }
 
     public getCardById(id: string, gamemode: GameMode): ICard {
         const cardID: number = parseInt(id, DECIMAL);
+        const index: number = (gamemode === GameMode.simple) ? this.findCard2D(cardID) : this.findCard3D(cardID);
 
-        return (gamemode === GameMode.simple) ? this.cards.list2D[this.findCard2D(cardID)] : this.cards.list3D[this.findCard3D(cardID)];
+        return (gamemode === GameMode.simple) ? this.cards.list2D[index] : this.cards.list3D[index];
     }
 
     private generateErrorMessage(error: Error): Message {

@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from "@angular/animations";
 import { Breakpoints, BreakpointObserver } from "@angular/cdk/layout";
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { MatDialog, MatDialogConfig } from "@angular/material";
+import { MatDialog, MatDialogConfig, MatSnackBar } from "@angular/material";
 import { NavigationEnd, Router } from "@angular/router";
 
 import { Observable, Subscription } from "rxjs";
@@ -43,12 +43,15 @@ export class MainNavComponent implements OnInit, OnDestroy {
   public readonly TEXT_BOUTON_2D: string = "Créer jeu simple";
   public readonly TEXT_BOUTON_3D: string = "Créer jeu 3D";
   private stateSubscription: Subscription;
+  private isAdminPath: boolean;
+  private isGameListPath: boolean;
 
   public isValidUrl: boolean;
 
   public constructor(
     private breakpointObserver: BreakpointObserver,
     public dialog: MatDialog,
+    private snackBar: MatSnackBar,
     public adminService: AdminToggleService,
     public router: Router,
     private socketService: SocketService,
@@ -58,7 +61,9 @@ export class MainNavComponent implements OnInit, OnDestroy {
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.isValidUrl = this.router.url === this.ADMIN_PATH || this.router.url === this.GAME_LIST_PATH;
+        this.isAdminPath = this.router.url === this.ADMIN_PATH;
+        this.isGameListPath = this.router.url === this.GAME_LIST_PATH;
+        this.isValidUrl = this.isAdminPath || this.isGameListPath;
       }
     });
   }
@@ -111,9 +116,21 @@ export class MainNavComponent implements OnInit, OnDestroy {
     this.dialog.open(CreateFreeGameComponent, dialogConfig);
   }
 
+  public redirectGameList(): void {
+    this.router.navigate([Constants.GAMELIST_REDIRECT])
+      .catch((error) => this.openSnackBar(error, Constants.SNACK_ACTION));
+  }
+
   public ngOnDestroy(): void {
     if (this.stateSubscription !== undefined) {
       this.stateSubscription.unsubscribe();
     }
+  }
+
+  private openSnackBar(msg: string, action: string): void {
+    this.snackBar.open(msg, action, {
+      duration: Constants.SNACKBAR_DURATION,
+      verticalPosition: "top",
+    });
   }
 }

@@ -1,8 +1,8 @@
 import { HttpClient } from "@angular/common/http";
-import { AfterContentInit, Component, ElementRef, Inject, Input, ViewChild } from "@angular/core";
+import { Component, ElementRef, Inject, Input, OnChanges, ViewChild } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import * as THREE from "three";
-import { IGameRequest } from "../../../../../../common/communication/iGameRequest";
+// import { IGameRequest } from "../../../../../../common/communication/iGameRequest";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../../common/communication/message";
@@ -10,20 +10,15 @@ import { CardManagerService } from "../../../card/card-manager.service";
 import { Constants } from "../../../constants";
 import { ThreejsViewService } from "./threejs-view.service";
 
-const SUCCESS_STATUS: number = 200;
-
 @Component({
   selector: "app-threejs-view",
   templateUrl: "./threejs-view.component.html",
   styleUrls: ["./threejs-view.component.css"],
 })
-export class TheejsViewComponent implements AfterContentInit {
+export class TheejsViewComponent implements OnChanges {
 
   private renderer: THREE.WebGLRenderer;
   private scene: THREE.Scene;
-
-  @Input()
-  private gameRequest: IGameRequest;
 
   @Input()
   private iSceneVariables: ISceneVariables;
@@ -44,41 +39,9 @@ export class TheejsViewComponent implements AfterContentInit {
     this.scene = new THREE.Scene();
   }
 
-  public ngAfterContentInit(): void {
-    if (!this.isSnapshotNeeded) {
-      this.httpClient.post(Constants.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
-        fetch(data.body).then((response) => {
-          this.loadFileInObject(response)
-          .then(() => {
-            this.initScene();
-          })
-          .catch((error) => {
-            this.openSnackBar(error, Constants.SNACK_ACTION);
-          });
-        })
-        .catch((error) => {
-          this.openSnackBar(error, Constants.SNACK_ACTION);
-        });
-      });
-    } else {
+  public ngOnChanges(): void {
+    if (this.iSceneVariables !== undefined){
       this.initScene();
-    }
-  }
-
-  private async loadFileInObject(response: Response): Promise<void> {
-    if (response.status !== SUCCESS_STATUS) {
-      this.openSnackBar(response.statusText, Constants.SNACK_ACTION);
-    } else {
-      await response.json().then((variables: ISceneVariables) => {
-        this.iSceneVariables = {
-          gameName: variables.gameName,
-          sceneBackgroundColor: variables.sceneBackgroundColor,
-          sceneObjects: variables.sceneObjects,
-          sceneObjectsQuantity: variables.sceneObjectsQuantity,
-        };
-      }).catch((error) => {
-        this.openSnackBar(error, Constants.SNACK_ACTION);
-      });
     }
   }
 

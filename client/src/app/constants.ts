@@ -70,6 +70,7 @@ export class Constants {
 
   // Constants for game view free component
   public static readonly GAME_REQUEST_PATH: string = Constants.BASE_URL + "/api/game/request";
+  public static readonly SUCCESS_STATUS: number = 200;
 
   // Constants for card.component.ts
   public static readonly GAME_VIEW_SIMPLE_PATH: string = "/game-view-simple";
