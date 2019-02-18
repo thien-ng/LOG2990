@@ -82,13 +82,14 @@ export class CardManagerService {
         const sceneId: string = "/" + cardId + Constants.SCENE_SNAPSHOT;
 
         this.imageManagerService.saveImage(IMAGES_PATH + sceneId, body.image);
-        this.imageManagerService.saveSceneGenerated(IMAGES_PATH + "testData.txt", body.sceneVariable);
+        this.imageManagerService.saveSceneGenerated(IMAGES_PATH + "ogData.txt", body.iSceneVariablesMessage.originalScene);
+        this.imageManagerService.saveSceneGenerated(IMAGES_PATH + "modData.txt", body.iSceneVariablesMessage.modifiedScene);
 
         const cardReceived: ICard = {
             gameID: cardId,
             gamemode: GameMode.free,
-            title: body.sceneVariable.gameName,
-            subtitle: body.sceneVariable.gameName,
+            title: body.iSceneVariablesMessage.originalScene.gameName,
+            subtitle: body.iSceneVariablesMessage.originalScene.gameName,
             // The image is temporary, the screenshot will be generated later
             avatarImageUrl: Constants.BASE_URL + "/image" + sceneId,
             gameImageUrl: Constants.BASE_URL + "/image" + sceneId,

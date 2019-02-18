@@ -47,7 +47,8 @@ export class AssetManagerService {
     }
 
     public saveSceneGenerated(path: string, data: ISceneVariables): void {
-        fs.writeFile(path, data, (error: Error) => {
+        const json: string = JSON.stringify(data);
+        fs.writeFile(path, json, (error: Error) => {
             if (error) {
                 throw TypeError(FILE_SAVING_ERROR);
             }

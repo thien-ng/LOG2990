@@ -23,7 +23,6 @@ export class SceneManager {
         const iSceneOptions: ISceneOptions = this.sceneOptionsMapper(body);
         const generatedOriginalScene: ISceneVariables = this.sceneBuilder.generateScene(iSceneOptions);
         const generatedModifiedScene: ISceneVariables = this.sceneModifier.modifyScene(iSceneOptions, generatedOriginalScene);
-
         return {
             originalScene: generatedOriginalScene,
             modifiedScene: generatedModifiedScene,
