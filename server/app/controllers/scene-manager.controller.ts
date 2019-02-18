@@ -13,7 +13,7 @@ export class SceneManagerController {
         const router: Router = Router();
 
         router.post("/generator", async (req: Request, res: Response, next: NextFunction) => {
-            const resultGenerator: ISceneVariables = this.sceneManager.createScene(req.body);
+            const resultGenerator: ISceneVariables | string = this.sceneManager.createScene(req.body);
             res.json(resultGenerator);
         });
 

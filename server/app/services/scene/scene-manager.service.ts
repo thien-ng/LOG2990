@@ -1,7 +1,10 @@
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 import { ISceneOptions, SceneType } from "../../../../common/communication/iSceneOptions";
 import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
+import { Constants } from "../../constants";
+import Types from "../../types";
+import { CardManagerService } from "../card-manager.service";
 import { SceneBuilder } from "./scene-builder";
 import { SceneConstants } from "./sceneConstants";
 
@@ -10,15 +13,19 @@ export class SceneManager {
 
     private sceneBuilder: SceneBuilder;
 
-    public constructor() {
+    public constructor(@inject(Types.CardManagerService) private cardManagerService: CardManagerService) {
         this.sceneBuilder = new SceneBuilder();
     }
 
-    public createScene(body: FormMessage): ISceneVariables {
+    public createScene(body: FormMessage): ISceneVariables | string {
 
-        const iSceneOptions: ISceneOptions = this.sceneOptionsMapper(body);
+        if (this.cardManagerService.isSceneNameNew(body.gameName)) {
+            const iSceneOptions: ISceneOptions = this.sceneOptionsMapper(body);
 
-        return this.sceneBuilder.generateScene(iSceneOptions);
+            return this.sceneBuilder.generateScene(iSceneOptions);
+        } else {
+            return Constants.CARD_EXISTING;
+        }
     }
 
     private sceneOptionsMapper(body: FormMessage): ISceneOptions {

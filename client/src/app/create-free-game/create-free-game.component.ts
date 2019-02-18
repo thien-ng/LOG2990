@@ -9,7 +9,7 @@ import {
   Validators,
   ValidatorFn
 } from "@angular/forms";
-import { MatDialogRef } from "@angular/material";
+import { MatDialogRef, MatSnackBar } from "@angular/material";
 import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
 import { Constants } from "../constants";
@@ -58,6 +58,7 @@ export class CreateFreeGameComponent {
     private dialogRef: MatDialogRef<CreateFreeGameComponent>,
     private formBuilder: FormBuilder,
     private httpClient: HttpClient,
+    private snackBar: MatSnackBar,
   ) {
 
     const controls: FormControl[] = this.modifTypes.map(() => new FormControl(false));
@@ -131,13 +132,23 @@ export class CreateFreeGameComponent {
     this.isButtonEnabled = false;
     const formValue: FormMessage = this.createFormMessage(formData);
 
-    this.httpClient.post(Constants.FREE_SCENE_GENERATOR_PATH, formValue).subscribe((response: ISceneVariables) => {
-      this.iSceneVariables = response;
-      this.isSceneGenerated = true;
+    this.httpClient.post(Constants.FREE_SCENE_GENERATOR_PATH, formValue).subscribe((response: ISceneVariables | string) => {
+      if (typeof response === "string") {
+        this.openSnackBar(response, Constants.SNACK_ACTION);
+      } else {
+        this.iSceneVariables = response;
+        this.isSceneGenerated = true;
+      }
 
     });
     this.isButtonEnabled = true;
     this.dialogRef.close();
   }
 
+  private openSnackBar(msg: string, action: string): void {
+    this.snackBar.open(msg, action, {
+      duration: Constants.SNACKBAR_DURATION,
+      verticalPosition: "top",
+    });
+  }
 }

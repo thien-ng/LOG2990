@@ -126,4 +126,8 @@ describe("Card-manager tests", () => {
         expect(messageTitle).to.equal("onError");
         mock.restore();
     });
+
+    it("Should return false when the title already exists", () => {
+        expect(cardManagerService.isSceneNameNew("Dylan QT")).to.equal(false);
+    });
 });

@@ -3,16 +3,23 @@ import * as spies from "chai-spies";
 import "reflect-metadata";
 import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
+import { Constants } from "../../constants";
+import { CardManagerService } from "../../services/card-manager.service";
+import { HighscoreService } from "../../services/highscore.service";
 import { SceneManager } from "../../services/scene/scene-manager.service";
 
 /* tslint:disable:no-any no-magic-numbers */
 
 let sceneManager: SceneManager;
 let formMessage: FormMessage;
+let cardManagerService: CardManagerService;
+let highscoreService: HighscoreService;
 
 beforeEach(() => {
     chai.use(spies);
-    sceneManager = new SceneManager();
+    highscoreService = new HighscoreService();
+    cardManagerService = new CardManagerService(highscoreService);
+    sceneManager = new SceneManager(cardManagerService);
 });
 
 describe("SceneManager Tests", () => {
@@ -40,9 +47,11 @@ describe("SceneManager Tests", () => {
             quantityChange: 10,
         };
 
-        const sceneVariables: ISceneVariables = sceneManager.createScene(formMessage);
+        const sceneVariables: string | ISceneVariables = sceneManager.createScene(formMessage);
 
-        chai.expect(sceneVariables.theme).equal(0);
+        if (typeof sceneVariables !== "string") {
+            chai.expect(sceneVariables.theme).to.be.equal(0);
+        }
     });
 
     it("should should receive Thematic theme string", () => {
@@ -68,9 +77,11 @@ describe("SceneManager Tests", () => {
             quantityChange: 10,
         };
 
-        const sceneVariables: ISceneVariables = sceneManager.createScene(formMessage);
+        const sceneVariables: string | ISceneVariables = sceneManager.createScene(formMessage);
 
-        chai.expect(sceneVariables.theme).equal(1);
+        if (typeof sceneVariables !== "string") {
+            chai.expect(sceneVariables.theme).to.be.equal(1);
+        }
     });
 
     it("should return scene variables with Geometric theme by default", () => {
@@ -81,8 +92,25 @@ describe("SceneManager Tests", () => {
             quantityChange: 10,
         };
 
-        const sceneVariables: ISceneVariables = sceneManager.createScene(formMessage);
+        const sceneVariables: string | ISceneVariables = sceneManager.createScene(formMessage);
 
-        chai.expect(sceneVariables.theme).equal(0);
+        if (typeof sceneVariables !== "string") {
+            chai.expect(sceneVariables.theme).to.be.equal(0);
+        }
+    });
+
+    it("should return an error message when a game with the same name exists", () => {
+
+        formMessage = {
+            gameName: "Dylan QT",
+            checkedTypes: [true, true, true],
+            theme: "Geometric",
+            quantityChange: 5,
+        };
+
+        const sceneVariables: ISceneVariables | string = sceneManager.createScene(formMessage);
+        if (typeof sceneVariables === "string") {
+            chai.expect(sceneVariables).to.equal(Constants.CARD_EXISTING);
+        }
     });
 });
