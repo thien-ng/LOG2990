@@ -13,21 +13,21 @@ const request2D: IGameRequest = {
     gameId: 100,
     type: GameType.singlePlayer,
     mode: GameMode.simple,
-}
+};
 
 const request3D: IGameRequest = {
     username: "Franky",
     gameId: 105,
     type: GameType.singlePlayer,
     mode: GameMode.free,
-}
+};
 
 const invalidRequest: IGameRequest = {
     username: "Frankette",
     gameId: 103,
     type: GameType.singlePlayer,
     mode: GameMode.invalid,
-}
+};
 
 beforeEach(() => {
     gameManagerService = new GameManagerService();
