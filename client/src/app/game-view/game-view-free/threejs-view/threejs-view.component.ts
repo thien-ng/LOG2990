@@ -3,7 +3,7 @@ import { AfterContentInit, Component, ElementRef, Inject, Input, ViewChild } fro
 import { MatSnackBar } from "@angular/material";
 import * as THREE from "three";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
-import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
+import { ISceneVariables, ISceneVariablesMessage } from "../../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../../common/communication/message";
 import { CardManagerService } from "../../../card/card-manager.service";
 import { Constants } from "../../../constants";
@@ -21,6 +21,9 @@ export class TheejsViewComponent implements AfterContentInit {
 
   @Input()
   private iSceneVariables: ISceneVariables;
+
+  @Input()
+  private iSceneVariablesMessage: ISceneVariablesMessage;
 
   @Input()
   private isSnapshotNeeded: boolean;
@@ -62,7 +65,7 @@ export class TheejsViewComponent implements AfterContentInit {
 
   private createMessage(image: string): ISceneMessage {
     return {
-      sceneVariable: this.iSceneVariables,
+      iSceneVariablesMessage: this.iSceneVariablesMessage,
       image: image,
     } as ISceneMessage;
   }
