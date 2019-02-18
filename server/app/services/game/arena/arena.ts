@@ -1,6 +1,7 @@
 import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { User } from "../../../../../common/communication/iUser";
-import { IArenaInfos, IHitConfirmation, IHitToValidate } from "./interfaces";
+import { DifferencesExtractor } from "./differencesExtractor";
+import { IArenaInfos, IHitConfirmation, IHitToValidate, IOriginalImageSegment } from "./interfaces";
 import { Player } from "./player";
 // import { Timer } from "./timer";
 
