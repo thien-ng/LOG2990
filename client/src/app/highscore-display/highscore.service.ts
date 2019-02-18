@@ -32,4 +32,7 @@ export class HighscoreService {
     });
   }
 
+  private validateId(id: number): boolean {
+    return id > 0;
+  }
 }
