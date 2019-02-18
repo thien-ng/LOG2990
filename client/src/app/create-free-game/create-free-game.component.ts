@@ -10,7 +10,7 @@ import {
   ValidatorFn
 } from "@angular/forms";
 import { MatDialogRef } from "@angular/material";
-import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
+import { ISceneVariablesMessage } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
 import { Constants } from "../constants";
 
@@ -47,9 +47,7 @@ export class CreateFreeGameComponent {
 
   public formControl: FormGroup;
   public isSceneGenerated: boolean;
-
-  // to be removed
-  public iSceneVariables: ISceneVariables;
+  public iSceneVariablesMessage: ISceneVariablesMessage;
 
   public modifTypes: {name: string}[] = [
       { name: this.EDIT_TYPE_ADD },
@@ -134,8 +132,8 @@ export class CreateFreeGameComponent {
     this.isButtonEnabled = false;
     const formValue: FormMessage = this.createFormMessage(formData);
 
-    this.httpClient.post(Constants.FREE_SCENE_GENERATOR_PATH, formValue).subscribe((response: ISceneVariables) => {
-      this.iSceneVariables = response;
+    this.httpClient.post(Constants.FREE_SCENE_GENERATOR_PATH, formValue).subscribe((response: ISceneVariablesMessage) => {
+      this.iSceneVariablesMessage = response;
       this.isSceneGenerated = true;
 
     });

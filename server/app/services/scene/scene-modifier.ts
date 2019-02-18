@@ -2,8 +2,12 @@ import { ISceneObject } from "../../../../common/communication/iSceneObject";
 import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
 import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { SceneBuilder } from "./scene-builder";
+import { SceneConstants } from "./sceneConstants";
 
 export class SceneModifier {
+
+    private readonly LIST_SELECTION_OPTIONS: string[] = ["add", "remove", "changeColor"];
+    private readonly NUMBER_ITERATION: number = 7;
 
     private sceneBuilder: SceneBuilder;
     private modifiedIndex: number[];
@@ -20,7 +24,7 @@ export class SceneModifier {
         this.sceneObjects = cloneSceneVariables.sceneObjects;
         this.sceneOptions = iSceneOptions;
 
-        for (let i = 0; i < 7; i++) {
+        for (let i: number = 0; i < this.NUMBER_ITERATION; i++) {
             const selectedOpstion: string = this.generateSelectedIndex(iSceneOptions.selectedOptions);
 
             this.chooseOperation(selectedOpstion);
@@ -35,33 +39,33 @@ export class SceneModifier {
     }
 
     private generateSelectedIndex(selectedOptions: boolean[]): string {
-        const listSelectionOption: string[] = ["add", "remove", "changeColor"];
-        let listSelected: string [] = [];
+        const listSelected: string [] = [];
 
-        selectedOptions.forEach((option, index) => {
+        selectedOptions.forEach((option: boolean, index: number) => {
             if (option) {
-                listSelected.push(listSelectionOption[index]);
+                listSelected.push(this.LIST_SELECTION_OPTIONS[index]);
             }
         });
         const maxIndex: number = listSelected.length - 1;
         const minIndex: number = 0;
         const generatedIndex: number = this.sceneBuilder.randomIntegerFromInterval(minIndex, maxIndex);
+
         return listSelected[generatedIndex];
     }
 
     private chooseOperation(selectedOption: string): void {
-        console.log(selectedOption);
+
         switch (selectedOption) {
 
-            case "add":
+            case SceneConstants.OPTION_ADD:
                 this.addObject();
                 break;
 
-            case "remove":
+            case SceneConstants.OPTION_REMOVE:
                 this.removeObject();
                 break;
 
-            case "changeColor":
+            case SceneConstants.OPTION_CHANGE_COLOR:
                 this.changeObjectColor();
                 break;
 
@@ -87,7 +91,7 @@ export class SceneModifier {
             generatedIndex = this.generateRandomIndex();
         } while (this.containsInModifedList(generatedIndex) || this.idNotExist(generatedIndex));
 
-        this.sceneObjects = this.sceneObjects.filter((object) => object.id !== generatedIndex);
+        this.sceneObjects = this.sceneObjects.filter((object: ISceneObject) => object.id !== generatedIndex);
 
     }
 
@@ -101,7 +105,7 @@ export class SceneModifier {
 
         this.modifiedIndex.push(generatedIndex);
 
-        this.sceneObjects.forEach((object) => {
+        this.sceneObjects.forEach((object: ISceneObject) => {
             if (object.id === generatedIndex) {
                 object.color = this.sceneBuilder.generateRandomColor();
             }
@@ -111,13 +115,14 @@ export class SceneModifier {
 
     private generateRandomIndex(): number {
         const lastObjectElement: ISceneObject = this.sceneObjects[this.sceneObjects.length - 1];
+
         return this.sceneBuilder.randomIntegerFromInterval(0, lastObjectElement.id);
     }
 
     private containsInModifedList(generatedIndex: number): boolean {
 
         let indexContains: boolean = false;
-        this.modifiedIndex.forEach((index) => {
+        this.modifiedIndex.forEach((index: number) => {
             if (index === generatedIndex) {
                 indexContains = true;
             }
@@ -129,7 +134,7 @@ export class SceneModifier {
     private idNotExist(generatedIndex: number): boolean {
 
         let idNotExist: boolean = true;
-        this.sceneObjects.forEach((object) => {
+        this.sceneObjects.forEach((object: ISceneObject) => {
             if (object.id === generatedIndex) {
                 idNotExist = false;
             }
@@ -140,6 +145,7 @@ export class SceneModifier {
 
     private clone(sceneVariables: ISceneVariables): ISceneVariables {
         const deepcopy = require("deepcopy");
+
         return deepcopy(sceneVariables);
     }
 

@@ -104,7 +104,7 @@ export class SceneBuilder {
         const sceneObjectsQuantity: number = sceneOptions.sceneObjectsQuantity;
 
         for (let index: number = 0; index < sceneObjectsQuantity; index++) {
-            const generatedObject: ISceneObject = this.generateRandomSceneObject(index, sceneOptions)
+            const generatedObject: ISceneObject = this.generateRandomSceneObject(index, sceneOptions);
             this.sceneVariables.sceneObjects.push(generatedObject);
         }
     }

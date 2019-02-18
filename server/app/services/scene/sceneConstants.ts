@@ -24,4 +24,9 @@ export class SceneConstants {
     public static readonly TYPE_CONE: string = "cone";
     public static readonly TYPE_CYLINDER: string = "cylinder";
     public static readonly TYPE_PYRAMID: string = "pyramid";
+
+    // Constants for scene-modifier.ts
+    public static readonly OPTION_ADD: string = "add";
+    public static readonly OPTION_REMOVE: string = "remove";
+    public static readonly OPTION_CHANGE_COLOR: string = "changeColor";
 }

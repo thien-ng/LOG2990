@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import { SceneObjectType } from "../../../../common/communication/iSceneObject";
 import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
-import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
+import { ISceneVariables, ISceneVariablesMessage } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
 import { SceneBuilder } from "./scene-builder";
 import { SceneModifier } from "./scene-modifier";
@@ -18,14 +18,16 @@ export class SceneManager {
         this.sceneModifier = new SceneModifier(this.sceneBuilder);
     }
 
-    public createScene(body: FormMessage): ISceneVariables {
+    public createScene(body: FormMessage): ISceneVariablesMessage {
 
         const iSceneOptions: ISceneOptions = this.sceneOptionsMapper(body);
-        const generateOriginalScene = this.sceneBuilder.generateScene(iSceneOptions);
-        const generateModifiedScene = this.sceneModifier.modifyScene(iSceneOptions, generateOriginalScene);
-        console.log(generateOriginalScene.sceneObjects);
-        console.log(generateModifiedScene.sceneObjects);
-        return generateOriginalScene;
+        const generatedOriginalScene: ISceneVariables = this.sceneBuilder.generateScene(iSceneOptions);
+        const generatedModifiedScene: ISceneVariables = this.sceneModifier.modifyScene(iSceneOptions, generatedOriginalScene);
+
+        return {
+            originalScene: generatedOriginalScene,
+            modifiedScene: generatedModifiedScene,
+        } as ISceneVariablesMessage;
     }
 
     private sceneOptionsMapper(body: FormMessage): ISceneOptions {
