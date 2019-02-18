@@ -54,6 +54,7 @@
 <div *ngIf="isSceneGenerated" style="display: none">
   <app-threejs-view [iSceneVariablesMessage]="iSceneVariablesMessage"
                     [iSceneVariables]="iSceneVariablesMessage.originalScene"
-                    [isSnapshotNeeded]="NEEDED_SNAPSHOT">
+                    [isSnapshotNeeded]="NEEDED_SNAPSHOT"
+                    [dialogRef]="dialogRef">
   </app-threejs-view>
 </div>

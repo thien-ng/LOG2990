@@ -56,7 +56,7 @@ export class CreateFreeGameComponent {
     ];
 
   public constructor(
-    private dialogRef: MatDialogRef<CreateFreeGameComponent>,
+    public dialogRef: MatDialogRef<CreateFreeGameComponent>,
     private formBuilder: FormBuilder,
     private httpClient: HttpClient,
     private snackBar: MatSnackBar,
@@ -143,7 +143,7 @@ export class CreateFreeGameComponent {
 
     });
     this.isButtonEnabled = true;
-    this.dialogRef.close();
+    // this.dialogRef.close();
   }
 
   private openSnackBar(msg: string, action: string): void {

@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, ElementRef, Inject, Input, OnChanges, ViewChild } from "@angular/core";
-import { MatSnackBar } from "@angular/material";
+import { MatDialogRef, MatSnackBar } from "@angular/material";
 import * as THREE from "three";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
 import { ISceneVariables, ISceneVariablesMessage } from "../../../../../../common/communication/iSceneVariables";
@@ -8,6 +8,7 @@ import { Message } from "../../../../../../common/communication/message";
 import { CardManagerService } from "../../../card/card-manager.service";
 import { Constants } from "../../../constants";
 import { ThreejsViewService } from "./threejs-view.service";
+import { CreateFreeGameComponent } from "../../../create-free-game/create-free-game.component";
 
 @Component({
   selector: "app-threejs-view",
@@ -25,6 +26,9 @@ export class TheejsViewComponent implements OnChanges {
 
   @Input()
   private iSceneVariablesMessage: ISceneVariablesMessage;
+
+  @Input()
+  public dialogRef: MatDialogRef<CreateFreeGameComponent>;
 
   @Input()
   private isSnapshotNeeded: boolean;
@@ -50,11 +54,12 @@ export class TheejsViewComponent implements OnChanges {
 
   private initScene(): void {
 
-    this.renderer = this.threejsViewService.getRenderer();
+    this.renderer = new THREE.WebGLRenderer();
     this.originalScene.nativeElement.appendChild(this.renderer.domElement);
-    this.threejsViewService.createScene(this.scene, this.iSceneVariables);
+    this.threejsViewService.createScene(this.scene, this.iSceneVariables, this.renderer);
     this.threejsViewService.animate();
 
+    // this.dialogRef.close();
     this.takeSnapShot();
   }
 

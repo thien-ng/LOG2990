@@ -25,11 +25,11 @@ export class ThreejsViewService {
 
   private init(): void {
     this.camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 100);
-    this.renderer = new THREE.WebGLRenderer();
     this.ambLight = new THREE.AmbientLight(0xEA6117, 0.4);
   }
 
-  public createScene(scene: THREE.Scene, iSceneVariables: ISceneVariables): void {
+  public createScene(scene: THREE.Scene, iSceneVariables: ISceneVariables, renderer: THREE.WebGLRenderer): void {
+    this.renderer = renderer;
     this.scene = scene;
     this.threejsGenerator = new ThreejsGenerator(this.scene);
     this.sceneVariable = iSceneVariables;
