@@ -81,7 +81,7 @@ export class Arena {
         };
     }
 
-    public async playerClickHandler(posX: number, posY: number): Promise<IHitConfirmation> {
+    public async validateHit(posX: number, posY: number): Promise<IHitConfirmation> {
 
         const axios:        AxiosInstance       = require("axios");
         const postData:     IHitToValidate      = this.buildPostData(posX, posY);
@@ -89,12 +89,10 @@ export class Arena {
 
         return axios.post(URL_HIT_VALIDATOR, postData, postConfig)
             .then((res: AxiosResponse) => {
-                // console.log("RESPONSE RECEIVED: ", res.data);
-
                 return res.data;
             })
             .catch((err: AxiosError) => {
-                // console.log("AXIOS ERROR: ", err);
+                throw new TypeError("Problem during Hit Validation process.");
             });
     }
 
@@ -103,13 +101,3 @@ export class Arena {
     }
 
 }
-// const aInfos: IArenaInfos = {
-//     arenaId:            1234,
-//     users:              [],
-//     originalGameUrl:    "http://localhost:3000/image/1_original.bmp",
-//     differenceGameUrl:  "http://localhost:3000/image/1_generated.bmp",
-// };
-
-// const arena: Arena = new Arena(aInfos);
-// const confirm: Promise<IHitConfirmation> = arena.getAnswer(367, 163);
-// console.log("CONFIRM : " + confirm);
