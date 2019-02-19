@@ -17,8 +17,7 @@ export class HitValidatorController {
         router.post("/", async (req: Request, res: Response, next: NextFunction) => {
 
             const hitToValidate: IHitToValidate = {
-                posX: req.body.posX,
-                posY: req.body.posY,
+                position: req.body.position,
                 imageUrl: String(req.body.imageUrl),
                 colorToIgnore: req.body.colorToIgnore,
             };
