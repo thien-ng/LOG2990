@@ -30,6 +30,20 @@ export class Arena {
         this.createPlayers();
     }
 
+    public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {
+
+        const axios:        AxiosInstance       = require("axios");
+        const postData:     IHitToValidate      = this.buildPostData(position);
+        const postConfig:   AxiosRequestConfig  = this.buildPostConfig();
+
+        return axios.post(URL_HIT_VALIDATOR, postData, postConfig)
+            .then((res: AxiosResponse) => {
+                return res.data;
+            })
+            .catch((err: AxiosError) => {
+                throw new TypeError("Problem during Hit Validation process.");
+            });
+    }
     public async prepareArenaForGameplay(): Promise<void> {
         await this.extractOriginalImageSegments();
         // set timer
