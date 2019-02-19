@@ -18,38 +18,38 @@ export class AssetManagerService {
     }
 
     public stockImage(path: string, buffer: Buffer): void {
-        fs.writeFile(path, Buffer.from(buffer), (error: Error) => {
-            if (error) {
-                throw TypeError(FILE_GENERATION_ERROR);
-            }
-        });
+        try {
+            fs.writeFileSync(path, Buffer.from(buffer));
+        } catch (error) {
+        throw TypeError(FILE_GENERATION_ERROR);
+        }
     }
 
     public deleteStoredImages(paths: string[]): void {
         paths.forEach((path: string) => {
-            fs.unlink(path, (error: Error) => {
-                if (error) {
-                    throw TypeError(FILE_DELETION_ERROR);
-                }
-            });
+           try {
+            fs.unlinkSync(path);
+           } catch (error) {
+               throw TypeError(FILE_DELETION_ERROR);
+           }
         });
     }
 
     public saveImage(path: string, image: string): void {
 
         const base64Image: string | undefined = image.split(";base64,").pop();
-        fs.writeFile(path, base64Image, {encoding: "base64"}, (error: Error) => {
-            if (error) {
+        try {
+            fs.writeFileSync(path, base64Image, {encoding: "base64"});
+        } catch (error) {
                 throw TypeError(FILE_GENERATION_ERROR);
-            }
-        });
+        }
     }
 
     public saveGeneratedScene(path: string, data: string): void {
-        fs.writeFile(path, data, (error: Error) => {
-            if (error) {
+        try {
+            fs.writeFileSync(path, data);
+        } catch (error) {
                 throw TypeError(FILE_SAVING_ERROR);
             }
-        });
     }
 }
