@@ -24,7 +24,7 @@ let sceneVariables: ISceneVariables = {
 let renderer: THREE.WebGLRenderer = mock(THREE.WebGLRenderer);
 let scene: THREE.Scene = mock(THREE.Scene);
 
-fdescribe("ThreejsViewService Tests", () => {
+describe("ThreejsViewService Tests", () => {
   beforeEach(() => TestBed.configureTestingModule({
     providers: [ThreejsViewService],
   }));
