@@ -56,10 +56,25 @@ export class GameManagerService {
         }
     }
 
-    private create2DArena(): Message {
+    private async create2DArena(user: User, gameId: number): Promise<Message> {
+
+        const arenaInfo: IArenaInfos = this.buildArenaInfos(user, gameId);
+        const newArena: Arena = new Arena(arenaInfo);
+        await newArena.prepareArenaForGameplay();
+        this.arenas.set(arenaInfo.arenaId, newArena);
+
         return {
-            title: Constants.ON_SUCCESS_MESSAGE,
-            body: ARENA_CREATED,
+            title:  Constants.ON_SUCCESS_MESSAGE,
+            body:   arenaInfo.arenaId.toString(),
+        };
+    }
+
+    private buildArenaInfos(user: User, gameId: number): IArenaInfos {
+        return {
+            arenaId:            this.generateArenaID(),
+            users:              [user],
+            originalGameUrl:    Constants.PATH_TO_IMAGES + gameId + Constants.ORIGINAL_FILE,
+            differenceGameUrl:  Constants.PATH_TO_IMAGES + gameId + Constants.GENERATED_FILE,
         };
     }
 
