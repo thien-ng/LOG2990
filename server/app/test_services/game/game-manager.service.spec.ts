@@ -5,8 +5,10 @@ import { GameMode } from "../../../../common/communication/iCard";
 import { GameType, IGameRequest } from "../../../../common/communication/iGameRequest";
 import { Message } from "../../../../common/communication/message";
 import { GameManagerService } from "../../services/game/game-manager.service";
+import { UserManagerService } from "../../services/user-manager.service";
 
 let gameManagerService: GameManagerService;
+let userManagerService: UserManagerService;
 
 const request2D: IGameRequest = {
     username: "Frank",
@@ -30,7 +32,8 @@ const invalidRequest: IGameRequest = {
 };
 
 beforeEach(() => {
-    gameManagerService = new GameManagerService();
+    userManagerService = new UserManagerService();
+    gameManagerService = new GameManagerService(userManagerService);
 });
 
 describe("GameManagerService tests", () => {
