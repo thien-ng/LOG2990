@@ -1,19 +1,31 @@
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 import { GameMode } from "../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../common/communication/iGameRequest";
+import { User } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
 import { Constants } from "../../constants";
+import Types from "../../types";
+import { UserManagerService } from "../user-manager.service";
+import { Arena } from "./arena/arena";
+import { IArenaInfos, IPlayerInput, IPlayerInputReponse } from "./arena/interfaces";
 
-const ARENA_CREATED: string = "Arène Créée";
+// const ARENA_CREATED: string = "Arène Créée";
 const REQUEST_ERROR_MESSAGE: string = "Game mode invalide";
+const ARENA_START_ID: number = 1000;
 
 @injectable()
 export class GameManagerService {
 
-    private playerList: string [];
+    private arenaID: number;
+    private playerList: string[];
+    private arenas: Map<number, Arena>;
+    // private userLobby: IGameRequest[];
 
-    public constructor() {
+    public constructor(@inject(Types.UserManagerService) private userManagerService: UserManagerService) {
         this.playerList = [];
+        this.arenas = new Map<number, Arena>();
+        // this.userLobby = [];
+        this.arenaID = ARENA_START_ID;
     }
 
     public analyseRequest(request: IGameRequest): Message {
