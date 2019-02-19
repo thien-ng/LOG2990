@@ -1,3 +1,5 @@
+import { IPosition2D } from "../game/arena/interfaces";
+
 export interface IImageToCache {
     imageUrl:   string;
     buffer:     Buffer;
@@ -9,8 +11,7 @@ export interface ICacheElement {
 }
 
 export interface IHitToValidate {
-    posX:               number;
-    posY:               number;
+    position:      IPosition2D;
     imageUrl:           string;
     colorToIgnore:    number[];
 }
