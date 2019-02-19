@@ -44,6 +44,23 @@ export class Arena {
                 throw new TypeError("Problem during Hit Validation process.");
             });
     }
+
+    public async onPlayerInput(playerInput: IPlayerInput, user: User): Promise<IPlayerInputReponse> {
+        switch (playerInput.event) {
+            case "onClick":
+                return this.onPlayerClick(playerInput.position, user);
+                break;
+
+             case "onPause":
+             // todo
+            default:
+                return {
+                    status: "onError",
+                    response: "Undefined player event",
+                };
+                break;
+        }
+    }
     public async prepareArenaForGameplay(): Promise<void> {
         await this.extractOriginalImageSegments();
         // set timer
