@@ -99,11 +99,6 @@ export class GameViewFreeComponent implements OnInit {
           sceneObjectsQuantity: variables.originalScene.sceneObjectsQuantity,
         };
         this.modifiedVariables = {
-          theme: variables.theme,
-          gameName: variables.gameName,
-          sceneBackgroundColor: variables.sceneBackgroundColor,
-          sceneObjects: variables.sceneObjects,
-          sceneObjectsQuantity: variables.sceneObjectsQuantity,
         };
         this.modifiedLoaded = true;
       }).catch((error) => {
