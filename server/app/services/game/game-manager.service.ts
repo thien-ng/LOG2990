@@ -28,22 +28,31 @@ export class GameManagerService {
         this.arenaID = ARENA_START_ID;
     }
 
-    public analyseRequest(request: IGameRequest): Message {
-        switch (request.mode) {
-            case GameMode.simple:
-                return this.create2DArena();
-                break;
+    public async analyseRequest(request: IGameRequest): Message {
+        // todo -> manage multiplyer request
+        const user: User | string = this.userManagerService.getUserByUsername(request.username);
+        if (typeof user === "string") {
+            return {
+                title: Constants.ON_ERROR_MESSAGE,
+                body: Constants.USER_NOT_FOUND,
+            };
+        } else {
+            switch (request.mode) {
+                case GameMode.simple:
+                    return this.create2DArena(user, request.gameId);
+                    break;
 
-            case GameMode.free:
-                return this.create3DArena(request);
-                break;
+                case GameMode.free:
+                    return this.create3DArena(request);
+                    break;
 
-            default:
-                return {
-                    title: Constants.ON_ERROR_MESSAGE,
-                    body: REQUEST_ERROR_MESSAGE,
-                };
-                break;
+                default:
+                    return {
+                        title: Constants.ON_ERROR_MESSAGE,
+                        body: REQUEST_ERROR_MESSAGE,
+                    };
+                    break;
+            }
         }
     }
 
