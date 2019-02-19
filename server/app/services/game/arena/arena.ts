@@ -95,17 +95,6 @@ export class Arena {
 
     public async prepareArenaForGameplay(): Promise<void> {
         await this.extractOriginalImageSegments();
-        // set timer
-        console.log("Lenght du array d'images : " + this.originalImageSegments.length);
-
-        this.originalImageSegments.forEach((image: IOriginalImageSegment, index: number) => {
-            console.log("\nImage #" + (index + 1));
-            console.log("Start position : (" + image.startPosition.x + ", " + image.startPosition.y + ")");
-            console.log("Width : " + image.width);
-            console.log("Height : " + image.height);
-
-        });
-        // return this.originalImageSegments;
     }
 
     private async extractOriginalImageSegments(): Promise<void> {
