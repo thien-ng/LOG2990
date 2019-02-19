@@ -69,16 +69,14 @@ export class Arena {
     }
 
     private async onPlayerClick(position: IPosition2D, user: User): Promise<IPlayerInputReponse> {
+        const numberOfErrorsFound: number = this.originalImageSegments.length;
+
         return this.validateHit(position)
         .then((hitConfirmation: IHitConfirmation) => {
             if (hitConfirmation.isAHit) {
-                console.log("numero derreur: " + hitConfirmation.hitPixelColor[0]);
-                console.log("couleur : " + hitConfirmation.hitPixelColor);
-                console.log("Hit Confirmation : " + hitConfirmation);
-
                 return {
                     status: Constants.ON_SUCCESS_MESSAGE,
-                    response: this.originalImageSegments[6 - hitConfirmation.hitPixelColor[0]],
+                    response: this.originalImageSegments[(numberOfErrorsFound - 1) - hitConfirmation.hitPixelColor[0]],
                 };
             }
 
