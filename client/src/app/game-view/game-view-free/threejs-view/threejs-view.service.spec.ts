@@ -23,7 +23,7 @@ import { ThreejsViewService } from "./threejs-view.service";
 //   sceneBackgroundColor: "#FFFFFF",
 // }
 
-fdescribe("ThreejsViewService Tests", () => {
+describe("ThreejsViewService Tests", () => {
   beforeEach(() => TestBed.configureTestingModule({
     providers: [ThreejsViewService],
   }));
