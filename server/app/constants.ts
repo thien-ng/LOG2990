@@ -46,4 +46,10 @@ export class Constants {
   // Constants for card-manager-controller
   public static readonly DEFAULT_CARD_ID:           number = 1;
   public static readonly DELETION_ERROR_MESSAGE:    string = "Impossible de supprimer la carte par défault";
+
+  // Constants for game manager
+  public static readonly PATH_TO_IMAGES:             string = Constants.BASE_URL + "/image/";
+
+  // Constants for user manager service
+  public static readonly USER_NOT_FOUND:            string = "Utilisateur inexistant";
 }
