@@ -125,10 +125,9 @@ export class Arena {
         });
     }
 
-    private buildPostData(posX: number, posY: number): IHitToValidate {
+    private buildPostData(position: IPosition2D): IHitToValidate {
         return {
-            posX:               posX,
-            posY:               posY,
+            position:           position,
             imageUrl:           this.arenaInfos.differenceGameUrl,
             colorToIgnore:      WHITE,
         };
