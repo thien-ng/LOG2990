@@ -74,6 +74,11 @@ export class GameViewFreeComponent implements OnInit {
     });
   }
 
+  private async fetchSceneFromServer(path: string): Promise<void> {
+    fetch(path).then((response) => {
+      this.loadFileInObject(response)
+      // (index === 0) ? this.loadFileInObject(response) : this.loadFileInObject1(response)
+      .catch((error) => {
         this.openSnackBar(error, Constants.SNACK_ACTION);
       });
     }
