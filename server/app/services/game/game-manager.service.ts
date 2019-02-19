@@ -11,6 +11,7 @@ import { IArenaInfos, IPlayerInput, IPlayerInputReponse } from "./arena/interfac
 
 // const ARENA_CREATED: string = "Arène Créée";
 const REQUEST_ERROR_MESSAGE: string = "Game mode invalide";
+// const ERROR_2D_ARENA: string = "Erreur survenue lors de la création d'une arène 2D.";
 const ARENA_START_ID: number = 1000;
 
 @injectable()
@@ -28,29 +29,28 @@ export class GameManagerService {
         this.arenaID = ARENA_START_ID;
     }
 
-    public async analyseRequest(request: IGameRequest): Message {
-        // todo -> manage multiplyer request
+    private returnError(errorMessage: string): Message {
+        return {
+            title: Constants.ON_ERROR_MESSAGE,
+            body: errorMessage,
+        };
+    }
+
+    // todo -> manage multiplyer request
+    public async analyseRequest(request: IGameRequest): Promise<Message> {
         const user: User | string = this.userManagerService.getUserByUsername(request.username);
         if (typeof user === "string") {
-            return {
-                title: Constants.ON_ERROR_MESSAGE,
-                body: Constants.USER_NOT_FOUND,
-            };
+            return this.returnError(Constants.USER_NOT_FOUND + 0);
         } else {
             switch (request.mode) {
                 case GameMode.simple:
                     return this.create2DArena(user, request.gameId);
                     break;
-
                 case GameMode.free:
                     return this.create3DArena(request);
                     break;
-
                 default:
-                    return {
-                        title: Constants.ON_ERROR_MESSAGE,
-                        body: REQUEST_ERROR_MESSAGE,
-                    };
+                    return this.returnError(REQUEST_ERROR_MESSAGE);
                     break;
             }
         }
@@ -86,10 +86,6 @@ export class GameManagerService {
             body: path,
         };
     }
-
-    // private deleteArena(arenaId:  number): void {
-    //     this.arenas.delete(arenaId);
-    // }
 
     private generateArenaID(): number {
         return this.arenaID++;
