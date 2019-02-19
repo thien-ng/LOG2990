@@ -74,20 +74,6 @@ export class GameViewFreeComponent implements OnInit {
     });
   }
 
-  private async loadFileInObject(response: Response): Promise<void> {
-    if (response.status !== Constants.SUCCESS_STATUS) {
-      this.openSnackBar(response.statusText, Constants.SNACK_ACTION);
-    } else {
-      await response.json().then((variables: ISceneVariables) => {
-        this.originalVariables = {
-          theme: variables.theme,
-          gameName: variables.gameName,
-          sceneBackgroundColor: variables.sceneBackgroundColor,
-          sceneObjects: variables.sceneObjects,
-          sceneObjectsQuantity: variables.sceneObjectsQuantity,
-        };
-        this.originalLoaded = true;
-      }).catch((error) => {
         this.openSnackBar(error, Constants.SNACK_ACTION);
       });
     }
