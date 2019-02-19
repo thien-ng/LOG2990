@@ -100,8 +100,8 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
   private neededRedirection(): void {
     const isLoggedAfterInit: boolean = this.compteurInit++ > this.MAX_VALUE_INIT;
     const isLogged: boolean = this.client == null;
-    const notAdminPath: boolean = this.router.url !== this.ADMIN_PATH;
-    if ( isLoggedAfterInit && isLogged && notAdminPath) {
+    const isNotAdminPath: boolean = this.router.url !== this.ADMIN_PATH;
+    if ( isLoggedAfterInit && isLogged && isNotAdminPath) {
       this.router.navigateByUrl(this.LOGIN_PATH).catch((error) => this.openSnackBar(error, Constants.SNACK_ACTION));
     }
   }
