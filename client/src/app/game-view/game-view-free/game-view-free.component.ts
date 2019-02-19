@@ -67,6 +67,7 @@ export class GameViewFreeComponent implements OnInit {
     this.httpClient.post(Constants.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
       const path: string = JSON.parse(data.body);
 
+      this.fetchSceneFromServer(path)
       .catch((error) => {
         this.openSnackBar(error, Constants.SNACK_ACTION);
       });
