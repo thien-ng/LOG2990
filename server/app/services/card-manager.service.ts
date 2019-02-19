@@ -3,7 +3,7 @@ import { inject, injectable } from "inversify";
 import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
 import { ISceneMessage } from "../../../common/communication/iSceneMessage";
-import { ISceneVariables } from "../../../common/communication/iSceneVariables";
+import { ISceneVariablesMessage } from "../../../common/communication/iSceneVariables";
 import { Message } from "../../../common/communication/message";
 import { Constants } from "../constants";
 import Types from "../types";
@@ -71,11 +71,8 @@ export class CardManagerService {
         const sceneImage: string = "/" + cardId + Constants.SCENE_SNAPSHOT;
         this.imageManagerService.saveImage(Constants.IMAGES_PATH + sceneImage, body.image);
 
-        const sceneOriginal: string = Constants.SCENE_PATH + "/" + cardId + Constants.ORIGINAL_SCENE_FILE;
-        const sceneModified: string = Constants.SCENE_PATH + "/" + cardId + Constants.MODIFIED_SCENE_FILE;
-
-        this.saveSceneJson(body.iSceneVariablesMessage.originalScene, sceneOriginal);
-        this.saveSceneJson(body.iSceneVariablesMessage.modifiedScene, sceneModified);
+        const scenesPath: string = Constants.SCENE_PATH + "/" + cardId + Constants.SCENES_FILE;
+        this.saveSceneJson(body.iSceneVariablesMessage, scenesPath);
 
         const cardReceived: ICard = {
             gameID: cardId,
@@ -89,7 +86,7 @@ export class CardManagerService {
         return this.generateMessage(cardReceived);
     }
 
-    private saveSceneJson(body: ISceneVariables, path: string): void {
+    private saveSceneJson(body: ISceneVariablesMessage, path: string): void {
         const sceneObject: string = JSON.stringify(body);
         this.imageManagerService.saveGeneratedScene(path, sceneObject);
     }
@@ -267,8 +264,7 @@ export class CardManagerService {
 
         const paths: string[] = [
             Constants.IMAGES_PATH + "/" + id + Constants.GENERATED_SNAPSHOT,
-            Constants.SCENE_PATH + "/" + id + Constants.ORIGINAL_SCENE_FILE,
-            Constants.SCENE_PATH + "/" + id + Constants.MODIFIED_SCENE_FILE,
+            Constants.SCENE_PATH + "/" + id + Constants.SCENES_FILE,
         ];
         try {
             this.imageManagerService.deleteStoredImages(paths);
