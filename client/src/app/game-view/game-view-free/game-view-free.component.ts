@@ -105,7 +105,7 @@ export class GameViewFreeComponent implements OnInit {
           sceneObjects: variables.modifiedScene.sceneObjects,
           sceneObjectsQuantity: variables.modifiedScene.sceneObjectsQuantity,
         };
-        this.modifiedLoaded = true;
+        this.originalLoaded = true;
       }).catch((error) => {
         this.openSnackBar(error, Constants.SNACK_ACTION);
       });
