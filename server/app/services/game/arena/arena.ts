@@ -26,6 +26,7 @@ export class Arena {
     private originalImageSegments: IOriginalImageSegment[];
 
     public constructor(private arenaInfos: IArenaInfos) {
+        this._players = [];
         this.createPlayers();
     }
 
