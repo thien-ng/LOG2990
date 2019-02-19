@@ -86,7 +86,7 @@ export class GameViewFreeComponent implements OnInit {
     });
   }
 
-  private async loadFileInObject1(response: Response): Promise<void> {
+  private async loadFileInObject(response: Response): Promise<void> {
     if (response.status !== Constants.SUCCESS_STATUS) {
       this.openSnackBar(response.statusText, Constants.SNACK_ACTION);
     } else {
