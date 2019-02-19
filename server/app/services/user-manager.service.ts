@@ -1,5 +1,6 @@
 import { injectable } from "inversify";
 import { User } from "../../../common/communication/iUser";
+import { Constants } from "../constants";
 
 @injectable()
 export class UserManagerService {
@@ -45,6 +46,14 @@ export class UserManagerService {
         }
 
         return false;
+    }
+
+    public getUserByUsername(username: string): User | string {
+        const foundUser: User =  this.users.filter((user: User) => {
+            return user.username === username;
+        })[0];
+
+        return (foundUser) ? foundUser : Constants.USER_NOT_FOUND;
     }
 
     public leaveBrowser(user: User): void {
