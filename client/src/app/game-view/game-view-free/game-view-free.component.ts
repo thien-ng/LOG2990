@@ -81,7 +81,9 @@ export class GameViewFreeComponent implements OnInit {
       .catch((error) => {
         this.openSnackBar(error, Constants.SNACK_ACTION);
       });
-    }
+    }).catch((error) => {
+      this.openSnackBar(error, Constants.SNACK_ACTION);
+    });
   }
 
   private async loadFileInObject1(response: Response): Promise<void> {
