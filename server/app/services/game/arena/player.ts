@@ -15,11 +15,15 @@ export class Player {
         }
     }
 
-    public getUserSocketId(): string {
+    public get userSocketId(): string {
         return this.user.socketID;
     }
 
-    public getPoints(): number {
+    public get username(): string {
+        return this.user.username;
+    }
+
+    public get points(): number {
         return this._points;
     }
 }
