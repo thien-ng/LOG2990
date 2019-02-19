@@ -100,10 +100,25 @@ export class GameManagerService {
     }
 
     public unsubscribeSocketID(socketID: string): void {
-        this.playerList = this.playerList.filter( (element: String) => element !== socketID);
+        this.playerList = this.playerList.filter((element: String) => element !== socketID);
     }
 
-    public get userList(): string [] {
+    public get userList(): string[] {
         return this.playerList;
+    }
+
+    public async onPlayerInput(playerInput: IPlayerInput): Promise<IPlayerInputReponse>  {
+        const arena: Arena | undefined = this.arenas.get(playerInput.arenaId);
+        const user: User | string = this.userManagerService.getUserByUsername(playerInput.username);
+        if (arena && typeof user !== "string") {
+            if (arena.contains(user)) {
+                return arena.onPlayerInput(playerInput, user);
+            }
+        }
+
+        return {
+            status: "onError",
+            response: "response",
+        };
     }
 }
