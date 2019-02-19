@@ -5,7 +5,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Constants } from "src/app/constants";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { GameType, IGameRequest } from "../../../../../common/communication/iGameRequest";
-import { ISceneVariables } from "../../../../../common/communication/iSceneVariables";
+import { ISceneVariables, ISceneVariablesMessage } from "../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../common/communication/message";
 @Component({
   selector: "app-game-view-free",
