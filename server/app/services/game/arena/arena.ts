@@ -61,6 +61,13 @@ export class Arena {
                 break;
         }
     }
+
+    public contains(user: User): boolean {
+        return this._players.some((player: Player) => {
+            return player.username === user.username;
+        });
+    }
+
     public async prepareArenaForGameplay(): Promise<void> {
         await this.extractOriginalImageSegments();
         // set timer
