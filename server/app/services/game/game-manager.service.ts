@@ -44,8 +44,7 @@ export class GameManagerService {
 
     private create3DArena(request: IGameRequest): Message {
         const paths: string = JSON.stringify([
-            Constants.BASE_URL + "/scene/" + request.gameId + Constants.ORIGINAL_SCENE_FILE,
-            Constants.BASE_URL + "/scene/" + request.gameId + Constants.MODIFIED_SCENE_FILE,
+            Constants.BASE_URL + "/scene/" + request.gameId + Constants.SCENES_FILE,
         ]);
 
         return {
