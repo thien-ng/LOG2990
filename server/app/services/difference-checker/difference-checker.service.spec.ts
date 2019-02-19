@@ -52,5 +52,29 @@ describe("Difference checker service tests", () => {
         expect(result).to.deep.equal(expectedMessage);
     });
 
+    it("Should return an error of wrong image dimensions", () => {
 
+        const testImageDiff2:   Buffer = fs.readFileSync(path.resolve(__dirname, "./tests/testBitmap/image9x9_01.bmp"));
+        const testImageOg2:     Buffer = fs.readFileSync(path.resolve(__dirname, "./tests/testBitmap/image9x9_02.bmp"));
+
+        const requirements: ImageRequirements = {
+            requiredHeight: 480,
+            requiredWidth: 640,
+            requiredNbDiff: 7,
+            originalImage: testImageOg2,
+            modifiedImage: testImageDiff2,
+        };
+
+        const expectedMessage: Message = {
+            title: "onError",
+            body: Constants.ERROR_IMAGES_DIMENSIONS,
+        };
+
+        const result: Message | Buffer = differenceCheckerService.generateDifferenceImage(requirements);
+        expect(result).to.deep.equal(expectedMessage);
+    });
+
+        const result: Message | Buffer = differenceCheckerService.generateDifferenceImage(requirements);
+        expect(result).to.deep.equal(expectedMessage);
+    });
 });
