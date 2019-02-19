@@ -59,10 +59,6 @@ export class ThreejsViewService {
     this.renderObject();
   }
 
-  public getRenderer(): THREE.WebGLRenderer {
-    return this.renderer;
-  }
-
   private renderObject(): void {
     const speed: number = Date.now() * 0.001;
 
