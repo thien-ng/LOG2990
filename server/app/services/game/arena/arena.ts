@@ -142,21 +142,6 @@ export class Arena {
         };
     }
 
-    public async validateHit(posX: number, posY: number): Promise<IHitConfirmation> {
-
-        const axios:        AxiosInstance       = require("axios");
-        const postData:     IHitToValidate      = this.buildPostData(posX, posY);
-        const postConfig:   AxiosRequestConfig  = this.buildPostConfig();
-
-        return axios.post(URL_HIT_VALIDATOR, postData, postConfig)
-            .then((res: AxiosResponse) => {
-                return res.data;
-            })
-            .catch((err: AxiosError) => {
-                throw new TypeError("Problem during Hit Validation process.");
-            });
-    }
-
     public getPlayers(): Player[] {
         return this._players;
     }
