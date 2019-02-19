@@ -30,10 +30,10 @@ fdescribe("ThreejsViewService Tests", () => {
   }));
 
   it("should create scene", inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
-    // spyOn<any>(threejsViewService, "generateSceneObjects");
+    const spy = spyOn<any>(threejsViewService, "generateSceneObjects");
     threejsViewService.createScene(scene, sceneVariables, renderer);
     threejsViewService.animate();
-    // expect(threejsViewService).toBeTruthy();
+    expect(spy).toHaveBeenCalled();
   }));
 
 });
