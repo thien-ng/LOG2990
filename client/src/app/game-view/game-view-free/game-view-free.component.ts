@@ -67,20 +67,6 @@ export class GameViewFreeComponent implements OnInit {
     this.httpClient.post(Constants.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
       const path: string = JSON.parse(data.body);
 
-      fetch(paths[0]).then((response) => {
-        this.loadFileInObject(response)
-        .catch((error) => {
-          this.openSnackBar(error, Constants.SNACK_ACTION);
-        });
-      })
-      .then (() => {
-        fetch(paths[1]).then((response) => {
-          this.loadFileInObject1(response)
-          .catch((error) => {
-            this.openSnackBar(error, Constants.SNACK_ACTION);
-          });
-        })
-      })
       .catch((error) => {
         this.openSnackBar(error, Constants.SNACK_ACTION);
       });
