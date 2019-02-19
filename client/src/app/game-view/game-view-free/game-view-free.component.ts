@@ -65,7 +65,7 @@ export class GameViewFreeComponent implements OnInit {
 
   private handleGameRequest(): void {
     this.httpClient.post(Constants.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
-      const paths: string[] = JSON.parse(data.body);
+      const path: string = JSON.parse(data.body);
 
       fetch(paths[0]).then((response) => {
         this.loadFileInObject(response)
