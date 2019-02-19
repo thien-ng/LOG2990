@@ -1,8 +1,7 @@
 import { User } from "../../../../../common/communication/iUser";
 
 export interface IHitToValidate {
-    posX:               number;
-    posY:               number;
+    position:      IPosition2D;
     imageUrl:           string;
     colorToIgnore:    number[];
 }
@@ -26,7 +25,7 @@ export interface IPosition2D {
 
 export interface IOriginalPixelsFound {
     position: IPosition2D;
-    color:  number[];
+    color:       number[];
 }
 
 export interface IOriginalImageSegment {
@@ -34,4 +33,16 @@ export interface IOriginalImageSegment {
     width:      number;
     height:     number;
     image:      Buffer;
+}
+
+export interface IPlayerInputReponse {
+    status:         string;
+    response:       IOriginalImageSegment | string;
+}
+
+export interface IPlayerInput {
+    event:      string;
+    arenaId:    number;
+    username:   string;
+    position:   IPosition2D;
 }
