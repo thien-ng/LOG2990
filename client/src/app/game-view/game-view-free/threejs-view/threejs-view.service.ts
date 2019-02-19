@@ -34,7 +34,6 @@ export class ThreejsViewService {
     this.sceneVariable = iSceneVariables;
     this.threejsGenerator = new ThreejsGenerator(this.scene);
     this.renderer.setSize(640, 480);
-    this.scene.add(this.ambLight);
     this.renderer.setClearColor(this.sceneVariable.sceneBackgroundColor);
     this.createLighting();
     this.generateSceneObjects();
@@ -52,6 +51,7 @@ export class ThreejsViewService {
 
     this.scene.add(firstLight);
     this.scene.add(secondLight);
+    this.scene.add(this.ambLight);
   }
 
   public animate(): void {

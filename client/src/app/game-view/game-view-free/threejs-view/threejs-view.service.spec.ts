@@ -29,11 +29,17 @@ fdescribe("ThreejsViewService Tests", () => {
     providers: [ThreejsViewService],
   }));
 
-  it("should create scene", inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+  it("should generate object in scene", inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
     const spy = spyOn<any>(threejsViewService, "generateSceneObjects");
     threejsViewService.createScene(scene, sceneVariables, renderer);
-    threejsViewService.animate();
     expect(spy).toHaveBeenCalled();
   }));
+
+  it("should add lighting in scene", inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+    const spy = spyOn<any>(threejsViewService, "createLighting");
+    threejsViewService.createScene(scene, sceneVariables, renderer);
+    expect(spy).toHaveBeenCalled();
+  }));
+
 
 });
