@@ -1,5 +1,6 @@
 import { AxiosInstance, AxiosResponse } from "axios";
 import { injectable } from "inversify";
+import { IPosition2D } from "../game/arena/interfaces";
 import { Cache } from "./cache";
 import { IHitConfirmation, IHitToValidate, IImageToCache } from "./interfaces";
 
@@ -30,7 +31,7 @@ export class HitValidatorService {
             buffer = await this.getImageFromUrl(hitToValidate.imageUrl);
             this.insertElementInCache(hitToValidate.imageUrl, buffer);
         }
-        const colorFound: number[] = this.findColorAtPoint(hitToValidate.posX, hitToValidate.posY, buffer);
+        const colorFound: number[] = this.findColorAtPoint(hitToValidate.position, buffer);
 
         return {
             isAHit: this.isValidHit(hitToValidate, colorFound),
@@ -49,15 +50,16 @@ export class HitValidatorService {
         return !colorsAreEqual;
     }
 
-    private findColorAtPoint(posX: number, posY: number, buffer: Buffer): number[] {
+    private findColorAtPoint(position: IPosition2D, buffer: Buffer): number[] {
 
-        const reversedY: number = (this.getImageHeight(buffer) - 1) - posY;
-        const offsetX: number = posX * this.BUFFER_24BIT_SIZE;
+        const reversedY: number = (this.getImageHeight(buffer) - 1) - position.y;
+        const offsetX: number = position.x * this.BUFFER_24BIT_SIZE;
         const offsetY: number = reversedY * this.getImageWidth(buffer) * this.BUFFER_24BIT_SIZE;
 
         const absolutePosition: number = offsetX + offsetY + this.BUFFER_HEADER_SIZE;
+        const colorInverted: number[] = [...buffer.slice(absolutePosition, absolutePosition + this.BUFFER_24BIT_SIZE)];
 
-        return [...buffer.slice(absolutePosition, absolutePosition + this.BUFFER_24BIT_SIZE)];
+        return colorInverted.reverse();
     }
 
     private async getImageFromUrl(imageUrl: string): Promise<Buffer> {
