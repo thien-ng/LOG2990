@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from "@angular/animations";
 import { Breakpoints, BreakpointObserver } from "@angular/cdk/layout";
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit, AfterViewChecked } from "@angular/core";
 import { MatDialog, MatDialogConfig, MatSnackBar } from "@angular/material";
 import { NavigationEnd, Router } from "@angular/router";
 
@@ -32,7 +32,7 @@ import { AdminToggleService } from "./admin-toggle.service";
     ]),
   ],
 })
-export class MainNavComponent implements OnInit, OnDestroy {
+export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   public isAdminMode: boolean;
   public client: string | null;
@@ -42,9 +42,11 @@ export class MainNavComponent implements OnInit, OnDestroy {
   public readonly TEXT_ADMIN: string = "Vue Administration";
   public readonly TEXT_BOUTON_2D: string = "Créer jeu simple";
   public readonly TEXT_BOUTON_3D: string = "Créer jeu 3D";
+  private readonly MAX_VALUE_INIT: number = 4;
   private stateSubscription: Subscription;
   private isAdminPath: boolean;
   private isGameListPath: boolean;
+  private compteurInit: number;
 
   public isValidUrl: boolean;
 
@@ -56,6 +58,7 @@ export class MainNavComponent implements OnInit, OnDestroy {
     public router: Router,
     private socketService: SocketService,
   ) {
+    this.compteurInit = 0;
     this.client = null;
     this.isValidUrl = true;
 
@@ -88,7 +91,12 @@ export class MainNavComponent implements OnInit, OnDestroy {
     this.socketService.onMsg(Constants.ON_USER_EVENT).subscribe((answer: User) => {
       this.assignUser(answer);
     });
+  }
 
+  public ngAfterViewChecked(): void {
+    if (this.compteurInit++ > this.MAX_VALUE_INIT && this.client == null && this.router.url !== this.ADMIN_PATH){
+      this.router.navigateByUrl(this.LOGIN_PATH);
+    }
   }
 
   private assignUser(user: User): void {
