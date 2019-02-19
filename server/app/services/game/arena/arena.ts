@@ -84,7 +84,8 @@ export class Arena {
                 status: "onError",
                 response: "Undefined player event",
             };
-        }).catch ((error: Error) => {
+        })
+        .catch ((error: Error) => {
             return {
                 status: "onError",
                 response: error.message,
