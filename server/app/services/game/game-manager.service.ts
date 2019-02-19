@@ -87,6 +87,14 @@ export class GameManagerService {
         };
     }
 
+    // private deleteArena(arenaId:  number): void {
+    //     this.arenas.delete(arenaId);
+    // }
+
+    private generateArenaID(): number {
+        return this.arenaID++;
+    }
+
     public subscribeSocketID(socketID: string): void {
         this.playerList.push(socketID);
     }
