@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from "@angular/animations";
 import { Breakpoints, BreakpointObserver } from "@angular/cdk/layout";
-import { Component, OnDestroy, OnInit, AfterViewChecked } from "@angular/core";
+import { AfterViewChecked, Component, OnDestroy, OnInit } from "@angular/core";
 import { MatDialog, MatDialogConfig, MatSnackBar } from "@angular/material";
 import { NavigationEnd, Router } from "@angular/router";
 
@@ -94,8 +94,15 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   public ngAfterViewChecked(): void {
-    if (this.compteurInit++ > this.MAX_VALUE_INIT && this.client == null && this.router.url !== this.ADMIN_PATH){
-      this.router.navigateByUrl(this.LOGIN_PATH);
+    this.neededRedirection();
+  }
+
+  private neededRedirection(): void {
+    const isLoggedAfterInit: boolean = this.compteurInit++ > this.MAX_VALUE_INIT;
+    const isLogged: boolean = this.client == null;
+    const notAdminPath: boolean = this.router.url !== this.ADMIN_PATH;
+    if ( isLoggedAfterInit && isLogged && notAdminPath) {
+      this.router.navigateByUrl(this.LOGIN_PATH).catch((error) => this.openSnackBar(error, Constants.SNACK_ACTION));
     }
   }
 
