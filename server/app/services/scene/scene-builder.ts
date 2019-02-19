@@ -145,7 +145,7 @@ export class SceneBuilder {
     public generateModifyObject(index: number, iSceneVariables: ISceneVariables): ISceneObject {
 
         this.sceneVariables = iSceneVariables;
-        
+
         const newSceneObject: ISceneObject = {
             id: index,
             type: this.selectRandomType(),

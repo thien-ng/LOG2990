@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, ElementRef, Inject, Input, OnChanges, ViewChild, Output, EventEmitter } from "@angular/core";
+import { Component, ElementRef, EventEmitter, Inject, Input, OnChanges, Output, ViewChild } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import * as THREE from "three";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
@@ -41,7 +41,7 @@ export class TheejsViewComponent implements OnChanges {
     private snackBar: MatSnackBar,
     private cardManagerService: CardManagerService,
     ) {
-    this.sceneGenerated = new EventEmitter()
+    this.sceneGenerated = new EventEmitter();
     this.scene = new THREE.Scene();
   }
 
@@ -50,9 +50,9 @@ export class TheejsViewComponent implements OnChanges {
       this.initScene();
     }
   }
-  
+
   private initScene(): void {
-    
+
     this.renderer = new THREE.WebGLRenderer();
     this.originalScene.nativeElement.appendChild(this.renderer.domElement);
     this.threejsViewService.createScene(this.scene, this.iSceneVariables, this.renderer);

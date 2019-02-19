@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
-import { ISceneVariables, ISceneVariablesMessage } from "../../../../common/communication/iSceneVariables";
 import { ISceneOptions, SceneType } from "../../../../common/communication/iSceneOptions";
+import { ISceneVariables, ISceneVariablesMessage } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
 import { Constants } from "../../constants";
 import Types from "../../types";
@@ -19,7 +19,6 @@ export class SceneManager {
         this.sceneBuilder = new SceneBuilder();
         this.sceneModifier = new SceneModifier(this.sceneBuilder);
     }
-
 
     public createScene(body: FormMessage): ISceneVariablesMessage | string {
 

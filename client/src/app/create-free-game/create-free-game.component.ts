@@ -9,8 +9,8 @@ import {
   Validators,
   ValidatorFn
 } from "@angular/forms";
-import { ISceneVariablesMessage } from "../../../../common/communication/iSceneVariables";
 import { MatDialogRef, MatSnackBar } from "@angular/material";
+import { ISceneVariablesMessage } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
 import { Constants } from "../constants";
 

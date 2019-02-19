@@ -31,8 +31,8 @@ export class ThreejsViewService {
   public createScene(scene: THREE.Scene, iSceneVariables: ISceneVariables, renderer: THREE.WebGLRenderer): void {
     this.renderer = renderer;
     this.scene = scene;
-    this.threejsGenerator = new ThreejsGenerator(this.scene);
     this.sceneVariable = iSceneVariables;
+    this.threejsGenerator = new ThreejsGenerator(this.scene);
     this.renderer.setSize(640, 480);
     this.scene.add(this.ambLight);
     this.renderer.setClearColor(this.sceneVariable.sceneBackgroundColor);
@@ -56,13 +56,6 @@ export class ThreejsViewService {
 
   public animate(): void {
     requestAnimationFrame(this.animate.bind(this));
-    // this.camera.position.x = 0;
-    // this.camera.position.z = 0;
-    // this.camera.position.y = 0;
-    // this.scene.position.x = 5;
-    // this.scene.position.y = 5;
-    // this.scene.position.z = 5;
-    // this.camera.lookAt(this.scene.position);
     this.renderObject();
   }
 
@@ -70,20 +63,14 @@ export class ThreejsViewService {
     return this.renderer;
   }
 
-  
-
   private renderObject(): void {
     const speed: number = Date.now() * 0.001;
-    // const viewX: number = Math.cos(speed) * 200 ;
-    // const viewY: number = 500;
-    // const viewZ: number = Math.sin(speed) * 200 ;
-    this.camera.position.x = 70 * Math.cos(speed);
-    this.camera.position.z = 70 * Math.sin(speed);
+
+    this.camera.position.x = Math.cos(speed) * 70;
+    this.camera.position.z = Math.sin(speed) * 70;
     this.camera.position.y = 70;
 
-    // this.scene.position.x = 20;
     this.scene.position.y = 50;
-    // this.scene.position.z = 20;
 
     this.camera.lookAt(this.scene.position);
     this.renderer.render(this.scene, this.camera);

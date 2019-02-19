@@ -67,7 +67,6 @@ export class CardManagerService {
     }
 
     public freeCardCreationRoutine(body: ISceneMessage): Message {
-
         const cardId: number = this.generateSceneId();
         const sceneImage: string = "/" + cardId + Constants.SCENE_SNAPSHOT;
         this.imageManagerService.saveImage(Constants.IMAGES_PATH + sceneImage, body.image);
@@ -110,7 +109,6 @@ export class CardManagerService {
     }
 
     private handlePostResponse(response: Axios.AxiosResponse< Buffer | Message>, cardTitle: string): Message {
-
         const result: Buffer | Message = response.data;
         if (this.isMessage(result)) {
             return result;
