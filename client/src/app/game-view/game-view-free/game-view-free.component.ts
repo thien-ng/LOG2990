@@ -91,6 +91,13 @@ export class GameViewFreeComponent implements OnInit {
       this.openSnackBar(response.statusText, Constants.SNACK_ACTION);
     } else {
       await response.json().then((variables: ISceneVariablesMessage) => {
+        this.originalVariables = {
+          theme: variables.originalScene.theme,
+          gameName: variables.originalScene.gameName,
+          sceneBackgroundColor: variables.originalScene.sceneBackgroundColor,
+          sceneObjects: variables.originalScene.sceneObjects,
+          sceneObjectsQuantity: variables.originalScene.sceneObjectsQuantity,
+        };
         this.modifiedVariables = {
           theme: variables.theme,
           gameName: variables.gameName,
