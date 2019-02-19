@@ -21,7 +21,12 @@ const URL_HIT_VALIDATOR: string = "http://localhost:3000/api/hitvalidator";
 export class Arena {
 
     private readonly ERROR_ON_HTTPGET: string = "Didn't succeed to get image buffer from URL given. File: arena.ts.";
+    private readonly ERROR_HIT_VALIDATION: string = "Problem during Hit Validation process.";
+    private readonly ERROR_UNDEFINED_USER_EVENT: string = "Undefined player event";
 
+    private readonly ON_FAILED_CLICK: string = "onFailedClick";
+    private readonly USER_WRONG_CLICK: string = "Le pixel cliqué n'est pas une différence";
+    private readonly USER_EVENT: string = "onClick";
     private _players: Player[];
     private originalImageSegments: IOriginalImageSegment[];
 
@@ -41,22 +46,19 @@ export class Arena {
                 return res.data;
             })
             .catch((err: AxiosError) => {
-                throw new TypeError("Problem during Hit Validation process.");
+                throw new TypeError(this.ERROR_HIT_VALIDATION);
             });
     }
 
     public async onPlayerInput(playerInput: IPlayerInput, user: User): Promise<IPlayerInputReponse> {
         switch (playerInput.event) {
-            case "onClick":
+            case this.USER_EVENT:
                 return this.onPlayerClick(playerInput.position, user);
                 break;
-
-             case "onPause":
-             // todo
             default:
                 return {
-                    status: "onError",
-                    response: "Undefined player event",
+                    status: Constants.ON_ERROR_MESSAGE,
+                    response: this.ERROR_UNDEFINED_USER_EVENT,
                 };
                 break;
         }
@@ -74,23 +76,24 @@ export class Arena {
         return this.validateHit(position)
         .then((hitConfirmation: IHitConfirmation) => {
             if (hitConfirmation.isAHit) {
-                return {
-                    status: Constants.ON_SUCCESS_MESSAGE,
-                    response: this.originalImageSegments[(numberOfErrorsFound - 1) - hitConfirmation.hitPixelColor[0]],
-                };
+                this.buildPlayerInputResponse(
+                    Constants.ON_SUCCESS_MESSAGE,
+                    this.originalImageSegments[(numberOfErrorsFound - 1) - hitConfirmation.hitPixelColor[0]],
+                );
             }
 
-            return {
-                status: "onError",
-                response: "Undefined player event",
-            };
+            return this.buildPlayerInputResponse(this.ON_FAILED_CLICK, this.USER_WRONG_CLICK);
         })
         .catch ((error: Error) => {
-            return {
-                status: "onError",
-                response: error.message,
-            };
+            return this.buildPlayerInputResponse(Constants.ON_ERROR_MESSAGE, error.message);
         });
+    }
+
+    private buildPlayerInputResponse(status: string, response: string | IOriginalImageSegment): IPlayerInputReponse {
+        return {
+            status: status,
+            response: response,
+        };
     }
 
     public async prepareArenaForGameplay(): Promise<void> {

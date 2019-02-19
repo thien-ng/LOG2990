@@ -9,9 +9,8 @@ import { UserManagerService } from "../user-manager.service";
 import { Arena } from "./arena/arena";
 import { IArenaInfos, IPlayerInput, IPlayerInputReponse } from "./arena/interfaces";
 
-// const ARENA_CREATED: string = "Arène Créée";
 const REQUEST_ERROR_MESSAGE: string = "Game mode invalide";
-// const ERROR_2D_ARENA: string = "Erreur survenue lors de la création d'une arène 2D.";
+const ERROR_INVALID_EVENT: string = "L'événement lancé par le joueur est invalide.";
 const ARENA_START_ID: number = 1000;
 
 @injectable()
@@ -36,7 +35,6 @@ export class GameManagerService {
         };
     }
 
-    // todo -> manage multiplyer request
     public async analyseRequest(request: IGameRequest): Promise<Message> {
         const user: User | string = this.userManagerService.getUserByUsername(request.username);
         if (typeof user === "string") {
@@ -113,8 +111,8 @@ export class GameManagerService {
         }
 
         return {
-            status: "onError",
-            response: "response",
+            status: Constants.ON_ERROR_MESSAGE,
+            response: ERROR_INVALID_EVENT,
         };
     }
 }

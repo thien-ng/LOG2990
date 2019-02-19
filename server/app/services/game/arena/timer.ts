@@ -3,7 +3,6 @@ export class Timer {
     // private secondsSinceStart: number;
 
     public constructor() {
-        // dfgd
         // this.secondsSinceStart = 0;
 
     }

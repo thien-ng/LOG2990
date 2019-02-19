@@ -118,8 +118,8 @@ export class DifferencesExtractor {
         };
 
         this.originalPixelsByGroups[differenceIndex].forEach((pixelInfo: IOriginalPixelsFound) => {
-            maxPosition.x = pixelInfo.position.x > maxPosition.x ? pixelInfo.position.x : maxPosition.x;
-            maxPosition.y = pixelInfo.position.y > maxPosition.y ? pixelInfo.position.y : maxPosition.y;
+            maxPosition.x = (pixelInfo.position.x > maxPosition.x) ? pixelInfo.position.x : maxPosition.x;
+            maxPosition.y = (pixelInfo.position.y > maxPosition.y) ? pixelInfo.position.y : maxPosition.y;
         });
 
         return maxPosition;
@@ -133,8 +133,8 @@ export class DifferencesExtractor {
         };
 
         this.originalPixelsByGroups[differenceIndex].forEach((pixelInfo: IOriginalPixelsFound) => {
-            minPosition.x = pixelInfo.position.x < minPosition.x ? pixelInfo.position.x : minPosition.x;
-            minPosition.y = pixelInfo.position.y < minPosition.y ? pixelInfo.position.y : minPosition.y;
+            minPosition.x = (pixelInfo.position.x < minPosition.x) ? pixelInfo.position.x : minPosition.x;
+            minPosition.y = (pixelInfo.position.y < minPosition.y) ? pixelInfo.position.y : minPosition.y;
         });
 
         return minPosition;

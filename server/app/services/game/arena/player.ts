@@ -6,7 +6,6 @@ export class Player {
 
     public constructor(private user: User) {
         this._points = 0;
-        // console.log(this.user);
     }
 
     public addPoints(pointsEarned: number): void {
