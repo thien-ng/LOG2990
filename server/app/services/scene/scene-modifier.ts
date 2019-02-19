@@ -1,3 +1,4 @@
+import deepcopy from "ts-deepcopy";
 import { ISceneObject } from "../../../../common/communication/iSceneObject";
 import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
 import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
@@ -141,9 +142,7 @@ export class SceneModifier {
     }
 
     private clone(sceneVariables: ISceneVariables): ISceneVariables {
-        const deepcopy = require("deepcopy");
-
-        return deepcopy(sceneVariables);
+        return deepcopy<ISceneVariables>(sceneVariables);
     }
 
 }
