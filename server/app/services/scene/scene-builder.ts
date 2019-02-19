@@ -137,8 +137,8 @@ export class SceneBuilder {
 
         do {
 
-            hasCollision = this.collisionValidator.hasCollidingPositions(newSceneObject, this.sceneVariables.sceneObjects);
             newSceneObject.position = this.generateRandomAxisValues();
+            hasCollision = this.collisionValidator.hasCollidingPositions(newSceneObject, this.sceneVariables.sceneObjects);
         } while (hasCollision);
     }
 

@@ -1,4 +1,5 @@
 import { IAxisValues, ISceneObject } from "../../../../../common/communication/iSceneObject";
+import { SceneConstants } from "../sceneConstants";
 import { CollisionBoxGenerator } from "./collision-box-generator";
 
 export class CollisionValidator {
@@ -26,7 +27,7 @@ export class CollisionValidator {
 
         const distanceBetweenCenters: number =  this.calculateDistanceBetweenCenters(firstSceneObject.position, secondSceneObject.position);
 
-        return (firstRadius + secondRadius) >= distanceBetweenCenters;
+        return (firstRadius + secondRadius) >= (distanceBetweenCenters + SceneConstants.DISTANCE_OFFSET);
     }
 
     private calculateDistanceBetweenCenters (firstCenter: IAxisValues, secondCenter: IAxisValues): number {
