@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, ElementRef, Inject, Input, OnChanges, ViewChild } from "@angular/core";
-import { MatDialogRef, MatSnackBar } from "@angular/material";
+import { Component, ElementRef, Inject, Input, OnChanges, ViewChild, Output, EventEmitter } from "@angular/core";
+import { MatSnackBar } from "@angular/material";
 import * as THREE from "three";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
 import { ISceneVariables, ISceneVariablesMessage } from "../../../../../../common/communication/iSceneVariables";
@@ -8,7 +8,6 @@ import { Message } from "../../../../../../common/communication/message";
 import { CardManagerService } from "../../../card/card-manager.service";
 import { Constants } from "../../../constants";
 import { ThreejsViewService } from "./threejs-view.service";
-import { CreateFreeGameComponent } from "../../../create-free-game/create-free-game.component";
 
 @Component({
   selector: "app-threejs-view",
@@ -28,10 +27,10 @@ export class TheejsViewComponent implements OnChanges {
   private iSceneVariablesMessage: ISceneVariablesMessage;
 
   @Input()
-  public dialogRef: MatDialogRef<CreateFreeGameComponent>;
-
-  @Input()
   private isSnapshotNeeded: boolean;
+
+  @Output()
+  public sceneGenerated: EventEmitter<string>;
 
   @ViewChild("originalScene", {read: ElementRef})
   private originalScene: ElementRef;
@@ -42,7 +41,7 @@ export class TheejsViewComponent implements OnChanges {
     private snackBar: MatSnackBar,
     private cardManagerService: CardManagerService,
     ) {
-
+    this.sceneGenerated = new EventEmitter()
     this.scene = new THREE.Scene();
   }
 
@@ -51,17 +50,13 @@ export class TheejsViewComponent implements OnChanges {
       this.initScene();
     }
   }
-
+  
   private initScene(): void {
-
+    
     this.renderer = new THREE.WebGLRenderer();
     this.originalScene.nativeElement.appendChild(this.renderer.domElement);
     this.threejsViewService.createScene(this.scene, this.iSceneVariables, this.renderer);
     this.threejsViewService.animate();
-
-    if (this.isSnapshotNeeded) {
-      this.dialogRef.close();
-    }
     this.takeSnapShot();
   }
 
@@ -91,7 +86,7 @@ export class TheejsViewComponent implements OnChanges {
 
     if (response.title === Constants.ON_SUCCESS_MESSAGE) {
       this.cardManagerService.updateCards(true);
-
+      this.sceneGenerated.emit();
     } else if (response.title === Constants.ON_ERROR_MESSAGE) {
       this.openSnackBar(response.body, Constants.SNACK_ACTION);
     }

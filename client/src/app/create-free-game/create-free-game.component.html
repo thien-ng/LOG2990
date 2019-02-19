@@ -52,6 +52,6 @@
   <app-threejs-view [iSceneVariablesMessage]="iSceneVariablesMessage"
                     [iSceneVariables]="iSceneVariablesMessage.originalScene"
                     [isSnapshotNeeded]="NEEDED_SNAPSHOT"
-                    [dialogRef]="dialogRef">
+                    (sceneGenerated)="closeDialog()">
   </app-threejs-view>
 </div>
