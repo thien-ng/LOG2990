@@ -1,4 +1,4 @@
-import { Inject, TestBed } from "@angular/core/testing";
+import { inject, TestBed } from "@angular/core/testing";
 // import * as THREE from "three";
 // import { SceneObjectType } from "../../../../../../common/communication/iSceneObject";
 // import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
@@ -28,7 +28,7 @@ fdescribe("ThreejsViewService Tests", () => {
     providers: [ThreejsViewService],
   }));
 
-  it("should create scene", Inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+  it("should create scene", inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
     // spyOn<any>(threejsViewService, "generateSceneObjects");
     // threejsViewService.createScene(scene, sceneVariables);
     // expect(threejsViewService).toBeTruthy();
