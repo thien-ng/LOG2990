@@ -1,7 +1,11 @@
-import { SceneObjectType } from "./iSceneObject";
+
+export enum SceneType {
+    Geometric,
+    Thematic,
+}
 
 export interface ISceneOptions {
     sceneName: string;
-    sceneObjectsType: SceneObjectType;
+    sceneType: SceneType;
     sceneObjectsQuantity: number;
 }

@@ -74,6 +74,19 @@ describe("Collision box generator tests", () => {
         color: "#8cadbb",
     };
 
+    const defaultObject: ISceneObject = {
+        type: 10,
+        position: {
+            x: 20, y: 20, z: 20 },
+        rotation: {
+            x: 1, y: 1, z: 1,
+        },
+        scale: {
+            x: 10, y: 10, z: 10,
+        },
+        color: "#8cadbb",
+    };
+
     beforeEach(() => {
 
         chai.use(spies);
@@ -117,6 +130,14 @@ describe("Collision box generator tests", () => {
         const spy: any = chai.spy.on(collisionBoxGenerator, "calculateSphereCollisionRadius");
 
         collisionBoxGenerator.generateCollisionRadius(sphere);
+
+        chai.expect(spy).to.have.been.called();
+    });
+
+    it("should call calculateSphereCollisionRadius for an undefined object type", () => {
+        const spy: any = chai.spy.on(collisionBoxGenerator, "calculateSphereCollisionRadius");
+
+        collisionBoxGenerator.generateCollisionRadius(defaultObject);
 
         chai.expect(spy).to.have.been.called();
     });

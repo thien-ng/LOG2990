@@ -1,82 +1,116 @@
-import { expect } from "chai";
+import * as chai from "chai";
+import * as spies from "chai-spies";
 import "reflect-metadata";
-import { SceneObjectType } from "../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
+import { Constants } from "../../constants";
+import { CardManagerService } from "../../services/card-manager.service";
+import { HighscoreService } from "../../services/highscore.service";
 import { SceneManager } from "../../services/scene/scene-manager.service";
+
+/* tslint:disable:no-any no-magic-numbers */
 
 let sceneManager: SceneManager;
 let formMessage: FormMessage;
+let cardManagerService: CardManagerService;
+let highscoreService: HighscoreService;
 
 beforeEach(() => {
-    sceneManager = new SceneManager();
+    chai.use(spies);
+    highscoreService = new HighscoreService();
+    cardManagerService = new CardManagerService(highscoreService);
+    sceneManager = new SceneManager(cardManagerService);
 });
 
 describe("SceneManager Tests", () => {
 
-    it("should generate new interface for cube of ISceneVariables", () => {
-
+    it("should receive Geometric theme string", () => {
         formMessage = {
             gameName: "gameName",
             checkedTypes: [true, true, true],
-            selectedOption: "cube",
-            quantityChange: 1,
+            theme: "Geometric",
+            quantityChange: 10,
         };
 
-        const result: ISceneVariables = sceneManager.createScene(formMessage);
-        expect(result.sceneObjects[0].type).to.be.equal(SceneObjectType.Cube);
+        const spy: any = chai.spy.on(sceneManager, "objectTypeIdentifier");
+
+        sceneManager.createScene(formMessage);
+
+        chai.expect(spy).to.have.been.called.with("Geometric");
     });
 
-    it("should generate new interface for sphere of ISceneVariables", () => {
-
+    it("should return scene variables with Geometric theme", () => {
         formMessage = {
             gameName: "gameName",
             checkedTypes: [true, true, true],
-            selectedOption: "sphere",
-            quantityChange: 1,
+            theme: "Geometric",
+            quantityChange: 10,
         };
 
-        const result: ISceneVariables = sceneManager.createScene(formMessage);
-        expect(result.sceneObjects[0].type).to.be.equal(SceneObjectType.Sphere);
+        const sceneVariables: string | ISceneVariables = sceneManager.createScene(formMessage);
+
+        if (typeof sceneVariables !== "string") {
+            chai.expect(sceneVariables.theme).to.be.equal(0);
+        }
     });
 
-    it("should generate new interface for cylinder of ISceneVariables", () => {
-
+    it("should should receive Thematic theme string", () => {
         formMessage = {
             gameName: "gameName",
             checkedTypes: [true, true, true],
-            selectedOption: "cylinder",
-            quantityChange: 3,
+            theme: "Thematic",
+            quantityChange: 10,
         };
 
-        const result: ISceneVariables = sceneManager.createScene(formMessage);
-        expect(result.sceneObjects[0].type).to.be.equal(SceneObjectType.Cylinder);
+        const spy: any = chai.spy.on(sceneManager, "objectTypeIdentifier");
+
+        sceneManager.createScene(formMessage);
+
+        chai.expect(spy).to.have.been.called.with("Thematic");
     });
 
-    it("should generate new interface for cone of ISceneVariables", () => {
-
+    it("should return scene variables with Thematic theme", () => {
         formMessage = {
             gameName: "gameName",
             checkedTypes: [true, true, true],
-            selectedOption: "cone",
-            quantityChange: 4,
+            theme: "Thematic",
+            quantityChange: 10,
         };
 
-        const result: ISceneVariables = sceneManager.createScene(formMessage);
-        expect(result.sceneObjects[0].type).to.be.equal(SceneObjectType.Cone);
+        const sceneVariables: string | ISceneVariables = sceneManager.createScene(formMessage);
+
+        if (typeof sceneVariables !== "string") {
+            chai.expect(sceneVariables.theme).to.be.equal(1);
+        }
     });
 
-    it("should generate new interface for pyramid of ISceneVariables", () => {
-
+    it("should return scene variables with Geometric theme by default", () => {
         formMessage = {
             gameName: "gameName",
             checkedTypes: [true, true, true],
-            selectedOption: "pyramid",
+            theme: "default",
+            quantityChange: 10,
+        };
+
+        const sceneVariables: string | ISceneVariables = sceneManager.createScene(formMessage);
+
+        if (typeof sceneVariables !== "string") {
+            chai.expect(sceneVariables.theme).to.be.equal(0);
+        }
+    });
+
+    it("should return an error message when a game with the same name exists", () => {
+
+        formMessage = {
+            gameName: "Dylan QT",
+            checkedTypes: [true, true, true],
+            theme: "Geometric",
             quantityChange: 5,
         };
 
-        const result: ISceneVariables = sceneManager.createScene(formMessage);
-        expect(result.sceneObjects[0].type).to.be.equal(SceneObjectType.TriangularPyramid);
+        const sceneVariables: ISceneVariables | string = sceneManager.createScene(formMessage);
+        if (typeof sceneVariables === "string") {
+            chai.expect(sceneVariables).to.equal(Constants.CARD_EXISTING);
+        }
     });
-
 });
