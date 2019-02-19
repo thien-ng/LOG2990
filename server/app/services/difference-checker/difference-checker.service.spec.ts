@@ -74,6 +74,23 @@ describe("Difference checker service tests", () => {
         expect(result).to.deep.equal(expectedMessage);
     });
 
+    it("Should return an error of images have unequal dimensions", () => {
+
+        const testImageDiff3: Buffer = fs.readFileSync(path.resolve(__dirname, "./tests/testBitmap/whiteTest.bmp"));
+
+        const requirements: ImageRequirements = {
+            requiredHeight: 480,
+            requiredWidth: 640,
+            requiredNbDiff: 7,
+            originalImage: testImageOg,
+            modifiedImage: testImageDiff3,
+        };
+
+        const expectedMessage: Message = {
+            title: "onError",
+            body: Constants.ERROR_UNEQUAL_DIMENSIONS,
+        };
+
         const result: Message | Buffer = differenceCheckerService.generateDifferenceImage(requirements);
         expect(result).to.deep.equal(expectedMessage);
     });
