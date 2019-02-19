@@ -12,7 +12,7 @@ export class SceneModifier {
     private sceneBuilder: SceneBuilder;
     private modifiedIndex: number[];
     private sceneObjects: ISceneObject[];
-    private cloneSceneVariables: ISceneVariables
+    private cloneSceneVariables: ISceneVariables;
 
     public constructor(sceneBuilder: SceneBuilder) {
         this.sceneBuilder = sceneBuilder;
@@ -27,6 +27,7 @@ export class SceneModifier {
 
             this.chooseOperation(selectedOpstion);
         }
+
         return {
             gameName: this.cloneSceneVariables.gameName,
             sceneObjectsQuantity: this.cloneSceneVariables.sceneObjectsQuantity,

@@ -2,12 +2,12 @@ import * as chai from "chai";
 import * as spies from "chai-spies";
 import "reflect-metadata";
 import { ISceneObject} from "../../../../common/communication/iSceneObject";
-import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
-import { SceneModifier } from "../../services/scene/scene-modifier";
-import { SceneBuilder } from "../../services/scene/scene-builder";
 import { ISceneOptions, SceneType } from "../../../../common/communication/iSceneOptions";
+import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
+import { SceneBuilder } from "../../services/scene/scene-builder";
+import { SceneModifier } from "../../services/scene/scene-modifier";
 
-// tslint:disable:no-any
+// tslint:disable:no-any no-magic-numbers
 
 let sceneModifier: SceneModifier;
 let sceneBuilder: SceneBuilder;
@@ -21,7 +21,7 @@ beforeEach(() => {
     sceneBuilder = new SceneBuilder();
     sceneModifier = new SceneModifier(sceneBuilder);
 
-    for (let i = 0; i < 10; i++) {
+    for (let i: number = 0; i < 10; i++) {
         const tempObject: ISceneObject = {
             id: i,
             type: 1,
@@ -38,7 +38,7 @@ beforeEach(() => {
         sceneObjectsQuantity: 10,
         sceneObjects: iSceneObjectGenerated,
         sceneBackgroundColor: "#FFFFFF",
-    }
+    };
 });
 
 describe("Scene-modifier tests", () => {
