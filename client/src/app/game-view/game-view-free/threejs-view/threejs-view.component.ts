@@ -59,7 +59,9 @@ export class TheejsViewComponent implements OnChanges {
     this.threejsViewService.createScene(this.scene, this.iSceneVariables, this.renderer);
     this.threejsViewService.animate();
 
-    this.dialogRef.close();
+    if (this.isSnapshotNeeded) {
+      this.dialogRef.close();
+    }
     this.takeSnapShot();
   }
 

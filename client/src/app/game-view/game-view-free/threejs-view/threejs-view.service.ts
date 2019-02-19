@@ -24,7 +24,7 @@ export class ThreejsViewService {
   }
 
   private init(): void {
-    this.camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 100);
+    this.camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 1000);
     this.ambLight = new THREE.AmbientLight(0xEA6117, 0.4);
   }
 
@@ -55,14 +55,14 @@ export class ThreejsViewService {
   }
 
   public animate(): void {
-
-    this.camera.position.x = 0;
-    this.camera.position.z = 0;
-    this.camera.position.y = 0;
-    this.scene.position.x = 5;
-    this.scene.position.y = 5;
-    this.scene.position.z = 5;
-    this.camera.lookAt(this.scene.position);
+    requestAnimationFrame(this.animate.bind(this));
+    // this.camera.position.x = 0;
+    // this.camera.position.z = 0;
+    // this.camera.position.y = 0;
+    // this.scene.position.x = 5;
+    // this.scene.position.y = 5;
+    // this.scene.position.z = 5;
+    // this.camera.lookAt(this.scene.position);
     this.renderObject();
   }
 
@@ -70,7 +70,22 @@ export class ThreejsViewService {
     return this.renderer;
   }
 
+  
+
   private renderObject(): void {
+    const speed: number = Date.now() * 0.001;
+    // const viewX: number = Math.cos(speed) * 200 ;
+    // const viewY: number = 500;
+    // const viewZ: number = Math.sin(speed) * 200 ;
+    this.camera.position.x = 70 * Math.cos(speed);
+    this.camera.position.z = 70 * Math.sin(speed);
+    this.camera.position.y = 70;
+
+    // this.scene.position.x = 20;
+    this.scene.position.y = 50;
+    // this.scene.position.z = 20;
+
+    this.camera.lookAt(this.scene.position);
     this.renderer.render(this.scene, this.camera);
   }
 
