@@ -41,5 +41,11 @@ fdescribe("ThreejsViewService Tests", () => {
     expect(spy).toHaveBeenCalled();
   }));
 
+  it("should render scene", inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+    const spy = spyOn<any>(threejsViewService, "renderObject");
+    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.animate();
+    expect(spy).toHaveBeenCalled();
+  }));
 
 });
