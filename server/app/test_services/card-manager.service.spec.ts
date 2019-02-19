@@ -1,14 +1,22 @@
 import "reflect-metadata";
 
+import * as chai from "chai";
+// tslint:disable-next-line:no-duplicate-imports
 import { expect } from "chai";
+import * as spies from "chai-spies";
 import * as fs from "fs";
 import * as path from "path";
 import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
+import { ISceneMessage } from "../../../common/communication/iSceneMessage";
+import { ISceneOptions, SceneType } from "../../../common/communication/iSceneOptions";
+import { ISceneVariables } from "../../../common/communication/iSceneVariables";
 import { Message } from "../../../common/communication/message";
 import { Constants } from "../constants";
+import { AssetManagerService } from "../services/asset-manager.service";
 import { CardManagerService } from "../services/card-manager.service";
 import { HighscoreService } from "../services/highscore.service";
+import { SceneBuilder } from "../services/scene/scene-builder";
 
 /*tslint:disable no-magic-numbers no-any */
 
@@ -21,7 +29,7 @@ let cardManagerService: CardManagerService;
 let highscoreService: HighscoreService;
 
 describe("Card-manager tests", () => {
-
+    chai.use(spies);
     const testImageOg: Buffer = fs.readFileSync(path.resolve(__dirname, "../asset/image/testBitmap/imagetestOg.bmp"));
 
     const c1: ICard = {
@@ -64,6 +72,10 @@ describe("Card-manager tests", () => {
         expect(cardManagerService.getCards()).deep.equal(cards);
     });
 
+    it("should return the defaut 2d card", () => {
+       expect(cardManagerService.getCardById("1", GameMode.simple)).to.deep.equal(DefaultCard2D);
+    });
+
     it("should return true when adding a new 2D card", () => {
         expect(cardManagerService.addCard2D(c1)).to.equal(true);
     });
@@ -77,6 +89,11 @@ describe("Card-manager tests", () => {
         expect(cardManagerService.addCard3D(c2)).to.equal(false);
     });
 
+    it("should return false when trying to add an existing 2d card", () => {
+        cardManagerService.addCard2D(c1);
+        expect(cardManagerService.addCard2D(c1)).to.equal(false);
+    });
+
     it("should return new length of 3D list after adding a card", () => {
         cardManagerService.addCard3D(c2);
         cardManagerService.addCard3D(c3);
@@ -86,6 +103,21 @@ describe("Card-manager tests", () => {
     it("should return the newly added card", () => {
         cardManagerService.addCard3D(c3);
         expect(cardManagerService.getCards().list3D[0]).deep.equal(c3);
+    });
+
+    it("should return the existing card", () => {
+        cardManagerService.addCard3D(c3);
+        expect(cardManagerService.getCardById("3", GameMode.free)).to.deep.equal(c3);
+    });
+
+    it("should return an error message because path image doesnt exist", () => {
+        cardManagerService.addCard2D(c1);
+        expect(cardManagerService.removeCard2D(4)).to.equal("error while deleting file");
+    });
+
+    it("should return an error message because path image doesnt exist", () => {
+        cardManagerService.addCard3D(c3);
+        expect(cardManagerService.removeCard3D(3)).to.equal("error while deleting file");
     });
 
     it("should return an error while deleting the default 2D card", () => {
@@ -126,8 +158,39 @@ describe("Card-manager tests", () => {
         expect(messageTitle).to.equal("onError");
         mock.restore();
     });
+    it("Should return an success message when creating a freeCard successfully", () => {
+        const sceneOptions10: ISceneOptions = {
+            sceneName: "10 objects",
+            sceneType: SceneType.Geometric,
+            sceneObjectsQuantity: 10,
+        };
+        const sceneBuilder: SceneBuilder = new SceneBuilder();
+        const sceneVariable: ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
+        const sceneMessage: ISceneMessage = {
+            sceneVariable: sceneVariable,
+            image: "",
+        };
+        const message: Message = {
+            title: Constants.ON_SUCCESS_MESSAGE,
+            body: Constants.CARD_ADDED,
+        };
+        expect(cardManagerService.freeCardCreationRoutine(sceneMessage)).to.deep.equal(message);
+        cardManagerService.removeCard3D(2000);
+    });
 
     it("Should return false when the title already exists", () => {
         expect(cardManagerService.isSceneNameNew("Dylan QT")).to.equal(false);
+    });
+
+    it("trying the splice", () => {
+        const assetManager: AssetManagerService = new AssetManagerService();
+        cardManagerService.addCard2D(c1);
+        const originalImagePath: string = Constants.IMAGES_PATH + "/" + 4 + Constants.ORIGINAL_FILE;
+        const modifiedImagePath: string = Constants.IMAGES_PATH + "/" + 4 + Constants.MODIFIED_FILE;
+        const generatedImagePath: string =  Constants.IMAGES_PATH + "/" + 4 + Constants.GENERATED_FILE;
+        assetManager.saveImage(originalImagePath, "test");
+        assetManager.saveImage(modifiedImagePath, "test");
+        assetManager.saveImage(generatedImagePath, "test");
+        expect(cardManagerService.removeCard2D(4)).to.equal(Constants.CARD_DELETED);
     });
 });
