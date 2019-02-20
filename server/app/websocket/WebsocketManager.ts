@@ -29,23 +29,14 @@ export class WebsocketManager {
             const socketID: string = "";
 
             this.loginSocketChecker(user, socketID, socket);
-            this.gameSocketChecker(socketID, socket, user);
+            this.gameSocketChecker(socketID, socket);
 
          });
         this.io.listen(Constants.WEBSOCKET_PORT_NUMBER);
 
     }
 
-                // a new message should be returned
-            // const message: IChat = {
-            //     username: "test",
-            //     message: "x: " + data.positionX + " y: " + data.positionY + " ( ͡° ͜ʖ ͡°)",
-            //     time: "1:30: 00 pm",
-            // };
-
-            // socket.emit(Constants.CHAT_MESSAGE, message);
-
-    private gameSocketChecker(socketID: string, socket: SocketIO.Socket, user: User): void {
+    private gameSocketChecker(socketID: string, socket: SocketIO.Socket): void {
 
         socket.on(Constants.GAME_CONNECTION, () => {
             socketID = socket.id;
@@ -57,7 +48,7 @@ export class WebsocketManager {
         });
 
         socket.on(Constants.POSITION_VALIDATION_EVENT, (data: IClickMessage) => {
-            console.log(user);
+            const user: User | string = this.userManagerService.getUserByUsername(data.username);
 
             // const user: User | string = this.userManagerService.getUserByUsername(data.username);
 
