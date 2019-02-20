@@ -2,10 +2,10 @@ import "reflect-metadata";
 
 import * as chai from "chai";
 import * as spies from "chai-spies";
-import { AssetManagerService } from "../services/asset-manager.service";
 import { Constants } from "../constants";
+import { AssetManagerService } from "../services/asset-manager.service";
 
-/* tslint:disable:no-any */
+/*tslint:disable no-magic-numbers no-any */
 
 let imageManagerService: AssetManagerService;
 

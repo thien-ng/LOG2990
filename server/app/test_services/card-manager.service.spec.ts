@@ -1,8 +1,6 @@
 import "reflect-metadata";
 
 import * as chai from "chai";
-// tslint:disable-next-line:no-duplicate-imports
-import { expect } from "chai";
 import * as spies from "chai-spies";
 import * as fs from "fs";
 import * as path from "path";
@@ -69,80 +67,80 @@ describe("Card-manager tests", () => {
     });
 
     it("should return the list of all cards", () => {
-        expect(cardManagerService.getCards()).deep.equal(cards);
+        chai.expect(cardManagerService.getCards()).deep.equal(cards);
     });
 
     it("should return the defaut 2d card", () => {
-       expect(cardManagerService.getCardById("1", GameMode.simple)).to.deep.equal(DefaultCard2D);
+       chai.expect(cardManagerService.getCardById("1", GameMode.simple)).to.deep.equal(DefaultCard2D);
     });
 
     it("should return true when adding a new 2D card", () => {
-        expect(cardManagerService.addCard2D(c1)).to.equal(true);
+        chai.expect(cardManagerService.addCard2D(c1)).to.equal(true);
     });
 
     it("should return true when adding a new 3D card", () => {
-        expect(cardManagerService.addCard3D(c2)).to.equal(true);
+        chai.expect(cardManagerService.addCard3D(c2)).to.equal(true);
     });
 
     it("should return false when adding an existing 3D card", () => {
         cardManagerService.addCard3D(c2);
-        expect(cardManagerService.addCard3D(c2)).to.equal(false);
+        chai.expect(cardManagerService.addCard3D(c2)).to.equal(false);
     });
 
     it("should return false when trying to add an existing 2d card", () => {
         cardManagerService.addCard2D(c1);
-        expect(cardManagerService.addCard2D(c1)).to.equal(false);
+        chai.expect(cardManagerService.addCard2D(c1)).to.equal(false);
     });
 
     it("should return new length of 3D list after adding a card", () => {
         cardManagerService.addCard3D(c2);
         cardManagerService.addCard3D(c3);
-        expect(cardManagerService.getCards().list3D.length).to.equal(3);
+        chai.expect(cardManagerService.getCards().list3D.length).to.equal(3);
     });
 
     it("should return the newly added card", () => {
         cardManagerService.addCard3D(c3);
-        expect(cardManagerService.getCards().list3D[0]).deep.equal(c3);
+        chai.expect(cardManagerService.getCards().list3D[0]).deep.equal(c3);
     });
 
     it("should return the existing card", () => {
         cardManagerService.addCard3D(c3);
-        expect(cardManagerService.getCardById("3", GameMode.free)).to.deep.equal(c3);
+        chai.expect(cardManagerService.getCardById("3", GameMode.free)).to.deep.equal(c3);
     });
 
     it("should return an error message because path image doesnt exist", () => {
         cardManagerService.addCard2D(c1);
-        expect(cardManagerService.removeCard2D(4)).to.equal("error while deleting file");
+        chai.expect(cardManagerService.removeCard2D(4)).to.equal("error while deleting file");
     });
 
     it("should return an error message because path image doesnt exist", () => {
         cardManagerService.addCard3D(c3);
-        expect(cardManagerService.removeCard3D(3)).to.equal("error while deleting file");
+        chai.expect(cardManagerService.removeCard3D(3)).to.equal("error while deleting file");
     });
 
     it("should return an error while deleting the default 2D card", () => {
-        expect(cardManagerService.removeCard2D(1)).deep.equal(Constants.DELETION_ERROR_MESSAGE);
+        chai.expect(cardManagerService.removeCard2D(1)).deep.equal(Constants.DELETION_ERROR_MESSAGE);
     });
 
     it("should return an error while deleting the default 3D card", () => {
-        expect(cardManagerService.removeCard3D(1)).deep.equal(Constants.DELETION_ERROR_MESSAGE);
+        chai.expect(cardManagerService.removeCard3D(1)).deep.equal(Constants.DELETION_ERROR_MESSAGE);
     });
 
     it("should return false because the card doesnt exist", () => {
-        expect(cardManagerService.removeCard2D(0)).to.equal(CARD_NOT_FOUND);
+        chai.expect(cardManagerService.removeCard2D(0)).to.equal(CARD_NOT_FOUND);
     });
 
     it("should return false because the card doesnt exist", () => {
-        expect(cardManagerService.removeCard3D(0)).to.equal(CARD_NOT_FOUND);
+        chai.expect(cardManagerService.removeCard3D(0)).to.equal(CARD_NOT_FOUND);
     });
 
     it("should return undefined because there is no more card there", () => {
-        expect(cardManagerService.getCards().list3D[1]).deep.equal(undefined);
+        chai.expect(cardManagerService.getCards().list3D[1]).deep.equal(undefined);
     });
 
     it("corresponding highscore to the gameID should exist", () => {
         cardManagerService.addCard2D(c1);
-        expect(highscoreService.findHighScoreByID(4)).to.be.equal(2);
+        chai.expect(highscoreService.findHighScoreByID(4)).to.be.equal(2);
     });
 
     it("Should return an error message", async () => {
@@ -155,7 +153,7 @@ describe("Card-manager tests", () => {
         .then((message: Message) => {
             messageTitle = message.title;
         });
-        expect(messageTitle).to.equal("onError");
+        chai.expect(messageTitle).to.equal("onError");
         mock.restore();
     });
     it("Should return an success message when creating a freeCard successfully", () => {
@@ -174,12 +172,12 @@ describe("Card-manager tests", () => {
             title: Constants.ON_SUCCESS_MESSAGE,
             body: Constants.CARD_ADDED,
         };
-        expect(cardManagerService.freeCardCreationRoutine(sceneMessage)).to.deep.equal(message);
+        chai.expect(cardManagerService.freeCardCreationRoutine(sceneMessage)).to.deep.equal(message);
         cardManagerService.removeCard3D(2000);
     });
 
     it("Should return false when the title already exists", () => {
-        expect(cardManagerService.isSceneNameNew("Dylan QT")).to.equal(false);
+        chai.expect(cardManagerService.isSceneNameNew("Dylan QT")).to.equal(false);
     });
 
     it("trying the splice", () => {
@@ -191,6 +189,6 @@ describe("Card-manager tests", () => {
         assetManager.saveImage(originalImagePath, "test");
         assetManager.saveImage(modifiedImagePath, "test");
         assetManager.saveImage(generatedImagePath, "test");
-        expect(cardManagerService.removeCard2D(4)).to.equal(Constants.CARD_DELETED);
+        chai.expect(cardManagerService.removeCard2D(4)).to.equal(Constants.CARD_DELETED);
     });
 });
