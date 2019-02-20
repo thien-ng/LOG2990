@@ -12,7 +12,6 @@ import {
     IPosition2D,
 } from "./interfaces";
 import { Player } from "./player";
-// import { Timer } from "./timer";
 
 const FF: number = 255;
 const WHITE: number[] = [FF, FF, FF];
@@ -76,7 +75,7 @@ export class Arena {
         return this.validateHit(position)
         .then((hitConfirmation: IHitConfirmation) => {
             if (hitConfirmation.isAHit) {
-                this.buildPlayerInputResponse(
+                return this.buildPlayerInputResponse(
                     Constants.ON_SUCCESS_MESSAGE,
                     this.originalImageSegments[(numberOfErrorsFound - 1) - hitConfirmation.hitPixelColor[0]],
                 );
