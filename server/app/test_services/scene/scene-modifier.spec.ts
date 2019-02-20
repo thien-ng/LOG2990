@@ -119,10 +119,22 @@ describe("Scene-modifier tests", () => {
             sceneObjectsQuantity: 10,
             selectedOptions: [false, true, false],
         };
-        
+
         let counterDifference: number = 0;
 
         const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables);
 
         resultScene.sceneObjects.forEach((object: ISceneObject) => {
+            for (let i: number = 0; i < iSceneVariables.sceneObjects.length; i++) {
+                if (object.id === iSceneVariables.sceneObjects[i].id) {
+                    if (object.color !== iSceneVariables.sceneObjects[i].color) {
+                        break;
+                    }
+                }
+                if (object.color === iSceneVariables.sceneObjects[i].color) {
+                    continue;
+                }
+                counterDifference++;
+                break;
+            }
 });
