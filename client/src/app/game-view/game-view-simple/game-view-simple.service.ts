@@ -1,7 +1,6 @@
-import { Inject, Injectable } from "@angular/core";
-import { IClickMessage, IPosition2D } from "../../../../../common/communication/iGameplay";
+import { Injectable } from "@angular/core";
+import { IClickMessage, IPlayerInputResponse, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { Constants } from "../../constants";
-import { SocketService } from "../../websocket/socket.service";
 
 @Injectable({
   providedIn: "root",
@@ -9,19 +8,26 @@ import { SocketService } from "../../websocket/socket.service";
 
 export class GameViewSimpleService {
 
-  public constructor(@Inject(SocketService) private socketService: SocketService) {}
+  public canvasModified: CanvasRenderingContext2D;
 
-  public onCanvasClick(pos: IPosition2D, id: number, username: string): void {
-    const clickMessage: IClickMessage = {
+  public constructor() {}
+
+  public verifyServerValidation(data: IPlayerInputResponse): void {
+    if (data.status === Constants.ON_SUCCESS_MESSAGE) {
+      this.canvasModified.fillStyle = "#FF0000";
+      this.canvasModified.fillRect(0, 0, 150, 75);
+    }
+  }
+
+  public setCanvas(modified: CanvasRenderingContext2D): void {
+    this.canvasModified = modified;
+  }
+
+  public onCanvasClick(pos: IPosition2D, id: number, username: string): IClickMessage {
+    return {
       position: pos,
       arenaID: id,
       username: username,
     };
-    this.sendMessage(clickMessage);
   }
-
-  private sendMessage(positionMessage: IClickMessage): void {
-    this.socketService.sendMsg(Constants.ON_POSITION_VALIDATION, positionMessage);
-  }
-
 }
