@@ -112,14 +112,7 @@ export class SceneBuilder {
 
     public generateRandomSceneObject(index: number): ISceneObject {
 
-        const newSceneObject: ISceneObject = {
-            id: index,
-            type: this.selectRandomType(),
-            position: this.generateRandomAxisValues(),
-            rotation: this.generateRandomRotationValues(),
-            scale: this.generateRandomScaleValues(),
-            color: this.generateRandomColor(),
-        };
+        const newSceneObject: ISceneObject = this.createRandomSceneObject(index);
 
         this.validatePosition(newSceneObject);
 
@@ -146,7 +139,16 @@ export class SceneBuilder {
 
         this.sceneVariables = iSceneVariables;
 
-        const newSceneObject: ISceneObject = {
+        const newSceneObject: ISceneObject = this.createRandomSceneObject(index);
+
+        this.validatePosition(newSceneObject);
+
+        return newSceneObject;
+    }
+
+    private createRandomSceneObject(index: number): ISceneObject {
+
+        return {
             id: index,
             type: this.selectRandomType(),
             position: this.generateRandomAxisValues(),
@@ -154,9 +156,5 @@ export class SceneBuilder {
             scale: this.generateRandomScaleValues(),
             color: this.generateRandomColor(),
         };
-
-        this.validatePosition(newSceneObject);
-
-        return newSceneObject;
     }
 }
