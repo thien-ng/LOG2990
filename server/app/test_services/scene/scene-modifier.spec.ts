@@ -112,6 +112,6 @@ describe("Scene-modifier tests", () => {
         chai.expect(counterDifference).to.be.equal(7);
     });
 
-    it("should have 7 modification in array if options are true false false", () => {
+    it("should have 7 modification in array if options are false true false", () => {
 
 });
