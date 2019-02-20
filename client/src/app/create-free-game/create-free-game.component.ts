@@ -140,7 +140,6 @@ export class CreateFreeGameComponent {
 
     });
     this.isButtonEnabled = true;
-    // this.dialogRef.close();
   }
 
   private openSnackBar(msg: string, action: string): void {

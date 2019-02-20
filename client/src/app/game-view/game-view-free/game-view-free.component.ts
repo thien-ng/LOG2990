@@ -20,17 +20,12 @@ export class GameViewFreeComponent implements OnInit {
   public activeCard: ICard;
   private gameType: GameType;
   public gameRequest: IGameRequest;
-  public originalLoaded: boolean;
-  public modifiedLoaded: boolean;
 
   public constructor(
     private httpClient: HttpClient,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
-    ) {
-      this.originalLoaded = false;
-      this.modifiedLoaded = false;
-    }
+    ) {}
 
   public ngOnInit(): void {
       const gameID: string | null = this.route.snapshot.paramMap.get("id");
@@ -81,7 +76,6 @@ export class GameViewFreeComponent implements OnInit {
   private async fetchSceneFromServer(path: string): Promise<void> {
     fetch(path).then((response) => {
       this.loadFileInObject(response)
-      // (index === 0) ? this.loadFileInObject(response) : this.loadFileInObject1(response)
       .catch((error) => {
         this.openSnackBar(error, Constants.SNACK_ACTION);
       });
@@ -95,25 +89,29 @@ export class GameViewFreeComponent implements OnInit {
       this.openSnackBar(response.statusText, Constants.SNACK_ACTION);
     } else {
       await response.json().then((variables: ISceneVariablesMessage) => {
-        this.originalVariables = {
-          theme: variables.originalScene.theme,
-          gameName: variables.originalScene.gameName,
-          sceneBackgroundColor: variables.originalScene.sceneBackgroundColor,
-          sceneObjects: variables.originalScene.sceneObjects,
-          sceneObjectsQuantity: variables.originalScene.sceneObjectsQuantity,
-        };
-        this.modifiedVariables = {
-          theme: variables.modifiedScene.theme,
-          gameName: variables.modifiedScene.gameName,
-          sceneBackgroundColor: variables.modifiedScene.sceneBackgroundColor,
-          sceneObjects: variables.modifiedScene.sceneObjects,
-          sceneObjectsQuantity: variables.modifiedScene.sceneObjectsQuantity,
-        };
-        this.originalLoaded = true;
+
+        this.assignSceneVariable(variables);
       }).catch((error) => {
         this.openSnackBar(error, Constants.SNACK_ACTION);
       });
     }
+  }
+
+  private assignSceneVariable(variables: ISceneVariablesMessage): void {
+    this.originalVariables = {
+      theme: variables.originalScene.theme,
+      gameName: variables.originalScene.gameName,
+      sceneBackgroundColor: variables.originalScene.sceneBackgroundColor,
+      sceneObjects: variables.originalScene.sceneObjects,
+      sceneObjectsQuantity: variables.originalScene.sceneObjectsQuantity,
+    };
+    this.modifiedVariables = {
+      theme: variables.modifiedScene.theme,
+      gameName: variables.modifiedScene.gameName,
+      sceneBackgroundColor: variables.modifiedScene.sceneBackgroundColor,
+      sceneObjects: variables.modifiedScene.sceneObjects,
+      sceneObjectsQuantity: variables.modifiedScene.sceneObjectsQuantity,
+    };
   }
 
   private openSnackBar(msg: string, action: string): void {
