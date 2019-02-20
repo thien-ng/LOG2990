@@ -11,6 +11,8 @@ import { DifferenceCheckerController } from "./services/difference-checker/diffe
 import { DifferenceCheckerService } from "./services/difference-checker/difference-checker.service";
 import { GameManagerService } from "./services/game/game-manager.service";
 import { HighscoreService } from "./services/highscore.service";
+import { HitValidatorController } from "./services/hitValidator/hitValidator.controller";
+import { HitValidatorService } from "./services/hitValidator/hitValidator.service";
 import { SceneManager } from "./services/scene/scene-manager.service";
 import { UserManagerService } from "./services/user-manager.service";
 import Types from "./types";
@@ -33,6 +35,9 @@ container.bind(Types.HighscoreService).to(HighscoreService).inSingletonScope();
 
 container.bind(Types.DifferenceCheckerController).to(DifferenceCheckerController);
 container.bind(Types.DifferenceCheckerService).to(DifferenceCheckerService);
+
+container.bind(Types.HitValidatorController).to(HitValidatorController);
+container.bind(Types.HitValidatorService).to(HitValidatorService);
 
 container.bind(Types.GameManagerController).to(GameManagerController);
 container.bind(Types.GameManagerService).to(GameManagerService).inSingletonScope();
