@@ -23,9 +23,6 @@ export interface IPosition2D {
     y: number;
 }
 
-export interface IOriginalPixelsFound {
-    position: IPosition2D;
-    color:       number[];
 }
 
 export interface IOriginalImageSegment {
