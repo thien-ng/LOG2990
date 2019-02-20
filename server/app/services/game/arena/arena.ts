@@ -2,37 +2,38 @@ import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "ax
 import { User } from "../../../../../common/communication/iUser";
 import { Constants } from "../../../constants";
 import { DifferencesExtractor } from "./differencesExtractor";
+import { Player } from "./player";
+
 import {
     IArenaInfos,
     IHitConfirmation,
     IHitToValidate,
-    IOriginalImageSegment,
+    IOriginalPixelCluster,
     IPlayerInput,
-    IPlayerInputReponse,
+    IPlayerInputResponse,
     IPosition2D,
 } from "./interfaces";
-import { Player } from "./player";
 // import { Timer } from "./timer";
 
 const FF: number = 255;
 const WHITE: number[] = [FF, FF, FF];
 const URL_HIT_VALIDATOR: string = "http://localhost:3000/api/hitvalidator";
+const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
 
 export class Arena {
 
-    private readonly ERROR_ON_HTTPGET: string = "Didn't succeed to get image buffer from URL given. File: arena.ts.";
-    private readonly ERROR_HIT_VALIDATION: string = "Problem during Hit Validation process.";
-    private readonly ERROR_UNDEFINED_USER_EVENT: string = "Undefined player event";
+    private readonly ERROR_ON_HTTPGET:      string = "Didn't succeed to get image buffer from URL given. File: arena.ts.";
+    private readonly ERROR_HIT_VALIDATION:  string = "Problem during Hit Validation process.";
+    private readonly ON_FAILED_CLICK:       string = "onFailedClick";
+    private readonly USER_EVENT:            string = "onClick";
 
-    private readonly ON_FAILED_CLICK: string = "onFailedClick";
-    private readonly USER_WRONG_CLICK: string = "Le pixel cliqué n'est pas une différence";
-    private readonly USER_EVENT: string = "onClick";
-    private _players: Player[];
-    private originalImageSegments: IOriginalImageSegment[];
+    private _players:               Player[];
+    private originalPixelClusters:  Map<number, IOriginalPixelCluster>;
 
     public constructor(private arenaInfos: IArenaInfos) {
         this._players = [];
         this.createPlayers();
+        this.originalPixelClusters = new Map<number, IOriginalPixelCluster>();
     }
 
     public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {
@@ -50,18 +51,22 @@ export class Arena {
             });
     }
 
-    public async onPlayerInput(playerInput: IPlayerInput, user: User): Promise<IPlayerInputReponse> {
+    public async onPlayerInput(playerInput: IPlayerInput, user: User): Promise<IPlayerInputResponse> {
+
+        let response: IPlayerInputResponse = this.buildPlayerInputResponse(
+            this.ON_FAILED_CLICK,
+            ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
+        );
+
         switch (playerInput.event) {
             case this.USER_EVENT:
-                return this.onPlayerClick(playerInput.position, user);
+                response = await this.onPlayerClick(playerInput.position, user);
                 break;
             default:
-                return {
-                    status: Constants.ON_ERROR_MESSAGE,
-                    response: this.ERROR_UNDEFINED_USER_EVENT,
-                };
                 break;
         }
+
+        return response;
     }
 
     public contains(user: User): boolean {
@@ -70,26 +75,35 @@ export class Arena {
         });
     }
 
-    private async onPlayerClick(position: IPosition2D, user: User): Promise<IPlayerInputReponse> {
-        const numberOfErrorsFound: number = this.originalImageSegments.length;
+    private async onPlayerClick(position: IPosition2D, user: User): Promise<IPlayerInputResponse> {
+
+        let inputResponse: IPlayerInputResponse = this.buildPlayerInputResponse(
+            this.ON_FAILED_CLICK,
+            ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
+            );
 
         return this.validateHit(position)
         .then((hitConfirmation: IHitConfirmation) => {
             if (hitConfirmation.isAHit) {
-                this.buildPlayerInputResponse(
-                    Constants.ON_SUCCESS_MESSAGE,
-                    this.originalImageSegments[(numberOfErrorsFound - 1) - hitConfirmation.hitPixelColor[0]],
-                );
+
+                const pixelCluster: IOriginalPixelCluster | undefined = this.originalPixelClusters.get(hitConfirmation.hitPixelColor[0]);
+
+                if (pixelCluster !== undefined) {
+                    inputResponse = this.buildPlayerInputResponse(
+                        Constants.ON_SUCCESS_MESSAGE,
+                        pixelCluster,
+                    );
+                }
             }
 
-            return this.buildPlayerInputResponse(this.ON_FAILED_CLICK, this.USER_WRONG_CLICK);
+            return inputResponse;
         })
         .catch ((error: Error) => {
-            return this.buildPlayerInputResponse(Constants.ON_ERROR_MESSAGE, error.message);
+            return this.buildPlayerInputResponse(Constants.ON_ERROR_MESSAGE, ON_ERROR_ORIGINAL_PIXEL_CLUSTER);
         });
     }
 
-    private buildPlayerInputResponse(status: string, response: string | IOriginalImageSegment): IPlayerInputReponse {
+    private buildPlayerInputResponse(status: string, response: IOriginalPixelCluster): IPlayerInputResponse {
         return {
             status: status,
             response: response,
@@ -97,15 +111,15 @@ export class Arena {
     }
 
     public async prepareArenaForGameplay(): Promise<void> {
-        await this.extractOriginalImageSegments();
+        await this.extractOriginalPixelClusters();
     }
 
-    private async extractOriginalImageSegments(): Promise<void> {
+    private async extractOriginalPixelClusters(): Promise<void> {
 
         const originalImage:   Buffer = await this.getImageFromUrl(this.arenaInfos.originalGameUrl);
         const differenceImage: Buffer = await this.getImageFromUrl(this.arenaInfos.differenceGameUrl);
         const extractor: DifferencesExtractor = new DifferencesExtractor();
-        this.originalImageSegments = extractor.extractDifferences(originalImage, differenceImage);
+        this.originalPixelClusters = extractor.extractPixelClustersFrom(originalImage, differenceImage);
     }
 
     private async getImageFromUrl(imageUrl: string): Promise<Buffer> {
@@ -120,12 +134,6 @@ export class Arena {
             .catch((error: Error) => {
                 throw new TypeError(this.ERROR_ON_HTTPGET);
             });
-    }
-
-    private createPlayers(): void {
-        this.arenaInfos.users.forEach((user: User) => {
-            this._players.push(new Player(user));
-        });
     }
 
     private buildPostData(position: IPosition2D): IHitToValidate {
@@ -145,7 +153,13 @@ export class Arena {
         };
     }
 
-    public getPlayers(): Player[] {
+    private createPlayers(): void {
+        this.arenaInfos.users.forEach((user: User) => {
+            this._players.push(new Player(user));
+        });
+    }
+
+    public get players(): Player[] {
         return this._players;
     }
 

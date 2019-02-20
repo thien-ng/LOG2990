@@ -23,21 +23,25 @@ export interface IPosition2D {
     y: number;
 }
 
-export interface IOriginalPixelsFound {
-    position: IPosition2D;
-    color:       number[];
+export interface IColorRGB {
+    R: number;
+    G: number;
+    B: number;
 }
 
-export interface IOriginalImageSegment {
-    startPosition: IPosition2D;
-    width:      number;
-    height:     number;
-    image:      Buffer;
+export interface IReplacementPixel {
+    color:      IColorRGB;
+    position:   IPosition2D;
 }
 
-export interface IPlayerInputReponse {
+export interface IOriginalPixelCluster {
+    differenceKey:  number;
+    cluster:        IReplacementPixel[];
+}
+
+export interface IPlayerInputResponse {
     status:         string;
-    response:       IOriginalImageSegment | string;
+    response:       IOriginalPixelCluster;
 }
 
 export interface IPlayerInput {
