@@ -1,3 +1,4 @@
+import { IPosition2D } from "../../../../../common/communication/iGameplay";
 import { User } from "../../../../../common/communication/iUser";
 
 export interface IHitToValidate {
@@ -16,16 +17,6 @@ export interface IArenaInfos {
 export interface IHitConfirmation {
     isAHit:         Boolean;
     hitPixelColor: number[];
-}
-
-export interface IOriginalPixelCluster {
-    differenceKey:  number;
-    cluster:        IReplacementPixel[];
-}
-
-export interface IPlayerInputResponse {
-    status:         string;
-    response:       IOriginalPixelCluster;
 }
 
 export interface IPlayerInput {
