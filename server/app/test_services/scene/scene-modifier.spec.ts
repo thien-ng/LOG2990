@@ -119,4 +119,10 @@ describe("Scene-modifier tests", () => {
             sceneObjectsQuantity: 10,
             selectedOptions: [false, true, false],
         };
+        
+        let counterDifference: number = 0;
+
+        const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables);
+
+        resultScene.sceneObjects.forEach((object: ISceneObject) => {
 });
