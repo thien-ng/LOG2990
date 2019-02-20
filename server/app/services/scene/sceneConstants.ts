@@ -1,5 +1,7 @@
 export class SceneConstants {
 
+    // Scene object types
+    public static readonly MAX_TYPE_INDEX: number = 4;
     // Colors
     public static readonly HEX_TYPE: number = 16;
     public static readonly HEX_PREFIX: string = "#";
@@ -9,6 +11,7 @@ export class SceneConstants {
     public static readonly MAX_POSITION_X: number = 100;
     public static readonly MAX_POSITION_Y: number = 100;
     public static readonly MAX_POSITION_Z: number = 100;
+    public static readonly DISTANCE_OFFSET: number = 10;
     // Scales
     public static readonly MIN_SCALE: number = 2;
     public static readonly MAX_SCALE: number = 8;
@@ -20,8 +23,12 @@ export class SceneConstants {
     public static readonly THREE: number = 3;
 
     // Constants for scene-manager.service.ts
-    public static readonly TYPE_CUBE: string = "cube";
-    public static readonly TYPE_CONE: string = "cone";
-    public static readonly TYPE_CYLINDER: string = "cylinder";
-    public static readonly TYPE_PYRAMID: string = "pyramid";
+    public static readonly TYPE_GEOMETRIC: string = "Geometric";
+    public static readonly TYPE_THEMATIC: string = "Thematic";
+
+    // Constants for scene-modifier.ts
+    public static readonly OPTION_ADD: string = "add";
+    public static readonly OPTION_REMOVE: string = "remove";
+    public static readonly OPTION_CHANGE_COLOR: string = "changeColor";
+
 }

@@ -4,6 +4,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import "rxjs/add/observable/of";
 import "rxjs/add/operator/toPromise";
 import { mock } from "ts-mockito";
+import { Message } from "../../../../common/communication/message";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { LoginValidatorService } from "./login-validator.service";
 
@@ -29,11 +30,15 @@ describe("Tests on LoginValidatorService", () => {
     });
   });
 
-  it("should call addUsername correctly", () => {
-    spyOn(loginValidatorService, "addUsername");
+  it("should call generate a message when adding username", () => {
+    spyOn<any>(loginValidatorService, "generateMessage");
 
     loginValidatorService.addUsername("validUsername");
-    expect(loginValidatorService.addUsername).toHaveBeenCalled();
+    expect(loginValidatorService["generateMessage"]).toHaveBeenCalled();
   });
 
+  it("should generate a Message", () => {
+    const message: Message = loginValidatorService["generateMessage"]("Michel");
+    expect(message.body).toBe("Michel");
+  });
 });

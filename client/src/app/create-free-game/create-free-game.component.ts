@@ -10,7 +10,7 @@ import {
   ValidatorFn
 } from "@angular/forms";
 import { MatDialogRef, MatSnackBar } from "@angular/material";
-import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
+import { ISceneVariablesMessage } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
 import { Constants } from "../constants";
 
@@ -34,11 +34,8 @@ export class CreateFreeGameComponent {
   public readonly TITLE: string = "Créer un jeu de point de vue libre";
   public readonly PLACE_HOLDER_NAME: string = "Nom du jeu";
   public readonly PLACE_HOLDER_TYPE: string = "Type d'objet";
-  public readonly SPHERE_OPTION: string = "Sphère";
-  public readonly CUBE_OPTION: string = "Cube";
-  public readonly CONE_OPTION: string = "Cône";
-  public readonly CYLINDER_OPTION: string = "Cylindre";
-  public readonly PYRAMID_OPTION: string = "Pyramide à base triangulaire";
+  public readonly GEOMETRIC_OPTION: string = "Formes géométriques";
+  public readonly THEMATIC_OPTION: string = "Thématique";
   public readonly EDIT_TYPE_ADD: string = "Ajout";
   public readonly EDIT_TYPE_DELETE: string = "Suppression";
   public readonly EDIT_TYPE_COLOR: string = "Changement de couleur";
@@ -47,9 +44,7 @@ export class CreateFreeGameComponent {
 
   public formControl: FormGroup;
   public isSceneGenerated: boolean;
-
-  // to be removed
-  public iSceneVariables: ISceneVariables;
+  public iSceneVariablesMessage: ISceneVariablesMessage;
 
   public modifTypes: {name: string}[] = [
       { name: this.EDIT_TYPE_ADD },
@@ -58,7 +53,7 @@ export class CreateFreeGameComponent {
     ];
 
   public constructor(
-    private dialogRef: MatDialogRef<CreateFreeGameComponent>,
+    public dialogRef: MatDialogRef<CreateFreeGameComponent>,
     private formBuilder: FormBuilder,
     private httpClient: HttpClient,
     private snackBar: MatSnackBar,
@@ -126,7 +121,7 @@ export class CreateFreeGameComponent {
     return {
       gameName: formData.value.nameControl,
       checkedTypes: formData.value.modifTypes,
-      selectedOption: formData.value.selectControl,
+      theme: formData.value.selectControl,
       quantityChange: this.sliderValue,
     } as FormMessage;
   }
@@ -135,17 +130,16 @@ export class CreateFreeGameComponent {
     this.isButtonEnabled = false;
     const formValue: FormMessage = this.createFormMessage(formData);
 
-    this.httpClient.post(Constants.FREE_SCENE_GENERATOR_PATH, formValue).subscribe((response: ISceneVariables | string) => {
+    this.httpClient.post(Constants.FREE_SCENE_GENERATOR_PATH, formValue).subscribe((response: ISceneVariablesMessage | string) => {
       if (typeof response === "string") {
         this.openSnackBar(response, Constants.SNACK_ACTION);
       } else {
-        this.iSceneVariables = response;
+        this.iSceneVariablesMessage = response;
         this.isSceneGenerated = true;
       }
 
     });
     this.isButtonEnabled = true;
-    this.dialogRef.close();
   }
 
   private openSnackBar(msg: string, action: string): void {

@@ -10,6 +10,7 @@ let collisionBoxGenerator: CollisionBoxGenerator;
 describe("Collision box generator tests", () => {
 
     const cube: ISceneObject = {
+        id: 1,
         type: SceneObjectType.Cube,
         position: {
             x: 20, y: 20, z: 20 },
@@ -23,6 +24,7 @@ describe("Collision box generator tests", () => {
     };
 
     const cylinder: ISceneObject = {
+        id: 2,
         type: SceneObjectType.Cylinder,
         position: {
             x: 20, y: 20, z: 20 },
@@ -36,6 +38,7 @@ describe("Collision box generator tests", () => {
     };
 
     const pyramid: ISceneObject = {
+        id: 3,
         type: SceneObjectType.TriangularPyramid,
         position: {
             x: 20, y: 20, z: 20 },
@@ -49,6 +52,7 @@ describe("Collision box generator tests", () => {
     };
 
     const cone: ISceneObject = {
+        id: 4,
         type: SceneObjectType.Cone,
         position: {
             x: 20, y: 20, z: 20 },
@@ -62,7 +66,22 @@ describe("Collision box generator tests", () => {
     };
 
     const sphere: ISceneObject = {
+        id: 5,
         type: SceneObjectType.Sphere,
+        position: {
+            x: 20, y: 20, z: 20 },
+        rotation: {
+            x: 1, y: 1, z: 1,
+        },
+        scale: {
+            x: 10, y: 10, z: 10,
+        },
+        color: "#8cadbb",
+    };
+
+    const defaultObject: ISceneObject = {
+        id: 1,
+        type: 10,
         position: {
             x: 20, y: 20, z: 20 },
         rotation: {
@@ -117,6 +136,14 @@ describe("Collision box generator tests", () => {
         const spy: any = chai.spy.on(collisionBoxGenerator, "calculateSphereCollisionRadius");
 
         collisionBoxGenerator.generateCollisionRadius(sphere);
+
+        chai.expect(spy).to.have.been.called();
+    });
+
+    it("should call calculateSphereCollisionRadius for an undefined object type", () => {
+        const spy: any = chai.spy.on(collisionBoxGenerator, "calculateSphereCollisionRadius");
+
+        collisionBoxGenerator.generateCollisionRadius(defaultObject);
 
         chai.expect(spy).to.have.been.called();
     });

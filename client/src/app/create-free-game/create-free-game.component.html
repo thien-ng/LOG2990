@@ -10,11 +10,8 @@
 
   <mat-form-field class="selector">
     <mat-select  placeholder={{PLACE_HOLDER_TYPE}} formControlName="selectControl" required>
-      <mat-option value="sphere">{{SPHERE_OPTION}}</mat-option>
-      <mat-option value="cube">{{CUBE_OPTION}}</mat-option>
-      <mat-option value="cone">{{CONE_OPTION}}</mat-option>
-      <mat-option value="cylinder">{{CYLINDER_OPTION}}</mat-option>
-      <mat-option value="pyramid">{{PYRAMID_OPTION}}</mat-option>
+      <mat-option value="geometric">{{GEOMETRIC_OPTION}}</mat-option>
+      <mat-option value="thematic">{{THEMATIC_OPTION}}</mat-option>
     </mat-select>
   </mat-form-field>
   <div>
@@ -52,5 +49,9 @@
   <button class="button-padding" mat-raised-button type="button" (click)="closeDialog()">{{CANCEL}}</button>
 </form>
 <div *ngIf="isSceneGenerated" style="display: none">
-  <app-threejs-view [iSceneVariables]="iSceneVariables" [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
+  <app-threejs-view [iSceneVariablesMessage]="iSceneVariablesMessage"
+                    [iSceneVariables]="iSceneVariablesMessage.originalScene"
+                    [isSnapshotNeeded]="NEEDED_SNAPSHOT"
+                    (sceneGenerated)="closeDialog()">
+  </app-threejs-view>
 </div>

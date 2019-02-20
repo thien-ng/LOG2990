@@ -1,4 +1,4 @@
-import { IAxisValues, ISceneObject } from "../../../../common/communication/iSceneObject";
+import { IAxisValues, ISceneObject, SceneObjectType } from "../../../../common/communication/iSceneObject";
 import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
 import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { SceneConstants } from "./sceneConstants";
@@ -17,15 +17,14 @@ export class SceneBuilder {
     public generateScene(sceneOptions: ISceneOptions): ISceneVariables {
 
         this.sceneVariables = {
+            theme: sceneOptions.sceneType,
             gameName: sceneOptions.sceneName,
             sceneObjectsQuantity: sceneOptions.sceneObjectsQuantity,
             sceneObjects: [],
             sceneBackgroundColor: this.generateRandomColor(),
         };
 
-        this.generateSceneObjects(sceneOptions);
-
-        return this.sceneVariables;
+        return this.generateSceneObjects(sceneOptions);
     }
 
     public generateRandomAxisValues(): IAxisValues {
@@ -99,18 +98,23 @@ export class SceneBuilder {
         return Math.random() * (max - min + 1) + min;
     }
 
-    private generateSceneObjects(sceneOptions: ISceneOptions): void {
+    private generateSceneObjects(sceneOptions: ISceneOptions): ISceneVariables {
 
         const sceneObjectsQuantity: number = sceneOptions.sceneObjectsQuantity;
 
         for (let index: number = 0; index < sceneObjectsQuantity; index++) {
-            this.sceneVariables.sceneObjects.push(this.generateRandomSceneObject(sceneOptions));
+            const generatedObject: ISceneObject = this.generateRandomSceneObject(index);
+            this.sceneVariables.sceneObjects.push(generatedObject);
         }
+
+        return this.sceneVariables;
     }
 
-    private generateRandomSceneObject(sceneOptions: ISceneOptions): ISceneObject {
+    public generateRandomSceneObject(index: number): ISceneObject {
+
         const newSceneObject: ISceneObject = {
-            type: sceneOptions.sceneObjectsType,
+            id: index,
+            type: this.selectRandomType(),
             position: this.generateRandomAxisValues(),
             rotation: this.generateRandomRotationValues(),
             scale: this.generateRandomScaleValues(),
@@ -122,14 +126,37 @@ export class SceneBuilder {
         return newSceneObject;
     }
 
+    private selectRandomType(): SceneObjectType {
+
+        return this.randomIntegerFromInterval(0, SceneConstants.MAX_TYPE_INDEX);
+    }
+
     private validatePosition(newSceneObject: ISceneObject): void {
 
         let hasCollision: boolean;
 
         do {
 
-            hasCollision = this.collisionValidator.hasCollidingPositions(newSceneObject, this.sceneVariables.sceneObjects);
             newSceneObject.position = this.generateRandomAxisValues();
+            hasCollision = this.collisionValidator.hasCollidingPositions(newSceneObject, this.sceneVariables.sceneObjects);
         } while (hasCollision);
+    }
+
+    public generateModifyObject(index: number, iSceneVariables: ISceneVariables): ISceneObject {
+
+        this.sceneVariables = iSceneVariables;
+
+        const newSceneObject: ISceneObject = {
+            id: index,
+            type: this.selectRandomType(),
+            position: this.generateRandomAxisValues(),
+            rotation: this.generateRandomRotationValues(),
+            scale: this.generateRandomScaleValues(),
+            color: this.generateRandomColor(),
+        };
+
+        this.validatePosition(newSceneObject);
+
+        return newSceneObject;
     }
 }

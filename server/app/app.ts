@@ -10,6 +10,7 @@ import { HighscoreController } from "./controllers/highscore.controller";
 import { SceneManagerController } from "./controllers/scene-manager.controller";
 import { UserController } from "./controllers/user.controller";
 import { DifferenceCheckerController } from "./services/difference-checker/difference-checker.controller";
+import { HitValidatorController } from "./services/hitValidator/hitValidator.controller";
 import Types from "./types";
 
 @injectable()
@@ -23,6 +24,7 @@ export class Application {
         @inject(Types.HighscoreController) private highscoreController: HighscoreController,
         @inject(Types.UserController) private userController: UserController,
         @inject(Types.DifferenceCheckerController) private differenceCheckerController: DifferenceCheckerController,
+        @inject(Types.HitValidatorController)       private hitValidatorController:      HitValidatorController,
         @inject(Types.SceneManagerController) private sceneManagerController: SceneManagerController,
         @inject(Types.GameManagerController) private gameManagerController: GameManagerController,
 
@@ -49,6 +51,7 @@ export class Application {
         this.app.use("/api/highscore", this.highscoreController.router);
         this.app.use("/api/user", this.userController.router);
         this.app.use("/api/differenceChecker", this.differenceCheckerController.router);
+        this.app.use("/api/hitValidator", this.hitValidatorController.router);
         this.app.use("/api/scene", this.sceneManagerController.router);
         this.app.use("/api/game", this.gameManagerController.router);
         this.app.use(express.static("./app/asset"));

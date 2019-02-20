@@ -1,8 +1,8 @@
 import * as chai from "chai";
 import * as spies from "chai-spies";
 import "reflect-metadata";
-import { ISceneObject, SceneObjectType } from "../../../../common/communication/iSceneObject";
-import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
+import { ISceneObject } from "../../../../common/communication/iSceneObject";
+import { ISceneOptions, SceneType } from "../../../../common/communication/iSceneOptions";
 import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { SceneBuilder } from "../../services/scene/scene-builder";
 
@@ -11,22 +11,18 @@ let sceneBuilder: SceneBuilder;
 
 describe("Scene builder tests", () => {
 
-    const sceneOptions10Cubes: ISceneOptions = {
-        sceneName: "10 cubes",
-        sceneObjectsType: SceneObjectType.Cube,
+    const sceneOptions10: ISceneOptions = {
+        sceneName: "10 objects",
+        sceneType: SceneType.Geometric,
         sceneObjectsQuantity: 10,
-    };
-
-    const sceneOptions10Spheres: ISceneOptions = {
-        sceneName: "10 cubes",
-        sceneObjectsType: SceneObjectType.Sphere,
-        sceneObjectsQuantity: 10,
+        selectedOptions: [true, true, true],
     };
 
     const sceneOptions200: ISceneOptions = {
-        sceneName: "200 objet",
-        sceneObjectsType: SceneObjectType.Cube,
+        sceneName: "200 objects",
+        sceneType: SceneType.Geometric,
         sceneObjectsQuantity: 200,
+        selectedOptions: [true, true, true],
     };
 
     beforeEach(() => {
@@ -37,7 +33,7 @@ describe("Scene builder tests", () => {
     });
 
     it("should generate a SceneObject[] of length 10", () => {
-        const scene: ISceneVariables = sceneBuilder.generateScene(sceneOptions10Cubes);
+        const scene: ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
         chai.expect(scene.sceneObjects.length).equal(10);
     });
 
@@ -46,30 +42,17 @@ describe("Scene builder tests", () => {
         chai.expect(scene.sceneObjects.length).equal(200);
     });
 
-    it("should generate scene objects of type Cube", () => {
-        const scene: ISceneVariables = sceneBuilder.generateScene(sceneOptions10Cubes);
-        let isAllCubes: boolean = true;
+    it("should generate scene objects of valid type", () => {
+        const scene: ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
+        let areAllTypesValid: boolean = false;
 
         scene.sceneObjects.forEach((element: ISceneObject) => {
-            if (element.type !== SceneObjectType.Cube) {
-                isAllCubes = false;
+            if (element.type >= 0 && element.type <= 4) {
+                areAllTypesValid = true;
             }
         });
 
-        chai.expect(isAllCubes).equal(true);
-    });
-
-    it("should generate scene objects of type Sphere", () => {
-        const scene: ISceneVariables = sceneBuilder.generateScene(sceneOptions10Spheres);
-        let isAllCubes: boolean = true;
-
-        scene.sceneObjects.forEach((element: ISceneObject) => {
-            if (element.type !== SceneObjectType.Sphere) {
-                isAllCubes = false;
-            }
-        });
-
-        chai.expect(isAllCubes).equal(true);
+        chai.expect(areAllTypesValid).equal(true);
     });
 
     it("should generate colors in hex format", () => {

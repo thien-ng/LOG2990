@@ -25,6 +25,7 @@ export class Constants {
   public static readonly VALIDATION_FAILED:         string = "Validation services failed";
   public static readonly UNKNOWN_ERROR:             string = "Erreur inconnue";
   public static readonly GENERATED_SNAPSHOT:        string = "_snapshot.jpeg";
+  public static readonly SCENES_FILE:               string = "_scene";
   public static readonly ORIGINAL_SCENE_FILE:       string = "_sceneOriginal.txt";
   public static readonly MODIFIED_SCENE_FILE:       string = "_sceneModified.txt";
   public static readonly DECIMAL:                   number = 10;
@@ -45,4 +46,10 @@ export class Constants {
   // Constants for card-manager-controller
   public static readonly DEFAULT_CARD_ID:           number = 1;
   public static readonly DELETION_ERROR_MESSAGE:    string = "Impossible de supprimer la carte par défault";
+
+  // Constants for game manager
+  public static readonly PATH_TO_IMAGES:             string = Constants.BASE_URL + "/image/";
+
+  // Constants for user manager service
+  public static readonly USER_NOT_FOUND:            string = "Utilisateur inexistant";
 }
