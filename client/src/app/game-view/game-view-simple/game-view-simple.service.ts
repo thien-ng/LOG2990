@@ -1,5 +1,5 @@
 import { Inject, Injectable } from "@angular/core";
-import { ICanvasPosition, IClickMessage } from "../../../../../common/communication/iGameplay";
+import { IClickMessage, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { Constants } from "../../constants";
 import { SocketService } from "../../websocket/socket.service";
 
@@ -11,7 +11,7 @@ export class GameViewSimpleService {
 
   public constructor(@Inject(SocketService) private socketService: SocketService) {}
 
-  public onCanvasClick(pos: ICanvasPosition, id: number, username: string): void {
+  public onCanvasClick(pos: IPosition2D, id: number, username: string): void {
     const clickMessage: IClickMessage = {
       position: pos,
       arenaID: id,
