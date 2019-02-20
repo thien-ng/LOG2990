@@ -2,9 +2,12 @@ import { HttpClient } from "@angular/common/http";
 import { AfterContentInit, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
+import { IGameRequest } from "../../../../../common/communication/iGameRequest";
+import { Message } from "../../../../../common/communication/message";
 import { Constants } from "../../constants";
 import { SocketService } from "../../websocket/socket.service";
 import { GameViewSimpleService } from "./game-view-simple.service";
+import { ICanvasPosition } from "../../../../../common/communication/iGameplay";
 
 @Component({
   selector: "app-game-view-simple",
@@ -21,7 +24,10 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   @ViewChild("modifiedImage", {read: ElementRef})
   public canvasModified: ElementRef;
   private originalPath: string;
+  private gameRequest: IGameRequest;
   private modifiedPath: string;
+  private arenaID: number;
+  private username: string | null;
 
   public constructor(
     @Inject(GameViewSimpleService) public gameViewService: GameViewSimpleService,
@@ -30,11 +36,15 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     private httpClient: HttpClient,
     ) {
       this.cardLoaded = false;
+      this.username = sessionStorage.getItem(Constants.USERNAME_KEY);
     }
 
   public ngOnInit(): void {
-    this.getActiveCard();
-    this.canvasRoutine();
+    const gameID: string | null = this.route.snapshot.paramMap.get("id");
+    if (gameID !== null && this.username !== null) {
+      this.getActiveCard(this.username);
+      this.canvasRoutine();
+    }
   }
 
   public ngAfterContentInit(): void {
@@ -43,17 +53,39 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     this.initListener();
   }
 
+  private createGameRequest(gameID: string, username: string): void {
+    const mode: string | null = this.route.snapshot.paramMap.get("gamemode");
+    if (mode !== null) {
+      this.gameRequest = {
+        username: username,
+        gameId: this.activeCard.gameID,
+        type: JSON.parse(mode),
+        mode: GameMode.simple,
+      };
+      this.handleGameRequest();
+    }
+ }
+
+  private handleGameRequest(): void {
+  this.httpClient.post(Constants.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
+      if (data.title === Constants.ON_SUCCESS_MESSAGE) {
+        this.arenaID = parseInt(data.body, Constants.DECIMAL);
+      }
+    });
+  }
+
   public ngOnDestroy(): void {
     // test will be changed to something else, To be determined
     this.socketService.sendMsg(Constants.ON_GAME_DISCONNECT, "test");
   }
 
-  private getActiveCard(): void {
+  private getActiveCard(username: string): void {
     const gameID: string | null = this.route.snapshot.paramMap.get("id");
     if (gameID !== null) {
       this.httpClient.get(Constants.PATH_TO_GET_CARD + gameID + "/" + GameMode.simple).subscribe((response: ICard) => {
         this.activeCard = response;
         this.cardLoaded = true;
+        this.createGameRequest(gameID, username);
       });
       this.originalPath = Constants.PATH_TO_IMAGES + "/" + gameID + Constants.ORIGINAL_FILE;
       this.modifiedPath = Constants.PATH_TO_IMAGES + "/" + gameID + Constants.MODIFIED_FILE;
@@ -78,10 +110,22 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
 
   public initListener(): void {
     this.canvasOriginal.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
-      this.gameViewService.onCanvasClick(mouseEvent.offsetX, mouseEvent.offsetY);
+      const pos: ICanvasPosition = {
+        positionX: mouseEvent.offsetX,
+        positionY: mouseEvent.offsetY,
+      };
+      if (this.username !== null) {
+        this.gameViewService.onCanvasClick(pos, this.arenaID, this.username);
+      }
     });
     this.canvasModified.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
-      this.gameViewService.onCanvasClick(mouseEvent.offsetX, mouseEvent.offsetY);
+      const pos: ICanvasPosition = {
+        positionX: mouseEvent.offsetX,
+        positionY: mouseEvent.offsetY,
+      };
+      if (this.username !== null) {
+        this.gameViewService.onCanvasClick(pos, this.arenaID, this.username);
+      }
     });
   }
 
