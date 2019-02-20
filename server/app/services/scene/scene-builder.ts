@@ -105,12 +105,15 @@ export class SceneBuilder {
         const sceneObjectsQuantity: number = sceneOptions.sceneObjectsQuantity;
 
         for (let index: number = 0; index < sceneObjectsQuantity; index++) {
-            this.sceneVariables.sceneObjects.push(this.generateRandomSceneObject(sceneOptions));
+            const generatedObject: ISceneObject = this.generateRandomSceneObject(index);
+            this.sceneVariables.sceneObjects.push(generatedObject);
         }
     }
 
-    private generateRandomSceneObject(sceneOptions: ISceneOptions): ISceneObject {
+    public generateRandomSceneObject(index: number): ISceneObject {
+
         const newSceneObject: ISceneObject = {
+            id: index,
             type: this.selectRandomType(),
             position: this.generateRandomAxisValues(),
             rotation: this.generateRandomRotationValues(),
@@ -137,5 +140,23 @@ export class SceneBuilder {
             newSceneObject.position = this.generateRandomAxisValues();
             hasCollision = this.collisionValidator.hasCollidingPositions(newSceneObject, this.sceneVariables.sceneObjects);
         } while (hasCollision);
+    }
+
+    public generateModifyObject(index: number, iSceneVariables: ISceneVariables): ISceneObject {
+
+        this.sceneVariables = iSceneVariables;
+
+        const newSceneObject: ISceneObject = {
+            id: index,
+            type: this.selectRandomType(),
+            position: this.generateRandomAxisValues(),
+            rotation: this.generateRandomRotationValues(),
+            scale: this.generateRandomScaleValues(),
+            color: this.generateRandomColor(),
+        };
+
+        this.validatePosition(newSceneObject);
+
+        return newSceneObject;
     }
 }

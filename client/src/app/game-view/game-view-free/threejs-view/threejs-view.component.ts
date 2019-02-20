@@ -1,9 +1,9 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, ElementRef, Inject, Input, OnChanges, ViewChild } from "@angular/core";
+import { Component, ElementRef, EventEmitter, Inject, Input, OnChanges, Output, ViewChild } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import * as THREE from "three";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
-import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
+import { ISceneVariables, ISceneVariablesMessage } from "../../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../../common/communication/message";
 import { CardManagerService } from "../../../card/card-manager.service";
 import { Constants } from "../../../constants";
@@ -13,6 +13,7 @@ import { ThreejsViewService } from "./threejs-view.service";
   selector: "app-threejs-view",
   templateUrl: "./threejs-view.component.html",
   styleUrls: ["./threejs-view.component.css"],
+  providers: [ThreejsViewService],
 })
 export class TheejsViewComponent implements OnChanges {
 
@@ -23,7 +24,13 @@ export class TheejsViewComponent implements OnChanges {
   private iSceneVariables: ISceneVariables;
 
   @Input()
+  private iSceneVariablesMessage: ISceneVariablesMessage;
+
+  @Input()
   private isSnapshotNeeded: boolean;
+
+  @Output()
+  public sceneGenerated: EventEmitter<string>;
 
   @ViewChild("originalScene", {read: ElementRef})
   private originalScene: ElementRef;
@@ -34,7 +41,7 @@ export class TheejsViewComponent implements OnChanges {
     private snackBar: MatSnackBar,
     private cardManagerService: CardManagerService,
     ) {
-
+    this.sceneGenerated = new EventEmitter();
     this.scene = new THREE.Scene();
   }
 
@@ -46,11 +53,10 @@ export class TheejsViewComponent implements OnChanges {
 
   private initScene(): void {
 
-    this.renderer = this.threejsViewService.getRenderer();
+    this.renderer = new THREE.WebGLRenderer();
     this.originalScene.nativeElement.appendChild(this.renderer.domElement);
-    this.threejsViewService.createScene(this.scene, this.iSceneVariables);
+    this.threejsViewService.createScene(this.scene, this.iSceneVariables, this.renderer);
     this.threejsViewService.animate();
-
     this.takeSnapShot();
   }
 
@@ -65,7 +71,7 @@ export class TheejsViewComponent implements OnChanges {
 
   private createMessage(image: string): ISceneMessage {
     return {
-      sceneVariable: this.iSceneVariables,
+      iSceneVariablesMessage: this.iSceneVariablesMessage,
       image: image,
     } as ISceneMessage;
   }
@@ -80,7 +86,7 @@ export class TheejsViewComponent implements OnChanges {
 
     if (response.title === Constants.ON_SUCCESS_MESSAGE) {
       this.cardManagerService.updateCards(true);
-
+      this.sceneGenerated.emit();
     } else if (response.title === Constants.ON_ERROR_MESSAGE) {
       this.openSnackBar(response.body, Constants.SNACK_ACTION);
     }
