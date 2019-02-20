@@ -101,4 +101,6 @@ export class Constants {
 
   // Constants for chat view
   public static readonly ON_FAILED_CLICK: string = "onFailedClick";
+  public static readonly FAILED_CLICK_MESSAGE: string = "Wrong Hit";
+  public static readonly GOOD_CLICK_MESSAGE: string = "Good Hit";
 }
