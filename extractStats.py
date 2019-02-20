@@ -122,8 +122,14 @@ def processError(stats,line)  :
 
 
 def accept(commit):
-    begin_date = date(*args.begin) if args.begin else config['period'].get('begin',date(1,1,1))
-    end_date = date(*args.end) if args.end else config['period'].get('end',date(9999,1,1))
+
+    if args.sprint:
+        begin_date = sprints[args.sprint]['begin']
+        end_date = sprints[args.sprint]['end']
+
+    else:
+        begin_date = date(*args.begin) if args.begin else config['period'].get('begin',date(1,1,1))
+        end_date = date(*args.end) if args.end else config['period'].get('end',date(9999,1,1))
 
     if commit.date < begin_date:
         return False
@@ -153,9 +159,10 @@ def accept(commit):
     if commit.id in config['forget']:
         return False
 
-    if commit.inserted > BIG_COMMIT_TRESHOLD or commit.deleted > BIG_COMMIT_TRESHOLD:
-        print("*** Very big commit: {}  ins. = {}  del. = {}".format(commit.id,commit.inserted,commit.deleted))
-        return False
+    if type(commit) is RegularCommit:
+        if commit.inserted > BIG_COMMIT_TRESHOLD or commit.deleted > BIG_COMMIT_TRESHOLD:
+            print("*** Very big commit: {}  ins. = {}  del. = {}".format(commit.id,commit.inserted,commit.deleted))
+            return False
 
     return True
 
@@ -254,7 +261,7 @@ def parseStats(stats):
 def statsPerCommiter(commits):
     stats = {}
 
-    for c in commits:
+    for c in filter(lambda c: type(c) is RegularCommit, commits):
         if c.commiter not in stats:
             stats[c.commiter] = StatAuthor()
 
@@ -267,7 +274,7 @@ def statsPerCommiter(commits):
 def statsPerAuthor(commits):
     stats = {}
 
-    for c in commits:
+    for c in filter(lambda c: type(c) is RegularCommit, commits):
         for a in c.authors:
             if a not in stats:
                 stats[a] = StatAuthor()
@@ -300,6 +307,8 @@ parser.add_argument("--authors", nargs = "*", metavar="AUTEUR",
 parser.add_argument("--tasks", nargs = "*", metavar = "TACHE",
                     help = "La liste des tâches pour lesquelles on veut extraire les statistiques. Les"
                            "valeurs possibles sont les suivantes: {} {} {} {} {} {}".format(DEV,DEBUG,REFACTOR,TEST,OTHER,NONE))
+parser.add_argument("--sprint", type = int,
+                    help = "Les stats ne seront fournies que pour le sprint spécifié")
 
 
 args = parser.parse_args()
