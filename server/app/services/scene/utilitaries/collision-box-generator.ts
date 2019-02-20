@@ -47,11 +47,7 @@ export class CollisionBoxGenerator {
 
     private calculateCubeCollisionRadius(sceneObject: ISceneObject): number {
 
-        const halfWidth: number = this.divideByTwo(sceneObject.scale.x);
-        const halfHeight: number = this.divideByTwo(sceneObject.scale.y);
-        const halfDepth: number = this.divideByTwo(sceneObject.scale.z);
-
-        return this.pythagore( [halfWidth, halfHeight, halfDepth] );
+        return this.pythagore( [sceneObject.scale.x, sceneObject.scale.y, sceneObject.scale.z] );
     }
 
     private calculatePyramidCollisionRadius(sceneObject: ISceneObject): number {
