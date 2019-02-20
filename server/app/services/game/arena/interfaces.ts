@@ -29,6 +29,11 @@ export interface IColorRGB {
     B: number;
 }
 
+export interface IReplacementPixel {
+    color:      IColorRGB;
+    position:   IPosition2D;
+}
+
 }
 
 export interface IPlayerInputReponse {
