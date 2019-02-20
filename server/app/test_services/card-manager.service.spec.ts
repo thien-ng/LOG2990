@@ -8,13 +8,14 @@ import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/c
 import { ICardLists } from "../../../common/communication/iCardLists";
 import { ISceneMessage } from "../../../common/communication/iSceneMessage";
 import { ISceneOptions, SceneType } from "../../../common/communication/iSceneOptions";
-import { ISceneVariables } from "../../../common/communication/iSceneVariables";
+import { ISceneVariables, ISceneVariablesMessage } from "../../../common/communication/iSceneVariables";
 import { Message } from "../../../common/communication/message";
 import { Constants } from "../constants";
 import { AssetManagerService } from "../services/asset-manager.service";
 import { CardManagerService } from "../services/card-manager.service";
 import { HighscoreService } from "../services/highscore.service";
 import { SceneBuilder } from "../services/scene/scene-builder";
+import { SceneModifier } from "../services/scene/scene-modifier";
 
 /*tslint:disable no-magic-numbers no-any */
 
@@ -161,11 +162,17 @@ describe("Card-manager tests", () => {
             sceneName: "10 objects",
             sceneType: SceneType.Geometric,
             sceneObjectsQuantity: 10,
-        };
+            selectedOptions: [false, false, false],
+        } as ISceneOptions;
         const sceneBuilder: SceneBuilder = new SceneBuilder();
+        const sceneModifier: SceneModifier = new SceneModifier(sceneBuilder);
         const isceneVariable: ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
+        const iSceneVariablesMessage: ISceneVariablesMessage = {
+            originalScene: isceneVariable,
+            modifiedScene: sceneModifier.modifyScene(sceneOptions10, isceneVariable),
+        };
         const sceneMessage: ISceneMessage = {
-            sceneVariable: isceneVariable,
+            iSceneVariablesMessage: iSceneVariablesMessage,
             image: "",
         };
         const message: Message = {
