@@ -18,16 +18,6 @@ export interface IHitConfirmation {
     hitPixelColor: number[];
 }
 
-export interface IPosition2D {
-    x: number;
-    y: number;
-}
-
-export interface IColorRGB {
-    R: number;
-    G: number;
-    B: number;
-}
 
 export interface IReplacementPixel {
     color:      IColorRGB;
