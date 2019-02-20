@@ -36,7 +36,7 @@ describe("HighscoreService tests", () => {
     highscoreService = new HighscoreService(httpMock);
   });
 
-  it("should call highscoreUpdated.next()", () => {
+  it("should call highscoreUpdated.next() with right data value", () => {
     dataMock = {
       id: idMock,
       timesSingle: ["3:21", "3:32", "6:17"],
@@ -54,6 +54,20 @@ describe("HighscoreService tests", () => {
     dataMock = {
       id: 2,
       timesSingle: ["3:62", "3:32", "6:17"],
+      timesMulti: ["3:31", "9:38", "9:42"],
+    };
+
+    const spyNext: any = spyOn<any>(highscoreService["highscoreUpdated"], "next");
+
+    spyOn(httpMock, "get").and.callThrough().and.returnValue(Observable.of(dataMock));
+    highscoreService.getHighscore(2);
+    expect(spyNext).not.toHaveBeenCalled();
+  });
+
+  it("should not call highscoreUpdated.next() with wrong selector", () => {
+    dataMock = {
+      id: 2,
+      timesSingle: ["3,21", "3:32", "6:17"],
       timesMulti: ["3:31", "9:38", "9:42"],
     };
 
