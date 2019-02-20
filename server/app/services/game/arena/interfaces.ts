@@ -29,11 +29,6 @@ export interface IColorRGB {
     B: number;
 }
 
-export interface IOriginalImageSegment {
-    startPosition: IPosition2D;
-    width:      number;
-    height:     number;
-    image:      Buffer;
 }
 
 export interface IPlayerInputReponse {
