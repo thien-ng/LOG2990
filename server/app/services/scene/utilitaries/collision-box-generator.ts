@@ -64,10 +64,7 @@ export class CollisionBoxGenerator {
 
     private calculateCylinderCollisionRadius(sceneObject: ISceneObject): number {
 
-        const halfRadius: number = this.divideByTwo(sceneObject.scale.x);
-        const halfHeight: number = this.divideByTwo(sceneObject.scale.y);
-
-        return this.pythagore( [halfRadius, halfHeight] );
+        return this.pythagore( [sceneObject.scale.x, sceneObject.scale.y] );
     }
 
     private calculateSphereCollisionRadius(sceneObject: ISceneObject): number {
