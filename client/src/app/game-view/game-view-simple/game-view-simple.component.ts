@@ -3,11 +3,11 @@ import { AfterContentInit, Component, ElementRef, Inject, OnDestroy, OnInit, Vie
 import { ActivatedRoute } from "@angular/router";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../../common/communication/iGameRequest";
+import { IPosition2D } from "../../../../../common/communication/iGameplay";
 import { Message } from "../../../../../common/communication/message";
 import { Constants } from "../../constants";
 import { SocketService } from "../../websocket/socket.service";
 import { GameViewSimpleService } from "./game-view-simple.service";
-import { ICanvasPosition } from "../../../../../common/communication/iGameplay";
 
 @Component({
   selector: "app-game-view-simple",
@@ -110,18 +110,18 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
 
   public initListener(): void {
     this.canvasOriginal.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
-      const pos: ICanvasPosition = {
-        positionX: mouseEvent.offsetX,
-        positionY: mouseEvent.offsetY,
+      const pos: IPosition2D = {
+        x: mouseEvent.offsetX,
+        y: mouseEvent.offsetY,
       };
       if (this.username !== null) {
         this.gameViewService.onCanvasClick(pos, this.arenaID, this.username);
       }
     });
     this.canvasModified.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
-      const pos: ICanvasPosition = {
-        positionX: mouseEvent.offsetX,
-        positionY: mouseEvent.offsetY,
+      const pos: IPosition2D = {
+        x: mouseEvent.offsetX,
+        y: mouseEvent.offsetY,
       };
       if (this.username !== null) {
         this.gameViewService.onCanvasClick(pos, this.arenaID, this.username);
