@@ -1,10 +1,5 @@
-export interface ICanvasPosition {
-    positionX: number;
-    positionY: number;
-}
-
 export interface IClickMessage {
-    position: ICanvasPosition;
+    position: IPosition2D;
     arenaID: number;
     username: string;
 }
