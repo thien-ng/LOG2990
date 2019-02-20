@@ -64,6 +64,20 @@ describe("HighscoreService tests", () => {
     expect(spyNext).not.toHaveBeenCalled();
   });
 
+  it("should not call highscoreUpdated.next() with wrong minutes value in timesSingle", () => {
+    dataMock = {
+      id: 2,
+      timesSingle: ["63:21", "3:32", "6:17"],
+      timesMulti: ["3:31", "9:38", "9:42"],
+    };
+
+    const spyNext: any = spyOn<any>(highscoreService["highscoreUpdated"], "next");
+
+    spyOn(httpMock, "get").and.callThrough().and.returnValue(Observable.of(dataMock));
+    highscoreService.getHighscore(2);
+    expect(spyNext).not.toHaveBeenCalled();
+  });
+
   it("should not call highscoreUpdated.next() with wrong selector in timesSingle", () => {
     dataMock = {
       id: 2,
