@@ -21,22 +21,30 @@ export class DifferencesExtractor {
         this.originalPixelClusters = new Map<number, IOriginalPixelCluster>();
      }
 
+    public extractPixelClustersFrom(originalImage: Buffer, differenceImage: Buffer):  Map<number, IOriginalPixelCluster> {
         for (let offset: number = this.BMP_HEADER_SIZE; offset < differenceImage.length; offset += this.PIXEL_24BIT_BYTESIZE) {
-
             const colorCodeFound: number = differenceImage[offset];
 
             if (colorCodeFound !== this.COLOR_TO_IGNORE) {
+                const position:             IPosition2D         = this.getPositionFromOffset(offset, differenceImage);
+                const color:                IColorRGB           = this.getPixelOriginalColor(offset, originalImage);
+                const replacementPixel:     IReplacementPixel   = this.buildReplacementPixel(position, color);
 
-                this.createNewDifferenceArrayIfNeeded(colorCodeFound);
+                let pixelCluster: IOriginalPixelCluster | undefined = this.originalPixelClusters.get(colorCodeFound);
 
-                const position: IPosition2D = this.getPositionFromOffset(offset, differenceImage);
-                const color: number[] = this.getPixelOriginalColor(offset, originalImage);
-
-                this.originalPixelsByGroups[colorCodeFound].push(this.buildOriginalPixel(position, color));
+                if (pixelCluster !== undefined) {
+                    pixelCluster.cluster.push(replacementPixel);
+                } else {
+                    pixelCluster = {
+                        differenceKey: colorCodeFound,
+                        cluster: [replacementPixel],
+                    };
+                    this.originalPixelClusters.set(colorCodeFound, pixelCluster);
+                }
             }
         }
 
-        return this.originalPixelsByGroups;
+        return this.originalPixelClusters;
     }
 
     private createNewDifferenceArrayIfNeeded(differenceIndex: number): void {
