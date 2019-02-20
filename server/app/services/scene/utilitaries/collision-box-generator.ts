@@ -84,9 +84,4 @@ export class CollisionBoxGenerator {
 
         return sceneObject.scale.x;
     }
-
-    private divideByThree(value: number): number {
-
-        return value / SceneConstants.THREE;
-    }
 }
