@@ -21,32 +21,6 @@ export class DifferencesExtractor {
         this.originalPixelClusters = new Map<number, IOriginalPixelCluster>();
      }
 
-    public extractDifferences(originalImage: Buffer, differenceImage: Buffer): IOriginalImageSegment[] {
-        const originalPixelsByGroups:   IOriginalPixelsFound[][] = this.groupOriginalPixelsByClusterIndex(originalImage, differenceImage);
-        const originalImageSegments:    IOriginalImageSegment[]  = [];
-        originalPixelsByGroups.shift();
-
-        originalPixelsByGroups.forEach((pixelsInfos: IOriginalPixelsFound[], index: number) => {
-
-            const topLeftPosition:      IPosition2D = this.findTopLeftPosition(index);
-            const bottomRightPosition:  IPosition2D = this.findBottomRightPosition(index);
-            const bufferedImage:        Buffer      = this.createBufferFromDifferences(pixelsInfos, topLeftPosition, bottomRightPosition);
-            const width:                number      = bottomRightPosition.x - topLeftPosition.x + 1;
-            const height:               number      = bottomRightPosition.y - topLeftPosition.y + 1;
-
-            originalImageSegments.push({
-                startPosition: topLeftPosition,
-                width:      width,
-                height:     height,
-                image:      bufferedImage,
-            });
-        });
-
-        return originalImageSegments;
-    }
-
-    private groupOriginalPixelsByClusterIndex(originalImage: Buffer, differenceImage: Buffer): IOriginalPixelsFound[][] {
-
         for (let offset: number = this.BMP_HEADER_SIZE; offset < differenceImage.length; offset += this.PIXEL_24BIT_BYTESIZE) {
 
             const colorCodeFound: number = differenceImage[offset];
