@@ -50,7 +50,17 @@ export class WebsocketManager {
         socket.on(Constants.POSITION_VALIDATION_EVENT, (data: IClickMessage) => {
             const user: User | string = this.userManagerService.getUserByUsername(data.username);
 
-            // const user: User | string = this.userManagerService.getUserByUsername(data.username);
+            if (typeof user !== "string"){
+                const playerInput: IPlayerInput = this.buildPlayerInput(data, user);
+                this.gameManagerService.onPlayerInput(playerInput)
+                .then((response: IPlayerInputReponse) => {
+                    socket.emit(Constants.ON_ARENA_RESPONSE, response);
+                }).catch((error: Error) => {
+                    socket.emit(Constants.ON_ERROR_MESSAGE, error);
+                });
+            }
+        });
+    }
 
             // const playerInput: IPlayerInput = {
             //     event:      Constants.CLICK_EVENT,
