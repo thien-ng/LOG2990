@@ -50,10 +50,10 @@ export class Arena {
             });
     }
 
-    public async onPlayerInput(playerInput: IPlayerInput, user: User): Promise<IPlayerInputReponse> {
+    public async onPlayerInput(playerInput: IPlayerInput): Promise<IPlayerInputReponse> {
         switch (playerInput.event) {
             case this.USER_EVENT:
-                return this.onPlayerClick(playerInput.position, user);
+                return this.onPlayerClick(playerInput.position, playerInput.user);
                 break;
             default:
                 return {
