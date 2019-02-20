@@ -20,6 +20,11 @@ export interface IColorRGB {
     B: number;
 }
 
+export interface IReplacementPixel {
+    color:      IColorRGB;
+    position:   IPosition2D;
+}
+
 export interface IOriginalImageSegment {
     startPosition: IPosition2D;
     width:      number;
