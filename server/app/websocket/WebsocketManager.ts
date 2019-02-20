@@ -1,7 +1,6 @@
 import * as http from "http";
 import { inject, injectable } from "inversify";
 import * as SocketIO from "socket.io";
-// import { IChat } from "../../../common/communication/iChat";
 import { IClickMessage } from "../../../common/communication/iGameplay";
 import { User } from "../../../common/communication/iUser";
 import { Constants } from "../constants";
