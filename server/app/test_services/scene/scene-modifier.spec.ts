@@ -81,7 +81,7 @@ describe("Scene-modifier tests", () => {
         chai.expect(spy).to.have.been.called();
     });
 
-    it("should have 7 modification in array", () => {
+    it("should have 7 modification in array if options are true false false", () => {
         iSceneOptions = {
             sceneName: "game",
             sceneType: SceneType.Thematic,
@@ -111,5 +111,7 @@ describe("Scene-modifier tests", () => {
 
         chai.expect(counterDifference).to.be.equal(7);
     });
+
+    it("should have 7 modification in array if options are true false false", () => {
 
 });
