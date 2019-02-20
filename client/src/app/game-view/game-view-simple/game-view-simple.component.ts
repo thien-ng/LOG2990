@@ -40,7 +40,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     }
 
   public ngOnInit(): void {
-    const gameID: string | null = this.route.snapshot.paramMap.get("id");
+    const gameID: string | null = this.route.snapshot.paramMap.get(Constants.ID_BY_URL);
     if (gameID !== null && this.username !== null) {
       this.getActiveCard(this.username);
       this.canvasRoutine();
@@ -49,7 +49,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
 
   public ngAfterContentInit(): void {
     // test will be changed to something else, To be determined
-    this.socketService.sendMsg(Constants.ON_GAME_CONNECTION, "test");
+    this.socketService.sendMsg(Constants.ON_GAME_CONNECTION, Constants.ON_GAME_CONNECTION);
     this.initListener();
   }
 
