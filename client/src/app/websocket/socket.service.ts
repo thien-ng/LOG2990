@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import * as io from "socket.io-client";
-import { IChat } from "../../../../common/communication/iChat";
+// import { IChat } from "../../../../common/communication/iChat";
+import { IPlayerInputReponse } from "../../../../common/communication/iGameplay";
 import { Constants } from "../constants";
 import { ChatViewService } from "../game-view/chat-view/chat-view.service";
 
@@ -19,7 +20,7 @@ export class SocketService {
 
     this.socket.addEventListener(Constants.ON_CONNECT, () => {
 
-      this.socket.on(Constants.ON_CHAT_MESSAGE, (data: IChat) => {
+      this.socket.on(Constants.ON_ARENA_RESPONSE, (data: IPlayerInputReponse) => {
         this.chatViewService.updateConversation(data);
       });
 
