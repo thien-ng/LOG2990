@@ -2,37 +2,40 @@ import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "ax
 import { User } from "../../../../../common/communication/iUser";
 import { Constants } from "../../../constants";
 import { DifferencesExtractor } from "./differencesExtractor";
+import { Player } from "./player";
+
 import {
     IArenaInfos,
     IHitConfirmation,
     IHitToValidate,
-    IOriginalImageSegment,
+    IOriginalPixelCluster,
     IPlayerInput,
-    IPlayerInputReponse,
+    IPlayerInputResponse,
     IPosition2D,
 } from "./interfaces";
-import { Player } from "./player";
 // import { Timer } from "./timer";
 
 const FF: number = 255;
 const WHITE: number[] = [FF, FF, FF];
 const URL_HIT_VALIDATOR: string = "http://localhost:3000/api/hitvalidator";
+const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
 
 export class Arena {
 
     private readonly ERROR_ON_HTTPGET: string = "Didn't succeed to get image buffer from URL given. File: arena.ts.";
     private readonly ERROR_HIT_VALIDATION: string = "Problem during Hit Validation process.";
-    private readonly ERROR_UNDEFINED_USER_EVENT: string = "Undefined player event";
+    // private readonly ERROR_UNDEFINED_USER_EVENT: string = "Undefined player event";
 
     private readonly ON_FAILED_CLICK: string = "onFailedClick";
-    private readonly USER_WRONG_CLICK: string = "Le pixel cliqué n'est pas une différence";
+    // private readonly ON_FAILED_CLICK: string = "Le pixel cliqué n'est pas une différence";
     private readonly USER_EVENT: string = "onClick";
     private _players: Player[];
-    private originalImageSegments: IOriginalImageSegment[];
+    private originalPixelClusters: Map<number, IOriginalPixelCluster>;
 
     public constructor(private arenaInfos: IArenaInfos) {
         this._players = [];
         this.createPlayers();
+        this.originalPixelClusters = new Map<number, IOriginalPixelCluster>();
     }
 
     public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {
