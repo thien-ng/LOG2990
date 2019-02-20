@@ -19,3 +19,7 @@
   font: Roboto, "Helvetica Neue", sans-serif;
   margin-top: 5%;
 }
+
+#originalScene {
+  padding-right: 10px;
+}

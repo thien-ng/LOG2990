@@ -10,7 +10,7 @@ import {
   ValidatorFn
 } from "@angular/forms";
 import { MatDialogRef, MatSnackBar } from "@angular/material";
-import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
+import { ISceneVariablesMessage } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
 import { Constants } from "../constants";
 
@@ -44,9 +44,7 @@ export class CreateFreeGameComponent {
 
   public formControl: FormGroup;
   public isSceneGenerated: boolean;
-
-  // to be removed
-  public iSceneVariables: ISceneVariables;
+  public iSceneVariablesMessage: ISceneVariablesMessage;
 
   public modifTypes: {name: string}[] = [
       { name: this.EDIT_TYPE_ADD },
@@ -55,7 +53,7 @@ export class CreateFreeGameComponent {
     ];
 
   public constructor(
-    private dialogRef: MatDialogRef<CreateFreeGameComponent>,
+    public dialogRef: MatDialogRef<CreateFreeGameComponent>,
     private formBuilder: FormBuilder,
     private httpClient: HttpClient,
     private snackBar: MatSnackBar,
@@ -132,17 +130,16 @@ export class CreateFreeGameComponent {
     this.isButtonEnabled = false;
     const formValue: FormMessage = this.createFormMessage(formData);
 
-    this.httpClient.post(Constants.FREE_SCENE_GENERATOR_PATH, formValue).subscribe((response: ISceneVariables | string) => {
+    this.httpClient.post(Constants.FREE_SCENE_GENERATOR_PATH, formValue).subscribe((response: ISceneVariablesMessage | string) => {
       if (typeof response === "string") {
         this.openSnackBar(response, Constants.SNACK_ACTION);
       } else {
-        this.iSceneVariables = response;
+        this.iSceneVariablesMessage = response;
         this.isSceneGenerated = true;
       }
 
     });
     this.isButtonEnabled = true;
-    this.dialogRef.close();
   }
 
   private openSnackBar(msg: string, action: string): void {

@@ -9,6 +9,7 @@ let collisionValidator: CollisionValidator;
 describe("Collision validator tests", () => {
 
     const cube1: ISceneObject = {
+        id: 1,
         type: 1,
         position: {
             x: 20, y: 20, z: 20 },
@@ -22,6 +23,7 @@ describe("Collision validator tests", () => {
     };
 
     const cube2: ISceneObject = {
+        id: 2,
         type: 1,
         position: {
             x: 120, y: 120, z: 120 },
@@ -35,6 +37,7 @@ describe("Collision validator tests", () => {
     };
 
     const cube3: ISceneObject = {
+        id: 3,
         type: 1,
         position: {
             x: 220, y: 220, z: 220 },
@@ -56,6 +59,7 @@ describe("Collision validator tests", () => {
 
     it("should return false if there is no collision between new and already existing scene objects", () => {
         const newCube: ISceneObject = {
+            id: 1,
             type: 1,
             position: {
                 x: 500, y: 500, z: 500 },
@@ -75,6 +79,7 @@ describe("Collision validator tests", () => {
 
     it("should return true if there is collision between new and already existing scene objects", () => {
         const newCube: ISceneObject = {
+            id: 1,
             type: 1,
             position: {
                 x: 220, y: 220, z: 220 },

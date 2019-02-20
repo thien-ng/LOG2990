@@ -7,11 +7,11 @@ import { Constants } from "../../constants";
 import Types from "../../types";
 import { UserManagerService } from "../user-manager.service";
 import { Arena } from "./arena/arena";
-import { IArenaInfos, IPlayerInput, IPlayerInputReponse } from "./arena/interfaces";
+import { IArenaInfos, IOriginalPixelCluster, IPlayerInput, IPlayerInputResponse } from "./arena/interfaces";
 
 const REQUEST_ERROR_MESSAGE: string = "Game mode invalide";
-const ERROR_INVALID_EVENT: string = "L'événement lancé par le joueur est invalide.";
 const ARENA_START_ID: number = 1000;
+const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
 
 @injectable()
 export class GameManagerService {
@@ -38,18 +38,15 @@ export class GameManagerService {
     public async analyseRequest(request: IGameRequest): Promise<Message> {
         const user: User | string = this.userManagerService.getUserByUsername(request.username);
         if (typeof user === "string") {
-            return this.returnError(Constants.USER_NOT_FOUND + 0);
+            return this.returnError(Constants.USER_NOT_FOUND);
         } else {
             switch (request.mode) {
                 case GameMode.simple:
                     return this.create2DArena(user, request.gameId);
-                    break;
                 case GameMode.free:
                     return this.create3DArena(request);
-                    break;
                 default:
                     return this.returnError(REQUEST_ERROR_MESSAGE);
-                    break;
             }
         }
     }
@@ -77,11 +74,13 @@ export class GameManagerService {
     }
 
     private create3DArena(request: IGameRequest): Message {
-        const path: string = Constants.BASE_URL + "/scene/" + request.gameId + Constants.ORIGINAL_SCENE_FILE;
+        const paths: string = JSON.stringify([
+            Constants.BASE_URL + "/scene/" + request.gameId + Constants.SCENES_FILE,
+        ]);
 
         return {
             title: Constants.ON_SUCCESS_MESSAGE,
-            body: path,
+            body: paths,
         };
     }
 
@@ -101,7 +100,7 @@ export class GameManagerService {
         return this.playerList;
     }
 
-    public async onPlayerInput(playerInput: IPlayerInput): Promise<IPlayerInputReponse>  {
+    public async onPlayerInput(playerInput: IPlayerInput): Promise<IPlayerInputResponse>  {
         const arena: Arena | undefined = this.arenas.get(playerInput.arenaId);
         if (arena !== undefined) {
             if (arena.contains(playerInput.user)) {
@@ -111,7 +110,7 @@ export class GameManagerService {
 
         return {
             status: Constants.ON_ERROR_MESSAGE,
-            response: ERROR_INVALID_EVENT,
+            response: ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
         };
     }
 }

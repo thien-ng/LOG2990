@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from "@angular/animations";
 import { Breakpoints, BreakpointObserver } from "@angular/cdk/layout";
-import { AfterViewChecked, Component, OnDestroy, OnInit } from "@angular/core";
+import { AfterViewChecked, ChangeDetectorRef , Component, OnDestroy, OnInit } from "@angular/core";
 import { MatDialog, MatDialogConfig, MatSnackBar } from "@angular/material";
 import { NavigationEnd, Router } from "@angular/router";
 
@@ -57,6 +57,7 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
     public adminService: AdminToggleService,
     public router: Router,
     private socketService: SocketService,
+    private changeDetector: ChangeDetectorRef,
   ) {
     this.compteurInit = 0;
     this.client = null;
@@ -68,6 +69,7 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.isGameListPath = this.router.url === this.GAME_LIST_PATH;
         this.isValidUrl = this.isAdminPath || this.isGameListPath;
       }
+      this.changeDetector.detectChanges();
     });
   }
 

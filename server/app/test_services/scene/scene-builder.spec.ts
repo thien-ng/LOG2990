@@ -15,12 +15,14 @@ describe("Scene builder tests", () => {
         sceneName: "10 objects",
         sceneType: SceneType.Geometric,
         sceneObjectsQuantity: 10,
+        selectedOptions: [true, true, true],
     };
 
     const sceneOptions200: ISceneOptions = {
         sceneName: "200 objects",
         sceneType: SceneType.Geometric,
         sceneObjectsQuantity: 200,
+        selectedOptions: [true, true, true],
     };
 
     beforeEach(() => {
