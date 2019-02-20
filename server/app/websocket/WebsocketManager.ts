@@ -1,10 +1,11 @@
 import * as http from "http";
 import { inject, injectable } from "inversify";
 import * as SocketIO from "socket.io";
-import { IChat } from "../../../common/communication/iChat";
-import { ICanvasPosition } from "../../../common/communication/iGameplay";
+// import { IChat } from "../../../common/communication/iChat";
+import { IClickMessage } from "../../../common/communication/iGameplay";
 import { User } from "../../../common/communication/iUser";
 import { Constants } from "../constants";
+// import { IPlayerInput, IPlayerInputReponse } from "../services/game/arena/interfaces";
 import { GameManagerService } from "../services/game/game-manager.service";
 import { UserManagerService } from "../services/user-manager.service";
 import Types from "../types";
@@ -29,14 +30,23 @@ export class WebsocketManager {
             const socketID: string = "";
 
             this.loginSocketChecker(user, socketID, socket);
-            this.gameSocketChecker(socketID, socket);
+            this.gameSocketChecker(socketID, socket, user);
 
          });
         this.io.listen(Constants.WEBSOCKET_PORT_NUMBER);
 
     }
 
-    private gameSocketChecker(socketID: string, socket: SocketIO.Socket): void {
+                // a new message should be returned
+            // const message: IChat = {
+            //     username: "test",
+            //     message: "x: " + data.positionX + " y: " + data.positionY + " ( ͡° ͜ʖ ͡°)",
+            //     time: "1:30: 00 pm",
+            // };
+
+            // socket.emit(Constants.CHAT_MESSAGE, message);
+
+    private gameSocketChecker(socketID: string, socket: SocketIO.Socket, user: User): void {
 
         socket.on(Constants.GAME_CONNECTION, () => {
             socketID = socket.id;
@@ -47,16 +57,27 @@ export class WebsocketManager {
             this.gameManagerService.unsubscribeSocketID(socketID);
         });
 
-        socket.on(Constants.POSITION_VALIDATION_EVENT, (data: ICanvasPosition) => {
+        socket.on(Constants.POSITION_VALIDATION_EVENT, (data: IClickMessage) => {
+            console.log(user);
 
-            // a new message should be returned
-            const message: IChat = {
-                username: "test",
-                message: "x: " + data.positionX + " y: " + data.positionY + " ( ͡° ͜ʖ ͡°)",
-                time: "1:30 pm",
-            };
+            // const user: User | string = this.userManagerService.getUserByUsername(data.username);
 
-            socket.emit(Constants.CHAT_MESSAGE, message);
+            // const playerInput: IPlayerInput = {
+            //     event:      Constants.CLICK_EVENT,
+            //     arenaId:    data.arenaID,
+            //     user:       user.,
+            //     position:   {
+            //         x:  data.position.positionX,
+            //         y:  data.position.positionY,
+            //     },
+            // }
+
+            // this.gameManagerService.onPlayerInput(playerInput)
+            // .then((response: IPlayerInputReponse) => {
+            //     socket.emit(Constants.ON_ARENA_RESPONSE, response);
+            // }).catch((error: Error) => {
+            //     socket.emit(Constants.ON_ERROR_MESSAGE, error);
+            // });
         });
     }
 
