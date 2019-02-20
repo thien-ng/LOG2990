@@ -159,7 +159,7 @@ export class Arena {
         });
     }
 
-    public getPlayers(): Player[] {
+    public get players(): Player[] {
         return this._players;
     }
 
