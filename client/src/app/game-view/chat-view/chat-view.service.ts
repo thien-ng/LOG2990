@@ -20,7 +20,7 @@ export class ChatViewService {
       username: "SERVEUR",
       message:  body,
       time: "time",
-    }
+    };
     this.conversation.unshift(message);
   }
 

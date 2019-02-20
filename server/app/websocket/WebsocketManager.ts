@@ -50,7 +50,7 @@ export class WebsocketManager {
         socket.on(Constants.POSITION_VALIDATION_EVENT, (data: IClickMessage) => {
             const user: User | string = this.userManagerService.getUserByUsername(data.username);
 
-            if (typeof user !== "string"){
+            if (typeof user !== "string") {
                 const playerInput: IPlayerInput = this.buildPlayerInput(data, user);
                 this.gameManagerService.onPlayerInput(playerInput)
                 .then((response: IPlayerInputResponse) => {
@@ -71,7 +71,7 @@ export class WebsocketManager {
                 x:  data.position.x,
                 y:  data.position.y,
             },
-        }
+        };
     }
 
     private loginSocketChecker(user: User, socketID: string , socket: SocketIO.Socket): void {
