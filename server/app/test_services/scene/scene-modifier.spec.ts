@@ -14,6 +14,7 @@ let sceneBuilder: SceneBuilder;
 let iSceneVariables: ISceneVariables;
 let iSceneObjectGenerated: ISceneObject[];
 let iSceneOptions: ISceneOptions;
+let counterDifference: number;
 
 beforeEach(() => {
     chai.use(spies);
@@ -39,6 +40,8 @@ beforeEach(() => {
         sceneObjects: iSceneObjectGenerated,
         sceneBackgroundColor: "#FFFFFF",
     };
+
+    counterDifference = 0;
 });
 
 describe("Scene-modifier tests", () => {
@@ -89,17 +92,17 @@ describe("Scene-modifier tests", () => {
             selectedOptions: [true, false, false],
         };
 
-        let counterDifference: number = 0;
-
         const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables);
 
         resultScene.sceneObjects.forEach((object: ISceneObject) => {
             for (let i: number = 0; i < iSceneVariables.sceneObjects.length; i++) {
-                if (object.id === iSceneVariables.sceneObjects[i].id) {
-                    if (object.color !== iSceneVariables.sceneObjects[i].color) {
-                        counterDifference++;
-                        break;
-                    }
+
+                const isEqualId: boolean = object.id === iSceneVariables.sceneObjects[i].id;
+                const isEqualColor: boolean = object.color !== iSceneVariables.sceneObjects[i].color;
+
+                if (isEqualId && isEqualColor) {
+                    counterDifference++;
+                    break;
                 }
                 if (object.color === iSceneVariables.sceneObjects[i].color) {
                     continue;
@@ -120,17 +123,17 @@ describe("Scene-modifier tests", () => {
             selectedOptions: [false, false, true],
         };
 
-        let counterDifference: number = 0;
-
         const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables);
 
         resultScene.sceneObjects.forEach((object: ISceneObject) => {
             for (let i: number = 0; i < iSceneVariables.sceneObjects.length; i++) {
-                if (object.id === iSceneVariables.sceneObjects[i].id) {
-                    if (object.color !== iSceneVariables.sceneObjects[i].color) {
-                        counterDifference++;
-                        break;
-                    }
+
+                const isEqualId: boolean = object.id === iSceneVariables.sceneObjects[i].id;
+                const isEqualColor: boolean = object.color !== iSceneVariables.sceneObjects[i].color;
+
+                if (isEqualId && isEqualColor) {
+                    counterDifference++;
+                    break;
                 }
                 if (object.color === iSceneVariables.sceneObjects[i].color) {
                     continue;
@@ -151,17 +154,17 @@ describe("Scene-modifier tests", () => {
             selectedOptions: [true, false, true],
         };
 
-        let counterDifference: number = 0;
-
         const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables);
 
         resultScene.sceneObjects.forEach((object: ISceneObject) => {
             for (let i: number = 0; i < iSceneVariables.sceneObjects.length; i++) {
-                if (object.id === iSceneVariables.sceneObjects[i].id) {
-                    if (object.color !== iSceneVariables.sceneObjects[i].color) {
-                        counterDifference++;
-                        break;
-                    }
+
+                const isEqualId: boolean = object.id === iSceneVariables.sceneObjects[i].id;
+                const isEqualColor: boolean = object.color !== iSceneVariables.sceneObjects[i].color;
+
+                if (isEqualId && isEqualColor) {
+                    counterDifference++;
+                    break;
                 }
                 if (object.color === iSceneVariables.sceneObjects[i].color) {
                     continue;
@@ -170,6 +173,7 @@ describe("Scene-modifier tests", () => {
                 break;
             }
         });
+
         chai.expect(counterDifference).to.be.equal(7);
     });
 
