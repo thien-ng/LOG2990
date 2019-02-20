@@ -155,6 +155,12 @@ export class Arena {
         };
     }
 
+    private createPlayers(): void {
+        this.arenaInfos.users.forEach((user: User) => {
+            this._players.push(new Player(user));
+        });
+    }
+
     public getPlayers(): Player[] {
         return this._players;
     }
