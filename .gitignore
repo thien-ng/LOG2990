@@ -1,6 +1,7 @@
 #ignoring .vscode folder but we keep some files for debuging
 /.vscode/chrome
 /.vs/
+/.__pycache__/
 
 # Keep the package-lock.json !
 !package-lock.json
