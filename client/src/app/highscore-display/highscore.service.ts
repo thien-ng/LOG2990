@@ -43,7 +43,7 @@ export class HighscoreService {
   }
 
   private validateTimes(times: string[]): boolean {
-    let totalBadTime: number = 0;
+    let totalBadFormatTime: number = 0;
 
     times.forEach((timeElement) => {
       let highscoreSplit: string[] = ["", ""];
@@ -53,14 +53,14 @@ export class HighscoreService {
 
         highscoreSplit.forEach((splitElement) => {
           if (Number(splitElement) > this.MAX_TIME || Number(splitElement) < this.MIN_TIME) {
-            totalBadTime++;
+            totalBadFormatTime++;
           }
         });
       } else {
-        totalBadTime++;
+        totalBadFormatTime++;
       }
     });
 
-    return totalBadTime === 0 ? true : false;
+    return totalBadFormatTime === 0 ? true : false;
   }
 }
