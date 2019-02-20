@@ -86,7 +86,7 @@ describe("Scene-modifier tests", () => {
             sceneName: "game",
             sceneType: SceneType.Thematic,
             sceneObjectsQuantity: 10,
-            selectedOptions: [false, false, true],
+            selectedOptions: [true, false, false],
         };
 
         let counterDifference: number = 0;
