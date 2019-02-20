@@ -128,6 +128,7 @@ describe("Scene-modifier tests", () => {
             for (let i: number = 0; i < iSceneVariables.sceneObjects.length; i++) {
                 if (object.id === iSceneVariables.sceneObjects[i].id) {
                     if (object.color !== iSceneVariables.sceneObjects[i].color) {
+                        counterDifference++;
                         break;
                     }
                 }
@@ -138,7 +139,8 @@ describe("Scene-modifier tests", () => {
                 break;
             }
         });
-        chai.expect(counterDifference).to.be.equal(7);  
+
+        chai.expect(counterDifference).to.be.equal(7);
     });
 
     it("should have 7 modification in array if options are false false true", () => {
@@ -157,6 +159,7 @@ describe("Scene-modifier tests", () => {
             for (let i: number = 0; i < iSceneVariables.sceneObjects.length; i++) {
                 if (object.id === iSceneVariables.sceneObjects[i].id) {
                     if (object.color !== iSceneVariables.sceneObjects[i].color) {
+                        counterDifference++;
                         break;
                     }
                 }
@@ -167,7 +170,7 @@ describe("Scene-modifier tests", () => {
                 break;
             }
         });
-        chai.expect(counterDifference).to.be.equal(7);  
+        chai.expect(counterDifference).to.be.equal(7);
     });
 
     it("should have 7 modification in array if options are true true false", () => {
@@ -186,6 +189,7 @@ describe("Scene-modifier tests", () => {
             for (let i: number = 0; i < iSceneVariables.sceneObjects.length; i++) {
                 if (object.id === iSceneVariables.sceneObjects[i].id) {
                     if (object.color !== iSceneVariables.sceneObjects[i].color) {
+                        counterDifference++;
                         break;
                     }
                 }
@@ -196,7 +200,7 @@ describe("Scene-modifier tests", () => {
                 break;
             }
         });
-        chai.expect(counterDifference).to.be.equal(7);  
+        chai.expect(counterDifference).to.be.equal(7);
     });
 
     it("should have 7 modification in array if options are false true true", () => {
@@ -215,6 +219,7 @@ describe("Scene-modifier tests", () => {
             for (let i: number = 0; i < iSceneVariables.sceneObjects.length; i++) {
                 if (object.id === iSceneVariables.sceneObjects[i].id) {
                     if (object.color !== iSceneVariables.sceneObjects[i].color) {
+                        counterDifference++;
                         break;
                     }
                 }
@@ -225,7 +230,7 @@ describe("Scene-modifier tests", () => {
                 break;
             }
         });
-        chai.expect(counterDifference).to.be.equal(7);  
+        chai.expect(counterDifference).to.be.equal(7);
     });
 
     it("should have 7 modification in array if options are true false true", () => {
@@ -244,6 +249,7 @@ describe("Scene-modifier tests", () => {
             for (let i: number = 0; i < iSceneVariables.sceneObjects.length; i++) {
                 if (object.id === iSceneVariables.sceneObjects[i].id) {
                     if (object.color !== iSceneVariables.sceneObjects[i].color) {
+                        counterDifference++;
                         break;
                     }
                 }
@@ -254,7 +260,7 @@ describe("Scene-modifier tests", () => {
                 break;
             }
         });
-        chai.expect(counterDifference).to.be.equal(7);  
+        chai.expect(counterDifference).to.be.equal(7);
     });
 
     it("should have 7 modification in array if options are true true true", () => {
@@ -273,6 +279,7 @@ describe("Scene-modifier tests", () => {
             for (let i: number = 0; i < iSceneVariables.sceneObjects.length; i++) {
                 if (object.id === iSceneVariables.sceneObjects[i].id) {
                     if (object.color !== iSceneVariables.sceneObjects[i].color) {
+                        counterDifference++;
                         break;
                     }
                 }
@@ -283,7 +290,7 @@ describe("Scene-modifier tests", () => {
                 break;
             }
         });
-        chai.expect(counterDifference).to.be.equal(7);  
+        chai.expect(counterDifference).to.be.equal(7);
     });
 
 });
