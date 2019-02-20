@@ -12,6 +12,9 @@ export class Constants {
   public static readonly USER_EVENT:                string = "onNewUser";
   public static readonly WEBSOCKET_PORT_NUMBER:     number = 3333;
   public static readonly ON_RETRIEVE_USER:          string = "onRetrieveUser";
+  public static readonly CLICK_EVENT:               string = "onClick";
+  public static readonly ON_ARENA_RESPONSE:         string = "onArenaResponse";
+
 
   // Constants for card-manager.service.ts
   public static readonly SCENE_SNAPSHOT:            string = "_snapshot.jpeg";
