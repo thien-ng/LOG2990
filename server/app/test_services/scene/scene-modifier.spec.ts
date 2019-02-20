@@ -138,6 +138,10 @@ describe("Scene-modifier tests", () => {
                 break;
             }
         });
-        chai.expect(counterDifference).to.be.equal(7);
+        chai.expect(counterDifference).to.be.equal(7);  
+    });
+
+    it("should have 7 modification in array if options are false false true", () => {
+
     });
 });
