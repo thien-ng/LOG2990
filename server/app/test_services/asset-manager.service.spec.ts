@@ -22,9 +22,9 @@ describe("Image manager service tests", () => {
 
     it("Should call the stockImage funciton when creating bmp", () => {
         const spy: any = chai.spy.on(imageManagerService, "stockImage");
-        imageManagerService.createBMP(buffer, 1);
+        imageManagerService.createBMP(buffer, 6);
         chai.expect(spy).to.have.been.called();
-        const path: string = IMAGES_PATH + "/" + 1 + Constants.GENERATED_FILE;
+        const path: string = IMAGES_PATH + "/" + 6 + Constants.GENERATED_FILE;
         imageManagerService.deleteStoredImages([path]);
     });
     it("should throw an error when deleting non existing path", () => {
