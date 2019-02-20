@@ -138,12 +138,6 @@ export class Arena {
             });
     }
 
-    private createPlayers(): void {
-        this.arenaInfos.users.forEach((user: User) => {
-            this._players.push(new Player(user));
-        });
-    }
-
     private buildPostData(position: IPosition2D): IHitToValidate {
         return {
             position:           position,
