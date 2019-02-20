@@ -97,4 +97,7 @@ export class Constants {
   // Constants for create free game
   public static readonly FREE_SCENE_GENERATOR_PATH: string = Constants.BASE_URL + "/api/scene/generator";
   public static readonly SIMPLE_SUBMIT_PATH: string = Constants.BASE_URL + "/api/card/submitSimple";
+
+  // Constants for chat view
+  public static readonly ON_FAILED_CLICK: string = "onFailedClick";
 }
