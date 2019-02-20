@@ -25,6 +25,11 @@ export interface IReplacementPixel {
     position:   IPosition2D;
 }
 
+export interface IOriginalPixelCluster {
+    differenceKey:  number;
+    cluster:        IReplacementPixel[];
+}
+
 export interface IOriginalImageSegment {
     startPosition: IPosition2D;
     width:      number;
