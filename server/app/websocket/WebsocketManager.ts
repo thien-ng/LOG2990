@@ -62,23 +62,16 @@ export class WebsocketManager {
         });
     }
 
-            // const playerInput: IPlayerInput = {
-            //     event:      Constants.CLICK_EVENT,
-            //     arenaId:    data.arenaID,
-            //     user:       user.,
-            //     position:   {
-            //         x:  data.position.positionX,
-            //         y:  data.position.positionY,
-            //     },
-            // }
-
-            // this.gameManagerService.onPlayerInput(playerInput)
-            // .then((response: IPlayerInputReponse) => {
-            //     socket.emit(Constants.ON_ARENA_RESPONSE, response);
-            // }).catch((error: Error) => {
-            //     socket.emit(Constants.ON_ERROR_MESSAGE, error);
-            // });
-        });
+    private buildPlayerInput(data: IClickMessage, user: User): IPlayerInput {
+        return {
+            event:      Constants.CLICK_EVENT,
+            arenaId:    data.arenaID,
+            user:       user,
+            position:   {
+                x:  data.position.positionX,
+                y:  data.position.positionY,
+            },
+        }
     }
 
     private loginSocketChecker(user: User, socketID: string , socket: SocketIO.Socket): void {
