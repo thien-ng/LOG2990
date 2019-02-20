@@ -6,6 +6,7 @@ import { Constants } from "../constants";
 import { AssetManagerService } from "../services/asset-manager.service";
 
 /*tslint:disable no-magic-numbers no-any */
+const IMAGES_PATH: string = "./app/asset/image";
 
 let imageManagerService: AssetManagerService;
 
@@ -23,6 +24,8 @@ describe("Image manager service tests", () => {
         const spy: any = chai.spy.on(imageManagerService, "stockImage");
         imageManagerService.createBMP(buffer, 1);
         chai.expect(spy).to.have.been.called();
+        const path: string = IMAGES_PATH + "/" + 1 + Constants.GENERATED_FILE;
+        imageManagerService.deleteStoredImages([path]);
     });
     it("should throw an error when deleting non existing path", () => {
         const paths: string[] = [
