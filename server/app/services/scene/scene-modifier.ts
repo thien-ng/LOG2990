@@ -113,7 +113,8 @@ export class SceneModifier {
 
     private generateRandomIndex(): number {
         const lastObjectElement: ISceneObject = this.sceneObjects[this.sceneObjects.length - 1];
-        const MIN_INDEX_VALUE = 0;
+        const MIN_INDEX_VALUE: number = 0;
+
         return this.sceneBuilder.randomIntegerFromInterval(MIN_INDEX_VALUE, lastObjectElement.id);
     }
 
