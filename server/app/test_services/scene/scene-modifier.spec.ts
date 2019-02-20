@@ -142,6 +142,11 @@ describe("Scene-modifier tests", () => {
     });
 
     it("should have 7 modification in array if options are false false true", () => {
-
+        iSceneOptions = {
+            sceneName: "game",
+            sceneType: SceneType.Thematic,
+            sceneObjectsQuantity: 10,
+            selectedOptions: [false, true, false],
+        };
     });
 });
