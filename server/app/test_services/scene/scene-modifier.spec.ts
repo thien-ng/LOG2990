@@ -167,5 +167,6 @@ describe("Scene-modifier tests", () => {
                 break;
             }
         });
+        chai.expect(counterDifference).to.be.equal(7);  
     });
 });
