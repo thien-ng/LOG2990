@@ -53,10 +53,7 @@ export class CollisionBoxGenerator {
     private calculatePyramidCollisionRadius(sceneObject: ISceneObject): number {
 
         // for now scale.x = radius and scale.y = heigth
-        const radius: number = sceneObject.scale.x;
-        const thirdOfHeight: number = this.divideByThree(sceneObject.scale.y);
-
-        return this.pythagore( [radius, thirdOfHeight] );
+        return this.pythagore( [sceneObject.scale.x, sceneObject.scale.y] );
     }
 
     private calculateConeCollisionRadius(sceneObject: ISceneObject): number {
