@@ -106,6 +106,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     imgModified.onload = () => {
       canvasModified.drawImage(imgModified, 0, 0);
     };
+    this.gameViewService.setCanvas(canvasModified);
   }
 
   public initListener(): void {
@@ -115,7 +116,9 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
         y: mouseEvent.offsetY,
       };
       if (this.username !== null) {
-        this.gameViewService.onCanvasClick(pos, this.arenaID, this.username);
+        // jai fais ca pcq si non ya un loop dans les services
+        // jai fais ca pcq si non ya un loop dans les services
+        this.socketService.sendMsg(Constants.ON_POSITION_VALIDATION, this.gameViewService.onCanvasClick(pos, this.arenaID, this.username));
       }
     });
     this.canvasModified.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
@@ -124,7 +127,9 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
         y: mouseEvent.offsetY,
       };
       if (this.username !== null) {
-        this.gameViewService.onCanvasClick(pos, this.arenaID, this.username);
+        // jai fais ca pcq si non ya un loop dans les services
+        // jai fais ca pcq si non ya un loop dans les services
+        this.socketService.sendMsg(Constants.ON_POSITION_VALIDATION, this.gameViewService.onCanvasClick(pos, this.arenaID, this.username));
       }
     });
   }
