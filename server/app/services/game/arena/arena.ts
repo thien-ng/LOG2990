@@ -116,12 +116,12 @@ export class Arena {
         await this.extractOriginalPixelClusters();
     }
 
-    private async extractOriginalImageSegments(): Promise<void> {
+    private async extractOriginalPixelClusters(): Promise<void> {
 
         const originalImage:   Buffer = await this.getImageFromUrl(this.arenaInfos.originalGameUrl);
         const differenceImage: Buffer = await this.getImageFromUrl(this.arenaInfos.differenceGameUrl);
         const extractor: DifferencesExtractor = new DifferencesExtractor();
-        this.originalImageSegments = extractor.extractDifferences(originalImage, differenceImage);
+        this.originalPixelClusters = extractor.extractPixelClustersFrom(originalImage, differenceImage);
     }
 
     private async getImageFromUrl(imageUrl: string): Promise<Buffer> {
