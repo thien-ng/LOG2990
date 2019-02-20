@@ -163,6 +163,8 @@ describe("Scene-modifier tests", () => {
                 if (object.color === iSceneVariables.sceneObjects[i].color) {
                     continue;
                 }
+                counterDifference++;
+                break;
             }
         });
     });
