@@ -47,13 +47,6 @@ export class DifferencesExtractor {
         return this.originalPixelClusters;
     }
 
-    private createNewDifferenceArrayIfNeeded(differenceIndex: number): void {
-        const diffIndexExists: boolean = this.differenceIndexFound.indexOf(differenceIndex) >= 0;
-
-        if (!diffIndexExists) {
-            this.originalPixelsByGroups[differenceIndex] = [];
-            this.differenceIndexFound.push(differenceIndex);
-        }
     }
 
     private getPositionFromOffset(bufferOffset: number, differenceBuffer: Buffer): IPosition2D {
