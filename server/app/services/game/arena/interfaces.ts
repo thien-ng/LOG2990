@@ -39,9 +39,9 @@ export interface IOriginalPixelCluster {
     cluster:        IReplacementPixel[];
 }
 
-export interface IPlayerInputReponse {
+export interface IPlayerInputResponse {
     status:         string;
-    response:       IOriginalImageSegment | string;
+    response:       IOriginalPixelCluster;
 }
 
 export interface IPlayerInput {
