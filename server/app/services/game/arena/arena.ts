@@ -105,7 +105,7 @@ export class Arena {
         });
     }
 
-    private buildPlayerInputResponse(status: string, response: string | IOriginalImageSegment): IPlayerInputReponse {
+    private buildPlayerInputResponse(status: string, response: IOriginalPixelCluster): IPlayerInputResponse {
         return {
             status: status,
             response: response,
