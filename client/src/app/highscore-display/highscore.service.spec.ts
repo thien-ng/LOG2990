@@ -50,7 +50,7 @@ describe("HighscoreService tests", () => {
     expect(spyNext).toHaveBeenCalled();
   });
 
-  it("should not call highscoreUpdated.next() with wrong time value in timesSingle", () => {
+  it("should not call highscoreUpdated.next() with wrong seconds value in timesSingle", () => {
     dataMock = {
       id: 2,
       timesSingle: ["3:62", "3:32", "6:17"],
