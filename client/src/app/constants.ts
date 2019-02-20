@@ -60,9 +60,11 @@ export class Constants {
   public static readonly ON_GAME_FREE_DATA: string = "onGameFreeData";
   public static readonly ON_USER_EVENT: string = "onNewUser";
   public static readonly ON_RETRIEVE_USER: string = "onRetrieveUser";
+  public static readonly ON_ARENA_RESPONSE: string = "onArenaResponse";
 
   // Constants for game-view-simple.service.ts
   public static readonly ON_POSITION_VALIDATION: string = "onPositionValidation";
+  public static readonly DECIMAL: number = 10;
 
   // Constants for game-view-simple.component.ts
   public static readonly ON_GAME_CONNECTION: string = "onGameConnection";
