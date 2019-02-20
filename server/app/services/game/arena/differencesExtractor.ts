@@ -47,6 +47,11 @@ export class DifferencesExtractor {
         return this.originalPixelClusters;
     }
 
+    private buildReplacementPixel(position: IPosition2D, color: IColorRGB): IReplacementPixel {
+        return {
+            position: position,
+            color: color,
+        };
     }
 
     private getPositionFromOffset(bufferOffset: number, differenceBuffer: Buffer): IPosition2D {
