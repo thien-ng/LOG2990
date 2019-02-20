@@ -77,4 +77,15 @@ describe("HighscoreService tests", () => {
     highscoreService.getHighscore(2);
     expect(spyNext).not.toHaveBeenCalled();
   });
+
+  it("should call getHighscore() when calling resetHighscore()", () => {
+    const responseValueMock: string = "";
+    const methodeSpy: any = spyOn(highscoreService, "getHighscore");
+
+    spyOn<any>(highscoreService["highscoreUpdated"], "next");
+    spyOn(httpMock, "get").and.callThrough().and.returnValue(Observable.of(responseValueMock));
+
+    highscoreService.resetHighscore(idMock);
+    expect(methodeSpy).toHaveBeenCalled();
+  });
 });
