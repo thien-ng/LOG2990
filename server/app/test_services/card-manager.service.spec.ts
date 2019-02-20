@@ -163,9 +163,9 @@ describe("Card-manager tests", () => {
             sceneObjectsQuantity: 10,
         };
         const sceneBuilder: SceneBuilder = new SceneBuilder();
-        const sceneVariable: ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
+        const isceneVariable: ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
         const sceneMessage: ISceneMessage = {
-            sceneVariable: sceneVariable,
+            sceneVariable: isceneVariable,
             image: "",
         };
         const message: Message = {
