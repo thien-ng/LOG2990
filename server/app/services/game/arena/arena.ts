@@ -5,13 +5,15 @@ import { DifferencesExtractor } from "./differencesExtractor";
 import { Player } from "./player";
 
 import {
+    IOriginalPixelCluster,
+    IPlayerInputResponse,
+    IPosition2D,
+} from "../../../../../common/communication/iGameplay";
+import {
     IArenaInfos,
     IHitConfirmation,
     IHitToValidate,
-    IOriginalPixelCluster,
     IPlayerInput,
-    IPlayerInputResponse,
-    IPosition2D,
 } from "./interfaces";
 
 const FF: number = 255;
