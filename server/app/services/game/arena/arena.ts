@@ -113,7 +113,7 @@ export class Arena {
     }
 
     public async prepareArenaForGameplay(): Promise<void> {
-        await this.extractOriginalImageSegments();
+        await this.extractOriginalPixelClusters();
     }
 
     private async extractOriginalImageSegments(): Promise<void> {
