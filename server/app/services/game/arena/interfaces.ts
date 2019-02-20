@@ -18,12 +18,6 @@ export interface IHitConfirmation {
     hitPixelColor: number[];
 }
 
-
-export interface IReplacementPixel {
-    color:      IColorRGB;
-    position:   IPosition2D;
-}
-
 export interface IOriginalPixelCluster {
     differenceKey:  number;
     cluster:        IReplacementPixel[];
