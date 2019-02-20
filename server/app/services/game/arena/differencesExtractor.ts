@@ -14,7 +14,6 @@ export class DifferencesExtractor {
 
     private readonly COLOR_TO_IGNORE:           number = 255;
 
-    // private originalPixelClusters: IOriginalPixelCluster[];
     private originalPixelClusters: Map<number, IOriginalPixelCluster>;
 
     public constructor() {

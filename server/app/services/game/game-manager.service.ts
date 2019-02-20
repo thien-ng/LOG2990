@@ -10,7 +10,6 @@ import { Arena } from "./arena/arena";
 import { IArenaInfos, IOriginalPixelCluster, IPlayerInput, IPlayerInputResponse } from "./arena/interfaces";
 
 const REQUEST_ERROR_MESSAGE: string = "Game mode invalide";
-// const ERROR_INVALID_EVENT: string = "L'événement lancé par le joueur est invalide.";
 const ARENA_START_ID: number = 1000;
 const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
 
@@ -44,13 +43,10 @@ export class GameManagerService {
             switch (request.mode) {
                 case GameMode.simple:
                     return this.create2DArena(user, request.gameId);
-                    break;
                 case GameMode.free:
                     return this.create3DArena(request);
-                    break;
                 default:
                     return this.returnError(REQUEST_ERROR_MESSAGE);
-                    break;
             }
         }
     }

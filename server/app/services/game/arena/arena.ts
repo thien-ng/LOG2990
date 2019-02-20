@@ -22,15 +22,13 @@ const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: 
 
 export class Arena {
 
-    private readonly ERROR_ON_HTTPGET: string = "Didn't succeed to get image buffer from URL given. File: arena.ts.";
-    private readonly ERROR_HIT_VALIDATION: string = "Problem during Hit Validation process.";
-    // private readonly ERROR_UNDEFINED_USER_EVENT: string = "Undefined player event";
+    private readonly ERROR_ON_HTTPGET:      string = "Didn't succeed to get image buffer from URL given. File: arena.ts.";
+    private readonly ERROR_HIT_VALIDATION:  string = "Problem during Hit Validation process.";
+    private readonly ON_FAILED_CLICK:       string = "onFailedClick";
+    private readonly USER_EVENT:            string = "onClick";
 
-    private readonly ON_FAILED_CLICK: string = "onFailedClick";
-    // private readonly ON_FAILED_CLICK: string = "Le pixel cliqué n'est pas une différence";
-    private readonly USER_EVENT: string = "onClick";
-    private _players: Player[];
-    private originalPixelClusters: Map<number, IOriginalPixelCluster>;
+    private _players:               Player[];
+    private originalPixelClusters:  Map<number, IOriginalPixelCluster>;
 
     public constructor(private arenaInfos: IArenaInfos) {
         this._players = [];
@@ -58,7 +56,7 @@ export class Arena {
         let response: IPlayerInputResponse = this.buildPlayerInputResponse(
             this.ON_FAILED_CLICK,
             ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
-            );
+        );
 
         switch (playerInput.event) {
             case this.USER_EVENT:
