@@ -15,7 +15,7 @@ export class ChatViewService {
   }
 
   public updateConversation(data: IPlayerInputResponse): void {
-    const body: string = (data.status === Constants.ON_FAILED_CLICK) ? "Wrong Hit" : "Good Hit";
+    const body: string = (data.status === Constants.ON_SUCCESS_MESSAGE) ? Constants.FAILED_CLICK_MESSAGE : Constants.GOOD_CLICK_MESSAGE;
     const message: IChat = {
       username: "SERVEUR",
       message:  body,
