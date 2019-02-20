@@ -103,10 +103,9 @@ export class GameManagerService {
 
     public async onPlayerInput(playerInput: IPlayerInput): Promise<IPlayerInputReponse>  {
         const arena: Arena | undefined = this.arenas.get(playerInput.arenaId);
-        const user: User | string = this.userManagerService.getUserByUsername(playerInput.username);
-        if (arena && typeof user !== "string") {
-            if (arena.contains(user)) {
-                return arena.onPlayerInput(playerInput, user);
+        if (arena !== undefined) {
+            if (arena.contains(playerInput.user)) {
+                return arena.onPlayerInput(playerInput);
             }
         }
 
