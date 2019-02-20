@@ -112,37 +112,6 @@ describe("Scene-modifier tests", () => {
         chai.expect(counterDifference).to.be.equal(7);
     });
 
-    it("should have 7 modification in array if options are false true false", () => {
-        iSceneOptions = {
-            sceneName: "game",
-            sceneType: SceneType.Thematic,
-            sceneObjectsQuantity: 10,
-            selectedOptions: [false, true, false],
-        };
-
-        let counterDifference: number = 0;
-
-        const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables);
-
-        resultScene.sceneObjects.forEach((object: ISceneObject) => {
-            for (let i: number = 0; i < iSceneVariables.sceneObjects.length; i++) {
-                if (object.id === iSceneVariables.sceneObjects[i].id) {
-                    if (object.color !== iSceneVariables.sceneObjects[i].color) {
-                        counterDifference++;
-                        break;
-                    }
-                }
-                if (object.color === iSceneVariables.sceneObjects[i].color) {
-                    continue;
-                }
-                counterDifference++;
-                break;
-            }
-        });
-
-        chai.expect(counterDifference).to.be.equal(7);
-    });
-
     it("should have 7 modification in array if options are false false true", () => {
         iSceneOptions = {
             sceneName: "game",
@@ -170,66 +139,7 @@ describe("Scene-modifier tests", () => {
                 break;
             }
         });
-        chai.expect(counterDifference).to.be.equal(7);
-    });
 
-    it("should have 7 modification in array if options are true true false", () => {
-        iSceneOptions = {
-            sceneName: "game",
-            sceneType: SceneType.Thematic,
-            sceneObjectsQuantity: 10,
-            selectedOptions: [true, true, false],
-        };
-
-        let counterDifference: number = 0;
-
-        const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables);
-
-        resultScene.sceneObjects.forEach((object: ISceneObject) => {
-            for (let i: number = 0; i < iSceneVariables.sceneObjects.length; i++) {
-                if (object.id === iSceneVariables.sceneObjects[i].id) {
-                    if (object.color !== iSceneVariables.sceneObjects[i].color) {
-                        counterDifference++;
-                        break;
-                    }
-                }
-                if (object.color === iSceneVariables.sceneObjects[i].color) {
-                    continue;
-                }
-                counterDifference++;
-                break;
-            }
-        });
-        chai.expect(counterDifference).to.be.equal(7);
-    });
-
-    it("should have 7 modification in array if options are false true true", () => {
-        iSceneOptions = {
-            sceneName: "game",
-            sceneType: SceneType.Thematic,
-            sceneObjectsQuantity: 10,
-            selectedOptions: [false, true, true],
-        };
-
-        let counterDifference: number = 0;
-
-        const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables);
-
-        resultScene.sceneObjects.forEach((object: ISceneObject) => {
-            for (let i: number = 0; i < iSceneVariables.sceneObjects.length; i++) {
-                if (object.id === iSceneVariables.sceneObjects[i].id) {
-                    if (object.color !== iSceneVariables.sceneObjects[i].color) {
-                        counterDifference++;
-                        break;
-                    }
-                }
-                if (object.color === iSceneVariables.sceneObjects[i].color) {
-                    continue;
-                }
-                counterDifference++;
-                break;
-            }
-        });
         chai.expect(counterDifference).to.be.equal(7);
     });
 
@@ -239,36 +149,6 @@ describe("Scene-modifier tests", () => {
             sceneType: SceneType.Thematic,
             sceneObjectsQuantity: 10,
             selectedOptions: [true, false, true],
-        };
-
-        let counterDifference: number = 0;
-
-        const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables);
-
-        resultScene.sceneObjects.forEach((object: ISceneObject) => {
-            for (let i: number = 0; i < iSceneVariables.sceneObjects.length; i++) {
-                if (object.id === iSceneVariables.sceneObjects[i].id) {
-                    if (object.color !== iSceneVariables.sceneObjects[i].color) {
-                        counterDifference++;
-                        break;
-                    }
-                }
-                if (object.color === iSceneVariables.sceneObjects[i].color) {
-                    continue;
-                }
-                counterDifference++;
-                break;
-            }
-        });
-        chai.expect(counterDifference).to.be.equal(7);
-    });
-
-    it("should have 7 modification in array if options are true true true", () => {
-        iSceneOptions = {
-            sceneName: "game",
-            sceneType: SceneType.Thematic,
-            sceneObjectsQuantity: 10,
-            selectedOptions: [true, true, true],
         };
 
         let counterDifference: number = 0;
