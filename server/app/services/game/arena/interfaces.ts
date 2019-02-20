@@ -43,6 +43,6 @@ export interface IPlayerInputReponse {
 export interface IPlayerInput {
     event:      string;
     arenaId:    number;
-    username:   string;
+    user:       User;
     position:   IPosition2D;
 }
