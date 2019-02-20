@@ -247,7 +247,7 @@ export class CardManagerService {
             this.imageManagerService.deleteStoredImages(paths);
             this.cards.list2D.splice(index, 1);
         } catch (error) {
-            return this.generateErrorMessage(error).title;
+            return this.generateErrorMessage(error).body;
         }
 
         return Constants.CARD_DELETED;
@@ -270,7 +270,7 @@ export class CardManagerService {
             this.imageManagerService.deleteStoredImages(paths);
             this.cards.list3D.splice(index, 1);
         } catch (error) {
-            return this.generateErrorMessage(error).title;
+            return this.generateErrorMessage(error).body;
         }
 
         return Constants.CARD_DELETED;
