@@ -3,6 +3,7 @@ import { inject, injectable } from "inversify";
 import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
 import { ISceneMessage } from "../../../common/communication/iSceneMessage";
+import { ISceneVariablesMessage } from "../../../common/communication/iSceneVariables";
 import { Message } from "../../../common/communication/message";
 import { Constants } from "../constants";
 import Types from "../types";
@@ -65,30 +66,29 @@ export class CardManagerService {
         return returnValue;
     }
 
-    private saveSceneJson(body: ISceneMessage, path: string): void {
-        const sceneObject: string = JSON.stringify(body.sceneVariable);
-        this.imageManagerService.saveGeneratedScene(path, sceneObject);
-    }
-
     public freeCardCreationRoutine(body: ISceneMessage): Message {
-
         const cardId: number = this.generateSceneId();
         const sceneImage: string = "/" + cardId + Constants.SCENE_SNAPSHOT;
-        const sceneOriginal: string = Constants.SCENE_PATH + "/" + cardId + Constants.ORIGINAL_SCENE_FILE;
-
         this.imageManagerService.saveImage(Constants.IMAGES_PATH + sceneImage, body.image);
-        this.saveSceneJson(body, sceneOriginal);
+
+        const scenesPath: string = Constants.SCENE_PATH + "/" + cardId + Constants.SCENES_FILE;
+        this.saveSceneJson(body.iSceneVariablesMessage, scenesPath);
 
         const cardReceived: ICard = {
             gameID: cardId,
             gamemode: GameMode.free,
-            title: body.sceneVariable.gameName,
-            subtitle: body.sceneVariable.gameName,
+            title: body.iSceneVariablesMessage.originalScene.gameName,
+            subtitle: body.iSceneVariablesMessage.originalScene.gameName,
             avatarImageUrl: Constants.BASE_URL + "/image" + sceneImage,
             gameImageUrl: Constants.BASE_URL + "/image" + sceneImage,
         };
 
         return this.generateMessage(cardReceived);
+    }
+
+    private saveSceneJson(body: ISceneVariablesMessage, path: string): void {
+        const sceneObject: string = JSON.stringify(body);
+        this.imageManagerService.saveGeneratedScene(path, sceneObject);
     }
 
     private generateMessage(cardReceived: ICard): Message {
@@ -106,7 +106,6 @@ export class CardManagerService {
     }
 
     private handlePostResponse(response: Axios.AxiosResponse< Buffer | Message>, cardTitle: string): Message {
-
         const result: Buffer | Message = response.data;
         if (this.isMessage(result)) {
             return result;
@@ -265,7 +264,7 @@ export class CardManagerService {
 
         const paths: string[] = [
             Constants.IMAGES_PATH + "/" + id + Constants.GENERATED_SNAPSHOT,
-            Constants.SCENE_PATH + "/" + id + Constants.ORIGINAL_SCENE_FILE,
+            Constants.SCENE_PATH + "/" + id + Constants.SCENES_FILE,
         ];
         try {
             this.imageManagerService.deleteStoredImages(paths);

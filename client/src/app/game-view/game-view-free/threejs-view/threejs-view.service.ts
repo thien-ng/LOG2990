@@ -9,9 +9,7 @@ import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 
 // tslint:disable:no-magic-numbers
 
-@Injectable({
-  providedIn: "root",
-})
+@Injectable()
 export class ThreejsViewService {
 
   private scene: THREE.Scene;
@@ -26,17 +24,16 @@ export class ThreejsViewService {
   }
 
   private init(): void {
-    this.camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 100);
-    this.renderer = new THREE.WebGLRenderer();
+    this.camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 1000);
     this.ambLight = new THREE.AmbientLight(0xEA6117, 0.4);
   }
 
-  public createScene(scene: THREE.Scene, iSceneVariables: ISceneVariables): void {
+  public createScene(scene: THREE.Scene, iSceneVariables: ISceneVariables, renderer: THREE.WebGLRenderer): void {
+    this.renderer = renderer;
     this.scene = scene;
-    this.threejsGenerator = new ThreejsGenerator(this.scene);
     this.sceneVariable = iSceneVariables;
+    this.threejsGenerator = new ThreejsGenerator(this.scene);
     this.renderer.setSize(640, 480);
-    this.scene.add(this.ambLight);
     this.renderer.setClearColor(this.sceneVariable.sceneBackgroundColor);
     this.createLighting();
     this.generateSceneObjects();
@@ -54,25 +51,24 @@ export class ThreejsViewService {
 
     this.scene.add(firstLight);
     this.scene.add(secondLight);
+    this.scene.add(this.ambLight);
   }
 
   public animate(): void {
-
-    this.camera.position.x = 0;
-    this.camera.position.z = 0;
-    this.camera.position.y = 0;
-    this.scene.position.x = 5;
-    this.scene.position.y = 5;
-    this.scene.position.z = 5;
-    this.camera.lookAt(this.scene.position);
+    requestAnimationFrame(this.animate.bind(this));
     this.renderObject();
   }
 
-  public getRenderer(): THREE.WebGLRenderer {
-    return this.renderer;
-  }
-
   private renderObject(): void {
+    const speed: number = Date.now() * 0.001;
+
+    this.camera.position.x = Math.cos(speed) * 70;
+    this.camera.position.z = Math.sin(speed) * 70;
+    this.camera.position.y = 70;
+
+    this.scene.position.y = 50;
+
+    this.camera.lookAt(this.scene.position);
     this.renderer.render(this.scene, this.camera);
   }
 

@@ -49,5 +49,9 @@
   <button class="button-padding" mat-raised-button type="button" (click)="closeDialog()">{{CANCEL}}</button>
 </form>
 <div *ngIf="isSceneGenerated" style="display: none">
-  <app-threejs-view [iSceneVariables]="iSceneVariables" [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
+  <app-threejs-view [iSceneVariablesMessage]="iSceneVariablesMessage"
+                    [iSceneVariables]="iSceneVariablesMessage.originalScene"
+                    [isSnapshotNeeded]="NEEDED_SNAPSHOT"
+                    (sceneGenerated)="closeDialog()">
+  </app-threejs-view>
 </div>
