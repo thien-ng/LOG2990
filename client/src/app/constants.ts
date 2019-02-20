@@ -65,6 +65,7 @@ export class Constants {
   // Constants for game-view-simple.service.ts
   public static readonly ON_POSITION_VALIDATION: string = "onPositionValidation";
   public static readonly DECIMAL: number = 10;
+  public static readonly ID_BY_URL: string = "id";
 
   // Constants for game-view-simple.component.ts
   public static readonly ON_GAME_CONNECTION: string = "onGameConnection";
