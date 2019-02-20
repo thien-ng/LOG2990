@@ -59,7 +59,7 @@ export class ThreejsGenerator {
     const generatedColor: THREE.MeshBasicMaterial = this.createObjectColor(object3D.color);
     const coneGeometry: THREE.Geometry = new THREE.ConeGeometry(
                                                               object3D.scale.x,
-                                                              object3D.scale.z,
+                                                              object3D.scale.y,
                                                               this.INFINITE_CORNERS);
     const generatedObject: THREE.Mesh = new THREE.Mesh(coneGeometry, generatedColor);
 
@@ -84,7 +84,7 @@ export class ThreejsGenerator {
     const generatedColor: THREE.MeshBasicMaterial = this.createObjectColor(object3D.color);
     const pyramidGeometry: THREE.Geometry = new THREE.ConeGeometry(
                                                               object3D.scale.x,
-                                                              object3D.scale.z,
+                                                              object3D.scale.y,
                                                               this.NUMBER_CORNERS_PYRAMID);
     const generatedObject: THREE.Mesh = new THREE.Mesh(pyramidGeometry, generatedColor);
 
