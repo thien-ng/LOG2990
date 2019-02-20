@@ -42,7 +42,7 @@ export class CollisionBoxGenerator {
             result += Math.pow(element, SceneConstants.TWO);
         });
 
-        return Math.sqrt(result);
+        return result;
     }
 
     private calculateCubeCollisionRadius(sceneObject: ISceneObject): number {
