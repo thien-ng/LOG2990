@@ -137,4 +137,7 @@ describe("Scene-modifier tests", () => {
                 counterDifference++;
                 break;
             }
+        });
+        chai.expect(counterDifference).to.be.equal(7);
+    });
 });
