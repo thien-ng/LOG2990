@@ -88,4 +88,10 @@ describe("HighscoreService tests", () => {
     highscoreService.resetHighscore(idMock);
     expect(methodeSpy).toHaveBeenCalled();
   });
+
+  it("should return an observable when calling resetHighscore()", () => {
+    const returnValueMethod: Observable<HighscoreMessage> = highscoreService.getHighscoreUpdateListener();
+
+    expect(returnValueMethod).not.toBeUndefined();
+  });
 });
