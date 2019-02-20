@@ -1,6 +1,6 @@
 import { AxiosInstance, AxiosResponse } from "axios";
 import { injectable } from "inversify";
-import { IPosition2D } from "../game/arena/interfaces";
+import { IPosition2D } from "../../../../common/communication/iGameplay";
 import { Cache } from "./cache";
 import { IHitConfirmation, IHitToValidate, IImageToCache } from "./interfaces";
 

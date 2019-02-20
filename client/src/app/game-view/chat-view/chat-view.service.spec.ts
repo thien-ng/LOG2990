@@ -1,8 +1,15 @@
 import { TestBed } from "@angular/core/testing";
-import { IChat } from "../../../../../common/communication/iChat";
+import { IPlayerInputResponse } from "../../../../../common/communication/iGameplay";
 import { ChatViewService } from "./chat-view.service";
 
-let chatViewService: ChatViewService;
+const chatViewService: ChatViewService = new ChatViewService();
+const mockIPlayerInputResponse: IPlayerInputResponse = {
+  status: "onFailedClick",
+  response: {
+    differenceKey: -1,
+    cluster: [],
+  },
+};
 
 describe("ChatViewService", () => {
   beforeEach(() => TestBed.configureTestingModule({}));
@@ -13,26 +20,12 @@ describe("ChatViewService", () => {
   });
 
   it("should add IChat data in array", () => {
-    chatViewService = new ChatViewService();
-    const mockIChat: IChat = {
-      username: "userType",
-      message: "message",
-      time: "time",
-    };
-
-    chatViewService.updateConversation(mockIChat);
-    expect(chatViewService.getConversation()[0]).toBe(mockIChat);
+    chatViewService.updateConversation(mockIPlayerInputResponse);
+    expect(chatViewService.getConversation()[0].username).toBe("SERVEUR");
   });
 
   it("should clear IChat data in array", () => {
-    chatViewService = new ChatViewService();
-    const mockIChat: IChat = {
-      username: "userType",
-      message: "message",
-      time: "time",
-    };
-
-    chatViewService.updateConversation(mockIChat);
+    chatViewService.updateConversation(mockIPlayerInputResponse);
     chatViewService.clearConversations();
     expect(chatViewService.getConversation().length).toBe(0);
   });

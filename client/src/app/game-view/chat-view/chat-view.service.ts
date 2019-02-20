@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
 import { IChat } from "../../../../../common/communication/iChat";
+import { IPlayerInputResponse } from "../../../../../common/communication/iGameplay";
+import { Constants } from "../../constants";
 
 @Injectable({
   providedIn: "root",
@@ -12,8 +14,14 @@ export class ChatViewService {
     this.conversation = [];
   }
 
-  public updateConversation(data: IChat): void {
-    this.conversation.unshift(data);
+  public updateConversation(data: IPlayerInputResponse): void {
+    const body: string = (data.status === Constants.ON_SUCCESS_MESSAGE) ? Constants.FAILED_CLICK_MESSAGE : Constants.GOOD_CLICK_MESSAGE;
+    const message: IChat = {
+      username: "SERVEUR",
+      message:  body,
+      time: "time",
+    };
+    this.conversation.unshift(message);
   }
 
   public getConversation(): IChat[] {

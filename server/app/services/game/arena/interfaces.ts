@@ -1,3 +1,4 @@
+import { IPosition2D } from "../../../../../common/communication/iGameplay";
 import { User } from "../../../../../common/communication/iUser";
 
 export interface IHitToValidate {
@@ -18,35 +19,9 @@ export interface IHitConfirmation {
     hitPixelColor: number[];
 }
 
-export interface IPosition2D {
-    x: number;
-    y: number;
-}
-
-export interface IColorRGB {
-    R: number;
-    G: number;
-    B: number;
-}
-
-export interface IReplacementPixel {
-    color:      IColorRGB;
-    position:   IPosition2D;
-}
-
-export interface IOriginalPixelCluster {
-    differenceKey:  number;
-    cluster:        IReplacementPixel[];
-}
-
-export interface IPlayerInputResponse {
-    status:         string;
-    response:       IOriginalPixelCluster;
-}
-
 export interface IPlayerInput {
     event:      string;
     arenaId:    number;
-    username:   string;
+    user:       User;
     position:   IPosition2D;
 }
