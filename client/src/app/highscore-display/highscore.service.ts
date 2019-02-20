@@ -60,7 +60,6 @@ export class HighscoreService {
         totalBadTime++;
       }
     });
-    console.log("totalBadTime: " + totalBadTime);
 
     return totalBadTime === 0 ? true : false;
   }
