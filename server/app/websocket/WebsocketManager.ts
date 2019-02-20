@@ -1,10 +1,10 @@
 import * as http from "http";
 import { inject, injectable } from "inversify";
 import * as SocketIO from "socket.io";
-import { IChat } from "../../../common/communication/iChat";
-import { ICanvasPosition } from "../../../common/communication/iGameplay";
+import { IClickMessage, IPlayerInputResponse } from "../../../common/communication/iGameplay";
 import { User } from "../../../common/communication/iUser";
 import { Constants } from "../constants";
+import { IPlayerInput } from "../services/game/arena/interfaces";
 import { GameManagerService } from "../services/game/game-manager.service";
 import { UserManagerService } from "../services/user-manager.service";
 import Types from "../types";
@@ -47,17 +47,31 @@ export class WebsocketManager {
             this.gameManagerService.unsubscribeSocketID(socketID);
         });
 
-        socket.on(Constants.POSITION_VALIDATION_EVENT, (data: ICanvasPosition) => {
+        socket.on(Constants.POSITION_VALIDATION_EVENT, (data: IClickMessage) => {
+            const user: User | string = this.userManagerService.getUserByUsername(data.username);
 
-            // a new message should be returned
-            const message: IChat = {
-                username: "test",
-                message: "x: " + data.positionX + " y: " + data.positionY + " ( ͡° ͜ʖ ͡°)",
-                time: "1:30 pm",
-            };
-
-            socket.emit(Constants.CHAT_MESSAGE, message);
+            if (typeof user !== "string") {
+                const playerInput: IPlayerInput = this.buildPlayerInput(data, user);
+                this.gameManagerService.onPlayerInput(playerInput)
+                .then((response: IPlayerInputResponse) => {
+                    socket.emit(Constants.ON_ARENA_RESPONSE, response);
+                }).catch((error: Error) => {
+                    socket.emit(Constants.ON_ERROR_MESSAGE, error);
+                });
+            }
         });
+    }
+
+    private buildPlayerInput(data: IClickMessage, user: User): IPlayerInput {
+        return {
+            event:      Constants.CLICK_EVENT,
+            arenaId:    data.arenaID,
+            user:       user,
+            position:   {
+                x:  data.position.x,
+                y:  data.position.y,
+            },
+        };
     }
 
     private loginSocketChecker(user: User, socketID: string , socket: SocketIO.Socket): void {

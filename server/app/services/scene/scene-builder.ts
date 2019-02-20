@@ -24,9 +24,7 @@ export class SceneBuilder {
             sceneBackgroundColor: this.generateRandomColor(),
         };
 
-        this.generateSceneObjects(sceneOptions);
-
-        return this.sceneVariables;
+        return this.generateSceneObjects(sceneOptions);
     }
 
     public generateRandomAxisValues(): IAxisValues {
@@ -100,7 +98,7 @@ export class SceneBuilder {
         return Math.random() * (max - min + 1) + min;
     }
 
-    private generateSceneObjects(sceneOptions: ISceneOptions): void {
+    private generateSceneObjects(sceneOptions: ISceneOptions): ISceneVariables {
 
         const sceneObjectsQuantity: number = sceneOptions.sceneObjectsQuantity;
 
@@ -108,6 +106,8 @@ export class SceneBuilder {
             const generatedObject: ISceneObject = this.generateRandomSceneObject(index);
             this.sceneVariables.sceneObjects.push(generatedObject);
         }
+
+        return this.sceneVariables;
     }
 
     public generateRandomSceneObject(index: number): ISceneObject {

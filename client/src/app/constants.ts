@@ -60,9 +60,12 @@ export class Constants {
   public static readonly ON_GAME_FREE_DATA: string = "onGameFreeData";
   public static readonly ON_USER_EVENT: string = "onNewUser";
   public static readonly ON_RETRIEVE_USER: string = "onRetrieveUser";
+  public static readonly ON_ARENA_RESPONSE: string = "onArenaResponse";
 
   // Constants for game-view-simple.service.ts
   public static readonly ON_POSITION_VALIDATION: string = "onPositionValidation";
+  public static readonly DECIMAL: number = 10;
+  public static readonly ID_BY_URL: string = "id";
 
   // Constants for game-view-simple.component.ts
   public static readonly ON_GAME_CONNECTION: string = "onGameConnection";
@@ -95,4 +98,9 @@ export class Constants {
   // Constants for create free game
   public static readonly FREE_SCENE_GENERATOR_PATH: string = Constants.BASE_URL + "/api/scene/generator";
   public static readonly SIMPLE_SUBMIT_PATH: string = Constants.BASE_URL + "/api/card/submitSimple";
+
+  // Constants for chat view
+  public static readonly ON_FAILED_CLICK: string = "onFailedClick";
+  public static readonly FAILED_CLICK_MESSAGE: string = "Wrong Hit";
+  public static readonly GOOD_CLICK_MESSAGE: string = "Good Hit";
 }

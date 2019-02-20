@@ -1,4 +1,4 @@
-import { IOriginalImageSegment as IOriginalImageSegment, IOriginalPixelsFound, IPosition2D } from "./interfaces";
+import { IColorRGB, IOriginalPixelCluster, IPosition2D, IReplacementPixel } from "../../../../../common/communication/iGameplay";
 
 export class DifferencesExtractor {
 
@@ -14,65 +14,43 @@ export class DifferencesExtractor {
 
     private readonly COLOR_TO_IGNORE:           number = 255;
 
-    private originalPixelsByGroups: IOriginalPixelsFound[][];
-    private differenceIndexFound: number[];
+    private originalPixelClusters: Map<number, IOriginalPixelCluster>;
 
     public constructor() {
-        this.originalPixelsByGroups = [];
-        this.differenceIndexFound = [];
+        this.originalPixelClusters = new Map<number, IOriginalPixelCluster>();
      }
 
-    public extractDifferences(originalImage: Buffer, differenceImage: Buffer): IOriginalImageSegment[] {
-        const originalPixelsByGroups:   IOriginalPixelsFound[][] = this.groupOriginalPixelsByClusterIndex(originalImage, differenceImage);
-        const originalImageSegments:    IOriginalImageSegment[]  = [];
-        originalPixelsByGroups.shift();
-
-        originalPixelsByGroups.forEach((pixelsInfos: IOriginalPixelsFound[], index: number) => {
-
-            const topLeftPosition:      IPosition2D = this.findTopLeftPosition(index);
-            const bottomRightPosition:  IPosition2D = this.findBottomRightPosition(index);
-            const bufferedImage:        Buffer      = this.createBufferFromDifferences(pixelsInfos, topLeftPosition, bottomRightPosition);
-            const width:                number      = bottomRightPosition.x - topLeftPosition.x + 1;
-            const height:               number      = bottomRightPosition.y - topLeftPosition.y + 1;
-
-            originalImageSegments.push({
-                startPosition: topLeftPosition,
-                width:      width,
-                height:     height,
-                image:      bufferedImage,
-            });
-        });
-
-        return originalImageSegments;
-    }
-
-    private groupOriginalPixelsByClusterIndex(originalImage: Buffer, differenceImage: Buffer): IOriginalPixelsFound[][] {
-
+    public extractPixelClustersFrom(originalImage: Buffer, differenceImage: Buffer):  Map<number, IOriginalPixelCluster> {
         for (let offset: number = this.BMP_HEADER_SIZE; offset < differenceImage.length; offset += this.PIXEL_24BIT_BYTESIZE) {
-
             const colorCodeFound: number = differenceImage[offset];
 
             if (colorCodeFound !== this.COLOR_TO_IGNORE) {
+                const position:             IPosition2D         = this.getPositionFromOffset(offset, differenceImage);
+                const color:                IColorRGB           = this.getPixelOriginalColor(offset, originalImage);
+                const replacementPixel:     IReplacementPixel   = this.buildReplacementPixel(position, color);
 
-                this.createNewDifferenceArrayIfNeeded(colorCodeFound);
+                let pixelCluster: IOriginalPixelCluster | undefined = this.originalPixelClusters.get(colorCodeFound);
 
-                const position: IPosition2D = this.getPositionFromOffset(offset, differenceImage);
-                const color: number[] = this.getPixelOriginalColor(offset, originalImage);
-
-                this.originalPixelsByGroups[colorCodeFound].push(this.buildOriginalPixel(position, color));
+                if (pixelCluster !== undefined) {
+                    pixelCluster.cluster.push(replacementPixel);
+                } else {
+                    pixelCluster = {
+                        differenceKey: colorCodeFound,
+                        cluster: [replacementPixel],
+                    };
+                    this.originalPixelClusters.set(colorCodeFound, pixelCluster);
+                }
             }
         }
 
-        return this.originalPixelsByGroups;
+        return this.originalPixelClusters;
     }
 
-    private createNewDifferenceArrayIfNeeded(differenceIndex: number): void {
-        const diffIndexExists: boolean = this.differenceIndexFound.indexOf(differenceIndex) >= 0;
-
-        if (!diffIndexExists) {
-            this.originalPixelsByGroups[differenceIndex] = [];
-            this.differenceIndexFound.push(differenceIndex);
-        }
+    private buildReplacementPixel(position: IPosition2D, color: IColorRGB): IReplacementPixel {
+        return {
+            position: position,
+            color: color,
+        };
     }
 
     private getPositionFromOffset(bufferOffset: number, differenceBuffer: Buffer): IPosition2D {
@@ -87,18 +65,11 @@ export class DifferencesExtractor {
         };
     }
 
-    private getPixelOriginalColor(bufferOffset: number, originalImage: Buffer): number[] {
-        const R: number = originalImage[bufferOffset + this.BMP_RED_OFFSET ];
-        const G: number = originalImage[bufferOffset + this.BMP_GREEN_OFFSET ];
-        const B: number = originalImage[bufferOffset + this.BMP_BLUE_OFFSET ];
-
-        return [ R, G, B ];
-    }
-
-    private buildOriginalPixel(position: IPosition2D, color: number[]): IOriginalPixelsFound {
+    private getPixelOriginalColor(bufferOffset: number, originalImage: Buffer): IColorRGB {
         return {
-            position: position,
-            color:  color,
+            R: originalImage[bufferOffset + this.BMP_RED_OFFSET ],
+            G: originalImage[bufferOffset + this.BMP_GREEN_OFFSET ],
+            B: originalImage[bufferOffset + this.BMP_BLUE_OFFSET ],
         };
     }
 
@@ -108,61 +79,5 @@ export class DifferencesExtractor {
 
     private getImageHeight(buffer: Buffer): number {
         return buffer.readInt32LE(this.BMP_BUFFER_OFFSET_HEIGHT);
-    }
-
-    private findBottomRightPosition(differenceIndex: number): IPosition2D {
-
-        const maxPosition: IPosition2D = {
-            x: 0,
-            y: 0,
-        };
-
-        this.originalPixelsByGroups[differenceIndex].forEach((pixelInfo: IOriginalPixelsFound) => {
-            maxPosition.x = (pixelInfo.position.x > maxPosition.x) ? pixelInfo.position.x : maxPosition.x;
-            maxPosition.y = (pixelInfo.position.y > maxPosition.y) ? pixelInfo.position.y : maxPosition.y;
-        });
-
-        return maxPosition;
-    }
-
-    private findTopLeftPosition(differenceIndex: number): IPosition2D {
-
-        const minPosition: IPosition2D = {
-            x: Number.MAX_SAFE_INTEGER,
-            y: Number.MAX_SAFE_INTEGER,
-        };
-
-        this.originalPixelsByGroups[differenceIndex].forEach((pixelInfo: IOriginalPixelsFound) => {
-            minPosition.x = (pixelInfo.position.x < minPosition.x) ? pixelInfo.position.x : minPosition.x;
-            minPosition.y = (pixelInfo.position.y < minPosition.y) ? pixelInfo.position.y : minPosition.y;
-        });
-
-        return minPosition;
-    }
-
-    private createBufferFromDifferences(pixelsInfo: IOriginalPixelsFound[], topLeftPos: IPosition2D, bottomRightPos: IPosition2D): Buffer {
-        const isADifferenceAlpha:   number = 255;
-        const alphaOffset:          number = 3;
-        const bytesPerPixel:        number = 4;
-        const widthInPixels:        number = bottomRightPos.x - topLeftPos.x;
-        const heightInPixels:       number = bottomRightPos.y - topLeftPos.y;
-        const totalBufferLenght:    number = widthInPixels * heightInPixels * bytesPerPixel;
-
-        const diffBuffer: Buffer = Buffer.allocUnsafe(totalBufferLenght).fill(0);
-
-        pixelsInfo.forEach((pixel: IOriginalPixelsFound) => {
-            const recenteredPosition: IPosition2D = {
-                x: pixel.position.x - topLeftPos.x,
-                y: pixel.position.y - topLeftPos.y,
-             };
-            const positionInBuffer: number = bytesPerPixel * (recenteredPosition.x + recenteredPosition.y * widthInPixels);
-
-            for (let colorOffset: number = 0; colorOffset < pixel.color.length; colorOffset++) {
-                diffBuffer[positionInBuffer + colorOffset] = pixel.color[colorOffset];
-            }
-            diffBuffer[positionInBuffer + alphaOffset] = isADifferenceAlpha;
-        });
-
-        return diffBuffer;
     }
 }
