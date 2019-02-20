@@ -56,6 +56,8 @@ export class HighscoreService {
             totalBadTime++;
           }
         });
+      } else {
+        totalBadTime++;
       }
     });
     console.log("totalBadTime: " + totalBadTime);
