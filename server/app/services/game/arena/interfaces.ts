@@ -23,6 +23,10 @@ export interface IPosition2D {
     y: number;
 }
 
+export interface IColorRGB {
+    R: number;
+    G: number;
+    B: number;
 }
 
 export interface IOriginalImageSegment {
