@@ -1,10 +1,10 @@
 import * as http from "http";
 import { inject, injectable } from "inversify";
 import * as SocketIO from "socket.io";
-import { IClickMessage } from "../../../common/communication/iGameplay";
+import { IClickMessage, IPlayerInputResponse } from "../../../common/communication/iGameplay";
 import { User } from "../../../common/communication/iUser";
 import { Constants } from "../constants";
-import { IPlayerInput, IPlayerInputResponse } from "../services/game/arena/interfaces";
+import { IPlayerInput } from "../services/game/arena/interfaces";
 import { GameManagerService } from "../services/game/game-manager.service";
 import { UserManagerService } from "../services/user-manager.service";
 import Types from "../types";
@@ -68,8 +68,8 @@ export class WebsocketManager {
             arenaId:    data.arenaID,
             user:       user,
             position:   {
-                x:  data.position.positionX,
-                y:  data.position.positionY,
+                x:  data.position.x,
+                y:  data.position.y,
             },
         }
     }
