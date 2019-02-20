@@ -53,7 +53,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     this.initListener();
   }
 
-  private createGameRequest(gameID: string, username: string): void {
+  private createGameRequest(username: string): void {
     const mode: string | null = this.route.snapshot.paramMap.get("gamemode");
     if (mode !== null) {
       this.gameRequest = {
@@ -85,7 +85,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       this.httpClient.get(Constants.PATH_TO_GET_CARD + gameID + "/" + GameMode.simple).subscribe((response: ICard) => {
         this.activeCard = response;
         this.cardLoaded = true;
-        this.createGameRequest(gameID, username);
+        this.createGameRequest(username);
       });
       this.originalPath = Constants.PATH_TO_IMAGES + "/" + gameID + Constants.ORIGINAL_FILE;
       this.modifiedPath = Constants.PATH_TO_IMAGES + "/" + gameID + Constants.MODIFIED_FILE;
