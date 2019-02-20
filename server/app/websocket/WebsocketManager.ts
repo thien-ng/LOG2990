@@ -5,7 +5,7 @@ import * as SocketIO from "socket.io";
 import { IClickMessage } from "../../../common/communication/iGameplay";
 import { User } from "../../../common/communication/iUser";
 import { Constants } from "../constants";
-// import { IPlayerInput, IPlayerInputReponse } from "../services/game/arena/interfaces";
+import { IPlayerInput, IPlayerInputReponse } from "../services/game/arena/interfaces";
 import { GameManagerService } from "../services/game/game-manager.service";
 import { UserManagerService } from "../services/user-manager.service";
 import Types from "../types";
