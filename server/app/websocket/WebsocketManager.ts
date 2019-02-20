@@ -4,7 +4,7 @@ import * as SocketIO from "socket.io";
 import { IClickMessage } from "../../../common/communication/iGameplay";
 import { User } from "../../../common/communication/iUser";
 import { Constants } from "../constants";
-import { IPlayerInput, IPlayerInputReponse } from "../services/game/arena/interfaces";
+import { IPlayerInput, IPlayerInputResponse } from "../services/game/arena/interfaces";
 import { GameManagerService } from "../services/game/game-manager.service";
 import { UserManagerService } from "../services/user-manager.service";
 import Types from "../types";
@@ -53,7 +53,7 @@ export class WebsocketManager {
             if (typeof user !== "string"){
                 const playerInput: IPlayerInput = this.buildPlayerInput(data, user);
                 this.gameManagerService.onPlayerInput(playerInput)
-                .then((response: IPlayerInputReponse) => {
+                .then((response: IPlayerInputResponse) => {
                     socket.emit(Constants.ON_ARENA_RESPONSE, response);
                 }).catch((error: Error) => {
                     socket.emit(Constants.ON_ERROR_MESSAGE, error);
