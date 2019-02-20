@@ -29,7 +29,7 @@ describe("HighscoreService tests", () => {
   let highscoreService: HighscoreService;
   let httpMock: HttpClient;
   let dataMock: HighscoreMessage;
-  const idMock: number = 2 ;
+  const idMock: number = 2;
 
   beforeEach(() => {
     httpMock = mock(HttpClient);
@@ -50,4 +50,17 @@ describe("HighscoreService tests", () => {
     expect(spyNext).toHaveBeenCalled();
   });
 
+  it("should not call highscoreUpdated.next() with wrong time value", () => {
+    dataMock = {
+      id: 2,
+      timesSingle: ["3:62", "3:32", "6:17"],
+      timesMulti: ["3:31", "9:38", "9:42"],
+    };
+
+    const spyNext: any = spyOn<any>(highscoreService["highscoreUpdated"], "next");
+
+    spyOn(httpMock, "get").and.callThrough().and.returnValue(Observable.of(dataMock));
+    highscoreService.getHighscore(2);
+    expect(spyNext).not.toHaveBeenCalled();
+  });
 });
