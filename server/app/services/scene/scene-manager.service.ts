@@ -1,28 +1,36 @@
 import { inject, injectable } from "inversify";
 import { ISceneOptions, SceneType } from "../../../../common/communication/iSceneOptions";
-import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
+import { ISceneVariables, ISceneVariablesMessage } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
 import { Constants } from "../../constants";
 import Types from "../../types";
 import { CardManagerService } from "../card-manager.service";
 import { SceneBuilder } from "./scene-builder";
+import { SceneModifier } from "./scene-modifier";
 import { SceneConstants } from "./sceneConstants";
 
 @injectable()
 export class SceneManager {
 
     private sceneBuilder: SceneBuilder;
+    private sceneModifier: SceneModifier;
 
     public constructor(@inject(Types.CardManagerService) private cardManagerService: CardManagerService) {
         this.sceneBuilder = new SceneBuilder();
+        this.sceneModifier = new SceneModifier(this.sceneBuilder);
     }
 
-    public createScene(body: FormMessage): ISceneVariables | string {
+    public createScene(body: FormMessage): ISceneVariablesMessage | string {
 
         if (this.cardManagerService.isSceneNameNew(body.gameName)) {
             const iSceneOptions: ISceneOptions = this.sceneOptionsMapper(body);
+            const generatedOriginalScene: ISceneVariables = this.sceneBuilder.generateScene(iSceneOptions);
+            const generatedModifiedScene: ISceneVariables = this.sceneModifier.modifyScene(iSceneOptions, generatedOriginalScene);
 
-            return this.sceneBuilder.generateScene(iSceneOptions);
+            return {
+                originalScene: generatedOriginalScene,
+                modifiedScene: generatedModifiedScene,
+            } as ISceneVariablesMessage;
         } else {
             return Constants.CARD_EXISTING;
         }
@@ -30,12 +38,11 @@ export class SceneManager {
 
     private sceneOptionsMapper(body: FormMessage): ISceneOptions {
 
-        // il manque le mapping pour les selected options!!!!!
-        // ca sera implementer lorsquon travaille sur les modifications de scenes
         return {
             sceneName: body.gameName,
             sceneType: this.objectTypeIdentifier(body.theme),
             sceneObjectsQuantity: body.quantityChange,
+            selectedOptions: body.checkedTypes,
         };
     }
 

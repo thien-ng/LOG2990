@@ -15,6 +15,7 @@ beforeEach(() => {
     threejsGenerator = new ThreejsGenerator(scene);
     iAxisValues = {x: 1, y: 1, z: 1};
     sceneObject = {
+        id: 1,
         type: SceneObjectType.Sphere,
         position: iAxisValues,
         rotation: iAxisValues,

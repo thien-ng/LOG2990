@@ -1,7 +1,7 @@
 import * as chai from "chai";
 import * as spies from "chai-spies";
 import "reflect-metadata";
-import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
+import { ISceneVariablesMessage } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
 import { Constants } from "../../constants";
 import { CardManagerService } from "../../services/card-manager.service";
@@ -47,10 +47,10 @@ describe("SceneManager Tests", () => {
             quantityChange: 10,
         };
 
-        const sceneVariables: string | ISceneVariables = sceneManager.createScene(formMessage);
+        const sceneVariables: ISceneVariablesMessage | string = sceneManager.createScene(formMessage);
 
         if (typeof sceneVariables !== "string") {
-            chai.expect(sceneVariables.theme).to.be.equal(0);
+            chai.expect(sceneVariables.originalScene.theme).to.be.equal(0);
         }
     });
 
@@ -77,10 +77,10 @@ describe("SceneManager Tests", () => {
             quantityChange: 10,
         };
 
-        const sceneVariables: string | ISceneVariables = sceneManager.createScene(formMessage);
+        const sceneVariables: ISceneVariablesMessage | string = sceneManager.createScene(formMessage);
 
         if (typeof sceneVariables !== "string") {
-            chai.expect(sceneVariables.theme).to.be.equal(1);
+            chai.expect(sceneVariables.originalScene.theme).to.be.equal(1);
         }
     });
 
@@ -92,10 +92,10 @@ describe("SceneManager Tests", () => {
             quantityChange: 10,
         };
 
-        const sceneVariables: string | ISceneVariables = sceneManager.createScene(formMessage);
+        const sceneVariables: ISceneVariablesMessage | string = sceneManager.createScene(formMessage);
 
         if (typeof sceneVariables !== "string") {
-            chai.expect(sceneVariables.theme).to.be.equal(0);
+            chai.expect(sceneVariables.originalScene.theme).to.be.equal(0);
         }
     });
 
@@ -108,7 +108,7 @@ describe("SceneManager Tests", () => {
             quantityChange: 5,
         };
 
-        const sceneVariables: ISceneVariables | string = sceneManager.createScene(formMessage);
+        const sceneVariables: ISceneVariablesMessage | string = sceneManager.createScene(formMessage);
         if (typeof sceneVariables === "string") {
             chai.expect(sceneVariables).to.equal(Constants.CARD_EXISTING);
         }
