@@ -1,4 +1,4 @@
-import { IOriginalImageSegment as IOriginalImageSegment, IOriginalPixelsFound, IPosition2D } from "./interfaces";
+import { IColorRGB, IOriginalPixelCluster, IPosition2D, IReplacementPixel } from "./interfaces";
 
 export class DifferencesExtractor {
 
@@ -14,12 +14,11 @@ export class DifferencesExtractor {
 
     private readonly COLOR_TO_IGNORE:           number = 255;
 
-    private originalPixelsByGroups: IOriginalPixelsFound[][];
-    private differenceIndexFound: number[];
+    // private originalPixelClusters: IOriginalPixelCluster[];
+    private originalPixelClusters: Map<number, IOriginalPixelCluster>;
 
     public constructor() {
-        this.originalPixelsByGroups = [];
-        this.differenceIndexFound = [];
+        this.originalPixelClusters = new Map<number, IOriginalPixelCluster>();
      }
 
     public extractDifferences(originalImage: Buffer, differenceImage: Buffer): IOriginalImageSegment[] {
