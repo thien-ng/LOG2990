@@ -66,18 +66,11 @@ export class DifferencesExtractor {
         };
     }
 
-    private getPixelOriginalColor(bufferOffset: number, originalImage: Buffer): number[] {
-        const R: number = originalImage[bufferOffset + this.BMP_RED_OFFSET ];
-        const G: number = originalImage[bufferOffset + this.BMP_GREEN_OFFSET ];
-        const B: number = originalImage[bufferOffset + this.BMP_BLUE_OFFSET ];
-
-        return [ R, G, B ];
-    }
-
-    private buildOriginalPixel(position: IPosition2D, color: number[]): IOriginalPixelsFound {
+    private getPixelOriginalColor(bufferOffset: number, originalImage: Buffer): IColorRGB {
         return {
-            position: position,
-            color:  color,
+            R: originalImage[bufferOffset + this.BMP_RED_OFFSET ],
+            G: originalImage[bufferOffset + this.BMP_GREEN_OFFSET ],
+            B: originalImage[bufferOffset + this.BMP_BLUE_OFFSET ],
         };
     }
 
