@@ -53,18 +53,22 @@ export class Arena {
             });
     }
 
-    public async onPlayerInput(playerInput: IPlayerInput, user: User): Promise<IPlayerInputReponse> {
+    public async onPlayerInput(playerInput: IPlayerInput, user: User): Promise<IPlayerInputResponse> {
+
+        let response: IPlayerInputResponse = this.buildPlayerInputResponse(
+            this.ON_FAILED_CLICK,
+            ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
+            );
+
         switch (playerInput.event) {
             case this.USER_EVENT:
-                return this.onPlayerClick(playerInput.position, user);
+                response = await this.onPlayerClick(playerInput.position, user);
                 break;
             default:
-                return {
-                    status: Constants.ON_ERROR_MESSAGE,
-                    response: this.ERROR_UNDEFINED_USER_EVENT,
-                };
                 break;
         }
+
+        return response;
     }
 
     public contains(user: User): boolean {
