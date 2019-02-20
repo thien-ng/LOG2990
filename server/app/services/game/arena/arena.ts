@@ -77,22 +77,31 @@ export class Arena {
         });
     }
 
-    private async onPlayerClick(position: IPosition2D, user: User): Promise<IPlayerInputReponse> {
-        const numberOfErrorsFound: number = this.originalImageSegments.length;
+    private async onPlayerClick(position: IPosition2D, user: User): Promise<IPlayerInputResponse> {
+
+        let inputResponse: IPlayerInputResponse = this.buildPlayerInputResponse(
+            this.ON_FAILED_CLICK,
+            ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
+            );
 
         return this.validateHit(position)
         .then((hitConfirmation: IHitConfirmation) => {
             if (hitConfirmation.isAHit) {
-                this.buildPlayerInputResponse(
-                    Constants.ON_SUCCESS_MESSAGE,
-                    this.originalImageSegments[(numberOfErrorsFound - 1) - hitConfirmation.hitPixelColor[0]],
-                );
+
+                const pixelCluster: IOriginalPixelCluster | undefined = this.originalPixelClusters.get(hitConfirmation.hitPixelColor[0]);
+
+                if (pixelCluster !== undefined) {
+                    inputResponse = this.buildPlayerInputResponse(
+                        Constants.ON_SUCCESS_MESSAGE,
+                        pixelCluster,
+                    );
+                }
             }
 
-            return this.buildPlayerInputResponse(this.ON_FAILED_CLICK, this.USER_WRONG_CLICK);
+            return inputResponse;
         })
         .catch ((error: Error) => {
-            return this.buildPlayerInputResponse(Constants.ON_ERROR_MESSAGE, error.message);
+            return this.buildPlayerInputResponse(Constants.ON_ERROR_MESSAGE, ON_ERROR_ORIGINAL_PIXEL_CLUSTER);
         });
     }
 
