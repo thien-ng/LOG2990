@@ -1,8 +1,15 @@
 import { TestBed } from "@angular/core/testing";
-import { IChat } from "../../../../../common/communication/iChat";
+import { IPlayerInputResponse } from "../../../../../common/communication/iGameplay";
 import { ChatViewService } from "./chat-view.service";
 
-let chatViewService: ChatViewService;
+const chatViewService: ChatViewService = new ChatViewService();
+const mockIPlayerInputResponse: IPlayerInputResponse = {
+  status: "onFailedClick",
+  response: {
+    differenceKey: -1,
+    cluster: [],
+  },
+};
 
 describe("ChatViewService", () => {
   beforeEach(() => TestBed.configureTestingModule({}));
