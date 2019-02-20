@@ -38,7 +38,7 @@ export class GameManagerService {
     public async analyseRequest(request: IGameRequest): Promise<Message> {
         const user: User | string = this.userManagerService.getUserByUsername(request.username);
         if (typeof user === "string") {
-            return this.returnError(Constants.USER_NOT_FOUND + 0);
+            return this.returnError(Constants.USER_NOT_FOUND);
         } else {
             switch (request.mode) {
                 case GameMode.simple:
