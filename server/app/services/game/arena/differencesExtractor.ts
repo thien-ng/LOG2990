@@ -1,4 +1,4 @@
-import { IColorRGB, IOriginalPixelCluster, IPosition2D, IReplacementPixel } from "./interfaces";
+import { IColorRGB, IOriginalPixelCluster, IPosition2D, IReplacementPixel } from "../../../../../common/communication/iGameplay";
 
 export class DifferencesExtractor {
 

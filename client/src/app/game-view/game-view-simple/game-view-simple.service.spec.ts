@@ -18,7 +18,7 @@ describe("GameViewService", () => {
     const mockedSocket: SocketService = mock(SocketService);
     const gameViewSimpleService: GameViewSimpleService = new GameViewSimpleService(mockedSocket);
     const spiedSocket: any = spyOn<any>(mockedSocket, "sendMsg");
-    gameViewSimpleService.onCanvasClick(0, 0);
+    gameViewSimpleService.onCanvasClick({x: 1, y: 2}, 1, "username");
 
     expect(spiedSocket).toHaveBeenCalled();
   });

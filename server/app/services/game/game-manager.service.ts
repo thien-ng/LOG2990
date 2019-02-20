@@ -1,13 +1,14 @@
 import { inject, injectable } from "inversify";
 import { GameMode } from "../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../common/communication/iGameRequest";
+import { IOriginalPixelCluster, IPlayerInputResponse } from "../../../../common/communication/iGameplay";
 import { User } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
 import { Constants } from "../../constants";
 import Types from "../../types";
 import { UserManagerService } from "../user-manager.service";
 import { Arena } from "./arena/arena";
-import { IArenaInfos, IOriginalPixelCluster, IPlayerInput, IPlayerInputResponse } from "./arena/interfaces";
+import { IArenaInfos, IPlayerInput } from "./arena/interfaces";
 
 const REQUEST_ERROR_MESSAGE: string = "Game mode invalide";
 const ARENA_START_ID: number = 1000;
@@ -19,12 +20,10 @@ export class GameManagerService {
     private arenaID: number;
     private playerList: string[];
     private arenas: Map<number, Arena>;
-    // private userLobby: IGameRequest[];
 
     public constructor(@inject(Types.UserManagerService) private userManagerService: UserManagerService) {
         this.playerList = [];
         this.arenas = new Map<number, Arena>();
-        // this.userLobby = [];
         this.arenaID = ARENA_START_ID;
     }
 
@@ -102,10 +101,9 @@ export class GameManagerService {
 
     public async onPlayerInput(playerInput: IPlayerInput): Promise<IPlayerInputResponse>  {
         const arena: Arena | undefined = this.arenas.get(playerInput.arenaId);
-        const user: User | string = this.userManagerService.getUserByUsername(playerInput.username);
-        if (arena && typeof user !== "string") {
-            if (arena.contains(user)) {
-                return arena.onPlayerInput(playerInput, user);
+        if (arena !== undefined) {
+            if (arena.contains(playerInput.user)) {
+                return arena.onPlayerInput(playerInput);
             }
         }
 

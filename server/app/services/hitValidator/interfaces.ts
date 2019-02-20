@@ -1,4 +1,4 @@
-import { IPosition2D } from "../game/arena/interfaces";
+import { IPosition2D } from "../../../../common/communication/iGameplay";
 
 export interface IImageToCache {
     imageUrl:   string;

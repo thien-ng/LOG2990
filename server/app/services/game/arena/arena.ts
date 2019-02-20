@@ -5,15 +5,16 @@ import { DifferencesExtractor } from "./differencesExtractor";
 import { Player } from "./player";
 
 import {
+    IOriginalPixelCluster,
+    IPlayerInputResponse,
+    IPosition2D,
+} from "../../../../../common/communication/iGameplay";
+import {
     IArenaInfos,
     IHitConfirmation,
     IHitToValidate,
-    IOriginalPixelCluster,
     IPlayerInput,
-    IPlayerInputResponse,
-    IPosition2D,
 } from "./interfaces";
-// import { Timer } from "./timer";
 
 const FF: number = 255;
 const WHITE: number[] = [FF, FF, FF];
@@ -51,7 +52,7 @@ export class Arena {
             });
     }
 
-    public async onPlayerInput(playerInput: IPlayerInput, user: User): Promise<IPlayerInputResponse> {
+    public async onPlayerInput(playerInput: IPlayerInput): Promise<IPlayerInputResponse> {
 
         let response: IPlayerInputResponse = this.buildPlayerInputResponse(
             this.ON_FAILED_CLICK,
@@ -60,7 +61,7 @@ export class Arena {
 
         switch (playerInput.event) {
             case this.USER_EVENT:
-                response = await this.onPlayerClick(playerInput.position, user);
+                response = await this.onPlayerClick(playerInput.position, playerInput.user);
                 break;
             default:
                 break;
