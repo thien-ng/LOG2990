@@ -154,7 +154,9 @@ describe("Scene-modifier tests", () => {
         const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables);
 
         resultScene.sceneObjects.forEach((object: ISceneObject) => {
-            
+            for (let i: number = 0; i < iSceneVariables.sceneObjects.length; i++) {
+                
+            }
         });
     });
 });
