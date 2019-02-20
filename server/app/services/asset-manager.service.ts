@@ -21,7 +21,7 @@ export class AssetManagerService {
         try {
             fs.writeFileSync(path, Buffer.from(buffer));
         } catch (error) {
-        throw TypeError(FILE_GENERATION_ERROR);
+            throw TypeError(FILE_GENERATION_ERROR); // A demander au charge
         }
     }
 
@@ -30,7 +30,7 @@ export class AssetManagerService {
            try {
             fs.unlinkSync(path);
            } catch (error) {
-               throw TypeError(FILE_DELETION_ERROR);
+               throw TypeError(FILE_DELETION_ERROR); // A demander au charge
            }
         });
     }
@@ -41,7 +41,7 @@ export class AssetManagerService {
         try {
             fs.writeFileSync(path, base64Image, {encoding: "base64"});
         } catch (error) {
-                throw TypeError(FILE_GENERATION_ERROR);
+                throw TypeError(FILE_GENERATION_ERROR); // A demander au charge
         }
     }
 
@@ -49,7 +49,7 @@ export class AssetManagerService {
         try {
             fs.writeFileSync(path, data);
         } catch (error) {
-                throw TypeError(FILE_SAVING_ERROR);
+                throw TypeError(FILE_SAVING_ERROR); // A demander au charge
             }
     }
 }
