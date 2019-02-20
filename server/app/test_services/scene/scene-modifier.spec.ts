@@ -7,7 +7,7 @@ import { ISceneVariables } from "../../../../common/communication/iSceneVariable
 import { SceneBuilder } from "../../services/scene/scene-builder";
 import { SceneModifier } from "../../services/scene/scene-modifier";
 
-// tslint:disable:no-any no-magic-numbers
+// tslint:disable:no-any prefer-for-of no-magic-numbers
 
 let sceneModifier: SceneModifier;
 let sceneBuilder: SceneBuilder;
@@ -79,6 +79,37 @@ describe("Scene-modifier tests", () => {
         const spy: any = chai.spy.on(sceneModifier, "changeObjectColor");
         sceneModifier.modifyScene(iSceneOptions, iSceneVariables);
         chai.expect(spy).to.have.been.called();
+    });
+
+    it("should have 7 modification in array", () => {
+        iSceneOptions = {
+            sceneName: "game",
+            sceneType: SceneType.Thematic,
+            sceneObjectsQuantity: 10,
+            selectedOptions: [false, false, true],
+        };
+
+        let counterDifference: number = 0;
+
+        const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables);
+
+        resultScene.sceneObjects.forEach((object: ISceneObject) => {
+            for (let i: number = 0; i < iSceneVariables.sceneObjects.length; i++) {
+                if (object.id === iSceneVariables.sceneObjects[i].id) {
+                    if (object.color !== iSceneVariables.sceneObjects[i].color) {
+                        counterDifference++;
+                        break;
+                    }
+                }
+                if (object.color === iSceneVariables.sceneObjects[i].color) {
+                    continue;
+                }
+                counterDifference++;
+                break;
+            }
+        });
+
+        chai.expect(counterDifference).to.be.equal(7);
     });
 
 });
