@@ -167,6 +167,17 @@ export class Arena {
             player.addPoints(1);
         }
     }
+
+    private gameIsFinished(): boolean {
+
+        const playerHasReachPointsNeeded: boolean = this.players.some((player: Player) => {
+            return player.points >= this.pointsNeededToWin;
+        });
+        const differenceAreAllFound: boolean = this.differencesFound.length >= this.originalPixelClusters.size;
+
+        return playerHasReachPointsNeeded || differenceAreAllFound;
+    }
+
     private buildPlayerInputResponse(status: string, response: IOriginalPixelCluster): IPlayerInputResponse {
         return {
             status: status,
