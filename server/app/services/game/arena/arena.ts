@@ -33,18 +33,19 @@ export class Arena {
     private players:                Player[];
     private originalPixelClusters:  Map<number, IOriginalPixelCluster>;
     private differencesFound:       number[];
+    private timer:                  Timer;
 
     public constructor(
         private arenaInfos: IArenaInfos,
         @inject(Types.GameManagerService) private gameManagerService: GameManagerService,
         ) {
         this.players = [];
-        this.time = 0;
         this.createPlayers();
         this.originalPixelClusters = new Map<number, IOriginalPixelCluster>();
-        this.timer();
+        this.timer = new Timer();
         this.pointsNeededToWin = arenaInfos.users.length === 1 ? this.POINTS_TO_WIN_SINGLE : this.POINTS_TO_WIN_MULTI;
         this.differencesFound = [];
+        this.initTimer();
     }
 
     public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {
@@ -95,15 +96,6 @@ export class Arena {
         }
     }
 
-    private timer(): void {
-        setInterval(() => {
-            this.players.forEach((player: Player) => {
-                this.gameManagerService.sendMessage(player.userSocketId, Constants.ON_TIMER_UPDATE, this.time);
-                this.time++;
-            });
-        },          ONE_SECOND);
-    }
-
     private async onPlayerClick(position: IPosition2D, user: User): Promise<IPlayerInputResponse> {
 
         let inputResponse: IPlayerInputResponse = this.buildPlayerInputResponse(
@@ -113,7 +105,8 @@ export class Arena {
 
         return this.validateHit(position)
         .then((hitConfirmation: IHitConfirmation) => {
-            if (hitConfirmation.isAHit && !this.isADiscoveredDifference(hitConfirmation.hitPixelColor[0])) {
+            const isAnUndiscoveredDifference: boolean = this.isAnUndiscoveredDifference(hitConfirmation.hitPixelColor[0]);
+            if (hitConfirmation.isAHit && isAnUndiscoveredDifference) {
 
                 this.onHitConfirmation(user, hitConfirmation);
 
@@ -141,17 +134,25 @@ export class Arena {
         this.addToDifferencesFound(hitConfirmation.hitPixelColor[0]);
     }
 
+    private initTimer(): void {
+        this.timer.startTimer();
+        this.timer.getTimer().subscribe((newTime: number) => {
+            this.players.forEach((player: Player) => {
+                this.gameManagerService.sendMessage(player.userSocketId, Constants.ON_TIMER_UPDATE, newTime);
+            });
+        });
+    }
+
     private endOfGameRoutine(): void {
-        // END OF GAME
-        // todo in a later sprint
+        this.timer.stopTimer();
     }
 
     private addToDifferencesFound(differenceIndex: number): void {
         this.differencesFound.push(differenceIndex);
     }
 
-    private isADiscoveredDifference(differenceIndex: number): boolean {
-        return this.differencesFound.indexOf(differenceIndex) >= 0;
+    private isAnUndiscoveredDifference(differenceIndex: number): boolean {
+        return this.differencesFound.indexOf(differenceIndex) < 0;
     }
 
     private attributePoints(user: User): void {
