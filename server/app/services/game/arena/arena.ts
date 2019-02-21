@@ -67,7 +67,7 @@ export class Arena {
 
         let response: IPlayerInputResponse = this.buildPlayerInputResponse(
             this.ON_FAILED_CLICK,
-            Constants.ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
+            Constants.ON_ERROR_PIXEL_CLUSTER,
         );
 
         switch (playerInput.event) {
@@ -100,7 +100,7 @@ export class Arena {
 
         let inputResponse: IPlayerInputResponse = this.buildPlayerInputResponse(
             this.ON_FAILED_CLICK,
-            Constants.ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
+            Constants.ON_ERROR_PIXEL_CLUSTER,
             );
 
         return this.validateHit(position)
@@ -125,7 +125,7 @@ export class Arena {
             return inputResponse;
         })
         .catch ((error: Error) => {
-            return this.buildPlayerInputResponse(Constants.ON_ERROR_MESSAGE, Constants.ON_ERROR_ORIGINAL_PIXEL_CLUSTER);
+            return this.buildPlayerInputResponse(Constants.ON_ERROR_MESSAGE, Constants.ON_ERROR_PIXEL_CLUSTER);
         });
     }
 
