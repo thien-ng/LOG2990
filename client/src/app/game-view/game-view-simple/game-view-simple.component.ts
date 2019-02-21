@@ -16,6 +16,8 @@ import { GameViewSimpleService } from "./game-view-simple.service";
 })
 
 export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDestroy {
+  public readonly OPPONENT: string = "Adversaire";
+
   @ViewChild("successSound",  {read: ElementRef}) public successSound:  ElementRef;
   @ViewChild("failSound",     {read: ElementRef}) public failSound:     ElementRef;
 
@@ -23,13 +25,14 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   public canvasOriginal: ElementRef;
   public activeCard: ICard;
   public cardLoaded: boolean;
+  public username: string | null;
   @ViewChild("modifiedImage", {read: ElementRef})
   public canvasModified: ElementRef;
   private originalPath: string;
   private gameRequest: IGameRequest;
   private modifiedPath: string;
   private arenaID: number;
-  private username: string | null;
+  public mode: string | null;
 
   public constructor(
     @Inject(GameViewSimpleService) public gameViewService: GameViewSimpleService,
@@ -37,6 +40,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     private route: ActivatedRoute,
     private httpClient: HttpClient,
     ) {
+      this.mode = this.route.snapshot.paramMap.get("gamemode");
       this.cardLoaded = false;
       this.username = sessionStorage.getItem(Constants.USERNAME_KEY);
     }
@@ -54,12 +58,11 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   }
 
   private createGameRequest(username: string): void {
-    const mode: string | null = this.route.snapshot.paramMap.get("gamemode");
-    if (mode !== null) {
+    if (this.mode !== null) {
       this.gameRequest = {
         username: username,
         gameId: this.activeCard.gameID,
-        type: JSON.parse(mode),
+        type: JSON.parse(this.mode),
         mode: GameMode.simple,
       };
       this.handleGameRequest();
