@@ -87,7 +87,7 @@ export class WebsocketManager {
 
         socket.on(Constants.DISCONNECT_EVENT, () => {
             this.userManagerService.leaveBrowser(user);
-            this.gameManagerService.unsubscribeSocketID(socketID);
+            this.gameManagerService.unsubscribeSocketID(socketID, user.username);
         });
     }
 
