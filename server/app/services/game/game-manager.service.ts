@@ -94,6 +94,17 @@ export class GameManagerService {
 
     public unsubscribeSocketID(socketID: string, username: string): void {
         this.playerList.delete(socketID);
+        this.removePlayerFromArena(username);
+    }
+
+    private removePlayerFromArena(username: string): void {
+        this.arenas.forEach((arena: Arena) => {
+            arena.getPlayers().forEach((player: Player) => {
+                if (player.username === username) {
+                    arena.removePlayer(username);
+                }
+            });
+        });
     }
 
     public get userList(): Map<string, SocketIO.Socket> {
