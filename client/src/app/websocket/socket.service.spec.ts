@@ -21,7 +21,12 @@ describe("SocketService tests", () => {
   let socketService: SocketService;
 
   beforeEach(() => {
-    socketService = new SocketService(mock(ChatViewService), mock(GameViewSimpleService), mock(TimerService), mock(DifferenceCounterService));
+    socketService = new SocketService(
+                                        mock(ChatViewService),
+                                        mock(GameViewSimpleService),
+                                        mock(TimerService),
+                                        mock(DifferenceCounterService),
+                                      );
   });
 
   it("should call socket.emit() when calling sendMsg()", () => {
