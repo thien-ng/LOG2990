@@ -13,8 +13,8 @@ export class TimerComponent {
 
   public constructor(@Inject(TimerService) public timerService: TimerService) {
     this.time = this.START_TIME;
-    this.timerService.timer.subscribe((newTime :string) => {
+    this.timerService.timer.subscribe((newTime: string) => {
       this.time = newTime;
-    })
+    });
   }
 }
