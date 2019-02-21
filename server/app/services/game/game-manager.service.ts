@@ -9,6 +9,7 @@ import Types from "../../types";
 import { UserManagerService } from "../user-manager.service";
 import { Arena } from "./arena/arena";
 import { IArenaInfos, IPlayerInput } from "./arena/interfaces";
+import { Player } from "./arena/player";
 
 const REQUEST_ERROR_MESSAGE: string = "Game mode invalide";
 const ARENA_START_ID: number = 1000;
