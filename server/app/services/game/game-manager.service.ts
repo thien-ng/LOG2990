@@ -91,12 +91,19 @@ export class GameManagerService {
         this.playerList.set(socketID, socket);
     }
 
-    public unsubscribeSocketID(socketID: string): void {
-        this.playerList = this.playerList.filter((element: String) => element !== socketID);
+    public unsubscribeSocketID(socketID: string, username: string): void {
+        this.playerList.delete(socketID);
     }
 
     public get userList(): Map<string, SocketIO.Socket> {
         return this.playerList;
+    }
+
+    public sendMessage(socketID: string, message: number): void {
+        const playerSocket: SocketIO.Socket | undefined = this.playerList.get(socketID);
+        if (playerSocket !== undefined) {
+            playerSocket.emit(Constants.ON_TIMER_UPDATE, message)
+        }
     }
 
     public async onPlayerInput(playerInput: IPlayerInput): Promise<IPlayerInputResponse>  {
