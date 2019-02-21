@@ -18,11 +18,11 @@ const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: 
 export class GameManagerService {
 
     private arenaID: number;
-    private playerList: string[];
+    private playerList: Map<string, SocketIO.Socket>;
     private arenas: Map<number, Arena>;
 
     public constructor(@inject(Types.UserManagerService) private userManagerService: UserManagerService) {
-        this.playerList = [];
+        this.playerList = new Map<string, SocketIO.Socket>();
         this.arenas = new Map<number, Arena>();
         this.arenaID = ARENA_START_ID;
     }
@@ -53,7 +53,7 @@ export class GameManagerService {
     private async create2DArena(user: User, gameId: number): Promise<Message> {
 
         const arenaInfo: IArenaInfos = this.buildArenaInfos(user, gameId);
-        const newArena: Arena = new Arena(arenaInfo);
+        const newArena: Arena = new Arena(arenaInfo, this);
         await newArena.prepareArenaForGameplay();
         this.arenas.set(arenaInfo.arenaId, newArena);
 
