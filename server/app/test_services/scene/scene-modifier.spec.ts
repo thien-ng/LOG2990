@@ -190,4 +190,31 @@ describe("Scene-modifier tests", () => {
         chai.expect(resultScene.sceneObjects.length).to.be.equal(3);
     });
 
+    it("should have 7 modification in array if options are false true true", () => {
+        iSceneOptions = {
+            sceneName: "game",
+            sceneType: SceneType.Thematic,
+            sceneObjectsQuantity: 10,
+            selectedOptions: [false, true, true],
+        };
+
+        const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables);
+
+        resultScene.sceneObjects.forEach((modifiedObject: ISceneObject) => {
+            iSceneVariables.sceneObjects.forEach((originalObject: ISceneObject) => {
+                const isEqualId: boolean = modifiedObject.id === originalObject.id;
+                const isEqualColor: boolean = modifiedObject.color === originalObject.color;
+
+                if (isEqualId && !isEqualColor) {
+                    counterDifference++;
+                }
+
+            });
+        });
+
+        const removalsQuantity: number = 7 - counterDifference;
+
+        chai.expect(resultScene.sceneObjects.length).to.be.equal(10 - removalsQuantity);
+    });
+
 });
