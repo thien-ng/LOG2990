@@ -94,10 +94,12 @@ export class Arena {
     }
 
     public removePlayer(username: string): void {
-
         this.players = this.players.filter( (player: Player) => {
             return player.username !== username;
         });
+        // if (this.players.length === 0){
+        //     this.gameManagerService.deleteArena();
+        // }
     }
 
     private timer(): void {
@@ -165,6 +167,7 @@ export class Arena {
 
         if (player !== undefined) {
             player.addPoints(1);
+            this.gameManagerService.sendMessage(Constants.ON_POINT_ADDED, player.points);
         }
     }
 
