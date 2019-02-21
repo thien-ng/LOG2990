@@ -105,7 +105,7 @@ export class Arena {
     private timer(): void {
         setInterval(() => {
             this.players.forEach((player: Player) => {
-                this.gameManagerService.sendMessage(player.userSocketId, this.time);
+                this.gameManagerService.sendMessage(player.userSocketId, Constants.ON_TIMER_UPDATE, this.time);
                 this.time++;
             });
         },          ONE_SECOND);
