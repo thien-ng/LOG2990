@@ -53,7 +53,7 @@ export class Arena {
         const postData:     IHitToValidate      = this.buildPostData(position);
         const postConfig:   AxiosRequestConfig  = this.buildPostConfig();
 
-        return axios.post(URL_HIT_VALIDATOR, postData, postConfig)
+        return axios.post(Constants.URL_HIT_VALIDATOR, postData, postConfig)
             .then((res: AxiosResponse) => {
                 return res.data;
             })
@@ -66,7 +66,7 @@ export class Arena {
 
         let response: IPlayerInputResponse = this.buildPlayerInputResponse(
             this.ON_FAILED_CLICK,
-            ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
+            Constants.ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
         );
 
         switch (playerInput.event) {
@@ -108,7 +108,7 @@ export class Arena {
 
         let inputResponse: IPlayerInputResponse = this.buildPlayerInputResponse(
             this.ON_FAILED_CLICK,
-            ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
+            Constants.ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
             );
 
         return this.validateHit(position)
@@ -132,7 +132,7 @@ export class Arena {
             return inputResponse;
         })
         .catch ((error: Error) => {
-            return this.buildPlayerInputResponse(Constants.ON_ERROR_MESSAGE, ON_ERROR_ORIGINAL_PIXEL_CLUSTER);
+            return this.buildPlayerInputResponse(Constants.ON_ERROR_MESSAGE, Constants.ON_ERROR_ORIGINAL_PIXEL_CLUSTER);
         });
     }
 
@@ -212,7 +212,7 @@ export class Arena {
         return {
             position:           position,
             imageUrl:           this.arenaInfos.differenceGameUrl,
-            colorToIgnore:      WHITE,
+            colorToIgnore:      Constants.WHITE,
         };
     }
 
