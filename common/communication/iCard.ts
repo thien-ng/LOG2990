@@ -25,8 +25,8 @@ export const DefaultCard2D: ICard = {
 export const DefaultCard3D: ICard = {
   gameID: 1,
   gamemode: GameMode.free,
-  title: "Dylan QT",
-  subtitle: "Default Image",
-  avatarImageUrl: "http://localhost:3000/image/dylan.jpg",
-  gameImageUrl: "http://localhost:3000/image/dylan.jpg",
+  title: "Scène par défaut",
+  subtitle: "Scène par défaut",
+  avatarImageUrl: "http://localhost:3000/image/1_snapshot.jpeg",
+  gameImageUrl: "http://localhost:3000/image/1_snapshot.jpeg",
 }
