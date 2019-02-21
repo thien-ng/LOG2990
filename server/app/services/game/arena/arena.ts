@@ -17,14 +17,14 @@ import {
     IHitToValidate,
     IPlayerInput,
 } from "./interfaces";
-import { inject } from "inversify";
-import { GameManagerService } from "../game-manager.service";
+
 import Types from "../../../types";
 
 const FF: number = 255;
 const WHITE: number[] = [FF, FF, FF];
 const URL_HIT_VALIDATOR: string = "http://localhost:3000/api/hitvalidator";
 const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
+const ONE_SECOND: number = 1000;
 
 export class Arena {
 
@@ -100,7 +100,7 @@ export class Arena {
                 this.gameManagerService.sendMessage(player.userSocketId, this.time);
                 this.time++;
             });
-        }, 1000);
+        },          ONE_SECOND);
     }
 
     private async onPlayerClick(position: IPosition2D, user: User): Promise<IPlayerInputResponse> {
