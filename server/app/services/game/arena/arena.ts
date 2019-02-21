@@ -80,7 +80,7 @@ export class Arena {
     }
 
     public contains(user: User): boolean {
-        return this._players.some((player: Player) => {
+        return this.players.some((player: Player) => {
             return player.username === user.username;
         });
     }
@@ -181,12 +181,12 @@ export class Arena {
 
     private createPlayers(): void {
         this.arenaInfos.users.forEach((user: User) => {
-            this._players.push(new Player(user));
+            this.players.push(new Player(user));
         });
     }
 
-    public get players(): Player[] {
-        return this._players;
+    public getPlayers(): Player[] {
+        return this.players;
     }
 
 }
