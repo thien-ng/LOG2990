@@ -17,6 +17,8 @@ import { GameViewSimpleService } from "./game-view-simple.service";
 
 export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDestroy {
   public readonly OPPONENT: string = "Adversaire";
+  public readonly SUCCESS_SOUND: string = "http://localhost:3000/audio/fail.wav";
+  public readonly FAIL_SOUND: string = "http://localhost:3000/audio/success.wav";
 
   @ViewChild("successSound",  {read: ElementRef}) public successSound:  ElementRef;
   @ViewChild("failSound",     {read: ElementRef}) public failSound:     ElementRef;
