@@ -4,11 +4,13 @@ import { Constants } from "../../../constants";
 import { DifferencesExtractor } from "./differencesExtractor";
 import { Player } from "./player";
 
+import { inject } from "inversify";
 import {
     IOriginalPixelCluster,
     IPlayerInputResponse,
     IPosition2D,
 } from "../../../../../common/communication/iGameplay";
+import { GameManagerService } from "../game-manager.service";
 import {
     IArenaInfos,
     IHitConfirmation,
