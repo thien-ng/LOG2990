@@ -149,6 +149,10 @@ export class Arena {
     private endOfGameRoutine(): void {
         // fgh
     }
+
+    private addToDifferencesFound(differenceIndex: number): void {
+        this.differencesFound.push(differenceIndex);
+    }
     private buildPlayerInputResponse(status: string, response: IOriginalPixelCluster): IPlayerInputResponse {
         return {
             status: status,
