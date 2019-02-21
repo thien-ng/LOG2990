@@ -24,6 +24,9 @@ export class GameViewSimpleService {
     }
   }
 
+  public playFailSound(): void {
+    this.failSound.nativeElement.play();
+  }
   public setCanvas(modified: CanvasRenderingContext2D): void {
     this.canvasModified = modified;
   }
