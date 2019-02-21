@@ -29,8 +29,7 @@ export class SocketService {
         this.gameViewSimpleService.isSuccessMessage(data);
       });
       this.socket.on(Constants.ON_TIMER_UPDATE, (data: number) => {
-        console.log(data);
-        this.timerService.timeFormat(data)
+        this.timerService.timeFormat(data);
       })
     });
   }
