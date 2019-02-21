@@ -26,7 +26,9 @@ export class SocketService {
         this.chatViewService.updateConversation(data);
         this.gameViewSimpleService.isSuccessMessage(data);
       });
-
+      this.socket.on("test", (data: string) => {
+        console.log(data);
+      })
     });
   }
 
