@@ -157,6 +157,16 @@ export class Arena {
     private isADiscoveredDifference(differenceIndex: number): boolean {
         return this.differencesFound.indexOf(differenceIndex) >= 0;
     }
+
+    private attributePoints(user: User): void {
+        const player: Player | undefined = this.players.find( (p: Player) => {
+            return p.username === user.username;
+        });
+
+        if (player !== undefined) {
+            player.addPoints(1);
+        }
+    }
     private buildPlayerInputResponse(status: string, response: IOriginalPixelCluster): IPlayerInputResponse {
         return {
             status: status,
