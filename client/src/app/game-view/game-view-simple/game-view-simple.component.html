@@ -1,20 +1,17 @@
 <mat-grid-list cols="9" rowHeight="1%">
   <mat-grid-tile
     [colspan]="7"
-    [rowspan]="12"
-    [style.background]='lightgreen'>
+    [rowspan]="12">
     <div class="gameName" *ngIf="cardLoaded">{{activeCard.title}}</div>
   </mat-grid-tile>
   <mat-grid-tile
     [colspan]="2"
-    [rowspan]="89"
-    [style.background]='lightgreen'>
+    [rowspan]="89">
     <app-chat-view></app-chat-view>
   </mat-grid-tile>
   <mat-grid-tile
   [colspan]="7"
-  [rowspan]="57"
-  [style.background]='lightblue'>
+  [rowspan]="57">
     <div id="displayGame">
       <canvas #originalImage class="canvas" width="640" height="480"></canvas>
       <canvas #modifiedImage class="canvas" width="640" height="480"></canvas>
@@ -22,39 +19,31 @@
   </mat-grid-tile>
   <mat-grid-tile
     [colspan]="4"
-    [rowspan]="20"
-    [style.background]='lightgreen'>
+    [rowspan]="20">
     <app-timer></app-timer>
   </mat-grid-tile>
   <mat-grid-tile
       *ngIf="mode === '0'"
       [colspan]="2"
-      [rowspan]="20"
-      [style.background]='lightgreen'>
+      [rowspan]="20">
       <app-difference-counter>{{username}}</app-difference-counter>
     </mat-grid-tile>
   <div *ngIf="mode === '1'">
     <mat-grid-tile
       [colspan]="1"
-      [rowspan]="20"
-      [style.background]='lightgreen'>
+      [rowspan]="20">
       <app-difference-counter>{{username}}</app-difference-counter>
     </mat-grid-tile>
     <mat-grid-tile
       [colspan]="1"
-      [rowspan]="20"
-      [style.background]='lightgreen'>
+      [rowspan]="20">
       <app-difference-counter>{{OPPONENT}}</app-difference-counter>
     </mat-grid-tile>
   </div>
 </mat-grid-list>
 <audio #failSound>
-  <source src="http://localhost:3000/audio/fail.wav" type="audio/wav">
-  <!-- <source src="horse.mp3" type="audio/mpeg"> -->
-  Your browser does not support the audio tag.
+  <source src={{SUCCESS_SOUND}} type="audio/wav">
 </audio>
 <audio #successSound>
-  <source src="http://localhost:3000/audio/success.wav" type="audio/wav">
-  <!-- <source src="horse.mp3" type="audio/mpeg"> -->
-  Your browser does not support the audio tag.
+  <source src={{FAIL_SOUND}} type="audio/wav">
 </audio>
