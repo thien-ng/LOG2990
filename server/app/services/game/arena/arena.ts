@@ -118,7 +118,7 @@ export class Arena {
 
         return this.validateHit(position)
         .then((hitConfirmation: IHitConfirmation) => {
-            if (hitConfirmation.isAHit && this.isADiscoveredDifference(hitConfirmation.hitPixelColor[0])) {
+            if (hitConfirmation.isAHit && !this.isADiscoveredDifference(hitConfirmation.hitPixelColor[0])) {
 
                 this.onHitConfirmation(user, hitConfirmation);
 
