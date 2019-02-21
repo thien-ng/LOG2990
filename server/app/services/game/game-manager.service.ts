@@ -57,7 +57,7 @@ export class GameManagerService {
         const newArena: Arena = new Arena(arenaInfo, this);
         await newArena.prepareArenaForGameplay();
         this.arenas.set(arenaInfo.arenaId, newArena);
-        console.log(this.arenas);
+
         return {
             title:  Constants.ON_SUCCESS_MESSAGE,
             body:   arenaInfo.arenaId.toString(),
@@ -95,7 +95,6 @@ export class GameManagerService {
     public unsubscribeSocketID(socketID: string, username: string): void {
         this.playerList.delete(socketID);
         this.removePlayerFromArena(username);
-        console.log(this.arenas);
     }
 
     private removePlayerFromArena(username: string): void {

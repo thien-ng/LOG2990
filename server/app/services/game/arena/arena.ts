@@ -97,7 +97,7 @@ export class Arena {
         this.players = this.players.filter( (player: Player) => {
             return player.username !== username;
         });
-        if (this.players.length === 0){
+        if (this.players.length === 0) {
             this.gameManagerService.deleteArena(this.arenaInfos.arenaId);
         }
     }
@@ -149,7 +149,8 @@ export class Arena {
     }
 
     private endOfGameRoutine(): void {
-        console.log("FIN DE PARTIE");
+        // END OF GAME
+        // todo in a later sprint
     }
 
     private addToDifferencesFound(differenceIndex: number): void {
