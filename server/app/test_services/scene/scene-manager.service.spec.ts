@@ -102,7 +102,7 @@ describe("SceneManager Tests", () => {
     it("should return an error message when a game with the same name exists", () => {
 
         formMessage = {
-            gameName: "Dylan QT",
+            gameName: "Scène par défaut",
             checkedTypes: [true, true, true],
             theme: "Geometric",
             quantityChange: 5,
