@@ -25,10 +25,12 @@ export class GameViewSimpleService {
   }
 
   public playFailSound(): void {
+    this.failSound.nativeElement.currentTime = 0;
     this.failSound.nativeElement.play();
   }
 
   public playSuccessSound(): void {
+    this.successSound.nativeElement.currentTime = 0;
     this.successSound.nativeElement.play();
   }
 
