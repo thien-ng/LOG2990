@@ -5,6 +5,7 @@ import { IPlayerInputResponse } from "../../../../common/communication/iGameplay
 import { Constants } from "../constants";
 import { ChatViewService } from "../game-view/chat-view/chat-view.service";
 import { GameViewSimpleService } from "../game-view/game-view-simple/game-view-simple.service";
+import { TimerService } from "../game-view/timer/timer.service";
 
 @Injectable({
   providedIn: "root",
@@ -16,6 +17,7 @@ export class SocketService {
   public constructor(
     private chatViewService: ChatViewService,
     private gameViewSimpleService: GameViewSimpleService,
+    private timerService: TimerService,
     ) {}
 
   public initWebsocketListener(): void {
@@ -26,7 +28,10 @@ export class SocketService {
         this.chatViewService.updateConversation(data);
         this.gameViewSimpleService.isSuccessMessage(data);
       });
-
+      this.socket.on(Constants.ON_TIMER_UPDATE, (data: number) => {
+        console.log(data);
+        this.timerService.timeFormat(data)
+      })
     });
   }
 

@@ -15,6 +15,9 @@ import {
     IHitToValidate,
     IPlayerInput,
 } from "./interfaces";
+import { inject } from "inversify";
+import { GameManagerService } from "../game-manager.service";
+import Types from "../../../types";
 
 const FF: number = 255;
 const WHITE: number[] = [FF, FF, FF];
@@ -28,13 +31,19 @@ export class Arena {
     private readonly ON_FAILED_CLICK:       string = "onFailedClick";
     private readonly USER_EVENT:            string = "onClick";
 
-    private _players:               Player[];
+    private time: number;
+    private players:               Player[];
     private originalPixelClusters:  Map<number, IOriginalPixelCluster>;
 
-    public constructor(private arenaInfos: IArenaInfos) {
-        this._players = [];
+    public constructor(
+        private arenaInfos: IArenaInfos,
+        @inject(Types.GameManagerService) private gameManagerService: GameManagerService,
+        ) {
+        this.players = [];
+        this.time = 0;
         this.createPlayers();
         this.originalPixelClusters = new Map<number, IOriginalPixelCluster>();
+        this.timer();
     }
 
     public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {
@@ -71,9 +80,25 @@ export class Arena {
     }
 
     public contains(user: User): boolean {
-        return this._players.some((player: Player) => {
+        return this.players.some((player: Player) => {
             return player.username === user.username;
         });
+    }
+
+    public removePlayer(username: string): void {
+
+        this.players = this.players.filter( (player: Player) => {
+            return player.username !== username;
+        });
+    }
+
+    private timer(): void {
+        setInterval(() => {
+            this.players.forEach((player: Player) => {
+                this.gameManagerService.sendMessage(player.userSocketId, this.time);
+                this.time++;
+            });
+        }, 1000);
     }
 
     private async onPlayerClick(position: IPosition2D, user: User): Promise<IPlayerInputResponse> {
@@ -156,12 +181,12 @@ export class Arena {
 
     private createPlayers(): void {
         this.arenaInfos.users.forEach((user: User) => {
-            this._players.push(new Player(user));
+            this.players.push(new Player(user));
         });
     }
 
-    public get players(): Player[] {
-        return this._players;
+    public getPlayers(): Player[] {
+        return this.players;
     }
 
 }

@@ -18,11 +18,11 @@ const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: 
 export class GameManagerService {
 
     private arenaID: number;
-    private playerList: string[];
+    private playerList: Map<string, SocketIO.Socket>;
     private arenas: Map<number, Arena>;
 
     public constructor(@inject(Types.UserManagerService) private userManagerService: UserManagerService) {
-        this.playerList = [];
+        this.playerList = new Map<string, SocketIO.Socket>();
         this.arenas = new Map<number, Arena>();
         this.arenaID = ARENA_START_ID;
     }
@@ -53,7 +53,7 @@ export class GameManagerService {
     private async create2DArena(user: User, gameId: number): Promise<Message> {
 
         const arenaInfo: IArenaInfos = this.buildArenaInfos(user, gameId);
-        const newArena: Arena = new Arena(arenaInfo);
+        const newArena: Arena = new Arena(arenaInfo, this);
         await newArena.prepareArenaForGameplay();
         this.arenas.set(arenaInfo.arenaId, newArena);
 
@@ -87,16 +87,23 @@ export class GameManagerService {
         return this.arenaID++;
     }
 
-    public subscribeSocketID(socketID: string): void {
-        this.playerList.push(socketID);
+    public subscribeSocketID(socketID: string, socket: SocketIO.Socket): void {
+        this.playerList.set(socketID, socket);
     }
 
-    public unsubscribeSocketID(socketID: string): void {
-        this.playerList = this.playerList.filter((element: String) => element !== socketID);
+    public unsubscribeSocketID(socketID: string, username: string): void {
+        this.playerList.delete(socketID);
     }
 
-    public get userList(): string[] {
+    public get userList(): Map<string, SocketIO.Socket> {
         return this.playerList;
+    }
+
+    public sendMessage(socketID: string, message: number): void {
+        const playerSocket: SocketIO.Socket | undefined = this.playerList.get(socketID);
+        if (playerSocket !== undefined) {
+            playerSocket.emit(Constants.ON_TIMER_UPDATE, message)
+        }
     }
 
     public async onPlayerInput(playerInput: IPlayerInput): Promise<IPlayerInputResponse>  {

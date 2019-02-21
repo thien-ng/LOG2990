@@ -48,8 +48,6 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   }
 
   public ngAfterContentInit(): void {
-    // test will be changed to something else, To be determined
-    this.socketService.sendMsg(Constants.ON_GAME_CONNECTION, Constants.ON_GAME_CONNECTION);
     this.initListener();
   }
 
@@ -70,13 +68,13 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   this.httpClient.post(Constants.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
       if (data.title === Constants.ON_SUCCESS_MESSAGE) {
         this.arenaID = parseInt(data.body, Constants.DECIMAL);
+        this.socketService.sendMsg(Constants.ON_GAME_CONNECTION, this.arenaID);
       }
     });
   }
 
   public ngOnDestroy(): void {
-    // test will be changed to something else, To be determined
-    this.socketService.sendMsg(Constants.ON_GAME_DISCONNECT, "test");
+    this.socketService.sendMsg(Constants.ON_GAME_DISCONNECT, this.username);
   }
 
   private getActiveCard(username: string): void {
