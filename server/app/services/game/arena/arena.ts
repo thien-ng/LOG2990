@@ -167,6 +167,7 @@ export class Arena {
 
         if (player !== undefined) {
             player.addPoints(1);
+            this.gameManagerService.sendMessage(player.userSocketId, Constants.ON_POINT_ADDED, player.points);
         }
     }
 
