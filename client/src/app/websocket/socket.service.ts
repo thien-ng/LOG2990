@@ -4,9 +4,9 @@ import * as io from "socket.io-client";
 import { IPlayerInputResponse } from "../../../../common/communication/iGameplay";
 import { Constants } from "../constants";
 import { ChatViewService } from "../game-view/chat-view/chat-view.service";
+import { DifferenceCounterService } from "../game-view/difference-counter/difference-counter.service";
 import { GameViewSimpleService } from "../game-view/game-view-simple/game-view-simple.service";
 import { TimerService } from "../game-view/timer/timer.service";
-import { DifferenceCounterService } from "../game-view/difference-counter/difference-counter.service";
 
 @Injectable({
   providedIn: "root",
