@@ -20,8 +20,6 @@ export class DifferenceCounterService {
   }
 
   public updateCounter(newValue: number): void {
-    console.log("next");
-
     this.counterUpdated.next(newValue);
   }
 
