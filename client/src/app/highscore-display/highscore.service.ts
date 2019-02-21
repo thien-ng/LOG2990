@@ -46,7 +46,7 @@ export class HighscoreService {
     let isValid: boolean = true;
 
     times.forEach((timeElement) => {
-      let highscoreSplit: string[] = ["", ""];
+      let highscoreSplit: string[] = [];
 
       if (this.validateSelector(timeElement, this.SELECTOR)) {
         highscoreSplit = timeElement.split(this.SELECTOR);
