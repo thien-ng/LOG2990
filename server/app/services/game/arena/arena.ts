@@ -50,6 +50,8 @@ export class Arena {
         this.createPlayers();
         this.originalPixelClusters = new Map<number, IOriginalPixelCluster>();
         this.timer();
+        this.pointsNeededToWin = arenaInfos.users.length === 1 ? this.POINTS_TO_WIN_SINGLE : this.POINTS_TO_WIN_MULTI;
+        this.differencesFound = [];
     }
 
     public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {
