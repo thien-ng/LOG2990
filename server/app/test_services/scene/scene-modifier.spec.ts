@@ -84,7 +84,7 @@ describe("Scene-modifier tests", () => {
         chai.expect(spy).to.have.been.called();
     });
 
-    it("should have 7 modification in array if options are true false false", () => {
+    it("should have 7 additions", () => {
         iSceneOptions = {
             sceneName: "game",
             sceneType: SceneType.Thematic,
@@ -115,7 +115,7 @@ describe("Scene-modifier tests", () => {
         chai.expect(counterDifference).to.be.equal(7);
     });
 
-    it("should have 7 modification in array if options are false false true", () => {
+    it("should have 7 color changes", () => {
         iSceneOptions = {
             sceneName: "game",
             sceneType: SceneType.Thematic,
@@ -146,7 +146,7 @@ describe("Scene-modifier tests", () => {
         chai.expect(counterDifference).to.be.equal(7);
     });
 
-    it("should have 7 modification in array if options are true false true", () => {
+    it("should have 7 modifications (addition and color)", () => {
         iSceneOptions = {
             sceneName: "game",
             sceneType: SceneType.Thematic,
@@ -177,7 +177,7 @@ describe("Scene-modifier tests", () => {
         chai.expect(counterDifference).to.be.equal(7);
     });
 
-    it("should have 7 modification in array if options are false true false", () => {
+    it("should have 7 removals", () => {
         iSceneOptions = {
             sceneName: "game",
             sceneType: SceneType.Thematic,
@@ -190,7 +190,7 @@ describe("Scene-modifier tests", () => {
         chai.expect(resultScene.sceneObjects.length).to.be.equal(3);
     });
 
-    it("should have 7 modification in array if options are false true true", () => {
+    it("should have 7 modification (removals and colors)", () => {
         iSceneOptions = {
             sceneName: "game",
             sceneType: SceneType.Thematic,
@@ -217,7 +217,7 @@ describe("Scene-modifier tests", () => {
         chai.expect(resultScene.sceneObjects.length).to.be.equal(10 - removalsQuantity);
     });
 
-    it("should have 7 modification in array if options are true true true", () => {
+    it("should have 7 modification of any type", () => {
         iSceneOptions = {
             sceneName: "game",
             sceneType: SceneType.Thematic,
