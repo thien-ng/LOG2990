@@ -13,7 +13,7 @@ export class TimerService {
     this.timeUpdated = new Subject<string>();
   }
 
-  public get timer(): Observable<string> {
+  public getTimer(): Observable<string> {
     return this.timeUpdated.asObservable();
   }
 

@@ -13,7 +13,7 @@ export class DifferenceCounterService {
     this.counterUpdated = new Subject<number>();
   }
 
-  public get counter(): Observable<number> {
+  public getCounter(): Observable<number> {
     return this.counterUpdated.asObservable();
   }
 
