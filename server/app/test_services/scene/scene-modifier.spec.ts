@@ -177,4 +177,17 @@ describe("Scene-modifier tests", () => {
         chai.expect(counterDifference).to.be.equal(7);
     });
 
+    it("should have 7 modification in array if options are false true false", () => {
+        iSceneOptions = {
+            sceneName: "game",
+            sceneType: SceneType.Thematic,
+            sceneObjectsQuantity: 10,
+            selectedOptions: [false, true, false],
+        };
+
+        const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables);
+
+        chai.expect(resultScene.sceneObjects.length).to.be.equal(3);
+    });
+
 });
