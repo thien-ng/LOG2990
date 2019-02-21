@@ -8,7 +8,9 @@ import { Constants } from "../../constants";
 
 export class GameViewSimpleService {
 
-  public canvasModified: CanvasRenderingContext2D;
+  public canvasModified:  CanvasRenderingContext2D;
+  public successSound:    ElementRef;
+  public failSound:       ElementRef;
 
   public isSuccessMessage(data: IPlayerInputResponse): void {
     if (data.status === Constants.ON_SUCCESS_MESSAGE) {
