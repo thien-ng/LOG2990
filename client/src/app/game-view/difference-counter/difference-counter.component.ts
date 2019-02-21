@@ -4,7 +4,6 @@ import { DifferenceCounterService } from "./difference-counter.service";
   selector: "app-difference-counter",
   templateUrl: "./difference-counter.component.html",
   styleUrls: ["./difference-counter.component.css"],
-  providers: [DifferenceCounterService],
 })
 export class DifferenceCounterComponent implements AfterContentInit {
   public readonly DEFAULT_NB_ERROR_FOUND: number = 0;
