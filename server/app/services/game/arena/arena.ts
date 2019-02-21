@@ -141,6 +141,10 @@ export class Arena {
         });
     }
 
+    private onHitConfirmation(user: User, hitConfirmation: IHitConfirmation): void {
+        this.attributePoints(user);
+        this.addToDifferencesFound(hitConfirmation.hitPixelColor[0]);
+    }
     private buildPlayerInputResponse(status: string, response: IOriginalPixelCluster): IPlayerInputResponse {
         return {
             status: status,
