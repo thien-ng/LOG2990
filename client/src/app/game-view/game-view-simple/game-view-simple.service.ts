@@ -12,7 +12,7 @@ export class GameViewSimpleService {
   public successSound:    ElementRef;
   public failSound:       ElementRef;
 
-  public isSuccessMessage(data: IPlayerInputResponse): void {
+  public onArenaResponse(data: IPlayerInputResponse): void {
     if (data.status === Constants.ON_SUCCESS_MESSAGE) {
       data.response.cluster.forEach((pixel) => {
         this.canvasModified.fillStyle = "rgb(" + pixel.color.R + ", " + pixel.color.G + ", " + pixel.color.B + ")";
