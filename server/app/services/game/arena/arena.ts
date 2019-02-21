@@ -32,10 +32,14 @@ export class Arena {
     private readonly ERROR_HIT_VALIDATION:  string = "Problem during Hit Validation process.";
     private readonly ON_FAILED_CLICK:       string = "onFailedClick";
     private readonly USER_EVENT:            string = "onClick";
+    private readonly POINTS_TO_WIN_SINGLE:  number = 7;
+    private readonly POINTS_TO_WIN_MULTI:   number = 4;
 
-    private time: number;
-    private players:               Player[];
+    private pointsNeededToWin:      number;
+    private time:                   number;
+    private players:                Player[];
     private originalPixelClusters:  Map<number, IOriginalPixelCluster>;
+    private differencesFound:       number[];
 
     public constructor(
         private arenaInfos: IArenaInfos,
