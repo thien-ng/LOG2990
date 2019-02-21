@@ -63,6 +63,13 @@ export class GameManagerService {
         };
     }
 
+    public setArenaSocket(socket: SocketIO.Socket, arenaID: number): void {
+        const arena: Arena | undefined = this.arenas.get(arenaID);
+        if (arena !== undefined) {
+            arena.setPlayerSocket(socket);
+        }
+    }
+
     private buildArenaInfos(user: User, gameId: number): IArenaInfos {
         return {
             arenaId:            this.generateArenaID(),
