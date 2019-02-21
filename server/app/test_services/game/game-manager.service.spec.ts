@@ -1,6 +1,8 @@
 import "reflect-metadata";
 
 import { expect } from "chai";
+import SocketIO = require("socket.io");
+import { mock } from "ts-mockito";
 import { GameMode } from "../../../../common/communication/iCard";
 import { GameType, IGameRequest } from "../../../../common/communication/iGameRequest";
 import { Message } from "../../../../common/communication/message";
@@ -30,8 +32,10 @@ const invalidRequest: IGameRequest = {
     type: GameType.singlePlayer,
     mode: GameMode.invalid,
 };
+let socket: SocketIO.Socket;
 
 beforeEach(() => {
+    socket = mock(SocketIO);
     userManagerService = new UserManagerService();
     gameManagerService = new GameManagerService(userManagerService);
 });
@@ -40,18 +44,18 @@ describe("GameManagerService tests", () => {
 
     it("should add socketID in playerList", () => {
 
-        gameManagerService.subscribeSocketID("dylan");
-        const result: string = gameManagerService.userList[0];
-        expect(result).to.be.equal("dylan");
+        gameManagerService.subscribeSocketID("dylan", socket);
+        const result: SocketIO.Socket | undefined = gameManagerService.userList.get("dylan");
+        expect(result).to.be.equal(socket);
     });
 
     it("should remove socketID in playerList", () => {
 
-        gameManagerService.subscribeSocketID("dylan");
-        gameManagerService.subscribeSocketID("michelGagnon");
-        gameManagerService.unsubscribeSocketID("dylan");
-        const result: string = gameManagerService.userList[0];
-        expect(result).to.be.equal("michelGagnon");
+        gameManagerService.subscribeSocketID("dylan", socket);
+        gameManagerService.subscribeSocketID("michelGagnon", socket);
+        gameManagerService.unsubscribeSocketID("dylan", "");
+        const result: SocketIO.Socket | undefined = gameManagerService.userList.get("michelGagnon");
+        expect(result).to.be.equal(socket);
     });
 
     // todo : regler les tests plus tard, passer le pr thanks :)
