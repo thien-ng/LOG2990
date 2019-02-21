@@ -87,15 +87,15 @@ export class GameManagerService {
         return this.arenaID++;
     }
 
-    public subscribeSocketID(socketID: string): void {
-        this.playerList.push(socketID);
+    public subscribeSocketID(socketID: string, socket: SocketIO.Socket): void {
+        this.playerList.set(socketID, socket);
     }
 
     public unsubscribeSocketID(socketID: string): void {
         this.playerList = this.playerList.filter((element: String) => element !== socketID);
     }
 
-    public get userList(): string[] {
+    public get userList(): Map<string, SocketIO.Socket> {
         return this.playerList;
     }
 
