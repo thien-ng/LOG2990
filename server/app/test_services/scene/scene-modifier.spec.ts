@@ -226,6 +226,27 @@ describe("Scene-modifier tests", () => {
             selectedOptions: [true, true, true],
         };
         const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables);
+        let addition: number = 0;
+
+        resultScene.sceneObjects.forEach((modifiedObject: ISceneObject) => {
+            let isPresent: boolean = false;
+
+            iSceneVariables.sceneObjects.forEach((originalObject: ISceneObject) => {
+                const isEqualId: boolean = modifiedObject.id === originalObject.id;
+                const isEqualColor: boolean = modifiedObject.color === originalObject.color;
+
+                if (isEqualId && !isEqualColor) {
+                    counterDifference++;
+                    isPresent = true;
+                } else if (isEqualId && isEqualColor) {
+                    isPresent = true;
+                }
+            });
+
+            if (!isPresent) {
+                ++addition;
+            }
+        });
     });
 
 });
