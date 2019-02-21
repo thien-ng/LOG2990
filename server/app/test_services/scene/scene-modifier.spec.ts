@@ -218,4 +218,7 @@ describe("Scene-modifier tests", () => {
         chai.expect(resultScene.sceneObjects.length).to.be.equal(10 - removalsQuantity);
     });
 
+    it("should have 7 modification in array if options are true true true", () => {
+    });
+
 });
