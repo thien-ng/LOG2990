@@ -10,11 +10,9 @@ export class GameViewSimpleService {
 
   public canvasModified: CanvasRenderingContext2D;
 
-  public constructor() {}
-
-  public verifyServerValidation(data: IPlayerInputResponse): void {
+  public isSuccessMessage(data: IPlayerInputResponse): void {
     if (data.status === Constants.ON_SUCCESS_MESSAGE) {
-      data.response.cluster.forEach(pixel => {
+      data.response.cluster.forEach((pixel) => {
         this.canvasModified.fillStyle = "rgb(" + pixel.color.R + ", " + pixel.color.G + ", " + pixel.color.B + ")";
         this.canvasModified.fillRect(pixel.position.x, pixel.position.y, 1, 1);
       });

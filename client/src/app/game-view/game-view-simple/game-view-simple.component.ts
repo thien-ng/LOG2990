@@ -3,7 +3,7 @@ import { AfterContentInit, Component, ElementRef, Inject, OnDestroy, OnInit, Vie
 import { ActivatedRoute } from "@angular/router";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../../common/communication/iGameRequest";
-import { IPosition2D } from "../../../../../common/communication/iGameplay";
+import { IClickMessage, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { Message } from "../../../../../common/communication/message";
 import { Constants } from "../../constants";
 import { SocketService } from "../../websocket/socket.service";
@@ -116,7 +116,8 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
         y: mouseEvent.offsetY,
       };
       if (this.username !== null) {
-        this.socketService.sendMsg(Constants.ON_POSITION_VALIDATION, this.gameViewService.onCanvasClick(pos, this.arenaID, this.username));
+        const canvasPosition: IClickMessage = this.gameViewService.onCanvasClick(pos, this.arenaID, this.username);
+        this.socketService.sendMsg(Constants.ON_POSITION_VALIDATION, canvasPosition);
       }
     });
     this.canvasModified.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
@@ -125,7 +126,8 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
         y: mouseEvent.offsetY,
       };
       if (this.username !== null) {
-        this.socketService.sendMsg(Constants.ON_POSITION_VALIDATION, this.gameViewService.onCanvasClick(pos, this.arenaID, this.username));
+        const canvasPosition: IClickMessage = this.gameViewService.onCanvasClick(pos, this.arenaID, this.username);
+        this.socketService.sendMsg(Constants.ON_POSITION_VALIDATION, canvasPosition);
       }
     });
   }

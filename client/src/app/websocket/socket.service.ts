@@ -24,7 +24,7 @@ export class SocketService {
 
       this.socket.on(Constants.ON_ARENA_RESPONSE, (data: IPlayerInputResponse) => {
         this.chatViewService.updateConversation(data);
-        this.gameViewSimpleService.verifyServerValidation(data);
+        this.gameViewSimpleService.isSuccessMessage(data);
       });
 
     });
