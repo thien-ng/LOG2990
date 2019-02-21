@@ -145,6 +145,10 @@ export class Arena {
         this.attributePoints(user);
         this.addToDifferencesFound(hitConfirmation.hitPixelColor[0]);
     }
+
+    private endOfGameRoutine(): void {
+        // fgh
+    }
     private buildPlayerInputResponse(status: string, response: IOriginalPixelCluster): IPlayerInputResponse {
         return {
             status: status,
