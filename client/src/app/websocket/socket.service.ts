@@ -6,6 +6,7 @@ import { Constants } from "../constants";
 import { ChatViewService } from "../game-view/chat-view/chat-view.service";
 import { GameViewSimpleService } from "../game-view/game-view-simple/game-view-simple.service";
 import { TimerService } from "../game-view/timer/timer.service";
+import { DifferenceCounterService } from "../game-view/difference-counter/difference-counter.service";
 
 @Injectable({
   providedIn: "root",
@@ -18,6 +19,7 @@ export class SocketService {
     private chatViewService: ChatViewService,
     private gameViewSimpleService: GameViewSimpleService,
     private timerService: TimerService,
+    private differenceCounterService: DifferenceCounterService,
     ) {}
 
   public initWebsocketListener(): void {
@@ -28,9 +30,14 @@ export class SocketService {
         this.chatViewService.updateConversation(data);
         this.gameViewSimpleService.isSuccessMessage(data);
       });
+
       this.socket.on(Constants.ON_TIMER_UPDATE, (data: number) => {
         this.timerService.timeFormat(data);
-      })
+      });
+
+      this.socket.on(Constants.ON_POINT_ADDED, ((newPoints: number) => {
+        this.differenceCounterService.updateCounter(newPoints);
+      }))
     });
   }
 
