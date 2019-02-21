@@ -247,6 +247,8 @@ describe("Scene-modifier tests", () => {
                 ++addition;
             }
         });
+
+        const removalsQuantity: number = 7 - counterDifference - addition;
     });
 
 });
