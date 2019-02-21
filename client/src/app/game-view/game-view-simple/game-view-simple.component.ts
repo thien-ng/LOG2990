@@ -16,6 +16,8 @@ import { GameViewSimpleService } from "./game-view-simple.service";
 })
 
 export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDestroy {
+  @ViewChild("successSound",  {read: ElementRef}) public successSound:  ElementRef;
+  @ViewChild("failSound",     {read: ElementRef}) public failSound:     ElementRef;
 
   @ViewChild("originalImage", {read: ElementRef})
   public canvasOriginal: ElementRef;
@@ -105,6 +107,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       canvasModified.drawImage(imgModified, 0, 0);
     };
     this.gameViewService.setCanvas(canvasModified);
+    this.gameViewService.setSounds(this.successSound, this.failSound);
   }
 
   public initListener(): void {
@@ -113,6 +116,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
         x: mouseEvent.offsetX,
         y: mouseEvent.offsetY,
       };
+
       if (this.username !== null) {
         const canvasPosition: IClickMessage = this.gameViewService.onCanvasClick(pos, this.arenaID, this.username);
         this.socketService.sendMsg(Constants.ON_POSITION_VALIDATION, canvasPosition);
@@ -123,6 +127,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
         x: mouseEvent.offsetX,
         y: mouseEvent.offsetY,
       };
+
       if (this.username !== null) {
         const canvasPosition: IClickMessage = this.gameViewService.onCanvasClick(pos, this.arenaID, this.username);
         this.socketService.sendMsg(Constants.ON_POSITION_VALIDATION, canvasPosition);
