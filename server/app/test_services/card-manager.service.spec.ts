@@ -184,7 +184,7 @@ describe("Card-manager tests", () => {
     });
 
     it("Should return false when the title already exists", () => {
-        chai.expect(cardManagerService.isSceneNameNew("Dylan QT")).to.equal(false);
+        chai.expect(cardManagerService.isSceneNameNew("Scène par défaut")).to.equal(false);
     });
 
     it("trying the splice", () => {
