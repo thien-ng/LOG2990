@@ -14,8 +14,10 @@ export class GameViewSimpleService {
 
   public verifyServerValidation(data: IPlayerInputResponse): void {
     if (data.status === Constants.ON_SUCCESS_MESSAGE) {
-      this.canvasModified.fillStyle = "#FF0000";
-      this.canvasModified.fillRect(0, 0, 150, 75);
+      data.response.cluster.forEach(pixel => {
+        this.canvasModified.fillStyle = "rgb(" + pixel.color.R + ", " + pixel.color.G + ", " + pixel.color.B + ")";
+        this.canvasModified.fillRect(pixel.position.x, pixel.position.y, 1, 1);
+      });
     }
   }
 
