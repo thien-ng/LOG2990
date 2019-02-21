@@ -249,6 +249,8 @@ describe("Scene-modifier tests", () => {
         });
 
         const removalsQuantity: number = 7 - counterDifference - addition;
+
+        chai.expect(resultScene.sceneObjects.length).to.be.equal(addition + iSceneOptions.sceneObjectsQuantity - removalsQuantity);
     });
 
 });
