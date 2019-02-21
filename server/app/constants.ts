@@ -15,6 +15,7 @@ export class Constants {
   public static readonly CLICK_EVENT:               string = "onClick";
   public static readonly ON_ARENA_RESPONSE:         string = "onArenaResponse";
   public static readonly ON_TIMER_UPDATE:           string = "onTimerUpdate";
+  public static readonly ON_POINT_ADDED:            string = "onPointAdded";
 
   // Constants for card-manager.service.ts
   public static readonly SCENE_SNAPSHOT:            string = "_snapshot.jpeg";
