@@ -4,6 +4,7 @@ import * as io from "socket.io-client";
 import { IPlayerInputResponse } from "../../../../common/communication/iGameplay";
 import { Constants } from "../constants";
 import { ChatViewService } from "../game-view/chat-view/chat-view.service";
+import { GameViewSimpleService } from "../game-view/game-view-simple/game-view-simple.service";
 
 @Injectable({
   providedIn: "root",
@@ -12,8 +13,10 @@ export class SocketService {
 
   private socket: SocketIOClient.Socket = io(Constants.WEBSOCKET_URL);
 
-  public constructor(private chatViewService: ChatViewService) {
-  }
+  public constructor(
+    private chatViewService: ChatViewService,
+    private gameViewSimpleService: GameViewSimpleService,
+    ) {}
 
   public initWebsocketListener(): void {
 
@@ -21,6 +24,7 @@ export class SocketService {
 
       this.socket.on(Constants.ON_ARENA_RESPONSE, (data: IPlayerInputResponse) => {
         this.chatViewService.updateConversation(data);
+        this.gameViewSimpleService.isSuccessMessage(data);
       });
 
     });
