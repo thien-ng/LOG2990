@@ -32,10 +32,14 @@ export class Arena {
     private readonly ERROR_HIT_VALIDATION:  string = "Problem during Hit Validation process.";
     private readonly ON_FAILED_CLICK:       string = "onFailedClick";
     private readonly USER_EVENT:            string = "onClick";
+    private readonly POINTS_TO_WIN_SINGLE:  number = 7;
+    private readonly POINTS_TO_WIN_MULTI:   number = 4;
 
-    private time: number;
-    private players:               Player[];
+    private pointsNeededToWin:      number;
+    private time:                   number;
+    private players:                Player[];
     private originalPixelClusters:  Map<number, IOriginalPixelCluster>;
+    private differencesFound:       number[];
 
     public constructor(
         private arenaInfos: IArenaInfos,
@@ -46,6 +50,8 @@ export class Arena {
         this.createPlayers();
         this.originalPixelClusters = new Map<number, IOriginalPixelCluster>();
         this.timer();
+        this.pointsNeededToWin = arenaInfos.users.length === 1 ? this.POINTS_TO_WIN_SINGLE : this.POINTS_TO_WIN_MULTI;
+        this.differencesFound = [];
     }
 
     public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {
@@ -112,15 +118,19 @@ export class Arena {
 
         return this.validateHit(position)
         .then((hitConfirmation: IHitConfirmation) => {
-            if (hitConfirmation.isAHit) {
+            if (hitConfirmation.isAHit && this.isADiscoveredDifference(hitConfirmation.hitPixelColor[0])) {
 
+                this.onHitConfirmation(user, hitConfirmation);
+
+                // ECQ CEST LIGNES LA ON DEVRAIT LES METTRE DANS onHitConfirmation ??
                 const pixelCluster: IOriginalPixelCluster | undefined = this.originalPixelClusters.get(hitConfirmation.hitPixelColor[0]);
-
                 if (pixelCluster !== undefined) {
-                    inputResponse = this.buildPlayerInputResponse(
-                        Constants.ON_SUCCESS_MESSAGE,
-                        pixelCluster,
-                    );
+                    inputResponse = this.buildPlayerInputResponse(Constants.ON_SUCCESS_MESSAGE, pixelCluster);
+                }
+
+                // EST CE QUE CA CA DOIT ALLER LA?
+                if (this.gameIsFinished) {
+                    this.endOfGameRoutine();
                 }
             }
 
@@ -129,6 +139,43 @@ export class Arena {
         .catch ((error: Error) => {
             return this.buildPlayerInputResponse(Constants.ON_ERROR_MESSAGE, ON_ERROR_ORIGINAL_PIXEL_CLUSTER);
         });
+    }
+
+    private onHitConfirmation(user: User, hitConfirmation: IHitConfirmation): void {
+        this.attributePoints(user);
+        this.addToDifferencesFound(hitConfirmation.hitPixelColor[0]);
+    }
+
+    private endOfGameRoutine(): void {
+        // fgh
+    }
+
+    private addToDifferencesFound(differenceIndex: number): void {
+        this.differencesFound.push(differenceIndex);
+    }
+
+    private isADiscoveredDifference(differenceIndex: number): boolean {
+        return this.differencesFound.indexOf(differenceIndex) >= 0;
+    }
+
+    private attributePoints(user: User): void {
+        const player: Player | undefined = this.players.find( (p: Player) => {
+            return p.username === user.username;
+        });
+
+        if (player !== undefined) {
+            player.addPoints(1);
+        }
+    }
+
+    private gameIsFinished(): boolean {
+
+        const playerHasReachPointsNeeded: boolean = this.players.some((player: Player) => {
+            return player.points >= this.pointsNeededToWin;
+        });
+        const differenceAreAllFound: boolean = this.differencesFound.length >= this.originalPixelClusters.size;
+
+        return playerHasReachPointsNeeded || differenceAreAllFound;
     }
 
     private buildPlayerInputResponse(status: string, response: IOriginalPixelCluster): IPlayerInputResponse {
