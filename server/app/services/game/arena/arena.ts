@@ -118,15 +118,19 @@ export class Arena {
 
         return this.validateHit(position)
         .then((hitConfirmation: IHitConfirmation) => {
-            if (hitConfirmation.isAHit) {
+            if (hitConfirmation.isAHit && this.isADiscoveredDifference(hitConfirmation.hitPixelColor[0])) {
 
+                this.onHitConfirmation(user, hitConfirmation);
+
+                // ECQ CEST LIGNES LA ON DEVRAIT LES METTRE DANS onHitConfirmation ??
                 const pixelCluster: IOriginalPixelCluster | undefined = this.originalPixelClusters.get(hitConfirmation.hitPixelColor[0]);
-
                 if (pixelCluster !== undefined) {
-                    inputResponse = this.buildPlayerInputResponse(
-                        Constants.ON_SUCCESS_MESSAGE,
-                        pixelCluster,
-                    );
+                    inputResponse = this.buildPlayerInputResponse(Constants.ON_SUCCESS_MESSAGE, pixelCluster);
+                }
+
+                // EST CE QUE CA CA DOIT ALLER LA?
+                if (this.gameIsFinished) {
+                    this.endOfGameRoutine();
                 }
             }
 
