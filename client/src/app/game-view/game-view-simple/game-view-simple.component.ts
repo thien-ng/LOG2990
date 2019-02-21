@@ -116,8 +116,6 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
         y: mouseEvent.offsetY,
       };
       if (this.username !== null) {
-        // jai fais ca pcq si non ya un loop dans les services
-        // jai fais ca pcq si non ya un loop dans les services
         this.socketService.sendMsg(Constants.ON_POSITION_VALIDATION, this.gameViewService.onCanvasClick(pos, this.arenaID, this.username));
       }
     });
@@ -127,8 +125,6 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
         y: mouseEvent.offsetY,
       };
       if (this.username !== null) {
-        // jai fais ca pcq si non ya un loop dans les services
-        // jai fais ca pcq si non ya un loop dans les services
         this.socketService.sendMsg(Constants.ON_POSITION_VALIDATION, this.gameViewService.onCanvasClick(pos, this.arenaID, this.username));
       }
     });
