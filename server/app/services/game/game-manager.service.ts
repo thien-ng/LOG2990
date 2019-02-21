@@ -111,10 +111,10 @@ export class GameManagerService {
         return this.playerList;
     }
 
-    public sendMessage(socketID: string, message: number): void {
+    public sendMessage(socketID: string, messageType: string, message: number): void {
         const playerSocket: SocketIO.Socket | undefined = this.playerList.get(socketID);
         if (playerSocket !== undefined) {
-            playerSocket.emit(Constants.ON_TIMER_UPDATE, message);
+            playerSocket.emit(messageType, message);
         }
     }
 
