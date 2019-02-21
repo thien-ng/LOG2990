@@ -2,8 +2,8 @@ import { TestBed } from "@angular/core/testing";
 import { Observable } from "rxjs";
 import "rxjs/add/observable/of";
 import { mock } from "ts-mockito";
-import { GameViewSimpleService } from "../game-view/game-view-simple/game-view-simple.service";
 import { ChatViewService } from "../game-view/chat-view/chat-view.service";
+import { GameViewSimpleService } from "../game-view/game-view-simple/game-view-simple.service";
 import { SocketService } from "./socket.service";
 
 describe("SocketService", () => {
