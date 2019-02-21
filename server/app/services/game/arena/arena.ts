@@ -1,30 +1,24 @@
 import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import { inject } from "inversify";
 import { User } from "../../../../../common/communication/iUser";
 import { Constants } from "../../../constants";
+import Types from "../../../types";
+import { GameManagerService } from "../game-manager.service";
 import { DifferencesExtractor } from "./differencesExtractor";
 import { Player } from "./player";
 
-import { inject } from "inversify";
 import {
     IOriginalPixelCluster,
     IPlayerInputResponse,
     IPosition2D,
 } from "../../../../../common/communication/iGameplay";
-import { GameManagerService } from "../game-manager.service";
 import {
     IArenaInfos,
     IHitConfirmation,
     IHitToValidate,
     IPlayerInput,
 } from "./interfaces";
-
-import Types from "../../../types";
-
-const FF: number = 255;
-const WHITE: number[] = [FF, FF, FF];
-const URL_HIT_VALIDATOR: string = "http://localhost:3000/api/hitvalidator";
-const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
-const ONE_SECOND: number = 1000;
+import { Timer } from "./timer";
 
 export class Arena {
 
@@ -36,7 +30,6 @@ export class Arena {
     private readonly POINTS_TO_WIN_MULTI:   number = 4;
 
     private pointsNeededToWin:      number;
-    private time:                   number;
     private players:                Player[];
     private originalPixelClusters:  Map<number, IOriginalPixelCluster>;
     private differencesFound:       number[];
