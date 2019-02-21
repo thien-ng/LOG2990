@@ -10,7 +10,7 @@ export class TimerService {
   private readonly START_TIME: string = "00:00";
 
   private timeUpdated: BehaviorSubject<string>;
-  public timeUpdatedObservable: Observable<string>;
+  private timeUpdatedObservable: Observable<string>;
 
   public constructor() {
     this.timeUpdated = new BehaviorSubject<string>(this.START_TIME);
