@@ -74,7 +74,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   }
 
   public ngOnDestroy(): void {
-    this.socketService.sendMsg(Constants.ON_GAME_DISCONNECT, Constants.ON_GAME_DISCONNECT);
+    this.socketService.sendMsg(Constants.ON_GAME_DISCONNECT, this.username);
   }
 
   private getActiveCard(username: string): void {
