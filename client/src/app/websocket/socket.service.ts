@@ -37,7 +37,7 @@ export class SocketService {
 
       this.socket.on(Constants.ON_POINT_ADDED, ((newPoints: number) => {
         this.differenceCounterService.updateCounter(newPoints);
-      }))
+      }));
     });
   }
 
