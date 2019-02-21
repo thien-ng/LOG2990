@@ -15,6 +15,9 @@ import {
     IHitToValidate,
     IPlayerInput,
 } from "./interfaces";
+import { inject } from "inversify";
+import { GameManagerService } from "../game-manager.service";
+import Types from "../../../types";
 
 const FF: number = 255;
 const WHITE: number[] = [FF, FF, FF];
@@ -28,13 +31,19 @@ export class Arena {
     private readonly ON_FAILED_CLICK:       string = "onFailedClick";
     private readonly USER_EVENT:            string = "onClick";
 
-    private _players:               Player[];
+    private time: number;
+    private players:               Player[];
     private originalPixelClusters:  Map<number, IOriginalPixelCluster>;
 
-    public constructor(private arenaInfos: IArenaInfos) {
-        this._players = [];
+    public constructor(
+        private arenaInfos: IArenaInfos,
+        @inject(Types.GameManagerService) private gameManagerService: GameManagerService,
+        ) {
+        this.players = [];
+        this.time = 0;
         this.createPlayers();
         this.originalPixelClusters = new Map<number, IOriginalPixelCluster>();
+        this.timer();
     }
 
     public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {
