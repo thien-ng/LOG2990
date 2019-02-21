@@ -97,9 +97,9 @@ export class Arena {
         this.players = this.players.filter( (player: Player) => {
             return player.username !== username;
         });
-        // if (this.players.length === 0){
-        //     this.gameManagerService.deleteArena();
-        // }
+        if (this.players.length === 0){
+            this.gameManagerService.deleteArena(this.arenaInfos.arenaId);
+        }
     }
 
     private timer(): void {
