@@ -85,6 +85,22 @@ export class Arena {
         });
     }
 
+    public removePlayer(username: string): void {
+
+        this.players = this.players.filter( (player: Player) => {
+            return player.username !== username;
+        });
+    }
+
+    private timer(): void {
+        setInterval(() => {
+            this.players.forEach((player: Player) => {
+                this.gameManagerService.sendMessage(player.userSocketId, this.time);
+                this.time++;
+            });
+        }, 1000);
+    }
+
     private async onPlayerClick(position: IPosition2D, user: User): Promise<IPlayerInputResponse> {
 
         let inputResponse: IPlayerInputResponse = this.buildPlayerInputResponse(
