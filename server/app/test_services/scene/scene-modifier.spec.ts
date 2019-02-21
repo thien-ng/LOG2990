@@ -219,6 +219,13 @@ describe("Scene-modifier tests", () => {
     });
 
     it("should have 7 modification in array if options are true true true", () => {
+        iSceneOptions = {
+            sceneName: "game",
+            sceneType: SceneType.Thematic,
+            sceneObjectsQuantity: 10,
+            selectedOptions: [true, true, true],
+        };
+        const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables);
     });
 
 });
