@@ -7,7 +7,6 @@ import { ISceneVariables } from "../../../../common/communication/iSceneVariable
 import { SceneBuilder } from "../../services/scene/scene-builder";
 import { SceneModifier } from "../../services/scene/scene-modifier";
 
-// tslint:disable:no-any prefer-for-of no-magic-numbers
 // tslint:disable:no-any prefer-for-of no-magic-numbers max-func-body-length
 
 let sceneModifier: SceneModifier;
