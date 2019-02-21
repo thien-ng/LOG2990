@@ -153,6 +153,10 @@ export class Arena {
     private addToDifferencesFound(differenceIndex: number): void {
         this.differencesFound.push(differenceIndex);
     }
+
+    private isADiscoveredDifference(differenceIndex: number): boolean {
+        return this.differencesFound.indexOf(differenceIndex) >= 0;
+    }
     private buildPlayerInputResponse(status: string, response: IOriginalPixelCluster): IPlayerInputResponse {
         return {
             status: status,
