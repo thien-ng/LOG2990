@@ -15,14 +15,20 @@ export class DifferenceCounterComponent implements AfterContentInit {
   @ViewChild("progressBar", { read: ElementRef })
   public progressBar: ElementRef;
 
-  public constructor(@Inject(DifferenceCounterService) public differenceCounterService: DifferenceCounterService) {}
+  public constructor(@Inject(DifferenceCounterService) public differenceCounterService: DifferenceCounterService) {
+    this.differenceCounterService.counter.subscribe((newCounterValue: number) => {
+      if (newCounterValue !== 0)
+        this.updateSpinner(newCounterValue);
+    });
+  }
 
   public ngAfterContentInit(): void {
     this.differenceCounterService.setNbErrorMax(this.DEFAULT_NB_ERROR_MAX);
+    this.updateSpinner(0);
   }
 
   /* NoSmoking. (2016) Progress-Bar circulaire. [Online]. Available: https://nosmoking.developpez.com/demos/css/gauge_circulaire.html */
-  public updateSpinner(errorFoundCounter: number): void {
+  private updateSpinner(errorFoundCounter: number): void {
     const angle: number = this.differenceCounterService.generateAngleSpinner(errorFoundCounter);
     const convertedErrorToPercent: number = this.differenceCounterService.convertErrorToPercent(errorFoundCounter);
 
