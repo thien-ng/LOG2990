@@ -62,6 +62,7 @@ export class Constants {
   public static readonly ON_RETRIEVE_USER: string = "onRetrieveUser";
   public static readonly ON_ARENA_RESPONSE: string = "onArenaResponse";
   public static readonly ON_TIMER_UPDATE: string = "onTimerUpdate";
+  public static readonly ON_POINT_ADDED: string = "onPointAdded";
 
   // Constants for game-view-simple.service.ts
   public static readonly ON_POSITION_VALIDATION: string = "onPositionValidation";

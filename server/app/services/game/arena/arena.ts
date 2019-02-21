@@ -131,7 +131,7 @@ export class Arena {
                 }
 
                 // EST CE QUE CA CA DOIT ALLER LA?
-                if (this.gameIsFinished) {
+                if (this.gameIsFinished()) {
                     this.endOfGameRoutine();
                 }
             }
@@ -149,7 +149,7 @@ export class Arena {
     }
 
     private endOfGameRoutine(): void {
-        // fgh
+        console.log("FIN DE PARTIE");
     }
 
     private addToDifferencesFound(differenceIndex: number): void {
@@ -167,7 +167,6 @@ export class Arena {
 
         if (player !== undefined) {
             player.addPoints(1);
-            this.gameManagerService.sendMessage(Constants.ON_POINT_ADDED, player.points);
         }
     }
 
