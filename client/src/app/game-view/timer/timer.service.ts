@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
+import { Observable, Subject } from "rxjs";
 import { Constants } from "../../constants";
 
 @Injectable({
@@ -7,18 +7,14 @@ import { Constants } from "../../constants";
 })
 export class TimerService {
 
-  private readonly START_TIME: string = "00:00";
-
-  private timeUpdated: BehaviorSubject<string>;
-  private timeUpdatedObservable: Observable<string>;
+  private timeUpdated: Subject<string>;
 
   public constructor() {
-    this.timeUpdated = new BehaviorSubject<string>(this.START_TIME);
-    this.timeUpdatedObservable = this.timeUpdated.asObservable();
+    this.timeUpdated = new Subject<string>();
   }
 
   public get timer(): Observable<string> {
-    return this.timeUpdatedObservable;
+    return this.timeUpdated.asObservable();
   }
 
   public timeFormat(totalTimeInSeconds: number): void {

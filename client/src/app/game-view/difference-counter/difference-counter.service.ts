@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
+import { Observable, Subject } from "rxjs";
 import { Constants } from "../../constants";
 @Injectable({
   providedIn: "root",
@@ -7,16 +7,14 @@ import { Constants } from "../../constants";
 export class DifferenceCounterService {
 
   private maxError: number;
-  private counterUpdated: BehaviorSubject<number>;
-  private counterUpdatedObservable: Observable<number>;
+  private counterUpdated: Subject<number>;
 
   public constructor() {
-    this.counterUpdated = new BehaviorSubject<number>(0);
-    this.counterUpdatedObservable = this.counterUpdated.asObservable();
+    this.counterUpdated = new Subject<number>();
   }
 
   public get counter(): Observable<number> {
-    return this.counterUpdatedObservable;
+    return this.counterUpdated.asObservable();
   }
 
   public updateCounter(newValue: number): void {
