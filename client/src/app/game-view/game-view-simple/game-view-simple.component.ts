@@ -16,18 +16,25 @@ import { GameViewSimpleService } from "./game-view-simple.service";
 })
 
 export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDestroy {
+  public readonly OPPONENT: string = "Adversaire";
+  public readonly SUCCESS_SOUND: string = "http://localhost:3000/audio/fail.wav";
+  public readonly FAIL_SOUND: string = "http://localhost:3000/audio/success.wav";
+
+  @ViewChild("successSound",  {read: ElementRef}) public successSound:  ElementRef;
+  @ViewChild("failSound",     {read: ElementRef}) public failSound:     ElementRef;
 
   @ViewChild("originalImage", {read: ElementRef})
   public canvasOriginal: ElementRef;
   public activeCard: ICard;
   public cardLoaded: boolean;
+  public username: string | null;
   @ViewChild("modifiedImage", {read: ElementRef})
   public canvasModified: ElementRef;
   private originalPath: string;
   private gameRequest: IGameRequest;
   private modifiedPath: string;
   private arenaID: number;
-  private username: string | null;
+  public mode: string | null;
 
   public constructor(
     @Inject(GameViewSimpleService) public gameViewService: GameViewSimpleService,
@@ -35,6 +42,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     private route: ActivatedRoute,
     private httpClient: HttpClient,
     ) {
+      this.mode = this.route.snapshot.paramMap.get("gamemode");
       this.cardLoaded = false;
       this.username = sessionStorage.getItem(Constants.USERNAME_KEY);
     }
@@ -48,18 +56,15 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   }
 
   public ngAfterContentInit(): void {
-    // test will be changed to something else, To be determined
-    this.socketService.sendMsg(Constants.ON_GAME_CONNECTION, Constants.ON_GAME_CONNECTION);
     this.initListener();
   }
 
   private createGameRequest(username: string): void {
-    const mode: string | null = this.route.snapshot.paramMap.get("gamemode");
-    if (mode !== null) {
+    if (this.mode !== null) {
       this.gameRequest = {
         username: username,
         gameId: this.activeCard.gameID,
-        type: JSON.parse(mode),
+        type: JSON.parse(this.mode),
         mode: GameMode.simple,
       };
       this.handleGameRequest();
@@ -70,13 +75,13 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   this.httpClient.post(Constants.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
       if (data.title === Constants.ON_SUCCESS_MESSAGE) {
         this.arenaID = parseInt(data.body, Constants.DECIMAL);
+        this.socketService.sendMsg(Constants.ON_GAME_CONNECTION, this.arenaID);
       }
     });
   }
 
   public ngOnDestroy(): void {
-    // test will be changed to something else, To be determined
-    this.socketService.sendMsg(Constants.ON_GAME_DISCONNECT, "test");
+    this.socketService.sendMsg(Constants.ON_GAME_DISCONNECT, this.username);
   }
 
   private getActiveCard(username: string): void {
@@ -107,6 +112,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       canvasModified.drawImage(imgModified, 0, 0);
     };
     this.gameViewService.setCanvas(canvasModified);
+    this.gameViewService.setSounds(this.successSound, this.failSound);
   }
 
   public initListener(): void {
@@ -115,6 +121,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
         x: mouseEvent.offsetX,
         y: mouseEvent.offsetY,
       };
+
       if (this.username !== null) {
         const canvasPosition: IClickMessage = this.gameViewService.onCanvasClick(pos, this.arenaID, this.username);
         this.socketService.sendMsg(Constants.ON_POSITION_VALIDATION, canvasPosition);
@@ -125,6 +132,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
         x: mouseEvent.offsetX,
         y: mouseEvent.offsetY,
       };
+
       if (this.username !== null) {
         const canvasPosition: IClickMessage = this.gameViewService.onCanvasClick(pos, this.arenaID, this.username);
         this.socketService.sendMsg(Constants.ON_POSITION_VALIDATION, canvasPosition);

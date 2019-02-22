@@ -1,23 +1,23 @@
 /* NoSmoking. (2016) Progress-Bar circulaire. [Online]. Available: https://nosmoking.developpez.com/demos/css/gauge_circulaire.html */
 
 .progress-circle{
-  position: relative;             
-  box-sizing: border-box;         
-  font-size: 6em;                 
-  width: 1em;                     
-  height: 1em;                    
-  border-radius: 50%;             
-  border: .15em solid #CDE;       
-  background-color: #FFF;         
+  position: relative;
+  box-sizing: border-box;
+  font-size: 6em;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  border: .15em solid #CDE;
+  background-color: #FFF;
 }
 
 /* hide left part when spinner < 50% */
 .progress-mask {
   position: absolute;
-  width: 1em;                     
-  height: 1em;                    
-  left: -.15em;                   
-  top: -.15em;                    
+  width: 1em;
+  height: 1em;
+  left: -.15em;
+  top: -.15em;
   clip: rect(0, 1em, 1em, .5em);  /* only left part spinner visible by default */
 }
 
@@ -34,13 +34,13 @@
 .progress-bar,
 .progress-sup50 {
   position: absolute;
-  box-sizing: border-box;         
-  border-width: .15em;            
+  box-sizing: border-box;
+  border-width: .15em;
   border-style: solid;
   border-color: #069;
-  border-radius: 50%;             
-  width: 1em;                     
-  height: 1em;                    
+  border-radius: 50%;
+  width: 1em;
+  height: 1em;
   clip: rect(0, .5em, 1em, 0);    /* only keep left part of spinner */
 }
 
@@ -63,8 +63,8 @@
 /* print number differences */
 .progress-circle:after {
   content: attr(id);      /* retrieve number differences */
-  font-size: 0.15em;              
-  height: 100%;                   
+  font-size: 0.15em;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -75,4 +75,10 @@
 
 .diffCounter-zone {
   width: 6em;
+}
+
+.text {
+  text-align: center;
+  margin: 5px;
+  font: Roboto, "Helvetica Neue", sans-serif;
 }

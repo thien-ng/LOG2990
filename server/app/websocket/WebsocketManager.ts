@@ -40,11 +40,11 @@ export class WebsocketManager {
 
         socket.on(Constants.GAME_CONNECTION, () => {
             socketID = socket.id;
-            this.gameManagerService.subscribeSocketID(socketID);
+            this.gameManagerService.subscribeSocketID(socketID, socket);
         });
 
-        socket.on(Constants.GAME_DISCONNECT, () => {
-            this.gameManagerService.unsubscribeSocketID(socketID);
+        socket.on(Constants.GAME_DISCONNECT, (username: string) => {
+            this.gameManagerService.unsubscribeSocketID(socketID, username);
         });
 
         socket.on(Constants.POSITION_VALIDATION_EVENT, (data: IClickMessage) => {
@@ -87,7 +87,7 @@ export class WebsocketManager {
 
         socket.on(Constants.DISCONNECT_EVENT, () => {
             this.userManagerService.leaveBrowser(user);
-            this.gameManagerService.unsubscribeSocketID(socketID);
+            this.gameManagerService.unsubscribeSocketID(socketID, user.username);
         });
     }
 

@@ -1,3 +1,5 @@
+import { IOriginalPixelCluster } from "../../common/communication/iGameplay";
+
 export class Constants {
 
   // Constants for websocket.ts
@@ -14,6 +16,8 @@ export class Constants {
   public static readonly ON_RETRIEVE_USER:          string = "onRetrieveUser";
   public static readonly CLICK_EVENT:               string = "onClick";
   public static readonly ON_ARENA_RESPONSE:         string = "onArenaResponse";
+  public static readonly ON_TIMER_UPDATE:           string = "onTimerUpdate";
+  public static readonly ON_POINT_ADDED:            string = "onPointAdded";
 
   // Constants for card-manager.service.ts
   public static readonly SCENE_SNAPSHOT:            string = "_snapshot.jpeg";
@@ -43,15 +47,22 @@ export class Constants {
   public static readonly START_ID_2D:               number = 1000;
   public static readonly START_ID_3D:               number = 2000;
 
-  public static readonly CARD_EXISTING: string = "Le titre de la carte existe déjà";
+  public static readonly CARD_EXISTING:             string = "Le titre de la carte existe déjà";
 
   // Constants for card-manager-controller
   public static readonly DEFAULT_CARD_ID:           number = 1;
   public static readonly DELETION_ERROR_MESSAGE:    string = "Impossible de supprimer la carte par défault";
 
   // Constants for game manager
-  public static readonly PATH_TO_IMAGES:             string = Constants.BASE_URL + "/image/";
+  public static readonly PATH_TO_IMAGES:            string = Constants.BASE_URL + "/image/";
 
   // Constants for user manager service
   public static readonly USER_NOT_FOUND:            string = "Utilisateur inexistant";
+
+  // Constants for arena.ts
+  public static readonly FF:                        number = 255;
+  public static readonly WHITE:                     number[] = [Constants.FF, Constants.FF, Constants.FF];
+  public static readonly URL_HIT_VALIDATOR:         string = "http://localhost:3000/api/hitvalidator";
+  public static readonly ONE_SECOND:                number = 1000;
+  public static readonly ON_ERROR_PIXEL_CLUSTER:    IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
 }

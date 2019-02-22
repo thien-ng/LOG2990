@@ -3,7 +3,9 @@ import { Observable } from "rxjs";
 import "rxjs/add/observable/of";
 import { mock } from "ts-mockito";
 import { ChatViewService } from "../game-view/chat-view/chat-view.service";
+import { DifferenceCounterService } from "../game-view/difference-counter/difference-counter.service";
 import { GameViewSimpleService } from "../game-view/game-view-simple/game-view-simple.service";
+import { TimerService } from "../game-view/timer/timer.service";
 import { SocketService } from "./socket.service";
 
 describe("SocketService", () => {
@@ -19,7 +21,12 @@ describe("SocketService tests", () => {
   let socketService: SocketService;
 
   beforeEach(() => {
-    socketService = new SocketService(mock(ChatViewService), mock(GameViewSimpleService));
+    socketService = new SocketService(
+                                        mock(ChatViewService),
+                                        mock(GameViewSimpleService),
+                                        mock(TimerService),
+                                        mock(DifferenceCounterService),
+                                      );
   });
 
   it("should call socket.emit() when calling sendMsg()", () => {

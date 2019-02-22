@@ -1,5 +1,6 @@
 import { Component, Inject } from "@angular/core";
 import { TimerService } from "./timer.service";
+
 @Component({
   selector: "app-timer",
   templateUrl: "./timer.component.html",
@@ -12,6 +13,8 @@ export class TimerComponent {
 
   public constructor(@Inject(TimerService) public timerService: TimerService) {
     this.time = this.START_TIME;
+    this.timerService.getTimer().subscribe((newTime: string) => {
+      this.time = newTime;
+    });
   }
-
 }

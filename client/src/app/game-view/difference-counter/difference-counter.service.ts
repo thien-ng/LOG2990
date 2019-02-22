@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Observable, Subject } from "rxjs";
 import { Constants } from "../../constants";
 @Injectable({
   providedIn: "root",
@@ -6,6 +7,19 @@ import { Constants } from "../../constants";
 export class DifferenceCounterService {
 
   private maxError: number;
+  private counterUpdated: Subject<number>;
+
+  public constructor() {
+    this.counterUpdated = new Subject<number>();
+  }
+
+  public getCounter(): Observable<number> {
+    return this.counterUpdated.asObservable();
+  }
+
+  public updateCounter(newValue: number): void {
+    this.counterUpdated.next(newValue);
+  }
 
   public convertErrorToPercent(errorFoundCounter: number): number {
     return errorFoundCounter * Constants.PERCENT / this.maxError;

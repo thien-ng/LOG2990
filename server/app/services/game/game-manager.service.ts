@@ -9,6 +9,7 @@ import Types from "../../types";
 import { UserManagerService } from "../user-manager.service";
 import { Arena } from "./arena/arena";
 import { IArenaInfos, IPlayerInput } from "./arena/interfaces";
+import { Player } from "./arena/player";
 
 const REQUEST_ERROR_MESSAGE: string = "Game mode invalide";
 const ARENA_START_ID: number = 1000;
@@ -18,11 +19,11 @@ const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: 
 export class GameManagerService {
 
     private arenaID: number;
-    private playerList: string[];
+    private playerList: Map<string, SocketIO.Socket>;
     private arenas: Map<number, Arena>;
 
     public constructor(@inject(Types.UserManagerService) private userManagerService: UserManagerService) {
-        this.playerList = [];
+        this.playerList = new Map<string, SocketIO.Socket>();
         this.arenas = new Map<number, Arena>();
         this.arenaID = ARENA_START_ID;
     }
@@ -53,7 +54,7 @@ export class GameManagerService {
     private async create2DArena(user: User, gameId: number): Promise<Message> {
 
         const arenaInfo: IArenaInfos = this.buildArenaInfos(user, gameId);
-        const newArena: Arena = new Arena(arenaInfo);
+        const newArena: Arena = new Arena(arenaInfo, this);
         await newArena.prepareArenaForGameplay();
         this.arenas.set(arenaInfo.arenaId, newArena);
 
@@ -87,16 +88,38 @@ export class GameManagerService {
         return this.arenaID++;
     }
 
-    public subscribeSocketID(socketID: string): void {
-        this.playerList.push(socketID);
+    public subscribeSocketID(socketID: string, socket: SocketIO.Socket): void {
+        this.playerList.set(socketID, socket);
     }
 
-    public unsubscribeSocketID(socketID: string): void {
-        this.playerList = this.playerList.filter((element: String) => element !== socketID);
+    public unsubscribeSocketID(socketID: string, username: string): void {
+        this.playerList.delete(socketID);
+        this.removePlayerFromArena(username);
     }
 
-    public get userList(): string[] {
+    private removePlayerFromArena(username: string): void {
+        this.arenas.forEach((arena: Arena) => {
+            arena.getPlayers().forEach((player: Player) => {
+                if (player.username === username) {
+                    arena.removePlayer(username);
+                }
+            });
+        });
+    }
+
+    public deleteArena(arenaID: number): void {
+        this.arenas.delete(arenaID);
+    }
+
+    public get userList(): Map<string, SocketIO.Socket> {
         return this.playerList;
+    }
+
+    public sendMessage(socketID: string, messageType: string, message: number): void {
+        const playerSocket: SocketIO.Socket | undefined = this.playerList.get(socketID);
+        if (playerSocket !== undefined) {
+            playerSocket.emit(messageType, message);
+        }
     }
 
     public async onPlayerInput(playerInput: IPlayerInput): Promise<IPlayerInputResponse>  {
