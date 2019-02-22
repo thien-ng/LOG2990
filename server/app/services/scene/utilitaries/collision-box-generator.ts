@@ -42,56 +42,33 @@ export class CollisionBoxGenerator {
             result += Math.pow(element, SceneConstants.TWO);
         });
 
-        return Math.sqrt(result);
+        return result;
     }
 
     private calculateCubeCollisionRadius(sceneObject: ISceneObject): number {
 
-        const halfWidth: number = this.divideByTwo(sceneObject.scale.x);
-        const halfHeight: number = this.divideByTwo(sceneObject.scale.y);
-        const halfDepth: number = this.divideByTwo(sceneObject.scale.z);
-
-        return this.pythagore( [halfWidth, halfHeight, halfDepth] );
+        return this.pythagore( [sceneObject.scale.x, sceneObject.scale.y, sceneObject.scale.z] );
     }
 
     private calculatePyramidCollisionRadius(sceneObject: ISceneObject): number {
 
         // for now scale.x = radius and scale.y = heigth
-        const radius: number = sceneObject.scale.x;
-        const thirdOfHeight: number = this.divideByThree(sceneObject.scale.y);
-
-        return this.pythagore( [radius, thirdOfHeight] );
+        return this.pythagore( [sceneObject.scale.x, sceneObject.scale.y] );
     }
 
     private calculateConeCollisionRadius(sceneObject: ISceneObject): number {
 
         // for now scale.x = radius and scale.y = heigth
-        const radius: number = sceneObject.scale.x;
-        const thirdOfHeight: number = this.divideByThree(sceneObject.scale.y);
-
-        return this.pythagore( [radius, thirdOfHeight] );
+        return this.pythagore( [sceneObject.scale.x, sceneObject.scale.y] );
     }
 
     private calculateCylinderCollisionRadius(sceneObject: ISceneObject): number {
 
-        const halfRadius: number = this.divideByTwo(sceneObject.scale.x);
-        const halfHeight: number = this.divideByTwo(sceneObject.scale.y);
-
-        return this.pythagore( [halfRadius, halfHeight] );
+        return this.pythagore( [sceneObject.scale.x, sceneObject.scale.y] );
     }
 
     private calculateSphereCollisionRadius(sceneObject: ISceneObject): number {
 
         return sceneObject.scale.x;
-    }
-
-    private divideByTwo(value: number): number {
-
-        return value / SceneConstants.TWO;
-    }
-
-    private divideByThree(value: number): number {
-
-        return value / SceneConstants.THREE;
     }
 }

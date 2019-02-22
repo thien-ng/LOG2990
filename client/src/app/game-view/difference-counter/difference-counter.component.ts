@@ -1,10 +1,9 @@
-import { AfterContentInit, Component, ElementRef, Inject, ViewChild } from "@angular/core";
+import { AfterContentInit, Component, ElementRef, ViewChild } from "@angular/core";
 import { DifferenceCounterService } from "./difference-counter.service";
 @Component({
   selector: "app-difference-counter",
   templateUrl: "./difference-counter.component.html",
   styleUrls: ["./difference-counter.component.css"],
-  providers: [DifferenceCounterService],
 })
 export class DifferenceCounterComponent implements AfterContentInit {
   public readonly DEFAULT_NB_ERROR_FOUND: number = 0;
@@ -15,14 +14,17 @@ export class DifferenceCounterComponent implements AfterContentInit {
   @ViewChild("progressBar", { read: ElementRef })
   public progressBar: ElementRef;
 
-  public constructor(@Inject(DifferenceCounterService) public differenceCounterService: DifferenceCounterService) {}
+  public constructor(private differenceCounterService: DifferenceCounterService) {}
 
   public ngAfterContentInit(): void {
     this.differenceCounterService.setNbErrorMax(this.DEFAULT_NB_ERROR_MAX);
+    this.differenceCounterService.getCounter().subscribe((newCounterValue: number) => {
+      this.updateSpinner(newCounterValue);
+    });
   }
 
   /* NoSmoking. (2016) Progress-Bar circulaire. [Online]. Available: https://nosmoking.developpez.com/demos/css/gauge_circulaire.html */
-  public updateSpinner(errorFoundCounter: number): void {
+  private updateSpinner(errorFoundCounter: number): void {
     const angle: number = this.differenceCounterService.generateAngleSpinner(errorFoundCounter);
     const convertedErrorToPercent: number = this.differenceCounterService.convertErrorToPercent(errorFoundCounter);
 
