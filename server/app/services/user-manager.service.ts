@@ -1,5 +1,6 @@
 import { injectable } from "inversify";
 import { User } from "../../../common/communication/iUser";
+import { Message } from "../../../common/communication/message";
 import { Constants } from "../constants";
 
 @injectable()
@@ -33,7 +34,12 @@ export class UserManagerService {
         });
     }
 
-    public validateName(username: string): Boolean {
+    public validateName(username: string): Message {
+
+        const validationResult: Message = this.isUsernameFormatCorrect(username);
+        if (validationResult.title !== Constants.SUCCESS_TITLE) {
+            return validationResult;
+        }
 
         if (this.isUnique(username)) {
             const user: User = {
@@ -42,10 +48,10 @@ export class UserManagerService {
             };
             this.nameList.push(user);
 
-            return true;
+            return this.generateMessage("true", Constants.SUCCESS_TITLE);
         }
 
-        return false;
+        return this.generateMessage("false", Constants.SUCCESS_TITLE);
     }
 
     public getUserByUsername(username: string): User | string {
@@ -69,6 +75,29 @@ export class UserManagerService {
         });
 
         return isUniqueElement;
+    }
+
+    private isUsernameFormatCorrect(username: string): Message {
+
+        const regex: RegExp = new RegExp(Constants.REGEX_FORMAT);
+
+        if (username.length < Constants.MIN_VALUE || username.length > Constants.MAX_VALUE) {
+            return this.generateMessage(Constants.NAME_FORMAT_LENTGH_ERROR, Constants.ERROR_TITLE);
+        }
+
+        if (!regex.test(username)) {
+            return this.generateMessage(Constants.NAME_FORMAT_REGEX_ERROR, Constants.ERROR_TITLE);
+        }
+
+        return this.generateMessage(Constants.SUCCESS_TITLE, Constants.SUCCESS_TITLE);
+    }
+
+    private generateMessage(result: string, type: string): Message {
+
+        return {
+            title: type,
+            body: result,
+        } as Message;
     }
 
 }
