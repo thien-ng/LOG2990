@@ -39,7 +39,7 @@ export class ThreejsViewService {
     this.scene = scene;
     this.sceneVariable = iSceneVariables;
     this.threejsGenerator = new ThreejsGenerator(this.scene);
-    this.renderer.setSize(640, 480);
+    this.renderer.setSize(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
     this.renderer.setClearColor(this.sceneVariable.sceneBackgroundColor);
     this.createLighting();
     this.generateSceneObjects();
@@ -49,11 +49,11 @@ export class ThreejsViewService {
 
   private createLighting(): void {
 
-    const firstLight: THREE.DirectionalLight = new THREE.DirectionalLight(0xEA6117, 5);
-    const secondLight: THREE.DirectionalLight = new THREE.DirectionalLight(0xEA6117, 1);
+    const firstLight: THREE.DirectionalLight = new THREE.DirectionalLight(Constants.FIRST_LIGHT_COLOR, Constants.FIRST_LIGHT_INTENSITY);
+    const secondLight: THREE.DirectionalLight = new THREE.DirectionalLight(Constants.SECOND_LIGHT_COLOR, Constants.SECOND_LIGHT_INTENSITY);
 
-    firstLight.position.set(100, 100, 50);
-    secondLight.position.set(-10, -10, -10);
+    firstLight.position.set(Constants.FIRST_LIGHT_POSITION_X, Constants.FIRST_LIGHT_POSITION_Y, Constants.FIRST_LIGHT_POSITION_Z);
+    secondLight.position.set(Constants.SECOND_LIGHT_POSITION_X, Constants.SECOND_LIGHT_POSITION_Y, Constants.SECOND_LIGHT_POSITION_Z);
 
     this.scene.add(firstLight);
     this.scene.add(secondLight);
