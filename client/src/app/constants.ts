@@ -105,6 +105,8 @@ export class Constants {
   public static readonly FOV: number = 80;
   public static readonly MAX_VIEW_DISTANCE: number = 1000;
   public static readonly MIN_VIEW_DISTANCE: number = 0.1;
+  public static readonly AMBIENT_LIGHT_COLOR: string = "0xFFFFFF";
+  public static readonly AMBIENT_LIGHT_INTENSITY: number = 0.4;
 
   // Constants for chat view
   public static readonly ON_FAILED_CLICK: string = "onFailedClick";
