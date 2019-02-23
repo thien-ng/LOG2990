@@ -13,14 +13,14 @@ export class LoginValidatorService {
 
   public constructor(private httpClient: HttpClient) {}
 
-  public addUsername(username: string): Observable<boolean> {
+  public addUsername(username: string): Observable<Message> {
     const message: Message = this.generateMessage(username);
 
     return this.sendUsernameRequest(message);
   }
 
-  private sendUsernameRequest(message: Message): Observable<boolean> {
-    return this.httpClient.post<boolean>(Constants.PATH_TO_LOGIN_VALIDATION, message);
+  private sendUsernameRequest(message: Message): Observable<Message> {
+    return this.httpClient.post<Message>(Constants.PATH_TO_LOGIN_VALIDATION, message);
   }
 
   private generateMessage(username: string): Message {
