@@ -64,18 +64,18 @@ export class SceneBuilder {
     }
 
     public generateRandomBackgroundColor(): string {
-        const red:      number = this.randomIntegerFromInterval(
-                                    SceneConstants.MIN_BACKGROUND_COLOR_GRADIENT,
-                                    SceneConstants.MAX_COLOR_GRADIENT,
-                                );
-        const green:    number = this.randomIntegerFromInterval(
-                                    SceneConstants.MIN_BACKGROUND_COLOR_GRADIENT,
-                                    SceneConstants.MAX_COLOR_GRADIENT,
-                                );
-        const blue:     number = this.randomIntegerFromInterval(
-                                    SceneConstants.MIN_BACKGROUND_COLOR_GRADIENT,
-                                    SceneConstants.MAX_COLOR_GRADIENT,
-                                );
+        const red: number = this.randomIntegerFromInterval(
+                                SceneConstants.MIN_BACKGROUND_COLOR_GRADIENT,
+                                SceneConstants.MAX_COLOR_GRADIENT,
+                            );
+        const green: number = this.randomIntegerFromInterval(
+                                SceneConstants.MIN_BACKGROUND_COLOR_GRADIENT,
+                                SceneConstants.MAX_COLOR_GRADIENT,
+                            );
+        const blue: number = this.randomIntegerFromInterval(
+                                SceneConstants.MIN_BACKGROUND_COLOR_GRADIENT,
+                                SceneConstants.MAX_COLOR_GRADIENT,
+                            );
 
         return this.rgbToHex(red, green, blue);
     }
