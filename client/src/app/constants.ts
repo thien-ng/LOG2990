@@ -128,6 +128,10 @@ export class Constants {
   public static readonly SPEED_FACTOR: number = 0.001;
   public static readonly POSITION_FACTOR: number = 100;
 
+  public static readonly CAMERA_LOOK_AT_X: number = 50;
+  public static readonly CAMERA_LOOK_AT_Y: number = 50;
+  public static readonly CAMERA_LOOK_AT_Z: number = 50;
+
   // Constants for chat view
   public static readonly ON_FAILED_CLICK: string = "onFailedClick";
   public static readonly FAILED_CLICK_MESSAGE: string = "Wrong Hit";

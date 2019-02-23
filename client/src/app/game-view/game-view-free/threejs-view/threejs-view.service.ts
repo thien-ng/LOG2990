@@ -70,7 +70,7 @@ export class ThreejsViewService {
 
     this.camera.position.x = Math.cos(speed) * Constants.POSITION_FACTOR;
 
-    this.camera.lookAt(50, 50, 50);
+    this.camera.lookAt(Constants.CAMERA_LOOK_AT_X, Constants.CAMERA_LOOK_AT_Y, Constants.CAMERA_LOOK_AT_Z);
     this.renderer.render(this.scene, this.camera);
   }
 
