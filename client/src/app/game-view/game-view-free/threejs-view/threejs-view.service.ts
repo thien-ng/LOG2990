@@ -66,9 +66,9 @@ export class ThreejsViewService {
   }
 
   private renderObject(): void {
-    const speed: number = Date.now() * 0.001;
+    const speed: number = Date.now() * Constants.SPEED_FACTOR;
 
-    this.camera.position.x = Math.cos(speed) * 70;
+    this.camera.position.x = Math.cos(speed) * Constants.POSITION_FACTOR;
 
     this.camera.lookAt(50, 50, 50);
     this.renderer.render(this.scene, this.camera);

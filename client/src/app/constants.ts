@@ -107,10 +107,13 @@ export class Constants {
   public static readonly FOV: number = 80;
   public static readonly MAX_VIEW_DISTANCE: number = 1000;
   public static readonly MIN_VIEW_DISTANCE: number = 0.1;
+
   public static readonly AMBIENT_LIGHT_COLOR: string = "0xFFFFFF";
   public static readonly AMBIENT_LIGHT_INTENSITY: number = 0.4;
+
   public static readonly SCENE_WIDTH: number = 640;
   public static readonly SCENE_HEIGHT: number = 480;
+
   public static readonly FIRST_LIGHT_COLOR: string = "0xFFFFFF";
   public static readonly FIRST_LIGHT_INTENSITY: number = 1;
   public static readonly FIRST_LIGHT_POSITION_X: number = 100;
@@ -121,6 +124,9 @@ export class Constants {
   public static readonly SECOND_LIGHT_POSITION_Y: number = -10;
   public static readonly SECOND_LIGHT_POSITION_X: number = -10;
   public static readonly SECOND_LIGHT_POSITION_Z: number = -10;
+
+  public static readonly SPEED_FACTOR: number = 0.001;
+  public static readonly POSITION_FACTOR: number = 100;
 
   // Constants for chat view
   public static readonly ON_FAILED_CLICK: string = "onFailedClick";
