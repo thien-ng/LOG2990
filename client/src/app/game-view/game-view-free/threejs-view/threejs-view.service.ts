@@ -5,11 +5,6 @@ import { ISceneVariables } from "../../../../../../common/communication/iSceneVa
 import { Constants } from "../../../constants";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 
-// je disable les magic number pour linstant, car les chiffres ici sont pour les position et les vecteurs
-// je suis pas trop sur encore comment les placer alors je les garde comme ca, on changera les valeurs apres
-
-// tslint:disable:no-magic-numbers
-
 @Injectable()
 export class ThreejsViewService {
 
