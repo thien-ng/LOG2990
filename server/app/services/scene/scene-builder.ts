@@ -21,7 +21,7 @@ export class SceneBuilder {
             gameName: sceneOptions.sceneName,
             sceneObjectsQuantity: sceneOptions.sceneObjectsQuantity,
             sceneObjects: [],
-            sceneBackgroundColor: this.generateRandomColor(),
+            sceneBackgroundColor: this.generateRandomBackgroundColor(),
         };
 
         return this.generateSceneObjects(sceneOptions);
@@ -61,6 +61,23 @@ export class SceneBuilder {
             y: randomY,
             z: randomZ,
         };
+    }
+
+    public generateRandomBackgroundColor(): string {
+        const red:      number = this.randomIntegerFromInterval(
+                                    SceneConstants.MIN_BACKGROUND_COLOR_GRADIENT,
+                                    SceneConstants.MAX_COLOR_GRADIENT,
+                                );
+        const green:    number = this.randomIntegerFromInterval(
+                                    SceneConstants.MIN_BACKGROUND_COLOR_GRADIENT,
+                                    SceneConstants.MAX_COLOR_GRADIENT,
+                                );
+        const blue:     number = this.randomIntegerFromInterval(
+                                    SceneConstants.MIN_BACKGROUND_COLOR_GRADIENT,
+                                    SceneConstants.MAX_COLOR_GRADIENT,
+                                );
+
+        return this.rgbToHex(red, green, blue);
     }
 
     public generateRandomColor(): string {

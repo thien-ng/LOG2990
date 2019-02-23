@@ -1,4 +1,3 @@
-import { Vector3 } from "three";
 
 export class Constants {
   public static readonly BASE_URL: string = "http://localhost:3000";
