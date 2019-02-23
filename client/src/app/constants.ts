@@ -101,6 +101,11 @@ export class Constants {
   public static readonly FREE_SCENE_GENERATOR_PATH: string = Constants.BASE_URL + "/api/scene/generator";
   public static readonly SIMPLE_SUBMIT_PATH: string = Constants.BASE_URL + "/api/card/submitSimple";
 
+  // Constants for three js
+  public static readonly FOV: number = 80;
+  public static readonly MAX_VIEW_DISTANCE: number = 1000;
+  public static readonly MIN_VIEW_DISTANCE: number = 0.1;
+
   // Constants for chat view
   public static readonly ON_FAILED_CLICK: string = "onFailedClick";
   public static readonly FAILED_CLICK_MESSAGE: string = "Wrong Hit";

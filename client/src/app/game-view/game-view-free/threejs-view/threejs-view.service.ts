@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import * as THREE from "three";
 import { ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
+import { Constants } from "../../../constants";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 
 // je disable les magic number pour linstant, car les chiffres ici sont pour les position et les vecteurs
@@ -24,7 +25,12 @@ export class ThreejsViewService {
   }
 
   private init(): void {
-    this.camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 1000);
+    this.camera = new THREE.PerspectiveCamera(
+      Constants.FOV,
+      window.innerWidth / window.innerHeight,
+      Constants.MIN_VIEW_DISTANCE,
+      Constants.MAX_VIEW_DISTANCE,
+    );
     this.ambLight = new THREE.AmbientLight(0xEA6117, 0.4);
   }
 
