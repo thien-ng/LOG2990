@@ -39,7 +39,7 @@ export class Arena {
 
     public constructor(
         private arenaInfos: IArenaInfos,
-        @inject(Types.GameManagerService) private gameManagerService: GameManagerService) {
+        @inject(Types.GameManagerService) public gameManagerService: GameManagerService) {
         this.players = [];
         this.createPlayers();
         this.originalPixelClusters = new Map<number, IOriginalPixelCluster>();
