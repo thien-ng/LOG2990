@@ -16,4 +16,14 @@ beforeEach(() => {
 });
 
 describe("Timer tests", async () => {
+
+    it("should start the timer", async (done: Function) => {
+        const spy: any = chai.spy.on(timer, "startTimer");
+        timer.startTimer();
+
+        setTimeout(() => {
+            chai.expect(spy).to.have.been.called();
+        },         1010);
+        done();
+    });
 });
