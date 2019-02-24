@@ -34,4 +34,9 @@ describe("Player tests", () => {
     it("should return the player's socket ID", () => {
         expect(player.userSocketId).to.equal("666");
     });
+
+    it("should return the player's username", () => {
+        expect(player.username).to.equal("Ettore Merlo");
+    });
+
 });
