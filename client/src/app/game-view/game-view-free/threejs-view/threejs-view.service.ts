@@ -2,12 +2,8 @@ import { Injectable } from "@angular/core";
 import * as THREE from "three";
 import { ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
+import { Constants } from "../../../constants";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
-
-// je disable les magic number pour linstant, car les chiffres ici sont pour les position et les vecteurs
-// je suis pas trop sur encore comment les placer alors je les garde comme ca, on changera les valeurs apres
-
-// tslint:disable:no-magic-numbers
 
 @Injectable()
 export class ThreejsViewService {
@@ -24,8 +20,13 @@ export class ThreejsViewService {
   }
 
   private init(): void {
-    this.camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 1000);
-    this.ambLight = new THREE.AmbientLight(0xEA6117, 0.4);
+    this.camera = new THREE.PerspectiveCamera(
+      Constants.FOV,
+      window.innerWidth / window.innerHeight,
+      Constants.MIN_VIEW_DISTANCE,
+      Constants.MAX_VIEW_DISTANCE,
+    );
+    this.ambLight = new THREE.AmbientLight(Constants.AMBIENT_LIGHT_COLOR, Constants.AMBIENT_LIGHT_INTENSITY);
   }
 
   public createScene(scene: THREE.Scene, iSceneVariables: ISceneVariables, renderer: THREE.WebGLRenderer): void {
@@ -33,7 +34,7 @@ export class ThreejsViewService {
     this.scene = scene;
     this.sceneVariable = iSceneVariables;
     this.threejsGenerator = new ThreejsGenerator(this.scene);
-    this.renderer.setSize(640, 480);
+    this.renderer.setSize(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
     this.renderer.setClearColor(this.sceneVariable.sceneBackgroundColor);
     this.createLighting();
     this.generateSceneObjects();
@@ -43,11 +44,11 @@ export class ThreejsViewService {
 
   private createLighting(): void {
 
-    const firstLight: THREE.DirectionalLight = new THREE.DirectionalLight(0xEA6117, 5);
-    const secondLight: THREE.DirectionalLight = new THREE.DirectionalLight(0xEA6117, 1);
+    const firstLight: THREE.DirectionalLight = new THREE.DirectionalLight(Constants.FIRST_LIGHT_COLOR, Constants.FIRST_LIGHT_INTENSITY);
+    const secondLight: THREE.DirectionalLight = new THREE.DirectionalLight(Constants.SECOND_LIGHT_COLOR, Constants.SECOND_LIGHT_INTENSITY);
 
-    firstLight.position.set(100, 100, 50);
-    secondLight.position.set(-10, -10, -10);
+    firstLight.position.set(Constants.FIRST_LIGHT_POSITION_X, Constants.FIRST_LIGHT_POSITION_Y, Constants.FIRST_LIGHT_POSITION_Z);
+    secondLight.position.set(Constants.SECOND_LIGHT_POSITION_X, Constants.SECOND_LIGHT_POSITION_Y, Constants.SECOND_LIGHT_POSITION_Z);
 
     this.scene.add(firstLight);
     this.scene.add(secondLight);
@@ -60,11 +61,11 @@ export class ThreejsViewService {
   }
 
   private renderObject(): void {
-    const speed: number = Date.now() * 0.001;
+    const speed: number = Date.now() * Constants.SPEED_FACTOR;
 
-    this.camera.position.x = Math.cos(speed) * 70;
+    this.camera.position.x = Math.cos(speed) * Constants.POSITION_FACTOR;
 
-    this.camera.lookAt(50, 50, 50);
+    this.camera.lookAt(Constants.CAMERA_LOOK_AT_X, Constants.CAMERA_LOOK_AT_Y, Constants.CAMERA_LOOK_AT_Z);
     this.renderer.render(this.scene, this.camera);
   }
 
