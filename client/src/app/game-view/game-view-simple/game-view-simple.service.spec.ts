@@ -1,4 +1,5 @@
 
+import { ElementRef } from "@angular/core";
 import { inject, TestBed } from "@angular/core/testing";
 import { IClickMessage, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { GameViewSimpleService } from "./game-view-simple.service";
@@ -8,6 +9,12 @@ import { GameViewSimpleService } from "./game-view-simple.service";
 describe("GameViewService", () => {
   beforeEach(() => TestBed.configureTestingModule({
     providers: [GameViewSimpleService],
+  }));
+
+  it("should set sounds", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
+    gameViewService.setSounds(new ElementRef<any>("url/success"), new ElementRef<any>("url/fail"));
+
+    expect(gameViewService.successSound).toEqual("url/success");
   }));
 
   it("should return an IClickMessage", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
