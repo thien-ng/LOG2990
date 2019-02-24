@@ -51,13 +51,13 @@ export class LoginValidatorComponent {
     if (this.usernameFormControl.errors === null) {
       this.loginValidatorService.addUsername(this.usernameFormControl.value).subscribe(async (response: Message) => {
 
-        if (response.title === "onError") {
+        if (response.title === Constants.ON_ERROR_MESSAGE) {
           this.displaySnackBar(response.body, Constants.SNACK_ACTION);
 
           return;
         }
 
-        if (response.body === "true") {
+        if (response.body === Constants.IS_NOT_USED) {
           this.displayNameIsUnique();
           this.socketService.sendMsg(Constants.LOGIN_REQUEST, this.usernameFormControl.value);
           await this.router.navigate([Constants.ROUTER_LOGIN]);
