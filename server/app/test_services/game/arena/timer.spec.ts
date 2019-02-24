@@ -8,3 +8,9 @@ import { Timer } from "../../../services/game/arena/timer";
 
 let timer: Timer;
 
+beforeEach(() => {
+    // const timer: Timer = new Timer();
+    chai.use(spies);
+    timer = new Timer();
+
+});
