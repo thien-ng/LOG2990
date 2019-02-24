@@ -6,7 +6,7 @@ import { NavigationEnd, Router } from "@angular/router";
 
 import { Observable, Subscription } from "rxjs";
 import { map } from "rxjs/operators";
-import { User } from "../../../../common/communication/iUser";
+import { IUser } from "../../../../common/communication/iUser";
 import { Constants } from "../constants";
 import { CreateFreeGameComponent } from "../create-free-game/create-free-game.component";
 import { CreateSimpleGameComponent } from "../create-simple-game/create-simple-game.component";
@@ -90,7 +90,7 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.isAdminMode = activeState;
     });
 
-    this.socketService.onMsg(Constants.ON_USER_EVENT).subscribe((answer: User) => {
+    this.socketService.onMsg(Constants.ON_USER_EVENT).subscribe((answer: IUser) => {
       this.assignUser(answer);
     });
   }
@@ -108,7 +108,7 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
-  private assignUser(user: User): void {
+  private assignUser(user: IUser): void {
     sessionStorage.setItem(Constants.USERNAME_KEY, user.username);
     this.client = user.username;
   }
