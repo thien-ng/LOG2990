@@ -8,6 +8,7 @@ import { Message } from "../../../common/communication/message";
 import { Constants } from "../constants";
 import { CardManagerService } from "../services/card-manager.service";
 import { CardOperations } from "../services/card-operations.service";
+import { ImageRequirements } from "../services/difference-checker/utilities/imageRequirements";
 import Types from "../types";
 
 const DECIMAL: number = 10;
@@ -43,7 +44,15 @@ export class CardManagerController {
             const originalBuffer: Buffer = req.files[ORIGINAL_IMAGE_NAME][0].buffer;
             const modifiedBuffer: Buffer = req.files[MODIFIED_IMAGE_NAME][0].buffer;
 
-            const result: Message = await this.cardManagerService.simpleCardCreationRoutine(originalBuffer, modifiedBuffer, req.body.name);
+            const requirements: ImageRequirements = {
+                requiredHeight: Constants.REQUIRED_HEIGHT,
+                requiredWidth: Constants.REQUIRED_WIDTH,
+                requiredNbDiff: Constants.REQUIRED_NB_DIFF,
+                originalImage: originalBuffer,
+                modifiedImage: modifiedBuffer,
+            };
+
+            const result: Message = await this.cardManagerService.simpleCardCreationRoutine(requirements, req.body.name);
 
             res.json(result);
         });

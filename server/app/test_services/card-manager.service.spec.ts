@@ -1,5 +1,4 @@
 import "reflect-metadata";
-
 import * as chai from "chai";
 import * as spies from "chai-spies";
 import * as fs from "fs";
@@ -16,12 +15,13 @@ import { CardOperations } from "../services/card-operations.service";
 import { HighscoreService } from "../services/highscore.service";
 import { SceneBuilder } from "../services/scene/scene-builder";
 import { SceneModifier } from "../services/scene/scene-modifier";
+import { ImageRequirements } from "../services/difference-checker/utilities/imageRequirements";
 
 /*tslint:disable no-magic-numbers no-any */
 
-const mockAdapter: any = require("axios-mock-adapter");
-const axios: any = require("axios");
-const mock: any = new mockAdapter(axios);
+const MockAdapter = require("axios-mock-adapter");
+const axios = require("axios");
+let mockAxios: any;
 const FAKE_PATH: string = Constants.BASE_URL + "/image";
 let cardManagerService: CardManagerService;
 let highscoreService: HighscoreService;
@@ -29,7 +29,8 @@ let cardOperations: CardOperations;
 
 describe("Card-manager tests", () => {
     chai.use(spies);
-    const testImageOg: Buffer = fs.readFileSync(path.resolve(__dirname, "../asset/image/testBitmap/imagetestOg.bmp"));
+    const original: Buffer = fs.readFileSync(path.resolve(__dirname, "../asset/image/testBitmap/imagetestOg.bmp"));
+    const modified: Buffer = fs.readFileSync(path.resolve(__dirname, "../asset/image/testBitmap/imagetestOg.bmp"));
 
     const cards: ICardLists = {
         list2D: [DefaultCard2D],
@@ -58,6 +59,7 @@ describe("Card-manager tests", () => {
         highscoreService = new HighscoreService();
         cardOperations = new CardOperations(highscoreService);
         cardManagerService = new CardManagerService(cardOperations);
+        mockAxios = new MockAdapter.default(axios);
     });
 
     it("should return the list of all cards", () => {
@@ -80,17 +82,25 @@ describe("Card-manager tests", () => {
     });
 
     it("Should return an error message", async () => {
-        mock.onGet("/api/differenceChecker/validate").reply(200, {
+        mockAxios.onGet("/api/differenceChecker/validate").reply(200, {
             title: Constants.ON_ERROR_MESSAGE,
             body: Constants.VALIDATION_FAILED,
         });
+        const requirements: ImageRequirements = {
+            requiredHeight: Constants.REQUIRED_HEIGHT,
+            requiredWidth: Constants.REQUIRED_WIDTH,
+            requiredNbDiff: Constants.REQUIRED_NB_DIFF,
+            originalImage: original,
+            modifiedImage: modified,
+        };
+
         let messageTitle: string = "";
-        await cardManagerService.simpleCardCreationRoutine(testImageOg, testImageOg, "title")
+        await cardManagerService.simpleCardCreationRoutine(requirements, "title")
         .then((message: Message) => {
             messageTitle = message.title;
         });
         chai.expect(messageTitle).to.equal("onError");
-        mock.restore();
+        mockAxios.restore();
     });
     it("Should return an success message when creating a freeCard successfully", () => {
         const sceneOptions10: ISceneOptions = {
@@ -119,6 +129,23 @@ describe("Card-manager tests", () => {
 
     it("Should return false when the title already exists", () => {
         chai.expect(cardManagerService.isSceneNameNew("Scène par défaut")).to.equal(false);
+    });
+
+    it("Should return a message of success and create card", async () => {
+        const requirements: ImageRequirements = {
+            requiredHeight: Constants.REQUIRED_HEIGHT,
+            requiredWidth: Constants.REQUIRED_WIDTH,
+            requiredNbDiff: Constants.REQUIRED_NB_DIFF,
+            originalImage: original,
+            modifiedImage: modified,
+        };
+        mockAxios.onPost(Constants.PATH_FOR_2D_VALIDATION).reply(200, original);
+
+        await cardManagerService.simpleCardCreationRoutine(requirements, "title").then((response) => {
+            chai.expect(response).to.deep.equal({ title: "onSuccess", body: "Card 1000 created" });
+        });
+
+        mockAxios.restore();
     });
 
 });

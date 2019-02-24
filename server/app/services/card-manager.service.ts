@@ -34,17 +34,10 @@ export class CardManagerService {
         this.imageManagerService = new AssetManagerService();
     }
 
-    public async simpleCardCreationRoutine(original: Buffer, modified: Buffer, cardTitle: string): Promise<Message> {
-        this.originalImageRequest = original;
-        this.modifiedImageRequest = modified;
+    public async simpleCardCreationRoutine(requirements: ImageRequirements, cardTitle: string): Promise<Message> {
+        this.originalImageRequest = requirements.originalImage;
+        this.modifiedImageRequest = requirements.modifiedImage;
 
-        const requirements: ImageRequirements = {
-                                                    requiredHeight: Constants.REQUIRED_HEIGHT,
-                                                    requiredWidth: Constants.REQUIRED_WIDTH,
-                                                    requiredNbDiff: Constants.REQUIRED_NB_DIFF,
-                                                    originalImage: original,
-                                                    modifiedImage: modified,
-                                                };
         let returnValue: Message = {
             title: Constants.ON_ERROR_MESSAGE,
             body: Constants.VALIDATION_FAILED,
