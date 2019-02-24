@@ -155,7 +155,7 @@ export class CardManagerService {
         return this.cards;
     }
 
-    private generateErrorMessage(error: Error): Message {
+    public generateErrorMessage(error: Error): Message {
         const isTypeError: boolean = error instanceof TypeError;
         const errorMessage: string = isTypeError ? error.message : Constants.UNKNOWN_ERROR;
 
