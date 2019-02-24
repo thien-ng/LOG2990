@@ -96,6 +96,7 @@ export class Arena {
         }
     }
 
+    // tslint:disable-next-line:max-func-body-length
     public async onPlayerClick(position: IPosition2D, user: IUser): Promise<IPlayerInputResponse> {
 
         let inputResponse: IPlayerInputResponse = this.buildPlayerInputResponse(
@@ -105,18 +106,19 @@ export class Arena {
 
         return this.validateHit(position)
         .then((hitConfirmation: IHitConfirmation) => {
+
             const isAnUndiscoveredDifference: boolean = this.isAnUndiscoveredDifference(hitConfirmation.hitPixelColor[0]);
+
             if (hitConfirmation.isAHit && isAnUndiscoveredDifference) {
 
                 this.onHitConfirmation(user, hitConfirmation);
 
-                // ECQ CEST LIGNES LA ON DEVRAIT LES METTRE DANS onHitConfirmation ??
                 const pixelCluster: IOriginalPixelCluster | undefined = this.originalPixelClusters.get(hitConfirmation.hitPixelColor[0]);
+
                 if (pixelCluster !== undefined) {
                     inputResponse = this.buildPlayerInputResponse(Constants.ON_SUCCESS_MESSAGE, pixelCluster);
                 }
 
-                // EST CE QUE CA CA DOIT ALLER LA?
                 if (this.gameIsFinished()) {
                     this.endOfGameRoutine();
                 }
