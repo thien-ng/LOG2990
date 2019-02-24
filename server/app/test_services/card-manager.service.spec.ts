@@ -11,6 +11,7 @@ import { ISceneOptions, SceneType } from "../../../common/communication/iSceneOp
 import { ISceneVariables, ISceneVariablesMessage } from "../../../common/communication/iSceneVariables";
 import { Message } from "../../../common/communication/message";
 import { Constants } from "../constants";
+import { AssetManagerService } from "../services/asset-manager.service";
 import { CardManagerService } from "../services/card-manager.service";
 import { CardOperations } from "../services/card-operations.service";
 import { ImageRequirements } from "../services/difference-checker/utilities/imageRequirements";
@@ -27,6 +28,7 @@ const FAKE_PATH: string = Constants.BASE_URL + "/image";
 let cardManagerService: CardManagerService;
 let highscoreService: HighscoreService;
 let cardOperations: CardOperations;
+let assetManagerService: AssetManagerService;
 
 describe("Card-manager tests", () => {
     chai.use(spies);
@@ -57,6 +59,7 @@ describe("Card-manager tests", () => {
     };
 
     beforeEach(() => {
+        assetManagerService = new AssetManagerService();
         highscoreService = new HighscoreService();
         cardOperations = new CardOperations(highscoreService);
         cardManagerService = new CardManagerService(cardOperations);
@@ -101,6 +104,7 @@ describe("Card-manager tests", () => {
             messageTitle = message.title;
         });
         chai.expect(messageTitle).to.equal("onError");
+
         mockAxios.restore();
     });
     it("Should return an success message when creating a freeCard successfully", () => {
@@ -126,6 +130,8 @@ describe("Card-manager tests", () => {
             body: Constants.CARD_ADDED,
         };
         chai.expect(cardManagerService.freeCardCreationRoutine(sceneMessage)).to.deep.equal(message);
+        
+        assetManagerService.deleteStoredImages(["./app/asset/scene/2000_scene", "./app/asset/image/2000_snapshot.jpeg"]);
     });
 
     it("Should return an error because free card already exist", () => {
@@ -146,9 +152,11 @@ describe("Card-manager tests", () => {
             iSceneVariablesMessage: iSceneVariablesMessage,
             image: "",
         };
-        cardManagerService.freeCardCreationRoutine(sceneMessage)
+        cardManagerService.freeCardCreationRoutine(sceneMessage);
         chai.expect(cardManagerService.freeCardCreationRoutine(sceneMessage))
         .to.deep.equal({title: "onError", body: "Le titre de la carte existe déjà"});
+        assetManagerService.deleteStoredImages(["./app/asset/scene/2000_scene", "./app/asset/image/2000_snapshot.jpeg"]);
+        assetManagerService.deleteStoredImages(["./app/asset/scene/2001_scene", "./app/asset/image/2001_snapshot.jpeg"]);
     });
 
     it("Should return false when the title already exists", () => {
@@ -169,6 +177,13 @@ describe("Card-manager tests", () => {
             chai.expect(response).to.deep.equal({ title: "onSuccess", body: "Card 1000 created" });
         });
 
+        const paths: string[] = [
+            "./app/asset/image/1000_generated.bmp",
+            "./app/asset/image/1000_modified.bmp",
+            "./app/asset/image/1000_original.bmp"];
+
+        assetManagerService.deleteStoredImages(paths);
+
         mockAxios.restore();
     });
 
@@ -185,6 +200,16 @@ describe("Card-manager tests", () => {
         await cardManagerService.simpleCardCreationRoutine(requirements, "title").then((response: any) => {
             chai.expect(response).to.deep.equal({ title: "onError", body: "Le titre de la carte existe déjà" });
         });
+
+        const paths: string[] = [
+            "./app/asset/image/1000_generated.bmp",
+            "./app/asset/image/1000_modified.bmp",
+            "./app/asset/image/1000_original.bmp",
+            "./app/asset/image/1001_generated.bmp",
+            "./app/asset/image/1001_modified.bmp",
+            "./app/asset/image/1001_original.bmp"];
+
+        assetManagerService.deleteStoredImages(paths);
 
         mockAxios.restore();
     });
