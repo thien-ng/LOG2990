@@ -55,9 +55,18 @@ export class Constants {
 
   // Constants for game manager
   public static readonly PATH_TO_IMAGES:            string = Constants.BASE_URL + "/image/";
+  public static readonly UNIQUE_NAME:               string = "true";
+  public static readonly NOT_UNIQUE_NAME:           string = "false";
 
   // Constants for user manager service
   public static readonly USER_NOT_FOUND:            string = "Utilisateur inexistant";
+  public static readonly NAME_FORMAT_LENTGH_ERROR: string = "Le nom doit contenir entre 4 et 15 characteres";
+  public static readonly NAME_FORMAT_REGEX_ERROR: string = "Le nom doit contenir seulement des caracteres alphanumerics";
+  public static readonly SUCCESS_TITLE: string = "onSuccess";
+  public static readonly ERROR_TITLE: string = "onError";
+  public static readonly REGEX_FORMAT: string = "^[a-zA-Z0-9_]*$";
+  public static readonly MAX_VALUE: number = 15;
+  public static readonly MIN_VALUE: number = 4;
 
   // Constants for arena.ts
   public static readonly FF:                        number = 255;
