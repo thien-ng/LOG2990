@@ -1,3 +1,4 @@
+
 export class Constants {
   public static readonly BASE_URL: string = "http://localhost:3000";
   public static readonly LOGIN_REDIRECT: string = "/login";
@@ -100,6 +101,35 @@ export class Constants {
   // Constants for create free game
   public static readonly FREE_SCENE_GENERATOR_PATH: string = Constants.BASE_URL + "/api/scene/generator";
   public static readonly SIMPLE_SUBMIT_PATH: string = Constants.BASE_URL + "/api/card/submitSimple";
+
+  // Constants for three js
+  public static readonly FOV: number = 80;
+  public static readonly MAX_VIEW_DISTANCE: number = 1000;
+  public static readonly MIN_VIEW_DISTANCE: number = 0.1;
+
+  public static readonly AMBIENT_LIGHT_COLOR: string = "0xFFFFFF";
+  public static readonly AMBIENT_LIGHT_INTENSITY: number = 0.4;
+
+  public static readonly SCENE_WIDTH: number = 640;
+  public static readonly SCENE_HEIGHT: number = 480;
+
+  public static readonly FIRST_LIGHT_COLOR: string = "0xFFFFFF";
+  public static readonly FIRST_LIGHT_INTENSITY: number = 1;
+  public static readonly FIRST_LIGHT_POSITION_X: number = 100;
+  public static readonly FIRST_LIGHT_POSITION_Y: number = 100;
+  public static readonly FIRST_LIGHT_POSITION_Z: number = 50;
+  public static readonly SECOND_LIGHT_COLOR: string = "0xFFFFFF";
+  public static readonly SECOND_LIGHT_INTENSITY: number = 0.2;
+  public static readonly SECOND_LIGHT_POSITION_Y: number = -10;
+  public static readonly SECOND_LIGHT_POSITION_X: number = -10;
+  public static readonly SECOND_LIGHT_POSITION_Z: number = -10;
+
+  public static readonly SPEED_FACTOR: number = 0.001;
+  public static readonly POSITION_FACTOR: number = 100;
+
+  public static readonly CAMERA_LOOK_AT_X: number = 50;
+  public static readonly CAMERA_LOOK_AT_Y: number = 50;
+  public static readonly CAMERA_LOOK_AT_Z: number = 50;
 
   // Constants for chat view
   public static readonly ON_FAILED_CLICK: string = "onFailedClick";
