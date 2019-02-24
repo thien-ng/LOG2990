@@ -19,13 +19,15 @@ export class Timer {
 
     public startTimer(): void {
         this.timer = setInterval(
-        () => {
-                this.timerUpdated.next(this.secondsSinceStart++);
-            },
-        Constants.ONE_SECOND);
+            this.updateTimeSinceStart,
+            Constants.ONE_SECOND);
     }
 
     public stopTimer(): void {
         clearInterval(this.timer);
+    }
+
+    public updateTimeSinceStart(): void {
+        this.timerUpdated.next(this.secondsSinceStart++);
     }
 }
