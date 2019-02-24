@@ -39,9 +39,7 @@ export class Arena {
 
     public constructor(
         private arenaInfos: IArenaInfos,
-        @inject(Types.GameManagerService) private gameManagerService: GameManagerService,
-        private axiosInstance: AxiosInstance,
-        ) {
+        @inject(Types.GameManagerService) private gameManagerService: GameManagerService) {
         this.players = [];
         this.createPlayers();
         this.originalPixelClusters = new Map<number, IOriginalPixelCluster>();
@@ -56,7 +54,7 @@ export class Arena {
         const postData:     IHitToValidate      = this.buildPostData(position);
         const postConfig:   AxiosRequestConfig  = this.buildPostConfig();
 
-        return this.axiosInstance.post(Constants.URL_HIT_VALIDATOR, postData, postConfig)
+        return axios.post(Constants.URL_HIT_VALIDATOR, postData, postConfig)
             .then((res: AxiosResponse) => {
                 return res.data;
             })
@@ -98,7 +96,7 @@ export class Arena {
         }
     }
 
-    public async onPlayerClick(position: IPosition2D, user: User): Promise<IPlayerInputResponse> {
+    public async onPlayerClick(position: IPosition2D, user: IUser): Promise<IPlayerInputResponse> {
 
         let inputResponse: IPlayerInputResponse = this.buildPlayerInputResponse(
             this.ON_FAILED_CLICK,
