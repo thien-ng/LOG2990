@@ -11,3 +11,7 @@ const user: IUser = {
     socketID: "666",
 };
 let player: Player;
+
+beforeEach(() => {
+    player = new Player(user);
+});
