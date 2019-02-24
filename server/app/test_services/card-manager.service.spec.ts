@@ -130,7 +130,7 @@ describe("Card-manager tests", () => {
             body: Constants.CARD_ADDED,
         };
         chai.expect(cardManagerService.freeCardCreationRoutine(sceneMessage)).to.deep.equal(message);
-        
+
         assetManagerService.deleteStoredImages(["./app/asset/scene/2000_scene", "./app/asset/image/2000_snapshot.jpeg"]);
     });
 
@@ -242,6 +242,5 @@ describe("Card-manager tests", () => {
 
         chai.expect(result).to.deep.equal({title: Constants.ON_ERROR_MESSAGE, body: typeError.message});
     });
-
 
 });
