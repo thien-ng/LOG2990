@@ -48,7 +48,7 @@ export class CardManagerService {
                 returnValue = this.handlePostResponse(response, cardTitle);
                 },
             );
-        } catch (error) {// A DEMANDER AU CHARGE
+        } catch (error) {
             this.generateErrorMessage(error);
         }
 
