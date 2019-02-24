@@ -25,3 +25,7 @@ const expectedPixelClusters: IOriginalPixelCluster = {
     };
 
 let differencesExtractor: DifferencesExtractor;
+
+beforeEach(() => {
+    differencesExtractor = new DifferencesExtractor();
+});
