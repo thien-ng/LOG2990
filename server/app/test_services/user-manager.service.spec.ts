@@ -1,7 +1,7 @@
 import "reflect-metadata";
 
 import { expect } from "chai";
-import { User } from "../../../common/communication/iUser";
+import { IUser } from "../../../common/communication/iUser";
 import { UserManagerService } from "../services/user-manager.service";
 
 let userManagerService: UserManagerService;
@@ -25,7 +25,7 @@ beforeEach(() => {
 describe("UserManagerService test", () => {
 
     it ("should return True if name input is unique", (done: Function) => {
-        const user: User = {
+        const user: IUser = {
                                 username: "ligma",
                                 socketID: "socketid",
                             };
@@ -36,7 +36,7 @@ describe("UserManagerService test", () => {
     });
 
     it ("should return False if name input is not unique", (done: Function) => {
-        const user: User = {
+        const user: IUser = {
                                 username: "patate",
                                 socketID: "socketid",
                             };
@@ -63,7 +63,7 @@ describe("UserManagerService test", () => {
     });
 
     it ("should return True if name is cleared from list properly", (done: Function) => {
-        const user: User = {
+        const user: IUser = {
                                 username: "patate",
                                 socketID: "socketid",
                             };
@@ -75,7 +75,7 @@ describe("UserManagerService test", () => {
     });
 
     it ("should return True if list was empty initially", (done: Function) => {
-        const user: User = {
+        const user: IUser = {
                                 username: "patate",
                                 socketID: "socketid",
                             };
@@ -87,11 +87,11 @@ describe("UserManagerService test", () => {
     });
 
     it ("should update the socket ID to the corresponding username", () => {
-        const user: User = {
+        const user: IUser = {
                                 username: "patate",
                                 socketID: "socketid",
                             };
-        const userToUpdate: User = {
+        const userToUpdate: IUser = {
                                 username: "patate",
                                 socketID: "socketidtoUpdate",
                             };
@@ -100,11 +100,11 @@ describe("UserManagerService test", () => {
         expect(userManagerService.users[0]).to.deep.equal(userToUpdate);
     });
     it ("should update the username to the corresponding SocketID", () => {
-        const user: User = {
+        const user: IUser = {
                                 username: "username",
                                 socketID: "socketid",
                             };
-        const userToUpdate: User = {
+        const userToUpdate: IUser = {
                                 username: "usernameToUpdate",
                                 socketID: "socketid",
                             };
