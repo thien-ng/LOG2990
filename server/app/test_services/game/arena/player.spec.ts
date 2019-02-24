@@ -30,4 +30,8 @@ describe("Player tests", () => {
         player.addPoints(1);
         expect(player.points).to.equal(1);
     });
+
+    it("should return the player's socket ID", () => {
+        expect(player.userSocketId).to.equal("666");
+    });
 });
