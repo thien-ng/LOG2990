@@ -1,31 +1,29 @@
-import * as chai from "chai"
+import * as chai from "chai";
 import * as fs from "fs";
 import * as path from "path";
-// import * as Mockito from "ts-mockito";
 import { HitValidatorService } from "../hitValidator.service";
 import { IHitToValidate } from "../interfaces";
-// import { Cache } from "../cache";
 
 // tslint:disable:no-magic-numbers no-any
 
 const iHitToValidate: IHitToValidate = {
-    position: {x: 1, y :1},
+    position: {x: 1, y: 1},
     imageUrl: path.resolve(__dirname, "../../../asset/image/testBitmap/imagetestOg.bmp"),
     colorToIgnore: [],
 };
 
-const axios = require("axios");
-const MockAdapter = require("axios-mock-adapter");
+const axios: any = require("axios");
+const mockAdapter: any = require("axios-mock-adapter");
 const imageBuffer: Buffer = fs.readFileSync(path.resolve(__dirname, "../../../asset/image/testBitmap/imagetestOg.bmp"));
 
 let mockAxios: any;
-let hitValidatorService: HitValidatorService = new HitValidatorService();;
+const hitValidatorService: HitValidatorService = new HitValidatorService();
 
 describe("Hit Validator micro-service tests", () => {
 
     beforeEach(() => {
 
-        mockAxios = new MockAdapter.default(axios);
+        mockAxios = new mockAdapter.default(axios);
     });
 
     afterEach(() => {
@@ -38,9 +36,9 @@ describe("Hit Validator micro-service tests", () => {
         mockAxios.onGet(iHitToValidate.imageUrl, {responseType: "arraybuffer"})
         .reply(200, imageBuffer);
 
-        hitValidatorService.confirmHit(iHitToValidate).then((response) => {
+        hitValidatorService.confirmHit(iHitToValidate).then((response: any) => {
             chai.expect(response).to.deep.equal({ isAHit: true, hitPixelColor: [ 255, 255, 255 ] });
-        });
+        }).catch();
     });
 
     it("should return hit with color from pixel and get image from cache", async () => {
@@ -48,9 +46,9 @@ describe("Hit Validator micro-service tests", () => {
         mockAxios.onGet(iHitToValidate.imageUrl, {responseType: "arraybuffer"})
         .reply(200, imageBuffer);
 
-        hitValidatorService.confirmHit(iHitToValidate).then((response) => {
+        hitValidatorService.confirmHit(iHitToValidate).then((response: any) => {
             chai.expect(response).to.deep.equal({ isAHit: true, hitPixelColor: [ 255, 255, 255 ] });
-        });
+        }).catch();
     });
 
     it("should return and error of not getting image buffer from url", async () => {
@@ -58,9 +56,7 @@ describe("Hit Validator micro-service tests", () => {
         mockAxios.onGet(iHitToValidate.imageUrl, {responseType: "arraybuffer"})
         .reply(400);
 
-        hitValidatorService.confirmHit(iHitToValidate).then((response) => {
-
-        }).catch(error => {
+        hitValidatorService.confirmHit(iHitToValidate).then().catch((error: any) => {
             chai.expect(error.message).to
             .equal("Didn't succeed to get image buffer from URL given. File: hitValidator.service.ts. Line: 64.");
         });
@@ -71,9 +67,7 @@ describe("Hit Validator micro-service tests", () => {
         mockAxios.onGet("wrong url bro", {responseType: "arraybuffer"})
         .reply(400);
 
-        hitValidatorService.confirmHit(iHitToValidate).then((response) => {
-
-        }).catch(error => {
+        hitValidatorService.confirmHit(iHitToValidate).then().catch((error: any) => {
             chai.expect(error.message).to
             .equal("Didn't succeed to get image buffer from URL given. File: hitValidator.service.ts. Line: 64.");
         });

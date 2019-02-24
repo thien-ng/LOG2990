@@ -1,4 +1,5 @@
 import "reflect-metadata";
+
 import * as chai from "chai";
 import * as spies from "chai-spies";
 import * as fs from "fs";
@@ -12,15 +13,15 @@ import { Message } from "../../../common/communication/message";
 import { Constants } from "../constants";
 import { CardManagerService } from "../services/card-manager.service";
 import { CardOperations } from "../services/card-operations.service";
+import { ImageRequirements } from "../services/difference-checker/utilities/imageRequirements";
 import { HighscoreService } from "../services/highscore.service";
 import { SceneBuilder } from "../services/scene/scene-builder";
 import { SceneModifier } from "../services/scene/scene-modifier";
-import { ImageRequirements } from "../services/difference-checker/utilities/imageRequirements";
 
 /*tslint:disable no-magic-numbers no-any */
 
-const MockAdapter = require("axios-mock-adapter");
-const axios = require("axios");
+const mockAdapter: any = require("axios-mock-adapter");
+const axios: any = require("axios");
 let mockAxios: any;
 const FAKE_PATH: string = Constants.BASE_URL + "/image";
 let cardManagerService: CardManagerService;
@@ -59,7 +60,7 @@ describe("Card-manager tests", () => {
         highscoreService = new HighscoreService();
         cardOperations = new CardOperations(highscoreService);
         cardManagerService = new CardManagerService(cardOperations);
-        mockAxios = new MockAdapter.default(axios);
+        mockAxios = new mockAdapter.default(axios);
     });
 
     it("should return the list of all cards", () => {
@@ -141,7 +142,7 @@ describe("Card-manager tests", () => {
         };
         mockAxios.onPost(Constants.PATH_FOR_2D_VALIDATION).reply(200, original);
 
-        await cardManagerService.simpleCardCreationRoutine(requirements, "title").then((response) => {
+        await cardManagerService.simpleCardCreationRoutine(requirements, "title").then((response: any) => {
             chai.expect(response).to.deep.equal({ title: "onSuccess", body: "Card 1000 created" });
         });
 
