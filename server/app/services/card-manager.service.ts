@@ -35,10 +35,10 @@ export class CardManagerService {
     }
 
     public async simpleCardCreationRoutine(requirements: ImageRequirements, cardTitle: string): Promise<Message> {
-        const cardTitleMessageError: Message = this.generateCardTitlteMessageError(cardTitle);
+        const cardTitleMessage: Message = this.generateCardTitlteMessageError(cardTitle);
 
-        if (cardTitleMessageError.title === Constants.ERROR_TITLE) {
-            return cardTitleMessageError;
+        if (cardTitleMessage.title === Constants.ERROR_TITLE) {
+            return cardTitleMessage;
         }
 
         this.originalImageRequest = requirements.originalImage;
