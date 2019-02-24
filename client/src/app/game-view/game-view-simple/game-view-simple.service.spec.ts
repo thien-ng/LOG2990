@@ -11,10 +11,16 @@ describe("GameViewService", () => {
     providers: [GameViewSimpleService],
   }));
 
-  it("should set sounds", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
+  it("should set success sounds", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
     gameViewService.setSounds(new ElementRef<any>("url/success"), new ElementRef<any>("url/fail"));
 
-    expect(gameViewService.successSound).toEqual("url/success");
+    expect(gameViewService.successSound).toEqual(new ElementRef<any>("url/success"));
+  }));
+
+  it("should set fail sounds", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
+    gameViewService.setSounds(new ElementRef<any>("url/success"), new ElementRef<any>("url/fail"));
+
+    expect(gameViewService.failSound).toEqual(new ElementRef<any>("url/fail"));
   }));
 
   it("should return an IClickMessage", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
