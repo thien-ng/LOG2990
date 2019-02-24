@@ -33,7 +33,7 @@ export class Arena {
     private players:                Player[];
     private originalPixelClusters:  Map<number, IOriginalPixelCluster>;
     private differencesFound:       number[];
-    private timer:                  Timer;
+    public timer:                  Timer;
 
     public constructor(
         private arenaInfos: IArenaInfos,
@@ -96,7 +96,7 @@ export class Arena {
         }
     }
 
-    private async onPlayerClick(position: IPosition2D, user: User): Promise<IPlayerInputResponse> {
+    public async onPlayerClick(position: IPosition2D, user: User): Promise<IPlayerInputResponse> {
 
         let inputResponse: IPlayerInputResponse = this.buildPlayerInputResponse(
             this.ON_FAILED_CLICK,
