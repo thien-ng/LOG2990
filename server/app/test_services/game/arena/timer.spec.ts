@@ -18,7 +18,7 @@ beforeEach(() => {
 describe("Timer tests", async () => {
 
     it("should start the timer", async (done: Function) => {
-        const spy: any = chai.spy.on(timer, "startTimer");
+        const spy: any = chai.spy.on(timer, "updateTimeSinceStart");
         timer.startTimer();
 
         setTimeout(() => {
