@@ -66,4 +66,17 @@ describe("Hit Validator micro-service tests", () => {
         });
     });
 
+    it("should return and error with wrong url", async () => {
+
+        mockAxios.onGet("wrong url bro", {responseType: "arraybuffer"})
+        .reply(400);
+
+        hitValidatorService.confirmHit(iHitToValidate).then((response) => {
+
+        }).catch(error => {
+            chai.expect(error.message).to
+            .equal("Didn't succeed to get image buffer from URL given. File: hitValidator.service.ts. Line: 64.");
+        });
+    });
+
 });
