@@ -32,5 +32,8 @@ beforeEach(() => {
 
 describe("Differences extractor tests", () => {
 
+    it("should create an instance of difference extractor", () => {
+        expect(new DifferencesExtractor()).instanceOf(DifferencesExtractor);
+    });
 
 });
