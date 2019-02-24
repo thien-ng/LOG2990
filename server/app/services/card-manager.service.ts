@@ -164,4 +164,28 @@ export class CardManagerService {
             body: errorMessage,
         };
     }
+
+    private generateCardTitlteMessageError(cardTitle: string): Message {
+
+        const regex: RegExp = new RegExp(Constants.GAME_REGEX_PATTERN);
+
+        if (cardTitle.length < Constants.MIN_GAME_LENGTH || cardTitle.length > Constants.MAX_GAME_LENGTH) {
+            return {
+                title: Constants.ERROR_TITLE,
+                body: Constants.GAME_FORMAT_LENTGH_ERROR,
+            };
+        }
+
+        if (!regex.test(cardTitle)) {
+            return {
+                title: Constants.ERROR_TITLE,
+                body: Constants.GAME_FORMAT_REGEX_ERROR,
+            };
+        }
+
+        return {
+            title: Constants.SUCCESS_TITLE,
+            body: Constants.GAME_SUCCESS_MESSAGE,
+        };
+    }
 }
