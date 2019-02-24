@@ -1,4 +1,3 @@
-import * as Axios from "axios";
 import { inject, injectable } from "inversify";
 import { GameMode } from "../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../common/communication/iGameRequest";
@@ -12,7 +11,6 @@ import { Arena } from "./arena/arena";
 import { IArenaInfos, IPlayerInput } from "./arena/interfaces";
 import { Player } from "./arena/player";
 
-const axiosInstance: Axios.AxiosInstance = require("axios");
 const REQUEST_ERROR_MESSAGE: string = "Game mode invalide";
 const ARENA_START_ID: number = 1000;
 const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
@@ -56,7 +54,7 @@ export class GameManagerService {
     private async create2DArena(user: IUser, gameId: number): Promise<Message> {
 
         const arenaInfo: IArenaInfos = this.buildArenaInfos(user, gameId);
-        const newArena: Arena = new Arena(arenaInfo, this, axiosInstance);
+        const newArena: Arena = new Arena(arenaInfo, this);
         await newArena.prepareArenaForGameplay();
         this.arenas.set(arenaInfo.arenaId, newArena);
 
