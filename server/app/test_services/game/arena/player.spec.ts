@@ -25,4 +25,9 @@ describe("Player tests", () => {
     it("should return 0 when getting point before adding them", () => {
         expect(player.points).to.equal(0);
     });
+
+    it("should return 1 point after adding 1 point", () => {
+        player.addPoints(1);
+        expect(player.points).to.equal(1);
+    });
 });
