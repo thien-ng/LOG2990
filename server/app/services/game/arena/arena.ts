@@ -20,6 +20,8 @@ import {
 } from "./interfaces";
 import { Timer } from "./timer";
 
+const axios: AxiosInstance = require("axios");
+
 export class Arena {
 
     private readonly ERROR_ON_HTTPGET:      string = "Didn't succeed to get image buffer from URL given. File: arena.ts.";
@@ -38,6 +40,7 @@ export class Arena {
     public constructor(
         private arenaInfos: IArenaInfos,
         @inject(Types.GameManagerService) private gameManagerService: GameManagerService,
+        private axiosInstance: AxiosInstance,
         ) {
         this.players = [];
         this.createPlayers();
@@ -50,11 +53,10 @@ export class Arena {
 
     public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {
 
-        const axios:        AxiosInstance       = require("axios");
         const postData:     IHitToValidate      = this.buildPostData(position);
         const postConfig:   AxiosRequestConfig  = this.buildPostConfig();
 
-        return axios.post(Constants.URL_HIT_VALIDATOR, postData, postConfig)
+        return this.axiosInstance.post(Constants.URL_HIT_VALIDATOR, postData, postConfig)
             .then((res: AxiosResponse) => {
                 return res.data;
             })
@@ -196,8 +198,6 @@ export class Arena {
     }
 
     private async getImageFromUrl(imageUrl: string): Promise<Buffer> {
-
-        const axios: AxiosInstance = require("axios");
 
         return axios
             .get(imageUrl, {
