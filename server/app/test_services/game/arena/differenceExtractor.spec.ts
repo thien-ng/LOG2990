@@ -29,3 +29,8 @@ let differencesExtractor: DifferencesExtractor;
 beforeEach(() => {
     differencesExtractor = new DifferencesExtractor();
 });
+
+describe("Differences extractor tests", () => {
+
+
+});
