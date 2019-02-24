@@ -48,10 +48,10 @@ export class UserManagerService {
             };
             this.nameList.push(user);
 
-            return this.generateMessage("true", Constants.SUCCESS_TITLE);
+            return this.generateMessage(Constants.UNIQUE_NAME, Constants.SUCCESS_TITLE);
         }
 
-        return this.generateMessage("false", Constants.SUCCESS_TITLE);
+        return this.generateMessage(Constants.NOT_UNIQUE_NAME, Constants.SUCCESS_TITLE);
     }
 
     public getUserByUsername(username: string): User | string {
