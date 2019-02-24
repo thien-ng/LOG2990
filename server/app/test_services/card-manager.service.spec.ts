@@ -13,6 +13,8 @@ import { Message } from "../../../common/communication/message";
 import { Constants } from "../constants";
 import { AssetManagerService } from "../services/asset-manager.service";
 import { CardManagerService } from "../services/card-manager.service";
+import { CardOperations } from "../services/card-operations.service";
+import { ImageRequirements } from "../services/difference-checker/utilities/imageRequirements";
 import { HighscoreService } from "../services/highscore.service";
 import { SceneBuilder } from "../services/scene/scene-builder";
 import { SceneModifier } from "../services/scene/scene-modifier";
@@ -21,23 +23,21 @@ import { SceneModifier } from "../services/scene/scene-modifier";
 
 const mockAdapter: any = require("axios-mock-adapter");
 const axios: any = require("axios");
-const mock: any = new mockAdapter(axios);
-const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
+let mockAxios: any;
 const FAKE_PATH: string = Constants.BASE_URL + "/image";
 let cardManagerService: CardManagerService;
 let highscoreService: HighscoreService;
+let cardOperations: CardOperations;
+let assetManagerService: AssetManagerService;
 
 describe("Card-manager tests", () => {
     chai.use(spies);
-    const testImageOg: Buffer = fs.readFileSync(path.resolve(__dirname, "../asset/image/testBitmap/imagetestOg.bmp"));
+    const original: Buffer = fs.readFileSync(path.resolve(__dirname, "../asset/image/testBitmap/imagetestOg.bmp"));
+    const modified: Buffer = fs.readFileSync(path.resolve(__dirname, "../asset/image/testBitmap/imagetestOg.bmp"));
 
-    const c1: ICard = {
-        gameID: 4,
-        title: "Default 2D",
-        subtitle: "default 2D",
-        avatarImageUrl: FAKE_PATH + "/elon.jpg",
-        gameImageUrl: FAKE_PATH + "/elon.jpg",
-        gamemode: GameMode.simple,
+    const cards: ICardLists = {
+        list2D: [DefaultCard2D],
+        list3D: [DefaultCard3D],
     };
 
     const c2: ICard = {
@@ -57,105 +57,55 @@ describe("Card-manager tests", () => {
         gameImageUrl: FAKE_PATH + "/poly.jpg",
         gamemode: GameMode.free,
     };
-    const cards: ICardLists = {
-        list2D: [DefaultCard2D],
-        list3D: [DefaultCard3D],
-    };
 
     beforeEach(() => {
+        assetManagerService = new AssetManagerService();
         highscoreService = new HighscoreService();
-        cardManagerService = new CardManagerService(highscoreService);
+        cardOperations = new CardOperations(highscoreService);
+        cardManagerService = new CardManagerService(cardOperations);
+        mockAxios = new mockAdapter.default(axios);
     });
 
     it("should return the list of all cards", () => {
         chai.expect(cardManagerService.getCards()).deep.equal(cards);
     });
 
-    it("should return the defaut 2d card", () => {
-       chai.expect(cardManagerService.getCardById("1", GameMode.simple)).to.deep.equal(DefaultCard2D);
-    });
-
-    it("should return true when adding a new 2D card", () => {
-        chai.expect(cardManagerService.addCard2D(c1)).to.equal(true);
-    });
-
-    it("should return true when adding a new 3D card", () => {
-        chai.expect(cardManagerService.addCard3D(c2)).to.equal(true);
-    });
-
-    it("should return false when adding an existing 3D card", () => {
-        cardManagerService.addCard3D(c2);
-        chai.expect(cardManagerService.addCard3D(c2)).to.equal(false);
-    });
-
-    it("should return false when trying to add an existing 2d card", () => {
-        cardManagerService.addCard2D(c1);
-        chai.expect(cardManagerService.addCard2D(c1)).to.equal(false);
-    });
-
     it("should return new length of 3D list after adding a card", () => {
-        cardManagerService.addCard3D(c2);
-        cardManagerService.addCard3D(c3);
+        cardOperations.addCard3D(c2);
+        cardOperations.addCard3D(c3);
         chai.expect(cardManagerService.getCards().list3D.length).to.equal(3);
     });
 
     it("should return the newly added card", () => {
-        cardManagerService.addCard3D(c3);
+        cardOperations.addCard3D(c3);
         chai.expect(cardManagerService.getCards().list3D[0]).deep.equal(c3);
-    });
-
-    it("should return the existing card", () => {
-        cardManagerService.addCard3D(c3);
-        chai.expect(cardManagerService.getCardById("3", GameMode.free)).to.deep.equal(c3);
-    });
-
-    it("should return an error message because path image doesnt exist", () => {
-        cardManagerService.addCard2D(c1);
-        chai.expect(cardManagerService.removeCard2D(4)).to.equal("error while deleting file");
-    });
-
-    it("should return an error message because path image doesnt exist", () => {
-        cardManagerService.addCard3D(c3);
-        chai.expect(cardManagerService.removeCard3D(3)).to.equal("error while deleting file");
-    });
-
-    it("should return an error while deleting the default 2D card", () => {
-        chai.expect(cardManagerService.removeCard2D(1)).deep.equal(Constants.DELETION_ERROR_MESSAGE);
-    });
-
-    it("should return an error while deleting the default 3D card", () => {
-        chai.expect(cardManagerService.removeCard3D(1)).deep.equal(Constants.DELETION_ERROR_MESSAGE);
-    });
-
-    it("should return false because the card doesnt exist", () => {
-        chai.expect(cardManagerService.removeCard2D(0)).to.equal(CARD_NOT_FOUND);
-    });
-
-    it("should return false because the card doesnt exist", () => {
-        chai.expect(cardManagerService.removeCard3D(0)).to.equal(CARD_NOT_FOUND);
     });
 
     it("should return undefined because there is no more card there", () => {
         chai.expect(cardManagerService.getCards().list3D[1]).deep.equal(undefined);
     });
 
-    it("corresponding highscore to the gameID should exist", () => {
-        cardManagerService.addCard2D(c1);
-        chai.expect(highscoreService.findHighScoreByID(4)).to.be.equal(2);
-    });
-
     it("Should return an error message", async () => {
-        mock.onGet("/api/differenceChecker/validate").reply(200, {
+        mockAxios.onGet("/api/differenceChecker/validate").reply(200, {
             title: Constants.ON_ERROR_MESSAGE,
             body: Constants.VALIDATION_FAILED,
         });
+        const requirements: ImageRequirements = {
+            requiredHeight: Constants.REQUIRED_HEIGHT,
+            requiredWidth: Constants.REQUIRED_WIDTH,
+            requiredNbDiff: Constants.REQUIRED_NB_DIFF,
+            originalImage: original,
+            modifiedImage: modified,
+        };
+
         let messageTitle: string = "";
-        await cardManagerService.simpleCardCreationRoutine(testImageOg, testImageOg, "title")
+        await cardManagerService.simpleCardCreationRoutine(requirements, "title")
         .then((message: Message) => {
             messageTitle = message.title;
         });
         chai.expect(messageTitle).to.equal("onError");
-        mock.restore();
+
+        mockAxios.restore();
     });
     it("Should return an success message when creating a freeCard successfully", () => {
         const sceneOptions10: ISceneOptions = {
@@ -180,22 +130,117 @@ describe("Card-manager tests", () => {
             body: Constants.CARD_ADDED,
         };
         chai.expect(cardManagerService.freeCardCreationRoutine(sceneMessage)).to.deep.equal(message);
-        cardManagerService.removeCard3D(2000);
+
+        assetManagerService.deleteStoredImages(["./app/asset/scene/2000_scene", "./app/asset/image/2000_snapshot.jpeg"]);
+    });
+
+    it("Should return an error because free card already exist", () => {
+        const sceneOptions10: ISceneOptions = {
+            sceneName: "10 objects",
+            sceneType: SceneType.Geometric,
+            sceneObjectsQuantity: 10,
+            selectedOptions: [false, false, false],
+        } as ISceneOptions;
+        const sceneBuilder: SceneBuilder = new SceneBuilder();
+        const sceneModifier: SceneModifier = new SceneModifier(sceneBuilder);
+        const isceneVariable: ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
+        const iSceneVariablesMessage: ISceneVariablesMessage = {
+            originalScene: isceneVariable,
+            modifiedScene: sceneModifier.modifyScene(sceneOptions10, isceneVariable),
+        };
+        const sceneMessage: ISceneMessage = {
+            iSceneVariablesMessage: iSceneVariablesMessage,
+            image: "",
+        };
+        cardManagerService.freeCardCreationRoutine(sceneMessage);
+        chai.expect(cardManagerService.freeCardCreationRoutine(sceneMessage))
+        .to.deep.equal({title: "onError", body: "Le titre de la carte existe déjà"});
+        assetManagerService.deleteStoredImages(["./app/asset/scene/2000_scene", "./app/asset/image/2000_snapshot.jpeg"]);
+        assetManagerService.deleteStoredImages(["./app/asset/scene/2001_scene", "./app/asset/image/2001_snapshot.jpeg"]);
     });
 
     it("Should return false when the title already exists", () => {
         chai.expect(cardManagerService.isSceneNameNew("Scène par défaut")).to.equal(false);
     });
 
-    it("trying the splice", () => {
-        const assetManager: AssetManagerService = new AssetManagerService();
-        cardManagerService.addCard2D(c1);
-        const originalImagePath: string = Constants.IMAGES_PATH + "/" + 4 + Constants.ORIGINAL_FILE;
-        const modifiedImagePath: string = Constants.IMAGES_PATH + "/" + 4 + Constants.MODIFIED_FILE;
-        const generatedImagePath: string =  Constants.IMAGES_PATH + "/" + 4 + Constants.GENERATED_FILE;
-        assetManager.saveImage(originalImagePath, "test");
-        assetManager.saveImage(modifiedImagePath, "test");
-        assetManager.saveImage(generatedImagePath, "test");
-        chai.expect(cardManagerService.removeCard2D(4)).to.equal(Constants.CARD_DELETED);
+    it("Should return a message of success and simple create card", async () => {
+        const requirements: ImageRequirements = {
+            requiredHeight: Constants.REQUIRED_HEIGHT,
+            requiredWidth: Constants.REQUIRED_WIDTH,
+            requiredNbDiff: Constants.REQUIRED_NB_DIFF,
+            originalImage: original,
+            modifiedImage: modified,
+        };
+        mockAxios.onPost(Constants.PATH_FOR_2D_VALIDATION).reply(200, original);
+
+        await cardManagerService.simpleCardCreationRoutine(requirements, "title").then((response: any) => {
+            chai.expect(response).to.deep.equal({ title: "onSuccess", body: "Card 1000 created" });
+        });
+
+        const paths: string[] = [
+            "./app/asset/image/1000_generated.bmp",
+            "./app/asset/image/1000_modified.bmp",
+            "./app/asset/image/1000_original.bmp"];
+
+        assetManagerService.deleteStoredImages(paths);
+
+        mockAxios.restore();
     });
+
+    it("Should return error because simple card title exist already", async () => {
+        const requirements: ImageRequirements = {
+            requiredHeight: Constants.REQUIRED_HEIGHT,
+            requiredWidth: Constants.REQUIRED_WIDTH,
+            requiredNbDiff: Constants.REQUIRED_NB_DIFF,
+            originalImage: original,
+            modifiedImage: modified,
+        };
+        mockAxios.onPost(Constants.PATH_FOR_2D_VALIDATION).reply(200, original);
+        await cardManagerService.simpleCardCreationRoutine(requirements, "title").then();
+        await cardManagerService.simpleCardCreationRoutine(requirements, "title").then((response: any) => {
+            chai.expect(response).to.deep.equal({ title: "onError", body: "Le titre de la carte existe déjà" });
+        });
+
+        const paths: string[] = [
+            "./app/asset/image/1000_generated.bmp",
+            "./app/asset/image/1000_modified.bmp",
+            "./app/asset/image/1000_original.bmp",
+            "./app/asset/image/1001_generated.bmp",
+            "./app/asset/image/1001_modified.bmp",
+            "./app/asset/image/1001_original.bmp"];
+
+        assetManagerService.deleteStoredImages(paths);
+
+        mockAxios.restore();
+    });
+
+    it("Should return an error while creating simple card", async () => {
+        const requirements: ImageRequirements = {
+            requiredHeight: Constants.REQUIRED_HEIGHT,
+            requiredWidth: Constants.REQUIRED_WIDTH,
+            requiredNbDiff: Constants.REQUIRED_NB_DIFF,
+            originalImage: original,
+            modifiedImage: modified,
+        };
+
+        const message: Message = {
+            title: "test",
+            body: "ok",
+        };
+        mockAxios.onPost(Constants.PATH_FOR_2D_VALIDATION).reply(200, message);
+
+        await cardManagerService.simpleCardCreationRoutine(requirements, "title").then((response: any) => {
+            chai.expect(response).to.deep.equal({ title: "test", body: "ok" });
+        });
+
+        mockAxios.restore();
+    });
+
+    it("Should return an unknown error", async () => {
+        const typeError: TypeError = new TypeError("men calice");
+        const result: any = cardManagerService.generateErrorMessage(typeError);
+
+        chai.expect(result).to.deep.equal({title: Constants.ON_ERROR_MESSAGE, body: typeError.message});
+    });
+
 });

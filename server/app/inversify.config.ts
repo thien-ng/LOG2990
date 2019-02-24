@@ -7,6 +7,7 @@ import { SceneManagerController } from "./controllers/scene-manager.controller";
 import { UserController } from "./controllers/user.controller";
 import { Server } from "./server";
 import { CardManagerService } from "./services/card-manager.service";
+import { CardOperations } from "./services/card-operations.service";
 import { DifferenceCheckerController } from "./services/difference-checker/difference-checker.controller";
 import { DifferenceCheckerService } from "./services/difference-checker/difference-checker.service";
 import { GameManagerService } from "./services/game/game-manager.service";
@@ -44,5 +45,6 @@ container.bind(Types.GameManagerService).to(GameManagerService).inSingletonScope
 
 container.bind(Types.SceneManagerController).to(SceneManagerController);
 container.bind(Types.SceneManager).to(SceneManager).inSingletonScope();
+container.bind(Types.CardOperations).to(CardOperations).inSingletonScope();
 
 export { container };
