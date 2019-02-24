@@ -36,4 +36,18 @@ describe("Differences extractor tests", () => {
         expect(new DifferencesExtractor()).instanceOf(DifferencesExtractor);
     });
 
+    it("should extract the differences", () => {
+
+        const builder: BMPBuilder = new BMPBuilder(4, 4, 100);
+        const bufferOriginal: Buffer = Buffer.from(builder.buffer);
+        builder.setColorAtPos(1, 1, 1, 1, 1);
+
+        const bufferDifferences: Buffer = Buffer.from(builder.buffer);
+
+        let result:  Map<number, IOriginalPixelCluster>;
+        result = differencesExtractor.extractPixelClustersFrom(bufferOriginal, bufferDifferences);
+
+        expect(result.get(1)).to.deep.equal(expectedPixelClusters);
+    });
+
 });
