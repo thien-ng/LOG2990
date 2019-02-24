@@ -17,7 +17,7 @@ const mockAdapter: any = require("axios-mock-adapter");
 const imageBuffer: Buffer = fs.readFileSync(path.resolve(__dirname, "../../../asset/image/testBitmap/imagetestOg.bmp"));
 
 let mockAxios: any;
-const hitValidatorService: HitValidatorService = new HitValidatorService();
+let hitValidatorService: HitValidatorService = new HitValidatorService();
 
 describe("Hit Validator micro-service tests", () => {
 
@@ -56,6 +56,7 @@ describe("Hit Validator micro-service tests", () => {
         mockAxios.onGet(iHitToValidate.imageUrl, {responseType: "arraybuffer"})
         .reply(400);
 
+        hitValidatorService = new HitValidatorService();
         hitValidatorService.confirmHit(iHitToValidate).then().catch((error: any) => {
             chai.expect(error.message).to
             .equal("Didn't succeed to get image buffer from URL given. File: hitValidator.service.ts. Line: 64.");
@@ -67,6 +68,7 @@ describe("Hit Validator micro-service tests", () => {
         mockAxios.onGet("wrong url bro", {responseType: "arraybuffer"})
         .reply(400);
 
+        hitValidatorService = new HitValidatorService();
         hitValidatorService.confirmHit(iHitToValidate).then().catch((error: any) => {
             chai.expect(error.message).to
             .equal("Didn't succeed to get image buffer from URL given. File: hitValidator.service.ts. Line: 64.");
