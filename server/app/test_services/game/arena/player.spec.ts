@@ -22,4 +22,7 @@ describe("Player tests", () => {
         expect(new Player(user)).instanceOf(Player);
     });
 
+    it("should return 0 when getting point before adding them", () => {
+        expect(player.points).to.equal(0);
+    });
 });
