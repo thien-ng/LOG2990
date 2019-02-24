@@ -18,5 +18,8 @@ beforeEach(() => {
 
 describe("Player tests", () => {
 
+    it("should create an instance of a Player", () => {
+        expect(new Player(user)).instanceOf(Player);
+    });
 
 });
