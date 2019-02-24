@@ -5,21 +5,22 @@ import * as spies from "chai-spies";
 import * as fs from "fs";
 import * as path from "path";
 import { IOriginalPixelCluster, IPlayerInputResponse } from "../../../../../common/communication/iGameplay";
-import { User } from "../../../../../common/communication/iUser";
+import { IUser } from "../../../../../common/communication/iUser";
 import { Constants } from "../../../constants";
 import { BMPBuilder } from "../../../services/difference-checker/utilities/bmpBuilder";
 import { Arena } from "../../../services/game/arena/arena";
-import { IArenaInfos, IPlayerInput } from "../../../services/game/arena/interfaces";
+import { IArenaInfos, IPlayerInput, IHitConfirmation } from "../../../services/game/arena/interfaces";
 import { GameManagerService } from "../../../services/game/game-manager.service";
 import { UserManagerService } from "../../../services/user-manager.service";
 
 import { of } from "rxjs";
 import sinon = require("sinon");
 import { Player } from "../../../services/game/arena/player";
+import { IHitToValidate } from "../../../services/hitValidator/interfaces";
 
 // tslint:disable:no-magic-numbers no-any
 
-const activeUser: User = {
+const activeUser: IUser = {
     username: "mike",
     socketID: "123",
  };
@@ -212,6 +213,67 @@ describe("Arena tests", () => {
         arena.removePlayer(activeUser.username);
         const players: Player[] = arena.getPlayers();
         chai.expect(players.length).to.equal(0);
+    });
+
+    it("should do the validation routine correctly", async () => {
+
+        const builder: BMPBuilder = new BMPBuilder(4, 4, 100);
+        const bufferOriginal: Buffer = Buffer.from(builder.buffer);
+        builder.setColorAtPos(1, 1, 1, 1, 1);
+        const bufferDifferences: Buffer = Buffer.from(builder.buffer);
+
+        mockAxios.onGet(arenaInfo.originalGameUrl).replyOnce(200, () => {
+            return bufferOriginal;
+        });
+        mockAxios.onGet(arenaInfo.differenceGameUrl).replyOnce(200, () => {
+            return bufferDifferences;
+        });
+/*
+export interface IHitToValidate {
+    position:      IPosition2D;
+    imageUrl:           string;
+    colorToIgnore:    number[];
+}
+*/
+        const hitToValidate: IHitToValidate = {
+            position: {
+                x: 1,
+                y: 1,
+            },
+            imageUrl: "url",
+            colorToIgnore: [255, 255, 255],
+        };
+
+        const hitConfirmation: IHitConfirmation = {
+            isAHit: true,
+            hitPixelColor: [ 1, 1, 1],
+        };
+        mockAxios.onPost(Constants.URL_HIT_VALIDATOR, hitToValidate)
+        .reply(200, {
+            // hit confirmaiton
+                isAHit: true,
+                color: [ 1, 1, 1],
+            },
+        );
+
+        const expectedResponse: IPlayerInputResponse = {
+            status: Constants.ON_SUCCESS_MESSAGE,
+            response: Constants.ON_ERROR_PIXEL_CLUSTER,
+        };
+        const sandbox: sinon.SinonSandbox = sinon.createSandbox();
+        sandbox.stub(arena, "validateHit").callsFake(() => of(hitConfirmation).toPromise());
+
+        await arena.prepareArenaForGameplay()
+        .then(() => { /* */ })
+        .catch((error: Error) => {
+            // errorMessage = error.message;
+        });
+
+        const responseToInput:  IPlayerInputResponse = await arena.onPlayerInput(playerInputClick);
+
+        chai.expect(responseToInput).to.deep.equal(expectedResponse);
+
+        sandbox.restore();
     });
 
 });
