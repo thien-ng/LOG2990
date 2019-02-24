@@ -15,3 +15,8 @@ let player: Player;
 beforeEach(() => {
     player = new Player(user);
 });
+
+describe("Player tests", () => {
+
+
+});
