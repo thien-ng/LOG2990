@@ -1,6 +1,6 @@
 import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { inject } from "inversify";
-import { User } from "../../../../../common/communication/iUser";
+import { IUser } from "../../../../../common/communication/iUser";
 import { Constants } from "../../../constants";
 import Types from "../../../types";
 import { GameManagerService } from "../game-manager.service";
@@ -20,6 +20,8 @@ import {
 } from "./interfaces";
 import { Timer } from "./timer";
 
+const axios: AxiosInstance = require("axios");
+
 export class Arena {
 
     private readonly ERROR_ON_HTTPGET:      string = "Didn't succeed to get image buffer from URL given. File: arena.ts.";
@@ -38,6 +40,7 @@ export class Arena {
     public constructor(
         private arenaInfos: IArenaInfos,
         @inject(Types.GameManagerService) private gameManagerService: GameManagerService,
+        private axiosInstance: AxiosInstance,
         ) {
         this.players = [];
         this.createPlayers();
@@ -50,11 +53,10 @@ export class Arena {
 
     public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {
 
-        const axios:        AxiosInstance       = require("axios");
         const postData:     IHitToValidate      = this.buildPostData(position);
         const postConfig:   AxiosRequestConfig  = this.buildPostConfig();
 
-        return axios.post(Constants.URL_HIT_VALIDATOR, postData, postConfig)
+        return this.axiosInstance.post(Constants.URL_HIT_VALIDATOR, postData, postConfig)
             .then((res: AxiosResponse) => {
                 return res.data;
             })
@@ -81,7 +83,7 @@ export class Arena {
         return response;
     }
 
-    public contains(user: User): boolean {
+    public contains(user: IUser): boolean {
         return this.players.some((player: Player) => {
             return player.username === user.username;
         });
@@ -129,7 +131,7 @@ export class Arena {
         });
     }
 
-    private onHitConfirmation(user: User, hitConfirmation: IHitConfirmation): void {
+    private onHitConfirmation(user: IUser, hitConfirmation: IHitConfirmation): void {
         this.attributePoints(user);
         this.addToDifferencesFound(hitConfirmation.hitPixelColor[0]);
     }
@@ -155,7 +157,7 @@ export class Arena {
         return this.differencesFound.indexOf(differenceIndex) < 0;
     }
 
-    private attributePoints(user: User): void {
+    private attributePoints(user: IUser): void {
         const player: Player | undefined = this.players.find( (p: Player) => {
             return p.username === user.username;
         });
@@ -197,8 +199,6 @@ export class Arena {
 
     private async getImageFromUrl(imageUrl: string): Promise<Buffer> {
 
-        const axios: AxiosInstance = require("axios");
-
         return axios
             .get(imageUrl, {
                 responseType: "arraybuffer",
@@ -227,7 +227,7 @@ export class Arena {
     }
 
     private createPlayers(): void {
-        this.arenaInfos.users.forEach((user: User) => {
+        this.arenaInfos.users.forEach((user: IUser) => {
             this.players.push(new Player(user));
         });
     }
