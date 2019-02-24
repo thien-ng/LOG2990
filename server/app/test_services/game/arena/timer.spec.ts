@@ -14,3 +14,6 @@ beforeEach(() => {
     timer = new Timer();
 
 });
+
+describe("Timer tests", async () => {
+});
