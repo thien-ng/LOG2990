@@ -127,8 +127,8 @@ export class CardManagerService {
     private verifyCard(card: ICard): Message {
         if (this.cardOperations.addCard2D(card)) {
             return {
-                title: Constants.ON_SUCCESS_MESSAGE,
-                body: "Card " + card.gameID + " created",
+                title:  Constants.ON_SUCCESS_MESSAGE,
+                body:   "Card " + card.gameID + " created",
             } as Message;
         } else {
             return {
