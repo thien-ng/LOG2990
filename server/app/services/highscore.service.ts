@@ -86,6 +86,7 @@ export class HighscoreService {
 
     public getHighscoreById(id: number): Highscore | undefined {
         let score: Highscore | undefined;
+
         this.highscores.forEach((element: Highscore) => {
             if (element.id === id) {
                 score = element;
@@ -97,6 +98,7 @@ export class HighscoreService {
 
     public updateHighscore(value: number, mode: Mode, cardID: number): void {
         const highscore: Highscore = this.highscores[this.findHighScoreByID(cardID)];
+
         if (highscore !== undefined) {
             switch (mode) {
                 case Mode.Singleplayer:
@@ -114,6 +116,7 @@ export class HighscoreService {
 
     private checkScore(value: number, times: [number, number, number]): void {
         let hasBeenReplaced: Boolean = false;
+
         times.forEach((element: number) => {
             if (element > value && !hasBeenReplaced) {
                 times.splice(times.indexOf(element), REMOVE_NOTHING, value);
@@ -121,7 +124,6 @@ export class HighscoreService {
                 hasBeenReplaced = true;
             }
         });
-
     }
 
     // Methods for testing
