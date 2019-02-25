@@ -11,9 +11,9 @@ import { Arena } from "./arena/arena";
 import { IArenaInfos, IPlayerInput } from "./arena/interfaces";
 import { Player } from "./arena/player";
 
-const REQUEST_ERROR_MESSAGE: string = "Game mode invalide";
-const ARENA_START_ID: number = 1000;
-const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
+const REQUEST_ERROR_MESSAGE:            string = "Game mode invalide";
+const ARENA_START_ID:                   number = 1000;
+const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
 
 @injectable()
 export class GameManagerService {
