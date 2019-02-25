@@ -8,6 +8,7 @@ import { CardManagerService } from "../../services/card-manager.service";
 import { CardOperations } from "../../services/card-operations.service";
 import { HighscoreService } from "../../services/highscore.service";
 import { SceneManager } from "../../services/scene/scene-manager.service";
+import { SceneType } from "../../../../common/communication/iSceneOptions";
 
 /* tslint:disable:no-any no-magic-numbers */
 
@@ -31,7 +32,7 @@ describe("SceneManager Tests", () => {
         formMessage = {
             gameName: "gameName",
             checkedTypes: [true, true, true],
-            theme: "Geometric",
+            theme: "geometric",
             quantityChange: 10,
         };
 
@@ -39,14 +40,14 @@ describe("SceneManager Tests", () => {
 
         sceneManager.createScene(formMessage);
 
-        chai.expect(spy).to.have.been.called.with("Geometric");
+        chai.expect(spy).to.have.been.called.with("geometric");
     });
 
     it("should return scene variables with Geometric theme", () => {
         formMessage = {
             gameName: "gameName",
             checkedTypes: [true, true, true],
-            theme: "Geometric",
+            theme: "geometric",
             quantityChange: 10,
         };
 
@@ -61,7 +62,7 @@ describe("SceneManager Tests", () => {
         formMessage = {
             gameName: "gameName",
             checkedTypes: [true, true, true],
-            theme: "Thematic",
+            theme: "thematic",
             quantityChange: 10,
         };
 
@@ -69,14 +70,14 @@ describe("SceneManager Tests", () => {
 
         sceneManager.createScene(formMessage);
 
-        chai.expect(spy).to.have.been.called.with("Thematic");
+        chai.expect(spy).to.have.been.called.with("thematic");
     });
 
     it("should return scene variables with Thematic theme", () => {
         formMessage = {
             gameName: "gameName",
             checkedTypes: [true, true, true],
-            theme: "Thematic",
+            theme: "thematic",
             quantityChange: 10,
         };
 
@@ -107,13 +108,13 @@ describe("SceneManager Tests", () => {
         formMessage = {
             gameName: "Scène par défaut",
             checkedTypes: [true, true, true],
-            theme: "Geometric",
+            theme: "geometric",
             quantityChange: 5,
         };
 
         const sceneVariables: ISceneVariablesMessage | string = sceneManager.createScene(formMessage);
         if (typeof sceneVariables === "string") {
-            chai.expect(sceneVariables).to.equal(Constants.CARD_EXISTING);
+            chai.expect(sceneVariables).to.equal(Constants.CARD_CREATION_ERROR);
         }
     });
 });
