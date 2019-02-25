@@ -76,8 +76,9 @@ export class Constants {
   public static readonly ON_GAME_DISCONNECT: string = "onGameDisconnect";
 
   // Constants for game view free component
-  public static readonly GAME_REQUEST_PATH: string = Constants.BASE_URL + "/api/game/request";
-  public static readonly SUCCESS_STATUS: number = 200;
+  public static readonly DEFAULT_SLIDER_VALUE:  number = 100;
+  public static readonly GAME_REQUEST_PATH:     string = Constants.BASE_URL + "/api/game/request";
+  public static readonly SUCCESS_STATUS:        number = 200;
 
   // Constants for card.component.ts
   public static readonly GAME_VIEW_SIMPLE_PATH: string = "/game-view-simple";
