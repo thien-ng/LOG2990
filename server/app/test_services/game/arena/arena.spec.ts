@@ -153,18 +153,17 @@ describe("Arena tests", () => {
         const sandbox: sinon.SinonSandbox = sinon.createSandbox();
         sandbox.stub(arena, "onPlayerClick").callsFake( async () => of(expectedResponse).toPromise());
 
-        const responseToInput:  IPlayerInputResponse = await arena.onPlayerInput(playerInputClick);
+        const responseToInput: IPlayerInputResponse = await arena.onPlayerInput(playerInputClick);
 
         chai.expect(responseToInput).to.deep.equal(expectedResponse);
-
         sandbox.restore();
     });
 
     it("should return a failed response when the event passed isn't recognize", async () => {
 
         const expectedResponse: IPlayerInputResponse = {
-            status: "onFailedClick",
-            response: Constants.ON_ERROR_PIXEL_CLUSTER,
+            status:     "onFailedClick",
+            response:   Constants.ON_ERROR_PIXEL_CLUSTER,
         };
         const sandbox: sinon.SinonSandbox = sinon.createSandbox();
         sandbox.stub(arena, "onPlayerClick").callsFake( async () => of(expectedResponse).toPromise());
