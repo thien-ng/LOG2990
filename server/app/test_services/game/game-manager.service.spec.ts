@@ -205,7 +205,6 @@ describe("GameManagerService tests", () => {
         gameManagerService.analyseRequest(request2D).catch();
         gameManagerService.unsubscribeSocketID("12345", "Frank");
         chai.expect(gameManagerService["arena"].getPlayers().length).to.deep.equal(0);
-
     });
 
     it("should delete arena succesfully", async () => {
@@ -237,5 +236,4 @@ describe("GameManagerService tests", () => {
         gameManagerService.sendMessage("socketID", "onEvent", 1);
         verify(socket.emit("onEvent", 1)).atLeast(0);
     });
-
 });
