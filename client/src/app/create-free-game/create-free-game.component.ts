@@ -58,7 +58,11 @@ export class CreateFreeGameComponent {
     private httpClient: HttpClient,
     private snackBar: MatSnackBar,
   ) {
+    this.initFormControl();
+    this.isSceneGenerated = false;
+  }
 
+  private initFormControl(): void {
     const controls: FormControl[] = this.modifTypes.map(() => new FormControl(false));
     this.formControl = this.formBuilder.group({
       nameControl: new FormControl("", [
@@ -72,7 +76,6 @@ export class CreateFreeGameComponent {
       ]),
       modifTypes: new FormArray(controls, this.atLeastOneIsChecked(1)),
     });
-    this.isSceneGenerated = false;
   }
 
   public hasNameControlErrors(): boolean {
@@ -97,10 +100,6 @@ export class CreateFreeGameComponent {
     const selectedOne: Boolean = this.formControl.controls.selectControl.valid;
 
     return !(hasErrorForm && checkboxChecked && selectedOne && this.isButtonEnabled);
-  }
-
-  public getChecked(): [boolean, boolean, boolean] {
-    return [this.addChecked, this.delChecked, this.colorChecked];
   }
 
   public closeDialog(): void {

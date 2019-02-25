@@ -44,15 +44,19 @@ export class CreateSimpleGameComponent {
     ) {
       this.isButtonEnabled = true;
       this.selectedFiles = [new Blob(), new Blob()];
-      this.formControl = new FormGroup({
-        gameName: new FormControl("", [
-          Validators.required,
-          Validators.pattern(Constants.GAME_REGEX_PATTERN),
-          Validators.minLength(Constants.MIN_GAME_LENGTH),
-          Validators.maxLength(Constants.MAX_GAME_LENGTH),
-        ]),
-      });
+      this.initFormControl();
     }
+
+  private initFormControl(): void {
+    this.formControl = new FormGroup({
+      gameName: new FormControl("", [
+        Validators.required,
+        Validators.pattern(Constants.GAME_REGEX_PATTERN),
+        Validators.minLength(Constants.MIN_GAME_LENGTH),
+        Validators.maxLength(Constants.MAX_GAME_LENGTH),
+      ]),
+    });
+  }
 
   public hasNameControlErrors(): boolean {
     return this.formControl.controls.gameName.errors == null || this.formControl.controls.gameName.pristine;
