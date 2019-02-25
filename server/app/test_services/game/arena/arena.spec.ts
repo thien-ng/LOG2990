@@ -171,19 +171,18 @@ describe("Arena tests", () => {
         const responseToInput:  IPlayerInputResponse = await arena.onPlayerInput(playerInputWrong);
 
         chai.expect(responseToInput).to.deep.equal(expectedResponse);
-
         sandbox.restore();
     });
 
     it("should return a correct PlayerInputResponse", async () => {
         const playerInputResponseExpected: IPlayerInputResponse = {
-            status:         Constants.ON_SUCCESS_MESSAGE,
-            response:       expectedPixelClusters,
+            status:     Constants.ON_SUCCESS_MESSAGE,
+            response:   expectedPixelClusters,
         };
 
         const hitConfirmationExpected: IHitConfirmation = {
-            isAHit: true,
-            hitPixelColor: [ 1, 1, 1],
+            isAHit:         true,
+            hitPixelColor:  [ 1, 1, 1],
         };
 
         mockAxios.onPost(Constants.URL_HIT_VALIDATOR).reply(200, hitConfirmationExpected);
