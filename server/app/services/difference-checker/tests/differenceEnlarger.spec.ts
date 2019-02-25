@@ -34,8 +34,8 @@ describe("Difference Enlarger tests", () => {
         const width:  number = 1;
         const height: number = 2;
 
-        const newBuilder: BMPBuilder = new BMPBuilder(width, height, WHITE);
-        const singlePixelBuffer: Buffer = Buffer.from(newBuilder.buffer);
+        const newBuilder:           BMPBuilder = new BMPBuilder(width, height, WHITE);
+        const singlePixelBuffer:    Buffer = Buffer.from(newBuilder.buffer);
         const expectedOutputBuffer: Buffer = Buffer.from(newBuilder.buffer);
 
         const enlarger:             DifferenceEnlarger = new DifferenceEnlarger(singlePixelBuffer, width, RADIUS);
