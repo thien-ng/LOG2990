@@ -103,8 +103,8 @@ export class CardOperations {
     }
 
     public getCardById(id: string, gamemode: GameMode): ICard {
-        const cardID: number = parseInt(id, Constants.DECIMAL);
-        const index: number = (gamemode === GameMode.simple) ? this.findCard2D(cardID) : this.findCard3D(cardID);
+        const cardID:   number = parseInt(id, Constants.DECIMAL);
+        const index:    number = (gamemode === GameMode.simple) ? this.findCard2D(cardID) : this.findCard3D(cardID);
 
         return (gamemode === GameMode.simple) ? this.cards.list2D[index] : this.cards.list3D[index];
     }
