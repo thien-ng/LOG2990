@@ -40,7 +40,7 @@ export class Constants {
   public static readonly IS_NOT_USED: string = "true";
 
   // constant for create-simple-game.component.ts
-  public static readonly GAME_REGEX_PATTERN: string = "^[a-z A-Z]+$";
+  public static readonly GAME_REGEX_PATTERN: string = "^[a-zA-Z0-9]+$";
   public static readonly SNACK_ERROR_MSG: string = "Veuillez entrer un fichier BMP";
   public static readonly SNACK_ACTION: string = "OK";
   public static readonly SNACK_POS_TOP: string = "top";
