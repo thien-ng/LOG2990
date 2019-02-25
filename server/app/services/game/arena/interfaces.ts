@@ -2,9 +2,9 @@ import { IPosition2D } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
 
 export interface IHitToValidate {
-    position:      IPosition2D;
+    position:           IPosition2D;
     imageUrl:           string;
-    colorToIgnore:    number[];
+    colorToIgnore:      number[];
 }
 
 export interface IArenaInfos {
