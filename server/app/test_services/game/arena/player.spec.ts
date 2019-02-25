@@ -38,5 +38,4 @@ describe("Player tests", () => {
     it("should return the player's username", () => {
         expect(player.username).to.equal("Ettore Merlo");
     });
-
 });
