@@ -58,7 +58,9 @@ describe("Hit Validator micro-service tests", () => {
 
     it("should return and error of not getting image buffer from url", async () => {
 
-        mockAxios.onGet(iHitToValidate.imageUrl, {responseType: "arraybuffer"})
+        mockAxios.onGet(iHitToValidate.imageUrl, {
+            responseType: "arraybuffer",
+        })
         .reply(400);
 
         hitValidatorService = new HitValidatorService();
