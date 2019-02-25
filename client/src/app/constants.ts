@@ -37,7 +37,7 @@ export class Constants {
   public static readonly SNACKBAR_ACKNOWLEDGE: string = "Merci!";
   public static readonly USERNAME_KEY: string = "userName";
   public static readonly SNACKBAR_DURATION: number = 5000;
-  public static readonly IS_NOT_USED: string = "isUnique";
+  public static readonly IS_UNIQUE: string = "isUnique";
 
   // constant for create-simple-game.component.ts
   public static readonly GAME_REGEX_PATTERN: string = "^[a-zA-Z0-9]+$";
