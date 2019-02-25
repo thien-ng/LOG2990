@@ -5,9 +5,9 @@ import { DifferenceEnlarger } from "../utilities/differenceEnlarger";
 
 // tslint:disable:no-magic-numbers max-func-body-length
 
-const RADIUS:  number =   3;
+const RADIUS:  number = 3;
 const WHITE:   number = 255;
-const BLACK:   number =   0;
+const BLACK:   number = 0;
 
 let   builder: BMPBuilder;
 
