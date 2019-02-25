@@ -76,3 +76,7 @@ export class SceneManager {
     private validateTheme(theme: string): boolean {
         return (theme === THEME_GEOMETRIC || theme === THEME_THEMATIC);
     }
+
+    private validateQuantity(quantity: number): boolean {
+        return (quantity >= Constants.MIN_ITEMS_IN_SCENE && quantity <= Constants.MAX_ITEMS_IN_SCENE);
+    }
