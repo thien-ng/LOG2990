@@ -3,10 +3,10 @@ import { BMPBuilder } from "../utilities/bmpBuilder";
 
 // tslint:disable:no-magic-numbers
 
-const WIDTH:    number = 2;
-const HEIGHT:   number = 3;
-const WHITE:    number = 255;
-let builder: BMPBuilder;
+const WIDTH:        number = 2;
+const HEIGHT:       number = 3;
+const WHITE:        number = 255;
+let builder:        BMPBuilder;
 let bufferObtained: Buffer;
 
 describe("BMPBuilder tests", () => {
