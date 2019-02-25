@@ -74,15 +74,15 @@ export class CardManagerController {
                 const message: string = this.cardOperations.removeCard2D(cardId);
                 res.json(message);
             } catch (error) {
-                const isTypeError: boolean = error instanceof TypeError;
+                const isTypeError:  boolean = error instanceof TypeError;
                 const errorMessage: string = isTypeError ? error.message : Constants.UNKNOWN_ERROR;
                 res.json(errorMessage);
             }
         });
 
         router.delete("/remove/free/:id", async (req: Request, res: Response, next: NextFunction) => {
-            const cardId: number = parseInt(req.params.id, DECIMAL);
-            const message: string = this.cardOperations.removeCard3D(cardId);
+            const cardId:   number = parseInt(req.params.id, DECIMAL);
+            const message:  string = this.cardOperations.removeCard3D(cardId);
             res.json(message);
         });
 
