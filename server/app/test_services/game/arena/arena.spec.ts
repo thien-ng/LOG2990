@@ -275,11 +275,12 @@ describe("Arena tests", () => {
 
     it("should set the right number of points to win depending on number of players", () => {
 
-        const responseToInput:  IPlayerInputResponse = await arena.onPlayerInput(playerInputClick);
+        arenaInfo.users = [activeUser, activeUser];
+        arena = new Arena(arenaInfo, gameManager);
+        arena.timer.stopTimer();
 
-        chai.expect(responseToInput).to.deep.equal(expectedResponse);
+        const pointsNeededToWin: number = arena["pointsNeededToWin"];
 
-        sandbox.restore();
+        chai.expect(pointsNeededToWin).to.equal(4);
     });
-
 });
