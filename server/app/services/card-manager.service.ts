@@ -104,9 +104,9 @@ export class CardManagerService {
         if (this.isMessage(result)) {
             return result;
         } else {
-            const cardId: number = this.generateId();
-            const originalImagePath: string = "/" + cardId + Constants.ORIGINAL_FILE;
-            const modifiedImagePath: string = "/" + cardId + Constants.MODIFIED_FILE;
+            const cardId:               number = this.generateId();
+            const originalImagePath:    string = "/" + cardId + Constants.ORIGINAL_FILE;
+            const modifiedImagePath:    string = "/" + cardId + Constants.MODIFIED_FILE;
             this.imageManagerService.stockImage(Constants.IMAGES_PATH + originalImagePath, this.originalImageRequest);
             this.imageManagerService.stockImage(Constants.IMAGES_PATH + modifiedImagePath, this.modifiedImageRequest);
             this.imageManagerService.createBMP(result, cardId);
