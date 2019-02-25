@@ -120,9 +120,7 @@ describe("Arena tests", () => {
         .then((response: any) => {
             return response;
         })
-        .catch((error: Error) => {
-            // console.log(error);
-        });
+        .catch((error: Error) => { /* */ });
 
         chai.expect(spy).to.have.been.called();
     });
