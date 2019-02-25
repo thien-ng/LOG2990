@@ -141,7 +141,7 @@ describe("Cluster Counter tests", () => {
         done();
     });
 
-    it("should handle a given width bigger than the given array length ", (done: Function) => {
+    it("should handle a given width bigger than the given buffer lenght ", (done: Function) => {
         const newBuilder: BMPBuilder = new BMPBuilder(1, 1, WHITE);
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 0);
         const WIDTH: number = 10;
