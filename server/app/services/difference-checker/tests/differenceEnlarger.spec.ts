@@ -49,14 +49,14 @@ describe("Difference Enlarger tests", () => {
         const width:  number = 1;
         const height: number = 1;
 
-        const singlePixelBuilder: BMPBuilder = new BMPBuilder(width, height, WHITE);
+        const singlePixelBuilder:   BMPBuilder = new BMPBuilder(width, height, WHITE);
         singlePixelBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 0);
 
         const singlePixelBuffer:    Buffer = singlePixelBuilder.buffer;
         const expectedOutputBuffer: Buffer = Buffer.from(singlePixelBuilder.buffer);
 
-        const enlarger: DifferenceEnlarger = new DifferenceEnlarger(singlePixelBuffer, width, RADIUS);
-        const bufferAfterEnlarger: Buffer = enlarger.enlargeAllDifferences();
+        const enlarger:             DifferenceEnlarger = new DifferenceEnlarger(singlePixelBuffer, width, RADIUS);
+        const bufferAfterEnlarger:  Buffer = enlarger.enlargeAllDifferences();
 
         expect(bufferAfterEnlarger).to.deep.equal(expectedOutputBuffer);
         done();
