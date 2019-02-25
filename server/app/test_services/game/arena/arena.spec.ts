@@ -147,8 +147,8 @@ describe("Arena tests", () => {
     it("should validate hit with a call to a microservice", async () => {
 
         const expectedResponse: IPlayerInputResponse = {
-            status: Constants.ON_SUCCESS_MESSAGE,
-            response: expectedPixelClusters,
+            status:     Constants.ON_SUCCESS_MESSAGE,
+            response:   expectedPixelClusters,
         };
         const sandbox: sinon.SinonSandbox = sinon.createSandbox();
         sandbox.stub(arena, "onPlayerClick").callsFake( async () => of(expectedResponse).toPromise());
