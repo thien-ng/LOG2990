@@ -104,18 +104,18 @@ describe("Difference Enlarger tests", () => {
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 0);
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 1, 1);
 
-        const givenBuffer: Buffer = Buffer.from(newBuilder.buffer);
+        const givenBuffer:      Buffer = Buffer.from(newBuilder.buffer);
 
-        const expectedBuilder: BMPBuilder = new BMPBuilder(4, 4, BLACK);
+        const expectedBuilder:  BMPBuilder = new BMPBuilder(4, 4, BLACK);
 
-        const expectedBuffer: Buffer = Buffer.from(expectedBuilder.buffer);
+        const expectedBuffer:   Buffer = Buffer.from(expectedBuilder.buffer);
 
-        let circleDifferences: DifferenceEnlarger;
+        let circleDifferences:  DifferenceEnlarger;
         const width: number = 4;
         const radius: number = 4;
 
         circleDifferences = new DifferenceEnlarger(givenBuffer, width, radius);
-        const computedArray: Buffer = circleDifferences.enlargeAllDifferences();
+        const computedArray:    Buffer = circleDifferences.enlargeAllDifferences();
         expect(computedArray).deep.equal(expectedBuffer);
         done();
     });
