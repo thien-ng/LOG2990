@@ -20,17 +20,23 @@ export class SceneManager {
         this.sceneModifier = new SceneModifier(this.sceneBuilder);
     }
 
-    public createScene(body: FormMessage): ISceneVariablesMessage | string {
+    public createScene(formMessage: FormMessage): ISceneVariablesMessage | string {
 
-        if (this.cardManagerService.isSceneNameNew(body.gameName)) {
-            const iSceneOptions: ISceneOptions = this.sceneOptionsMapper(body);
-            const generatedOriginalScene: ISceneVariables = this.sceneBuilder.generateScene(iSceneOptions);
-            const generatedModifiedScene: ISceneVariables = this.sceneModifier.modifyScene(iSceneOptions, generatedOriginalScene);
+        const isFormValid: boolean = this.validateForm(formMessage);
 
-            return {
-                originalScene: generatedOriginalScene,
-                modifiedScene: generatedModifiedScene,
-            } as ISceneVariablesMessage;
+        if (this.cardManagerService.isSceneNameNew(formMessage.gameName)) {
+            if (isFormValid) {
+                const iSceneOptions: ISceneOptions = this.sceneOptionsMapper(formMessage);
+                const generatedOriginalScene: ISceneVariables = this.sceneBuilder.generateScene(iSceneOptions);
+                const generatedModifiedScene: ISceneVariables = this.sceneModifier.modifyScene(iSceneOptions, generatedOriginalScene);
+
+                return {
+                    originalScene: generatedOriginalScene,
+                    modifiedScene: generatedModifiedScene,
+                } as ISceneVariablesMessage;
+            } else {
+                return Constants.CARD_CREATION_ERROR;
+            }
         } else {
             return Constants.CARD_EXISTING;
         }
@@ -67,4 +73,35 @@ export class SceneManager {
         return sceneTypeIdentified;
     }
 
+    private validateForm(form: FormMessage): boolean {
+        return  this.validateName(form.gameName) &&
+                this.validateTheme(form.theme) &&
+                this.validateQuantity(form.quantityChange) &&
+                this.validateCheckedTypes(form.checkedTypes);
+    }
+
+    private validateName(name: string): boolean {
+        const expression: RegExp = new RegExp(Constants.REGEX_FORMAT);
+
+        return (expression.test(name));
+    }
+
+    private validateTheme(theme: string): boolean {
+        return (theme === Constants.THEME_GEOMETRIC || theme === Constants.THEME_THEMATIC);
+    }
+
+    private validateQuantity(quantity: number): boolean {
+        return (quantity >= Constants.MIN_ITEMS_IN_SCENE && quantity <= Constants.MAX_ITEMS_IN_SCENE);
+    }
+
+    private validateCheckedTypes(list: [boolean, boolean, boolean]): boolean {
+        let isAtLeastOneChecked: boolean = false;
+        list.forEach((element: boolean) => {
+            if (element) {
+                isAtLeastOneChecked = true;
+            }
+        });
+
+        return isAtLeastOneChecked;
+    }
 }
