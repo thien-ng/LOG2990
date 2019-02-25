@@ -107,8 +107,8 @@ describe("Arena tests", () => {
 
     it("should be able to extract original pixel clusters from buffers ", async () => {
 
-        const spy: any = chai.spy.on(arena, "extractOriginalPixelClusters");
-        mockAxios = new MockAdapter.default(axios);
+        const spy: any  = chai.spy.on(arena, "extractOriginalPixelClusters");
+        mockAxios       = new MockAdapter.default(axios);
 
         mockAxios.onGet(arenaInfo.originalGameUrl, {
             responseType: "arraybuffer",
