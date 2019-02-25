@@ -47,44 +47,56 @@ const playerInputClick: IPlayerInput = {
     event:      Constants.CLICK_EVENT,
     arenaId:    1,
     user:       activeUser,
-    position: {
-        x: 1,
-        y: 1,
-    },
+    position: hitPosition,
 };
 const playerInputWrong: IPlayerInput = {
     event:      "wrongInput",
     arenaId:    1,
     user:       activeUser,
-    position: {
-        x: 1,
-        y: 1,
-    },
+    position: hitPosition,
 };
 let arena: Arena;
 const arenaInfo: IArenaInfos = {
         arenaId:            1,
         users:              [activeUser],
-        originalGameUrl:    "http://localhost:3000/images/1_original.bmp",
-        differenceGameUrl:  "http://localhost:3000/images/1_generated.bmp",
+        originalGameUrl:    "http://localhost:3000/image/1_original.bmp",
+        differenceGameUrl:  "http://localhost:3000/image/1_generated.bmp",
     };
 
 const axios: AxiosInstance = require("axios");
 
 let gameManager:            GameManagerService;
 const testImageOriginale:   Buffer = fs.readFileSync(path.resolve(__dirname, "../../../asset/image/1_original.bmp"));
-// const testImageDiff:        Buffer = fs.readFileSync(path.resolve(__dirname, "../../../asset/image/1_generated.bmp"));
 
 let mockAxios: any;
 
 describe("Arena tests", () => {
 
-    beforeEach(() => {
+    beforeEach(async () => {
         gameManager = new GameManagerService(new UserManagerService());
         arena = new Arena(arenaInfo, gameManager);
         arena.timer.stopTimer();
         mockAxios = new MockAdapter.default(axios);
         chai.use(spies);
+
+        // build arena with images bufferOriginal & bufferDifferences
+        const builder: BMPBuilder = new BMPBuilder(4, 4, 100);
+        const bufferOriginal: Buffer = Buffer.from(builder.buffer);
+        builder.setColorAtPos(1, 1, 1, 1, 1);
+        const bufferDifferences: Buffer = Buffer.from(builder.buffer);
+
+        mockAxios.onGet(arenaInfo.originalGameUrl).replyOnce(200, () => {
+            return bufferOriginal;
+        });
+        mockAxios.onGet(arenaInfo.differenceGameUrl).replyOnce(200, () => {
+            return bufferDifferences;
+        });
+
+        await arena.prepareArenaForGameplay()
+        .then(() => { /* */ })
+        .catch((error: Error) => {
+            // errorMessage = error.message;
+        });
 
     });
 
