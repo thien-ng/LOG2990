@@ -66,8 +66,8 @@ export class Cache {
 
         allObsolescences.forEach((obsol: number, index: number) => {
             if (obsol > maxFound) {
-                maxFound = obsol;
-                indexOfMax = index;
+                maxFound    = obsol;
+                indexOfMax  = index;
             }
         });
 
