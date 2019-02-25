@@ -130,7 +130,7 @@ describe("Cluster Counter tests", () => {
         done();
     });
 
-    it("should count no clusters in an empty given array", (done: Function) => {
+    it("should count no clusters in an empty buffer", (done: Function) => {
         const diffList: Buffer = Buffer.alloc(0);
         const WIDTH: number = 0;
 
