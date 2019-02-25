@@ -48,6 +48,7 @@ export class Constants {
   public static readonly START_ID_3D:               number = 2000;
 
   public static readonly CARD_EXISTING:             string = "Le titre de la carte existe déjà";
+  public static readonly CARD_CREATION_ERROR:       string = "Les données entrées sont invalides";
 
   // Constants for card-manager-controller
   public static readonly DEFAULT_CARD_ID:           number = 1;
@@ -74,4 +75,8 @@ export class Constants {
   public static readonly URL_HIT_VALIDATOR:         string = "http://localhost:3000/api/hitvalidator";
   public static readonly ONE_SECOND:                number = 1000;
   public static readonly ON_ERROR_PIXEL_CLUSTER:    IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
+
+  // Constants for scene manager service
+  public static readonly MIN_ITEMS_IN_SCENE: number = 10;
+  public static readonly MAX_ITEMS_IN_SCENE: number = 200;
 }
