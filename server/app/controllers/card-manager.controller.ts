@@ -19,13 +19,13 @@ const MODIFIED_IMAGE_NAME:  string = "modifiedImage";
 export class CardManagerController {
 
     public constructor(
-        @inject(Types.CardManagerService) private cardManagerService: CardManagerService,
-        @inject(Types.CardOperations) private cardOperations: CardOperations) { }
+        @inject(Types.CardManagerService)   private cardManagerService: CardManagerService,
+        @inject(Types.CardOperations)       private cardOperations:     CardOperations) { }
 
     public get router(): Router {
 
         const upload: multer.Instance = multer();
-        const router: Router = Router();
+        const router: Router =          Router();
 
         const receivedFile: RequestHandler = upload.fields(
             [
