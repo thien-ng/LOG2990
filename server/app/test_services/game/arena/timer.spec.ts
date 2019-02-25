@@ -31,11 +31,19 @@ describe("Timer tests", async () => {
     });
 
     it("should stop the timer", () => {
-        const spy: any = chai.spy.on(timer, "stopTimer");
+        clock = sinon.useFakeTimers();
 
         timer.startTimer();
+        clock.tick(2019);
         timer.stopTimer();
-        chai.expect(spy).to.have.been.called();
+        clock.tick(1010);
+
+        const calculatedTimeSinceStart: number = timer.getTimeSinceStart();
+        const expectedTimeSinceStart: number = 2;
+
+        chai.expect(calculatedTimeSinceStart).to.equal(expectedTimeSinceStart);
+        clock.restore();
+
     });
 
     it("should start the timer", () => {
