@@ -53,7 +53,7 @@ export class Constants {
   public static readonly MIN_GAME_LENGTH:           number = 5;
   public static readonly MAX_GAME_LENGTH:           number = 20;
   public static readonly GAME_FORMAT_LENTGH_ERROR:  string = "Le titre du jeu doit contenir entre 5 et 20 caracteres";
-  public static readonly GAME_SUCCESS_MESSAGE:      string = "SUCCESS";
+  public static readonly GAME_TITLE_IS_CORRECT:     string = "SUCCESS";
 
   // Constants for card-manager-controller
   public static readonly DEFAULT_CARD_ID:           number = 1;
