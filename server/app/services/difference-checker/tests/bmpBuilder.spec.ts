@@ -41,11 +41,12 @@ describe("BMPBuilder tests", () => {
     });
 
     it("should build a buffer of the right lenght", (done: Function) => {
-        const totalBufferLenght: number = bufferObtained.length;
-        const headerSize: number = 54;
-        const pixelCount: number = 2 * 3;
-        const paddingTotal: number = 6;
+        const totalBufferLenght:    number = bufferObtained.length;
+        const headerSize:           number = 54;
+        const pixelCount:           number = 2 * 3;
+        const paddingTotal:         number = 6;
         const expectedBufferLenght: number = headerSize + pixelCount * 3 + paddingTotal;
+
         expect(totalBufferLenght).to.equal(expectedBufferLenght);
         done();
     });
