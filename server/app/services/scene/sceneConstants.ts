@@ -24,8 +24,8 @@ export class SceneConstants {
     public static readonly THREE: number = 3;
 
     // Constants for scene-manager.service.ts
-    public static readonly TYPE_GEOMETRIC: string = "Geometric";
-    public static readonly TYPE_THEMATIC: string = "Thematic";
+    public static readonly TYPE_GEOMETRIC: string = "geometric";
+    public static readonly TYPE_THEMATIC: string = "thematic";
 
     // Constants for scene-modifier.ts
     public static readonly OPTION_ADD: string = "add";
