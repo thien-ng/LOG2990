@@ -214,6 +214,21 @@ describe("Arena tests", () => {
         chai.expect(responseToPlayerInput).to.deep.equal(playerInputResponseExpected);
         mockAxios.restore();
     });
+
+    it("should be able to return a hit validation response", async () => {
+
+        const hitConfirmationExpected: IHitConfirmation = {
+            isAHit: true,
+            hitPixelColor: [ 1, 1, 1],
+        };
+
+        mockAxios.onPost(Constants.URL_HIT_VALIDATOR).reply(200, hitConfirmationExpected);
+
+        const responseToValidation: IHitConfirmation = await arena.validateHit(hitPosition);
+
+        chai.expect(responseToValidation).to.deep.equal(hitConfirmationExpected);
+
+    });
     it("should return the players in the arena", async () => {
         const players: Player[] = arena.getPlayers();
         const playerInside: Player = new Player(activeUser);
