@@ -82,18 +82,18 @@ describe("Difference checker service tests", () => {
 
         const requirements: ImageRequirements = {
             requiredHeight: 480,
-            requiredWidth: 640,
+            requiredWidth:  640,
             requiredNbDiff: 7,
-            originalImage: testImageOg,
-            modifiedImage: testImageDiff3,
+            originalImage:  testImageOg,
+            modifiedImage:  testImageDiff3,
         };
 
-        const expectedMessage: Message = {
+        const result:           Message | Buffer = differenceCheckerService.generateDifferenceImage(requirements);
+        const expectedMessage:  Message = {
             title: "onError",
             body: Constants.ERROR_UNEQUAL_DIMENSIONS,
         };
 
-        const result: Message | Buffer = differenceCheckerService.generateDifferenceImage(requirements);
         expect(result).to.deep.equal(expectedMessage);
     });
 });
