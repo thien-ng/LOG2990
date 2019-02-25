@@ -20,13 +20,13 @@ export class SceneManager {
         this.sceneModifier = new SceneModifier(this.sceneBuilder);
     }
 
-    public createScene(body: FormMessage): ISceneVariablesMessage | string {
+    public createScene(formMessage: FormMessage): ISceneVariablesMessage | string {
 
-        const isFormValid: boolean = this.validateForm(body);
+        const isFormValid: boolean = this.validateForm(formMessage);
 
-        if (this.cardManagerService.isSceneNameNew(body.gameName)) {
+        if (this.cardManagerService.isSceneNameNew(formMessage.gameName)) {
             if (isFormValid){
-                const iSceneOptions: ISceneOptions = this.sceneOptionsMapper(body);
+                const iSceneOptions: ISceneOptions = this.sceneOptionsMapper(formMessage);
                 const generatedOriginalScene: ISceneVariables = this.sceneBuilder.generateScene(iSceneOptions);
                 const generatedModifiedScene: ISceneVariables = this.sceneModifier.modifyScene(iSceneOptions, generatedOriginalScene);
 
