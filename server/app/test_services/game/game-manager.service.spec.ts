@@ -51,8 +51,8 @@ const iArenaInfos: IArenaInfos = {
 };
 
 const playerInput: IPlayerInput = {
-    event: "onClick",
-    arenaId: 1,
+    event:      "onClick",
+    arenaId:    1,
     user: {
         username: "Frank",
         socketID: "12345",
