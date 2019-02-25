@@ -37,10 +37,10 @@ const request3D: IGameRequest = {
 };
 
 const invalidRequest: IGameRequest = {
-    username: "Frankette",
-    gameId: 103,
-    type: GameType.singlePlayer,
-    mode: GameMode.invalid,
+    username:   "Frankette",
+    gameId:     103,
+    type:       GameType.singlePlayer,
+    mode:       GameMode.invalid,
 };
 
 const iArenaInfos: IArenaInfos = {
