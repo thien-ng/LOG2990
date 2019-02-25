@@ -20,7 +20,6 @@ export class GameManagerController {
         });
 
         router.post("/validate", async (req: Request, res: Response, next: NextFunction) => {
-
             res.json(await this.gameManagerService.onPlayerInput(req.body));
         });
 
