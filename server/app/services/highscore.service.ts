@@ -69,14 +69,15 @@ export class HighscoreService {
     }
 
     public findHighScoreByID(id: number): number {
-            let index: number = DOESNT_EXIST;
-            this.highscores.forEach((highscore: Highscore) => {
-                    if (highscore.id === id) {
-                        index = this.highscores.indexOf(highscore);
-                    }
-            });
+        let index: number = DOESNT_EXIST;
 
-            return index;
+        this.highscores.forEach((highscore: Highscore) => {
+            if (highscore.id === id) {
+                index = this.highscores.indexOf(highscore);
+            }
+        });
+
+        return index;
     }
 
     public randomTime(min: number, max: number): number {
