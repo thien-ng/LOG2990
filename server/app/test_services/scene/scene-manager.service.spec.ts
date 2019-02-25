@@ -103,6 +103,33 @@ describe("SceneManager Tests", () => {
         }
     });
 
+    it("should return a scene type geometric when the default case is called", () => {
+
+        const sceneType: SceneType | string = sceneManager["objectTypeIdentifier"]("default");
+        chai.expect(sceneType).to.be.equal(SceneType.Geometric);
+    });
+
+    it("should return false if the quantity is over 200", () => {
+        const isValidQuantity: boolean = sceneManager["validateQuantity"](201);
+        chai.expect(isValidQuantity).to.be.equal(false);
+    });
+
+    it("should return false if the theme is invalid", () => {
+        const isThemeValid: boolean = sceneManager["validateTheme"]("invalid");
+        chai.expect(isThemeValid).to.be.equal(false);
+    });
+
+    it("should return false if no types are checked", () => {
+        const isCheckedTypesValid: boolean = sceneManager["validateCheckedTypes"]([false, false, false]);
+        chai.expect(isCheckedTypesValid).to.be.equal(false);
+    });
+
+    it("should return false if the name is invalid", () => {
+        const isNameValid: boolean = sceneManager["validateName"]
+        ("thisnameis wayyy too long for it to be valid, you should not be able to name a game with a name this long");
+        chai.expect(isNameValid).to.be.equal(false);
+    });
+
     it("should return an error message when a game with the same name exists", () => {
 
         formMessage = {
