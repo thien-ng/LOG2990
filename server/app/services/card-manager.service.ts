@@ -187,9 +187,20 @@ export class CardManagerService {
             };
         }
 
+    private validateLength(cardTitle: string): boolean {
+        return !(cardTitle.length < Constants.MIN_GAME_LENGTH || cardTitle.length > Constants.MAX_GAME_LENGTH);
+    }
+
+    private validateFormatRegex(cardTitle: string): boolean {
+        const regex: RegExp = new RegExp(Constants.GAME_REGEX_PATTERN);
+
+        return !regex.test(cardTitle);
+    }
+
+    private buildValidatorMessage(title: string, body: string): Message {
         return {
-            title: Constants.SUCCESS_TITLE,
-            body: Constants.GAME_SUCCESS_MESSAGE,
+            title: title,
+            body: body,
         };
     }
 }
