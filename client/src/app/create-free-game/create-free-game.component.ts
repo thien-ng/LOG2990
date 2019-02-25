@@ -42,15 +42,15 @@ export class CreateFreeGameComponent {
   public readonly ATLEASTONE_CHECKED: string = "Au moins une option doit être cochée";
   public readonly NEEDED_SNAPSHOT: boolean = true;
 
-  public formControl: FormGroup;
-  public isSceneGenerated: boolean;
-  public iSceneVariablesMessage: ISceneVariablesMessage;
-
-  public modifTypes: {name: string}[] = [
+  public readonly modifTypes: {name: string}[] = [
       { name: this.EDIT_TYPE_ADD },
       { name: this.EDIT_TYPE_DELETE},
       { name: this.EDIT_TYPE_COLOR},
     ];
+
+  public formControl: FormGroup;
+  public isSceneGenerated: boolean;
+  public iSceneVariablesMessage: ISceneVariablesMessage;
 
   public constructor(
     public dialogRef: MatDialogRef<CreateFreeGameComponent>,
