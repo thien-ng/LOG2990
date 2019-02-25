@@ -57,7 +57,7 @@ export class LoginValidatorComponent {
           return;
         }
 
-        if (response.body === Constants.IS_NOT_USED) {
+        if (response.body === Constants.IS_UNIQUE) {
           this.displayNameIsUnique();
           this.socketService.sendMsg(Constants.LOGIN_REQUEST, this.usernameFormControl.value);
           await this.router.navigate([Constants.ROUTER_LOGIN]);
