@@ -169,23 +169,18 @@ export class CardManagerService {
         };
     }
 
-    private generateCardTitlteMessageError(cardTitle: string): Message {
+    private validateCardTitle(cardTitle: string): Message {
 
-        const regex: RegExp = new RegExp(Constants.GAME_REGEX_PATTERN);
-
-        if (cardTitle.length < Constants.MIN_GAME_LENGTH || cardTitle.length > Constants.MAX_GAME_LENGTH) {
-            return {
-                title: Constants.ERROR_TITLE,
-                body: Constants.GAME_FORMAT_LENTGH_ERROR,
-            };
+        if (!this.validateLength(cardTitle)) {
+            return this.buildValidatorMessage(Constants.ERROR_TITLE, Constants.GAME_FORMAT_LENTGH_ERROR);
         }
 
-        if (!regex.test(cardTitle)) {
-            return {
-                title: Constants.ERROR_TITLE,
-                body: Constants.GAME_FORMAT_REGEX_ERROR,
-            };
+        if (this.validateFormatRegex(cardTitle)) {
+            return this.buildValidatorMessage(Constants.ERROR_TITLE, Constants.GAME_FORMAT_REGEX_ERROR);
         }
+
+        return this.buildValidatorMessage(Constants.SUCCESS_TITLE, Constants.GAME_TITLE_IS_CORRECT);
+    }
 
     private validateLength(cardTitle: string): boolean {
         return !(cardTitle.length < Constants.MIN_GAME_LENGTH || cardTitle.length > Constants.MAX_GAME_LENGTH);
