@@ -123,9 +123,9 @@ export class CardOperations {
     private findCard3D(id: number): number {
         let index: number = Constants.DOESNT_EXIST;
         this.cards.list3D.forEach((card: ICard) => {
-                if (card.gameID === id) {
-                    index = this.cards.list3D.indexOf(card);
-                }
+            if (card.gameID === id) {
+                index = this.cards.list3D.indexOf(card);
+            }
         });
 
         return index;
