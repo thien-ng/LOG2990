@@ -93,10 +93,16 @@ describe("GameManagerService tests", () => {
     });
 
     it("Should return buildArenaInfo successfully", async () => {
+        const arenaInfo: IArenaInfos = {
+            arenaId: 1000,
+            users: [{username: "Frank", socketID: "12345"}],
+            originalGameUrl: Constants.PATH_TO_IMAGES + "1" + Constants.ORIGINAL_FILE,
+            differenceGameUrl: Constants.PATH_TO_IMAGES + "1" + Constants.GENERATED_FILE,
+        };
         chai.spy.on(gameManagerService, "buildArenaInfos");
         chai.expect(
-            gameManagerService["buildArenaInfos"]({username: "user", socketID: "awdaw"}, 1))
-            .to.deep.equal(iArenaInfos);
+            gameManagerService["buildArenaInfos"]({username: "Frank", socketID: "12345"}, 1))
+            .to.deep.equal(arenaInfo);
     });
 
     it("Should return a success message when creating a 2D arena", async () => {
@@ -111,9 +117,9 @@ describe("GameManagerService tests", () => {
         }).reply(200, modified);
 
         chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
-        chai.spy.on(gameManagerService, "init2DArena", () => {
-            gameManagerService["arena"].timer.stopTimer();
-        });
+        // chai.spy.on(gameManagerService, "init2DArena", () => {
+        //     gameManagerService["arena"].timer.stopTimer();
+        // });
 
         const message: Message = await gameManagerService.analyseRequest(request2D);
         chai.expect(message.title).to.equal("onSuccess");
@@ -194,8 +200,8 @@ describe("GameManagerService tests", () => {
         });
 
         gameManagerService.analyseRequest(request2D).catch();
-        gameManagerService.unsubscribeSocketID("12345", "patate");
-        chai.expect(gameManagerService["arena"].getPlayers().length).to.deep.equal(1);
+        gameManagerService.unsubscribeSocketID("12345", "Frank");
+        chai.expect(gameManagerService["arena"].getPlayers().length).to.deep.equal(0);
 
     });
 
@@ -228,7 +234,5 @@ describe("GameManagerService tests", () => {
         gameManagerService.sendMessage("socketID", "onEvent", 1);
         verify(socket.emit("onEvent", 1)).atLeast(0);
     });
-
-    
 
 });

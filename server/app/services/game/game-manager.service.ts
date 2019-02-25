@@ -56,12 +56,7 @@ export class GameManagerService {
 
         const arenaInfo: IArenaInfos = this.buildArenaInfos(user, gameId);
         this.arena = new Arena(arenaInfo, this);
-        this.init2DArena().catch((error: Error) => {
-            return {
-                title: Constants.ERROR_TITLE,
-                body: Constants.UNKNOWN_ERROR,
-            };
-        });
+        this.init2DArena().catch(() => Constants.INIT_ARENA_ERROR);
         this.arenas.set(arenaInfo.arenaId, this.arena);
 
         return {
@@ -110,6 +105,7 @@ export class GameManagerService {
     private removePlayerFromArena(username: string): void {
         this.arenas.forEach((arena: Arena) => {
             arena.getPlayers().forEach((player: Player) => {
+                arena.removePlayer(username);
                 if (player.username === username) {
                     arena.removePlayer(username);
                 }
