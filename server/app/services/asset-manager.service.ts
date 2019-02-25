@@ -1,17 +1,16 @@
 import * as fs from "fs";
 import { Constants } from "../constants";
 
-const IMAGES_PATH: string = "./app/asset/image";
-const FILE_GENERATION_ERROR: string = "error while generating file";
-const FILE_DELETION_ERROR: string = "error while deleting file";
-const FILE_SAVING_ERROR: string = "error while saving file";
+const IMAGES_PATH:              string = "./app/asset/image";
+const FILE_GENERATION_ERROR:    string = "error while generating file";
+const FILE_DELETION_ERROR:      string = "error while deleting file";
+const FILE_SAVING_ERROR:        string = "error while saving file";
 
 export class AssetManagerService {
 
     public createBMP(buffer: Buffer, cardId: number): number {
 
         const path: string = IMAGES_PATH + "/" + cardId + Constants.GENERATED_FILE;
-
         this.stockImage(path, buffer);
 
         return cardId;
