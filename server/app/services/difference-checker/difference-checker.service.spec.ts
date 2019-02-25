@@ -25,11 +25,12 @@ describe("Difference checker service tests", () => {
         const requirements: ImageRequirements = {
             requiredHeight: 480,
             requiredWidth:  640,
-            requiredNbDiff:   7,
-            originalImage: testImageOg,
-            modifiedImage: testImageDiff,
+            requiredNbDiff: 7,
+            originalImage:  testImageOg,
+            modifiedImage:  testImageDiff,
         };
         const result: Message | Buffer = differenceCheckerService.generateDifferenceImage(requirements);
+
         expect(result).instanceof(Buffer);
     });
 
