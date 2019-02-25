@@ -56,6 +56,7 @@ export class HighscoreService {
     public generateNewHighscore(id: number): void {
         const index: number = this.findHighScoreByID(id);
         this.setMaxValue(index);
+
         this.highscores[index].timesMulti.forEach(() => {
             this.checkScore(this.randomTime(MIN_TIME, MAX_TIME), this.highscores[index].timesMulti);
             this.checkScore(this.randomTime(MIN_TIME, MAX_TIME), this.highscores[index].timesSingle);
