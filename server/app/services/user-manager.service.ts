@@ -48,10 +48,10 @@ export class UserManagerService {
             };
             this.nameList.push(user);
 
-            return this.generateMessage(Constants.IS_UNIQUE_NAME, Constants.SUCCESS_TITLE);
+            return this.generateMessage(Constants.SUCCESS_TITLE, Constants.IS_UNIQUE_NAME);
         }
 
-        return this.generateMessage(Constants.NOT_UNIQUE_NAME, Constants.SUCCESS_TITLE);
+        return this.generateMessage(Constants.SUCCESS_TITLE, Constants.NOT_UNIQUE_NAME);
     }
 
     public getUserByUsername(username: string): IUser | string {
@@ -82,17 +82,17 @@ export class UserManagerService {
         const regex: RegExp = new RegExp(Constants.REGEX_FORMAT);
 
         if (username.length < Constants.MIN_VALUE || username.length > Constants.MAX_VALUE) {
-            return this.generateMessage(Constants.NAME_FORMAT_LENTGH_ERROR, Constants.ERROR_TITLE);
+            return this.generateMessage(Constants.ERROR_TITLE, Constants.NAME_FORMAT_LENTGH_ERROR);
         }
 
         if (!regex.test(username)) {
-            return this.generateMessage(Constants.NAME_FORMAT_REGEX_ERROR, Constants.ERROR_TITLE);
+            return this.generateMessage(Constants.ERROR_TITLE, Constants.NAME_FORMAT_REGEX_ERROR);
         }
 
         return this.generateMessage(Constants.SUCCESS_TITLE, Constants.SUCCESS_TITLE);
     }
 
-    private generateMessage(result: string, type: string): Message {
+    private generateMessage(type: string, result: string): Message {
 
         return {
             title: type,
