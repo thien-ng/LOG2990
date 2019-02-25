@@ -18,9 +18,9 @@ import { UserManagerService } from "../../services/user-manager.service";
 
 let gameManagerService: GameManagerService;
 let userManagerService: UserManagerService;
-const mockAdapter: any = require("axios-mock-adapter");
-const axios: any = require("axios");
-let mockAxios: any;
+const mockAdapter:  any = require("axios-mock-adapter");
+const axios:        any = require("axios");
+let mockAxios:      any;
 
 const request2D: IGameRequest = {
     username: "Frank",
