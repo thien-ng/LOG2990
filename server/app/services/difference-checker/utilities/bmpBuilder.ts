@@ -85,9 +85,9 @@ export class BMPBuilder {
 
     private buildBaseHeader(): Buffer {
         const signature:   Buffer = Buffer.from(this.HEADER_SIGNATURE.toString(this.BASE_HEXA), this.HEXA);
-        const fileSize:    Buffer = Buffer.from(this.spanNumberOnNBytes(this.getFileSize(),        this.BYTE_SPAN_4));
-        const reserved:    Buffer = Buffer.from(this.spanNumberOnNBytes(this.HEADER_RESERVED,      this.BYTE_SPAN_4));
-        const dataOffset:  Buffer = Buffer.from(this.spanNumberOnNBytes(this.HEADER_DATAOFFSET,    this.BYTE_SPAN_4));
+        const fileSize:    Buffer = Buffer.from(this.spanNumberOnNBytes(this.getFileSize(),     this.BYTE_SPAN_4));
+        const reserved:    Buffer = Buffer.from(this.spanNumberOnNBytes(this.HEADER_RESERVED,   this.BYTE_SPAN_4));
+        const dataOffset:  Buffer = Buffer.from(this.spanNumberOnNBytes(this.HEADER_DATAOFFSET, this.BYTE_SPAN_4));
 
         const bufferArray: Buffer[] = [
             signature,
