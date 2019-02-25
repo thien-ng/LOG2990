@@ -141,7 +141,7 @@ describe("SceneManager Tests", () => {
 
         const sceneVariables: ISceneVariablesMessage | string = sceneManager.createScene(formMessage);
         if (typeof sceneVariables === "string") {
-            chai.expect(sceneVariables).to.equal(Constants.CARD_CREATION_ERROR);
+            chai.expect(sceneVariables).to.equal(Constants.CARD_EXISTING);
         }
     });
 });
