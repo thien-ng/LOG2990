@@ -9,9 +9,6 @@ import { SceneBuilder } from "./scene-builder";
 import { SceneModifier } from "./scene-modifier";
 import { SceneConstants } from "./sceneConstants";
 
-const THEME_GEOMETRIC: string = "geometric";
-const THEME_THEMATIC: string = "thematic";
-
 @injectable()
 export class SceneManager {
 
@@ -28,16 +25,20 @@ export class SceneManager {
         const isFormValid: boolean = this.validateForm(body);
 
         if (this.cardManagerService.isSceneNameNew(body.gameName) && isFormValid) {
-            const iSceneOptions: ISceneOptions = this.sceneOptionsMapper(body);
-            const generatedOriginalScene: ISceneVariables = this.sceneBuilder.generateScene(iSceneOptions);
-            const generatedModifiedScene: ISceneVariables = this.sceneModifier.modifyScene(iSceneOptions, generatedOriginalScene);
+            if (isFormValid){
+                const iSceneOptions: ISceneOptions = this.sceneOptionsMapper(body);
+                const generatedOriginalScene: ISceneVariables = this.sceneBuilder.generateScene(iSceneOptions);
+                const generatedModifiedScene: ISceneVariables = this.sceneModifier.modifyScene(iSceneOptions, generatedOriginalScene);
 
-            return {
-                originalScene: generatedOriginalScene,
-                modifiedScene: generatedModifiedScene,
-            } as ISceneVariablesMessage;
+                return {
+                    originalScene: generatedOriginalScene,
+                    modifiedScene: generatedModifiedScene,
+                } as ISceneVariablesMessage;
+            } else {
+                return Constants.CARD_CREATION_ERROR;
+            }
         } else {
-            return Constants.CARD_CREATION_ERROR;
+            return Constants.CARD_EXISTING;
         }
     }
 
@@ -86,7 +87,7 @@ export class SceneManager {
     }
 
     private validateTheme(theme: string): boolean {
-        return (theme === THEME_GEOMETRIC || theme === THEME_THEMATIC);
+        return (theme === Constants.THEME_GEOMETRIC || theme === Constants.THEME_THEMATIC);
     }
 
     private validateQuantity(quantity: number): boolean {
