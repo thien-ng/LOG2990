@@ -23,7 +23,9 @@ export class Timer {
 
     public startTimer(): void {
         this.timer = setInterval(
-            this.updateTimeSinceStart,
+            () => {
+                this.updateTimeSinceStart();
+            },
             Constants.ONE_SECOND);
     }
 
