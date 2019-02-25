@@ -105,10 +105,11 @@ describe("BMPBuilder tests", () => {
     });
 
     it("should create a buffer with the right amount of padding at each row", (done: Function) => {
-        const HEADER_SIZE: number = 54;
-        const pixelSize: number = 3;
-        const paddingExpected: number = 6;
-        const totalLenghtExpected: number = HEADER_SIZE + paddingExpected + WIDTH * HEIGHT * pixelSize;
+        const HEADER_SIZE:          number = 54;
+        const pixelSize:            number = 3;
+        const paddingExpected:      number = 6;
+        const totalLenghtExpected:  number = HEADER_SIZE + paddingExpected + WIDTH * HEIGHT * pixelSize;
+
         expect(bufferObtained.length).to.equal(totalLenghtExpected);
         done();
     });
