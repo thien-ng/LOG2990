@@ -75,39 +75,24 @@ describe("Cluster Counter tests", () => {
         done();
     });
 
-    // it("should count clusters in a horizontal array", (done: Function) => {
-    //     const diffList: number[] = [ 1, 0, 1, 1, 0, 0, 0, 1,
-    //                                  1, 0, 0, 1, 1, 0, 0, 1,
-    //                                  0, 0, 1, 1, 0, 0, 1, 0,
-    //                                  1, 1, 0, 0, 0, 0, 0, 1,
-    //                                 ];
-    //     const WIDTH: number = 8;
+    it("should count clusters in a horizontal array", (done: Function) => {
+        const HEIGHT:   number = 1;
+        const WIDTH:    number = 8;
 
-    //     const clusterCounter: ClusterCounter = new ClusterCounter(diffList, WIDTH);
-    //     const count: number = clusterCounter.countAllClusters();
-    //     const expectedAnswer: number = 3;
-    //     expect(count).to.equal(expectedAnswer);
-    //     done();
-    // });
+        const newBuilder: BMPBuilder = new BMPBuilder(WIDTH, HEIGHT, WHITE);
+        newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 0);
+        newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 1, 0);
+        newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 4, 0);
+        newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 5, 0);
 
-    // it("should count clusters in a vertical array", (done: Function) => {
-    //     const diffList: number[] = [ 0, 0, 1, 1,
-    //                                  0, 0, 0, 1,
-    //                                  0, 0, 0, 1,
-    //                                  0, 0, 0, 1,
-    //                                  0, 0, 0, 1,
-    //                                  0, 0, 1, 0,
-    //                                  0, 0, 0, 0,
-    //                                  1, 0, 0, 1,
-    //                                 ];
-    //     const WIDTH: number = 4;
+        const bufferWIthDiff: Buffer = Buffer.from(newBuilder.buffer);
 
-    //     const clusterCounter: ClusterCounter = new ClusterCounter(diffList, WIDTH);
-    //     const count: number = clusterCounter.countAllClusters();
-    //     const expectedAnswer: number = 3;
-    //     expect(count).to.equal(expectedAnswer);
-    //     done();
-    // });
+        const clusterCounter: ClusterCounter = new ClusterCounter(bufferWIthDiff, WIDTH);
+        const numberOfDiffFound: number = clusterCounter.countAllClusters();
+
+        expect(numberOfDiffFound).to.equal(2);
+        done();
+    });
 
     it("should count clusters in an single cell array with a difference", (done: Function) => {
         const width:    number = 1;
