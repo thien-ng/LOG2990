@@ -17,6 +17,10 @@ export class Timer {
         return this.timerUpdated.asObservable();
     }
 
+    public getTimeSinceStart(): number {
+        return this.secondsSinceStart;
+    }
+
     public startTimer(): void {
         this.timer = setInterval(
             this.updateTimeSinceStart,
