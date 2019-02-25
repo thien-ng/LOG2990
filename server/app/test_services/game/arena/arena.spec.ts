@@ -267,51 +267,11 @@ describe("Arena tests", () => {
         const clock: any = sinon.useFakeTimers();
         const spy: any = chai.spy.on(arena.gameManagerService, "sendMessage");
 
-        const builder: BMPBuilder = new BMPBuilder(4, 4, 100);
-        const bufferOriginal: Buffer = Buffer.from(builder.buffer);
-        builder.setColorAtPos(1, 1, 1, 1, 1);
-        const bufferDifferences: Buffer = Buffer.from(builder.buffer);
-
-        mockAxios.onGet(arenaInfo.originalGameUrl).replyOnce(200, () => {
-            return bufferOriginal;
-        });
-        mockAxios.onGet(arenaInfo.differenceGameUrl).replyOnce(200, () => {
-            return bufferDifferences;
-        });
-/*
-export interface IHitToValidate {
-    position:      IPosition2D;
-    imageUrl:           string;
-    colorToIgnore:    number[];
-}
-*/
-        const hitToValidate: IHitToValidate = {
-            position: {
-                x: 1,
-                y: 1,
-            },
-            imageUrl: "url",
-            colorToIgnore: [255, 255, 255],
-        };
-
-        const hitConfirmation: IHitConfirmation = {
-            isAHit: true,
-            hitPixelColor: [ 1, 1, 1],
-        };
-        mockAxios.onPost(Constants.URL_HIT_VALIDATOR, hitToValidate)
-        .reply(200, {
-            // hit confirmaiton
-                isAHit: true,
-                color: [ 1, 1, 1],
-            },
-        );
-
-        const expectedResponse: IPlayerInputResponse = {
-            status: Constants.ON_SUCCESS_MESSAGE,
-            response: Constants.ON_ERROR_PIXEL_CLUSTER,
-        };
-        const sandbox: sinon.SinonSandbox = sinon.createSandbox();
-        sandbox.stub(arena, "validateHit").callsFake(() => of(hitConfirmation).toPromise());
+        arena["initTimer"]();
+        clock.tick(1010);
+        chai.expect(spy).to.have.been.called();
+        clock.restore();
+    });
 
         await arena.prepareArenaForGameplay()
         .then(() => { /* */ })
