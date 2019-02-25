@@ -242,5 +242,50 @@ describe("Card-manager tests", () => {
 
         chai.expect(result).to.deep.equal({title: Constants.ON_ERROR_MESSAGE, body: typeError.message});
     });
+});
 
+describe("cardManagerService CardTitle test", () => {
+    const original: Buffer = fs.readFileSync(path.resolve(__dirname, "../asset/image/testBitmap/imagetestOg.bmp"));
+    const modified: Buffer = fs.readFileSync(path.resolve(__dirname, "../asset/image/testBitmap/imagetestOg.bmp"));
+
+    const requirements: ImageRequirements = {
+        requiredHeight: Constants.REQUIRED_HEIGHT,
+        requiredWidth: Constants.REQUIRED_WIDTH,
+        requiredNbDiff: Constants.REQUIRED_NB_DIFF,
+        originalImage: original,
+        modifiedImage: modified,
+    };
+
+    it ("should return error of game title length if name is too short", (done: Function) => {
+        let messageTitle: string = "";
+        cardManagerService.simpleCardCreationRoutine(requirements, "123")
+        .then((message: Message) => {
+            messageTitle = message.body;
+            chai.expect(messageTitle).to.equal(Constants.GAME_FORMAT_LENTGH_ERROR);
+        }).catch();
+
+        done();
+    });
+
+    it ("should return error of game title length if name is too long", (done: Function) => {
+        let messageTitle: string = "";
+        cardManagerService.simpleCardCreationRoutine(requirements, "superTitreDeJeuBeaucoupTropLong")
+        .then((message: Message) => {
+            messageTitle = message.body;
+            chai.expect(messageTitle).to.equal(Constants.GAME_FORMAT_LENTGH_ERROR);
+        }).catch();
+
+        done();
+    });
+
+    it ("should return error of game title regex format if game title contains non alphanumeric character", (done: Function) => {
+        let messageTitle: string = "";
+        cardManagerService.simpleCardCreationRoutine(requirements, "titre*@#$")
+        .then((message: Message) => {
+            messageTitle = message.body;
+            chai.expect(messageTitle).to.equal(Constants.GAME_FORMAT_REGEX_ERROR);
+        }).catch();
+
+        done();
+    });
 });
