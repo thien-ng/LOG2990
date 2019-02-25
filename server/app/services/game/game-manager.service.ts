@@ -21,6 +21,7 @@ export class GameManagerService {
     private arenaID: number;
     private playerList: Map<string, SocketIO.Socket>;
     private arenas: Map<number, Arena>;
+    public arena: Arena;
 
     public constructor(@inject(Types.UserManagerService) private userManagerService: UserManagerService) {
         this.playerList = new Map<string, SocketIO.Socket>();
@@ -54,14 +55,18 @@ export class GameManagerService {
     private async create2DArena(user: IUser, gameId: number): Promise<Message> {
 
         const arenaInfo: IArenaInfos = this.buildArenaInfos(user, gameId);
-        const newArena: Arena = new Arena(arenaInfo, this);
-        await newArena.prepareArenaForGameplay();
-        this.arenas.set(arenaInfo.arenaId, newArena);
+        this.arena = new Arena(arenaInfo, this);
+        this.init2DArena().catch(() => Constants.INIT_ARENA_ERROR);
+        this.arenas.set(arenaInfo.arenaId, this.arena);
 
         return {
             title:  Constants.ON_SUCCESS_MESSAGE,
             body:   arenaInfo.arenaId.toString(),
         };
+    }
+
+    private async init2DArena(): Promise<void> {
+        await this.arena.prepareArenaForGameplay();
     }
 
     private buildArenaInfos(user: IUser, gameId: number): IArenaInfos {
@@ -100,6 +105,7 @@ export class GameManagerService {
     private removePlayerFromArena(username: string): void {
         this.arenas.forEach((arena: Arena) => {
             arena.getPlayers().forEach((player: Player) => {
+                arena.removePlayer(username);
                 if (player.username === username) {
                     arena.removePlayer(username);
                 }

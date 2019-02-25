@@ -63,8 +63,9 @@ export class Constants {
 
   // Constants for game manager
   public static readonly PATH_TO_IMAGES:            string = Constants.BASE_URL + "/image/";
-  public static readonly UNIQUE_NAME:               string = "true";
-  public static readonly NOT_UNIQUE_NAME:           string = "false";
+  public static readonly IS_UNIQUE_NAME:            string = "isUnique";
+  public static readonly NOT_UNIQUE_NAME:           string = "isNotUnique";
+  public static readonly INIT_ARENA_ERROR:          string = "Erreur lors de l'initialisation de l'arène 2D";
 
   // Constants for user manager service
   public static readonly USER_NOT_FOUND:            string = "Utilisateur inexistant";
