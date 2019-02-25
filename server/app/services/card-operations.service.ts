@@ -132,8 +132,7 @@ export class CardOperations {
     }
 
     private cardEqual(card: ICard, element: ICard): boolean {
-        return (element.gameID === card.gameID ||
-                element.title === card.title);
+        return (element.gameID === card.gameID || element.title === card.title);
     }
 
     public generateErrorMessage(error: Error): Message {
