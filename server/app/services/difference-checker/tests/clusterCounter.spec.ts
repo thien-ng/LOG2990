@@ -58,22 +58,22 @@ describe("Cluster Counter tests", () => {
         done();
     });
 
-    // it("should count touching clusters (diagonal) as one", (done: Function) => {
-    //     const width:    number = 4;
-    //     const height:   number = 4;
+    it("should count touching clusters (diagonal) as one", (done: Function) => {
+        const width:    number = 4;
+        const height:   number = 4;
 
-    //     const newBuilder: BMPBuilder = new BMPBuilder(width, height, WHITE);
-    //     newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 0);
-    //     newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 1, 1);
+        const newBuilder: BMPBuilder = new BMPBuilder(width, height, WHITE);
+        newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 0);
+        newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 1, 1);
 
-    //     const bufferWIthDiff: Buffer = Buffer.from(newBuilder.buffer);
+        const bufferWIthDiff: Buffer = Buffer.from(newBuilder.buffer);
 
-    //     const clusterCounter: ClusterCounter = new ClusterCounter(bufferWIthDiff, width);
-    //     const numberOfDiffFound: number = clusterCounter.countAllClusters();
+        const clusterCounter: ClusterCounter = new ClusterCounter(bufferWIthDiff, width);
+        const numberOfDiffFound: number = clusterCounter.countAllClusters();
 
-    //     expect(numberOfDiffFound).equal(1);
-    //     done();
-    // });
+        expect(numberOfDiffFound).equal(1);
+        done();
+    });
 
     // it("should count clusters in a horizontal array", (done: Function) => {
     //     const diffList: number[] = [ 1, 0, 1, 1, 0, 0, 0, 1,
