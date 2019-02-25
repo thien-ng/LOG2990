@@ -37,6 +37,11 @@ describe("Timer tests", async () => {
         timer.stopTimer();
         chai.expect(spy).to.have.been.called();
     });
+
+    it("should start the timer", () => {
+        const spy: any = chai.spy.on(timer, "startTimer");
+
+        timer.startTimer();
         timer.stopTimer();
         chai.expect(spy).to.have.been.called();
     });
