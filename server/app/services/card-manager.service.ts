@@ -21,17 +21,18 @@ export class CardManagerService {
     private modifiedImageRequest:   Buffer;
     private imageManagerService:    AssetManagerService;
 
-    private uniqueId: number;
-    private uniqueIdScene: number;
+    private uniqueId:               number;
+    private uniqueIdScene:          number;
 
     public constructor( @inject(Types.CardOperations) private cardOperations: CardOperations) {
 
-        this.uniqueId = Constants.START_ID_2D;
-        this.uniqueIdScene = Constants.START_ID_3D;
-        this.cards = cardOperations.getCardList();
+        this.uniqueId               = Constants.START_ID_2D;
+        this.uniqueIdScene          = Constants.START_ID_3D;
+        this.cards                  = cardOperations.getCardList();
+        this.imageManagerService    = new AssetManagerService();
+
         this.cardOperations.addCard2D(DefaultCard2D);
         this.cardOperations.addCard3D(DefaultCard3D);
-        this.imageManagerService = new AssetManagerService();
     }
 
     public async simpleCardCreationRoutine(requirements: ImageRequirements, cardTitle: string): Promise<Message> {
