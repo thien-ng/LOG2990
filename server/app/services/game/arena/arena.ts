@@ -32,9 +32,9 @@ export class Arena {
     private readonly POINTS_TO_WIN_MULTI:   number = 4;
 
     private pointsNeededToWin:      number;
-    private players:                Player[];
     private differencesFound:       number[];
-    public timer:                  Timer;
+    private players:                Player[];
+    public timer:                   Timer;
     private originalPixelClusters:  Map<number, IOriginalPixelCluster>;
 
     public constructor(
