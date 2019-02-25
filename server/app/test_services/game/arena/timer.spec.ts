@@ -13,18 +13,20 @@ let clock: any;
 beforeEach(() => {
     chai.use(spies);
     timer = new Timer();
-
 });
 
 describe("Timer tests", async () => {
 
-    it("should start the timer", async (done: Function) => {
-        const spy: any = chai.spy.on(timer, "updateTimeSinceStart");
-        timer.startTimer();
+    it("should update the timer", async (done: Function) => {
+        clock = sinon.useFakeTimers();
 
-        setTimeout(() => {
-            chai.expect(spy).to.have.been.called();
-        },         1010);
+        timer.startTimer();
+        clock.tick(1010);
+        const secondSinceStart: number = timer.getTimeSinceStart();
+        timer.stopTimer();
+        chai.expect(secondSinceStart).to.equal(1);
+        clock.restore();
+
         done();
     });
 
