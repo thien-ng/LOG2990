@@ -80,3 +80,15 @@ export class SceneManager {
     private validateQuantity(quantity: number): boolean {
         return (quantity >= Constants.MIN_ITEMS_IN_SCENE && quantity <= Constants.MAX_ITEMS_IN_SCENE);
     }
+
+    private validateCheckedTypes(list: [boolean, boolean, boolean]): boolean {
+        let isAtLeastOneChecked: boolean = false;
+        list.forEach((element: boolean) => {
+            if (element) {
+                isAtLeastOneChecked = true;
+            }
+        });
+
+        return isAtLeastOneChecked;
+    }
+}
