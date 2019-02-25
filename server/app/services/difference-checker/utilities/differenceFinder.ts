@@ -35,9 +35,9 @@ export class DifferenceFinder {
 
     private findDifference(originalBuffer: Buffer, modifiedBuffer: Buffer): void {
 
-        let bufferIndex: number = Constants.BMP_HEADER_SIZE;
-        let assignedValue: number;
-        let areEqual: Boolean;
+        let bufferIndex:    number = Constants.BMP_HEADER_SIZE;
+        let assignedValue:  number;
+        let areEqual:       Boolean;
 
         while (bufferIndex < originalBuffer.length) {
             areEqual = this.bufferHasEqualPixel(originalBuffer, modifiedBuffer, bufferIndex);
