@@ -40,16 +40,17 @@ describe("Difference checker service tests", () => {
 
         const requirements: ImageRequirements = {
             requiredHeight: 480,
-            requiredWidth: 640,
+            requiredWidth:  640,
             requiredNbDiff: 7,
-            originalImage: testImageOg,
-            modifiedImage: testImageDiff1,
+            originalImage:  testImageOg,
+            modifiedImage:  testImageDiff1,
         };
-        const result: Message | Buffer = differenceCheckerService.generateDifferenceImage(requirements);
-        const expectedMessage: Message = {
+        const result:           Message | Buffer = differenceCheckerService.generateDifferenceImage(requirements);
+        const expectedMessage:  Message = {
             title: "onError",
             body: Constants.ERROR_MISSING_DIFFERENCES,
         };
+
         expect(result).to.deep.equal(expectedMessage);
     });
 
