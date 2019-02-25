@@ -9,6 +9,9 @@ import { SceneBuilder } from "./scene-builder";
 import { SceneModifier } from "./scene-modifier";
 import { SceneConstants } from "./sceneConstants";
 
+const THEME_GEOMETRIC: string = "geometric";
+const THEME_THEMATIC: string = "thematic";
+
 @injectable()
 export class SceneManager {
 
@@ -22,7 +25,9 @@ export class SceneManager {
 
     public createScene(body: FormMessage): ISceneVariablesMessage | string {
 
-        if (this.cardManagerService.isSceneNameNew(body.gameName)) {
+        const isFromValid: boolean = this.validateFrom(body);
+
+        if (this.cardManagerService.isSceneNameNew(body.gameName) && isFromValid) {
             const iSceneOptions: ISceneOptions = this.sceneOptionsMapper(body);
             const generatedOriginalScene: ISceneVariables = this.sceneBuilder.generateScene(iSceneOptions);
             const generatedModifiedScene: ISceneVariables = this.sceneModifier.modifyScene(iSceneOptions, generatedOriginalScene);
@@ -32,7 +37,7 @@ export class SceneManager {
                 modifiedScene: generatedModifiedScene,
             } as ISceneVariablesMessage;
         } else {
-            return Constants.CARD_EXISTING;
+            return Constants.CARD_CREATION_ERROR;
         }
     }
 
@@ -74,7 +79,7 @@ export class SceneManager {
                 this.validateCheckedTypes(form.checkedTypes);
     }
 
-    private validateName(name: string): boolean{
+    private validateName(name: string): boolean {
         const expression: RegExp = new RegExp(Constants.REGEX_FORMAT);
 
         return (expression.test(name));
