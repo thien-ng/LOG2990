@@ -89,8 +89,8 @@ export class CardOperations {
         }
 
         const paths: string[] = [
-            Constants.IMAGES_PATH + "/" + id + Constants.GENERATED_SNAPSHOT,
-            Constants.SCENE_PATH + "/" + id + Constants.SCENES_FILE,
+            Constants.IMAGES_PATH   + "/" + id + Constants.GENERATED_SNAPSHOT,
+            Constants.SCENE_PATH    + "/" + id + Constants.SCENES_FILE,
         ];
         try {
             this.imageManagerService.deleteStoredImages(paths);
