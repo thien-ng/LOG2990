@@ -21,11 +21,11 @@ import { Constants } from "../constants";
 })
 export class CreateFreeGameComponent {
 
-  public isButtonEnabled: boolean = true;
-  public sliderValue: number = 100;
-  public addChecked: boolean = false;
-  public delChecked: boolean = false;
-  public colorChecked: boolean = false;
+  public isButtonEnabled: boolean;
+  public sliderValue: number;
+  public addChecked: boolean;
+  public delChecked: boolean;
+  public colorChecked: boolean;
   public readonly INVALID_NAME: string = "Nom invalide";
   public readonly MAX_VALUE: number = 200;
   public readonly MIN_VALUE: number = 10;
@@ -42,15 +42,15 @@ export class CreateFreeGameComponent {
   public readonly ATLEASTONE_CHECKED: string = "Au moins une option doit être cochée";
   public readonly NEEDED_SNAPSHOT: boolean = true;
 
-  public formControl: FormGroup;
-  public isSceneGenerated: boolean;
-  public iSceneVariablesMessage: ISceneVariablesMessage;
-
-  public modifTypes: {name: string}[] = [
+  public readonly modifTypes: {name: string}[] = [
       { name: this.EDIT_TYPE_ADD },
       { name: this.EDIT_TYPE_DELETE},
       { name: this.EDIT_TYPE_COLOR},
     ];
+
+  public formControl: FormGroup;
+  public isSceneGenerated: boolean;
+  public iSceneVariablesMessage: ISceneVariablesMessage;
 
   public constructor(
     public dialogRef: MatDialogRef<CreateFreeGameComponent>,
@@ -58,6 +58,12 @@ export class CreateFreeGameComponent {
     private httpClient: HttpClient,
     private snackBar: MatSnackBar,
   ) {
+
+    this.isButtonEnabled = true;
+    this.sliderValue = Constants.DEFAULT_SLIDER_VALUE;
+    this.addChecked = false;
+    this.delChecked = false;
+    this.colorChecked = false;
 
     const controls: FormControl[] = this.modifTypes.map(() => new FormControl(false));
     this.formControl = this.formBuilder.group({

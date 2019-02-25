@@ -8,6 +8,6 @@ import { Constants } from "../../constants";
 })
 export class LoginViewComponent {
 
-  public LOGO_URL: string = Constants.PATH_TO_IMAGES + "/logo.png";
+  public readonly LOGO_URL: string = Constants.PATH_TO_IMAGES + "/logo.png";
 
 }

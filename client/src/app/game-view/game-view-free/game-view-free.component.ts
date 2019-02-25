@@ -18,8 +18,9 @@ export class GameViewFreeComponent implements OnInit {
   public originalVariables: ISceneVariables;
   public modifiedVariables: ISceneVariables;
   public activeCard: ICard;
-  private gameType: GameType;
   public gameRequest: IGameRequest;
+
+  private gameType: GameType;
 
   public constructor(
     private httpClient: HttpClient,

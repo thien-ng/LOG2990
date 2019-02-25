@@ -20,14 +20,16 @@ export class HighscoreDisplayComponent implements OnInit , OnDestroy {
     Constants.PATH_TO_ICONS + "/bronze.png",  // bronze medal image
   ];
   public highscore: HighscoreMessage;
-  public isLoaded: boolean = false;
+  public isLoaded: boolean;
 
   public readonly SIMPLE: string = "Simple";
   public readonly ONE_VS_ONE: string = "1 vs 1";
   public readonly RANKING: string = "- Classement -";
   private highscoreSubscription: Subscription;
 
-  public constructor(private highscoreService: HighscoreService) {}
+  public constructor(private highscoreService: HighscoreService) {
+    this.isLoaded = false;
+  }
 
   public ngOnInit(): void {
     this.highscoreSubscription = this.highscoreService.getHighscoreUpdateListener()
