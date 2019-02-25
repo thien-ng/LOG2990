@@ -98,12 +98,12 @@ export class ClusterCounter {
 
     private getNeighboringDifferences(pixelPosition: number): number[] {
 
-        const allNeighbors: number[] = this.getAllNeighbors(pixelPosition);
-        const allNeighboringDifferences: number[] = [];
+        const allNeighbors:                 number[] = this.getAllNeighbors(pixelPosition);
+        const allNeighboringDifferences:    number[] = [];
 
         allNeighbors.forEach((neighborsPos: number) => {
-            const neighborsExists: boolean = neighborsPos !== this.DOES_NOT_EXIST;
-            const neighborsIsADifference: boolean = this.pixelIsADifference(neighborsPos);
+            const neighborsExists:          boolean = neighborsPos !== this.DOES_NOT_EXIST;
+            const neighborsIsADifference:   boolean = this.pixelIsADifference(neighborsPos);
 
             if (neighborsExists && neighborsIsADifference) {
                 allNeighboringDifferences.push(neighborsPos);
