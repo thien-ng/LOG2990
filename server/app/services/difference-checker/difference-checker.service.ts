@@ -21,7 +21,6 @@ export class DifferenceCheckerService {
             numberOfDifferences = this.calculateDifferences(requirements);
         } catch (error) {
             return this.sendErrorMessage(error.message); // A DEMANDER AU CHARGE
-
         }
         if (this.imageHasNotDimensionsNeeded(this.bufferOriginal) ||
             this.imageHasNotDimensionsNeeded(this.bufferModified)) {
@@ -30,19 +29,16 @@ export class DifferenceCheckerService {
         }
 
         if (numberOfDifferences === requirements.requiredNbDiff) {
-
             return this.differenceImage;
-
         } else {
-
             return this.sendErrorMessage(Constants.ERROR_MISSING_DIFFERENCES);
         }
     }
 
     private calculateDifferences(requirements: ImageRequirements): number {
 
-        this.bufferOriginal = Buffer.from(requirements.originalImage);
-        this.bufferModified = Buffer.from(requirements.modifiedImage);
+        this.bufferOriginal  = Buffer.from(requirements.originalImage);
+        this.bufferModified  = Buffer.from(requirements.modifiedImage);
 
         this.differenceImage = this.findDifference(this.bufferOriginal, this.bufferModified);
         this.differenceImage = this.enlargeDifferences(this.differenceImage, requirements.requiredWidth);
