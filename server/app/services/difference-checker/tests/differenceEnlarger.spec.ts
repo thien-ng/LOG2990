@@ -65,7 +65,7 @@ describe("Difference Enlarger tests", () => {
     it("should work when given an difference in a corner", (done: Function) => {
         const width:  number = 4;
         const height: number = 4;
-        const inputBuilder: BMPBuilder = new BMPBuilder(width, height, WHITE);
+        const inputBuilder:             BMPBuilder = new BMPBuilder(width, height, WHITE);
         inputBuilder.setColorAtPos(BLACK, BLACK, BLACK, 3, 3);
         const diffInBottomCornerBuffer: Buffer = Buffer.from(inputBuilder.buffer);
 
