@@ -85,4 +85,6 @@ export class Constants {
   // Constants for scene manager service
   public static readonly MIN_ITEMS_IN_SCENE: number = 10;
   public static readonly MAX_ITEMS_IN_SCENE: number = 200;
+  public static readonly THEME_GEOMETRIC: string = "geometric";
+  public static readonly THEME_THEMATIC: string = "thematic";
 }
