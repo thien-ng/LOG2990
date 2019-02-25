@@ -110,13 +110,14 @@ export class CardManagerService {
             this.imageManagerService.stockImage(Constants.IMAGES_PATH + originalImagePath, this.originalImageRequest);
             this.imageManagerService.stockImage(Constants.IMAGES_PATH + modifiedImagePath, this.modifiedImageRequest);
             this.imageManagerService.createBMP(result, cardId);
+
             const cardReceived: ICard = {
-                    gameID: cardId,
-                    title: cardTitle,
-                    subtitle: cardTitle,
+                    gameID:         cardId,
+                    title:          cardTitle,
+                    subtitle:       cardTitle,
                     avatarImageUrl: Constants.BASE_URL + "/image" + originalImagePath,
-                    gameImageUrl: Constants.BASE_URL + "/image" + originalImagePath,
-                    gamemode: GameMode.simple,
+                    gameImageUrl:   Constants.BASE_URL + "/image" + originalImagePath,
+                    gamemode:       GameMode.simple,
             };
 
             return this.verifyCard(cardReceived);
