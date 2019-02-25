@@ -273,7 +273,7 @@ describe("Arena tests", () => {
     it("should set the right number of points to win depending on number of players", () => {
 
         arenaInfo.users = [activeUser, activeUser];
-        arena = new Arena(arenaInfo, gameManager);
+        arena           = new Arena(arenaInfo, gameManager);
         arena.timer.stopTimer();
 
         const pointsNeededToWin: number = arena["pointsNeededToWin"];
