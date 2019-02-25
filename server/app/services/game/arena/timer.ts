@@ -17,15 +17,23 @@ export class Timer {
         return this.timerUpdated.asObservable();
     }
 
+    public getTimeSinceStart(): number {
+        return this.secondsSinceStart;
+    }
+
     public startTimer(): void {
         this.timer = setInterval(
-        () => {
-                this.timerUpdated.next(this.secondsSinceStart++);
+            () => {
+                this.updateTimeSinceStart();
             },
-        Constants.ONE_SECOND);
+            Constants.ONE_SECOND);
     }
 
     public stopTimer(): void {
         clearInterval(this.timer);
+    }
+
+    public updateTimeSinceStart(): void {
+        this.timerUpdated.next(this.secondsSinceStart++);
     }
 }
