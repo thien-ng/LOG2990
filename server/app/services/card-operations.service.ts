@@ -112,9 +112,9 @@ export class CardOperations {
     private findCard2D(id: number): number {
         let index: number = Constants.DOESNT_EXIST;
         this.cards.list2D.forEach((card: ICard) => {
-                if (card.gameID === id) {
-                    index = this.cards.list2D.indexOf(card);
-                }
+            if (card.gameID === id) {
+                index = this.cards.list2D.indexOf(card);
+            }
         });
 
         return index;
