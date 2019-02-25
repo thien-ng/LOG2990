@@ -20,7 +20,7 @@ export class AssetManagerService {
         try {
             fs.writeFileSync(path, Buffer.from(buffer));
         } catch (error) {
-            throw TypeError(FILE_GENERATION_ERROR); // A demander au charge
+            throw TypeError(FILE_GENERATION_ERROR);
         }
     }
 
@@ -29,7 +29,7 @@ export class AssetManagerService {
            try {
             fs.unlinkSync(path);
            } catch (error) {
-               throw TypeError(FILE_DELETION_ERROR); // A demander au charge
+               throw TypeError(FILE_DELETION_ERROR);
            }
         });
     }
