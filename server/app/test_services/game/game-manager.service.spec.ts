@@ -14,7 +14,7 @@ import { Constants } from "../../constants";
 import { IArenaInfos, IPlayerInput } from "../../services/game/arena/interfaces";
 import { GameManagerService } from "../../services/game/game-manager.service";
 import { UserManagerService } from "../../services/user-manager.service";
-/*tslint:disable no-magic-numbers no-any */
+/*tslint:disable no-magic-numbers no-any await-promise */
 
 let gameManagerService: GameManagerService;
 let userManagerService: UserManagerService;
@@ -117,12 +117,14 @@ describe("GameManagerService tests", () => {
         }).reply(200, modified);
 
         chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
-        // chai.spy.on(gameManagerService, "init2DArena", () => {
-        //     gameManagerService["arena"].timer.stopTimer();
-        // });
+        chai.spy.on(gameManagerService, "init2DArena", () => {
+            gameManagerService.arena.timer.stopTimer();
+        });
 
-        const message: Message = await gameManagerService.analyseRequest(request2D);
-        chai.expect(message.title).to.equal("onSuccess");
+        gameManagerService.analyseRequest(request2D).then((message: any) => {
+            chai.expect(message.title).to.equal("onSuccess");
+        }).catch();
+    
     });
 
     it("Should return a success message when creating a 3D arena", async () => {
@@ -195,8 +197,8 @@ describe("GameManagerService tests", () => {
         }).reply(200, modified);
 
         chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
-        chai.spy.on(gameManagerService, "init2DArena", () => {
-            gameManagerService["arena"].timer.stopTimer();
+        chai.spy.on(gameManagerService, "init2DArena", async () => {
+            await gameManagerService["arena"].timer.stopTimer();
         });
 
         gameManagerService.analyseRequest(request2D).catch();

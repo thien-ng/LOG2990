@@ -21,7 +21,7 @@ export class GameManagerService {
     private arenaID: number;
     private playerList: Map<string, SocketIO.Socket>;
     private arenas: Map<number, Arena>;
-    private arena: Arena;
+    public arena: Arena;
 
     public constructor(@inject(Types.UserManagerService) private userManagerService: UserManagerService) {
         this.playerList = new Map<string, SocketIO.Socket>();
