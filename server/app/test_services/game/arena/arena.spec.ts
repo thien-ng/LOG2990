@@ -229,6 +229,22 @@ describe("Arena tests", () => {
         chai.expect(responseToValidation).to.deep.equal(hitConfirmationExpected);
 
     });
+
+    it("should be able to catch an error during the hitValidation process", async () => {
+
+        mockAxios.onPost(Constants.URL_HIT_VALIDATOR, hitPosition).reply(200, { response: "nope"});
+
+        let errorMessage: string = "";
+
+        try {
+           await arena.validateHit(hitPosition);
+        } catch (error) {
+            errorMessage = error.message;
+        }
+
+        chai.expect(errorMessage).to.equal("Problem during Hit Validation process.");
+    });
+
     it("should return the players in the arena", async () => {
         const players: Player[] = arena.getPlayers();
         const playerInside: Player = new Player(activeUser);
