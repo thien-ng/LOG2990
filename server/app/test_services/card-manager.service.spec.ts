@@ -257,4 +257,51 @@ describe("cardManagerService CardTitle test", () => {
             modifiedImage: modified,
         };
 
+        let messageTitle: string = "";
+        cardManagerService.simpleCardCreationRoutine(requirements, "123")
+        .then((message: Message) => {
+            messageTitle = message.body;
+            chai.expect(messageTitle).to.equal(Constants.GAME_FORMAT_LENTGH_ERROR);
+        });
+
+        done();
+    });
+
+    it ("should return error of game title length if name is too long", (done: Function) => {
+        const requirements: ImageRequirements = {
+            requiredHeight: Constants.REQUIRED_HEIGHT,
+            requiredWidth: Constants.REQUIRED_WIDTH,
+            requiredNbDiff: Constants.REQUIRED_NB_DIFF,
+            originalImage: original,
+            modifiedImage: modified,
+        };
+
+        let messageTitle: string = "";
+        cardManagerService.simpleCardCreationRoutine(requirements, "superTitreDeJeuBeaucoupTropLong")
+        .then((message: Message) => {
+            messageTitle = message.body;
+            chai.expect(messageTitle).to.equal(Constants.GAME_FORMAT_LENTGH_ERROR);
+        });
+
+        done();
+    });
+
+    it ("should return error of game title regex format if game title contains non alphanumeric character", (done: Function) => {
+        const requirements: ImageRequirements = {
+            requiredHeight: Constants.REQUIRED_HEIGHT,
+            requiredWidth: Constants.REQUIRED_WIDTH,
+            requiredNbDiff: Constants.REQUIRED_NB_DIFF,
+            originalImage: original,
+            modifiedImage: modified,
+        };
+
+        let messageTitle: string = "";
+        cardManagerService.simpleCardCreationRoutine(requirements, "titre*@#$")
+        .then((message: Message) => {
+            messageTitle = message.body;
+            chai.expect(messageTitle).to.equal(Constants.GAME_FORMAT_REGEX_ERROR);
+        });
+
+        done();
+    });
 });
