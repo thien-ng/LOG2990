@@ -23,10 +23,10 @@ const axios:        any = require("axios");
 let mockAxios:      any;
 
 const request2D: IGameRequest = {
-    username: "Frank",
-    gameId: 1,
-    type: GameType.singlePlayer,
-    mode: GameMode.simple,
+    username:   "Frank",
+    gameId:     1,
+    type:       GameType.singlePlayer,
+    mode:       GameMode.simple,
 };
 
 const request3D: IGameRequest = {
