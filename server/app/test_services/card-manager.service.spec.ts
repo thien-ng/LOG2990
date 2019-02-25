@@ -248,15 +248,15 @@ describe("cardManagerService CardTitle test", () => {
     const original: Buffer = fs.readFileSync(path.resolve(__dirname, "../asset/image/testBitmap/imagetestOg.bmp"));
     const modified: Buffer = fs.readFileSync(path.resolve(__dirname, "../asset/image/testBitmap/imagetestOg.bmp"));
 
-    it ("should return error of game title length if name is too short", (done: Function) => {
-        const requirements: ImageRequirements = {
-            requiredHeight: Constants.REQUIRED_HEIGHT,
-            requiredWidth: Constants.REQUIRED_WIDTH,
-            requiredNbDiff: Constants.REQUIRED_NB_DIFF,
-            originalImage: original,
-            modifiedImage: modified,
-        };
+    const requirements: ImageRequirements = {
+        requiredHeight: Constants.REQUIRED_HEIGHT,
+        requiredWidth: Constants.REQUIRED_WIDTH,
+        requiredNbDiff: Constants.REQUIRED_NB_DIFF,
+        originalImage: original,
+        modifiedImage: modified,
+    };
 
+    it ("should return error of game title length if name is too short", (done: Function) => {
         let messageTitle: string = "";
         cardManagerService.simpleCardCreationRoutine(requirements, "123")
         .then((message: Message) => {
@@ -268,14 +268,6 @@ describe("cardManagerService CardTitle test", () => {
     });
 
     it ("should return error of game title length if name is too long", (done: Function) => {
-        const requirements: ImageRequirements = {
-            requiredHeight: Constants.REQUIRED_HEIGHT,
-            requiredWidth: Constants.REQUIRED_WIDTH,
-            requiredNbDiff: Constants.REQUIRED_NB_DIFF,
-            originalImage: original,
-            modifiedImage: modified,
-        };
-
         let messageTitle: string = "";
         cardManagerService.simpleCardCreationRoutine(requirements, "superTitreDeJeuBeaucoupTropLong")
         .then((message: Message) => {
@@ -287,14 +279,6 @@ describe("cardManagerService CardTitle test", () => {
     });
 
     it ("should return error of game title regex format if game title contains non alphanumeric character", (done: Function) => {
-        const requirements: ImageRequirements = {
-            requiredHeight: Constants.REQUIRED_HEIGHT,
-            requiredWidth: Constants.REQUIRED_WIDTH,
-            requiredNbDiff: Constants.REQUIRED_NB_DIFF,
-            originalImage: original,
-            modifiedImage: modified,
-        };
-
         let messageTitle: string = "";
         cardManagerService.simpleCardCreationRoutine(requirements, "titre*@#$")
         .then((message: Message) => {
