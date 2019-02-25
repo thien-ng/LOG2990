@@ -72,7 +72,9 @@ describe("Hit Validator micro-service tests", () => {
 
     it("should return and error with wrong url", async () => {
 
-        mockAxios.onGet("wrong url bro", {responseType: "arraybuffer"})
+        mockAxios.onGet("wrong url bro", {
+            responseType: "arraybuffer",
+        })
         .reply(400);
 
         hitValidatorService = new HitValidatorService();
