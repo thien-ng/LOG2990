@@ -72,3 +72,7 @@ export class SceneManager {
 
         return (expression.test(name));
     }
+
+    private validateTheme(theme: string): boolean {
+        return (theme === THEME_GEOMETRIC || theme === THEME_THEMATIC);
+    }
