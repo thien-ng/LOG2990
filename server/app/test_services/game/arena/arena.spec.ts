@@ -225,7 +225,6 @@ describe("Arena tests", () => {
         const responseToValidation: IHitConfirmation = await arena.validateHit(hitPosition);
 
         chai.expect(responseToValidation).to.deep.equal(hitConfirmationExpected);
-
     });
 
     it("should be able to catch an error during the hitValidation process", async () => {
@@ -244,8 +243,8 @@ describe("Arena tests", () => {
     });
 
     it("should return the players in the arena", async () => {
-        const players: Player[] = arena.getPlayers();
-        const playerInside: Player = new Player(activeUser);
+        const players:      Player[]    = arena.getPlayers();
+        const playerInside: Player      = new Player(activeUser);
 
         chai.expect(playerInside).to.deep.equal(players[0]);
     });
