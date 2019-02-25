@@ -176,6 +176,27 @@ describe("Arena tests", () => {
         sandbox.restore();
     });
 
+    it("should return a correct PlayerInputResponse", async () => {
+        const playerInputResponseExpected: IPlayerInputResponse = {
+            status:         Constants.ON_SUCCESS_MESSAGE,
+            response:       expectedPixelClusters,
+        };
+
+        const hitConfirmationExpected: IHitConfirmation = {
+            isAHit: true,
+            hitPixelColor: [ 1, 1, 1],
+        };
+
+        mockAxios.onPost(Constants.URL_HIT_VALIDATOR).reply(200, hitConfirmationExpected);
+
+        let responseToPlayerInput: IPlayerInputResponse | void;
+        arena["originalPixelClusters"].set(1, expectedPixelClusters);
+
+        responseToPlayerInput = await arena.onPlayerClick(hitPosition, activeUser);
+
+        chai.expect(responseToPlayerInput).to.deep.equal(playerInputResponseExpected);
+        mockAxios.restore();
+    });
     it("should return the players in the arena", async () => {
         const players: Player[] = arena.getPlayers();
         const playerInside: Player = new Player(activeUser);
