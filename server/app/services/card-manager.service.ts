@@ -196,8 +196,8 @@ export class CardManagerService {
 
     private buildValidatorMessage(title: string, body: string): Message {
         return {
-            title: title,
-            body: body,
+            title:  title,
+            body:   body,
         };
     }
 }
