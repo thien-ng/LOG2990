@@ -48,12 +48,14 @@ export class Constants {
   public static readonly START_ID_3D:               number = 2000;
 
   public static readonly CARD_EXISTING:             string = "Le titre de la carte existe déjà";
+  public static readonly CARD_CREATION_ERROR:       string = "Les données entrées sont invalides";
   public static readonly GAME_REGEX_PATTERN:        string = "^[a-zA-Z0-9]+$";
-  public static readonly GAME_FORMAT_REGEX_ERROR:   string = "Le titre du jeu doit contenir seulement des caracteres alphanumerics";
+  public static readonly GAME_FORMAT_REGEX_ERROR:   string = "Le titre du jeu doit contenir seulement des caracteres alphanumeriques";
   public static readonly MIN_GAME_LENGTH:           number = 5;
   public static readonly MAX_GAME_LENGTH:           number = 20;
-  public static readonly GAME_FORMAT_LENTGH_ERROR:  string = "Le titre du jeu doit contenir entre 5 et 20 caracteres";
-  public static readonly GAME_TITLE_IS_CORRECT:     string = "SUCCESS";
+  public static readonly GAME_FORMAT_LENTGH_ERROR:  string = "Le titre du jeu doit contenir entre" + Constants.MIN_GAME_LENGTH +
+                                                             " et " + Constants.MAX_GAME_LENGTH + "caracteres";
+  public static readonly GAME_TITLE_IS_CORRECT:     string = "Le titre est correct";
 
   // Constants for card-manager-controller
   public static readonly DEFAULT_CARD_ID:           number = 1;
@@ -61,9 +63,9 @@ export class Constants {
 
   // Constants for game manager
   public static readonly PATH_TO_IMAGES:            string = Constants.BASE_URL + "/image/";
-  public static readonly UNIQUE_NAME:               string = "true";
-  public static readonly NOT_UNIQUE_NAME:           string = "false";
-  public static readonly INIT_ARENA_ERROR:          string = "Erreur lors de l'initialisation de l'arene 2D";
+  public static readonly IS_UNIQUE_NAME:            string = "isUnique";
+  public static readonly NOT_UNIQUE_NAME:           string = "isNotUnique";
+  public static readonly INIT_ARENA_ERROR:          string = "Erreur lors de l'initialisation de l'arène 2D";
 
   // Constants for user manager service
   public static readonly USER_NOT_FOUND:            string = "Utilisateur inexistant";
@@ -81,4 +83,10 @@ export class Constants {
   public static readonly URL_HIT_VALIDATOR:         string = "http://localhost:3000/api/hitvalidator";
   public static readonly ONE_SECOND:                number = 1000;
   public static readonly ON_ERROR_PIXEL_CLUSTER:    IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
+
+  // Constants for scene manager service
+  public static readonly MIN_ITEMS_IN_SCENE: number = 10;
+  public static readonly MAX_ITEMS_IN_SCENE: number = 200;
+  public static readonly THEME_GEOMETRIC: string = "geometric";
+  public static readonly THEME_THEMATIC: string = "thematic";
 }

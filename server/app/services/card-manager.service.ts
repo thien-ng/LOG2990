@@ -35,8 +35,9 @@ export class CardManagerService {
     }
 
     public async simpleCardCreationRoutine(requirements: ImageRequirements, cardTitle: string): Promise<Message> {
-        if (this.validateCardTitle(cardTitle).title === Constants.ERROR_TITLE) {
-            return this.validateCardTitle(cardTitle);
+        const nameValidationStatus: Message = this.validateCardTitle(cardTitle);
+        if (nameValidationStatus.title === Constants.ERROR_TITLE) {
+            return nameValidationStatus;
         }
 
         this.originalImageRequest = requirements.originalImage;
@@ -171,22 +172,22 @@ export class CardManagerService {
 
     private validateCardTitle(cardTitle: string): Message {
 
-        if (!this.validateLength(cardTitle)) {
+        if (!this.titleIsValid(cardTitle)) {
             return this.buildValidatorMessage(Constants.ERROR_TITLE, Constants.GAME_FORMAT_LENTGH_ERROR);
         }
 
-        if (this.validateFormatRegex(cardTitle)) {
+        if (this.formatIsValid(cardTitle)) {
             return this.buildValidatorMessage(Constants.ERROR_TITLE, Constants.GAME_FORMAT_REGEX_ERROR);
         }
 
         return this.buildValidatorMessage(Constants.SUCCESS_TITLE, Constants.GAME_TITLE_IS_CORRECT);
     }
 
-    private validateLength(cardTitle: string): boolean {
+    private titleIsValid(cardTitle: string): boolean {
         return !(cardTitle.length < Constants.MIN_GAME_LENGTH || cardTitle.length > Constants.MAX_GAME_LENGTH);
     }
 
-    private validateFormatRegex(cardTitle: string): boolean {
+    private formatIsValid(cardTitle: string): boolean {
         const regex: RegExp = new RegExp(Constants.GAME_REGEX_PATTERN);
 
         return !regex.test(cardTitle);

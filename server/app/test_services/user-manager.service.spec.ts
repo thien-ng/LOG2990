@@ -32,7 +32,7 @@ describe("UserManagerService test", () => {
                             };
         const result: Message = userManagerService.validateName(user.username);
 
-        expect(result.body).to.equal("true");
+        expect(result.body).to.equal("isUnique");
         done();
     });
 
@@ -43,7 +43,7 @@ describe("UserManagerService test", () => {
                             };
         const result: Message = userManagerService.validateName(user.username);
 
-        expect(result.body).to.equal("false");
+        expect(result.body).to.equal("isNotUnique");
         done();
     });
 
