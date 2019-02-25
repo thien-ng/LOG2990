@@ -124,7 +124,7 @@ describe("GameManagerService tests", () => {
         gameManagerService.analyseRequest(request2D).then((message: any) => {
             chai.expect(message.title).to.equal("onSuccess");
         }).catch();
-    
+
     });
 
     it("Should return a success message when creating a 3D arena", async () => {
