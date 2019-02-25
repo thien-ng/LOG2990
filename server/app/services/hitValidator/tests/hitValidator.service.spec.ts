@@ -46,7 +46,9 @@ describe("Hit Validator micro-service tests", () => {
 
     it("should return hit with color from pixel and get image from cache", async () => {
 
-        mockAxios.onGet(iHitToValidate.imageUrl, {responseType: "arraybuffer"})
+        mockAxios.onGet(iHitToValidate.imageUrl, {
+            responseType: "arraybuffer",
+        })
         .reply(200, imageBuffer);
 
         hitValidatorService.confirmHit(iHitToValidate).then((response: any) => {
