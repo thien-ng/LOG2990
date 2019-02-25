@@ -93,11 +93,9 @@ export class UserManagerService {
     }
 
     private generateMessage(type: string, result: string): Message {
-
         return {
-            title: type,
-            body: result,
+            title:  type,
+            body:   result,
         } as Message;
     }
-
 }
