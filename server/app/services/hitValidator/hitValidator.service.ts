@@ -34,8 +34,8 @@ export class HitValidatorService {
         const colorFound: number[] = this.findColorAtPoint(hitToValidate.position, buffer);
 
         return {
-            isAHit: this.isValidHit(hitToValidate, colorFound),
-            hitPixelColor: colorFound,
+            isAHit:         this.isValidHit(hitToValidate, colorFound),
+            hitPixelColor:  colorFound,
         };
     }
 
