@@ -216,8 +216,8 @@ describe("Arena tests", () => {
     it("should be able to return a hit validation response", async () => {
 
         const hitConfirmationExpected: IHitConfirmation = {
-            isAHit: true,
-            hitPixelColor: [ 1, 1, 1],
+            isAHit:         true,
+            hitPixelColor:  [ 1, 1, 1],
         };
 
         mockAxios.onPost(Constants.URL_HIT_VALIDATOR).reply(200, hitConfirmationExpected);
