@@ -7,6 +7,7 @@ export class SceneConstants {
     public static readonly HEX_PREFIX: string = "#";
     public static readonly MIN_COLOR_GRADIENT: number = 0;
     public static readonly MAX_COLOR_GRADIENT: number = 255;
+    public static readonly MIN_BACKGROUND_COLOR_GRADIENT: number = 155;
     // Positions
     public static readonly MAX_POSITION_X: number = 150;
     public static readonly MAX_POSITION_Y: number = 150;

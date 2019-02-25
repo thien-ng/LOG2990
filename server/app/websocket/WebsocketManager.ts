@@ -2,7 +2,7 @@ import * as http from "http";
 import { inject, injectable } from "inversify";
 import * as SocketIO from "socket.io";
 import { IClickMessage, IPlayerInputResponse } from "../../../common/communication/iGameplay";
-import { User } from "../../../common/communication/iUser";
+import { IUser } from "../../../common/communication/iUser";
 import { Constants } from "../constants";
 import { IPlayerInput } from "../services/game/arena/interfaces";
 import { GameManagerService } from "../services/game/game-manager.service";
@@ -22,7 +22,7 @@ export class WebsocketManager {
         this.io = SocketIO(server);
         this.io.on(Constants.CONNECTION, (socket: SocketIO.Socket) => {
 
-            const user: User = {
+            const user: IUser = {
                 username: "",
                 socketID: "",
             };
@@ -48,7 +48,7 @@ export class WebsocketManager {
         });
 
         socket.on(Constants.POSITION_VALIDATION_EVENT, (data: IClickMessage) => {
-            const user: User | string = this.userManagerService.getUserByUsername(data.username);
+            const user: IUser | string = this.userManagerService.getUserByUsername(data.username);
 
             if (typeof user !== "string") {
                 const playerInput: IPlayerInput = this.buildPlayerInput(data, user);
@@ -62,7 +62,7 @@ export class WebsocketManager {
         });
     }
 
-    private buildPlayerInput(data: IClickMessage, user: User): IPlayerInput {
+    private buildPlayerInput(data: IClickMessage, user: IUser): IPlayerInput {
         return {
             event:      Constants.CLICK_EVENT,
             arenaId:    data.arenaID,
@@ -74,7 +74,7 @@ export class WebsocketManager {
         };
     }
 
-    private loginSocketChecker(user: User, socketID: string , socket: SocketIO.Socket): void {
+    private loginSocketChecker(user: IUser, socketID: string , socket: SocketIO.Socket): void {
 
         socket.on(Constants.LOGIN_EVENT, (data: string) => {
             user = {
