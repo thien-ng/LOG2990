@@ -23,8 +23,8 @@ describe("Difference Enlarger tests", () => {
         const bufferWithWrongColor: Buffer = builder.buffer;
         const expectedOutputBuffer: Buffer = Buffer.from(bufferWithWrongColor);
 
-        const enlarger: DifferenceEnlarger = new DifferenceEnlarger(bufferWithWrongColor, 2, RADIUS);
-        const bufferAfterEnlarger: Buffer = enlarger.enlargeAllDifferences();
+        const enlarger:             DifferenceEnlarger = new DifferenceEnlarger(bufferWithWrongColor, 2, RADIUS);
+        const bufferAfterEnlarger:  Buffer = enlarger.enlargeAllDifferences();
 
         expect(bufferAfterEnlarger).deep.equal(expectedOutputBuffer);
         done();
