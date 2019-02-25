@@ -1,13 +1,13 @@
 import { injectable } from "inversify";
 import { Highscore, HighscoreMessage, Mode } from "../../../common/communication/highscore";
 
-const REMOVE_NOTHING: number = 0;
-const MAX_TIME: number = 600;
-const MIN_TIME: number = 180;
-const DOESNT_EXIST: number = -1;
-const SECONDS_IN_MINUTES: number = 60;
-const BASE_DECIMAL: number = 10;
-const MAX_NUMBER: number = Number.MAX_SAFE_INTEGER;
+const REMOVE_NOTHING:       number = 0;
+const MAX_TIME:             number = 600;
+const MIN_TIME:             number = 180;
+const DOESNT_EXIST:         number = -1;
+const SECONDS_IN_MINUTES:   number = 60;
+const BASE_DECIMAL:         number = 10;
+const MAX_NUMBER:           number = Number.MAX_SAFE_INTEGER;
 
 @injectable()
 export class HighscoreService {
