@@ -10,8 +10,8 @@ import { HighscoreService } from "./highscore.service";
 @injectable()
 export class CardOperations {
 
-    private imageManagerService: AssetManagerService;
-    private cards: ICardLists;
+    private imageManagerService:    AssetManagerService;
+    private cards:                  ICardLists;
 
     public constructor(@inject(Types.HighscoreService) private highscoreService: HighscoreService) {
         this.imageManagerService = new AssetManagerService();
