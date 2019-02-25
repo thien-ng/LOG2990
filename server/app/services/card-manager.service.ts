@@ -15,11 +15,11 @@ const axios: Axios.AxiosInstance = require("axios");
 
 @injectable()
 export class CardManagerService {
-    private cards: ICardLists;
+    private cards:                  ICardLists;
 
-    private originalImageRequest: Buffer;
-    private modifiedImageRequest: Buffer;
-    private imageManagerService: AssetManagerService;
+    private originalImageRequest:   Buffer;
+    private modifiedImageRequest:   Buffer;
+    private imageManagerService:    AssetManagerService;
 
     private uniqueId: number;
     private uniqueIdScene: number;
