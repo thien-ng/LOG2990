@@ -65,16 +65,16 @@ export class CardManagerService {
         const sceneImage:   string = "/" + cardId + Constants.SCENE_SNAPSHOT;
         const scenesPath:   string = Constants.SCENE_PATH + "/" + cardId + Constants.SCENES_FILE;
 
-        const scenesPath: string = Constants.SCENE_PATH + "/" + cardId + Constants.SCENES_FILE;
+        this.imageManagerService.saveImage(Constants.IMAGES_PATH + sceneImage, body.image);
         this.saveSceneJson(body.iSceneVariablesMessage, scenesPath);
 
         const cardReceived: ICard = {
-            gameID: cardId,
-            gamemode: GameMode.free,
-            title: body.iSceneVariablesMessage.originalScene.gameName,
-            subtitle: body.iSceneVariablesMessage.originalScene.gameName,
+            gameID:         cardId,
+            gamemode:       GameMode.free,
+            title:          body.iSceneVariablesMessage.originalScene.gameName,
+            subtitle:       body.iSceneVariablesMessage.originalScene.gameName,
             avatarImageUrl: Constants.BASE_URL + "/image" + sceneImage,
-            gameImageUrl: Constants.BASE_URL + "/image" + sceneImage,
+            gameImageUrl:   Constants.BASE_URL + "/image" + sceneImage,
         };
 
         return this.generateMessage(cardReceived);
