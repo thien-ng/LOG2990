@@ -1,6 +1,6 @@
 import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { inject } from "inversify";
-import { User } from "../../../../../common/communication/iUser";
+import { IUser } from "../../../../../common/communication/iUser";
 import { Constants } from "../../../constants";
 import Types from "../../../types";
 import { GameManagerService } from "../game-manager.service";
@@ -20,6 +20,8 @@ import {
 } from "./interfaces";
 import { Timer } from "./timer";
 
+const axios: AxiosInstance = require("axios");
+
 export class Arena {
 
     private readonly ERROR_ON_HTTPGET:      string = "Didn't succeed to get image buffer from URL given. File: arena.ts.";
@@ -31,14 +33,13 @@ export class Arena {
 
     private pointsNeededToWin:      number;
     private players:                Player[];
-    private originalPixelClusters:  Map<number, IOriginalPixelCluster>;
     private differencesFound:       number[];
     public timer:                  Timer;
+    private originalPixelClusters:  Map<number, IOriginalPixelCluster>;
 
     public constructor(
         private arenaInfos: IArenaInfos,
-        @inject(Types.GameManagerService) private gameManagerService: GameManagerService,
-        ) {
+        @inject(Types.GameManagerService) public gameManagerService: GameManagerService) {
         this.players = [];
         this.createPlayers();
         this.originalPixelClusters = new Map<number, IOriginalPixelCluster>();
@@ -50,7 +51,6 @@ export class Arena {
 
     public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {
 
-        const axios:        AxiosInstance       = require("axios");
         const postData:     IHitToValidate      = this.buildPostData(position);
         const postConfig:   AxiosRequestConfig  = this.buildPostConfig();
 
@@ -81,7 +81,7 @@ export class Arena {
         return response;
     }
 
-    public contains(user: User): boolean {
+    public contains(user: IUser): boolean {
         return this.players.some((player: Player) => {
             return player.username === user.username;
         });
@@ -96,7 +96,7 @@ export class Arena {
         }
     }
 
-    private async onPlayerClick(position: IPosition2D, user: User): Promise<IPlayerInputResponse> {
+    public async onPlayerClick(position: IPosition2D, user: IUser): Promise<IPlayerInputResponse> {
 
         let inputResponse: IPlayerInputResponse = this.buildPlayerInputResponse(
             this.ON_FAILED_CLICK,
@@ -105,18 +105,16 @@ export class Arena {
 
         return this.validateHit(position)
         .then((hitConfirmation: IHitConfirmation) => {
+
             const isAnUndiscoveredDifference: boolean = this.isAnUndiscoveredDifference(hitConfirmation.hitPixelColor[0]);
+
             if (hitConfirmation.isAHit && isAnUndiscoveredDifference) {
-
                 this.onHitConfirmation(user, hitConfirmation);
-
-                // ECQ CEST LIGNES LA ON DEVRAIT LES METTRE DANS onHitConfirmation ??
                 const pixelCluster: IOriginalPixelCluster | undefined = this.originalPixelClusters.get(hitConfirmation.hitPixelColor[0]);
+
                 if (pixelCluster !== undefined) {
                     inputResponse = this.buildPlayerInputResponse(Constants.ON_SUCCESS_MESSAGE, pixelCluster);
                 }
-
-                // EST CE QUE CA CA DOIT ALLER LA?
                 if (this.gameIsFinished()) {
                     this.endOfGameRoutine();
                 }
@@ -129,7 +127,7 @@ export class Arena {
         });
     }
 
-    private onHitConfirmation(user: User, hitConfirmation: IHitConfirmation): void {
+    private onHitConfirmation(user: IUser, hitConfirmation: IHitConfirmation): void {
         this.attributePoints(user);
         this.addToDifferencesFound(hitConfirmation.hitPixelColor[0]);
     }
@@ -155,7 +153,7 @@ export class Arena {
         return this.differencesFound.indexOf(differenceIndex) < 0;
     }
 
-    private attributePoints(user: User): void {
+    private attributePoints(user: IUser): void {
         const player: Player | undefined = this.players.find( (p: Player) => {
             return p.username === user.username;
         });
@@ -197,8 +195,6 @@ export class Arena {
 
     private async getImageFromUrl(imageUrl: string): Promise<Buffer> {
 
-        const axios: AxiosInstance = require("axios");
-
         return axios
             .get(imageUrl, {
                 responseType: "arraybuffer",
@@ -227,7 +223,7 @@ export class Arena {
     }
 
     private createPlayers(): void {
-        this.arenaInfos.users.forEach((user: User) => {
+        this.arenaInfos.users.forEach((user: IUser) => {
             this.players.push(new Player(user));
         });
     }

@@ -98,79 +98,25 @@ describe("Difference Enlarger tests", () => {
         done();
     });
 
-    // it("should work when given an array with 1 in a corner", (done: Function) => {
-    //     let circleDifferences: DifferenceEnlarger;
-    //     const givenArray: number[] =   [0, 0, 0, 0,
-    //                                     1, 0, 0, 0];
+    it("should work when given a buffered image with 1 in a corner", (done: Function) => {
 
-    //     const expectedArray: number[] = [1, 1, 1, 1,
-    //                                      1, 1, 1, 1];
-    //     const width: number = 4;
-    //     const radius: number = 3;
+        const newBuilder: BMPBuilder = new BMPBuilder(4, 4, WHITE);
+        newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 0);
+        newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 1, 1);
 
-    //     circleDifferences = new DifferenceEnlarger(givenArray, width, radius);
-    //     const computedArray: number[] = circleDifferences.enlargeAllDifferences();
-    //     expect(computedArray).deep.equal(expectedArray);
-    //     done();
-    // });
+        const givenBuffer: Buffer = Buffer.from(newBuilder.buffer);
 
-    // it("should work when given an array 2x5", (done: Function) => {
-    //     let circleDifferences: DifferenceEnlarger;
-    //     const givenArray: number[] =   [0, 0, 0, 0, 0,
-    //                                     1, 0, 0, 0, 0];
+        const expectedBuilder: BMPBuilder = new BMPBuilder(4, 4, BLACK);
 
-    //     const expectedArray: number[] = [1, 1, 1, 1, 0,
-    //                                      1, 1, 1, 1, 0];
-    //     const width: number = 5;
-    //     const radius: number = 3;
+        const expectedBuffer: Buffer = Buffer.from(expectedBuilder.buffer);
 
-    //     circleDifferences = new DifferenceEnlarger(givenArray, width, radius);
-    //     const computedArray: number[] = circleDifferences.enlargeAllDifferences();
-    //     expect(computedArray).deep.equal(expectedArray);
-    //     done();
-    // });
+        let circleDifferences: DifferenceEnlarger;
+        const width: number = 4;
+        const radius: number = 4;
 
-    // it("should work when given an array 5x5", (done: Function) => {
-    //     let circleDifferences: DifferenceEnlarger;
-    //     const givenArray: number[] =   [0, 0, 0, 0, 0,
-    //                                     0, 0, 0, 0, 0,
-    //                                     0, 0, 1, 0, 0,
-    //                                     0, 0, 0, 0, 0,
-    //                                     0, 0, 0, 0, 0];
-
-    //     const expectedArray: number[] = [1, 1, 1, 1, 1,
-    //                                      1, 1, 1, 1, 1,
-    //                                      1, 1, 1, 1, 1,
-    //                                      1, 1, 1, 1, 1,
-    //                                      1, 1, 1, 1, 1];
-    //     const width: number = 5;
-    //     const radius: number = 3;
-
-    //     circleDifferences = new DifferenceEnlarger(givenArray, width, radius);
-    //     const computedArray: number[] = circleDifferences.enlargeAllDifferences();
-    //     expect(computedArray).deep.equal(expectedArray);
-    //     done();
-    // });
-
-    // it("should work when given an array 5x5 with 1 in the corner", (done: Function) => {
-    //     let circleDifferences: DifferenceEnlarger;
-    //     const givenArray: number[] =   [0, 0, 0, 0, 1,
-    //                                     0, 0, 0, 0, 0,
-    //                                     0, 0, 0, 0, 0,
-    //                                     0, 0, 0, 0, 0,
-    //                                     0, 0, 0, 0, 0];
-
-    //     const expectedArray: number[] =    [0, 1, 1, 1, 1,
-    //                                         0, 1, 1, 1, 1,
-    //                                         0, 0, 1, 1, 1,
-    //                                         0, 0, 0, 1, 1,
-    //                                         0, 0, 0, 0, 0];
-    //     const width: number = 5;
-    //     const radius: number = 3;
-
-    //     circleDifferences = new DifferenceEnlarger(givenArray, width, radius);
-    //     const computedArray: number[] = circleDifferences.enlargeAllDifferences();
-    //     expect(computedArray).deep.equal(expectedArray);
-    //     done();
-    // });
+        circleDifferences = new DifferenceEnlarger(givenBuffer, width, radius);
+        const computedArray: Buffer = circleDifferences.enlargeAllDifferences();
+        expect(computedArray).deep.equal(expectedBuffer);
+        done();
+    });
 });

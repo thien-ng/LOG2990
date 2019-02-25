@@ -2,7 +2,7 @@ import { inject, injectable } from "inversify";
 import { GameMode } from "../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../common/communication/iGameRequest";
 import { IOriginalPixelCluster, IPlayerInputResponse } from "../../../../common/communication/iGameplay";
-import { User } from "../../../../common/communication/iUser";
+import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
 import { Constants } from "../../constants";
 import Types from "../../types";
@@ -37,7 +37,7 @@ export class GameManagerService {
     }
 
     public async analyseRequest(request: IGameRequest): Promise<Message> {
-        const user: User | string = this.userManagerService.getUserByUsername(request.username);
+        const user: IUser | string = this.userManagerService.getUserByUsername(request.username);
         if (typeof user === "string") {
             return this.returnError(Constants.USER_NOT_FOUND);
         } else {
@@ -52,7 +52,7 @@ export class GameManagerService {
         }
     }
 
-    private async create2DArena(user: User, gameId: number): Promise<Message> {
+    private async create2DArena(user: IUser, gameId: number): Promise<Message> {
 
         const arenaInfo: IArenaInfos = this.buildArenaInfos(user, gameId);
         this.arena = new Arena(arenaInfo, this);
@@ -69,7 +69,7 @@ export class GameManagerService {
         await this.arena.prepareArenaForGameplay();
     }
 
-    private buildArenaInfos(user: User, gameId: number): IArenaInfos {
+    private buildArenaInfos(user: IUser, gameId: number): IArenaInfos {
         return {
             arenaId:            this.generateArenaID(),
             users:              [user],

@@ -1,10 +1,10 @@
-import { User } from "../../../../../common/communication/iUser";
+import { IUser } from "../../../../../common/communication/iUser";
 
 export class Player {
 
     private _points: number;
 
-    public constructor(private user: User) {
+    public constructor(private user: IUser) {
         this._points = 0;
     }
 

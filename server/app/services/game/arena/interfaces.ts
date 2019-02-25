@@ -1,5 +1,5 @@
 import { IPosition2D } from "../../../../../common/communication/iGameplay";
-import { User } from "../../../../../common/communication/iUser";
+import { IUser } from "../../../../../common/communication/iUser";
 
 export interface IHitToValidate {
     position:      IPosition2D;
@@ -9,7 +9,7 @@ export interface IHitToValidate {
 
 export interface IArenaInfos {
     arenaId:            number;
-    users:              User[];
+    users:              IUser[];
     originalGameUrl:    string;
     differenceGameUrl:  string;
 }
@@ -22,6 +22,6 @@ export interface IHitConfirmation {
 export interface IPlayerInput {
     event:      string;
     arenaId:    number;
-    user:       User;
+    user:       IUser;
     position:   IPosition2D;
 }
