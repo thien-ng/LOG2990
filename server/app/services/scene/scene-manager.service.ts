@@ -67,6 +67,13 @@ export class SceneManager {
         return sceneTypeIdentified;
     }
 
+    private validateFrom(form: FormMessage): boolean {
+        return  this.validateName(form.gameName) &&
+                this.validateTheme(form.theme) &&
+                this.validateQuantity(form.quantityChange) &&
+                this.validateCheckedTypes(form.checkedTypes);
+    }
+
     private validateName(name: string): boolean{
         const expression: RegExp = new RegExp(Constants.REGEX_FORMAT);
 
