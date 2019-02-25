@@ -96,7 +96,6 @@ export class Arena {
         }
     }
 
-    // tslint:disable-next-line:max-func-body-length
     public async onPlayerClick(position: IPosition2D, user: IUser): Promise<IPlayerInputResponse> {
 
         let inputResponse: IPlayerInputResponse = this.buildPlayerInputResponse(
@@ -110,15 +109,12 @@ export class Arena {
             const isAnUndiscoveredDifference: boolean = this.isAnUndiscoveredDifference(hitConfirmation.hitPixelColor[0]);
 
             if (hitConfirmation.isAHit && isAnUndiscoveredDifference) {
-
                 this.onHitConfirmation(user, hitConfirmation);
-
                 const pixelCluster: IOriginalPixelCluster | undefined = this.originalPixelClusters.get(hitConfirmation.hitPixelColor[0]);
 
                 if (pixelCluster !== undefined) {
                     inputResponse = this.buildPlayerInputResponse(Constants.ON_SUCCESS_MESSAGE, pixelCluster);
                 }
-
                 if (this.gameIsFinished()) {
                     this.endOfGameRoutine();
                 }
