@@ -1,23 +1,23 @@
 import { injectable } from "inversify";
-import { User } from "../../../common/communication/iUser";
+import { IUser } from "../../../common/communication/iUser";
 import { Message } from "../../../common/communication/message";
 import { Constants } from "../constants";
 
 @injectable()
 export class UserManagerService {
 
-    private nameList: User[];
+    private nameList: IUser[];
 
     public constructor() {
         this.nameList = [];
     }
 
-    public get users(): User[] {
+    public get users(): IUser[] {
         return this.nameList;
     }
 
-    public updateSocketID(newUserInfo: User): void {
-        this.nameList.some((user: User): boolean => {
+    public updateSocketID(newUserInfo: IUser): void {
+        this.nameList.some((user: IUser): boolean => {
             if (user.socketID === newUserInfo.socketID) {
                 user.username = newUserInfo.username;
 
@@ -29,7 +29,7 @@ export class UserManagerService {
             return false;
         });
 
-        this.nameList = this.nameList.filter((user: User) => {
+        this.nameList = this.nameList.filter((user: IUser) => {
             return user.socketID !== "undefined";
         });
     }
@@ -42,7 +42,7 @@ export class UserManagerService {
         }
 
         if (this.isUnique(username)) {
-            const user: User = {
+            const user: IUser = {
                 username: username,
                 socketID: "undefined",
             };
@@ -54,21 +54,21 @@ export class UserManagerService {
         return this.generateMessage(Constants.NOT_UNIQUE_NAME, Constants.SUCCESS_TITLE);
     }
 
-    public getUserByUsername(username: string): User | string {
-        const foundUser: User =  this.users.filter((user: User) => {
+    public getUserByUsername(username: string): IUser | string {
+        const foundUser: IUser =  this.users.filter((user: IUser) => {
             return user.username === username;
         })[0];
 
         return (foundUser) ? foundUser : Constants.USER_NOT_FOUND;
     }
 
-    public leaveBrowser(user: User): void {
-        this.nameList = this.nameList.filter( (element: User) => element.username !== user.username);
+    public leaveBrowser(user: IUser): void {
+        this.nameList = this.nameList.filter( (element: IUser) => element.username !== user.username);
     }
 
     public isUnique(nameRequest: String): Boolean {
         let isUniqueElement: Boolean = true;
-        this.nameList.forEach( (element: User) => {
+        this.nameList.forEach( (element: IUser) => {
             if (element.username === nameRequest) {
                 isUniqueElement = false;
             }
