@@ -49,10 +49,10 @@ export class Constants {
 
   public static readonly CARD_EXISTING:             string = "Le titre de la carte existe déjà";
   public static readonly GAME_REGEX_PATTERN:        string = "^[a-zA-Z0-9]+$";
-  public static readonly GAME_FORMAT_REGEX_ERROR:   string = "Le nom doit contenir seulement des caracteres alphanumerics";
+  public static readonly GAME_FORMAT_REGEX_ERROR:   string = "Le titre du jeu doit contenir seulement des caracteres alphanumerics";
   public static readonly MIN_GAME_LENGTH:           number = 5;
   public static readonly MAX_GAME_LENGTH:           number = 20;
-  public static readonly GAME_FORMAT_LENTGH_ERROR:  string = "Le nom doit contenir entre 5 et 20 characteres";
+  public static readonly GAME_FORMAT_LENTGH_ERROR:  string = "Le titre du jeu doit contenir entre 5 et 20 caracteres";
   public static readonly GAME_SUCCESS_MESSAGE:      string = "SUCCESS";
 
 
