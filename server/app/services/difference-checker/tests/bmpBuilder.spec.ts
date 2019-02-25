@@ -115,8 +115,13 @@ describe("BMPBuilder tests", () => {
     });
 
     it("should create a buffer with the right amount of padding at each row", (done: Function) => {
-        const width: number = 3;
-        const height: number = 3;
+        const width:                number = 3;
+        const height:               number = 3;
+        const HEADER_SIZE:          number = 54;
+        const pixelSize:            number = 3;
+        const paddingExpected:      number = 9;
+        const totalLenghtExpected:  number = HEADER_SIZE + paddingExpected + width * height * pixelSize;
+
         builder = new BMPBuilder(width, height, WHITE);
         bufferObtained = builder.buffer;
         const HEADER_SIZE: number = 54;
