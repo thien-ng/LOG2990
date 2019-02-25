@@ -7,9 +7,12 @@ import { IHitToValidate } from "../interfaces";
 // tslint:disable:no-magic-numbers no-any
 
 const iHitToValidate: IHitToValidate = {
-    position: {x: 1, y: 1},
-    imageUrl: path.resolve(__dirname, "../../../asset/image/testBitmap/imagetestOg.bmp"),
-    colorToIgnore: [],
+    position: {
+        x: 1,
+        y: 1,
+    },
+    imageUrl:       path.resolve(__dirname, "../../../asset/image/testBitmap/imagetestOg.bmp"),
+    colorToIgnore:  [],
 };
 
 const axios: any = require("axios");
