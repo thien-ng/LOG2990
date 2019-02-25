@@ -50,7 +50,6 @@ export class CardOperations {
         if (!isExisting) {
             this.cards.list3D.unshift(card);
             this.highscoreService.createHighscore(card.gameID);
-
         }
 
         return !isExisting;
@@ -62,10 +61,10 @@ export class CardOperations {
         }
         const index: number = this.findCard2D(id);
         const paths: string[] = [
-                                    Constants.IMAGES_PATH + "/" + id + Constants.GENERATED_FILE,
-                                    Constants.IMAGES_PATH + "/" + id + Constants.ORIGINAL_FILE,
-                                    Constants.IMAGES_PATH + "/" + id + Constants.MODIFIED_FILE,
-                                ];
+            Constants.IMAGES_PATH + "/" + id + Constants.GENERATED_FILE,
+            Constants.IMAGES_PATH + "/" + id + Constants.ORIGINAL_FILE,
+            Constants.IMAGES_PATH + "/" + id + Constants.MODIFIED_FILE,
+        ];
         if (index === Constants.DOESNT_EXIST) {
             return Constants.CARD_NOT_FOUND;
         }
