@@ -47,13 +47,13 @@ const playerInputClick: IPlayerInput = {
     event:      Constants.CLICK_EVENT,
     arenaId:    1,
     user:       activeUser,
-    position: hitPosition,
+    position:   hitPosition,
 };
 const playerInputWrong: IPlayerInput = {
     event:      "wrongInput",
     arenaId:    1,
     user:       activeUser,
-    position: hitPosition,
+    position:   hitPosition,
 };
 let arena: Arena;
 const arenaInfo: IArenaInfos = {
