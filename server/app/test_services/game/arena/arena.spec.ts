@@ -197,6 +197,23 @@ describe("Arena tests", () => {
         chai.expect(responseToPlayerInput).to.deep.equal(playerInputResponseExpected);
         mockAxios.restore();
     });
+
+    it("should return an error on problematic HitConfirmation", async () => {
+        const playerInputResponseExpected: IPlayerInputResponse = {
+            status:         Constants.ON_ERROR_MESSAGE,
+            response:       Constants.ON_ERROR_PIXEL_CLUSTER,
+        };
+
+        mockAxios.onPost(Constants.URL_HIT_VALIDATOR).reply(200, {});
+
+        let responseToPlayerInput: IPlayerInputResponse | void;
+        arena["originalPixelClusters"].set(1, expectedPixelClusters);
+
+        responseToPlayerInput = await arena.onPlayerClick(hitPosition, activeUser);
+
+        chai.expect(responseToPlayerInput).to.deep.equal(playerInputResponseExpected);
+        mockAxios.restore();
+    });
     it("should return the players in the arena", async () => {
         const players: Player[] = arena.getPlayers();
         const playerInside: Player = new Player(activeUser);
