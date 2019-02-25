@@ -7,6 +7,8 @@ import { ICardLists } from "../../../common/communication/iCardLists";
 import { Message } from "../../../common/communication/message";
 import { Constants } from "../constants";
 import { CardManagerService } from "../services/card-manager.service";
+import { CardOperations } from "../services/card-operations.service";
+import { ImageRequirements } from "../services/difference-checker/utilities/imageRequirements";
 import Types from "../types";
 
 const DECIMAL: number = 10;
@@ -16,7 +18,9 @@ const MODIFIED_IMAGE_NAME: string = "modifiedImage";
 @injectable()
 export class CardManagerController {
 
-    public constructor(@inject(Types.CardManagerService) private cardManagerService: CardManagerService) { }
+    public constructor(
+        @inject(Types.CardManagerService) private cardManagerService: CardManagerService,
+        @inject(Types.CardOperations) private cardOperations: CardOperations) { }
 
     public get router(): Router {
 
@@ -40,7 +44,15 @@ export class CardManagerController {
             const originalBuffer: Buffer = req.files[ORIGINAL_IMAGE_NAME][0].buffer;
             const modifiedBuffer: Buffer = req.files[MODIFIED_IMAGE_NAME][0].buffer;
 
-            const result: Message = await this.cardManagerService.simpleCardCreationRoutine(originalBuffer, modifiedBuffer, req.body.name);
+            const requirements: ImageRequirements = {
+                requiredHeight: Constants.REQUIRED_HEIGHT,
+                requiredWidth: Constants.REQUIRED_WIDTH,
+                requiredNbDiff: Constants.REQUIRED_NB_DIFF,
+                originalImage: originalBuffer,
+                modifiedImage: modifiedBuffer,
+            };
+
+            const result: Message = await this.cardManagerService.simpleCardCreationRoutine(requirements, req.body.name);
 
             res.json(result);
         });
@@ -54,14 +66,14 @@ export class CardManagerController {
         });
 
         router.get("/:id/:gameMode", async (req: Request, res: Response, next: NextFunction) => {
-            const card: ICard = this.cardManagerService.getCardById(req.params.id, req.params.gameMode);
+            const card: ICard = this.cardOperations.getCardById(req.params.id, req.params.gameMode);
             res.json(card);
         });
 
         router.delete("/remove/simple/:id", async (req: Request, res: Response, next: NextFunction) => {
             const cardId: number = parseInt(req.params.id, DECIMAL);
             try {
-                const message: string = this.cardManagerService.removeCard2D(cardId);
+                const message: string = this.cardOperations.removeCard2D(cardId);
                 res.json(message);
             } catch (error) {
                 const isTypeError: boolean = error instanceof TypeError;
@@ -72,7 +84,7 @@ export class CardManagerController {
 
         router.delete("/remove/free/:id", async (req: Request, res: Response, next: NextFunction) => {
             const cardId: number = parseInt(req.params.id, DECIMAL);
-            const message: string = this.cardManagerService.removeCard3D(cardId);
+            const message: string = this.cardOperations.removeCard3D(cardId);
             res.json(message);
         });
 

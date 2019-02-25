@@ -2,6 +2,7 @@ import { Component, Inject } from "@angular/core";
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import { ErrorStateMatcher, MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
+import { Message } from "../../../../../common/communication/message";
 import { Constants } from "../../constants";
 import { SocketService } from "../../websocket/socket.service";
 import { LoginValidatorService } from "../login-validator.service";
@@ -48,9 +49,15 @@ export class LoginValidatorComponent {
 
   public addUsername(): void {
     if (this.usernameFormControl.errors === null) {
-      this.loginValidatorService.addUsername(this.usernameFormControl.value).subscribe(async (response: boolean) => {
+      this.loginValidatorService.addUsername(this.usernameFormControl.value).subscribe(async (response: Message) => {
 
-        if (response) {
+        if (response.title === Constants.ON_ERROR_MESSAGE) {
+          this.displaySnackBar(response.body, Constants.SNACK_ACTION);
+
+          return;
+        }
+
+        if (response.body === Constants.IS_NOT_USED) {
           this.displayNameIsUnique();
           this.socketService.sendMsg(Constants.LOGIN_REQUEST, this.usernameFormControl.value);
           await this.router.navigate([Constants.ROUTER_LOGIN]);

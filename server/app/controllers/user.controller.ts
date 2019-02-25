@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { inject, injectable } from "inversify";
 
+import { Message } from "../../../common/communication/message";
 import { UserManagerService } from "../services/user-manager.service";
 
 import Types from "../types";
@@ -15,7 +16,7 @@ export class UserController {
         const router: Router = Router();
 
         router.post("/newUsername", (req: Request, res: Response, next: NextFunction) => {
-            const isValidated: Boolean = this.userManagerService.validateName(req.body.body);
+            const isValidated: Message = this.userManagerService.validateName(req.body.body);
             res.json(isValidated);
         });
 

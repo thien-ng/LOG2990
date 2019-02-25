@@ -5,6 +5,7 @@ import { ISceneVariablesMessage } from "../../../../common/communication/iSceneV
 import { FormMessage } from "../../../../common/communication/message";
 import { Constants } from "../../constants";
 import { CardManagerService } from "../../services/card-manager.service";
+import { CardOperations } from "../../services/card-operations.service";
 import { HighscoreService } from "../../services/highscore.service";
 import { SceneManager } from "../../services/scene/scene-manager.service";
 
@@ -14,11 +15,13 @@ let sceneManager: SceneManager;
 let formMessage: FormMessage;
 let cardManagerService: CardManagerService;
 let highscoreService: HighscoreService;
+let cardOperations: CardOperations;
 
 beforeEach(() => {
     chai.use(spies);
     highscoreService = new HighscoreService();
-    cardManagerService = new CardManagerService(highscoreService);
+    cardOperations = new CardOperations(highscoreService);
+    cardManagerService = new CardManagerService(cardOperations);
     sceneManager = new SceneManager(cardManagerService);
 });
 
