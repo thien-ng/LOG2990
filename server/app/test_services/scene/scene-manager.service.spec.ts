@@ -1,6 +1,7 @@
 import * as chai from "chai";
 import * as spies from "chai-spies";
 import "reflect-metadata";
+import { SceneType } from "../../../../common/communication/iSceneOptions";
 import { ISceneVariablesMessage } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
 import { Constants } from "../../constants";
@@ -8,7 +9,6 @@ import { CardManagerService } from "../../services/card-manager.service";
 import { CardOperations } from "../../services/card-operations.service";
 import { HighscoreService } from "../../services/highscore.service";
 import { SceneManager } from "../../services/scene/scene-manager.service";
-import { SceneType } from "../../../../common/communication/iSceneOptions";
 
 /* tslint:disable:no-any no-magic-numbers */
 
