@@ -88,13 +88,13 @@ export class CardManagerService {
     private generateMessage(cardReceived: ICard): Message {
         if (this.cardOperations.addCard3D(cardReceived)) {
             return {
-                title: Constants.ON_SUCCESS_MESSAGE,
-                body: Constants.CARD_ADDED,
+                title:  Constants.ON_SUCCESS_MESSAGE,
+                body:   Constants.CARD_ADDED,
             } as Message;
         } else {
             return {
-                title: Constants.ON_ERROR_MESSAGE,
-                body: Constants.CARD_EXISTING,
+                title:  Constants.ON_ERROR_MESSAGE,
+                body:   Constants.CARD_EXISTING,
             } as Message;
         }
     }
