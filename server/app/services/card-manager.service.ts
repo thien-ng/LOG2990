@@ -45,15 +45,14 @@ export class CardManagerService {
         this.modifiedImageRequest = requirements.modifiedImage;
 
         let returnValue: Message = {
-            title: Constants.ON_ERROR_MESSAGE,
-            body: Constants.VALIDATION_FAILED,
+            title:  Constants.ON_ERROR_MESSAGE,
+            body:   Constants.VALIDATION_FAILED,
         };
         try {
             await axios.post(Constants.PATH_FOR_2D_VALIDATION, requirements)
             .then((response: Axios.AxiosResponse< Buffer | Message>) => {
                 returnValue = this.handlePostResponse(response, cardTitle);
-                },
-            );
+            });
         } catch (error) {
             this.generateErrorMessage(error);
         }
