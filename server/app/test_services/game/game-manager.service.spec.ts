@@ -66,11 +66,12 @@ const playerInput: IPlayerInput = {
 let socket: SocketIO.Socket;
 const original: Buffer = fs.readFileSync(path.resolve(__dirname, "../../asset/image/testBitmap/imagetestOg.bmp"));
 const modified: Buffer = fs.readFileSync(path.resolve(__dirname, "../../asset/image/testBitmap/imagetestOg.bmp"));
+
 beforeEach(() => {
-    socket = mock(SocketIO);
-    userManagerService = new UserManagerService();
-    gameManagerService = new GameManagerService(userManagerService);
-    mockAxios = new mockAdapter.default(axios);
+    socket              = mock(SocketIO);
+    userManagerService  = new UserManagerService();
+    gameManagerService  = new GameManagerService(userManagerService);
+    mockAxios           = new mockAdapter.default(axios);
 });
 
 describe("GameManagerService tests", () => {
