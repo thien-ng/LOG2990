@@ -67,4 +67,8 @@ export class SceneManager {
         return sceneTypeIdentified;
     }
 
-}
+    private validateName(name: string): boolean{
+        const expression: RegExp = new RegExp(Constants.REGEX_FORMAT);
+
+        return (expression.test(name));
+    }
