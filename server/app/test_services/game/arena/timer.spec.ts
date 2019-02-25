@@ -53,5 +53,4 @@ describe("Timer tests", async () => {
         timer.stopTimer();
         chai.expect(spy).to.have.been.called();
     });
-
 });
