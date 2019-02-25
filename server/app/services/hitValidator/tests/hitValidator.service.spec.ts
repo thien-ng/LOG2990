@@ -20,24 +20,23 @@ const axios:                any     = require("axios");
 const mockAdapter:          any     = require("axios-mock-adapter");
 const imageBuffer:          Buffer  = fs.readFileSync(path.resolve(__dirname, "../../../asset/image/testBitmap/imagetestOg.bmp"));
 
-let mockAxios: any;
-let hitValidatorService: HitValidatorService = new HitValidatorService();
+let   hitValidatorService:    HitValidatorService = new HitValidatorService();
 
 describe("Hit Validator micro-service tests", () => {
 
     beforeEach(() => {
-
         mockAxios = new mockAdapter.default(axios);
     });
 
     afterEach(() => {
-
         mockAxios.restore();
     });
 
     it("should return hit with color from pixel and insert image in cache", async () => {
 
-        mockAxios.onGet(iHitToValidate.imageUrl, {responseType: "arraybuffer"})
+        mockAxios.onGet(iHitToValidate.imageUrl, {
+            responseType: "arraybuffer",
+        })
         .reply(200, imageBuffer);
 
         hitValidatorService.confirmHit(iHitToValidate).then((response: any) => {
