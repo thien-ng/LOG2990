@@ -25,8 +25,9 @@ describe("BMPBuilder tests", () => {
     });
 
     it("should build a buffer of the correct width", (done: Function) => {
-        const widthBuffer: Buffer = bufferObtained.slice(18, 22);
-        const expectedWidthBuffer: Buffer = Buffer.from("02000000", "hex");
+        const widthBuffer:          Buffer = bufferObtained.slice(18, 22);
+        const expectedWidthBuffer:  Buffer = Buffer.from("02000000", "hex");
+
         expect(widthBuffer).to.deep.equal(expectedWidthBuffer);
         done();
     });
