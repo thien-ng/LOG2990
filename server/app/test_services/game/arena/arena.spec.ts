@@ -263,7 +263,9 @@ describe("Arena tests", () => {
         chai.expect(players.length).to.equal(0);
     });
 
-    it("should do the validation routine correctly", async () => {
+    it("should send time to player every second", () => {
+        const clock: any = sinon.useFakeTimers();
+        const spy: any = chai.spy.on(arena.gameManagerService, "sendMessage");
 
         const builder: BMPBuilder = new BMPBuilder(4, 4, 100);
         const bufferOriginal: Buffer = Buffer.from(builder.buffer);
