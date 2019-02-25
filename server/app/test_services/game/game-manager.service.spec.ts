@@ -30,10 +30,10 @@ const request2D: IGameRequest = {
 };
 
 const request3D: IGameRequest = {
-    username: "Franky",
-    gameId: 105,
-    type: GameType.singlePlayer,
-    mode: GameMode.free,
+    username:   "Franky",
+    gameId:     105,
+    type:       GameType.singlePlayer,
+    mode:       GameMode.free,
 };
 
 const invalidRequest: IGameRequest = {
