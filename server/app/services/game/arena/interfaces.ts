@@ -15,13 +15,13 @@ export interface IArenaInfos {
 }
 
 export interface IHitConfirmation {
-    isAHit:         Boolean;
-    hitPixelColor: number[];
+    isAHit:             Boolean;
+    hitPixelColor:      number[];
 }
 
 export interface IPlayerInput {
-    event:      string;
-    arenaId:    number;
-    user:       IUser;
-    position:   IPosition2D;
+    event:              string;
+    arenaId:            number;
+    user:               IUser;
+    position:           IPosition2D;
 }
