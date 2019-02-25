@@ -206,9 +206,9 @@ export class Arena {
 
     private buildPostData(position: IPosition2D): IHitToValidate {
         return {
-            position:           position,
-            imageUrl:           this.arenaInfos.differenceGameUrl,
-            colorToIgnore:      Constants.WHITE,
+            position:       position,
+            imageUrl:       this.arenaInfos.differenceGameUrl,
+            colorToIgnore:  Constants.WHITE,
         };
     }
 
