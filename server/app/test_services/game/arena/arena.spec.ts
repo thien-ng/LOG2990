@@ -128,6 +128,7 @@ describe("Arena tests", () => {
     it("should handle an error when HTTP request fails", async () => {
 
         let errorMessage: string = "";
+        mockAxios = new MockAdapter.default(axios);
 
         mockAxios.onGet(arenaInfo.originalGameUrl, {
             responseType: "arraybuffer",
