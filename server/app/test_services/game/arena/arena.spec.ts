@@ -162,29 +162,12 @@ describe("Arena tests", () => {
 
     it("should return a failed response when the event passed isn't recognize", async () => {
 
-        const builder: BMPBuilder = new BMPBuilder(4, 4, 100);
-        const bufferOriginal: Buffer = Buffer.from(builder.buffer);
-        builder.setColorAtPos(1, 1, 1, 1, 1);
-        const bufferDifferences: Buffer = Buffer.from(builder.buffer);
-
-        mockAxios.onGet(arenaInfo.originalGameUrl).replyOnce(200, () => {
-            return bufferOriginal;
-        });
-        mockAxios.onGet(arenaInfo.differenceGameUrl).replyOnce(200, () => {
-            return bufferDifferences;
-        });
         const expectedResponse: IPlayerInputResponse = {
             status: "onFailedClick",
             response: Constants.ON_ERROR_PIXEL_CLUSTER,
         };
         const sandbox: sinon.SinonSandbox = sinon.createSandbox();
         sandbox.stub(arena, "onPlayerClick").callsFake(() => of(expectedResponse).toPromise());
-
-        await arena.prepareArenaForGameplay()
-        .then(() => { /* */ })
-        .catch((error: Error) => {
-            // errorMessage = error.message;
-        });
 
         const responseToInput:  IPlayerInputResponse = await arena.onPlayerInput(playerInputWrong);
 
