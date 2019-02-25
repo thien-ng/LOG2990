@@ -46,14 +46,12 @@ export class CardManagerController {
 
             const requirements: ImageRequirements = {
                 requiredHeight: Constants.REQUIRED_HEIGHT,
-                requiredWidth: Constants.REQUIRED_WIDTH,
+                requiredWidth:  Constants.REQUIRED_WIDTH,
                 requiredNbDiff: Constants.REQUIRED_NB_DIFF,
-                originalImage: originalBuffer,
-                modifiedImage: modifiedBuffer,
+                originalImage:  originalBuffer,
+                modifiedImage:  modifiedBuffer,
             };
-
             const result: Message = await this.cardManagerService.simpleCardCreationRoutine(requirements, req.body.name);
-
             res.json(result);
         });
         router.post("/submitFree", async (req: Request, res: Response, next: NextFunction) => {
