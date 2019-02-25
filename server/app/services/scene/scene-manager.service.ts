@@ -25,9 +25,9 @@ export class SceneManager {
 
     public createScene(body: FormMessage): ISceneVariablesMessage | string {
 
-        const isFromValid: boolean = this.validateFrom(body);
+        const isFormValid: boolean = this.validateForm(body);
 
-        if (this.cardManagerService.isSceneNameNew(body.gameName) && isFromValid) {
+        if (this.cardManagerService.isSceneNameNew(body.gameName) && isFormValid) {
             const iSceneOptions: ISceneOptions = this.sceneOptionsMapper(body);
             const generatedOriginalScene: ISceneVariables = this.sceneBuilder.generateScene(iSceneOptions);
             const generatedModifiedScene: ISceneVariables = this.sceneModifier.modifyScene(iSceneOptions, generatedOriginalScene);
@@ -72,7 +72,7 @@ export class SceneManager {
         return sceneTypeIdentified;
     }
 
-    private validateFrom(form: FormMessage): boolean {
+    private validateForm(form: FormMessage): boolean {
         return  this.validateName(form.gameName) &&
                 this.validateTheme(form.theme) &&
                 this.validateQuantity(form.quantityChange) &&
