@@ -4,21 +4,20 @@ import * as chai from "chai";
 import * as spies from "chai-spies";
 import * as fs from "fs";
 import * as path from "path";
-import { IOriginalPixelCluster, IPlayerInputResponse } from "../../../../../common/communication/iGameplay";
+import { of } from "rxjs/index";
+import sinon = require("sinon");
+
+import { IOriginalPixelCluster, IPlayerInputResponse, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
 import { Constants } from "../../../constants";
 import { BMPBuilder } from "../../../services/difference-checker/utilities/bmpBuilder";
 import { Arena } from "../../../services/game/arena/arena";
-import { IArenaInfos, IPlayerInput, IHitConfirmation } from "../../../services/game/arena/interfaces";
+import { IArenaInfos, IHitConfirmation, IPlayerInput } from "../../../services/game/arena/interfaces";
+import { Player } from "../../../services/game/arena/player";
 import { GameManagerService } from "../../../services/game/game-manager.service";
 import { UserManagerService } from "../../../services/user-manager.service";
 
-import { of } from "rxjs";
-import sinon = require("sinon");
-import { Player } from "../../../services/game/arena/player";
-import { IHitToValidate } from "../../../services/hitValidator/interfaces";
-
-// tslint:disable:no-magic-numbers no-any
+// tslint:disable:no-magic-numbers no-any max-file-line-count
 
 const activeUser: IUser = {
     username: "mike",
