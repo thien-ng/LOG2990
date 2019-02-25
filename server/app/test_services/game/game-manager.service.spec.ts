@@ -44,10 +44,10 @@ const invalidRequest: IGameRequest = {
 };
 
 const iArenaInfos: IArenaInfos = {
-    arenaId: 1,
-    users: [{username: "Frank", socketID: "12345"}],
-    originalGameUrl: "../../../asset/image/1_original.bmp",
-    differenceGameUrl: "../../../asset/image/1_modified.bmp",
+    arenaId:            1,
+    users:              [{username: "Frank", socketID: "12345"}],
+    originalGameUrl:    "../../../asset/image/1_original.bmp",
+    differenceGameUrl:  "../../../asset/image/1_modified.bmp",
 };
 
 const playerInput: IPlayerInput = {
