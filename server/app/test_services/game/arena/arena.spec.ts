@@ -74,16 +74,16 @@ describe("Arena tests", () => {
 
     beforeEach(async () => {
         gameManager = new GameManagerService(new UserManagerService());
-        arena = new Arena(arenaInfo, gameManager);
+        arena       = new Arena(arenaInfo, gameManager);
         arena.timer.stopTimer();
-        mockAxios = new MockAdapter.default(axios);
+        mockAxios   = new MockAdapter.default(axios);
         chai.use(spies);
 
         // build arena with images bufferOriginal & bufferDifferences
-        const builder: BMPBuilder = new BMPBuilder(4, 4, 100);
-        const bufferOriginal: Buffer = Buffer.from(builder.buffer);
+        const builder:          BMPBuilder  = new BMPBuilder(4, 4, 100);
+        const bufferOriginal:   Buffer      = Buffer.from(builder.buffer);
         builder.setColorAtPos(1, 1, 1, 1, 1);
-        const bufferDifferences: Buffer = Buffer.from(builder.buffer);
+        const bufferDifferences: Buffer     = Buffer.from(builder.buffer);
 
         mockAxios.onGet(arenaInfo.originalGameUrl).replyOnce(200, () => {
             return bufferOriginal;
