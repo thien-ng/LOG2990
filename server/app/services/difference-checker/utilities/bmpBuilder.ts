@@ -144,8 +144,9 @@ export class BMPBuilder {
     }
 
     private spanNumberOnNBytes(num: number, spanRange: number): Buffer {
-        const spannedBuffer: Buffer = Buffer.allocUnsafe(spanRange);
-        const byteNumericalSpan: number = 256;
+        const spannedBuffer:        Buffer = Buffer.allocUnsafe(spanRange);
+        const byteNumericalSpan:    number = 256;
+
         for (let i: number = 0; i < spanRange; i++) {
             const value: number = num % byteNumericalSpan;
             spannedBuffer[i] = value;
