@@ -25,8 +25,8 @@ export class GameManagerService {
 
     public constructor(@inject(Types.UserManagerService) private userManagerService: UserManagerService) {
         this.playerList = new Map<string, SocketIO.Socket>();
-        this.arenas = new Map<number, Arena>();
-        this.arenaID = ARENA_START_ID;
+        this.arenas     = new Map<number, Arena>();
+        this.arenaID    = ARENA_START_ID;
     }
 
     private returnError(errorMessage: string): Message {
