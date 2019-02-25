@@ -13,14 +13,16 @@ import { TimerService } from "../game-view/timer/timer.service";
 })
 export class SocketService {
 
-  private socket: SocketIOClient.Socket = io(Constants.WEBSOCKET_URL);
+  private socket: SocketIOClient.Socket;
 
   public constructor(
     private chatViewService: ChatViewService,
     private gameViewSimpleService: GameViewSimpleService,
     private timerService: TimerService,
     private differenceCounterService: DifferenceCounterService,
-    ) {}
+    ) {
+      this.socket = io(Constants.WEBSOCKET_URL);
+    }
 
   public initWebsocketListener(): void {
 
