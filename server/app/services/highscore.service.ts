@@ -15,9 +15,9 @@ export class HighscoreService {
 
     public createHighscore(id: number): void {
         const highscore: Highscore = {
-            id: id,
-            timesSingle: [MAX_TIME, MAX_TIME, MAX_TIME],
-            timesMulti: [MAX_TIME, MAX_TIME, MAX_TIME],
+            id:             id,
+            timesSingle:    [MAX_TIME, MAX_TIME, MAX_TIME],
+            timesMulti:     [MAX_TIME, MAX_TIME, MAX_TIME],
         };
         this.highscores.push(highscore);
         this.generateNewHighscore(id);
