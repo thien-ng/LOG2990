@@ -25,7 +25,7 @@ export class SceneManager {
         const isFormValid: boolean = this.validateForm(formMessage);
 
         if (this.cardManagerService.isSceneNameNew(formMessage.gameName)) {
-            if (isFormValid){
+            if (isFormValid) {
                 const iSceneOptions: ISceneOptions = this.sceneOptionsMapper(formMessage);
                 const generatedOriginalScene: ISceneVariables = this.sceneBuilder.generateScene(iSceneOptions);
                 const generatedModifiedScene: ISceneVariables = this.sceneModifier.modifyScene(iSceneOptions, generatedOriginalScene);
