@@ -62,12 +62,12 @@ export class BMPBuilder {
         }
     }
     private buildBuffer(): Buffer {
-        const header: Buffer = this.buildFullHeader();
         const totalPaddingSize: number = this.paddingPerRow() * this.height;
         const numOfBytesInBody: number = this.width * this.height *  this.getBitDepthInBytes() + totalPaddingSize;
-        const body: Buffer = Buffer.allocUnsafe(numOfBytesInBody).fill(this.fillWith);
+        const header:           Buffer = this.buildFullHeader();
+        const body:             Buffer = Buffer.allocUnsafe(numOfBytesInBody).fill(this.fillWith);
 
-        const totalSize: number = header.length + body.length;
+        const totalSize:        number = header.length + body.length;
 
         return Buffer.concat([header, body], totalSize);
     }
