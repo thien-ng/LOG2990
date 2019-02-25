@@ -17,8 +17,8 @@ describe("Difference finder microservice tests", () => {
 
         const strBuff1: string = "ffffff";
         const strBuff2: string = "ffffffffffff";
-        const buffer1: Buffer = Buffer.from(strBuff1, "hex");
-        const buffer2: Buffer = Buffer.from(strBuff2, "hex");
+        const buffer1:  Buffer = Buffer.from(strBuff1, "hex");
+        const buffer2:  Buffer = Buffer.from(strBuff2, "hex");
 
         try {
 
@@ -54,5 +54,4 @@ describe("Difference finder microservice tests", () => {
         expect(outputBuffer).to.deep.equal(expectedBuffer);
         done();
     });
-
 });
