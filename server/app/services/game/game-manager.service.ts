@@ -31,8 +31,8 @@ export class GameManagerService {
 
     private returnError(errorMessage: string): Message {
         return {
-            title: Constants.ON_ERROR_MESSAGE,
-            body: errorMessage,
+            title:  Constants.ON_ERROR_MESSAGE,
+            body:   errorMessage,
         };
     }
 
