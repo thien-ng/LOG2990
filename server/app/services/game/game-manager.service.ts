@@ -18,7 +18,7 @@ const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey:
 @injectable()
 export class GameManagerService {
 
-    private arenaID: number;
+    private arenaID:    number;
     private playerList: Map<string, SocketIO.Socket>;
     private arenas: Map<number, Arena>;
     public arena: Arena;
