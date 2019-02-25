@@ -40,7 +40,7 @@ export class Constants {
   public static readonly CARD_ADDED:                string = "Carte ajoutée";
   public static readonly IMAGES_PATH:               string = "./app/asset/image";
   public static readonly SCENE_PATH:                string = "./app/asset/scene";
-  public static readonly CARD_NOT_FOUND:            string = "Erreur de suppression, carte pas trouvée"; 
+  public static readonly CARD_NOT_FOUND:            string = "Erreur de suppression, carte pas trouvée";
   public static readonly REQUIRED_HEIGHT:           number = 480;
   public static readonly REQUIRED_WIDTH:            number = 640;
   public static readonly REQUIRED_NB_DIFF:          number = 7;
