@@ -273,11 +273,7 @@ describe("Arena tests", () => {
         clock.restore();
     });
 
-        await arena.prepareArenaForGameplay()
-        .then(() => { /* */ })
-        .catch((error: Error) => {
-            // errorMessage = error.message;
-        });
+    it("should set the right number of points to win depending on number of players", () => {
 
         const responseToInput:  IPlayerInputResponse = await arena.onPlayerInput(playerInputClick);
 
