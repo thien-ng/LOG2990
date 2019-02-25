@@ -43,8 +43,8 @@ export class UserManagerService {
 
         if (this.isUnique(username)) {
             const user: IUser = {
-                username: username,
-                socketID: "undefined",
+                username:   username,
+                socketID:   "undefined",
             };
             this.nameList.push(user);
 
