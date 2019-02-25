@@ -11,9 +11,9 @@ import { CardOperations } from "../services/card-operations.service";
 import { ImageRequirements } from "../services/difference-checker/utilities/imageRequirements";
 import Types from "../types";
 
-const DECIMAL: number = 10;
-const ORIGINAL_IMAGE_NAME: string = "originalImage";
-const MODIFIED_IMAGE_NAME: string = "modifiedImage";
+const DECIMAL:              number = 10;
+const ORIGINAL_IMAGE_NAME:  string = "originalImage";
+const MODIFIED_IMAGE_NAME:  string = "modifiedImage";
 
 @injectable()
 export class CardManagerController {
