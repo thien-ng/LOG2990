@@ -137,8 +137,8 @@ export class GameManagerService {
         }
 
         return {
-            status: Constants.ON_ERROR_MESSAGE,
-            response: ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
+            status:     Constants.ON_ERROR_MESSAGE,
+            response:   ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
         };
     }
 }
