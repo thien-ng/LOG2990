@@ -136,12 +136,12 @@ export class CardOperations {
     }
 
     public generateErrorMessage(error: Error): Message {
-        const isTypeError: boolean = error instanceof TypeError;
-        const errorMessage: string = isTypeError ? error.message : Constants.UNKNOWN_ERROR;
+        const isTypeError:  boolean = error instanceof TypeError;
+        const errorMessage: string  = isTypeError ? error.message : Constants.UNKNOWN_ERROR;
 
         return {
-            title: Constants.ON_ERROR_MESSAGE,
-            body: errorMessage,
+            title:  Constants.ON_ERROR_MESSAGE,
+            body:   errorMessage,
         };
     }
 }
