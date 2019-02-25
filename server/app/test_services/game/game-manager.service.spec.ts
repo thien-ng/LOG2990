@@ -180,8 +180,8 @@ describe("GameManagerService tests", () => {
 
         const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
         const expectedMessage: IPlayerInputResponse = {
-            status: Constants.ON_ERROR_MESSAGE,
-            response: ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
+            status:     Constants.ON_ERROR_MESSAGE,
+            response:   ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
         };
         chai.expect(await gameManagerService.onPlayerInput(playerInput)).to.deep.equal(expectedMessage);
     });
