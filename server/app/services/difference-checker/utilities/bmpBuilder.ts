@@ -161,10 +161,10 @@ export class BMPBuilder {
     }
 
     public setColorAtPos(R: number, G: number, B: number, posX: number, posY: number): void {
-        const truePosY: number = this.height - posY - 1;
-        const xOffset: number = posX * this.getBitDepthInBytes();
-        const yOffset: number = truePosY * (this.paddingPerRow() + this.width * this.getBitDepthInBytes());
-        const absolutePos: number = yOffset + xOffset + this.HEADER_DATAOFFSET;
+        const truePosY:     number = this.height - posY - 1;
+        const xOffset:      number = posX * this.getBitDepthInBytes();
+        const yOffset:      number = truePosY * (this.paddingPerRow() + this.width * this.getBitDepthInBytes());
+        const absolutePos:  number = yOffset + xOffset + this.HEADER_DATAOFFSET;
 
         if (absolutePos > this.bmpBuffer.length || absolutePos < this.HEADER_DATAOFFSET) {
             throw new RangeError(this.ERROR_OUT_OF_BOUNDS);
