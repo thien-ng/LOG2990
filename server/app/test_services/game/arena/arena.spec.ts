@@ -38,10 +38,7 @@ const expectedPixelClusters: IOriginalPixelCluster = {
                 G: 100,
                 B: 100,
             },
-            position: {
-                x: 1,
-                y: 1,
-            },
+            position: hitPosition,
         },
     ],
 };
