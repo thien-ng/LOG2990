@@ -24,6 +24,11 @@ const activeUser: IUser = {
     socketID: "123",
  };
 
+const hitPosition: IPosition2D = {
+    x: 1,
+    y: 1,
+};
+
 const expectedPixelClusters: IOriginalPixelCluster = {
     differenceKey:  1,
     cluster: [
