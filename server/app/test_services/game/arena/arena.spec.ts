@@ -146,29 +146,12 @@ describe("Arena tests", () => {
 
     it("should validate hit with a call to a microservice", async () => {
 
-        const builder: BMPBuilder = new BMPBuilder(4, 4, 100);
-        const bufferOriginal: Buffer = Buffer.from(builder.buffer);
-        builder.setColorAtPos(1, 1, 1, 1, 1);
-        const bufferDifferences: Buffer = Buffer.from(builder.buffer);
-
-        mockAxios.onGet(arenaInfo.originalGameUrl).replyOnce(200, () => {
-            return bufferOriginal;
-        });
-        mockAxios.onGet(arenaInfo.differenceGameUrl).replyOnce(200, () => {
-            return bufferDifferences;
-        });
         const expectedResponse: IPlayerInputResponse = {
             status: Constants.ON_SUCCESS_MESSAGE,
             response: expectedPixelClusters,
         };
         const sandbox: sinon.SinonSandbox = sinon.createSandbox();
         sandbox.stub(arena, "onPlayerClick").callsFake(() => of(expectedResponse).toPromise());
-
-        await arena.prepareArenaForGameplay()
-        .then(() => { /* */ })
-        .catch((error: Error) => {
-            // errorMessage = error.message;
-        });
 
         const responseToInput:  IPlayerInputResponse = await arena.onPlayerInput(playerInputClick);
 
