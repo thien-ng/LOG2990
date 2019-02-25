@@ -132,15 +132,15 @@ export class CardManagerService {
             } as Message;
         } else {
             return {
-                title: Constants.ON_ERROR_MESSAGE,
-                body: Constants.CARD_EXISTING,
+                title:  Constants.ON_ERROR_MESSAGE,
+                body:   Constants.CARD_EXISTING,
             } as Message;
         }
     }
 
     private isMessage(result: Buffer | Message): result is Message {
-        return  (result as Message).body !== undefined &&
-                (result as Message).title !== undefined;
+        return  (result as Message).body    !== undefined &&
+                (result as Message).title   !== undefined;
     }
 
     private generateId(): number {
