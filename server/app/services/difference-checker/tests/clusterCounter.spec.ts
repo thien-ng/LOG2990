@@ -4,7 +4,7 @@ import { ClusterCounter } from "../utilities/clusterCounter";
 
 // tslint:disable:no-magic-numbers
 const WHITE:    number = 255;
-const BLACK:    number =   0;
+const BLACK:    number = 0;
 
 describe("Cluster Counter tests", () => {
 
