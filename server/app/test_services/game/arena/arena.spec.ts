@@ -136,7 +136,7 @@ describe("Arena tests", () => {
             return response;
         } );
         await arena.prepareArenaForGameplay()
-        .then(() => { /* */ })
+        .then(() => { /* Do nothing */ })
         .catch((error: Error) => {
             errorMessage = error.message;
         });
