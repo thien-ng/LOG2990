@@ -11,7 +11,6 @@ let timer: Timer;
 let clock: any;
 
 beforeEach(() => {
-    // const timer: Timer = new Timer();
     chai.use(spies);
     timer = new Timer();
 
