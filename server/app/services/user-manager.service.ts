@@ -48,7 +48,7 @@ export class UserManagerService {
             };
             this.nameList.push(user);
 
-            return this.generateMessage(Constants.UNIQUE_NAME, Constants.SUCCESS_TITLE);
+            return this.generateMessage(Constants.IS_UNIQUE_NAME, Constants.SUCCESS_TITLE);
         }
 
         return this.generateMessage(Constants.NOT_UNIQUE_NAME, Constants.SUCCESS_TITLE);
