@@ -65,9 +65,9 @@ describe("Cluster Counter tests", () => {
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 0);
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 1, 1);
 
-        const bufferWIthDiff: Buffer = Buffer.from(newBuilder.buffer);
+        const bufferWIthDiff:    Buffer = Buffer.from(newBuilder.buffer);
 
-        const clusterCounter: ClusterCounter = new ClusterCounter(bufferWIthDiff, width);
+        const clusterCounter:    ClusterCounter = new ClusterCounter(bufferWIthDiff, width);
         const numberOfDiffFound: number = clusterCounter.countAllClusters();
 
         expect(numberOfDiffFound).equal(1);
