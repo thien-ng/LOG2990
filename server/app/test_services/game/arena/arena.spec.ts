@@ -261,8 +261,8 @@ describe("Arena tests", () => {
     });
 
     it("should send time to player every second", () => {
-        const clock: any = sinon.useFakeTimers();
-        const spy: any = chai.spy.on(arena.gameManagerService, "sendMessage");
+        const clock:    any = sinon.useFakeTimers();
+        const spy:      any = chai.spy.on(arena.gameManagerService, "sendMessage");
 
         arena["initTimer"]();
         clock.tick(1010);
