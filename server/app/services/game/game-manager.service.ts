@@ -84,8 +84,8 @@ export class GameManagerService {
         ]);
 
         return {
-            title: Constants.ON_SUCCESS_MESSAGE,
-            body: paths,
+            title:  Constants.ON_SUCCESS_MESSAGE,
+            body:   paths,
         };
     }
 
