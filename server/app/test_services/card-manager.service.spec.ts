@@ -262,7 +262,7 @@ describe("cardManagerService CardTitle test", () => {
         .then((message: Message) => {
             messageTitle = message.body;
             chai.expect(messageTitle).to.equal(Constants.GAME_FORMAT_LENTGH_ERROR);
-        });
+        }).catch();
 
         done();
     });
@@ -273,7 +273,7 @@ describe("cardManagerService CardTitle test", () => {
         .then((message: Message) => {
             messageTitle = message.body;
             chai.expect(messageTitle).to.equal(Constants.GAME_FORMAT_LENTGH_ERROR);
-        });
+        }).catch();
 
         done();
     });
@@ -284,7 +284,7 @@ describe("cardManagerService CardTitle test", () => {
         .then((message: Message) => {
             messageTitle = message.body;
             chai.expect(messageTitle).to.equal(Constants.GAME_FORMAT_REGEX_ERROR);
-        });
+        }).catch();
 
         done();
     });
