@@ -40,7 +40,7 @@ export class AssetManagerService {
         try {
             fs.writeFileSync(path, base64Image, {encoding: "base64"});
         } catch (error) {
-                throw TypeError(FILE_GENERATION_ERROR); // A demander au charge
+            throw TypeError(FILE_GENERATION_ERROR);
         }
     }
 
@@ -48,7 +48,7 @@ export class AssetManagerService {
         try {
             fs.writeFileSync(path, data);
         } catch (error) {
-                throw TypeError(FILE_SAVING_ERROR); // A demander au charge
-            }
+            throw TypeError(FILE_SAVING_ERROR);
+        }
     }
 }
