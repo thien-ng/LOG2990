@@ -33,7 +33,7 @@ export class Arena {
     private players:                Player[];
     private originalPixelClusters:  Map<number, IOriginalPixelCluster>;
     private differencesFound:       number[];
-    private timer:                  Timer;
+    public timer:                  Timer;
 
     public constructor(
         private arenaInfos: IArenaInfos,
