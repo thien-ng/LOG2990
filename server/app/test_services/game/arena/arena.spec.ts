@@ -198,8 +198,8 @@ describe("Arena tests", () => {
 
     it("should return an error on problematic HitConfirmation", async () => {
         const playerInputResponseExpected: IPlayerInputResponse = {
-            status:         Constants.ON_ERROR_MESSAGE,
-            response:       Constants.ON_ERROR_PIXEL_CLUSTER,
+            status:     Constants.ON_ERROR_MESSAGE,
+            response:   Constants.ON_ERROR_PIXEL_CLUSTER,
         };
 
         mockAxios.onPost(Constants.URL_HIT_VALIDATOR).reply(200, {});
