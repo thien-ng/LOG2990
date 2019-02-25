@@ -83,5 +83,4 @@ describe("Hit Validator micro-service tests", () => {
             .equal("Didn't succeed to get image buffer from URL given. File: hitValidator.service.ts. Line: 64.");
         });
     });
-
 });
