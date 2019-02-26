@@ -152,10 +152,10 @@ describe("Scene-modifier tests", () => {
 
     it("should have 7 modifications (addition and color)", () => {
         iSceneOptions = {
-            sceneName: "game",
-            sceneType: SceneType.Thematic,
-            sceneObjectsQuantity: 10,
-            selectedOptions: [true, false, true],
+            sceneName:              "game",
+            sceneType:              SceneType.Thematic,
+            sceneObjectsQuantity:   10,
+            selectedOptions:        [true, false, true],
         };
 
         const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables);
