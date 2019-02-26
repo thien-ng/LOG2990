@@ -206,8 +206,8 @@ describe("Scene-modifier tests", () => {
 
         resultScene.sceneObjects.forEach((modifiedObject: ISceneObject) => {
             iSceneVariables.sceneObjects.forEach((originalObject: ISceneObject) => {
-                const isEqualId: boolean = modifiedObject.id === originalObject.id;
-                const isEqualColor: boolean = modifiedObject.color === originalObject.color;
+                const isEqualId:    boolean = modifiedObject.id     === originalObject.id;
+                const isEqualColor: boolean = modifiedObject.color  === originalObject.color;
 
                 if (isEqualId && !isEqualColor) {
                     counterDifference++;
