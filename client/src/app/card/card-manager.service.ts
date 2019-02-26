@@ -11,7 +11,7 @@ import { Constants } from "../constants";
 })
 export class CardManagerService {
 
-  private cardCreated: BehaviorSubject<boolean>;
+  private cardCreated:          BehaviorSubject<boolean>;
   public cardCreatedObservable: Observable<boolean>;
 
   public constructor(private httpClient: HttpClient) {
