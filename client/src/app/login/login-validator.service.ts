@@ -25,8 +25,8 @@ export class LoginValidatorService {
 
   private generateMessage(username: string): Message {
     return {
-      title: Constants.LOGIN_MESSAGE_TITLE,
-      body: username,
+      title:    Constants.LOGIN_MESSAGE_TITLE,
+      body:     username,
     };
   }
 }
