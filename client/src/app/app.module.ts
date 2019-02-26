@@ -26,17 +26,40 @@ import { MainNavComponent } from "./main-nav/main-nav.component";
 import { TestingImportsModule } from "./testing-imports/testing-imports.module";
 
 const routes: Routes = [
-  { path: Constants.ROOT_PATH, redirectTo: Constants.LOGIN_PATH, pathMatch: Constants.PATH_MATCH_FULL },
-  { path: Constants.LOGIN_PATH, component: LoginPageComponent },
   {
-    path: Constants.NAV_PATH,
-    component: MainNavComponent,
+    path:         Constants.ROOT_PATH,
+    redirectTo:   Constants.LOGIN_PATH,
+    pathMatch:    Constants.PATH_MATCH_FULL,
+  },
+  {
+    path:         Constants.LOGIN_PATH,
+    component:    LoginPageComponent,
+  },
+  {
+    path:         Constants.NAV_PATH,
+    component:    MainNavComponent,
     children: [
-      { path: Constants.ROOT_PATH, redirectTo: Constants.LOGIN_REDIRECT, pathMatch: Constants.PATH_MATCH_FULL },
-      { path: Constants.GAMELIST_PATH, component: GameListContainerComponent },
-      { path: Constants.ADMIN_PATH, component: GameListContainerComponent },
-      { path: Constants.GAME_VIEW_SIMPLE, component: GameViewSimpleComponent },
-      { path: Constants.GAME_VIEW_FREE, component: GameViewFreeComponent },
+      {
+        path:         Constants.ROOT_PATH,
+        redirectTo:   Constants.LOGIN_REDIRECT,
+        pathMatch:    Constants.PATH_MATCH_FULL,
+      },
+      {
+        path:         Constants.GAMELIST_PATH,
+        component:    GameListContainerComponent,
+      },
+      {
+        path:         Constants.ADMIN_PATH,
+        component:    GameListContainerComponent,
+      },
+      {
+        path:         Constants.GAME_VIEW_SIMPLE,
+        component:    GameViewSimpleComponent,
+      },
+      {
+        path:         Constants.GAME_VIEW_FREE,
+        component:    GameViewFreeComponent,
+      },
     ],
   },
 ];
