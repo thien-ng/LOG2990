@@ -213,7 +213,8 @@ describe("Card-manager tests", () => {
             "./app/asset/image/1000_original.bmp",
             "./app/asset/image/1001_generated.bmp",
             "./app/asset/image/1001_modified.bmp",
-            "./app/asset/image/1001_original.bmp"];
+            "./app/asset/image/1001_original.bmp",
+        ];
 
         assetManagerService.deleteStoredImages(paths);
 
