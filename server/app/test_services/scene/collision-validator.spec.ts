@@ -56,21 +56,21 @@ describe("Collision validator tests", () => {
     const existingSceneObjects: ISceneObject[] = [cube1, cube2, cube3];
 
     beforeEach(() => {
-
         collisionValidator = new CollisionValidator();
     });
 
     it("should return false if there is no collision between new and already existing scene objects", () => {
         const newCube: ISceneObject = {
-            id: 1,
-            type: 1,
+            id:     1,
+            type:   1,
             position: {
-                x: 500, y: 500, z: 500 },
+                x: 500, y: 500, z: 500,
+            },
             rotation: {
-                x: 1, y: 1, z: 1,
+                x: 1,   y: 1,   z: 1,
             },
             scale: {
-                x: 10, y: 10, z: 10,
+                x: 10,  y: 10,  z: 10,
             },
             color: "#8cadbb",
         };
