@@ -231,13 +231,13 @@ describe("Card-manager tests", () => {
         };
 
         const message: Message = {
-            title: "test",
-            body: "ok",
+            title:  "test",
+            body:   "ok",
         };
         mockAxios.onPost(Constants.PATH_FOR_2D_VALIDATION).reply(200, message);
 
         await cardManagerService.simpleCardCreationRoutine(requirements, "title").then((response: any) => {
-            chai.expect(response).to.deep.equal({ title: "test", body: "ok" });
+            chai.expect(response).to.deep.equal(message);
         });
 
         mockAxios.restore();
