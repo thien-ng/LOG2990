@@ -65,10 +65,11 @@ describe("UserManagerService test", () => {
     });
 
     it ("should return error of name lenght if name is too long", (done: Function) => {
-        const testString: string = "14adadawdadawdawdadadawdadaddwadad3";
-        const resultExpected: Message = {
-            title: "onError",
-            body: "Le nom doit contenir entre 4 et 15 characteres",
+        const testString:       string  = "14adadawdadawdawdadadawdadaddwadad3";
+
+        const resultExpected:   Message = {
+            title:          "onError",
+            body:           "Le nom doit contenir entre 4 et 15 characteres",
         };
         const result: Message = userManagerService.validateName(testString);
 
