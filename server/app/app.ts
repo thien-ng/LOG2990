@@ -47,13 +47,14 @@ export class Application {
 
     public bindRoutes(): void {
         // Notre application utilise le routeur de notre API `Index`
-        this.app.use("/api/card", this.cardManagerController.router);
-        this.app.use("/api/highscore", this.highscoreController.router);
-        this.app.use("/api/user", this.userController.router);
-        this.app.use("/api/differenceChecker", this.differenceCheckerController.router);
-        this.app.use("/api/hitValidator", this.hitValidatorController.router);
-        this.app.use("/api/scene", this.sceneManagerController.router);
-        this.app.use("/api/game", this.gameManagerController.router);
+        this.app.use("/api/card",               this.cardManagerController.router);
+        this.app.use("/api/highscore",          this.highscoreController.router);
+        this.app.use("/api/user",               this.userController.router);
+        this.app.use("/api/differenceChecker",  this.differenceCheckerController.router);
+        this.app.use("/api/hitValidator",       this.hitValidatorController.router);
+        this.app.use("/api/scene",              this.sceneManagerController.router);
+        this.app.use("/api/game",               this.gameManagerController.router);
+
         this.app.use(express.static("./app/asset"));
         this.errorHandeling();
     }
