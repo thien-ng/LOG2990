@@ -8,8 +8,8 @@ import { LoginViewComponent } from "../../login/login-view/login-view.component"
 import { LoginPageComponent } from "./login-page.component";
 
 describe("LoginPageComponent", () => {
-  let component: LoginPageComponent;
-  let fixture: ComponentFixture<LoginPageComponent>;
+  let component:  LoginPageComponent;
+  let fixture:    ComponentFixture<LoginPageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -25,7 +25,7 @@ describe("LoginPageComponent", () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoginPageComponent);
+    fixture   = TestBed.createComponent(LoginPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
