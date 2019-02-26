@@ -125,11 +125,11 @@ describe("Card-manager tests", () => {
         };
         const sceneMessage: ISceneMessage = {
             iSceneVariablesMessage: iSceneVariablesMessage,
-            image: "",
+            image:                  "",
         };
         const message: Message = {
-            title: Constants.ON_SUCCESS_MESSAGE,
-            body: Constants.CARD_ADDED,
+            title:  Constants.ON_SUCCESS_MESSAGE,
+            body:   Constants.CARD_ADDED,
         };
         chai.expect(cardManagerService.freeCardCreationRoutine(sceneMessage)).to.deep.equal(message);
 
