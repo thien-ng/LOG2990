@@ -114,12 +114,14 @@ describe("Card-manager tests", () => {
             sceneObjectsQuantity:   10,
             selectedOptions:        [false, false, false],
         } as ISceneOptions;
-        const sceneBuilder: SceneBuilder = new SceneBuilder();
-        const sceneModifier: SceneModifier = new SceneModifier(sceneBuilder);
-        const isceneVariable: ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
-        const iSceneVariablesMessage: ISceneVariablesMessage = {
-            originalScene: isceneVariable,
-            modifiedScene: sceneModifier.modifyScene(sceneOptions10, isceneVariable),
+
+        const sceneBuilder:     SceneBuilder    = new SceneBuilder();
+        const sceneModifier:    SceneModifier   = new SceneModifier(sceneBuilder);
+        const isceneVariable:   ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
+
+        const iSceneVariablesMessage:   ISceneVariablesMessage  = {
+            originalScene:          isceneVariable,
+            modifiedScene:          sceneModifier.modifyScene(sceneOptions10, isceneVariable),
         };
         const sceneMessage: ISceneMessage = {
             iSceneVariablesMessage: iSceneVariablesMessage,
