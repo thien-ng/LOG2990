@@ -100,5 +100,4 @@ describe("Collision validator tests", () => {
 
         chai.expect(isColliding).equal(true);
     });
-
 });
