@@ -134,9 +134,10 @@ describe("UserManagerService test", () => {
 
     it ("should update the socket ID to the corresponding username", () => {
         const user: IUser = {
-                                username: "patate",
-                                socketID: "socketid",
-                            };
+            username:       "patate",
+            socketID:       "socketid",
+        };
+
         const userToUpdate: IUser = {
                                 username: "patate",
                                 socketID: "socketidtoUpdate",
