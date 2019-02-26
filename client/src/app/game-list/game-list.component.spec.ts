@@ -8,8 +8,8 @@ import { GameListComponent } from "./game-list.component";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 
 describe("GameListComponent", () => {
-  let component: GameListComponent;
-  let fixture: ComponentFixture<GameListComponent>;
+  let component:  GameListComponent;
+  let fixture:    ComponentFixture<GameListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -26,7 +26,7 @@ describe("GameListComponent", () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GameListComponent);
+    fixture   = TestBed.createComponent(GameListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
