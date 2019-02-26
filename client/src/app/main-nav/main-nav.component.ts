@@ -14,10 +14,10 @@ import { SocketService } from "../websocket/socket.service";
 import { AdminToggleService } from "./admin-toggle.service";
 
 @Component({
-  selector: "app-main-nav",
-  templateUrl: "./main-nav.component.html",
-  styleUrls: ["./main-nav.component.css"],
-  animations: [
+  selector:     "app-main-nav",
+  templateUrl:  "./main-nav.component.html",
+  styleUrls:    ["./main-nav.component.css"],
+  animations:   [
     trigger("slideInOut", [
       state("open", style({})),
       state("closed", style({
@@ -34,40 +34,40 @@ import { AdminToggleService } from "./admin-toggle.service";
 })
 export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
 
-  public isAdminMode: boolean;
-  public client: string | null;
-  public readonly LOGIN_PATH: string = Constants.LOGIN_REDIRECT;
-  public readonly GAME_LIST_PATH: string = "/gamelist";
-  public readonly ADMIN_PATH: string = "/admin";
-  public readonly TEXT_ADMIN: string = "Vue Administration";
-  public readonly TEXT_BOUTON_2D: string = "Créer jeu simple";
-  public readonly TEXT_BOUTON_3D: string = "Créer jeu 3D";
-  private readonly MAX_VALUE_INIT: number = 4;
-  private stateSubscription: Subscription;
-  private isAdminPath: boolean;
-  private isGameListPath: boolean;
-  private compteurInit: number;
+  public  readonly LOGIN_PATH:      string = Constants.LOGIN_REDIRECT;
+  public  readonly GAME_LIST_PATH:  string = "/gamelist";
+  public  readonly ADMIN_PATH:      string = "/admin";
+  public  readonly TEXT_ADMIN:      string = "Vue Administration";
+  public  readonly TEXT_BOUTON_2D:  string = "Créer jeu simple";
+  public  readonly TEXT_BOUTON_3D:  string = "Créer jeu 3D";
+  private readonly MAX_VALUE_INIT:  number = 4;
 
-  public isValidUrl: boolean;
+  private stateSubscription:        Subscription;
+  private compteurInit:             number;
+  private isAdminPath:              boolean;
+  private isGameListPath:           boolean;
+  public  isAdminMode:              boolean;
+  public  isValidUrl:               boolean;
+  public  client:                   string | null;
 
   public constructor(
     private breakpointObserver: BreakpointObserver,
-    public dialog: MatDialog,
-    private snackBar: MatSnackBar,
-    public adminService: AdminToggleService,
-    public router: Router,
-    private socketService: SocketService,
-    private changeDetector: ChangeDetectorRef,
+    public  dialog:             MatDialog,
+    private snackBar:           MatSnackBar,
+    public  adminService:       AdminToggleService,
+    public  router:             Router,
+    private socketService:      SocketService,
+    private changeDetector:     ChangeDetectorRef,
   ) {
     this.compteurInit = 0;
-    this.client = null;
-    this.isValidUrl = true;
+    this.client       = null;
+    this.isValidUrl   = true;
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.isAdminPath = this.router.url === this.ADMIN_PATH;
+        this.isAdminPath    = this.router.url === this.ADMIN_PATH;
         this.isGameListPath = this.router.url === this.GAME_LIST_PATH;
-        this.isValidUrl = this.isAdminPath || this.isGameListPath;
+        this.isValidUrl     = this.isAdminPath || this.isGameListPath;
       }
       this.changeDetector.detectChanges();
     });
@@ -82,10 +82,9 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   public initMainNav(): void {
-    this.client = sessionStorage.getItem(Constants.USERNAME_KEY);
-
-    this.isAdminMode = this.adminService.isAdminState;
-    this.stateSubscription = this.adminService.getAdminUpdateListener()
+    this.client             = sessionStorage.getItem(Constants.USERNAME_KEY);
+    this.isAdminMode        = this.adminService.isAdminState;
+    this.stateSubscription  = this.adminService.getAdminUpdateListener()
       .subscribe((activeState: boolean) => {
         this.isAdminMode = activeState;
     });
@@ -100,9 +99,9 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   private neededRedirection(): void {
-    const isLoggedAfterInit: boolean = this.compteurInit++ > this.MAX_VALUE_INIT;
-    const isLogged: boolean = this.client == null;
-    const isNotAdminPath: boolean = this.router.url !== this.ADMIN_PATH;
+    const isLoggedAfterInit:  boolean = this.compteurInit++ > this.MAX_VALUE_INIT;
+    const isLogged:           boolean = this.client == null;
+    const isNotAdminPath:     boolean = this.router.url !== this.ADMIN_PATH;
     if ( isLoggedAfterInit && isLogged && isNotAdminPath) {
       this.router.navigateByUrl(this.LOGIN_PATH).catch((error) => this.openSnackBar(error, Constants.SNACK_ACTION));
     }
@@ -114,21 +113,19 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   public openSimpleDialog(): void {
-
     const dialogConfig: MatDialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = false;
-    dialogConfig.autoFocus = true;
+    dialogConfig.autoFocus    = true;
 
     this.dialog.open(CreateSimpleGameComponent, dialogConfig);
   }
 
   public openFreeDialog(): void {
-
     const dialogConfig: MatDialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = false;
-    dialogConfig.autoFocus = true;
+    dialogConfig.autoFocus    = true;
 
     this.dialog.open(CreateFreeGameComponent, dialogConfig);
   }
@@ -146,8 +143,8 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   private openSnackBar(msg: string, action: string): void {
     this.snackBar.open(msg, action, {
-      duration: Constants.SNACKBAR_DURATION,
-      verticalPosition: "top",
+      duration:           Constants.SNACKBAR_DURATION,
+      verticalPosition:   "top",
     });
   }
 }
