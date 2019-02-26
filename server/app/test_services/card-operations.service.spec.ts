@@ -20,12 +20,12 @@ let cardOperations:     CardOperations;
 describe("Card-operations tests", () => {
     chai.use(spies);
     const c1: ICard = {
-        gameID: 4,
-        title: "Default 2D",
-        subtitle: "default 2D",
-        avatarImageUrl: FAKE_PATH + "/elon.jpg",
-        gameImageUrl: FAKE_PATH + "/elon.jpg",
-        gamemode: GameMode.simple,
+        gameID:             4,
+        title:              "Default 2D",
+        subtitle:           "default 2D",
+        avatarImageUrl:     FAKE_PATH + "/elon.jpg",
+        gameImageUrl:       FAKE_PATH + "/elon.jpg",
+        gamemode:           GameMode.simple,
     };
 
     const c2: ICard = {
