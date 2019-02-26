@@ -31,14 +31,14 @@ describe("HighscoreService tests", () => {
                 timesMulti:     [2, 4 , 6],
             },
             {
-                id: 3,
-                timesSingle: [MOCK_SCORE_VALUE_1, MOCK_SCORE_VALUE_2, MOCK_SCORE_VALUE_3],
-                timesMulti: [MOCK_SCORE_VALUE_1, MOCK_SCORE_VALUE_2, MOCK_SCORE_VALUE_3],
+                id:             3,
+                timesSingle:    [MOCK_SCORE_VALUE_1, MOCK_SCORE_VALUE_2, MOCK_SCORE_VALUE_3],
+                timesMulti:     [MOCK_SCORE_VALUE_1, MOCK_SCORE_VALUE_2, MOCK_SCORE_VALUE_3],
             },
             {
-                id: 4,
-                timesSingle: [122, 124 , 136],
-                timesMulti: [122, 124 , 136],
+                id:             4,
+                timesSingle:    [122, 124 , 136],
+                timesMulti:     [122, 124 , 136],
             },
         ];
         highscoreService = new HighscoreService();
