@@ -138,10 +138,10 @@ describe("Card-manager tests", () => {
 
     it("Should return an error because free card already exist", () => {
         const sceneOptions10: ISceneOptions = {
-            sceneName: "10 objects",
-            sceneType: SceneType.Geometric,
-            sceneObjectsQuantity: 10,
-            selectedOptions: [false, false, false],
+            sceneName:              "10 objects",
+            sceneType:              SceneType.Geometric,
+            sceneObjectsQuantity:   10,
+            selectedOptions:        [false, false, false],
         } as ISceneOptions;
         const sceneBuilder: SceneBuilder = new SceneBuilder();
         const sceneModifier: SceneModifier = new SceneModifier(sceneBuilder);
