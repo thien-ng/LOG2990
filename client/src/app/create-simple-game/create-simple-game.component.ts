@@ -87,7 +87,7 @@ export class CreateSimpleGameComponent {
 
   private createFormData(data: NgForm): FormData {
     const formdata: FormData = new FormData();
-    formdata.append(Constants.NAME_KEY, this.capitalizeFirstLetter(data.value.gameName));
+    formdata.append(Constants.NAME_KEY,           this.capitalizeFirstLetter(data.value.gameName));
     formdata.append(Constants.ORIGINAL_IMAGE_KEY, this.selectedFiles[this.ORIGINAL_INDEX]);
     formdata.append(Constants.MODIFIED_IMAGE_KEY, this.selectedFiles[this.MODIFIED_INDEX]);
 
@@ -114,8 +114,8 @@ export class CreateSimpleGameComponent {
 
   private openSnackBar(msg: string, action: string): void {
     this.snackBar.open(msg, action, {
-      duration: Constants.SNACKBAR_DURATION,
-      verticalPosition: "top",
+      duration:           Constants.SNACKBAR_DURATION,
+      verticalPosition:   "top",
     });
   }
 }
