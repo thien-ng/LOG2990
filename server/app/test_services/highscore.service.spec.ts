@@ -21,14 +21,14 @@ describe("HighscoreService tests", () => {
     beforeEach(() => {
         mockHighscore = [
             {
-                id: 1,
-                timesSingle: [2, 4 , 6],
-                timesMulti: [2, 4 , 6],
+                id:             1,
+                timesSingle:    [2, 4 , 6],
+                timesMulti:     [2, 4 , 6],
             },
             {
-                id: 2,
-                timesSingle: [2, 4 , 6],
-                timesMulti: [2, 4 , 6],
+                id:             2,
+                timesSingle:    [2, 4 , 6],
+                timesMulti:     [2, 4 , 6],
             },
             {
                 id: 3,
