@@ -25,22 +25,24 @@ describe("GameViewService", () => {
 
   it("should return an IClickMessage", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
     const position: IPosition2D = {
-      x: 10,
-      y: 15,
+      x:    10,
+      y:    15,
     };
 
-    const arenaId: number = 1;
+    const arenaId:  number = 1;
     const username: string = "myname";
 
     const clickMessage: IClickMessage = {
-      position: {x: 10, y: 15},
-      arenaID: 1,
-      username: "myname",
+      position:   {
+        x: 10,
+        y: 15,
+      },
+      arenaID:    1,
+      username:   "myname",
     };
 
     const generatedClickMessage: IClickMessage = gameViewService.onCanvasClick(position, arenaId, username);
 
     expect(generatedClickMessage).toEqual(clickMessage);
   }));
-
 });
