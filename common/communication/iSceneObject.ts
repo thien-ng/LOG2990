@@ -16,7 +16,7 @@ export enum SceneObjectType {
 }
 
 export interface IAxisValues {
-    x: number;
-    y: number;
-    z: number;
+    x:  number;
+    y:  number;
+    z:  number;
 }
