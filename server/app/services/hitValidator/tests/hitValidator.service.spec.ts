@@ -15,7 +15,7 @@ const iHitToValidate: IHitToValidate = {
     colorToIgnore:  [],
 };
 
-let   mockAxios:              any;
+let   mockAxios:            any;
 const axios:                any     = require("axios");
 const mockAdapter:          any     = require("axios-mock-adapter");
 const imageBuffer:          Buffer  = fs.readFileSync(path.resolve(__dirname, "../../../asset/image/testBitmap/imagetestOg.bmp"));
