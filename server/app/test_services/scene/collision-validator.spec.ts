@@ -39,15 +39,16 @@ describe("Collision validator tests", () => {
     };
 
     const cube3: ISceneObject = {
-        id: 3,
-        type: 1,
+        id:     3,
+        type:   1,
         position: {
-            x: 220, y: 220, z: 220 },
+            x: 220, y: 220, z: 220,
+        },
         rotation: {
-            x: 1, y: 1, z: 1,
+            x: 1,   y: 1,   z: 1,
         },
         scale: {
-            x: 10, y: 10, z: 10,
+            x: 10,  y: 10,  z: 10,
         },
         color: "#8cadbb",
     };
