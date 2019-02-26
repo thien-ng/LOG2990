@@ -256,11 +256,11 @@ describe("cardManagerService CardTitle test", () => {
     const modified: Buffer = fs.readFileSync(path.resolve(__dirname, "../asset/image/testBitmap/imagetestOg.bmp"));
 
     const requirements: ImageRequirements = {
-        requiredHeight: Constants.REQUIRED_HEIGHT,
-        requiredWidth: Constants.REQUIRED_WIDTH,
-        requiredNbDiff: Constants.REQUIRED_NB_DIFF,
-        originalImage: original,
-        modifiedImage: modified,
+        requiredHeight:     Constants.REQUIRED_HEIGHT,
+        requiredWidth:      Constants.REQUIRED_WIDTH,
+        requiredNbDiff:     Constants.REQUIRED_NB_DIFF,
+        originalImage:      original,
+        modifiedImage:      modified,
     };
 
     it ("should return error of game title length if name is too short", (done: Function) => {
