@@ -11,14 +11,14 @@ describe("TimerComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TimerComponent ],
-      imports: [ MatCardModule ],
+      imports:      [ MatCardModule  ],
     })
     .compileComponents()
     .catch(() => Constants.OBLIGATORY_CATCH);
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TimerComponent);
+    fixture   = TestBed.createComponent(TimerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
