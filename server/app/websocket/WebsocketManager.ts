@@ -34,7 +34,6 @@ export class WebsocketManager {
 
          });
         this.io.listen(Constants.WEBSOCKET_PORT_NUMBER);
-
     }
 
     private gameSocketChecker(socketID: string, socket: SocketIO.Socket): void {
@@ -79,8 +78,8 @@ export class WebsocketManager {
 
         socket.on(Constants.LOGIN_EVENT, (data: string) => {
             user = {
-                username: data,
-                socketID: socket.id,
+                username:       data,
+                socketID:       socket.id,
             };
             this.userManagerService.updateSocketID(user);
             socket.emit(Constants.USER_EVENT, user);
@@ -91,5 +90,4 @@ export class WebsocketManager {
             this.gameManagerService.unsubscribeSocketID(socketID, user.username);
         });
     }
-
 }
