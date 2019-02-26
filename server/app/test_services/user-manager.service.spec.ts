@@ -44,7 +44,8 @@ describe("UserManagerService test", () => {
         const user: IUser = {
             username:       "patate",
             socketID:       "socketid",
-                            };
+        };
+
         const result: Message = userManagerService.validateName(user.username);
 
         expect(result.body).to.equal("isNotUnique");
