@@ -9,7 +9,7 @@ import { ISceneVariables, ISceneVariablesMessage } from "../../../../../common/c
 import { Message } from "../../../../../common/communication/message";
 @Component({
   selector:     "app-game-view-free",
-  templateUrl:    "./game-view-free.component.html",
+  templateUrl:  "./game-view-free.component.html",
   styleUrls:    ["./game-view-free.component.css"],
 })
 export class GameViewFreeComponent implements OnInit {
