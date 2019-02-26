@@ -8,32 +8,30 @@ import { Constants } from "../constants";
 import { FileValidatorService } from "./game-validator.service";
 
 @Component({
-  selector: "app-create-simple-game",
-  templateUrl: "./create-simple-game.component.html",
-  styleUrls: ["./create-simple-game.component.css"],
+  selector:     "app-create-simple-game",
+  templateUrl:  "./create-simple-game.component.html",
+  styleUrls:    ["./create-simple-game.component.css"],
 })
 export class CreateSimpleGameComponent {
 
-  public readonly TITLE: string = "Créer un jeu de point de vue simple";
-  public readonly INVALID_NAME: string = "Nom invalide";
-  public readonly PLACE_HOLDER: string = "Nom du jeu";
-  public readonly ORIGINAL_IMAGE: string = "Image originale";
-  public readonly MODIFIED_IMAGE: string = "Image modifiée";
-  public readonly SUBMIT: string = "Soumettre";
-  public readonly CANCEL: string = "Annuler";
-  public readonly MAX_LENGTH: number = 15;
-  public readonly IS_IMAGE_BMP: boolean[] = [false, false];
-  public readonly ORIGINAL_INDEX: number = 0;
-  public readonly MODIFIED_INDEX: number = 1;
-  public readonly ERROR_PATTERN: string = "Caractères autorisés: A-Z, a-z";
-  public readonly ERROR_SIZE: string = "Taille: "
-                                  + Constants.MIN_GAME_LENGTH + "-"
-                                  + Constants.MAX_GAME_LENGTH + " caractères";
-  public readonly ERROR_REQUIRED: string = "Nom de jeu requis";
+  public readonly TITLE:          string    = "Créer un jeu de point de vue simple";
+  public readonly INVALID_NAME:   string    = "Nom invalide";
+  public readonly PLACE_HOLDER:   string    = "Nom du jeu";
+  public readonly ORIGINAL_IMAGE: string    = "Image originale";
+  public readonly MODIFIED_IMAGE: string    = "Image modifiée";
+  public readonly SUBMIT:         string    = "Soumettre";
+  public readonly CANCEL:         string    = "Annuler";
+  public readonly MAX_LENGTH:     number    = 15;
+  public readonly IS_IMAGE_BMP:   boolean[] = [false, false];
+  public readonly ORIGINAL_INDEX: number    = 0;
+  public readonly MODIFIED_INDEX: number    = 1;
+  public readonly ERROR_PATTERN:  string    = "Caractères autorisés: A-Z, a-z";
+  public readonly ERROR_SIZE:     string    = "Taille: " + Constants.MIN_GAME_LENGTH + "-" + Constants.MAX_GAME_LENGTH + " caractères";
+  public readonly ERROR_REQUIRED: string    = "Nom de jeu requis";
 
-  public formControl: FormGroup;
-  private selectedFiles: [Blob, Blob];
-  public isButtonEnabled: boolean;
+  public formControl:             FormGroup;
+  private selectedFiles:          [Blob, Blob];
+  public isButtonEnabled:         boolean;
 
   public constructor(
     private dialogRef: MatDialogRef<CreateSimpleGameComponent>,
