@@ -5,13 +5,13 @@ import { Constants } from "src/app/constants";
 import { DifferenceCounterComponent } from "./difference-counter.component";
 
 describe("DifferenceCounterComponent", () => {
-  let component: DifferenceCounterComponent;
-  let fixture: ComponentFixture<DifferenceCounterComponent>;
+  let component:  DifferenceCounterComponent;
+  let fixture:    ComponentFixture<DifferenceCounterComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ DifferenceCounterComponent ],
-      imports: [ TestingImportsModule]})
+      imports:      [ TestingImportsModule ]})
     .compileComponents()
     .catch(() => Constants.OBLIGATORY_CATCH);
   }));
