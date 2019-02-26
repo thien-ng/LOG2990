@@ -244,8 +244,8 @@ describe("Card-manager tests", () => {
     });
 
     it("Should return an unknown error", async () => {
-        const typeError: TypeError = new TypeError("men calice");
-        const result: any = cardManagerService.generateErrorMessage(typeError);
+        const typeError:    TypeError   = new TypeError("men calice");
+        const result:       any         = cardManagerService.generateErrorMessage(typeError);
 
         chai.expect(result).to.deep.equal({title: Constants.ON_ERROR_MESSAGE, body: typeError.message});
     });
