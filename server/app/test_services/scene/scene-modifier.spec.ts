@@ -24,12 +24,13 @@ beforeEach(() => {
 
     for (let i: number = 0; i < 10; i++) {
         const tempObject: ISceneObject = {
-            id: i,
-            type: 1,
-            position: {x: i * 10, y: i * 10, z: i * 10},
-            rotation: {x: 0.1, y: 0.1, z: 0.1},
-            color: "#FFFFFF",
-            scale: {x: 0.5, y: 0.5, z: 0.5},
+            id:         i,
+            type:       1,
+            position:   { x: i * 10,    y: i * 10,      z: i * 10 },
+            rotation:   { x: 0.1,       y: 0.1,         z: 0.1 },
+            color:      "#FFFFFF",
+            scale:      { x: 0.5,       y: 0.5,         z: 0.5,
+            },
         };
         iSceneObjectGenerated.push(tempObject);
     }
