@@ -50,12 +50,12 @@ describe("Card-manager tests", () => {
     };
 
     const c3: ICard = {
-        gameID: 3,
-        title: "Default 3D 2.0",
-        subtitle: "default 3D",
-        avatarImageUrl: FAKE_PATH + "/poly.jpg",
-        gameImageUrl: FAKE_PATH + "/poly.jpg",
-        gamemode: GameMode.free,
+        gameID:             3,
+        title:              "Default 3D 2.0",
+        subtitle:           "default 3D",
+        avatarImageUrl:     FAKE_PATH + "/poly.jpg",
+        gameImageUrl:       FAKE_PATH + "/poly.jpg",
+        gamemode:           GameMode.free,
     };
 
     beforeEach(() => {
