@@ -20,11 +20,11 @@ describe("Difference Enlarger tests", () => {
     it("should return the same array when given an invalid number", (done: Function) => {
 
         builder.setColorAtPos(100, 100, 100, 1, 1);
-        const bufferWithWrongColor: Buffer = builder.buffer;
-        const expectedOutputBuffer: Buffer = Buffer.from(bufferWithWrongColor);
 
-        const enlarger:             DifferenceEnlarger = new DifferenceEnlarger(bufferWithWrongColor, 2, RADIUS);
-        const bufferAfterEnlarger:  Buffer = enlarger.enlargeAllDifferences();
+        const bufferWithWrongColor: Buffer              = builder.buffer;
+        const expectedOutputBuffer: Buffer              = Buffer.from(bufferWithWrongColor);
+        const enlarger:             DifferenceEnlarger  = new DifferenceEnlarger(bufferWithWrongColor, 2, RADIUS);
+        const bufferAfterEnlarger:  Buffer              = enlarger.enlargeAllDifferences();
 
         expect(bufferAfterEnlarger).deep.equal(expectedOutputBuffer);
         done();
@@ -34,12 +34,12 @@ describe("Difference Enlarger tests", () => {
         const width:  number = 1;
         const height: number = 2;
 
-        const newBuilder:           BMPBuilder = new BMPBuilder(width, height, WHITE);
-        const singlePixelBuffer:    Buffer = Buffer.from(newBuilder.buffer);
-        const expectedOutputBuffer: Buffer = Buffer.from(newBuilder.buffer);
+        const newBuilder:           BMPBuilder          = new BMPBuilder(width, height, WHITE);
+        const singlePixelBuffer:    Buffer              = Buffer.from(newBuilder.buffer);
+        const expectedOutputBuffer: Buffer              = Buffer.from(newBuilder.buffer);
 
-        const enlarger:             DifferenceEnlarger = new DifferenceEnlarger(singlePixelBuffer, width, RADIUS);
-        const bufferAfterEnlarger:  Buffer = enlarger.enlargeAllDifferences();
+        const enlarger:             DifferenceEnlarger  = new DifferenceEnlarger(singlePixelBuffer, width, RADIUS);
+        const bufferAfterEnlarger:  Buffer              = enlarger.enlargeAllDifferences();
 
         expect(bufferAfterEnlarger).deep.equal(expectedOutputBuffer);
         done();
@@ -49,14 +49,14 @@ describe("Difference Enlarger tests", () => {
         const width:  number = 1;
         const height: number = 1;
 
-        const singlePixelBuilder:   BMPBuilder = new BMPBuilder(width, height, WHITE);
+        const singlePixelBuilder:   BMPBuilder          = new BMPBuilder(width, height, WHITE);
         singlePixelBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 0);
 
-        const singlePixelBuffer:    Buffer = singlePixelBuilder.buffer;
-        const expectedOutputBuffer: Buffer = Buffer.from(singlePixelBuilder.buffer);
+        const singlePixelBuffer:    Buffer              = singlePixelBuilder.buffer;
+        const expectedOutputBuffer: Buffer              = Buffer.from(singlePixelBuilder.buffer);
 
-        const enlarger:             DifferenceEnlarger = new DifferenceEnlarger(singlePixelBuffer, width, RADIUS);
-        const bufferAfterEnlarger:  Buffer = enlarger.enlargeAllDifferences();
+        const enlarger:             DifferenceEnlarger  = new DifferenceEnlarger(singlePixelBuffer, width, RADIUS);
+        const bufferAfterEnlarger:  Buffer              = enlarger.enlargeAllDifferences();
 
         expect(bufferAfterEnlarger).to.deep.equal(expectedOutputBuffer);
         done();
@@ -66,6 +66,7 @@ describe("Difference Enlarger tests", () => {
         const width:        number      = 4;
         const height:       number      = 4;
         const inputBuilder: BMPBuilder  = new BMPBuilder(width, height, WHITE);
+
         inputBuilder.setColorAtPos(BLACK, BLACK, BLACK, 3, 3);
         const diffInBottomCornerBuffer: Buffer = Buffer.from(inputBuilder.buffer);
 
@@ -87,6 +88,7 @@ describe("Difference Enlarger tests", () => {
         ];
         const xIndex: number = 0;
         const yIndex: number = 1;
+
         positions.forEach((position: number[]) => {
             expectedBuilder.setColorAtPos(BLACK, BLACK, BLACK, position[xIndex], position[yIndex]);
         });
@@ -94,6 +96,7 @@ describe("Difference Enlarger tests", () => {
         const expectedOutputBuffer: Buffer              = expectedBuilder.buffer;
         const enlarger:             DifferenceEnlarger  = new DifferenceEnlarger(diffInBottomCornerBuffer, width, RADIUS);
         const bufferAfterEnlarger:  Buffer              = enlarger.enlargeAllDifferences();
+
         expect(bufferAfterEnlarger).deep.equal(expectedOutputBuffer);
         done();
     });
@@ -104,18 +107,17 @@ describe("Difference Enlarger tests", () => {
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 0);
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 1, 1);
 
-        const givenBuffer:      Buffer = Buffer.from(newBuilder.buffer);
-
-        const expectedBuilder:  BMPBuilder = new BMPBuilder(4, 4, BLACK);
-
-        const expectedBuffer:   Buffer = Buffer.from(expectedBuilder.buffer);
+        const givenBuffer:      Buffer      = Buffer.from(newBuilder.buffer);
+        const expectedBuilder:  BMPBuilder  = new BMPBuilder(4, 4, BLACK);
+        const expectedBuffer:   Buffer      = Buffer.from(expectedBuilder.buffer);
 
         let circleDifferences:  DifferenceEnlarger;
-        const width:            number = 4;
-        const radius:           number = 4;
+        const width:            number  = 4;
+        const radius:           number  = 4;
 
-        circleDifferences = new DifferenceEnlarger(givenBuffer, width, radius);
-        const computedArray:    Buffer = circleDifferences.enlargeAllDifferences();
+        circleDifferences               = new DifferenceEnlarger(givenBuffer, width, radius);
+        const computedArray:    Buffer  = circleDifferences.enlargeAllDifferences();
+
         expect(computedArray).deep.equal(expectedBuffer);
         done();
     });
