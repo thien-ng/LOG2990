@@ -100,9 +100,7 @@ describe("Collision box generator tests", () => {
     };
 
     beforeEach(() => {
-
         chai.use(spies);
-
         collisionBoxGenerator = new CollisionBoxGenerator();
     });
 
