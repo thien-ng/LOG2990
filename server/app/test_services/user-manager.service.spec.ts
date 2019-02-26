@@ -165,9 +165,10 @@ describe("UserManagerService test", () => {
 
     it ("should update the username to the corresponding SocketID", () => {
         const user: IUser = {
-                                username: "patate",
-                                socketID: "socketid",
-                            };
+            username:       "patate",
+            socketID:       "socketid",
+        };
+
         const result: IUser | string = userManagerService.getUserByUsername("patate");
         expect(result).to.deep.equal(user);
     });
