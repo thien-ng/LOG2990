@@ -8,25 +8,25 @@ import { AdminToggleService } from "../main-nav/admin-toggle.service";
 import { GameModeService } from "./game-mode.service";
 
 @Component({
-  selector: "app-game-list-container",
-  templateUrl: "./game-list-container.component.html",
-  styleUrls: ["./game-list-container.component.css"],
+  selector:     "app-game-list-container",
+  templateUrl:  "./game-list-container.component.html",
+  styleUrls:    ["./game-list-container.component.css"],
 })
 export class GameListContainerComponent implements OnInit, OnDestroy {
 
-  private stateSubscription: Subscription;
-  @Input() public cardListContainer: ICardLists;
-  public tabIndex: number;
-  public cardsLoaded: boolean;
+  private stateSubscription:          Subscription;
+  @Input() public cardListContainer:  ICardLists;
+  public tabIndex:                    number;
+  public cardsLoaded:                 boolean;
 
   public constructor(
-    public gameModeservice: GameModeService,
-    public cardManagerService: CardManagerService,
-    private adminService: AdminToggleService,
-    public router: Router,
+    public  gameModeservice:    GameModeService,
+    public  cardManagerService: CardManagerService,
+    private adminService:       AdminToggleService,
+    public  router:             Router,
     ) {
-    this.cardsLoaded = false;
-    this.tabIndex = 0;
+    this.cardsLoaded  = false;
+    this.tabIndex     = 0;
     }
 
   public ngOnInit(): void {
@@ -55,8 +55,8 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
   public getCards(): void {
     this.cardManagerService.getCards()
     .subscribe((cards: ICardLists) => {
-      this.cardListContainer = cards;
-      this.cardsLoaded = true;
+      this.cardListContainer  = cards;
+      this.cardsLoaded        = true;
     });
   }
 
