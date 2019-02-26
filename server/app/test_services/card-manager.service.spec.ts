@@ -149,13 +149,14 @@ describe("Card-manager tests", () => {
         const isceneVariable:   ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
 
         const iSceneVariablesMessage: ISceneVariablesMessage = {
-            originalScene: isceneVariable,
-            modifiedScene: sceneModifier.modifyScene(sceneOptions10, isceneVariable),
+            originalScene:          isceneVariable,
+            modifiedScene:          sceneModifier.modifyScene(sceneOptions10, isceneVariable),
         };
         const sceneMessage: ISceneMessage = {
             iSceneVariablesMessage: iSceneVariablesMessage,
-            image: "",
+            image:                  "",
         };
+
         cardManagerService.freeCardCreationRoutine(sceneMessage);
         chai.expect(cardManagerService.freeCardCreationRoutine(sceneMessage))
         .to.deep.equal({title: "onError", body: "Le titre de la carte existe déjà"});
