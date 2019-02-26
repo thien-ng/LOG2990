@@ -35,11 +35,11 @@ beforeEach(() => {
         iSceneObjectGenerated.push(tempObject);
     }
     iSceneVariables = {
-        theme: SceneType.Thematic,
-        gameName: "game",
-        sceneObjectsQuantity: 10,
-        sceneObjects: iSceneObjectGenerated,
-        sceneBackgroundColor: "#FFFFFF",
+        theme:                  SceneType.Thematic,
+        gameName:               "game",
+        sceneObjectsQuantity:   10,
+        sceneObjects:           iSceneObjectGenerated,
+        sceneBackgroundColor:   "#FFFFFF",
     };
 
     counterDifference = 0;
