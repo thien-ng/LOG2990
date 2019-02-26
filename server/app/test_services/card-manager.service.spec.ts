@@ -91,11 +91,11 @@ describe("Card-manager tests", () => {
             body: Constants.VALIDATION_FAILED,
         });
         const requirements: ImageRequirements = {
-            requiredHeight: Constants.REQUIRED_HEIGHT,
-            requiredWidth: Constants.REQUIRED_WIDTH,
-            requiredNbDiff: Constants.REQUIRED_NB_DIFF,
-            originalImage: original,
-            modifiedImage: modified,
+            requiredHeight:     Constants.REQUIRED_HEIGHT,
+            requiredWidth:      Constants.REQUIRED_WIDTH,
+            requiredNbDiff:     Constants.REQUIRED_NB_DIFF,
+            originalImage:      original,
+            modifiedImage:      modified,
         };
 
         let messageTitle: string = "";
