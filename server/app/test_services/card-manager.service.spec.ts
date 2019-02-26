@@ -170,11 +170,11 @@ describe("Card-manager tests", () => {
 
     it("Should return a message of success and simple create card", async () => {
         const requirements: ImageRequirements = {
-            requiredHeight: Constants.REQUIRED_HEIGHT,
-            requiredWidth: Constants.REQUIRED_WIDTH,
-            requiredNbDiff: Constants.REQUIRED_NB_DIFF,
-            originalImage: original,
-            modifiedImage: modified,
+            requiredHeight:     Constants.REQUIRED_HEIGHT,
+            requiredWidth:      Constants.REQUIRED_WIDTH,
+            requiredNbDiff:     Constants.REQUIRED_NB_DIFF,
+            originalImage:      original,
+            modifiedImage:      modified,
         };
         mockAxios.onPost(Constants.PATH_FOR_2D_VALIDATION).reply(200, original);
 
