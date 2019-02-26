@@ -185,7 +185,8 @@ describe("Card-manager tests", () => {
         const paths: string[] = [
             "./app/asset/image/1000_generated.bmp",
             "./app/asset/image/1000_modified.bmp",
-            "./app/asset/image/1000_original.bmp"];
+            "./app/asset/image/1000_original.bmp",
+        ];
 
         assetManagerService.deleteStoredImages(paths);
 
@@ -194,11 +195,11 @@ describe("Card-manager tests", () => {
 
     it("Should return error because simple card title exist already", async () => {
         const requirements: ImageRequirements = {
-            requiredHeight: Constants.REQUIRED_HEIGHT,
-            requiredWidth: Constants.REQUIRED_WIDTH,
-            requiredNbDiff: Constants.REQUIRED_NB_DIFF,
-            originalImage: original,
-            modifiedImage: modified,
+            requiredHeight:     Constants.REQUIRED_HEIGHT,
+            requiredWidth:      Constants.REQUIRED_WIDTH,
+            requiredNbDiff:     Constants.REQUIRED_NB_DIFF,
+            originalImage:      original,
+            modifiedImage:      modified,
         };
         mockAxios.onPost(Constants.PATH_FOR_2D_VALIDATION).reply(200, original);
         await cardManagerService.simpleCardCreationRoutine(requirements, "title").then();
