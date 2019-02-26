@@ -15,15 +15,15 @@ import { SceneManager } from "../../services/scene/scene-manager.service";
 let sceneManager:       SceneManager;
 let formMessage:        FormMessage;
 let cardManagerService: CardManagerService;
-let highscoreService: HighscoreService;
-let cardOperations: CardOperations;
+let highscoreService:   HighscoreService;
+let cardOperations:     CardOperations;
 
 beforeEach(() => {
     chai.use(spies);
-    highscoreService = new HighscoreService();
-    cardOperations = new CardOperations(highscoreService);
-    cardManagerService = new CardManagerService(cardOperations);
-    sceneManager = new SceneManager(cardManagerService);
+    highscoreService    = new HighscoreService();
+    cardOperations      = new CardOperations(highscoreService);
+    cardManagerService  = new CardManagerService(cardOperations);
+    sceneManager        = new SceneManager(cardManagerService);
 });
 
 describe("SceneManager Tests", () => {
