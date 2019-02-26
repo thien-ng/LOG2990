@@ -88,10 +88,10 @@ describe("SceneManager Tests", () => {
 
     it("should return scene variables with Geometric theme by default", () => {
         formMessage = {
-            gameName: "gameName",
-            checkedTypes: [true, true, true],
-            theme: "default",
-            quantityChange: 10,
+            gameName:           "gameName",
+            checkedTypes:       [true, true, true],
+            theme:              "default",
+            quantityChange:     10,
         };
 
         const sceneVariables: ISceneVariablesMessage | string = sceneManager.createScene(formMessage);
@@ -131,10 +131,10 @@ describe("SceneManager Tests", () => {
     it("should return an error message when a game with the same name exists", () => {
 
         formMessage = {
-            gameName: "Scène par défaut",
-            checkedTypes: [true, true, true],
-            theme: "geometric",
-            quantityChange: 5,
+            gameName:           "Scène par défaut",
+            checkedTypes:       [true, true, true],
+            theme:              "geometric",
+            quantityChange:     5,
         };
 
         const sceneVariables: ISceneVariablesMessage | string = sceneManager.createScene(formMessage);
