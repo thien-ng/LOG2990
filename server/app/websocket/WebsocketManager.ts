@@ -23,9 +23,10 @@ export class WebsocketManager {
         this.io.on(Constants.CONNECTION, (socket: SocketIO.Socket) => {
 
             const user: IUser = {
-                username: "",
-                socketID: "",
+                username:       "",
+                socketID:       "",
             };
+
             const socketID: string = "";
 
             this.loginSocketChecker(user, socketID, socket);
