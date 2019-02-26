@@ -76,10 +76,10 @@ describe("Scene-modifier tests", () => {
 
     it("should change color 7 objects to sceneObject array", () => {
         iSceneOptions = {
-            sceneName: "game",
-            sceneType: SceneType.Thematic,
-            sceneObjectsQuantity: 10,
-            selectedOptions: [false, false, true],
+            sceneName:              "game",
+            sceneType:              SceneType.Thematic,
+            sceneObjectsQuantity:   10,
+            selectedOptions:        [false, false, true],
         };
 
         const spy: any = chai.spy.on(sceneModifier, "changeObjectColor");
