@@ -16,9 +16,10 @@ beforeEach(() => {
     });
 
     userManagerService.users.push({
-                                    username: "roger",
-                                    socketID: "socketid",
-                                });
+        username:       "roger",
+        socketID:       "socketid",
+    });
+
     userManagerService.users.push({
                                     username: "dylan",
                                     socketID: "socketid",
