@@ -1,12 +1,6 @@
-export interface IClickMessage {
-    position: IPosition2D;
-    arenaID: number;
-    username: string;
-}
-
 export interface IPosition2D {
-    x: number;
-    y: number;
+    x:  number;
+    y:  number;
 }
 
 export interface IColorRGB {
