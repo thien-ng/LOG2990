@@ -25,12 +25,13 @@ describe("Collision box generator tests", () => {
     };
 
     const cylinder: ISceneObject = {
-        id: 2,
-        type: SceneObjectType.Cylinder,
+        id:     2,
+        type:   SceneObjectType.Cylinder,
         position: {
-            x: 20, y: 20, z: 20 },
+            x: 20, y: 20, z: 20,
+        },
         rotation: {
-            x: 1, y: 1, z: 1,
+            x: 1,  y: 1,  z: 1,
         },
         scale: {
             x: 10, y: 10, z: 10,
