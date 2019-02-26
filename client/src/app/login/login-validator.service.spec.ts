@@ -10,12 +10,11 @@ import { LoginValidatorService } from "./login-validator.service";
 
 // tslint:disable:no-any no-floating-promises
 
-let loginValidatorService: LoginValidatorService;
-let httpClient: HttpClient;
+let loginValidatorService:  LoginValidatorService;
+let httpClient:             HttpClient;
 
 beforeEach(() => {
   httpClient = mock(HttpClient);
-
   loginValidatorService = new LoginValidatorService( httpClient );
 });
 
