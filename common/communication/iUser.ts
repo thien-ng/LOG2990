@@ -1,4 +1,4 @@
 export interface IUser {
-    username: string;
-    socketID: string;
+    username:   string;
+    socketID:   string;
 }
