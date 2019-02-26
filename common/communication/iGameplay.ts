@@ -25,13 +25,6 @@ export interface IOriginalPixelCluster {
     cluster:        IReplacementPixel[];
 }
 
-export interface IOriginalImageSegment {
-    startPosition: IPosition2D;
-    width:      number;
-    height:     number;
-    image:      number[];
-}
-
 export interface IPlayerInputResponse {
     status:         string;
     response:       IOriginalPixelCluster;
