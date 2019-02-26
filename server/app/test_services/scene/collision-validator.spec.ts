@@ -9,12 +9,13 @@ let collisionValidator: CollisionValidator;
 describe("Collision validator tests", () => {
 
     const cube1: ISceneObject = {
-        id: 1,
-        type: 1,
+        id:     1,
+        type:   1,
         position: {
-            x: 20, y: 20, z: 20 },
+            x: 20, y: 20, z: 20,
+        },
         rotation: {
-            x: 1, y: 1, z: 1,
+            x: 1,  y: 1,  z: 1,
         },
         scale: {
             x: 10, y: 10, z: 10,
