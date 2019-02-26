@@ -9,10 +9,12 @@ let userManagerService: UserManagerService;
 
 beforeEach(() => {
     userManagerService = new UserManagerService;
+
     userManagerService.users.push({
-                                    username: "patate",
-                                    socketID: "socketid",
-                                });
+        username:       "patate",
+        socketID:       "socketid",
+    });
+
     userManagerService.users.push({
                                     username: "roger",
                                     socketID: "socketid",
