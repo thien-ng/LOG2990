@@ -59,14 +59,13 @@ describe("SceneManager Tests", () => {
 
     it("should should receive Thematic theme string", () => {
         formMessage = {
-            gameName: "gameName",
-            checkedTypes: [true, true, true],
-            theme: "thematic",
-            quantityChange: 10,
+            gameName:           "gameName",
+            checkedTypes:       [true, true, true],
+            theme:              "thematic",
+            quantityChange:     10,
         };
 
         const spy: any = chai.spy.on(sceneManager, "objectTypeIdentifier");
-
         sceneManager.createScene(formMessage);
 
         chai.expect(spy).to.have.been.called.with("thematic");
@@ -74,10 +73,10 @@ describe("SceneManager Tests", () => {
 
     it("should return scene variables with Thematic theme", () => {
         formMessage = {
-            gameName: "gameName",
-            checkedTypes: [true, true, true],
-            theme: "thematic",
-            quantityChange: 10,
+            gameName:           "gameName",
+            checkedTypes:       [true, true, true],
+            theme:              "thematic",
+            quantityChange:     10,
         };
 
         const sceneVariables: ISceneVariablesMessage | string = sceneManager.createScene(formMessage);
