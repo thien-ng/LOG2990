@@ -63,14 +63,14 @@ describe("Difference Enlarger tests", () => {
     });
 
     it("should work when given an difference in a corner", (done: Function) => {
-        const width:  number = 4;
-        const height: number = 4;
-        const inputBuilder:             BMPBuilder = new BMPBuilder(width, height, WHITE);
+        const width:        number      = 4;
+        const height:       number      = 4;
+        const inputBuilder: BMPBuilder  = new BMPBuilder(width, height, WHITE);
         inputBuilder.setColorAtPos(BLACK, BLACK, BLACK, 3, 3);
         const diffInBottomCornerBuffer: Buffer = Buffer.from(inputBuilder.buffer);
 
-        const expectedBuilder: BMPBuilder = new BMPBuilder(width, height, WHITE);
-        const positions: number [][] = [
+        const expectedBuilder:  BMPBuilder  = new BMPBuilder(width, height, WHITE);
+        const positions:        number [][] = [
             [2, 0],
             [3, 0],
             [1, 1],
@@ -91,9 +91,9 @@ describe("Difference Enlarger tests", () => {
             expectedBuilder.setColorAtPos(BLACK, BLACK, BLACK, position[xIndex], position[yIndex]);
         });
 
-        const expectedOutputBuffer: Buffer = expectedBuilder.buffer;
-        const enlarger: DifferenceEnlarger = new DifferenceEnlarger(diffInBottomCornerBuffer, width, RADIUS);
-        const bufferAfterEnlarger: Buffer = enlarger.enlargeAllDifferences();
+        const expectedOutputBuffer: Buffer              = expectedBuilder.buffer;
+        const enlarger:             DifferenceEnlarger  = new DifferenceEnlarger(diffInBottomCornerBuffer, width, RADIUS);
+        const bufferAfterEnlarger:  Buffer              = enlarger.enlargeAllDifferences();
         expect(bufferAfterEnlarger).deep.equal(expectedOutputBuffer);
         done();
     });
@@ -111,8 +111,8 @@ describe("Difference Enlarger tests", () => {
         const expectedBuffer:   Buffer = Buffer.from(expectedBuilder.buffer);
 
         let circleDifferences:  DifferenceEnlarger;
-        const width: number = 4;
-        const radius: number = 4;
+        const width:            number = 4;
+        const radius:           number = 4;
 
         circleDifferences = new DifferenceEnlarger(givenBuffer, width, radius);
         const computedArray:    Buffer = circleDifferences.enlargeAllDifferences();
