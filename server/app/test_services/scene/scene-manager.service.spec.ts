@@ -12,8 +12,8 @@ import { SceneManager } from "../../services/scene/scene-manager.service";
 
 /* tslint:disable:no-any no-magic-numbers */
 
-let sceneManager: SceneManager;
-let formMessage: FormMessage;
+let sceneManager:       SceneManager;
+let formMessage:        FormMessage;
 let cardManagerService: CardManagerService;
 let highscoreService: HighscoreService;
 let cardOperations: CardOperations;
