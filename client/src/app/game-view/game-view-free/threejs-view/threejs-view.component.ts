@@ -10,39 +10,39 @@ import { Constants } from "../../../constants";
 import { ThreejsViewService } from "./threejs-view.service";
 
 @Component({
-  selector: "app-threejs-view",
-  templateUrl: "./threejs-view.component.html",
-  styleUrls: ["./threejs-view.component.css"],
-  providers: [ThreejsViewService],
+  selector:     "app-threejs-view",
+  templateUrl:  "./threejs-view.component.html",
+  styleUrls:    ["./threejs-view.component.css"],
+  providers:    [ThreejsViewService],
 })
 export class TheejsViewComponent implements OnChanges {
 
-  private renderer: THREE.WebGLRenderer;
-  private scene: THREE.Scene;
+  private renderer:               THREE.WebGLRenderer;
+  private scene:                  THREE.Scene;
 
   @Input()
-  private iSceneVariables: ISceneVariables;
+  private iSceneVariables:        ISceneVariables;
 
   @Input()
   private iSceneVariablesMessage: ISceneVariablesMessage;
 
   @Input()
-  private isSnapshotNeeded: boolean;
+  private isSnapshotNeeded:       boolean;
 
   @Output()
-  public sceneGenerated: EventEmitter<string>;
+  public sceneGenerated:          EventEmitter<string>;
 
   @ViewChild("originalScene", {read: ElementRef})
-  private originalScene: ElementRef;
+  private originalScene:          ElementRef;
 
   public constructor(
     @Inject(ThreejsViewService) private threejsViewService: ThreejsViewService,
-    private httpClient: HttpClient,
-    private snackBar: MatSnackBar,
+    private httpClient:         HttpClient,
+    private snackBar:           MatSnackBar,
     private cardManagerService: CardManagerService,
     ) {
     this.sceneGenerated = new EventEmitter();
-    this.scene = new THREE.Scene();
+    this.scene          = new THREE.Scene();
   }
 
   public ngOnChanges(): void {
@@ -63,16 +63,16 @@ export class TheejsViewComponent implements OnChanges {
   private takeSnapShot(): void {
 
     if (this.isSnapshotNeeded) {
-      const snapshot: string = this.renderer.domElement.toDataURL("image/jpeg");
-      const message: ISceneMessage = this.createMessage(snapshot);
+      const snapshot: string        = this.renderer.domElement.toDataURL("image/jpeg");
+      const message:  ISceneMessage = this.createMessage(snapshot);
       this.sendSnapshot(message);
     }
   }
 
   private createMessage(image: string): ISceneMessage {
     return {
-      iSceneVariablesMessage: this.iSceneVariablesMessage,
-      image: image,
+      iSceneVariablesMessage:   this.iSceneVariablesMessage,
+      image:                    image,
     } as ISceneMessage;
   }
 
@@ -94,8 +94,8 @@ export class TheejsViewComponent implements OnChanges {
 
   private openSnackBar(msg: string, action: string): void {
     this.snackBar.open(msg, action, {
-      duration: Constants.SNACKBAR_DURATION,
-      verticalPosition: "top",
+      duration:           Constants.SNACKBAR_DURATION,
+      verticalPosition:   "top",
     });
   }
 
