@@ -91,16 +91,16 @@ describe("UserManagerService test", () => {
     });
 
     it ("should return True if name input is unique", (done: Function) => {
-        const name: string = "bob";
-        const result: Boolean | Message = userManagerService.isUnique(name);
+        const name:     string              = "bob";
+        const result:   Boolean | Message   = userManagerService.isUnique(name);
 
         expect(result).to.equal(true);
         done();
     });
 
     it ("should return false if name input is unique", (done: Function) => {
-        const name: string = "patate";
-        const result: Boolean = userManagerService.isUnique(name);
+        const name:     string  = "patate";
+        const result:   Boolean = userManagerService.isUnique(name);
 
         expect(result).to.equal(false);
         done();
