@@ -21,9 +21,9 @@ beforeEach(() => {
     });
 
     userManagerService.users.push({
-                                    username: "dylan",
-                                    socketID: "socketid",
-                                });
+        username:       "dylan",
+        socketID:       "socketid",
+    });
 });
 
 describe("UserManagerService test", () => {
