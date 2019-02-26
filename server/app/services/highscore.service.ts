@@ -42,7 +42,7 @@ export class HighscoreService {
 
     private secondsToMinutes(times: [number, number, number]): [string, string, string] {
         const messageHighscore: [string, string, string] = ["", "", ""];
-        let i:                  number = 0;
+        let i: number = 0;
 
         times.forEach((element: number) => {
             const minutes: string = Math.floor(element / SECONDS_IN_MINUTES).toString();
