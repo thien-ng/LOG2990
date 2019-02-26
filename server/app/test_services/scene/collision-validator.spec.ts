@@ -82,15 +82,16 @@ describe("Collision validator tests", () => {
 
     it("should return true if there is collision between new and already existing scene objects", () => {
         const newCube: ISceneObject = {
-            id: 1,
-            type: 1,
+            id:     1,
+            type:   1,
             position: {
-                x: 220, y: 220, z: 220 },
+                x: 220, y: 220, z: 220,
+            },
             rotation: {
-                x: 1, y: 1, z: 1,
+                x: 1,   y: 1,   z: 1,
             },
             scale: {
-                x: 10, y: 10, z: 10,
+                x: 10,  y: 10,  z: 10,
             },
             color: "#8cadbb",
         };
