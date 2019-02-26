@@ -17,5 +17,4 @@ describe("TheejsViewComponent", () => {
     fixture = TestBed.createComponent(TheejsViewComponent);
     fixture.detectChanges();
   });
-
 });
