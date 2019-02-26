@@ -47,8 +47,8 @@ describe("Card-operations tests", () => {
     };
 
     beforeEach(() => {
-        highscoreService = new HighscoreService();
-        cardOperations = new CardOperations(highscoreService);
+        highscoreService    = new HighscoreService();
+        cardOperations      = new CardOperations(highscoreService);
     });
 
     it("should return true when adding a new 2D card", () => {
