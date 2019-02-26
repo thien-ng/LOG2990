@@ -1,16 +1,16 @@
 export enum GameMode {
-  simple = "simple",
-  free = "free",
+  simple =  "simple",
+  free =    "free",
   invalid = "invalid",
 }
 
 export interface ICard {
-    gameID: number;
-    gamemode: GameMode;
-    title: string;
-    subtitle: string;
-    avatarImageUrl: string;
-    gameImageUrl: string;
+    gameID:           number;
+    gamemode:         GameMode;
+    title:            string;
+    subtitle:         string;
+    avatarImageUrl:   string;
+    gameImageUrl:     string;
   }
 
 export const DefaultCard2D: ICard = {
