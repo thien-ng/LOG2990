@@ -147,22 +147,27 @@ describe("Card-operations tests", () => {
         assetManager.saveImage(originalImagePath,  "test");
         assetManager.saveImage(modifiedImagePath,  "test");
         assetManager.saveImage(generatedImagePath, "test");
+
         chai.expect(cardOperations.removeCard2D(4)).to.equal(Constants.CARD_DELETED);
     });
 
     it("should delete card 3D", () => {
-        const assetManager: AssetManagerService = new AssetManagerService();
+        const snapshot:             string = Constants.IMAGES_PATH + "/" + 2 + Constants.GENERATED_SNAPSHOT;
+        const generatedScene:       string = Constants.SCENE_PATH  + "/" + 2 + Constants.SCENES_FILE;
+        const assetManager:         AssetManagerService = new AssetManagerService();
+
         cardOperations.addCard3D(c2);
-        const snapshot: string = Constants.IMAGES_PATH + "/" + 2 + Constants.GENERATED_SNAPSHOT;
-        const generatedScene: string = Constants.SCENE_PATH + "/" + 2 + Constants.SCENES_FILE;
+
         assetManager.saveImage(snapshot, "test");
         assetManager.saveGeneratedScene(generatedScene, "test");
+
         chai.expect(cardOperations.removeCard3D(2)).to.equal(Constants.CARD_DELETED);
     });
 
     it("should generate message with unknown error", () => {
-        const error: SyntaxError = new SyntaxError();
-        const result: Message = cardOperations.generateErrorMessage(error);
+        const error:    SyntaxError = new SyntaxError();
+        const result:   Message     = cardOperations.generateErrorMessage(error);
+
         chai.expect(result).to.deep.equal({title: Constants.ON_ERROR_MESSAGE, body: Constants.UNKNOWN_ERROR});
     });
 
