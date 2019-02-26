@@ -68,9 +68,9 @@ export class ClusterCounter {
 
     private findAllConnectedDifferences(pixelPosition: number): void {
 
-        let stackOfDifferences: number[] = [pixelPosition];
-        let nbAddedDifferences: number = 1;
-        let nbVisitedNeighbors: number = 1;
+        let stackOfDifferences: number[]    = [pixelPosition];
+        let nbAddedDifferences: number      = 1;
+        let nbVisitedNeighbors: number      = 1;
         this.setPixelAsDifference(pixelPosition, this.visitedColor);
 
         while (stackOfDifferences.length !== 0) {
