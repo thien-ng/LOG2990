@@ -4,8 +4,8 @@ import { LoginValidatorComponent } from "../login-validator/login-validator.comp
 import { LoginViewComponent } from "./login-view.component";
 
 describe("LoginViewComponent", () => {
-  let component: LoginViewComponent;
-  let fixture: ComponentFixture<LoginViewComponent>;
+  let component:  LoginViewComponent;
+  let fixture:    ComponentFixture<LoginViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -21,7 +21,7 @@ describe("LoginViewComponent", () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoginViewComponent);
+    fixture   = TestBed.createComponent(LoginViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
