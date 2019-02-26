@@ -9,12 +9,13 @@ const MOCK_SCORE_VALUE_2:   number = 500;
 const MOCK_SCORE_VALUE_3:   number = 600;
 
 describe("HighscoreService tests", () => {
-    let mockHighscore: Highscore[];
-    let highscoreService: HighscoreService;
-    const higscoreMessageExpected: HighscoreMessage = {
-        id: 4,
-        timesMulti: ["2:02", "2:04", "2:16"],
-        timesSingle: ["2:02", "2:04", "2:16"],
+    let mockHighscore:              Highscore[];
+    let highscoreService:           HighscoreService;
+
+    const higscoreMessageExpected:  HighscoreMessage = {
+        id:             4,
+        timesMulti:     ["2:02", "2:04", "2:16"],
+        timesSingle:    ["2:02", "2:04", "2:16"],
     };
 
     beforeEach(() => {
