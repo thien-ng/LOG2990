@@ -9,12 +9,12 @@ import { SceneModifier } from "../../services/scene/scene-modifier";
 
 // tslint:disable:no-any prefer-for-of no-magic-numbers max-func-body-length
 
-let sceneModifier: SceneModifier;
-let sceneBuilder: SceneBuilder;
-let iSceneVariables: ISceneVariables;
-let iSceneObjectGenerated: ISceneObject[];
-let iSceneOptions: ISceneOptions;
-let counterDifference: number;
+let sceneModifier:          SceneModifier;
+let sceneBuilder:           SceneBuilder;
+let iSceneVariables:        ISceneVariables;
+let iSceneObjectGenerated:  ISceneObject[];
+let iSceneOptions:          ISceneOptions;
+let counterDifference:      number;
 
 beforeEach(() => {
     chai.use(spies);
