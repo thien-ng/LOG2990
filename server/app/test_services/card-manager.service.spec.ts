@@ -21,14 +21,14 @@ import { SceneModifier } from "../services/scene/scene-modifier";
 
 /*tslint:disable no-magic-numbers no-any */
 
-const mockAdapter: any = require("axios-mock-adapter");
-const axios: any = require("axios");
-let mockAxios: any;
-const FAKE_PATH: string = Constants.BASE_URL + "/image";
-let cardManagerService: CardManagerService;
-let highscoreService: HighscoreService;
-let cardOperations: CardOperations;
-let assetManagerService: AssetManagerService;
+const FAKE_PATH:            string  = Constants.BASE_URL + "/image";
+const mockAdapter:          any     = require("axios-mock-adapter");
+const axios:                any     = require("axios");
+let mockAxios:              any;
+let cardManagerService:     CardManagerService;
+let highscoreService:       HighscoreService;
+let cardOperations:         CardOperations;
+let assetManagerService:    AssetManagerService;
 
 describe("Card-manager tests", () => {
     chai.use(spies);
