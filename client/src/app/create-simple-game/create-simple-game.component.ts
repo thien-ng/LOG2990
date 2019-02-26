@@ -34,15 +34,15 @@ export class CreateSimpleGameComponent {
   public isButtonEnabled:         boolean;
 
   public constructor(
-    private dialogRef: MatDialogRef<CreateSimpleGameComponent>,
+    private dialogRef:            MatDialogRef<CreateSimpleGameComponent>,
     private fileValidatorService: FileValidatorService,
-    private snackBar: MatSnackBar,
-    private httpClient: HttpClient,
-    private cardManagerService: CardManagerService,
+    private snackBar:             MatSnackBar,
+    private httpClient:           HttpClient,
+    private cardManagerService:   CardManagerService,
     ) {
-      this.isButtonEnabled = true;
-      this.selectedFiles = [new Blob(), new Blob()];
-      this.formControl = new FormGroup({
+      this.isButtonEnabled  = true;
+      this.selectedFiles    = [new Blob(), new Blob()];
+      this.formControl      = new FormGroup({
         gameName: new FormControl("", [
           Validators.required,
           Validators.pattern(Constants.GAME_REGEX_PATTERN),
@@ -58,7 +58,7 @@ export class CreateSimpleGameComponent {
 
   public hasFormControlErrors(): boolean {
     const hasErrorForm: Boolean = this.formControl.controls.gameName.errors == null;
-    const isImageBmp: Boolean = this.IS_IMAGE_BMP[this.ORIGINAL_INDEX] && this.IS_IMAGE_BMP[this.MODIFIED_INDEX];
+    const isImageBmp:   Boolean = this.IS_IMAGE_BMP[this.ORIGINAL_INDEX] && this.IS_IMAGE_BMP[this.MODIFIED_INDEX];
 
     return !(hasErrorForm && isImageBmp && this.isButtonEnabled);
   }
@@ -73,10 +73,10 @@ export class CreateSimpleGameComponent {
 
   public onFileSelected(file: Blob, imageIndex: number): void {
     if (this.fileValidatorService.validateFile(file)) {
-      this.selectedFiles[imageIndex] = file;
-      this.IS_IMAGE_BMP[imageIndex] = true;
+      this.selectedFiles[imageIndex]  = file;
+      this.IS_IMAGE_BMP[imageIndex]   = true;
     } else {
-      this.IS_IMAGE_BMP[imageIndex] = false;
+      this.IS_IMAGE_BMP[imageIndex]   = false;
       this.openSnackBar(Constants.SNACK_ERROR_MSG, Constants.SNACK_ACTION);
     }
   }
