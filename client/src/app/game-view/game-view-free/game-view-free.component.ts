@@ -8,28 +8,28 @@ import { GameType, IGameRequest } from "../../../../../common/communication/iGam
 import { ISceneVariables, ISceneVariablesMessage } from "../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../common/communication/message";
 @Component({
-  selector: "app-game-view-free",
-  templateUrl: "./game-view-free.component.html",
-  styleUrls: ["./game-view-free.component.css"],
+  selector:     "app-game-view-free",
+  templateUrl:    "./game-view-free.component.html",
+  styleUrls:    ["./game-view-free.component.css"],
 })
 export class GameViewFreeComponent implements OnInit {
 
   public readonly NEEDED_SNAPSHOT: boolean = false;
   public originalVariables: ISceneVariables;
   public modifiedVariables: ISceneVariables;
-  public activeCard: ICard;
-  public gameRequest: IGameRequest;
+  public activeCard:        ICard;
+  public gameRequest:       IGameRequest;
 
-  private gameType: GameType;
+  private gameType:         GameType;
 
   public constructor(
-    private httpClient: HttpClient,
-    private route: ActivatedRoute,
-    private snackBar: MatSnackBar,
+    private httpClient:     HttpClient,
+    private route:          ActivatedRoute,
+    private snackBar:       MatSnackBar,
     ) {}
 
   public ngOnInit(): void {
-      const gameID: string | null = this.route.snapshot.paramMap.get("id");
+      const gameID:   string | null = this.route.snapshot.paramMap.get("id");
       const username: string | null = sessionStorage.getItem(Constants.USERNAME_KEY);
       if (gameID !== null && username !== null) {
         this.createGameRequest(gameID, username);
@@ -51,10 +51,10 @@ export class GameViewFreeComponent implements OnInit {
   private getSceneVariables(type: string, username: string): void {
     this.gameType = JSON.parse(type);
     this.gameRequest = {
-        username: username,
-        gameId: this.activeCard.gameID,
-        type: this.gameType,
-        mode: GameMode.free,
+        username:     username,
+        gameId:       this.activeCard.gameID,
+        type:         this.gameType,
+        mode:         GameMode.free,
     };
     this.handleGameRequest();
   }
@@ -100,25 +100,25 @@ export class GameViewFreeComponent implements OnInit {
 
   private assignSceneVariable(variables: ISceneVariablesMessage): void {
     this.originalVariables = {
-      theme: variables.originalScene.theme,
-      gameName: variables.originalScene.gameName,
-      sceneBackgroundColor: variables.originalScene.sceneBackgroundColor,
-      sceneObjects: variables.originalScene.sceneObjects,
-      sceneObjectsQuantity: variables.originalScene.sceneObjectsQuantity,
+      theme:                  variables.originalScene.theme,
+      gameName:               variables.originalScene.gameName,
+      sceneBackgroundColor:   variables.originalScene.sceneBackgroundColor,
+      sceneObjects:           variables.originalScene.sceneObjects,
+      sceneObjectsQuantity:   variables.originalScene.sceneObjectsQuantity,
     };
     this.modifiedVariables = {
-      theme: variables.modifiedScene.theme,
-      gameName: variables.modifiedScene.gameName,
-      sceneBackgroundColor: variables.modifiedScene.sceneBackgroundColor,
-      sceneObjects: variables.modifiedScene.sceneObjects,
-      sceneObjectsQuantity: variables.modifiedScene.sceneObjectsQuantity,
+      theme:                  variables.modifiedScene.theme,
+      gameName:               variables.modifiedScene.gameName,
+      sceneBackgroundColor:   variables.modifiedScene.sceneBackgroundColor,
+      sceneObjects:           variables.modifiedScene.sceneObjects,
+      sceneObjectsQuantity:   variables.modifiedScene.sceneObjectsQuantity,
     };
   }
 
   private openSnackBar(msg: string, action: string): void {
     this.snackBar.open(msg, action, {
-      duration: Constants.SNACKBAR_DURATION,
-      verticalPosition: "top",
+      duration:           Constants.SNACKBAR_DURATION,
+      verticalPosition:   "top",
     });
   }
 }
