@@ -120,8 +120,8 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   public initListener(): void {
     this.canvasOriginal.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
       const pos: IPosition2D = {
-        x: mouseEvent.offsetX,
-        y: mouseEvent.offsetY,
+        x:    mouseEvent.offsetX,
+        y:    mouseEvent.offsetY,
       };
 
       if (this.username !== null) {
@@ -131,8 +131,8 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     });
     this.canvasModified.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
       const pos: IPosition2D = {
-        x: mouseEvent.offsetX,
-        y: mouseEvent.offsetY,
+        x:    mouseEvent.offsetX,
+        y:    mouseEvent.offsetY,
       };
 
       if (this.username !== null) {
@@ -141,5 +141,4 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       }
     });
   }
-
 }
