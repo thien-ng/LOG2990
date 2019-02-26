@@ -56,6 +56,7 @@ describe("Scene-modifier tests", () => {
         };
         const spy: any = chai.spy.on(sceneModifier, "addObject");
         sceneModifier.modifyScene(iSceneOptions, iSceneVariables);
+
         chai.expect(spy).to.have.been.called();
     });
 
