@@ -30,9 +30,10 @@ describe("UserManagerService test", () => {
 
     it ("should return True if name input is unique", (done: Function) => {
         const user: IUser = {
-                                username: "ligma",
-                                socketID: "socketid",
-                            };
+            username:       "ligma",
+            socketID:       "socketid",
+        };
+
         const result: Message = userManagerService.validateName(user.username);
 
         expect(result.body).to.equal("isUnique");
