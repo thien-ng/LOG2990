@@ -10,7 +10,7 @@ import { Constants } from "../constants";
 export class AdminToggleService {
 
   private adminUpdated: Subject<boolean>;
-  private isAdmin: boolean;
+  private isAdmin:      boolean;
 
   public constructor(public router: Router) {
       this.adminUpdated = new Subject<boolean>();
@@ -25,8 +25,8 @@ export class AdminToggleService {
   }
 
   public adminToggle(): void {
-    this.isAdmin = !this.isAdmin;
-    const pathToGo: string = this.isAdmin ? Constants.ADMIN_PATH :  Constants.GAMELIST_PATH;
+    this.isAdmin            = !this.isAdmin;
+    const pathToGo: string  = this.isAdmin ? Constants.ADMIN_PATH :  Constants.GAMELIST_PATH;
     this.router.navigate([pathToGo]).catch(() => Constants.OBLIGATORY_CATCH);
     this.adminUpdated.next(this.isAdmin);
   }
@@ -35,5 +35,4 @@ export class AdminToggleService {
     this.isAdmin = true;
     this.adminUpdated.next(this.isAdmin);
   }
-
 }
