@@ -84,15 +84,16 @@ describe("Scene-modifier tests", () => {
 
         const spy: any = chai.spy.on(sceneModifier, "changeObjectColor");
         sceneModifier.modifyScene(iSceneOptions, iSceneVariables);
+
         chai.expect(spy).to.have.been.called();
     });
 
     it("should have 7 additions", () => {
         iSceneOptions = {
-            sceneName: "game",
-            sceneType: SceneType.Thematic,
-            sceneObjectsQuantity: 10,
-            selectedOptions: [true, false, false],
+            sceneName:              "game",
+            sceneType:              SceneType.Thematic,
+            sceneObjectsQuantity:   10,
+            selectedOptions:        [true, false, false],
         };
 
         const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables);
