@@ -20,13 +20,13 @@ export class Application {
     public app: express.Application;
 
     public constructor(
-        @inject(Types.CardManagerController) private cardManagerController: CardManagerController,
-        @inject(Types.HighscoreController) private highscoreController: HighscoreController,
-        @inject(Types.UserController) private userController: UserController,
-        @inject(Types.DifferenceCheckerController) private differenceCheckerController: DifferenceCheckerController,
-        @inject(Types.HitValidatorController)       private hitValidatorController:      HitValidatorController,
-        @inject(Types.SceneManagerController) private sceneManagerController: SceneManagerController,
-        @inject(Types.GameManagerController) private gameManagerController: GameManagerController,
+        @inject(Types.CardManagerController)        private cardManagerController:          CardManagerController,
+        @inject(Types.HighscoreController)          private highscoreController:            HighscoreController,
+        @inject(Types.UserController)               private userController:                 UserController,
+        @inject(Types.DifferenceCheckerController)  private differenceCheckerController:    DifferenceCheckerController,
+        @inject(Types.HitValidatorController)       private hitValidatorController:         HitValidatorController,
+        @inject(Types.SceneManagerController)       private sceneManagerController:         SceneManagerController,
+        @inject(Types.GameManagerController)        private gameManagerController:          GameManagerController,
 
         ) {
         this.app = express();
