@@ -60,10 +60,10 @@ describe("Card-manager tests", () => {
 
     beforeEach(() => {
         assetManagerService = new AssetManagerService();
-        highscoreService = new HighscoreService();
-        cardOperations = new CardOperations(highscoreService);
-        cardManagerService = new CardManagerService(cardOperations);
-        mockAxios = new mockAdapter.default(axios);
+        highscoreService    = new HighscoreService();
+        cardOperations      = new CardOperations(highscoreService);
+        cardManagerService  = new CardManagerService(cardOperations);
+        mockAxios           = new mockAdapter.default(axios);
     });
 
     it("should return the list of all cards", () => {
