@@ -9,9 +9,7 @@ describe("MessageViewComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ MessageViewComponent ],
-      imports: [
-        TestingImportsModule,
-      ],
+      imports:      [ TestingImportsModule ],
     })
     .compileComponents()
     .catch(() => Constants.OBLIGATORY_CATCH);
