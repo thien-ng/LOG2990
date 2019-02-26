@@ -22,11 +22,11 @@ describe("SocketService tests", () => {
 
   beforeEach(() => {
     socketService = new SocketService(
-                                        mock(ChatViewService),
-                                        mock(GameViewSimpleService),
-                                        mock(TimerService),
-                                        mock(DifferenceCounterService),
-                                      );
+      mock(ChatViewService),
+      mock(GameViewSimpleService),
+      mock(TimerService),
+      mock(DifferenceCounterService),
+    );
   });
 
   it("should call socket.emit() when calling sendMsg()", () => {
