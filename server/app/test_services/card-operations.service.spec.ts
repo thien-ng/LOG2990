@@ -137,13 +137,15 @@ describe("Card-operations tests", () => {
     });
 
     it("should delete card 2D", () => {
-        const assetManager: AssetManagerService = new AssetManagerService();
+        const originalImagePath:    string              = Constants.IMAGES_PATH + "/" + 4 + Constants.ORIGINAL_FILE;
+        const modifiedImagePath:    string              = Constants.IMAGES_PATH + "/" + 4 + Constants.MODIFIED_FILE;
+        const generatedImagePath:   string              = Constants.IMAGES_PATH + "/" + 4 + Constants.GENERATED_FILE;
+        const assetManager:         AssetManagerService = new AssetManagerService();
+
         cardOperations.addCard2D(c1);
-        const originalImagePath: string = Constants.IMAGES_PATH + "/" + 4 + Constants.ORIGINAL_FILE;
-        const modifiedImagePath: string = Constants.IMAGES_PATH + "/" + 4 + Constants.MODIFIED_FILE;
-        const generatedImagePath: string =  Constants.IMAGES_PATH + "/" + 4 + Constants.GENERATED_FILE;
-        assetManager.saveImage(originalImagePath, "test");
-        assetManager.saveImage(modifiedImagePath, "test");
+
+        assetManager.saveImage(originalImagePath,  "test");
+        assetManager.saveImage(modifiedImagePath,  "test");
         assetManager.saveImage(generatedImagePath, "test");
         chai.expect(cardOperations.removeCard2D(4)).to.equal(Constants.CARD_DELETED);
     });
