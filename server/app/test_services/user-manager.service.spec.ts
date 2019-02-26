@@ -108,9 +108,10 @@ describe("UserManagerService test", () => {
 
     it ("should return True if name is cleared from list properly", (done: Function) => {
         const user: IUser = {
-                                username: "patate",
-                                socketID: "socketid",
-                            };
+            username:       "patate",
+            socketID:       "socketid",
+        };
+
         userManagerService.leaveBrowser(user);
 
         const result: Boolean = userManagerService.isUnique(user.username);
