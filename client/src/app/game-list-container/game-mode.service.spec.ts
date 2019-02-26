@@ -7,8 +7,8 @@ import { GameModeService } from "./game-mode.service";
 
 // tslint:disable:no-magic-numbers
 
-let gameModeService: GameModeService;
-let router: Router;
+let gameModeService:  GameModeService;
+let router:           Router;
 
 describe("GameModeService", () => {
   beforeEach(() => TestBed.configureTestingModule({
