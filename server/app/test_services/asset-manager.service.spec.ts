@@ -30,7 +30,7 @@ describe("Image manager service tests", () => {
     it("should throw an error when deleting non existing path", () => {
         const paths: string[] = [
             Constants.IMAGES_PATH + "/" + 12 + Constants.GENERATED_SNAPSHOT,
-            Constants.SCENE_PATH + "/" + 12 + Constants.ORIGINAL_SCENE_FILE,
+            Constants.SCENE_PATH  + "/" + 12 + Constants.ORIGINAL_SCENE_FILE,
         ];
         chai.expect(() => {
             imageManagerService.deleteStoredImages(paths);
