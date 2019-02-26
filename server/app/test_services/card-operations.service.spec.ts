@@ -11,11 +11,11 @@ import { HighscoreService } from "../services/highscore.service";
 
 /*tslint:disable no-magic-numbers no-any */
 
-const FAKE_PATH: string = Constants.BASE_URL + "/image";
-const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
+const FAKE_PATH:        string = Constants.BASE_URL + "/image";
+const CARD_NOT_FOUND:   string = "Erreur de suppression, carte pas trouvée";
 
-let highscoreService: HighscoreService;
-let cardOperations: CardOperations;
+let highscoreService:   HighscoreService;
+let cardOperations:     CardOperations;
 
 describe("Card-operations tests", () => {
     chai.use(spies);
