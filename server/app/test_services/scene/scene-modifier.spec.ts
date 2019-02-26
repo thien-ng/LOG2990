@@ -49,10 +49,10 @@ describe("Scene-modifier tests", () => {
 
     it("should add 7 objects to sceneObject array", () => {
         iSceneOptions = {
-            sceneName: "game",
-            sceneType: SceneType.Thematic,
-            sceneObjectsQuantity: 10,
-            selectedOptions: [true, false, false],
+            sceneName:              "game",
+            sceneType:              SceneType.Thematic,
+            sceneObjectsQuantity:   10,
+            selectedOptions:        [true, false, false],
         };
         const spy: any = chai.spy.on(sceneModifier, "addObject");
         sceneModifier.modifyScene(iSceneOptions, iSceneVariables);
