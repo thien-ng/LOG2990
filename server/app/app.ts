@@ -73,8 +73,8 @@ export class Application {
             this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
                 res.status(err.status || this.internalError);
                 res.send({
-                    message: err.message,
-                    error: err,
+                    message:    err.message,
+                    error:      err,
                 });
             });
         }
@@ -85,8 +85,8 @@ export class Application {
         this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
             res.status(err.status || this.internalError);
             res.send({
-                message: err.message,
-                error: {},
+                message:        err.message,
+                error:          {},
             });
         });
     }
