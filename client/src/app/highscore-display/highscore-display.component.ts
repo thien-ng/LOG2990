@@ -6,9 +6,9 @@ import { Constants } from "../constants";
 import { HighscoreService } from "./highscore.service";
 
 @Component({
-  selector: "app-highscore-display",
-  templateUrl: "./highscore-display.component.html",
-  styleUrls: ["./highscore-display.component.css"],
+  selector:     "app-highscore-display",
+  templateUrl:  "./highscore-display.component.html",
+  styleUrls:    ["./highscore-display.component.css"],
 })
 export class HighscoreDisplayComponent implements OnInit , OnDestroy {
 
@@ -19,13 +19,13 @@ export class HighscoreDisplayComponent implements OnInit , OnDestroy {
     Constants.PATH_TO_ICONS + "/silver.png",  // silver medal image
     Constants.PATH_TO_ICONS + "/bronze.png",  // bronze medal image
   ];
-  public highscore: HighscoreMessage;
-  public isLoaded: boolean;
+  public highscore:               HighscoreMessage;
+  public isLoaded:                boolean;
 
-  public readonly SIMPLE: string = "Simple";
-  public readonly ONE_VS_ONE: string = "1 vs 1";
-  public readonly RANKING: string = "- Classement -";
-  private highscoreSubscription: Subscription;
+  public readonly SIMPLE:         string = "Simple";
+  public readonly ONE_VS_ONE:     string = "1 vs 1";
+  public readonly RANKING:        string = "- Classement -";
+  private highscoreSubscription:  Subscription;
 
   public constructor(private highscoreService: HighscoreService) {
     this.isLoaded = false;
@@ -34,14 +34,12 @@ export class HighscoreDisplayComponent implements OnInit , OnDestroy {
   public ngOnInit(): void {
     this.highscoreSubscription = this.highscoreService.getHighscoreUpdateListener()
       .subscribe((highscoreValue: HighscoreMessage) => {
-        this.highscore = highscoreValue;
-        this.isLoaded = true;
+        this.highscore  = highscoreValue;
+        this.isLoaded   = true;
       });
-
   }
 
   public ngOnDestroy(): void {
     this.highscoreSubscription.unsubscribe();
   }
-
 }

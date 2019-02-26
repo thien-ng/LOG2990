@@ -2,12 +2,12 @@ import { TestBed } from "@angular/core/testing";
 import { IPlayerInputResponse } from "../../../../../common/communication/iGameplay";
 import { ChatViewService } from "./chat-view.service";
 
-const chatViewService: ChatViewService = new ChatViewService();
-const mockIPlayerInputResponse: IPlayerInputResponse = {
-  status: "onFailedClick",
+const chatViewService:          ChatViewService       = new ChatViewService();
+const mockIPlayerInputResponse: IPlayerInputResponse  = {
+  status:   "onFailedClick",
   response: {
-    differenceKey: -1,
-    cluster: [],
+    differenceKey:  -1,
+    cluster:        [],
   },
 };
 
@@ -29,5 +29,4 @@ describe("ChatViewService", () => {
     chatViewService.clearConversations();
     expect(chatViewService.getConversation().length).toBe(0);
   });
-
 });

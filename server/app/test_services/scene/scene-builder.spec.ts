@@ -12,23 +12,21 @@ let sceneBuilder: SceneBuilder;
 describe("Scene builder tests", () => {
 
     const sceneOptions10: ISceneOptions = {
-        sceneName: "10 objects",
-        sceneType: SceneType.Geometric,
-        sceneObjectsQuantity: 10,
-        selectedOptions: [true, true, true],
+        sceneName:              "10 objects",
+        sceneType:              SceneType.Geometric,
+        sceneObjectsQuantity:   10,
+        selectedOptions:        [true, true, true],
     };
 
     const sceneOptions200: ISceneOptions = {
-        sceneName: "200 objects",
-        sceneType: SceneType.Geometric,
-        sceneObjectsQuantity: 200,
-        selectedOptions: [true, true, true],
+        sceneName:              "200 objects",
+        sceneType:              SceneType.Geometric,
+        sceneObjectsQuantity:   200,
+        selectedOptions:        [true, true, true],
     };
 
     beforeEach(() => {
-
         chai.use(spies);
-
         sceneBuilder = new SceneBuilder();
     });
 
@@ -43,8 +41,8 @@ describe("Scene builder tests", () => {
     });
 
     it("should generate scene objects of valid type", () => {
-        const scene: ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
-        let areAllTypesValid: boolean = false;
+        const scene:            ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
+        let areAllTypesValid:   boolean         = false;
 
         scene.sceneObjects.forEach((element: ISceneObject) => {
             if (element.type >= 0 && element.type <= 4) {
@@ -56,15 +54,12 @@ describe("Scene builder tests", () => {
     });
 
     it("should generate colors in hex format", () => {
-
         const color: string = sceneBuilder.generateRandomColor();
         chai.expect(color.slice(0, 1)).equal("#");
     });
 
     it("should generate colors as string of length 8", () => {
-
         const color: string = sceneBuilder.generateRandomColor();
         chai.expect(color.length).equal(7);
     });
-
 });

@@ -3,13 +3,13 @@ import { IChat } from "../../../../../common/communication/iChat";
 import { ChatViewService } from "./chat-view.service";
 
 @Component({
-  selector: "app-chat-view",
-  templateUrl: "./chat-view.component.html",
-  styleUrls: ["./chat-view.component.css"],
+  selector:     "app-chat-view",
+  templateUrl:  "./chat-view.component.html",
+  styleUrls:    ["./chat-view.component.css"],
 })
 export class ChatViewComponent implements OnDestroy {
 
-  public readonly CHAT_TITLE: string = "Notification du serveur";
+  public readonly CHAT_TITLE:       string = "Notification du serveur";
   public readonly CHAT_DESCRIPTION: string = "クリスチャンサーバー";
 
   public conversations: IChat[];
@@ -21,5 +21,4 @@ export class ChatViewComponent implements OnDestroy {
   public ngOnDestroy(): void {
     this.chatViewService.clearConversations();
   }
-
 }

@@ -2,15 +2,15 @@ import { IColorRGB, IOriginalPixelCluster, IPosition2D, IReplacementPixel } from
 
 export class DifferencesExtractor {
 
-    private readonly BMP_BUFFER_OFFSET_WIDTH:   number =  18;
-    private readonly BMP_BUFFER_OFFSET_HEIGHT:  number =  22;
-    private readonly BMP_HEADER_SIZE:           number =  54;
+    private readonly BMP_BUFFER_OFFSET_WIDTH:   number = 18;
+    private readonly BMP_BUFFER_OFFSET_HEIGHT:  number = 22;
+    private readonly BMP_HEADER_SIZE:           number = 54;
 
-    private readonly BMP_RED_OFFSET:            number =   2;
-    private readonly BMP_GREEN_OFFSET:          number =   1;
-    private readonly BMP_BLUE_OFFSET:           number =   0;
+    private readonly BMP_RED_OFFSET:            number = 2;
+    private readonly BMP_GREEN_OFFSET:          number = 1;
+    private readonly BMP_BLUE_OFFSET:           number = 0;
 
-    private readonly PIXEL_24BIT_BYTESIZE:      number =   3;
+    private readonly PIXEL_24BIT_BYTESIZE:      number = 3;
 
     private readonly COLOR_TO_IGNORE:           number = 255;
 

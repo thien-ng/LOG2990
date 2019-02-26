@@ -2,9 +2,9 @@ import { Component, Inject } from "@angular/core";
 import { TimerService } from "./timer.service";
 
 @Component({
-  selector: "app-timer",
-  templateUrl: "./timer.component.html",
-  styleUrls: ["./timer.component.css"],
+  selector:     "app-timer",
+  templateUrl:  "./timer.component.html",
+  styleUrls:    ["./timer.component.css"],
 })
 export class TimerComponent {
   private readonly START_TIME: string = "00:00";

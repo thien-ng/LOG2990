@@ -11,21 +11,21 @@ import { CardOperations } from "../services/card-operations.service";
 import { ImageRequirements } from "../services/difference-checker/utilities/imageRequirements";
 import Types from "../types";
 
-const DECIMAL: number = 10;
-const ORIGINAL_IMAGE_NAME: string = "originalImage";
-const MODIFIED_IMAGE_NAME: string = "modifiedImage";
+const DECIMAL:              number = 10;
+const ORIGINAL_IMAGE_NAME:  string = "originalImage";
+const MODIFIED_IMAGE_NAME:  string = "modifiedImage";
 
 @injectable()
 export class CardManagerController {
 
     public constructor(
-        @inject(Types.CardManagerService) private cardManagerService: CardManagerService,
-        @inject(Types.CardOperations) private cardOperations: CardOperations) { }
+        @inject(Types.CardManagerService)   private cardManagerService: CardManagerService,
+        @inject(Types.CardOperations)       private cardOperations:     CardOperations) { }
 
     public get router(): Router {
 
         const upload: multer.Instance = multer();
-        const router: Router = Router();
+        const router: Router =          Router();
 
         const receivedFile: RequestHandler = upload.fields(
             [
@@ -46,14 +46,12 @@ export class CardManagerController {
 
             const requirements: ImageRequirements = {
                 requiredHeight: Constants.REQUIRED_HEIGHT,
-                requiredWidth: Constants.REQUIRED_WIDTH,
+                requiredWidth:  Constants.REQUIRED_WIDTH,
                 requiredNbDiff: Constants.REQUIRED_NB_DIFF,
-                originalImage: originalBuffer,
-                modifiedImage: modifiedBuffer,
+                originalImage:  originalBuffer,
+                modifiedImage:  modifiedBuffer,
             };
-
             const result: Message = await this.cardManagerService.simpleCardCreationRoutine(requirements, req.body.name);
-
             res.json(result);
         });
         router.post("/submitFree", async (req: Request, res: Response, next: NextFunction) => {
@@ -61,8 +59,8 @@ export class CardManagerController {
         });
 
         router.get("/list", async (req: Request, res: Response, next: NextFunction) => {
-                const list: ICardLists = this.cardManagerService.getCards();
-                res.json(list);
+            const list: ICardLists = this.cardManagerService.getCards();
+            res.json(list);
         });
 
         router.get("/:id/:gameMode", async (req: Request, res: Response, next: NextFunction) => {
@@ -76,15 +74,15 @@ export class CardManagerController {
                 const message: string = this.cardOperations.removeCard2D(cardId);
                 res.json(message);
             } catch (error) {
-                const isTypeError: boolean = error instanceof TypeError;
+                const isTypeError:  boolean = error instanceof TypeError;
                 const errorMessage: string = isTypeError ? error.message : Constants.UNKNOWN_ERROR;
                 res.json(errorMessage);
             }
         });
 
         router.delete("/remove/free/:id", async (req: Request, res: Response, next: NextFunction) => {
-            const cardId: number = parseInt(req.params.id, DECIMAL);
-            const message: string = this.cardOperations.removeCard3D(cardId);
+            const cardId:   number = parseInt(req.params.id, DECIMAL);
+            const message:  string = this.cardOperations.removeCard3D(cardId);
             res.json(message);
         });
 

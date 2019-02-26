@@ -21,14 +21,14 @@ import { SceneModifier } from "../services/scene/scene-modifier";
 
 /*tslint:disable no-magic-numbers no-any */
 
-const mockAdapter: any = require("axios-mock-adapter");
-const axios: any = require("axios");
-let mockAxios: any;
-const FAKE_PATH: string = Constants.BASE_URL + "/image";
-let cardManagerService: CardManagerService;
-let highscoreService: HighscoreService;
-let cardOperations: CardOperations;
-let assetManagerService: AssetManagerService;
+const FAKE_PATH:            string  = Constants.BASE_URL + "/image";
+const mockAdapter:          any     = require("axios-mock-adapter");
+const axios:                any     = require("axios");
+let mockAxios:              any;
+let cardManagerService:     CardManagerService;
+let highscoreService:       HighscoreService;
+let cardOperations:         CardOperations;
+let assetManagerService:    AssetManagerService;
 
 describe("Card-manager tests", () => {
     chai.use(spies);
@@ -41,29 +41,29 @@ describe("Card-manager tests", () => {
     };
 
     const c2: ICard = {
-        gameID: 2,
-        title: "Default 3D",
-        subtitle: "default 3D",
-        avatarImageUrl: FAKE_PATH + "/moutain.jpg",
-        gameImageUrl: FAKE_PATH + "/moutain.jpg",
-        gamemode: GameMode.free,
+        gameID:             2,
+        title:              "Default 3D",
+        subtitle:           "default 3D",
+        avatarImageUrl:     FAKE_PATH + "/moutain.jpg",
+        gameImageUrl:       FAKE_PATH + "/moutain.jpg",
+        gamemode:           GameMode.free,
     };
 
     const c3: ICard = {
-        gameID: 3,
-        title: "Default 3D 2.0",
-        subtitle: "default 3D",
-        avatarImageUrl: FAKE_PATH + "/poly.jpg",
-        gameImageUrl: FAKE_PATH + "/poly.jpg",
-        gamemode: GameMode.free,
+        gameID:             3,
+        title:              "Default 3D 2.0",
+        subtitle:           "default 3D",
+        avatarImageUrl:     FAKE_PATH + "/poly.jpg",
+        gameImageUrl:       FAKE_PATH + "/poly.jpg",
+        gamemode:           GameMode.free,
     };
 
     beforeEach(() => {
         assetManagerService = new AssetManagerService();
-        highscoreService = new HighscoreService();
-        cardOperations = new CardOperations(highscoreService);
-        cardManagerService = new CardManagerService(cardOperations);
-        mockAxios = new mockAdapter.default(axios);
+        highscoreService    = new HighscoreService();
+        cardOperations      = new CardOperations(highscoreService);
+        cardManagerService  = new CardManagerService(cardOperations);
+        mockAxios           = new mockAdapter.default(axios);
     });
 
     it("should return the list of all cards", () => {
@@ -91,11 +91,11 @@ describe("Card-manager tests", () => {
             body: Constants.VALIDATION_FAILED,
         });
         const requirements: ImageRequirements = {
-            requiredHeight: Constants.REQUIRED_HEIGHT,
-            requiredWidth: Constants.REQUIRED_WIDTH,
-            requiredNbDiff: Constants.REQUIRED_NB_DIFF,
-            originalImage: original,
-            modifiedImage: modified,
+            requiredHeight:     Constants.REQUIRED_HEIGHT,
+            requiredWidth:      Constants.REQUIRED_WIDTH,
+            requiredNbDiff:     Constants.REQUIRED_NB_DIFF,
+            originalImage:      original,
+            modifiedImage:      modified,
         };
 
         let messageTitle: string = "";
@@ -109,25 +109,27 @@ describe("Card-manager tests", () => {
     });
     it("Should return an success message when creating a freeCard successfully", () => {
         const sceneOptions10: ISceneOptions = {
-            sceneName: "10 objects",
-            sceneType: SceneType.Geometric,
-            sceneObjectsQuantity: 10,
-            selectedOptions: [false, false, false],
+            sceneName:              "10 objects",
+            sceneType:              SceneType.Geometric,
+            sceneObjectsQuantity:   10,
+            selectedOptions:        [false, false, false],
         } as ISceneOptions;
-        const sceneBuilder: SceneBuilder = new SceneBuilder();
-        const sceneModifier: SceneModifier = new SceneModifier(sceneBuilder);
-        const isceneVariable: ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
-        const iSceneVariablesMessage: ISceneVariablesMessage = {
-            originalScene: isceneVariable,
-            modifiedScene: sceneModifier.modifyScene(sceneOptions10, isceneVariable),
+
+        const sceneBuilder:     SceneBuilder    = new SceneBuilder();
+        const sceneModifier:    SceneModifier   = new SceneModifier(sceneBuilder);
+        const isceneVariable:   ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
+
+        const iSceneVariablesMessage:   ISceneVariablesMessage  = {
+            originalScene:          isceneVariable,
+            modifiedScene:          sceneModifier.modifyScene(sceneOptions10, isceneVariable),
         };
         const sceneMessage: ISceneMessage = {
             iSceneVariablesMessage: iSceneVariablesMessage,
-            image: "",
+            image:                  "",
         };
         const message: Message = {
-            title: Constants.ON_SUCCESS_MESSAGE,
-            body: Constants.CARD_ADDED,
+            title:  Constants.ON_SUCCESS_MESSAGE,
+            body:   Constants.CARD_ADDED,
         };
         chai.expect(cardManagerService.freeCardCreationRoutine(sceneMessage)).to.deep.equal(message);
 
@@ -136,22 +138,25 @@ describe("Card-manager tests", () => {
 
     it("Should return an error because free card already exist", () => {
         const sceneOptions10: ISceneOptions = {
-            sceneName: "10 objects",
-            sceneType: SceneType.Geometric,
-            sceneObjectsQuantity: 10,
-            selectedOptions: [false, false, false],
+            sceneName:              "10 objects",
+            sceneType:              SceneType.Geometric,
+            sceneObjectsQuantity:   10,
+            selectedOptions:        [false, false, false],
         } as ISceneOptions;
-        const sceneBuilder: SceneBuilder = new SceneBuilder();
-        const sceneModifier: SceneModifier = new SceneModifier(sceneBuilder);
-        const isceneVariable: ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
+
+        const sceneBuilder:     SceneBuilder    = new SceneBuilder();
+        const sceneModifier:    SceneModifier   = new SceneModifier(sceneBuilder);
+        const isceneVariable:   ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
+
         const iSceneVariablesMessage: ISceneVariablesMessage = {
-            originalScene: isceneVariable,
-            modifiedScene: sceneModifier.modifyScene(sceneOptions10, isceneVariable),
+            originalScene:          isceneVariable,
+            modifiedScene:          sceneModifier.modifyScene(sceneOptions10, isceneVariable),
         };
         const sceneMessage: ISceneMessage = {
             iSceneVariablesMessage: iSceneVariablesMessage,
-            image: "",
+            image:                  "",
         };
+
         cardManagerService.freeCardCreationRoutine(sceneMessage);
         chai.expect(cardManagerService.freeCardCreationRoutine(sceneMessage))
         .to.deep.equal({title: "onError", body: "Le titre de la carte existe déjà"});
@@ -165,11 +170,11 @@ describe("Card-manager tests", () => {
 
     it("Should return a message of success and simple create card", async () => {
         const requirements: ImageRequirements = {
-            requiredHeight: Constants.REQUIRED_HEIGHT,
-            requiredWidth: Constants.REQUIRED_WIDTH,
-            requiredNbDiff: Constants.REQUIRED_NB_DIFF,
-            originalImage: original,
-            modifiedImage: modified,
+            requiredHeight:     Constants.REQUIRED_HEIGHT,
+            requiredWidth:      Constants.REQUIRED_WIDTH,
+            requiredNbDiff:     Constants.REQUIRED_NB_DIFF,
+            originalImage:      original,
+            modifiedImage:      modified,
         };
         mockAxios.onPost(Constants.PATH_FOR_2D_VALIDATION).reply(200, original);
 
@@ -180,7 +185,8 @@ describe("Card-manager tests", () => {
         const paths: string[] = [
             "./app/asset/image/1000_generated.bmp",
             "./app/asset/image/1000_modified.bmp",
-            "./app/asset/image/1000_original.bmp"];
+            "./app/asset/image/1000_original.bmp",
+        ];
 
         assetManagerService.deleteStoredImages(paths);
 
@@ -189,11 +195,11 @@ describe("Card-manager tests", () => {
 
     it("Should return error because simple card title exist already", async () => {
         const requirements: ImageRequirements = {
-            requiredHeight: Constants.REQUIRED_HEIGHT,
-            requiredWidth: Constants.REQUIRED_WIDTH,
-            requiredNbDiff: Constants.REQUIRED_NB_DIFF,
-            originalImage: original,
-            modifiedImage: modified,
+            requiredHeight:     Constants.REQUIRED_HEIGHT,
+            requiredWidth:      Constants.REQUIRED_WIDTH,
+            requiredNbDiff:     Constants.REQUIRED_NB_DIFF,
+            originalImage:      original,
+            modifiedImage:      modified,
         };
         mockAxios.onPost(Constants.PATH_FOR_2D_VALIDATION).reply(200, original);
         await cardManagerService.simpleCardCreationRoutine(requirements, "title").then();
@@ -207,7 +213,8 @@ describe("Card-manager tests", () => {
             "./app/asset/image/1000_original.bmp",
             "./app/asset/image/1001_generated.bmp",
             "./app/asset/image/1001_modified.bmp",
-            "./app/asset/image/1001_original.bmp"];
+            "./app/asset/image/1001_original.bmp",
+        ];
 
         assetManagerService.deleteStoredImages(paths);
 
@@ -216,29 +223,29 @@ describe("Card-manager tests", () => {
 
     it("Should return an error while creating simple card", async () => {
         const requirements: ImageRequirements = {
-            requiredHeight: Constants.REQUIRED_HEIGHT,
-            requiredWidth: Constants.REQUIRED_WIDTH,
-            requiredNbDiff: Constants.REQUIRED_NB_DIFF,
-            originalImage: original,
-            modifiedImage: modified,
+            requiredHeight:     Constants.REQUIRED_HEIGHT,
+            requiredWidth:      Constants.REQUIRED_WIDTH,
+            requiredNbDiff:     Constants.REQUIRED_NB_DIFF,
+            originalImage:      original,
+            modifiedImage:      modified,
         };
 
         const message: Message = {
-            title: "test",
-            body: "ok",
+            title:  "test",
+            body:   "ok",
         };
         mockAxios.onPost(Constants.PATH_FOR_2D_VALIDATION).reply(200, message);
 
         await cardManagerService.simpleCardCreationRoutine(requirements, "title").then((response: any) => {
-            chai.expect(response).to.deep.equal({ title: "test", body: "ok" });
+            chai.expect(response).to.deep.equal(message);
         });
 
         mockAxios.restore();
     });
 
     it("Should return an unknown error", async () => {
-        const typeError: TypeError = new TypeError("men calice");
-        const result: any = cardManagerService.generateErrorMessage(typeError);
+        const typeError:    TypeError   = new TypeError("men calice");
+        const result:       any         = cardManagerService.generateErrorMessage(typeError);
 
         chai.expect(result).to.deep.equal({title: Constants.ON_ERROR_MESSAGE, body: typeError.message});
     });
@@ -249,11 +256,11 @@ describe("cardManagerService CardTitle test", () => {
     const modified: Buffer = fs.readFileSync(path.resolve(__dirname, "../asset/image/testBitmap/imagetestOg.bmp"));
 
     const requirements: ImageRequirements = {
-        requiredHeight: Constants.REQUIRED_HEIGHT,
-        requiredWidth: Constants.REQUIRED_WIDTH,
-        requiredNbDiff: Constants.REQUIRED_NB_DIFF,
-        originalImage: original,
-        modifiedImage: modified,
+        requiredHeight:     Constants.REQUIRED_HEIGHT,
+        requiredWidth:      Constants.REQUIRED_WIDTH,
+        requiredNbDiff:     Constants.REQUIRED_NB_DIFF,
+        originalImage:      original,
+        modifiedImage:      modified,
     };
 
     it ("should return error of game title length if name is too short", (done: Function) => {

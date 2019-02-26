@@ -3,10 +3,10 @@ import { BMPBuilder } from "../utilities/bmpBuilder";
 
 // tslint:disable:no-magic-numbers
 
-const WIDTH:    number = 2;
-const HEIGHT:   number = 3;
-const WHITE:    number = 255;
-let builder: BMPBuilder;
+const WIDTH:        number = 2;
+const HEIGHT:       number = 3;
+const WHITE:        number = 255;
+let builder:        BMPBuilder;
 let bufferObtained: Buffer;
 
 describe("BMPBuilder tests", () => {
@@ -25,25 +25,28 @@ describe("BMPBuilder tests", () => {
     });
 
     it("should build a buffer of the correct width", (done: Function) => {
-        const widthBuffer: Buffer = bufferObtained.slice(18, 22);
-        const expectedWidthBuffer: Buffer = Buffer.from("02000000", "hex");
+        const widthBuffer:          Buffer = bufferObtained.slice(18, 22);
+        const expectedWidthBuffer:  Buffer = Buffer.from("02000000", "hex");
+
         expect(widthBuffer).to.deep.equal(expectedWidthBuffer);
         done();
     });
 
     it("should build a buffer of the correct height", (done: Function) => {
-        const widthBuffer: Buffer = bufferObtained.slice(22, 26);
-        const expectedWidthBuffer: Buffer = Buffer.from("03000000", "hex");
+        const widthBuffer:          Buffer = bufferObtained.slice(22, 26);
+        const expectedWidthBuffer:  Buffer = Buffer.from("03000000", "hex");
+
         expect(widthBuffer).to.deep.equal(expectedWidthBuffer);
         done();
     });
 
     it("should build a buffer of the right lenght", (done: Function) => {
-        const totalBufferLenght: number = bufferObtained.length;
-        const headerSize: number = 54;
-        const pixelCount: number = 2 * 3;
-        const paddingTotal: number = 6;
+        const totalBufferLenght:    number = bufferObtained.length;
+        const headerSize:           number = 54;
+        const pixelCount:           number = 2 * 3;
+        const paddingTotal:         number = 6;
         const expectedBufferLenght: number = headerSize + pixelCount * 3 + paddingTotal;
+
         expect(totalBufferLenght).to.equal(expectedBufferLenght);
         done();
     });
@@ -86,9 +89,10 @@ describe("BMPBuilder tests", () => {
     it("should correctly change a pixel color", (done: Function) => {
         builder.setColorAtPos(5, 6, 7, 0, 0);
         bufferObtained = builder.buffer;
-        const topLeftPixelIndex: number = 16 + 54;
-        const topLeftPixelColor: Buffer = bufferObtained.slice(topLeftPixelIndex, topLeftPixelIndex + 3);
-        const expectedtopLeftPixelColorBuffer: Buffer = Buffer.from([7, 6, 5]);
+        const topLeftPixelIndex:                number = 16 + 54;
+        const topLeftPixelColor:                Buffer = bufferObtained.slice(topLeftPixelIndex, topLeftPixelIndex + 3);
+        const expectedtopLeftPixelColorBuffer:  Buffer = Buffer.from([7, 6, 5]);
+
         expect(topLeftPixelColor).to.deep.equal(expectedtopLeftPixelColorBuffer);
         done();
     });
@@ -101,25 +105,27 @@ describe("BMPBuilder tests", () => {
     });
 
     it("should create a buffer with the right amount of padding at each row", (done: Function) => {
-        const HEADER_SIZE: number = 54;
-        const pixelSize: number = 3;
-        const paddingExpected: number = 6;
-        const totalLenghtExpected: number = HEADER_SIZE + paddingExpected + WIDTH * HEIGHT * pixelSize;
+        const HEADER_SIZE:          number = 54;
+        const pixelSize:            number = 3;
+        const paddingExpected:      number = 6;
+        const totalLenghtExpected:  number = HEADER_SIZE + paddingExpected + WIDTH * HEIGHT * pixelSize;
+
         expect(bufferObtained.length).to.equal(totalLenghtExpected);
         done();
     });
 
     it("should create a buffer with the right amount of padding at each row", (done: Function) => {
-        const width: number = 3;
-        const height: number = 3;
+        const width:                number = 3;
+        const height:               number = 3;
+        const HEADER_SIZE:          number = 54;
+        const pixelSize:            number = 3;
+        const paddingExpected:      number = 9;
+        const totalLenghtExpected:  number = HEADER_SIZE + paddingExpected + width * height * pixelSize;
+
         builder = new BMPBuilder(width, height, WHITE);
         bufferObtained = builder.buffer;
-        const HEADER_SIZE: number = 54;
-        const pixelSize: number = 3;
-        const paddingExpected: number = 9;
-        const totalLenghtExpected: number = HEADER_SIZE + paddingExpected + width * height * pixelSize;
+
         expect(bufferObtained.length).to.equal(totalLenghtExpected);
         done();
     });
-
 });

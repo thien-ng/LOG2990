@@ -39,7 +39,7 @@ describe("Timer tests", async () => {
         clock.tick(1010);
 
         const calculatedTimeSinceStart: number = timer.getTimeSinceStart();
-        const expectedTimeSinceStart: number = 2;
+        const expectedTimeSinceStart:   number = 2;
 
         chai.expect(calculatedTimeSinceStart).to.equal(expectedTimeSinceStart);
         clock.restore();
@@ -53,5 +53,4 @@ describe("Timer tests", async () => {
         timer.stopTimer();
         chai.expect(spy).to.have.been.called();
     });
-
 });

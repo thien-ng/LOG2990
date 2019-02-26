@@ -3,41 +3,42 @@ import { expect } from "chai";
 import { Highscore, HighscoreMessage, Mode } from "../../../common/communication/highscore";
 import { HighscoreService } from "../services/highscore.service";
 
-const UNDEFINED: number = 100;
-const MOCK_SCORE_VALUE_1: number = 400;
-const MOCK_SCORE_VALUE_2: number = 500;
-const MOCK_SCORE_VALUE_3: number = 600;
+const UNDEFINED:            number = 100;
+const MOCK_SCORE_VALUE_1:   number = 400;
+const MOCK_SCORE_VALUE_2:   number = 500;
+const MOCK_SCORE_VALUE_3:   number = 600;
 
 describe("HighscoreService tests", () => {
-    let mockHighscore: Highscore[];
-    let highscoreService: HighscoreService;
-    const higscoreMessageExpected: HighscoreMessage = {
-        id: 4,
-        timesMulti: ["2:02", "2:04", "2:16"],
-        timesSingle: ["2:02", "2:04", "2:16"],
+    let mockHighscore:              Highscore[];
+    let highscoreService:           HighscoreService;
+
+    const higscoreMessageExpected:  HighscoreMessage = {
+        id:             4,
+        timesMulti:     ["2:02", "2:04", "2:16"],
+        timesSingle:    ["2:02", "2:04", "2:16"],
     };
 
     beforeEach(() => {
         mockHighscore = [
             {
-                id: 1,
-                timesSingle: [2, 4 , 6],
-                timesMulti: [2, 4 , 6],
+                id:             1,
+                timesSingle:    [2, 4 , 6],
+                timesMulti:     [2, 4 , 6],
             },
             {
-                id: 2,
-                timesSingle: [2, 4 , 6],
-                timesMulti: [2, 4 , 6],
+                id:             2,
+                timesSingle:    [2, 4 , 6],
+                timesMulti:     [2, 4 , 6],
             },
             {
-                id: 3,
-                timesSingle: [MOCK_SCORE_VALUE_1, MOCK_SCORE_VALUE_2, MOCK_SCORE_VALUE_3],
-                timesMulti: [MOCK_SCORE_VALUE_1, MOCK_SCORE_VALUE_2, MOCK_SCORE_VALUE_3],
+                id:             3,
+                timesSingle:    [MOCK_SCORE_VALUE_1, MOCK_SCORE_VALUE_2, MOCK_SCORE_VALUE_3],
+                timesMulti:     [MOCK_SCORE_VALUE_1, MOCK_SCORE_VALUE_2, MOCK_SCORE_VALUE_3],
             },
             {
-                id: 4,
-                timesSingle: [122, 124 , 136],
-                timesMulti: [122, 124 , 136],
+                id:             4,
+                timesSingle:    [122, 124 , 136],
+                timesMulti:     [122, 124 , 136],
             },
         ];
         highscoreService = new HighscoreService();

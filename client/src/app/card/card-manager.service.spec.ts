@@ -19,15 +19,15 @@ describe("CardManager.ServiceService", () => {
 
 describe("Card-manager tests", () => {
   let cardManagerService: CardManagerService;
-  let http: HttpClient;
-  let cardId: number;
-  let gameMode: GameMode;
+  let http:               HttpClient;
+  let cardId:             number;
+  let gameMode:           GameMode;
 
   beforeEach(() => {
-    http = mock(HttpClient);
-    cardId = 1;
-    gameMode = GameMode.simple;
-    cardManagerService = new CardManagerService(http);
+    http                = mock(HttpClient);
+    cardId              = 1;
+    gameMode            = GameMode.simple;
+    cardManagerService  = new CardManagerService(http);
   });
 
   it("should call http.get when calling getCards()", () => {

@@ -8,43 +8,41 @@ import { Constants } from "../constants";
 import { FileValidatorService } from "./game-validator.service";
 
 @Component({
-  selector: "app-create-simple-game",
-  templateUrl: "./create-simple-game.component.html",
-  styleUrls: ["./create-simple-game.component.css"],
+  selector:     "app-create-simple-game",
+  templateUrl:  "./create-simple-game.component.html",
+  styleUrls:    ["./create-simple-game.component.css"],
 })
 export class CreateSimpleGameComponent {
 
-  public readonly TITLE: string = "Créer un jeu de point de vue simple";
-  public readonly INVALID_NAME: string = "Nom invalide";
-  public readonly PLACE_HOLDER: string = "Nom du jeu";
-  public readonly ORIGINAL_IMAGE: string = "Image originale";
-  public readonly MODIFIED_IMAGE: string = "Image modifiée";
-  public readonly SUBMIT: string = "Soumettre";
-  public readonly CANCEL: string = "Annuler";
-  public readonly MAX_LENGTH: number = 15;
-  public readonly IS_IMAGE_BMP: boolean[] = [false, false];
-  public readonly ORIGINAL_INDEX: number = 0;
-  public readonly MODIFIED_INDEX: number = 1;
-  public readonly ERROR_PATTERN: string = "Caractères autorisés: A-Z, a-z";
-  public readonly ERROR_SIZE: string = "Taille: "
-                                  + Constants.MIN_GAME_LENGTH + "-"
-                                  + Constants.MAX_GAME_LENGTH + " caractères";
-  public readonly ERROR_REQUIRED: string = "Nom de jeu requis";
+  public readonly TITLE:          string    = "Créer un jeu de point de vue simple";
+  public readonly INVALID_NAME:   string    = "Nom invalide";
+  public readonly PLACE_HOLDER:   string    = "Nom du jeu";
+  public readonly ORIGINAL_IMAGE: string    = "Image originale";
+  public readonly MODIFIED_IMAGE: string    = "Image modifiée";
+  public readonly SUBMIT:         string    = "Soumettre";
+  public readonly CANCEL:         string    = "Annuler";
+  public readonly MAX_LENGTH:     number    = 15;
+  public readonly IS_IMAGE_BMP:   boolean[] = [false, false];
+  public readonly ORIGINAL_INDEX: number    = 0;
+  public readonly MODIFIED_INDEX: number    = 1;
+  public readonly ERROR_PATTERN:  string    = "Caractères autorisés: A-Z, a-z";
+  public readonly ERROR_SIZE:     string    = "Taille: " + Constants.MIN_GAME_LENGTH + "-" + Constants.MAX_GAME_LENGTH + " caractères";
+  public readonly ERROR_REQUIRED: string    = "Nom de jeu requis";
 
-  public formControl: FormGroup;
-  private selectedFiles: [Blob, Blob];
-  public isButtonEnabled: boolean;
+  public formControl:             FormGroup;
+  private selectedFiles:          [Blob, Blob];
+  public isButtonEnabled:         boolean;
 
   public constructor(
-    private dialogRef: MatDialogRef<CreateSimpleGameComponent>,
+    private dialogRef:            MatDialogRef<CreateSimpleGameComponent>,
     private fileValidatorService: FileValidatorService,
-    private snackBar: MatSnackBar,
-    private httpClient: HttpClient,
-    private cardManagerService: CardManagerService,
+    private snackBar:             MatSnackBar,
+    private httpClient:           HttpClient,
+    private cardManagerService:   CardManagerService,
     ) {
-      this.isButtonEnabled = true;
-      this.selectedFiles = [new Blob(), new Blob()];
-      this.formControl = new FormGroup({
+      this.isButtonEnabled  = true;
+      this.selectedFiles    = [new Blob(), new Blob()];
+      this.formControl      = new FormGroup({
         gameName: new FormControl("", [
           Validators.required,
           Validators.pattern(Constants.GAME_REGEX_PATTERN),
@@ -60,7 +58,7 @@ export class CreateSimpleGameComponent {
 
   public hasFormControlErrors(): boolean {
     const hasErrorForm: Boolean = this.formControl.controls.gameName.errors == null;
-    const isImageBmp: Boolean = this.IS_IMAGE_BMP[this.ORIGINAL_INDEX] && this.IS_IMAGE_BMP[this.MODIFIED_INDEX];
+    const isImageBmp:   Boolean = this.IS_IMAGE_BMP[this.ORIGINAL_INDEX] && this.IS_IMAGE_BMP[this.MODIFIED_INDEX];
 
     return !(hasErrorForm && isImageBmp && this.isButtonEnabled);
   }
@@ -75,10 +73,10 @@ export class CreateSimpleGameComponent {
 
   public onFileSelected(file: Blob, imageIndex: number): void {
     if (this.fileValidatorService.validateFile(file)) {
-      this.selectedFiles[imageIndex] = file;
-      this.IS_IMAGE_BMP[imageIndex] = true;
+      this.selectedFiles[imageIndex]  = file;
+      this.IS_IMAGE_BMP[imageIndex]   = true;
     } else {
-      this.IS_IMAGE_BMP[imageIndex] = false;
+      this.IS_IMAGE_BMP[imageIndex]   = false;
       this.openSnackBar(Constants.SNACK_ERROR_MSG, Constants.SNACK_ACTION);
     }
   }
@@ -89,7 +87,7 @@ export class CreateSimpleGameComponent {
 
   private createFormData(data: NgForm): FormData {
     const formdata: FormData = new FormData();
-    formdata.append(Constants.NAME_KEY, this.capitalizeFirstLetter(data.value.gameName));
+    formdata.append(Constants.NAME_KEY,           this.capitalizeFirstLetter(data.value.gameName));
     formdata.append(Constants.ORIGINAL_IMAGE_KEY, this.selectedFiles[this.ORIGINAL_INDEX]);
     formdata.append(Constants.MODIFIED_IMAGE_KEY, this.selectedFiles[this.MODIFIED_INDEX]);
 
@@ -116,8 +114,8 @@ export class CreateSimpleGameComponent {
 
   private openSnackBar(msg: string, action: string): void {
     this.snackBar.open(msg, action, {
-      duration: Constants.SNACKBAR_DURATION,
-      verticalPosition: "top",
+      duration:           Constants.SNACKBAR_DURATION,
+      verticalPosition:   "top",
     });
   }
 }

@@ -43,8 +43,8 @@ export class UserManagerService {
 
         if (this.isUnique(username)) {
             const user: IUser = {
-                username: username,
-                socketID: "undefined",
+                username:   username,
+                socketID:   "undefined",
             };
             this.nameList.push(user);
 
@@ -93,11 +93,9 @@ export class UserManagerService {
     }
 
     private generateMessage(type: string, result: string): Message {
-
         return {
-            title: type,
-            body: result,
+            title:  type,
+            body:   result,
         } as Message;
     }
-
 }

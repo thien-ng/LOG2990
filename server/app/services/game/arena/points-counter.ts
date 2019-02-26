@@ -1,13 +1,13 @@
 export class PointsCounter {
 
-    private counterPlayerOne: number;
-    private counterPlayerTwo: number;
-    private requiredCouner: number;
+    private counterPlayerOne:   number;
+    private counterPlayerTwo:   number;
+    private requiredCouner:     number;
 
     public constructor(requiredCouner: number) {
-        this.counterPlayerOne = 0;
-        this.counterPlayerTwo = 0;
-        this.requiredCouner = requiredCouner;
+        this.counterPlayerOne   = 0;
+        this.counterPlayerTwo   = 0;
+        this.requiredCouner     = requiredCouner;
     }
 
     public getPlayerOneCounter(): number {

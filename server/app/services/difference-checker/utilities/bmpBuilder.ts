@@ -62,12 +62,12 @@ export class BMPBuilder {
         }
     }
     private buildBuffer(): Buffer {
-        const header: Buffer = this.buildFullHeader();
         const totalPaddingSize: number = this.paddingPerRow() * this.height;
         const numOfBytesInBody: number = this.width * this.height *  this.getBitDepthInBytes() + totalPaddingSize;
-        const body: Buffer = Buffer.allocUnsafe(numOfBytesInBody).fill(this.fillWith);
+        const header:           Buffer = this.buildFullHeader();
+        const body:             Buffer = Buffer.allocUnsafe(numOfBytesInBody).fill(this.fillWith);
 
-        const totalSize: number = header.length + body.length;
+        const totalSize:        number = header.length + body.length;
 
         return Buffer.concat([header, body], totalSize);
     }
@@ -85,9 +85,9 @@ export class BMPBuilder {
 
     private buildBaseHeader(): Buffer {
         const signature:   Buffer = Buffer.from(this.HEADER_SIGNATURE.toString(this.BASE_HEXA), this.HEXA);
-        const fileSize:    Buffer = Buffer.from(this.spanNumberOnNBytes(this.getFileSize(),        this.BYTE_SPAN_4));
-        const reserved:    Buffer = Buffer.from(this.spanNumberOnNBytes(this.HEADER_RESERVED,      this.BYTE_SPAN_4));
-        const dataOffset:  Buffer = Buffer.from(this.spanNumberOnNBytes(this.HEADER_DATAOFFSET,    this.BYTE_SPAN_4));
+        const fileSize:    Buffer = Buffer.from(this.spanNumberOnNBytes(this.getFileSize(),     this.BYTE_SPAN_4));
+        const reserved:    Buffer = Buffer.from(this.spanNumberOnNBytes(this.HEADER_RESERVED,   this.BYTE_SPAN_4));
+        const dataOffset:  Buffer = Buffer.from(this.spanNumberOnNBytes(this.HEADER_DATAOFFSET, this.BYTE_SPAN_4));
 
         const bufferArray: Buffer[] = [
             signature,
@@ -100,17 +100,17 @@ export class BMPBuilder {
     }
 
     private buildInfoHeader(): Buffer {
-        const size:         Buffer = Buffer.from(this.spanNumberOnNBytes(Constants.BMP_INFOHEADER_SIZE,       this.BYTE_SPAN_4));
-        const width:        Buffer = Buffer.from(this.spanNumberOnNBytes(this.width,                 this.BYTE_SPAN_4));
-        const height:       Buffer = Buffer.from(this.spanNumberOnNBytes(this.height,                this.BYTE_SPAN_4));
-        const planes:       Buffer = Buffer.from(this.spanNumberOnNBytes(this.PLANES,                this.BYTE_SPAN_2));
-        const bitDepth:     Buffer = Buffer.from(this.spanNumberOnNBytes(this.BITDEPTH_24,           this.BYTE_SPAN_2));
-        const compression:  Buffer = Buffer.from(this.spanNumberOnNBytes(this.COMPRESSION,           this.BYTE_SPAN_4));
-        const imageSize:    Buffer = Buffer.from(this.spanNumberOnNBytes(this.width * this.height,   this.BYTE_SPAN_4));
-        const horizRes:     Buffer = Buffer.from(this.spanNumberOnNBytes(this.HORIZONTAL_RESOLUTION, this.BYTE_SPAN_4));
-        const vertiRes:     Buffer = Buffer.from(this.spanNumberOnNBytes(this.VERTICAL_RESOLUTION,   this.BYTE_SPAN_4));
-        const color:        Buffer = Buffer.from(this.spanNumberOnNBytes(this.COLOR_USED,            this.BYTE_SPAN_4));
-        const impColor:     Buffer = Buffer.from(this.spanNumberOnNBytes(this.IMPORTANT_COLOR_USED,  this.BYTE_SPAN_4));
+        const size:         Buffer = Buffer.from(this.spanNumberOnNBytes(Constants.BMP_INFOHEADER_SIZE, this.BYTE_SPAN_4));
+        const width:        Buffer = Buffer.from(this.spanNumberOnNBytes(this.width,                    this.BYTE_SPAN_4));
+        const height:       Buffer = Buffer.from(this.spanNumberOnNBytes(this.height,                   this.BYTE_SPAN_4));
+        const planes:       Buffer = Buffer.from(this.spanNumberOnNBytes(this.PLANES,                   this.BYTE_SPAN_2));
+        const bitDepth:     Buffer = Buffer.from(this.spanNumberOnNBytes(this.BITDEPTH_24,              this.BYTE_SPAN_2));
+        const compression:  Buffer = Buffer.from(this.spanNumberOnNBytes(this.COMPRESSION,              this.BYTE_SPAN_4));
+        const imageSize:    Buffer = Buffer.from(this.spanNumberOnNBytes(this.width * this.height,      this.BYTE_SPAN_4));
+        const horizRes:     Buffer = Buffer.from(this.spanNumberOnNBytes(this.HORIZONTAL_RESOLUTION,    this.BYTE_SPAN_4));
+        const vertiRes:     Buffer = Buffer.from(this.spanNumberOnNBytes(this.VERTICAL_RESOLUTION,      this.BYTE_SPAN_4));
+        const color:        Buffer = Buffer.from(this.spanNumberOnNBytes(this.COLOR_USED,               this.BYTE_SPAN_4));
+        const impColor:     Buffer = Buffer.from(this.spanNumberOnNBytes(this.IMPORTANT_COLOR_USED,     this.BYTE_SPAN_4));
 
         const infoHeaderArray: Buffer[] = [
             size,
@@ -144,8 +144,9 @@ export class BMPBuilder {
     }
 
     private spanNumberOnNBytes(num: number, spanRange: number): Buffer {
-        const spannedBuffer: Buffer = Buffer.allocUnsafe(spanRange);
-        const byteNumericalSpan: number = 256;
+        const spannedBuffer:        Buffer = Buffer.allocUnsafe(spanRange);
+        const byteNumericalSpan:    number = 256;
+
         for (let i: number = 0; i < spanRange; i++) {
             const value: number = num % byteNumericalSpan;
             spannedBuffer[i] = value;
@@ -160,10 +161,10 @@ export class BMPBuilder {
     }
 
     public setColorAtPos(R: number, G: number, B: number, posX: number, posY: number): void {
-        const truePosY: number = this.height - posY - 1;
-        const xOffset: number = posX * this.getBitDepthInBytes();
-        const yOffset: number = truePosY * (this.paddingPerRow() + this.width * this.getBitDepthInBytes());
-        const absolutePos: number = yOffset + xOffset + this.HEADER_DATAOFFSET;
+        const truePosY:     number = this.height - posY - 1;
+        const xOffset:      number = posX * this.getBitDepthInBytes();
+        const yOffset:      number = truePosY * (this.paddingPerRow() + this.width * this.getBitDepthInBytes());
+        const absolutePos:  number = yOffset + xOffset + this.HEADER_DATAOFFSET;
 
         if (absolutePos > this.bmpBuffer.length || absolutePos < this.HEADER_DATAOFFSET) {
             throw new RangeError(this.ERROR_OUT_OF_BOUNDS);

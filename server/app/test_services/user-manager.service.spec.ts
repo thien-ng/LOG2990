@@ -9,27 +9,31 @@ let userManagerService: UserManagerService;
 
 beforeEach(() => {
     userManagerService = new UserManagerService;
+
     userManagerService.users.push({
-                                    username: "patate",
-                                    socketID: "socketid",
-                                });
+        username:       "patate",
+        socketID:       "socketid",
+    });
+
     userManagerService.users.push({
-                                    username: "roger",
-                                    socketID: "socketid",
-                                });
+        username:       "roger",
+        socketID:       "socketid",
+    });
+
     userManagerService.users.push({
-                                    username: "dylan",
-                                    socketID: "socketid",
-                                });
+        username:       "dylan",
+        socketID:       "socketid",
+    });
 });
 
 describe("UserManagerService test", () => {
 
     it ("should return True if name input is unique", (done: Function) => {
         const user: IUser = {
-                                username: "ligma",
-                                socketID: "socketid",
-                            };
+            username:       "ligma",
+            socketID:       "socketid",
+        };
+
         const result: Message = userManagerService.validateName(user.username);
 
         expect(result.body).to.equal("isUnique");
@@ -38,9 +42,10 @@ describe("UserManagerService test", () => {
 
     it ("should return False if name input is not unique", (done: Function) => {
         const user: IUser = {
-                                username: "patate",
-                                socketID: "socketid",
-                            };
+            username:       "patate",
+            socketID:       "socketid",
+        };
+
         const result: Message = userManagerService.validateName(user.username);
 
         expect(result.body).to.equal("isNotUnique");
@@ -48,10 +53,11 @@ describe("UserManagerService test", () => {
     });
 
     it ("should return error of name lenght if name is too short", (done: Function) => {
-        const testString: string = "143";
-        const resultExpected: Message = {
-            title: "onError",
-            body: "Le nom doit contenir entre 4 et 15 characteres",
+        const testString:       string  = "143";
+
+        const resultExpected:   Message = {
+            title:          "onError",
+            body:           "Le nom doit contenir entre 4 et 15 characteres",
         };
         const result: Message = userManagerService.validateName(testString);
 
@@ -60,10 +66,11 @@ describe("UserManagerService test", () => {
     });
 
     it ("should return error of name lenght if name is too long", (done: Function) => {
-        const testString: string = "14adadawdadawdawdadadawdadaddwadad3";
-        const resultExpected: Message = {
-            title: "onError",
-            body: "Le nom doit contenir entre 4 et 15 characteres",
+        const testString:       string  = "14adadawdadawdawdadadawdadaddwadad3";
+
+        const resultExpected:   Message = {
+            title:          "onError",
+            body:           "Le nom doit contenir entre 4 et 15 characteres",
         };
         const result: Message = userManagerService.validateName(testString);
 
@@ -72,10 +79,11 @@ describe("UserManagerService test", () => {
     });
 
     it ("should return error of name regex format if name contains non alphanumeric character", (done: Function) => {
-        const testString: string = "bob123;";
-        const resultExpected: Message = {
-            title: "onError",
-            body: "Le nom doit contenir seulement des caracteres alphanumerics",
+        const testString:       string  = "bob123;";
+
+        const resultExpected:   Message = {
+            title:          "onError",
+            body:           "Le nom doit contenir seulement des caracteres alphanumerics",
         };
         const result: Message = userManagerService.validateName(testString);
 
@@ -84,16 +92,16 @@ describe("UserManagerService test", () => {
     });
 
     it ("should return True if name input is unique", (done: Function) => {
-        const name: string = "bob";
-        const result: Boolean | Message = userManagerService.isUnique(name);
+        const name:     string              = "bob";
+        const result:   Boolean | Message   = userManagerService.isUnique(name);
 
         expect(result).to.equal(true);
         done();
     });
 
     it ("should return false if name input is unique", (done: Function) => {
-        const name: string = "patate";
-        const result: Boolean = userManagerService.isUnique(name);
+        const name:     string  = "patate";
+        const result:   Boolean = userManagerService.isUnique(name);
 
         expect(result).to.equal(false);
         done();
@@ -101,9 +109,10 @@ describe("UserManagerService test", () => {
 
     it ("should return True if name is cleared from list properly", (done: Function) => {
         const user: IUser = {
-                                username: "patate",
-                                socketID: "socketid",
-                            };
+            username:       "patate",
+            socketID:       "socketid",
+        };
+
         userManagerService.leaveBrowser(user);
 
         const result: Boolean = userManagerService.isUnique(user.username);
@@ -113,9 +122,10 @@ describe("UserManagerService test", () => {
 
     it ("should return True if list was empty initially", (done: Function) => {
         const user: IUser = {
-                                username: "patate",
-                                socketID: "socketid",
-                            };
+            username:       "patate",
+            socketID:       "socketid",
+        };
+
         userManagerService.leaveBrowser(user);
 
         const result: Boolean = userManagerService.isUnique(user.username);
@@ -125,26 +135,30 @@ describe("UserManagerService test", () => {
 
     it ("should update the socket ID to the corresponding username", () => {
         const user: IUser = {
-                                username: "patate",
-                                socketID: "socketid",
-                            };
+            username:       "patate",
+            socketID:       "socketid",
+        };
+
         const userToUpdate: IUser = {
-                                username: "patate",
-                                socketID: "socketidtoUpdate",
-                            };
+            username:       "patate",
+            socketID:       "socketidtoUpdate",
+        };
+
         userManagerService.users.push(user);
         userManagerService.updateSocketID(userToUpdate);
         expect(userManagerService.users[0]).to.deep.equal(userToUpdate);
     });
     it ("should update the username to the corresponding SocketID", () => {
         const user: IUser = {
-                                username: "username",
-                                socketID: "socketid",
-                            };
+            username:       "username",
+            socketID:       "socketid",
+        };
+
         const userToUpdate: IUser = {
-                                username: "usernameToUpdate",
-                                socketID: "socketid",
-                            };
+            username:       "usernameToUpdate",
+            socketID:       "socketid",
+        };
+
         userManagerService.users.push(user);
         userManagerService.updateSocketID(userToUpdate);
         expect(userManagerService.users[0]).to.deep.equal(userToUpdate);
@@ -152,9 +166,10 @@ describe("UserManagerService test", () => {
 
     it ("should update the username to the corresponding SocketID", () => {
         const user: IUser = {
-                                username: "patate",
-                                socketID: "socketid",
-                            };
+            username:       "patate",
+            socketID:       "socketid",
+        };
+
         const result: IUser | string = userManagerService.getUserByUsername("patate");
         expect(result).to.deep.equal(user);
     });

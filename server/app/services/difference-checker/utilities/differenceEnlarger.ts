@@ -86,12 +86,11 @@ export class DifferenceEnlarger {
     }
 
     private adjustedRadius(): number {
-        const COEFFICIENT: number = 0.4461;
-        const POWER: number = 0.9511;
-        const ADJUSTMENT_DEGREE: number = 1.1;
-        const adjustment: number = ADJUSTMENT_DEGREE * (COEFFICIENT / Math.pow(this.radius, POWER));
+        const COEFFICIENT:          number = 0.4461;
+        const POWER:                number = 0.9511;
+        const ADJUSTMENT_DEGREE:    number = 1.1;
+        const adjustment:           number = ADJUSTMENT_DEGREE * (COEFFICIENT / Math.pow(this.radius, POWER));
 
         return this.radius + adjustment;
     }
-
 }

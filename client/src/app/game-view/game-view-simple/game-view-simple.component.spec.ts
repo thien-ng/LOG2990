@@ -8,8 +8,8 @@ import { TimerComponent } from "../timer/timer.component";
 import { GameViewSimpleComponent } from "./game-view-simple.component";
 
 describe("GameViewSimpleComponent", () => {
-  let component: GameViewSimpleComponent;
-  let fixture: ComponentFixture<GameViewSimpleComponent>;
+  let component:  GameViewSimpleComponent;
+  let fixture:    ComponentFixture<GameViewSimpleComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -29,7 +29,7 @@ describe("GameViewSimpleComponent", () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GameViewSimpleComponent);
+    fixture   = TestBed.createComponent(GameViewSimpleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

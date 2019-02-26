@@ -47,13 +47,13 @@ const playerInputClick: IPlayerInput = {
     event:      Constants.CLICK_EVENT,
     arenaId:    1,
     user:       activeUser,
-    position: hitPosition,
+    position:   hitPosition,
 };
 const playerInputWrong: IPlayerInput = {
     event:      "wrongInput",
     arenaId:    1,
     user:       activeUser,
-    position: hitPosition,
+    position:   hitPosition,
 };
 let arena: Arena;
 const arenaInfo: IArenaInfos = {
@@ -74,16 +74,16 @@ describe("Arena tests", () => {
 
     beforeEach(async () => {
         gameManager = new GameManagerService(new UserManagerService());
-        arena = new Arena(arenaInfo, gameManager);
+        arena       = new Arena(arenaInfo, gameManager);
         arena.timer.stopTimer();
-        mockAxios = new MockAdapter.default(axios);
+        mockAxios   = new MockAdapter.default(axios);
         chai.use(spies);
 
         // build arena with images bufferOriginal & bufferDifferences
-        const builder: BMPBuilder = new BMPBuilder(4, 4, 100);
-        const bufferOriginal: Buffer = Buffer.from(builder.buffer);
+        const builder:          BMPBuilder  = new BMPBuilder(4, 4, 100);
+        const bufferOriginal:   Buffer      = Buffer.from(builder.buffer);
         builder.setColorAtPos(1, 1, 1, 1, 1);
-        const bufferDifferences: Buffer = Buffer.from(builder.buffer);
+        const bufferDifferences: Buffer     = Buffer.from(builder.buffer);
 
         mockAxios.onGet(arenaInfo.originalGameUrl).replyOnce(200, () => {
             return bufferOriginal;
@@ -107,8 +107,8 @@ describe("Arena tests", () => {
 
     it("should be able to extract original pixel clusters from buffers ", async () => {
 
-        const spy: any = chai.spy.on(arena, "extractOriginalPixelClusters");
-        mockAxios = new MockAdapter.default(axios);
+        const spy: any  = chai.spy.on(arena, "extractOriginalPixelClusters");
+        mockAxios       = new MockAdapter.default(axios);
 
         mockAxios.onGet(arenaInfo.originalGameUrl, {
             responseType: "arraybuffer",
@@ -147,24 +147,23 @@ describe("Arena tests", () => {
     it("should validate hit with a call to a microservice", async () => {
 
         const expectedResponse: IPlayerInputResponse = {
-            status: Constants.ON_SUCCESS_MESSAGE,
-            response: expectedPixelClusters,
+            status:     Constants.ON_SUCCESS_MESSAGE,
+            response:   expectedPixelClusters,
         };
         const sandbox: sinon.SinonSandbox = sinon.createSandbox();
         sandbox.stub(arena, "onPlayerClick").callsFake( async () => of(expectedResponse).toPromise());
 
-        const responseToInput:  IPlayerInputResponse = await arena.onPlayerInput(playerInputClick);
+        const responseToInput: IPlayerInputResponse = await arena.onPlayerInput(playerInputClick);
 
         chai.expect(responseToInput).to.deep.equal(expectedResponse);
-
         sandbox.restore();
     });
 
     it("should return a failed response when the event passed isn't recognize", async () => {
 
         const expectedResponse: IPlayerInputResponse = {
-            status: "onFailedClick",
-            response: Constants.ON_ERROR_PIXEL_CLUSTER,
+            status:     "onFailedClick",
+            response:   Constants.ON_ERROR_PIXEL_CLUSTER,
         };
         const sandbox: sinon.SinonSandbox = sinon.createSandbox();
         sandbox.stub(arena, "onPlayerClick").callsFake( async () => of(expectedResponse).toPromise());
@@ -172,19 +171,18 @@ describe("Arena tests", () => {
         const responseToInput:  IPlayerInputResponse = await arena.onPlayerInput(playerInputWrong);
 
         chai.expect(responseToInput).to.deep.equal(expectedResponse);
-
         sandbox.restore();
     });
 
     it("should return a correct PlayerInputResponse", async () => {
         const playerInputResponseExpected: IPlayerInputResponse = {
-            status:         Constants.ON_SUCCESS_MESSAGE,
-            response:       expectedPixelClusters,
+            status:     Constants.ON_SUCCESS_MESSAGE,
+            response:   expectedPixelClusters,
         };
 
         const hitConfirmationExpected: IHitConfirmation = {
-            isAHit: true,
-            hitPixelColor: [ 1, 1, 1],
+            isAHit:         true,
+            hitPixelColor:  [ 1, 1, 1],
         };
 
         mockAxios.onPost(Constants.URL_HIT_VALIDATOR).reply(200, hitConfirmationExpected);
@@ -200,8 +198,8 @@ describe("Arena tests", () => {
 
     it("should return an error on problematic HitConfirmation", async () => {
         const playerInputResponseExpected: IPlayerInputResponse = {
-            status:         Constants.ON_ERROR_MESSAGE,
-            response:       Constants.ON_ERROR_PIXEL_CLUSTER,
+            status:     Constants.ON_ERROR_MESSAGE,
+            response:   Constants.ON_ERROR_PIXEL_CLUSTER,
         };
 
         mockAxios.onPost(Constants.URL_HIT_VALIDATOR).reply(200, {});
@@ -218,8 +216,8 @@ describe("Arena tests", () => {
     it("should be able to return a hit validation response", async () => {
 
         const hitConfirmationExpected: IHitConfirmation = {
-            isAHit: true,
-            hitPixelColor: [ 1, 1, 1],
+            isAHit:         true,
+            hitPixelColor:  [ 1, 1, 1],
         };
 
         mockAxios.onPost(Constants.URL_HIT_VALIDATOR).reply(200, hitConfirmationExpected);
@@ -227,7 +225,6 @@ describe("Arena tests", () => {
         const responseToValidation: IHitConfirmation = await arena.validateHit(hitPosition);
 
         chai.expect(responseToValidation).to.deep.equal(hitConfirmationExpected);
-
     });
 
     it("should be able to catch an error during the hitValidation process", async () => {
@@ -246,8 +243,8 @@ describe("Arena tests", () => {
     });
 
     it("should return the players in the arena", async () => {
-        const players: Player[] = arena.getPlayers();
-        const playerInside: Player = new Player(activeUser);
+        const players:      Player[]    = arena.getPlayers();
+        const playerInside: Player      = new Player(activeUser);
 
         chai.expect(playerInside).to.deep.equal(players[0]);
     });
@@ -264,8 +261,8 @@ describe("Arena tests", () => {
     });
 
     it("should send time to player every second", () => {
-        const clock: any = sinon.useFakeTimers();
-        const spy: any = chai.spy.on(arena.gameManagerService, "sendMessage");
+        const clock:    any = sinon.useFakeTimers();
+        const spy:      any = chai.spy.on(arena.gameManagerService, "sendMessage");
 
         arena["initTimer"]();
         clock.tick(1010);
@@ -276,7 +273,7 @@ describe("Arena tests", () => {
     it("should set the right number of points to win depending on number of players", () => {
 
         arenaInfo.users = [activeUser, activeUser];
-        arena = new Arena(arenaInfo, gameManager);
+        arena           = new Arena(arenaInfo, gameManager);
         arena.timer.stopTimer();
 
         const pointsNeededToWin: number = arena["pointsNeededToWin"];

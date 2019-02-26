@@ -10,41 +10,41 @@ import { SocketService } from "../../websocket/socket.service";
 import { GameViewSimpleService } from "./game-view-simple.service";
 
 @Component({
-  selector: "app-game-view-simple",
-  templateUrl: "./game-view-simple.component.html",
-  styleUrls: ["./game-view-simple.component.css"],
+  selector:     "app-game-view-simple",
+  templateUrl:  "./game-view-simple.component.html",
+  styleUrls:    ["./game-view-simple.component.css"],
 })
 
 export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDestroy {
-  public readonly OPPONENT: string = "Adversaire";
-  public readonly SUCCESS_SOUND: string = "http://localhost:3000/audio/fail.wav";
-  public readonly FAIL_SOUND: string = "http://localhost:3000/audio/success.wav";
+  public readonly OPPONENT:       string = "Adversaire";
+  public readonly SUCCESS_SOUND:  string = "http://localhost:3000/audio/fail.wav";
+  public readonly FAIL_SOUND:     string = "http://localhost:3000/audio/success.wav";
 
   @ViewChild("successSound",  {read: ElementRef}) public successSound:  ElementRef;
   @ViewChild("failSound",     {read: ElementRef}) public failSound:     ElementRef;
 
   @ViewChild("originalImage", {read: ElementRef})
-  public canvasOriginal: ElementRef;
-  public activeCard: ICard;
-  public cardLoaded: boolean;
-  public username: string | null;
+  public canvasOriginal:  ElementRef;
+  public activeCard:      ICard;
+  public cardLoaded:      boolean;
+  public username:        string | null;
   @ViewChild("modifiedImage", {read: ElementRef})
-  public canvasModified: ElementRef;
-  private originalPath: string;
-  private gameRequest: IGameRequest;
-  private modifiedPath: string;
-  private arenaID: number;
-  public mode: string | null;
+  public canvasModified:  ElementRef;
+  private originalPath:   string;
+  private gameRequest:    IGameRequest;
+  private modifiedPath:   string;
+  private arenaID:        number;
+  public mode:            string | null;
 
   public constructor(
-    @Inject(GameViewSimpleService) public gameViewService: GameViewSimpleService,
-    @Inject(SocketService) private socketService: SocketService,
-    private route: ActivatedRoute,
+    @Inject(GameViewSimpleService) public   gameViewService:  GameViewSimpleService,
+    @Inject(SocketService)          private socketService:    SocketService,
+    private route:      ActivatedRoute,
     private httpClient: HttpClient,
     ) {
-      this.mode = this.route.snapshot.paramMap.get("gamemode");
+      this.mode       = this.route.snapshot.paramMap.get("gamemode");
       this.cardLoaded = false;
-      this.username = sessionStorage.getItem(Constants.USERNAME_KEY);
+      this.username   = sessionStorage.getItem(Constants.USERNAME_KEY);
     }
 
   public ngOnInit(): void {
@@ -62,10 +62,10 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   private createGameRequest(username: string): void {
     if (this.mode !== null) {
       this.gameRequest = {
-        username: username,
-        gameId: this.activeCard.gameID,
-        type: JSON.parse(this.mode),
-        mode: GameMode.simple,
+        username:   username,
+        gameId:     this.activeCard.gameID,
+        type:       JSON.parse(this.mode),
+        mode:       GameMode.simple,
       };
       this.handleGameRequest();
     }
@@ -98,12 +98,14 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   }
 
   private canvasRoutine(): void {
-    const canvasOriginal: CanvasRenderingContext2D = this.canvasOriginal.nativeElement.getContext("2d");
-    const canvasModified: CanvasRenderingContext2D = this.canvasModified.nativeElement.getContext("2d");
-    const imgModified: HTMLImageElement = new Image();
-    const imgOriginal: HTMLImageElement = new Image();
+    const canvasOriginal: CanvasRenderingContext2D  = this.canvasOriginal.nativeElement.getContext("2d");
+    const canvasModified: CanvasRenderingContext2D  = this.canvasModified.nativeElement.getContext("2d");
+    const imgModified:    HTMLImageElement          = new Image();
+    const imgOriginal:    HTMLImageElement          = new Image();
+
     imgOriginal.src = this.originalPath;
     imgModified.src = this.modifiedPath;
+
     imgOriginal.onload = () => {
       canvasOriginal.drawImage(imgOriginal, 0, 0);
     };
@@ -118,8 +120,8 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   public initListener(): void {
     this.canvasOriginal.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
       const pos: IPosition2D = {
-        x: mouseEvent.offsetX,
-        y: mouseEvent.offsetY,
+        x:    mouseEvent.offsetX,
+        y:    mouseEvent.offsetY,
       };
 
       if (this.username !== null) {
@@ -129,8 +131,8 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     });
     this.canvasModified.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
       const pos: IPosition2D = {
-        x: mouseEvent.offsetX,
-        y: mouseEvent.offsetY,
+        x:    mouseEvent.offsetX,
+        y:    mouseEvent.offsetY,
       };
 
       if (this.username !== null) {
@@ -139,5 +141,4 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       }
     });
   }
-
 }

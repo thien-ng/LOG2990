@@ -13,9 +13,9 @@ export class Cache {
     public insert(entry: IImageToCache): void {
         if (!this.contains(entry.imageUrl)) {
             const elementToInsert: ICacheElement = {
-                                                    imageToCache: entry,
-                                                    obsolescenceDegree: 0,
-                                                    };
+                imageToCache: entry,
+                obsolescenceDegree: 0,
+            };
             this.storage[this.leastRecentlyUsedIndex()] = elementToInsert;
             this.updateLRUPolitic(elementToInsert);
         }
@@ -66,8 +66,8 @@ export class Cache {
 
         allObsolescences.forEach((obsol: number, index: number) => {
             if (obsol > maxFound) {
-                maxFound = obsol;
-                indexOfMax = index;
+                maxFound    = obsol;
+                indexOfMax  = index;
             }
         });
 

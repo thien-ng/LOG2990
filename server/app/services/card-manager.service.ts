@@ -15,23 +15,24 @@ const axios: Axios.AxiosInstance = require("axios");
 
 @injectable()
 export class CardManagerService {
-    private cards: ICardLists;
+    private cards:                  ICardLists;
 
-    private originalImageRequest: Buffer;
-    private modifiedImageRequest: Buffer;
-    private imageManagerService: AssetManagerService;
+    private originalImageRequest:   Buffer;
+    private modifiedImageRequest:   Buffer;
+    private imageManagerService:    AssetManagerService;
 
-    private uniqueId: number;
-    private uniqueIdScene: number;
+    private uniqueId:               number;
+    private uniqueIdScene:          number;
 
     public constructor( @inject(Types.CardOperations) private cardOperations: CardOperations) {
 
-        this.uniqueId = Constants.START_ID_2D;
-        this.uniqueIdScene = Constants.START_ID_3D;
-        this.cards = cardOperations.getCardList();
+        this.uniqueId               = Constants.START_ID_2D;
+        this.uniqueIdScene          = Constants.START_ID_3D;
+        this.cards                  = cardOperations.getCardList();
+        this.imageManagerService    = new AssetManagerService();
+
         this.cardOperations.addCard2D(DefaultCard2D);
         this.cardOperations.addCard3D(DefaultCard3D);
-        this.imageManagerService = new AssetManagerService();
     }
 
     public async simpleCardCreationRoutine(requirements: ImageRequirements, cardTitle: string): Promise<Message> {
@@ -44,15 +45,14 @@ export class CardManagerService {
         this.modifiedImageRequest = requirements.modifiedImage;
 
         let returnValue: Message = {
-            title: Constants.ON_ERROR_MESSAGE,
-            body: Constants.VALIDATION_FAILED,
+            title:  Constants.ON_ERROR_MESSAGE,
+            body:   Constants.VALIDATION_FAILED,
         };
         try {
             await axios.post(Constants.PATH_FOR_2D_VALIDATION, requirements)
             .then((response: Axios.AxiosResponse< Buffer | Message>) => {
                 returnValue = this.handlePostResponse(response, cardTitle);
-                },
-            );
+            });
         } catch (error) {
             this.generateErrorMessage(error);
         }
@@ -61,20 +61,20 @@ export class CardManagerService {
     }
 
     public freeCardCreationRoutine(body: ISceneMessage): Message {
-        const cardId: number = this.generateSceneId();
-        const sceneImage: string = "/" + cardId + Constants.SCENE_SNAPSHOT;
-        this.imageManagerService.saveImage(Constants.IMAGES_PATH + sceneImage, body.image);
+        const cardId:       number = this.generateSceneId();
+        const sceneImage:   string = "/" + cardId + Constants.SCENE_SNAPSHOT;
+        const scenesPath:   string = Constants.SCENE_PATH + "/" + cardId + Constants.SCENES_FILE;
 
-        const scenesPath: string = Constants.SCENE_PATH + "/" + cardId + Constants.SCENES_FILE;
+        this.imageManagerService.saveImage(Constants.IMAGES_PATH + sceneImage, body.image);
         this.saveSceneJson(body.iSceneVariablesMessage, scenesPath);
 
         const cardReceived: ICard = {
-            gameID: cardId,
-            gamemode: GameMode.free,
-            title: body.iSceneVariablesMessage.originalScene.gameName,
-            subtitle: body.iSceneVariablesMessage.originalScene.gameName,
+            gameID:         cardId,
+            gamemode:       GameMode.free,
+            title:          body.iSceneVariablesMessage.originalScene.gameName,
+            subtitle:       body.iSceneVariablesMessage.originalScene.gameName,
             avatarImageUrl: Constants.BASE_URL + "/image" + sceneImage,
-            gameImageUrl: Constants.BASE_URL + "/image" + sceneImage,
+            gameImageUrl:   Constants.BASE_URL + "/image" + sceneImage,
         };
 
         return this.generateMessage(cardReceived);
@@ -88,13 +88,13 @@ export class CardManagerService {
     private generateMessage(cardReceived: ICard): Message {
         if (this.cardOperations.addCard3D(cardReceived)) {
             return {
-                title: Constants.ON_SUCCESS_MESSAGE,
-                body: Constants.CARD_ADDED,
+                title:  Constants.ON_SUCCESS_MESSAGE,
+                body:   Constants.CARD_ADDED,
             } as Message;
         } else {
             return {
-                title: Constants.ON_ERROR_MESSAGE,
-                body: Constants.CARD_EXISTING,
+                title:  Constants.ON_ERROR_MESSAGE,
+                body:   Constants.CARD_EXISTING,
             } as Message;
         }
     }
@@ -104,19 +104,20 @@ export class CardManagerService {
         if (this.isMessage(result)) {
             return result;
         } else {
-            const cardId: number = this.generateId();
-            const originalImagePath: string = "/" + cardId + Constants.ORIGINAL_FILE;
-            const modifiedImagePath: string = "/" + cardId + Constants.MODIFIED_FILE;
+            const cardId:               number = this.generateId();
+            const originalImagePath:    string = "/" + cardId + Constants.ORIGINAL_FILE;
+            const modifiedImagePath:    string = "/" + cardId + Constants.MODIFIED_FILE;
             this.imageManagerService.stockImage(Constants.IMAGES_PATH + originalImagePath, this.originalImageRequest);
             this.imageManagerService.stockImage(Constants.IMAGES_PATH + modifiedImagePath, this.modifiedImageRequest);
             this.imageManagerService.createBMP(result, cardId);
+
             const cardReceived: ICard = {
-                    gameID: cardId,
-                    title: cardTitle,
-                    subtitle: cardTitle,
+                    gameID:         cardId,
+                    title:          cardTitle,
+                    subtitle:       cardTitle,
                     avatarImageUrl: Constants.BASE_URL + "/image" + originalImagePath,
-                    gameImageUrl: Constants.BASE_URL + "/image" + originalImagePath,
-                    gamemode: GameMode.simple,
+                    gameImageUrl:   Constants.BASE_URL + "/image" + originalImagePath,
+                    gamemode:       GameMode.simple,
             };
 
             return this.verifyCard(cardReceived);
@@ -126,20 +127,20 @@ export class CardManagerService {
     private verifyCard(card: ICard): Message {
         if (this.cardOperations.addCard2D(card)) {
             return {
-                title: Constants.ON_SUCCESS_MESSAGE,
-                body: "Card " + card.gameID + " created",
+                title:  Constants.ON_SUCCESS_MESSAGE,
+                body:   "Card " + card.gameID + " created",
             } as Message;
         } else {
             return {
-                title: Constants.ON_ERROR_MESSAGE,
-                body: Constants.CARD_EXISTING,
+                title:  Constants.ON_ERROR_MESSAGE,
+                body:   Constants.CARD_EXISTING,
             } as Message;
         }
     }
 
     private isMessage(result: Buffer | Message): result is Message {
-        return  (result as Message).body !== undefined &&
-                (result as Message).title !== undefined;
+        return  (result as Message).body    !== undefined &&
+                (result as Message).title   !== undefined;
     }
 
     private generateId(): number {
@@ -161,12 +162,12 @@ export class CardManagerService {
     }
 
     public generateErrorMessage(error: Error): Message {
-        const isTypeError: boolean = error instanceof TypeError;
-        const errorMessage: string = isTypeError ? error.message : Constants.UNKNOWN_ERROR;
+        const isTypeError:  boolean = error instanceof TypeError;
+        const errorMessage: string  = isTypeError ? error.message : Constants.UNKNOWN_ERROR;
 
         return {
-            title: Constants.ON_ERROR_MESSAGE,
-            body: errorMessage,
+            title:  Constants.ON_ERROR_MESSAGE,
+            body:   errorMessage,
         };
     }
 
@@ -195,8 +196,8 @@ export class CardManagerService {
 
     private buildValidatorMessage(title: string, body: string): Message {
         return {
-            title: title,
-            body: body,
+            title:  title,
+            body:   body,
         };
     }
 }

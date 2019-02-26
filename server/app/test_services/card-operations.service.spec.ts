@@ -11,44 +11,44 @@ import { HighscoreService } from "../services/highscore.service";
 
 /*tslint:disable no-magic-numbers no-any */
 
-const FAKE_PATH: string = Constants.BASE_URL + "/image";
-const CARD_NOT_FOUND: string = "Erreur de suppression, carte pas trouvée";
+const FAKE_PATH:        string = Constants.BASE_URL + "/image";
+const CARD_NOT_FOUND:   string = "Erreur de suppression, carte pas trouvée";
 
-let highscoreService: HighscoreService;
-let cardOperations: CardOperations;
+let highscoreService:   HighscoreService;
+let cardOperations:     CardOperations;
 
 describe("Card-operations tests", () => {
     chai.use(spies);
     const c1: ICard = {
-        gameID: 4,
-        title: "Default 2D",
-        subtitle: "default 2D",
-        avatarImageUrl: FAKE_PATH + "/elon.jpg",
-        gameImageUrl: FAKE_PATH + "/elon.jpg",
-        gamemode: GameMode.simple,
+        gameID:             4,
+        title:              "Default 2D",
+        subtitle:           "default 2D",
+        avatarImageUrl:     FAKE_PATH + "/elon.jpg",
+        gameImageUrl:       FAKE_PATH + "/elon.jpg",
+        gamemode:           GameMode.simple,
     };
 
     const c2: ICard = {
-        gameID: 2,
-        title: "Default 3D",
-        subtitle: "default 3D",
-        avatarImageUrl: FAKE_PATH + "/moutain.jpg",
-        gameImageUrl: FAKE_PATH + "/moutain.jpg",
-        gamemode: GameMode.free,
+        gameID:             2,
+        title:              "Default 3D",
+        subtitle:           "default 3D",
+        avatarImageUrl:     FAKE_PATH + "/moutain.jpg",
+        gameImageUrl:       FAKE_PATH + "/moutain.jpg",
+        gamemode:           GameMode.free,
     };
 
     const c3: ICard = {
-        gameID: 3,
-        title: "Default 3D 2.0",
-        subtitle: "default 3D",
-        avatarImageUrl: FAKE_PATH + "/poly.jpg",
-        gameImageUrl: FAKE_PATH + "/poly.jpg",
-        gamemode: GameMode.free,
+        gameID:             3,
+        title:              "Default 3D 2.0",
+        subtitle:           "default 3D",
+        avatarImageUrl:     FAKE_PATH + "/poly.jpg",
+        gameImageUrl:       FAKE_PATH + "/poly.jpg",
+        gamemode:           GameMode.free,
     };
 
     beforeEach(() => {
-        highscoreService = new HighscoreService();
-        cardOperations = new CardOperations(highscoreService);
+        highscoreService    = new HighscoreService();
+        cardOperations      = new CardOperations(highscoreService);
     });
 
     it("should return true when adding a new 2D card", () => {
@@ -137,30 +137,37 @@ describe("Card-operations tests", () => {
     });
 
     it("should delete card 2D", () => {
-        const assetManager: AssetManagerService = new AssetManagerService();
+        const originalImagePath:    string              = Constants.IMAGES_PATH + "/" + 4 + Constants.ORIGINAL_FILE;
+        const modifiedImagePath:    string              = Constants.IMAGES_PATH + "/" + 4 + Constants.MODIFIED_FILE;
+        const generatedImagePath:   string              = Constants.IMAGES_PATH + "/" + 4 + Constants.GENERATED_FILE;
+        const assetManager:         AssetManagerService = new AssetManagerService();
+
         cardOperations.addCard2D(c1);
-        const originalImagePath: string = Constants.IMAGES_PATH + "/" + 4 + Constants.ORIGINAL_FILE;
-        const modifiedImagePath: string = Constants.IMAGES_PATH + "/" + 4 + Constants.MODIFIED_FILE;
-        const generatedImagePath: string =  Constants.IMAGES_PATH + "/" + 4 + Constants.GENERATED_FILE;
-        assetManager.saveImage(originalImagePath, "test");
-        assetManager.saveImage(modifiedImagePath, "test");
+
+        assetManager.saveImage(originalImagePath,  "test");
+        assetManager.saveImage(modifiedImagePath,  "test");
         assetManager.saveImage(generatedImagePath, "test");
+
         chai.expect(cardOperations.removeCard2D(4)).to.equal(Constants.CARD_DELETED);
     });
 
     it("should delete card 3D", () => {
-        const assetManager: AssetManagerService = new AssetManagerService();
+        const snapshot:             string = Constants.IMAGES_PATH + "/" + 2 + Constants.GENERATED_SNAPSHOT;
+        const generatedScene:       string = Constants.SCENE_PATH  + "/" + 2 + Constants.SCENES_FILE;
+        const assetManager:         AssetManagerService = new AssetManagerService();
+
         cardOperations.addCard3D(c2);
-        const snapshot: string = Constants.IMAGES_PATH + "/" + 2 + Constants.GENERATED_SNAPSHOT;
-        const generatedScene: string = Constants.SCENE_PATH + "/" + 2 + Constants.SCENES_FILE;
+
         assetManager.saveImage(snapshot, "test");
         assetManager.saveGeneratedScene(generatedScene, "test");
+
         chai.expect(cardOperations.removeCard3D(2)).to.equal(Constants.CARD_DELETED);
     });
 
     it("should generate message with unknown error", () => {
-        const error: SyntaxError = new SyntaxError();
-        const result: Message = cardOperations.generateErrorMessage(error);
+        const error:    SyntaxError = new SyntaxError();
+        const result:   Message     = cardOperations.generateErrorMessage(error);
+
         chai.expect(result).to.deep.equal({title: Constants.ON_ERROR_MESSAGE, body: Constants.UNKNOWN_ERROR});
     });
 

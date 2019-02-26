@@ -28,8 +28,10 @@ container.bind(Types.WebsocketManager).to(WebsocketManager);
 
 container.bind(Types.UserController).to(UserController);
 container.bind(Types.UserManagerService).to(UserManagerService).inSingletonScope();
+
 container.bind(Types.CardManagerController).to(CardManagerController);
 container.bind(Types.CardManagerService).to(CardManagerService).inSingletonScope();
+container.bind(Types.CardOperations).to(CardOperations).inSingletonScope();
 
 container.bind(Types.HighscoreController).to(HighscoreController);
 container.bind(Types.HighscoreService).to(HighscoreService).inSingletonScope();
@@ -45,6 +47,5 @@ container.bind(Types.GameManagerService).to(GameManagerService).inSingletonScope
 
 container.bind(Types.SceneManagerController).to(SceneManagerController);
 container.bind(Types.SceneManager).to(SceneManager).inSingletonScope();
-container.bind(Types.CardOperations).to(CardOperations).inSingletonScope();
 
 export { container };

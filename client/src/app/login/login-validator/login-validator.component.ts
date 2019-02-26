@@ -15,27 +15,26 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   }
 }
 @Component({
-  selector: "app-login-validator",
-  templateUrl: "./login-validator.component.html",
-  styleUrls: ["./login-validator.component.css"],
+  selector:     "app-login-validator",
+  templateUrl:  "./login-validator.component.html",
+  styleUrls:    ["./login-validator.component.css"],
 })
 export class LoginValidatorComponent {
 
-  public readonly HINT_USERNAME: string = "Nom d'utilisateur";
-  public readonly HINT: string = "Veuillez entrer un alias";
-  public readonly ERROR_PATTERN: string = "Caractères autorisés: A-Z, a-z, 0-9";
-  public readonly ERROR_SIZE: string = "Taille: "
-                                  + Constants.MIN_LENGTH + "-"
-                                  + Constants.MAX_LENGTH + " caractères";
+  public readonly HINT_USERNAME:  string = "Nom d'utilisateur";
+  public readonly HINT:           string = "Veuillez entrer un alias";
+  public readonly ERROR_PATTERN:  string = "Caractères autorisés: A-Z, a-z, 0-9";
+  public readonly ERROR_SIZE:     string = "Taille: " + Constants.MIN_LENGTH + "-" + Constants.MAX_LENGTH + " caractères";
   public readonly ERROR_REQUIRED: string = "Nom d'utilisateur requis";
-  public readonly BUTTON_SUBMIT: string = "Soumettre";
+  public readonly BUTTON_SUBMIT:  string = "Soumettre";
+
   public matcher: MyErrorStateMatcher;
 
   public constructor(
-    @Inject(LoginValidatorService) public loginValidatorService: LoginValidatorService,
-    @Inject(SocketService) private socketService: SocketService,
+    @Inject(LoginValidatorService)  public  loginValidatorService:  LoginValidatorService,
+    @Inject(SocketService)          private socketService:          SocketService,
     private snackbar: MatSnackBar,
-    private router: Router,
+    private router:   Router,
   ) {
     this.matcher = new MyErrorStateMatcher();
   }
@@ -73,17 +72,18 @@ export class LoginValidatorComponent {
       this.snackbar.open(
         message,
         closeStatement,
-        {duration: Constants.SNACKBAR_DURATION});
+        { duration: Constants.SNACKBAR_DURATION});
   }
 
   private displayNameIsUnique(): void {
-    this.displaySnackBar(Constants.SNACKBAR_GREETINGS + this.usernameFormControl.value,
-                         Constants.SNACKBAR_ACKNOWLEDGE);
+    this.displaySnackBar(
+      Constants.SNACKBAR_GREETINGS + this.usernameFormControl.value,
+      Constants.SNACKBAR_ACKNOWLEDGE);
   }
 
   private displayNameNotUnique(): void {
-    this.displaySnackBar(this.usernameFormControl.value + Constants.SNACKBAR_USED_NAME,
-                         Constants.SNACKBAR_ATTENTION);
+    this.displaySnackBar(
+      this.usernameFormControl.value + Constants.SNACKBAR_USED_NAME,
+      Constants.SNACKBAR_ATTENTION);
   }
-
 }

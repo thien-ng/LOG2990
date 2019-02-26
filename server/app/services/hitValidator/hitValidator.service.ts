@@ -34,8 +34,8 @@ export class HitValidatorService {
         const colorFound: number[] = this.findColorAtPoint(hitToValidate.position, buffer);
 
         return {
-            isAHit: this.isValidHit(hitToValidate, colorFound),
-            hitPixelColor: colorFound,
+            isAHit:         this.isValidHit(hitToValidate, colorFound),
+            hitPixelColor:  colorFound,
         };
     }
 
@@ -52,12 +52,12 @@ export class HitValidatorService {
 
     private findColorAtPoint(position: IPosition2D, buffer: Buffer): number[] {
 
-        const reversedY: number = (this.getImageHeight(buffer) - 1) - position.y;
-        const offsetX: number = position.x * this.BUFFER_24BIT_SIZE;
-        const offsetY: number = reversedY * this.getImageWidth(buffer) * this.BUFFER_24BIT_SIZE;
+        const reversedY:        number      = (this.getImageHeight(buffer) - 1) - position.y;
+        const offsetX:          number      = position.x * this.BUFFER_24BIT_SIZE;
+        const offsetY:          number      = reversedY * this.getImageWidth(buffer) * this.BUFFER_24BIT_SIZE;
 
-        const absolutePosition: number = offsetX + offsetY + this.BUFFER_HEADER_SIZE;
-        const colorInverted: number[] = [...buffer.slice(absolutePosition, absolutePosition + this.BUFFER_24BIT_SIZE)];
+        const absolutePosition: number      = offsetX + offsetY + this.BUFFER_HEADER_SIZE;
+        const colorInverted:    number[]    = [...buffer.slice(absolutePosition, absolutePosition + this.BUFFER_24BIT_SIZE)];
 
         return colorInverted.reverse();
     }

@@ -11,28 +11,28 @@ import { Arena } from "./arena/arena";
 import { IArenaInfos, IPlayerInput } from "./arena/interfaces";
 import { Player } from "./arena/player";
 
-const REQUEST_ERROR_MESSAGE: string = "Game mode invalide";
-const ARENA_START_ID: number = 1000;
-const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
+const REQUEST_ERROR_MESSAGE:            string = "Game mode invalide";
+const ARENA_START_ID:                   number = 1000;
+const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
 
 @injectable()
 export class GameManagerService {
 
-    private arenaID: number;
+    private arenaID:    number;
     private playerList: Map<string, SocketIO.Socket>;
-    private arenas: Map<number, Arena>;
-    public arena: Arena;
+    private arenas:     Map<number, Arena>;
+    public arena:       Arena;
 
     public constructor(@inject(Types.UserManagerService) private userManagerService: UserManagerService) {
         this.playerList = new Map<string, SocketIO.Socket>();
-        this.arenas = new Map<number, Arena>();
-        this.arenaID = ARENA_START_ID;
+        this.arenas     = new Map<number, Arena>();
+        this.arenaID    = ARENA_START_ID;
     }
 
     private returnError(errorMessage: string): Message {
         return {
-            title: Constants.ON_ERROR_MESSAGE,
-            body: errorMessage,
+            title:  Constants.ON_ERROR_MESSAGE,
+            body:   errorMessage,
         };
     }
 
@@ -84,8 +84,8 @@ export class GameManagerService {
         ]);
 
         return {
-            title: Constants.ON_SUCCESS_MESSAGE,
-            body: paths,
+            title:  Constants.ON_SUCCESS_MESSAGE,
+            body:   paths,
         };
     }
 
@@ -137,8 +137,8 @@ export class GameManagerService {
         }
 
         return {
-            status: Constants.ON_ERROR_MESSAGE,
-            response: ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
+            status:     Constants.ON_ERROR_MESSAGE,
+            response:   ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
         };
     }
 }

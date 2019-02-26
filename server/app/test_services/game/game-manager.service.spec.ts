@@ -18,41 +18,41 @@ import { UserManagerService } from "../../services/user-manager.service";
 
 let gameManagerService: GameManagerService;
 let userManagerService: UserManagerService;
-const mockAdapter: any = require("axios-mock-adapter");
-const axios: any = require("axios");
-let mockAxios: any;
+const mockAdapter:  any = require("axios-mock-adapter");
+const axios:        any = require("axios");
+let mockAxios:      any;
 
 const request2D: IGameRequest = {
-    username: "Frank",
-    gameId: 1,
-    type: GameType.singlePlayer,
-    mode: GameMode.simple,
+    username:   "Frank",
+    gameId:     1,
+    type:       GameType.singlePlayer,
+    mode:       GameMode.simple,
 };
 
 const request3D: IGameRequest = {
-    username: "Franky",
-    gameId: 105,
-    type: GameType.singlePlayer,
-    mode: GameMode.free,
+    username:   "Franky",
+    gameId:     105,
+    type:       GameType.singlePlayer,
+    mode:       GameMode.free,
 };
 
 const invalidRequest: IGameRequest = {
-    username: "Frankette",
-    gameId: 103,
-    type: GameType.singlePlayer,
-    mode: GameMode.invalid,
+    username:   "Frankette",
+    gameId:     103,
+    type:       GameType.singlePlayer,
+    mode:       GameMode.invalid,
 };
 
 const iArenaInfos: IArenaInfos = {
-    arenaId: 1,
-    users: [{username: "Frank", socketID: "12345"}],
-    originalGameUrl: "../../../asset/image/1_original.bmp",
-    differenceGameUrl: "../../../asset/image/1_modified.bmp",
+    arenaId:            1,
+    users:              [{username: "Frank", socketID: "12345"}],
+    originalGameUrl:    "../../../asset/image/1_original.bmp",
+    differenceGameUrl:  "../../../asset/image/1_modified.bmp",
 };
 
 const playerInput: IPlayerInput = {
-    event: "onClick",
-    arenaId: 1,
+    event:      "onClick",
+    arenaId:    1,
     user: {
         username: "Frank",
         socketID: "12345",
@@ -66,11 +66,12 @@ const playerInput: IPlayerInput = {
 let socket: SocketIO.Socket;
 const original: Buffer = fs.readFileSync(path.resolve(__dirname, "../../asset/image/testBitmap/imagetestOg.bmp"));
 const modified: Buffer = fs.readFileSync(path.resolve(__dirname, "../../asset/image/testBitmap/imagetestOg.bmp"));
+
 beforeEach(() => {
-    socket = mock(SocketIO);
-    userManagerService = new UserManagerService();
-    gameManagerService = new GameManagerService(userManagerService);
-    mockAxios = new mockAdapter.default(axios);
+    socket              = mock(SocketIO);
+    userManagerService  = new UserManagerService();
+    gameManagerService  = new GameManagerService(userManagerService);
+    mockAxios           = new mockAdapter.default(axios);
 });
 
 describe("GameManagerService tests", () => {
@@ -94,10 +95,10 @@ describe("GameManagerService tests", () => {
 
     it("Should return buildArenaInfo successfully", async () => {
         const arenaInfo: IArenaInfos = {
-            arenaId: 1000,
-            users: [{username: "Frank", socketID: "12345"}],
-            originalGameUrl: Constants.PATH_TO_IMAGES + "1" + Constants.ORIGINAL_FILE,
-            differenceGameUrl: Constants.PATH_TO_IMAGES + "1" + Constants.GENERATED_FILE,
+            arenaId:            1000,
+            users:              [{username: "Frank", socketID: "12345"}],
+            originalGameUrl:    Constants.PATH_TO_IMAGES + "1" + Constants.ORIGINAL_FILE,
+            differenceGameUrl:  Constants.PATH_TO_IMAGES + "1" + Constants.GENERATED_FILE,
         };
         chai.spy.on(gameManagerService, "buildArenaInfos");
         chai.expect(
@@ -153,8 +154,8 @@ describe("GameManagerService tests", () => {
     it("Should return an error message when loading an invalid game", async () => {
         const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
         const expectedMessage: IPlayerInputResponse = {
-            status: Constants.ON_ERROR_MESSAGE,
-            response: ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
+            status:     Constants.ON_ERROR_MESSAGE,
+            response:   ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
         };
         chai.expect(await gameManagerService.onPlayerInput(playerInput)).to.deep.equal(expectedMessage);
     });
@@ -179,8 +180,8 @@ describe("GameManagerService tests", () => {
 
         const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
         const expectedMessage: IPlayerInputResponse = {
-            status: Constants.ON_ERROR_MESSAGE,
-            response: ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
+            status:     Constants.ON_ERROR_MESSAGE,
+            response:   ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
         };
         chai.expect(await gameManagerService.onPlayerInput(playerInput)).to.deep.equal(expectedMessage);
     });
@@ -204,7 +205,6 @@ describe("GameManagerService tests", () => {
         gameManagerService.analyseRequest(request2D).catch();
         gameManagerService.unsubscribeSocketID("12345", "Frank");
         chai.expect(gameManagerService["arena"].getPlayers().length).to.deep.equal(0);
-
     });
 
     it("should delete arena succesfully", async () => {
@@ -236,5 +236,4 @@ describe("GameManagerService tests", () => {
         gameManagerService.sendMessage("socketID", "onEvent", 1);
         verify(socket.emit("onEvent", 1)).atLeast(0);
     });
-
 });

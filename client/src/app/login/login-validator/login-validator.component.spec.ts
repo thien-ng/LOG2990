@@ -4,8 +4,8 @@ import { TestingImportsModule } from "../../testing-imports/testing-imports.modu
 import { LoginValidatorComponent } from "./login-validator.component";
 
 describe("LoginValidatorComponent", () => {
-  let component: LoginValidatorComponent;
-  let fixture: ComponentFixture<LoginValidatorComponent>;
+  let component:  LoginValidatorComponent;
+  let fixture:    ComponentFixture<LoginValidatorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -21,7 +21,7 @@ describe("LoginValidatorComponent", () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoginValidatorComponent);
+    fixture   = TestBed.createComponent(LoginValidatorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

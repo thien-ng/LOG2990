@@ -21,9 +21,9 @@ export class DifferenceFinder {
 
     private generateEmpty24BitBuffer(buffer: Buffer): Buffer {
 
-        const width:  number = buffer.readUInt32LE(Constants.WIDTH_OFFSET);
-        const height: number = buffer.readUInt32LE(Constants.HEIGHT_OFFSET);
-        const bmpBuilder: BMPBuilder = new BMPBuilder(width, height, Constants.VALUE_EQUAL);
+        const width:        number      = buffer.readUInt32LE(Constants.WIDTH_OFFSET);
+        const height:       number      = buffer.readUInt32LE(Constants.HEIGHT_OFFSET);
+        const bmpBuilder:   BMPBuilder  = new BMPBuilder(width, height, Constants.VALUE_EQUAL);
 
         return bmpBuilder.buffer;
     }
@@ -35,9 +35,9 @@ export class DifferenceFinder {
 
     private findDifference(originalBuffer: Buffer, modifiedBuffer: Buffer): void {
 
-        let bufferIndex: number = Constants.BMP_HEADER_SIZE;
-        let assignedValue: number;
-        let areEqual: Boolean;
+        let bufferIndex:    number = Constants.BMP_HEADER_SIZE;
+        let assignedValue:  number;
+        let areEqual:       Boolean;
 
         while (bufferIndex < originalBuffer.length) {
             areEqual = this.bufferHasEqualPixel(originalBuffer, modifiedBuffer, bufferIndex);
@@ -60,5 +60,4 @@ export class DifferenceFinder {
 
         return isEqual;
     }
-
 }

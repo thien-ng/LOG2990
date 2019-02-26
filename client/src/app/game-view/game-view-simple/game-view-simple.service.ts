@@ -40,14 +40,14 @@ export class GameViewSimpleService {
 
   public setSounds(success: ElementRef, fail: ElementRef): void {
     this.successSound = success;
-    this.failSound = fail;
+    this.failSound    = fail;
   }
 
   public onCanvasClick(pos: IPosition2D, id: number, username: string): IClickMessage {
     return {
-      position: pos,
-      arenaID: id,
-      username: username,
+      position:     pos,
+      arenaID:      id,
+      username:     username,
     };
   }
 }

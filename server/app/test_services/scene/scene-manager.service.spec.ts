@@ -12,32 +12,31 @@ import { SceneManager } from "../../services/scene/scene-manager.service";
 
 /* tslint:disable:no-any no-magic-numbers */
 
-let sceneManager: SceneManager;
-let formMessage: FormMessage;
+let sceneManager:       SceneManager;
+let formMessage:        FormMessage;
 let cardManagerService: CardManagerService;
-let highscoreService: HighscoreService;
-let cardOperations: CardOperations;
+let highscoreService:   HighscoreService;
+let cardOperations:     CardOperations;
 
 beforeEach(() => {
     chai.use(spies);
-    highscoreService = new HighscoreService();
-    cardOperations = new CardOperations(highscoreService);
-    cardManagerService = new CardManagerService(cardOperations);
-    sceneManager = new SceneManager(cardManagerService);
+    highscoreService    = new HighscoreService();
+    cardOperations      = new CardOperations(highscoreService);
+    cardManagerService  = new CardManagerService(cardOperations);
+    sceneManager        = new SceneManager(cardManagerService);
 });
 
 describe("SceneManager Tests", () => {
 
     it("should receive Geometric theme string", () => {
         formMessage = {
-            gameName: "gameName",
-            checkedTypes: [true, true, true],
-            theme: "geometric",
-            quantityChange: 10,
+            gameName:           "gameName",
+            checkedTypes:       [true, true, true],
+            theme:              "geometric",
+            quantityChange:     10,
         };
 
         const spy: any = chai.spy.on(sceneManager, "objectTypeIdentifier");
-
         sceneManager.createScene(formMessage);
 
         chai.expect(spy).to.have.been.called.with("geometric");
@@ -45,10 +44,10 @@ describe("SceneManager Tests", () => {
 
     it("should return scene variables with Geometric theme", () => {
         formMessage = {
-            gameName: "gameName",
-            checkedTypes: [true, true, true],
-            theme: "geometric",
-            quantityChange: 10,
+            gameName:           "gameName",
+            checkedTypes:       [true, true, true],
+            theme:              "geometric",
+            quantityChange:     10,
         };
 
         const sceneVariables: ISceneVariablesMessage | string = sceneManager.createScene(formMessage);
@@ -60,14 +59,13 @@ describe("SceneManager Tests", () => {
 
     it("should should receive Thematic theme string", () => {
         formMessage = {
-            gameName: "gameName",
-            checkedTypes: [true, true, true],
-            theme: "thematic",
-            quantityChange: 10,
+            gameName:           "gameName",
+            checkedTypes:       [true, true, true],
+            theme:              "thematic",
+            quantityChange:     10,
         };
 
         const spy: any = chai.spy.on(sceneManager, "objectTypeIdentifier");
-
         sceneManager.createScene(formMessage);
 
         chai.expect(spy).to.have.been.called.with("thematic");
@@ -75,10 +73,10 @@ describe("SceneManager Tests", () => {
 
     it("should return scene variables with Thematic theme", () => {
         formMessage = {
-            gameName: "gameName",
-            checkedTypes: [true, true, true],
-            theme: "thematic",
-            quantityChange: 10,
+            gameName:           "gameName",
+            checkedTypes:       [true, true, true],
+            theme:              "thematic",
+            quantityChange:     10,
         };
 
         const sceneVariables: ISceneVariablesMessage | string = sceneManager.createScene(formMessage);
@@ -90,10 +88,10 @@ describe("SceneManager Tests", () => {
 
     it("should return scene variables with Geometric theme by default", () => {
         formMessage = {
-            gameName: "gameName",
-            checkedTypes: [true, true, true],
-            theme: "default",
-            quantityChange: 10,
+            gameName:           "gameName",
+            checkedTypes:       [true, true, true],
+            theme:              "default",
+            quantityChange:     10,
         };
 
         const sceneVariables: ISceneVariablesMessage | string = sceneManager.createScene(formMessage);
@@ -133,10 +131,10 @@ describe("SceneManager Tests", () => {
     it("should return an error message when a game with the same name exists", () => {
 
         formMessage = {
-            gameName: "Scène par défaut",
-            checkedTypes: [true, true, true],
-            theme: "geometric",
-            quantityChange: 5,
+            gameName:           "Scène par défaut",
+            checkedTypes:       [true, true, true],
+            theme:              "geometric",
+            quantityChange:     5,
         };
 
         const sceneVariables: ISceneVariablesMessage | string = sceneManager.createScene(formMessage);

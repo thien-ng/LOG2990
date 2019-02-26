@@ -25,7 +25,7 @@ export class Constants {
   public static readonly MODIFIED_FILE:             string = "_modified.bmp";
   public static readonly GENERATED_FILE:            string = "_generated.bmp";
   public static readonly BASE_URL:                  string = "http://localhost:3000";
-  public static readonly PATH_FOR_2D_VALIDATION:    string = Constants.BASE_URL + "/api/differenceChecker/validate";
+  public static readonly PATH_FOR_2D_VALIDATION:    string = Constants.BASE_URL + "/api/differenceChecker";
   public static readonly ON_ERROR_MESSAGE:          string = "onError";
   public static readonly ON_SUCCESS_MESSAGE:        string = "onSuccess";
   public static readonly VALIDATION_FAILED:         string = "Validation services failed";
@@ -69,13 +69,13 @@ export class Constants {
 
   // Constants for user manager service
   public static readonly USER_NOT_FOUND:            string = "Utilisateur inexistant";
-  public static readonly NAME_FORMAT_LENTGH_ERROR: string = "Le nom doit contenir entre 4 et 15 characteres";
-  public static readonly NAME_FORMAT_REGEX_ERROR: string = "Le nom doit contenir seulement des caracteres alphanumerics";
-  public static readonly SUCCESS_TITLE: string = "onSuccess";
-  public static readonly ERROR_TITLE: string = "onError";
-  public static readonly REGEX_FORMAT: string = "^[a-zA-Z0-9_]*$";
-  public static readonly MAX_VALUE: number = 15;
-  public static readonly MIN_VALUE: number = 4;
+  public static readonly NAME_FORMAT_LENTGH_ERROR:  string = "Le nom doit contenir entre 4 et 15 characteres";
+  public static readonly NAME_FORMAT_REGEX_ERROR:   string = "Le nom doit contenir seulement des caracteres alphanumerics";
+  public static readonly SUCCESS_TITLE:             string = "onSuccess";
+  public static readonly ERROR_TITLE:               string = "onError";
+  public static readonly REGEX_FORMAT:              string = "^[a-zA-Z0-9_]*$";
+  public static readonly MAX_VALUE:                 number = 15;
+  public static readonly MIN_VALUE:                 number = 4;
 
   // Constants for arena.ts
   public static readonly FF:                        number = 255;
@@ -85,8 +85,8 @@ export class Constants {
   public static readonly ON_ERROR_PIXEL_CLUSTER:    IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
 
   // Constants for scene manager service
-  public static readonly MIN_ITEMS_IN_SCENE: number = 10;
-  public static readonly MAX_ITEMS_IN_SCENE: number = 200;
-  public static readonly THEME_GEOMETRIC: string = "geometric";
-  public static readonly THEME_THEMATIC: string = "thematic";
+  public static readonly MIN_ITEMS_IN_SCENE:        number = 10;
+  public static readonly MAX_ITEMS_IN_SCENE:        number = 200;
+  public static readonly THEME_GEOMETRIC:           string = "geometric";
+  public static readonly THEME_THEMATIC:            string = "thematic";
 }

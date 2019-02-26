@@ -1,10 +1,10 @@
 export interface ISceneObject {
-    id: number;
-    type: SceneObjectType;
-    position: IAxisValues;
-    rotation: IAxisValues;
-    color: string;
-    scale: IAxisValues;
+    id:             number;
+    type:           SceneObjectType;
+    position:       IAxisValues;
+    rotation:       IAxisValues;
+    color:          string;
+    scale:          IAxisValues;
 }
 
 export enum SceneObjectType {
@@ -16,7 +16,7 @@ export enum SceneObjectType {
 }
 
 export interface IAxisValues {
-    x: number;
-    y: number;
-    z: number;
+    x:  number;
+    y:  number;
+    z:  number;
 }

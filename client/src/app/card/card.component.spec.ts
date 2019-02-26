@@ -8,14 +8,14 @@ import { TestingImportsModule } from "../testing-imports/testing-imports.module"
 import { CardComponent } from "./card.component";
 
 describe("CardComponent", () => {
-  let component: CardComponent;
-  let fixture: ComponentFixture<CardComponent>;
+  let component:  CardComponent;
+  let fixture:    ComponentFixture<CardComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CardComponent, HighscoreDisplayComponent],
-      imports: [TestingImportsModule],
-      providers: [GameModeService],
+      imports:      [TestingImportsModule],
+      providers:    [GameModeService],
     })
       .compileComponents()
       .catch(() => Constants.OBLIGATORY_CATCH);
@@ -25,12 +25,12 @@ describe("CardComponent", () => {
     fixture = TestBed.createComponent(CardComponent);
     component = fixture.componentInstance;
     const card: ICard = {
-      gameID: 12,
-      title: "string",
-      subtitle: "string",
-      avatarImageUrl: "string",
-      gameImageUrl: "string",
-      gamemode: GameMode.simple,
+      gameID:           12,
+      title:            "string",
+      subtitle:         "string",
+      avatarImageUrl:   "string",
+      gameImageUrl:     "string",
+      gamemode:         GameMode.simple,
     };
     component.card = card;
     fixture.detectChanges();

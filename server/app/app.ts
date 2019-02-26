@@ -20,13 +20,13 @@ export class Application {
     public app: express.Application;
 
     public constructor(
-        @inject(Types.CardManagerController) private cardManagerController: CardManagerController,
-        @inject(Types.HighscoreController) private highscoreController: HighscoreController,
-        @inject(Types.UserController) private userController: UserController,
-        @inject(Types.DifferenceCheckerController) private differenceCheckerController: DifferenceCheckerController,
-        @inject(Types.HitValidatorController)       private hitValidatorController:      HitValidatorController,
-        @inject(Types.SceneManagerController) private sceneManagerController: SceneManagerController,
-        @inject(Types.GameManagerController) private gameManagerController: GameManagerController,
+        @inject(Types.CardManagerController)        private cardManagerController:          CardManagerController,
+        @inject(Types.HighscoreController)          private highscoreController:            HighscoreController,
+        @inject(Types.UserController)               private userController:                 UserController,
+        @inject(Types.DifferenceCheckerController)  private differenceCheckerController:    DifferenceCheckerController,
+        @inject(Types.HitValidatorController)       private hitValidatorController:         HitValidatorController,
+        @inject(Types.SceneManagerController)       private sceneManagerController:         SceneManagerController,
+        @inject(Types.GameManagerController)        private gameManagerController:          GameManagerController,
 
         ) {
         this.app = express();
@@ -47,13 +47,14 @@ export class Application {
 
     public bindRoutes(): void {
         // Notre application utilise le routeur de notre API `Index`
-        this.app.use("/api/card", this.cardManagerController.router);
-        this.app.use("/api/highscore", this.highscoreController.router);
-        this.app.use("/api/user", this.userController.router);
-        this.app.use("/api/differenceChecker", this.differenceCheckerController.router);
-        this.app.use("/api/hitValidator", this.hitValidatorController.router);
-        this.app.use("/api/scene", this.sceneManagerController.router);
-        this.app.use("/api/game", this.gameManagerController.router);
+        this.app.use("/api/card",               this.cardManagerController.router);
+        this.app.use("/api/highscore",          this.highscoreController.router);
+        this.app.use("/api/user",               this.userController.router);
+        this.app.use("/api/differenceChecker",  this.differenceCheckerController.router);
+        this.app.use("/api/hitValidator",       this.hitValidatorController.router);
+        this.app.use("/api/scene",              this.sceneManagerController.router);
+        this.app.use("/api/game",               this.gameManagerController.router);
+
         this.app.use(express.static("./app/asset"));
         this.errorHandeling();
     }
@@ -72,8 +73,8 @@ export class Application {
             this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
                 res.status(err.status || this.internalError);
                 res.send({
-                    message: err.message,
-                    error: err,
+                    message:    err.message,
+                    error:      err,
                 });
             });
         }
@@ -84,8 +85,8 @@ export class Application {
         this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
             res.status(err.status || this.internalError);
             res.send({
-                message: err.message,
-                error: {},
+                message:        err.message,
+                error:          {},
             });
         });
     }

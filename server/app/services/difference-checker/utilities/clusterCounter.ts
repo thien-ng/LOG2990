@@ -20,8 +20,8 @@ export class ClusterCounter {
     public countAllClusters(): number {
 
         let clusterCounter: number = 0;
-
         const bufferLenght: number = this.differenceBuffer.length;
+
         for (let bytePos: number = Constants.BMP_HEADER_SIZE; bytePos < bufferLenght; bytePos += Constants.PIXEL_24B_SIZE) {
             if (this.differenceBuffer[bytePos] === Constants.IS_A_DIFFERENCE) {
 
@@ -37,12 +37,12 @@ export class ClusterCounter {
 
     // will only work with an image that's a width multiple of 4
     private convertToPixelPosition(bytePosition: number): number {
-            return Math.floor((bytePosition - Constants.BMP_HEADER_SIZE) / Constants.PIXEL_24B_SIZE);
+        return Math.floor((bytePosition - Constants.BMP_HEADER_SIZE) / Constants.PIXEL_24B_SIZE);
     }
 
     // will only work with an image that's a width multiple of 4
     private convertToBytePosition(pixelPosition: number): number {
-            return pixelPosition * Constants.PIXEL_24B_SIZE + Constants.BMP_HEADER_SIZE;
+        return pixelPosition * Constants.PIXEL_24B_SIZE + Constants.BMP_HEADER_SIZE;
     }
 
     // will only work with an image that's a width multiple of 4
@@ -68,9 +68,9 @@ export class ClusterCounter {
 
     private findAllConnectedDifferences(pixelPosition: number): void {
 
-        let stackOfDifferences: number[] = [pixelPosition];
-        let nbAddedDifferences: number = 1;
-        let nbVisitedNeighbors: number = 1;
+        let stackOfDifferences: number[]    = [pixelPosition];
+        let nbAddedDifferences: number      = 1;
+        let nbVisitedNeighbors: number      = 1;
         this.setPixelAsDifference(pixelPosition, this.visitedColor);
 
         while (stackOfDifferences.length !== 0) {
@@ -98,12 +98,12 @@ export class ClusterCounter {
 
     private getNeighboringDifferences(pixelPosition: number): number[] {
 
-        const allNeighbors: number[] = this.getAllNeighbors(pixelPosition);
-        const allNeighboringDifferences: number[] = [];
+        const allNeighbors:                 number[] = this.getAllNeighbors(pixelPosition);
+        const allNeighboringDifferences:    number[] = [];
 
         allNeighbors.forEach((neighborsPos: number) => {
-            const neighborsExists: boolean = neighborsPos !== this.DOES_NOT_EXIST;
-            const neighborsIsADifference: boolean = this.pixelIsADifference(neighborsPos);
+            const neighborsExists:          boolean = neighborsPos !== this.DOES_NOT_EXIST;
+            const neighborsIsADifference:   boolean = this.pixelIsADifference(neighborsPos);
 
             if (neighborsExists && neighborsIsADifference) {
                 allNeighboringDifferences.push(neighborsPos);

@@ -9,14 +9,12 @@ import { AdminToggleService } from "./admin-toggle.service";
 // tslint:disable:no-any no-floating-promises
 
 let adminToggleService: AdminToggleService;
-let router: Router;
+let router:             Router;
 
 describe("AdminToggleService", () => {
   beforeEach(() => TestBed.configureTestingModule({
-    providers: [AdminToggleService],
-    imports: [
-      RouterTestingModule,
-    ],
+    providers:  [ AdminToggleService  ],
+    imports:    [ RouterTestingModule ],
   }));
 
   beforeEach(() => {
@@ -28,11 +26,13 @@ describe("AdminToggleService", () => {
 
   it("should be created", () => {
     const service: AdminToggleService = TestBed.get(AdminToggleService);
+
     expect(service).toBeTruthy();
   });
 
   it("should return true when state is set to true", () => {
     adminToggleService.adminTrue();
+
     expect(adminToggleService.isAdminState).toBe(true);
   });
 
@@ -48,6 +48,7 @@ describe("AdminToggleService", () => {
     spyOn<any>(adminToggleService["router"], "navigate").and.returnValue(Observable.of("true")).and.callThrough();
     adminToggleService["isAdmin"] = true;
     adminToggleService.adminToggle();
+
     expect(adminToggleService["isAdmin"]).toBeFalsy();
   });
 
@@ -56,6 +57,7 @@ describe("AdminToggleService", () => {
 
     adminToggleService["isAdmin"] = false;
     adminToggleService.adminToggle();
+
     expect(adminToggleService["router"].navigate).toHaveBeenCalledWith([Constants.ADMIN_PATH]);
   });
 
@@ -64,6 +66,7 @@ describe("AdminToggleService", () => {
 
     adminToggleService["isAdmin"] = true;
     adminToggleService.adminToggle();
+
     expect(adminToggleService["router"].navigate).toHaveBeenCalledWith([Constants.GAMELIST_PATH]);
   });
 

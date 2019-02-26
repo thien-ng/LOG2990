@@ -15,11 +15,13 @@ export class ChatViewService {
   }
 
   public updateConversation(data: IPlayerInputResponse): void {
-    const body: string = (data.status === Constants.ON_SUCCESS_MESSAGE) ? Constants.GOOD_CLICK_MESSAGE : Constants.FAILED_CLICK_MESSAGE ;
-    const message: IChat = {
-      username: "SERVEUR",
-      message:  body,
-      time: "time",
+    const status:   string = (data.status === Constants.ON_SUCCESS_MESSAGE) ? Constants.GOOD_CLICK_MESSAGE : Constants.FAILED_CLICK_MESSAGE;
+    const body:     string =  status;
+
+    const message:  IChat  = {
+      username:   "SERVEUR",
+      message:    body,
+      time:       "time",
     };
     this.conversation.unshift(message);
   }
@@ -31,5 +33,4 @@ export class ChatViewService {
   public clearConversations(): void {
     this.conversation = [];
   }
-
 }

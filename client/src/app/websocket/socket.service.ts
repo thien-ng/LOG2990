@@ -16,9 +16,9 @@ export class SocketService {
   private socket: SocketIOClient.Socket;
 
   public constructor(
-    private chatViewService: ChatViewService,
-    private gameViewSimpleService: GameViewSimpleService,
-    private timerService: TimerService,
+    private chatViewService:          ChatViewService,
+    private gameViewSimpleService:    GameViewSimpleService,
+    private timerService:             TimerService,
     private differenceCounterService: DifferenceCounterService,
     ) {
       this.socket = io(Constants.WEBSOCKET_URL);

@@ -32,9 +32,9 @@ export class Arena {
     private readonly POINTS_TO_WIN_MULTI:   number = 4;
 
     private pointsNeededToWin:      number;
-    private players:                Player[];
     private differencesFound:       number[];
-    public timer:                  Timer;
+    private players:                Player[];
+    public timer:                   Timer;
     private originalPixelClusters:  Map<number, IOriginalPixelCluster>;
 
     public constructor(
@@ -186,10 +186,9 @@ export class Arena {
     }
 
     private async extractOriginalPixelClusters(): Promise<void> {
-
-        const originalImage:   Buffer = await this.getImageFromUrl(this.arenaInfos.originalGameUrl);
-        const differenceImage: Buffer = await this.getImageFromUrl(this.arenaInfos.differenceGameUrl);
-        const extractor: DifferencesExtractor = new DifferencesExtractor();
+        const originalImage:    Buffer                  = await this.getImageFromUrl(this.arenaInfos.originalGameUrl);
+        const differenceImage:  Buffer                  = await this.getImageFromUrl(this.arenaInfos.differenceGameUrl);
+        const extractor:        DifferencesExtractor    = new DifferencesExtractor();
         this.originalPixelClusters = extractor.extractPixelClustersFrom(originalImage, differenceImage);
     }
 
@@ -207,9 +206,9 @@ export class Arena {
 
     private buildPostData(position: IPosition2D): IHitToValidate {
         return {
-            position:           position,
-            imageUrl:           this.arenaInfos.differenceGameUrl,
-            colorToIgnore:      Constants.WHITE,
+            position:       position,
+            imageUrl:       this.arenaInfos.differenceGameUrl,
+            colorToIgnore:  Constants.WHITE,
         };
     }
 

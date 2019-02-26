@@ -4,13 +4,13 @@ import { Constants } from "../../../constants";
 
 export class Timer {
 
-    private secondsSinceStart: number;
-    private timerUpdated: Subject<number>;
-    private timer: NodeJS.Timeout;
+    private secondsSinceStart:  number;
+    private timerUpdated:       Subject<number>;
+    private timer:              NodeJS.Timeout;
 
     public constructor() {
-        this.secondsSinceStart = 0;
-        this.timerUpdated = new Subject<number>();
+        this.secondsSinceStart  = 0;
+        this.timerUpdated       = new Subject<number>();
     }
 
     public getTimer(): Observable<number> {
