@@ -29,12 +29,12 @@ describe("Card-operations tests", () => {
     };
 
     const c2: ICard = {
-        gameID: 2,
-        title: "Default 3D",
-        subtitle: "default 3D",
-        avatarImageUrl: FAKE_PATH + "/moutain.jpg",
-        gameImageUrl: FAKE_PATH + "/moutain.jpg",
-        gamemode: GameMode.free,
+        gameID:             2,
+        title:              "Default 3D",
+        subtitle:           "default 3D",
+        avatarImageUrl:     FAKE_PATH + "/moutain.jpg",
+        gameImageUrl:       FAKE_PATH + "/moutain.jpg",
+        gamemode:           GameMode.free,
     };
 
     const c3: ICard = {
