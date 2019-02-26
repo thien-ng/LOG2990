@@ -223,11 +223,11 @@ describe("Card-manager tests", () => {
 
     it("Should return an error while creating simple card", async () => {
         const requirements: ImageRequirements = {
-            requiredHeight: Constants.REQUIRED_HEIGHT,
-            requiredWidth: Constants.REQUIRED_WIDTH,
-            requiredNbDiff: Constants.REQUIRED_NB_DIFF,
-            originalImage: original,
-            modifiedImage: modified,
+            requiredHeight:     Constants.REQUIRED_HEIGHT,
+            requiredWidth:      Constants.REQUIRED_WIDTH,
+            requiredNbDiff:     Constants.REQUIRED_NB_DIFF,
+            originalImage:      original,
+            modifiedImage:      modified,
         };
 
         const message: Message = {
