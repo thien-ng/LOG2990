@@ -26,10 +26,10 @@ describe("HighscoreService", () => {
 });
 
 describe("HighscoreService tests", () => {
-  let highscoreService: HighscoreService;
-  let httpMock: HttpClient;
-  let dataMock: HighscoreMessage;
-  const idMock: number = 2;
+  let   highscoreService: HighscoreService;
+  let   httpMock:         HttpClient;
+  let   dataMock:         HighscoreMessage;
+  const idMock:           number = 2;
 
   beforeEach(() => {
     httpMock = mock(HttpClient);
@@ -38,110 +38,117 @@ describe("HighscoreService tests", () => {
 
   it("should call highscoreUpdated.next() with right data value", () => {
     dataMock = {
-      id: idMock,
-      timesSingle: ["3:21", "3:32", "6:17"],
-      timesMulti: ["3:31", "9:38", "9:42"],
+      id:           idMock,
+      timesSingle:  ["3:21", "3:32", "6:17"],
+      timesMulti:   ["3:31", "9:38", "9:42"],
     };
 
     const spyNext: any = spyOn<any>(highscoreService["highscoreUpdated"], "next");
 
     spyOn(httpMock, "get").and.callThrough().and.returnValue(Observable.of(dataMock));
     highscoreService.getHighscore(idMock);
+
     expect(spyNext).toHaveBeenCalled();
   });
 
   it("should not call highscoreUpdated.next() with wrong seconds value in timesSingle", () => {
     dataMock = {
-      id: idMock,
-      timesSingle: ["3:62", "3:32", "6:17"],
-      timesMulti: ["3:31", "9:38", "9:42"],
+      id:           idMock,
+      timesSingle:  ["3:62", "3:32", "6:17"],
+      timesMulti:   ["3:31", "9:38", "9:42"],
     };
 
     const spyNext: any = spyOn<any>(highscoreService["highscoreUpdated"], "next");
 
     spyOn(httpMock, "get").and.callThrough().and.returnValue(Observable.of(dataMock));
     highscoreService.getHighscore(idMock);
+
     expect(spyNext).not.toHaveBeenCalled();
   });
 
   it("should not call highscoreUpdated.next() with wrong minutes value in timesSingle", () => {
     dataMock = {
-      id: idMock,
-      timesSingle: ["63:21", "3:32", "6:17"],
-      timesMulti: ["3:31", "9:38", "9:42"],
+      id:           idMock,
+      timesSingle:  ["63:21", "3:32", "6:17"],
+      timesMulti:   ["3:31", "9:38", "9:42"],
     };
 
     const spyNext: any = spyOn<any>(highscoreService["highscoreUpdated"], "next");
 
     spyOn(httpMock, "get").and.callThrough().and.returnValue(Observable.of(dataMock));
     highscoreService.getHighscore(idMock);
+
     expect(spyNext).not.toHaveBeenCalled();
   });
 
   it("should not call highscoreUpdated.next() with wrong selector in timesSingle", () => {
     dataMock = {
-      id: idMock,
-      timesSingle: ["3,21", "3:32", "6:17"],
-      timesMulti: ["3:31", "9:38", "9:42"],
+      id:           idMock,
+      timesSingle:  ["3,21", "3:32", "6:17"],
+      timesMulti:   ["3:31", "9:38", "9:42"],
     };
 
     const spyNext: any = spyOn<any>(highscoreService["highscoreUpdated"], "next");
 
     spyOn(httpMock, "get").and.callThrough().and.returnValue(Observable.of(dataMock));
     highscoreService.getHighscore(idMock);
+
     expect(spyNext).not.toHaveBeenCalled();
   });
 
   it("should not call highscoreUpdated.next() with wrong seconds value in timesMulti", () => {
     dataMock = {
-      id: idMock,
-      timesSingle: ["3:21", "3:32", "6:17"],
-      timesMulti: ["3:31", "9:38", "9:62"],
+      id:           idMock,
+      timesSingle:  ["3:21", "3:32", "6:17"],
+      timesMulti:   ["3:31", "9:38", "9:62"],
     };
 
     const spyNext: any = spyOn<any>(highscoreService["highscoreUpdated"], "next");
 
     spyOn(httpMock, "get").and.callThrough().and.returnValue(Observable.of(dataMock));
     highscoreService.getHighscore(idMock);
+
     expect(spyNext).not.toHaveBeenCalled();
   });
 
   it("should not call highscoreUpdated.next() with wrong minutes value in timesMulti", () => {
     dataMock = {
-      id: idMock,
-      timesSingle: ["3:21", "3:32", "6:17"],
-      timesMulti: ["3:31", "9:38", "69:42"],
+      id:           idMock,
+      timesSingle:  ["3:21", "3:32", "6:17"],
+      timesMulti:   ["3:31", "9:38", "69:42"],
     };
 
     const spyNext: any = spyOn<any>(highscoreService["highscoreUpdated"], "next");
 
     spyOn(httpMock, "get").and.callThrough().and.returnValue(Observable.of(dataMock));
     highscoreService.getHighscore(idMock);
+
     expect(spyNext).not.toHaveBeenCalled();
   });
 
   it("should not call highscoreUpdated.next() with wrong selector in timesMulti", () => {
     dataMock = {
-      id: idMock,
-      timesSingle: ["3:21", "3:32", "6:17"],
-      timesMulti: ["3:31", "9:38", "9'42"],
+      id:           idMock,
+      timesSingle:  ["3:21", "3:32", "6:17"],
+      timesMulti:   ["3:31", "9:38", "9'42"],
     };
 
     const spyNext: any = spyOn<any>(highscoreService["highscoreUpdated"], "next");
 
     spyOn(httpMock, "get").and.callThrough().and.returnValue(Observable.of(dataMock));
     highscoreService.getHighscore(idMock);
+
     expect(spyNext).not.toHaveBeenCalled();
   });
 
   it("should call getHighscore() when calling resetHighscore()", () => {
-    const responseValueMock: string = "";
-    const methodeSpy: any = spyOn(highscoreService, "getHighscore");
+    const responseValueMock:  string  = "";
+    const methodeSpy:         any     = spyOn(highscoreService, "getHighscore");
 
     spyOn<any>(highscoreService["highscoreUpdated"], "next");
     spyOn(httpMock, "get").and.callThrough().and.returnValue(Observable.of(responseValueMock));
-
     highscoreService.resetHighscore(idMock);
+
     expect(methodeSpy).toHaveBeenCalled();
   });
 
