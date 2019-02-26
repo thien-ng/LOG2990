@@ -78,10 +78,11 @@ describe("UserManagerService test", () => {
     });
 
     it ("should return error of name regex format if name contains non alphanumeric character", (done: Function) => {
-        const testString: string = "bob123;";
-        const resultExpected: Message = {
-            title: "onError",
-            body: "Le nom doit contenir seulement des caracteres alphanumerics",
+        const testString:       string  = "bob123;";
+
+        const resultExpected:   Message = {
+            title:          "onError",
+            body:           "Le nom doit contenir seulement des caracteres alphanumerics",
         };
         const result: Message = userManagerService.validateName(testString);
 
