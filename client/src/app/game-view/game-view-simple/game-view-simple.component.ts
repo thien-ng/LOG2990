@@ -24,22 +24,22 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   @ViewChild("failSound",     {read: ElementRef}) public failSound:     ElementRef;
 
   @ViewChild("originalImage", {read: ElementRef})
-  public canvasOriginal: ElementRef;
-  public activeCard: ICard;
-  public cardLoaded: boolean;
-  public username: string | null;
+  public canvasOriginal:  ElementRef;
+  public activeCard:      ICard;
+  public cardLoaded:      boolean;
+  public username:        string | null;
   @ViewChild("modifiedImage", {read: ElementRef})
-  public canvasModified: ElementRef;
-  private originalPath: string;
-  private gameRequest: IGameRequest;
-  private modifiedPath: string;
-  private arenaID: number;
-  public mode: string | null;
+  public canvasModified:  ElementRef;
+  private originalPath:   string;
+  private gameRequest:    IGameRequest;
+  private modifiedPath:   string;
+  private arenaID:        number;
+  public mode:            string | null;
 
   public constructor(
-    @Inject(GameViewSimpleService) public gameViewService: GameViewSimpleService,
-    @Inject(SocketService) private socketService: SocketService,
-    private route: ActivatedRoute,
+    @Inject(GameViewSimpleService) public   gameViewService:  GameViewSimpleService,
+    @Inject(SocketService)          private socketService:    SocketService,
+    private route:      ActivatedRoute,
     private httpClient: HttpClient,
     ) {
       this.mode = this.route.snapshot.paramMap.get("gamemode");
