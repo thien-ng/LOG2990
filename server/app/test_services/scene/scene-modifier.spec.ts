@@ -18,9 +18,9 @@ let counterDifference:      number;
 
 beforeEach(() => {
     chai.use(spies);
-    iSceneObjectGenerated = [];
-    sceneBuilder = new SceneBuilder();
-    sceneModifier = new SceneModifier(sceneBuilder);
+    iSceneObjectGenerated   = [];
+    sceneBuilder            = new SceneBuilder();
+    sceneModifier           = new SceneModifier(sceneBuilder);
 
     for (let i: number = 0; i < 10; i++) {
         const tempObject: ISceneObject = {
