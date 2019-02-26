@@ -6,8 +6,8 @@ import { HighscoreDisplayComponent } from "./highscore-display.component";
 import { HighscoreService } from "./highscore.service";
 
 describe("HighscoreDisplayComponent", () => {
-  let component: HighscoreDisplayComponent;
-  let fixture: ComponentFixture<HighscoreDisplayComponent>;
+  let component:  HighscoreDisplayComponent;
+  let fixture:    ComponentFixture<HighscoreDisplayComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -24,7 +24,7 @@ describe("HighscoreDisplayComponent", () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HighscoreDisplayComponent);
+    fixture   = TestBed.createComponent(HighscoreDisplayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
