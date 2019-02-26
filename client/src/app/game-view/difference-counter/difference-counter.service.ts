@@ -6,7 +6,7 @@ import { Constants } from "../../constants";
 })
 export class DifferenceCounterService {
 
-  private maxError: number;
+  private maxError:       number;
   private counterUpdated: Subject<number>;
 
   public constructor() {
