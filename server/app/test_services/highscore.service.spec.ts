@@ -3,10 +3,10 @@ import { expect } from "chai";
 import { Highscore, HighscoreMessage, Mode } from "../../../common/communication/highscore";
 import { HighscoreService } from "../services/highscore.service";
 
-const UNDEFINED: number = 100;
-const MOCK_SCORE_VALUE_1: number = 400;
-const MOCK_SCORE_VALUE_2: number = 500;
-const MOCK_SCORE_VALUE_3: number = 600;
+const UNDEFINED:            number = 100;
+const MOCK_SCORE_VALUE_1:   number = 400;
+const MOCK_SCORE_VALUE_2:   number = 500;
+const MOCK_SCORE_VALUE_3:   number = 600;
 
 describe("HighscoreService tests", () => {
     let mockHighscore: Highscore[];
