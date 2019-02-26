@@ -41,8 +41,8 @@ describe("Scene builder tests", () => {
     });
 
     it("should generate scene objects of valid type", () => {
-        const scene: ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
-        let areAllTypesValid: boolean = false;
+        const scene:            ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
+        let areAllTypesValid:   boolean         = false;
 
         scene.sceneObjects.forEach((element: ISceneObject) => {
             if (element.type >= 0 && element.type <= 4) {
