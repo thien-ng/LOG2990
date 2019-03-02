@@ -6,6 +6,7 @@ import { IUser } from "../../../common/communication/iUser";
 import { Constants } from "../constants";
 import { IPlayerInput } from "../services/game/arena/interfaces";
 import { GameManagerService } from "../services/game/game-manager.service";
+import { TimeManagerService } from "../services/time-manager.service";
 import { UserManagerService } from "../services/user-manager.service";
 import Types from "../types";
 
@@ -16,7 +17,8 @@ export class WebsocketManager {
 
     public constructor(
         @inject(Types.UserManagerService) private userManagerService: UserManagerService,
-        @inject(Types.GameManagerService) private gameManagerService: GameManagerService) {}
+        @inject(Types.GameManagerService) private gameManagerService: GameManagerService,
+        @inject(Types.TimeManagerService) private timeManagerService: TimeManagerService) {}
 
     public createWebsocket(server: http.Server): void {
         this.io = SocketIO(server);
@@ -83,11 +85,24 @@ export class WebsocketManager {
             };
             this.userManagerService.updateSocketID(user);
             socket.emit(Constants.USER_EVENT, user);
+
+            this.emitPlayerStatus("Server", user.username + " has logged in", socket);
         });
 
         socket.on(Constants.DISCONNECT_EVENT, () => {
             this.userManagerService.leaveBrowser(user);
             this.gameManagerService.unsubscribeSocketID(socketID, user.username);
+
+            this.emitPlayerStatus("Server", user.username + " has logged out", socket);
+        });
+    }
+
+    private emitPlayerStatus(username: string, message: string, socket: SocketIO.Socket): void {
+
+        socket.broadcast.emit("onPlayerStatus",
+            {username: username,
+            message: message,
+            time: this.timeManagerService.getTimeNow(),
         });
     }
 }
