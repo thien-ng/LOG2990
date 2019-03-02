@@ -10,6 +10,9 @@ import { TimeManagerService } from "../services/time-manager.service";
 import { UserManagerService } from "../services/user-manager.service";
 import Types from "../types";
 
+const LOGIN_MESSAGE: string = " has logged in";
+const LOGOUT_MESSAGE: string = " has logged out";
+
 @injectable()
 export class WebsocketManager {
 
@@ -86,14 +89,14 @@ export class WebsocketManager {
             this.userManagerService.updateSocketID(user);
             socket.emit(Constants.USER_EVENT, user);
 
-            this.emitPlayerStatus("Server", user.username + " has logged in", socket);
+            this.emitPlayerStatus("Server", user.username + LOGIN_MESSAGE, socket);
         });
 
         socket.on(Constants.DISCONNECT_EVENT, () => {
             this.userManagerService.leaveBrowser(user);
             this.gameManagerService.unsubscribeSocketID(socketID, user.username);
 
-            this.emitPlayerStatus("Server", user.username + " has logged out", socket);
+            this.emitPlayerStatus("Server", user.username + LOGOUT_MESSAGE, socket);
         });
     }
 
