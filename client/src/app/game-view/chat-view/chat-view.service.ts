@@ -23,7 +23,11 @@ export class ChatViewService {
       message:    body,
       time:       "time",
     };
-    this.conversation.unshift(message);
+    this.conversation.push(message);
+  }
+
+  public updateConversationPlayerStatus(data: IChat): void {
+    this.conversation.push(data);
   }
 
   public getConversation(): IChat[] {
