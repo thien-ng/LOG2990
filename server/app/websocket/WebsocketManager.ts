@@ -2,6 +2,7 @@ import * as http from "http";
 import { inject, injectable } from "inversify";
 import * as SocketIO from "socket.io";
 import { IClickMessage, IPlayerInputResponse } from "../../../common/communication/iGameplay";
+import { IChat } from "../../../common/communication/iChat";
 import { IUser } from "../../../common/communication/iUser";
 import { Constants } from "../constants";
 import { IPlayerInput } from "../services/game/arena/interfaces";
@@ -36,6 +37,14 @@ export class WebsocketManager {
 
             this.loginSocketChecker(user, socketID, socket);
             this.gameSocketChecker(socketID, socket);
+
+            socket.on("test", (data: string) => {
+                socket.emit("onPlayerStatus", 
+                    {username: "nameHere",
+                    message: data,
+                    time: this.timeManagerService.getTimeNow()
+                });
+            });
 
          });
         this.io.listen(Constants.WEBSOCKET_PORT_NUMBER);
@@ -106,6 +115,6 @@ export class WebsocketManager {
             {username: username,
             message: message,
             time: this.timeManagerService.getTimeNow(),
-        });
+        } as IChat);
     }
 }

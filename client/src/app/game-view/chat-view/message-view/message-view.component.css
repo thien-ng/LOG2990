@@ -1,3 +1,10 @@
 .chatMessageBox {
     background-color: white;
+    height: auto;
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.messageFormat {
+    word-break: break-word;
 }

@@ -12,8 +12,17 @@ mat-card-content {
     height: 100%;
 }
 
+.list .mat-list-item {
+    height: auto;
+}
+
 mat-list {
     overflow-y: scroll;
     height: 80%;
     padding-bottom: 20px;
 }
+
+mat-form-field {
+    width: 100%;
+}
+
