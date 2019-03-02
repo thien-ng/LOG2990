@@ -18,4 +18,5 @@ export default  {
         SceneManagerController: Symbol("SceneManagerController"),
         SceneManager: Symbol("SceneManager"),
         CardOperations: Symbol("CardOperations"),
+        TimeManagerService: Symbol("TimeManagerService"),
 };
