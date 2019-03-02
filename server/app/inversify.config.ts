@@ -15,6 +15,7 @@ import { HighscoreService } from "./services/highscore.service";
 import { HitValidatorController } from "./services/hitValidator/hitValidator.controller";
 import { HitValidatorService } from "./services/hitValidator/hitValidator.service";
 import { SceneManager } from "./services/scene/scene-manager.service";
+import { TimeManagerService } from "./services/time-manager.service";
 import { UserManagerService } from "./services/user-manager.service";
 import Types from "./types";
 import { WebsocketManager } from "./websocket/WebsocketManager";
@@ -47,5 +48,7 @@ container.bind(Types.GameManagerService).to(GameManagerService).inSingletonScope
 
 container.bind(Types.SceneManagerController).to(SceneManagerController);
 container.bind(Types.SceneManager).to(SceneManager).inSingletonScope();
+
+container.bind(Types.TimeManagerService).to(TimeManagerService).inSingletonScope();
 
 export { container };
