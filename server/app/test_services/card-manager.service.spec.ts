@@ -10,6 +10,7 @@ import { ISceneMessage } from "../../../common/communication/iSceneMessage";
 import { ISceneOptions, SceneType } from "../../../common/communication/iSceneOptions";
 import { ISceneVariables, ISceneVariablesMessage } from "../../../common/communication/iSceneVariables";
 import { Message } from "../../../common/communication/message";
+import { CCommon } from "../../../common/constantes/cCommon";
 import { Constants } from "../constants";
 import { AssetManagerService } from "../services/asset-manager.service";
 import { CardManagerService } from "../services/card-manager.service";
@@ -21,7 +22,7 @@ import { SceneModifier } from "../services/scene/scene-modifier";
 
 /*tslint:disable no-magic-numbers no-any */
 
-const FAKE_PATH:            string  = Constants.BASE_URL + "/image";
+const FAKE_PATH:            string  = CCommon.BASE_URL + "/image";
 const mockAdapter:          any     = require("axios-mock-adapter");
 const axios:                any     = require("axios");
 let mockAxios:              any;
@@ -87,7 +88,7 @@ describe("Card-manager tests", () => {
 
     it("Should return an error message", async () => {
         mockAxios.onGet("/api/differenceChecker/validate").reply(200, {
-            title: Constants.ON_ERROR_MESSAGE,
+            title: CCommon.ON_ERROR,
             body: Constants.VALIDATION_FAILED,
         });
         const requirements: ImageRequirements = {
@@ -128,7 +129,7 @@ describe("Card-manager tests", () => {
             image:                  "",
         };
         const message: Message = {
-            title:  Constants.ON_SUCCESS_MESSAGE,
+            title:  CCommon.ON_SUCCESS,
             body:   Constants.CARD_ADDED,
         };
         chai.expect(cardManagerService.freeCardCreationRoutine(sceneMessage)).to.deep.equal(message);
@@ -247,7 +248,7 @@ describe("Card-manager tests", () => {
         const typeError:    TypeError   = new TypeError("men calice");
         const result:       any         = cardManagerService.generateErrorMessage(typeError);
 
-        chai.expect(result).to.deep.equal({title: Constants.ON_ERROR_MESSAGE, body: typeError.message});
+        chai.expect(result).to.deep.equal({title: CCommon.ON_ERROR, body: typeError.message});
     });
 });
 
