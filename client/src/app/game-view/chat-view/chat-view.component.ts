@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from "@angular/core";
+import { Component, ElementRef, OnDestroy, ViewChild, AfterViewChecked } from "@angular/core";
 import { FormControl, Validators } from "@angular/forms";
 import { IChat } from "../../../../../common/communication/iChat";
 import { SocketService } from "../../websocket/socket.service";
@@ -9,7 +9,7 @@ import { ChatViewService } from "./chat-view.service";
   templateUrl:  "./chat-view.component.html",
   styleUrls:    ["./chat-view.component.css"],
 })
-export class ChatViewComponent implements OnDestroy {
+export class ChatViewComponent implements AfterViewChecked, OnDestroy {
 
   public readonly CHAT_TITLE:       string = "Notification du serveur";
   public readonly CHAT_DESCRIPTION: string = "クリスチャンサーバー";
@@ -17,6 +17,13 @@ export class ChatViewComponent implements OnDestroy {
 
   public conversations: IChat[];
   public initialValue: string;
+
+  @ViewChild("chat", {read: ElementRef})
+  public chatBox:  ElementRef;
+
+  public ngAfterViewChecked(): void {
+    this.chatBox.nativeElement.scrollTop = this.chatBox.nativeElement.scrollHeight;
+  }
 
   public usernameFormControl: FormControl = new FormControl("", [
     Validators.required,
