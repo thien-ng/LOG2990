@@ -10,6 +10,7 @@ import { GameMode } from "../../../../common/communication/iCard";
 import { GameType, IGameRequest } from "../../../../common/communication/iGameRequest";
 import { IOriginalPixelCluster, IPlayerInputResponse } from "../../../../common/communication/iGameplay";
 import { Message } from "../../../../common/communication/message";
+import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../../constants";
 import { IArenaInfos, IPlayerInput } from "../../services/game/arena/interfaces";
 import { GameManagerService } from "../../services/game/game-manager.service";
@@ -97,7 +98,7 @@ describe("GameManagerService tests", () => {
         const arenaInfo: IArenaInfos = {
             arenaId:            1000,
             users:              [{username: "Frank", socketID: "12345"}],
-            originalGameUrl:    Constants.PATH_TO_IMAGES + "1" + Constants.ORIGINAL_FILE,
+            originalGameUrl:    Constants.PATH_TO_IMAGES + "1" + CCommon.ORIGINAL_FILE,
             differenceGameUrl:  Constants.PATH_TO_IMAGES + "1" + Constants.GENERATED_FILE,
         };
         chai.spy.on(gameManagerService, "buildArenaInfos");
@@ -154,7 +155,7 @@ describe("GameManagerService tests", () => {
     it("Should return an error message when loading an invalid game", async () => {
         const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
         const expectedMessage: IPlayerInputResponse = {
-            status:     Constants.ON_ERROR_MESSAGE,
+            status:     CCommon.ON_ERROR,
             response:   ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
         };
         chai.expect(await gameManagerService.onPlayerInput(playerInput)).to.deep.equal(expectedMessage);
@@ -180,7 +181,7 @@ describe("GameManagerService tests", () => {
 
         const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
         const expectedMessage: IPlayerInputResponse = {
-            status:     Constants.ON_ERROR_MESSAGE,
+            status:     CCommon.ON_ERROR,
             response:   ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
         };
         chai.expect(await gameManagerService.onPlayerInput(playerInput)).to.deep.equal(expectedMessage);
