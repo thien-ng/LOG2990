@@ -8,7 +8,6 @@ import { Constants } from "../../constants";
 import { SocketService } from "../../websocket/socket.service";
 import { LoginValidatorService } from "../login-validator.service";
 
-
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   public isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted: boolean | null = form && form.submitted;

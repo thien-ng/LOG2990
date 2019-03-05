@@ -7,12 +7,12 @@ import { NavigationEnd, Router } from "@angular/router";
 import { Observable, Subscription } from "rxjs";
 import { map } from "rxjs/operators";
 import { IUser } from "../../../../common/communication/iUser";
+import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../constants";
 import { CreateFreeGameComponent } from "../create-free-game/create-free-game.component";
 import { CreateSimpleGameComponent } from "../create-simple-game/create-simple-game.component";
 import { SocketService } from "../websocket/socket.service";
 import { AdminToggleService } from "./admin-toggle.service";
-import { CCommon } from "../../../../common/constantes/cCommon";
 
 @Component({
   selector:     "app-main-nav",

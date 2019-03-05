@@ -131,7 +131,7 @@ describe("Card-operations tests", () => {
 
     it("should return false because the card doesnt exist", () => {
         chai.expect(cardOperations.removeCard2D(0)).to.equal(CARD_NOT_FOUND);
-    });CCommon
+    });
 
     it("should return false because the card doesnt exist", () => {
         chai.expect(cardOperations.removeCard3D(0)).to.equal(CARD_NOT_FOUND);
