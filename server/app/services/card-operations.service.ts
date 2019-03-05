@@ -2,6 +2,7 @@ import { inject, injectable } from "inversify";
 import { GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
 import { Message } from "../../../common/communication/message";
+import { CCommon } from "../../../common/constantes/cCommon";
 import { Constants } from "../constants";
 import Types from "../types";
 import { AssetManagerService } from "./asset-manager.service";
@@ -62,8 +63,8 @@ export class CardOperations {
         const index: number = this.findCard2D(id);
         const paths: string[] = [
             Constants.IMAGES_PATH + "/" + id + Constants.GENERATED_FILE,
-            Constants.IMAGES_PATH + "/" + id + Constants.ORIGINAL_FILE,
-            Constants.IMAGES_PATH + "/" + id + Constants.MODIFIED_FILE,
+            Constants.IMAGES_PATH + "/" + id + CCommon.ORIGINAL_FILE,
+            Constants.IMAGES_PATH + "/" + id + CCommon.MODIFIED_FILE,
         ];
         if (index === Constants.DOESNT_EXIST) {
             return Constants.CARD_NOT_FOUND;
@@ -140,7 +141,7 @@ export class CardOperations {
         const errorMessage: string  = isTypeError ? error.message : Constants.UNKNOWN_ERROR;
 
         return {
-            title:  Constants.ON_ERROR_MESSAGE,
+            title:  CCommon.ON_ERROR,
             body:   errorMessage,
         };
     }
