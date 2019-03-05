@@ -34,7 +34,7 @@ export class SocketService {
         this.gameViewSimpleService.onArenaResponse(data);
       });
 
-      this.socket.on(Constants.ON_PLAYER_STATUS, (data: IChat) => {
+      this.socket.on(Constants.ON_CHAT_EVENT, (data: IChat) => {
         this.chatViewService.updateConversationPlayerStatus(data);
       });
 
