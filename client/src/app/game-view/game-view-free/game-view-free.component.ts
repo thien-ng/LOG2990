@@ -7,6 +7,8 @@ import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { GameType, IGameRequest } from "../../../../../common/communication/iGameRequest";
 import { ISceneVariables, ISceneVariablesMessage } from "../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../common/communication/message";
+import { CCommon } from "../../../../../common/constantes/cCommon";
+
 @Component({
   selector:     "app-game-view-free",
   templateUrl:  "./game-view-free.component.html",
@@ -62,7 +64,7 @@ export class GameViewFreeComponent implements OnInit {
   private handleGameRequest(): void {
     this.httpClient.post(Constants.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
 
-      if (data.title === Constants.ON_ERROR_MESSAGE) {
+      if (data.title === CCommon.ON_ERROR) {
         this.openSnackBar(data.body, Constants.SNACK_ACTION);
       }
       const path: string = JSON.parse(data.body);
