@@ -1,7 +1,7 @@
+import { CCommon } from "../../../common/constantes/cCommon";
 
 export class Constants {
 
-  public static readonly BASE_URL:                  string = "http://localhost:3000";
   public static readonly LOGIN_REDIRECT:            string = "/login";
   public static readonly LOGIN_PATH:                string = "login";
   public static readonly ADMIN_PATH:                string = "admin";
@@ -13,22 +13,15 @@ export class Constants {
   public static readonly GAMELIST_PATH:             string = "gamelist";
   public static readonly GAMELIST_REDIRECT:         string = "/gamelist";
   public static readonly PATH_MATCH_FULL:           string = "full";
-  public static readonly PATH_TO_ICONS:             string = Constants.BASE_URL + "/icon";
-  public static readonly PATH_TO_IMAGES:            string = Constants.BASE_URL + "/image";
-  public static readonly PATH_TO_GET_CARD:          string = Constants.BASE_URL + "/api/card/";
+  public static readonly PATH_TO_ICONS:             string = CCommon.BASE_URL + "/icon";
+  public static readonly PATH_TO_IMAGES:            string = CCommon.BASE_URL + "/image";
+  public static readonly PATH_TO_GET_CARD:          string = CCommon.BASE_URL + "/api/card/";
 
   public static readonly OBLIGATORY_CATCH:          string = "obligatory catch";
   public static readonly ANIMATION_TIME:            number = 300; // ms
-  public static readonly MIN_GAME_LENGTH:           number = 5;
-  public static readonly MAX_GAME_LENGTH:           number = 20;
 
-  // Constant for login-validator.service.ts
-  public static readonly MIN_LENGTH:                number = 4;
-  public static readonly MAX_LENGTH:                number = 15;
-  public static readonly REGEX_PATTERN:             string = "^[a-zA-Z0-9]+$";
-  public static readonly LOGIN_REQUEST:             string = "onLogin";
   public static readonly WEBSOCKET_URL:             string = "http://localhost:3333";
-  public static readonly PATH_TO_LOGIN_VALIDATION:  string =  Constants.BASE_URL + "/api/user/newUsername";
+  public static readonly PATH_TO_LOGIN_VALIDATION:  string =  CCommon.BASE_URL + "/api/user/newUsername";
   public static readonly LOGIN_MESSAGE_TITLE:       string = "onUserSubscribe";
   public static readonly NAME_VALID_VALUE:          string = "true";
   public static readonly ROUTER_LOGIN:              string = "gamelist";
@@ -38,10 +31,8 @@ export class Constants {
   public static readonly SNACKBAR_ACKNOWLEDGE:      string = "Merci!";
   public static readonly USERNAME_KEY:              string = "userName";
   public static readonly SNACKBAR_DURATION:         number = 5000;
-  public static readonly IS_UNIQUE:                 string = "isUnique";
 
   // constant for create-simple-game.component.ts
-  public static readonly GAME_REGEX_PATTERN:        string = "^[a-zA-Z0-9]+$";
   public static readonly SNACK_ERROR_MSG:           string = "Veuillez entrer un fichier BMP";
   public static readonly SNACK_ACTION:              string = "OK";
   public static readonly SNACK_POS_TOP:             string = "top";
@@ -50,35 +41,23 @@ export class Constants {
   public static readonly MODIFIED_IMAGE_KEY:        string = "modifiedImage";
 
   // constants for game list container
-  public static readonly CARDS_PATH:                string = Constants.BASE_URL + "/api/card/list";
-  public static readonly REMOVE_CARD_PATH:          string = Constants.BASE_URL + "/api/card/remove";
-  public static readonly HIGHSCORE_PATH:            string = Constants.BASE_URL + "/api/highscore/";
+  public static readonly CARDS_PATH:                string = CCommon.BASE_URL + "/api/card/list";
+  public static readonly REMOVE_CARD_PATH:          string = CCommon.BASE_URL + "/api/card/remove";
+  public static readonly HIGHSCORE_PATH:            string = CCommon.BASE_URL + "/api/highscore/";
   public static readonly RESET_PATH:                string = "generator/";
-  public static readonly ON_ERROR_MESSAGE:          string = "onError";
-  public static readonly ON_SUCCESS_MESSAGE:        string = "onSuccess";
 
   // Constants for socket.service.ts
   public static readonly ON_CONNECT:                string = "connect";
-  public static readonly ON_CHAT_MESSAGE:           string = "onChatMessage";
   public static readonly ON_GAME_FREE_DATA:         string = "onGameFreeData";
-  public static readonly ON_USER_EVENT:             string = "onNewUser";
-  public static readonly ON_RETRIEVE_USER:          string = "onRetrieveUser";
-  public static readonly ON_ARENA_RESPONSE:         string = "onArenaResponse";
-  public static readonly ON_TIMER_UPDATE:           string = "onTimerUpdate";
-  public static readonly ON_POINT_ADDED:            string = "onPointAdded";
 
   // Constants for game-view-simple.service.ts
   public static readonly ON_POSITION_VALIDATION:    string = "onPositionValidation";
   public static readonly DECIMAL:                   number = 10;
   public static readonly ID_BY_URL:                 string = "id";
 
-  // Constants for game-view-simple.component.ts
-  public static readonly ON_GAME_CONNECTION:        string = "onGameConnection";
-  public static readonly ON_GAME_DISCONNECT:        string = "onGameDisconnect";
-
   // Constants for game view free component
   public static readonly DEFAULT_SLIDER_VALUE:      number = 100;
-  public static readonly GAME_REQUEST_PATH:         string = Constants.BASE_URL + "/api/game/request";
+  public static readonly GAME_REQUEST_PATH:         string = CCommon.BASE_URL + "/api/game/request";
   public static readonly SUCCESS_STATUS:            number = 200;
 
   // Constants for card.component.ts
@@ -90,20 +69,16 @@ export class Constants {
   public static readonly DEGREE_CIRCLE:             number = 360;
   public static readonly PERCENT:                   number = 100;
 
-  // Constants for ActiveGameService
-  public static readonly ORIGINAL_FILE:             string = "_original.bmp";
-  public static readonly MODIFIED_FILE:             string = "_modified.bmp";
-
   // Constants for timer.service
   public static readonly MINUTE_IN_SECONDS:         number = 60;
   public static readonly TWO_DIGITS:                number = 10;
 
   // Constants for create simple game
-  public static readonly FREE_SUBMIT_PATH:          string = Constants.BASE_URL + "/api/card/submitFree";
+  public static readonly FREE_SUBMIT_PATH:          string = CCommon.BASE_URL + "/api/card/submitFree";
 
   // Constants for create free game
-  public static readonly FREE_SCENE_GENERATOR_PATH: string = Constants.BASE_URL + "/api/scene/generator";
-  public static readonly SIMPLE_SUBMIT_PATH:        string = Constants.BASE_URL + "/api/card/submitSimple";
+  public static readonly FREE_SCENE_GENERATOR_PATH: string = CCommon.BASE_URL + "/api/scene/generator";
+  public static readonly SIMPLE_SUBMIT_PATH:        string = CCommon.BASE_URL + "/api/card/submitSimple";
 
   // Constants for three js
   public static readonly FOV:                       number = 80;
