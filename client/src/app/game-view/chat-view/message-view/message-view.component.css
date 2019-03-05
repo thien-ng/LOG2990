@@ -8,3 +8,8 @@
 .messageFormat {
     word-break: break-word;
 }
+
+.timeMessage {
+    font-size: 11px;
+    margin-left: 5px;
+}

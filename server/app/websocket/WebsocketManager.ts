@@ -79,8 +79,8 @@ export class WebsocketManager {
                 socketID:       socket.id,
             };
             this.userManagerService.updateSocketID(user);
-            this.chatManagerService.sendPlayerLogin(user.username, socket, true);
             socket.emit(Constants.USER_EVENT, user);
+            this.chatManagerService.sendPlayerLogin(user.username, socket, true);
         });
 
         socket.on(Constants.DISCONNECT_EVENT, () => {
