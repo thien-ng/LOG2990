@@ -22,6 +22,6 @@ export class TimeManagerService {
 
         const stringTime: string = time.toString();
 
-        return (stringTime.length == 1) ? "0" + stringTime : stringTime;
+        return (stringTime.length === 1) ? "0" + stringTime : stringTime;
     }
 }

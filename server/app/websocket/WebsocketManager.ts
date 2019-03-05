@@ -4,11 +4,11 @@ import * as SocketIO from "socket.io";
 import { IClickMessage, IPlayerInputResponse } from "../../../common/communication/iGameplay";
 import { IUser } from "../../../common/communication/iUser";
 import { Constants } from "../constants";
+import { ChatManagerService } from "../services/chat-manager.service";
 import { IPlayerInput } from "../services/game/arena/interfaces";
 import { GameManagerService } from "../services/game/game-manager.service";
 import { UserManagerService } from "../services/user-manager.service";
 import Types from "../types";
-import { ChatManagerService } from "../services/chat-manager.service";
 
 @injectable()
 export class WebsocketManager {
