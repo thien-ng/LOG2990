@@ -1,6 +1,7 @@
 import { injectable } from "inversify";
 import { IUser } from "../../../common/communication/iUser";
 import { Message } from "../../../common/communication/message";
+import { CCommon } from "../../../common/constantes/cCommon";
 import { Constants } from "../constants";
 
 @injectable()
@@ -37,7 +38,7 @@ export class UserManagerService {
     public validateName(username: string): Message {
 
         const validationResult: Message = this.isUsernameFormatCorrect(username);
-        if (validationResult.title !== Constants.SUCCESS_TITLE) {
+        if (validationResult.title !== CCommon.ON_SUCCESS) {
             return validationResult;
         }
 
@@ -48,10 +49,10 @@ export class UserManagerService {
             };
             this.nameList.push(user);
 
-            return this.generateMessage(Constants.SUCCESS_TITLE, Constants.IS_UNIQUE_NAME);
+            return this.generateMessage(CCommon.ON_SUCCESS, CCommon.IS_UNIQUE);
         }
 
-        return this.generateMessage(Constants.SUCCESS_TITLE, Constants.NOT_UNIQUE_NAME);
+        return this.generateMessage(CCommon.ON_SUCCESS, Constants.NOT_UNIQUE_NAME);
     }
 
     public getUserByUsername(username: string): IUser | string {
@@ -79,17 +80,17 @@ export class UserManagerService {
 
     private isUsernameFormatCorrect(username: string): Message {
 
-        const regex: RegExp = new RegExp(Constants.REGEX_FORMAT);
+        const regex: RegExp = new RegExp(CCommon.REGEX_PATTERN);
 
-        if (username.length < Constants.MIN_VALUE || username.length > Constants.MAX_VALUE) {
-            return this.generateMessage(Constants.ERROR_TITLE, Constants.NAME_FORMAT_LENTGH_ERROR);
+        if (username.length < CCommon.MIN_NAME_LENGTH || username.length > CCommon.MAX_NAME_LENGTH) {
+            return this.generateMessage(CCommon.ON_ERROR, Constants.NAME_FORMAT_LENTGH_ERROR);
         }
 
         if (!regex.test(username)) {
-            return this.generateMessage(Constants.ERROR_TITLE, Constants.NAME_FORMAT_REGEX_ERROR);
+            return this.generateMessage(CCommon.ON_ERROR, Constants.NAME_FORMAT_REGEX_ERROR);
         }
 
-        return this.generateMessage(Constants.SUCCESS_TITLE, Constants.SUCCESS_TITLE);
+        return this.generateMessage(CCommon.ON_SUCCESS, CCommon.ON_SUCCESS);
     }
 
     private generateMessage(type: string, result: string): Message {
