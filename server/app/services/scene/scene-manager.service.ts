@@ -2,6 +2,7 @@ import { inject, injectable } from "inversify";
 import { ISceneOptions, SceneType } from "../../../../common/communication/iSceneOptions";
 import { ISceneVariables, ISceneVariablesMessage } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
+import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../../constants";
 import Types from "../../types";
 import { CardManagerService } from "../card-manager.service";
@@ -81,7 +82,7 @@ export class SceneManager {
     }
 
     private validateName(name: string): boolean {
-        const expression: RegExp = new RegExp(Constants.REGEX_FORMAT);
+        const expression: RegExp = new RegExp(CCommon.REGEX_PATTERN);
 
         return (expression.test(name));
     }
