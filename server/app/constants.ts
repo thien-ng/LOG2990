@@ -1,33 +1,20 @@
 import { IOriginalPixelCluster } from "../../common/communication/iGameplay";
+import { CCommon } from "../../common/constantes/cCommon";
 
 export class Constants {
 
   // Constants for websocket.ts
   public static readonly SOCKET_IO:                 string = "socket.io";
-  public static readonly LOGIN_EVENT:               string = "onLogin";
   public static readonly CONNECTION:                string = "connection";
   public static readonly DISCONNECT_EVENT:          string = "disconnect";
   public static readonly POSITION_VALIDATION_EVENT: string = "onPositionValidation";
-  public static readonly CHAT_MESSAGE:              string = "onChatMessage";
-  public static readonly GAME_CONNECTION:           string = "onGameConnection";
-  public static readonly GAME_DISCONNECT:           string = "onGameDisconnect";
-  public static readonly USER_EVENT:                string = "onNewUser";
   public static readonly WEBSOCKET_PORT_NUMBER:     number = 3333;
-  public static readonly ON_RETRIEVE_USER:          string = "onRetrieveUser";
   public static readonly CLICK_EVENT:               string = "onClick";
-  public static readonly ON_ARENA_RESPONSE:         string = "onArenaResponse";
-  public static readonly ON_TIMER_UPDATE:           string = "onTimerUpdate";
-  public static readonly ON_POINT_ADDED:            string = "onPointAdded";
 
   // Constants for card-manager.service.ts
   public static readonly SCENE_SNAPSHOT:            string = "_snapshot.jpeg";
-  public static readonly ORIGINAL_FILE:             string = "_original.bmp";
-  public static readonly MODIFIED_FILE:             string = "_modified.bmp";
   public static readonly GENERATED_FILE:            string = "_generated.bmp";
-  public static readonly BASE_URL:                  string = "http://localhost:3000";
-  public static readonly PATH_FOR_2D_VALIDATION:    string = Constants.BASE_URL + "/api/differenceChecker";
-  public static readonly ON_ERROR_MESSAGE:          string = "onError";
-  public static readonly ON_SUCCESS_MESSAGE:        string = "onSuccess";
+  public static readonly PATH_FOR_2D_VALIDATION:    string = CCommon.BASE_URL + "/api/differenceChecker";
   public static readonly VALIDATION_FAILED:         string = "Validation services failed";
   public static readonly UNKNOWN_ERROR:             string = "Erreur inconnue";
   public static readonly GENERATED_SNAPSHOT:        string = "_snapshot.jpeg";
@@ -49,12 +36,9 @@ export class Constants {
 
   public static readonly CARD_EXISTING:             string = "Le titre de la carte existe déjà";
   public static readonly CARD_CREATION_ERROR:       string = "Les données entrées sont invalides";
-  public static readonly GAME_REGEX_PATTERN:        string = "^[a-zA-Z0-9]+$";
   public static readonly GAME_FORMAT_REGEX_ERROR:   string = "Le titre du jeu doit contenir seulement des caracteres alphanumeriques";
-  public static readonly MIN_GAME_LENGTH:           number = 5;
-  public static readonly MAX_GAME_LENGTH:           number = 20;
-  public static readonly GAME_FORMAT_LENTGH_ERROR:  string = "Le titre du jeu doit contenir entre" + Constants.MIN_GAME_LENGTH +
-                                                             " et " + Constants.MAX_GAME_LENGTH + "caracteres";
+  public static readonly GAME_FORMAT_LENTGH_ERROR:  string = "Le titre du jeu doit contenir entre" + CCommon.MIN_GAME_LENGTH +
+                                                             " et " + CCommon.MAX_GAME_LENGTH + "caracteres";
   public static readonly GAME_TITLE_IS_CORRECT:     string = "Le titre est correct";
 
   // Constants for card-manager-controller
@@ -62,8 +46,7 @@ export class Constants {
   public static readonly DELETION_ERROR_MESSAGE:    string = "Impossible de supprimer la carte par défault";
 
   // Constants for game manager
-  public static readonly PATH_TO_IMAGES:            string = Constants.BASE_URL + "/image/";
-  public static readonly IS_UNIQUE_NAME:            string = "isUnique";
+  public static readonly PATH_TO_IMAGES:            string = CCommon.BASE_URL + "/image/";
   public static readonly NOT_UNIQUE_NAME:           string = "isNotUnique";
   public static readonly INIT_ARENA_ERROR:          string = "Erreur lors de l'initialisation de l'arène 2D";
 
@@ -71,11 +54,6 @@ export class Constants {
   public static readonly USER_NOT_FOUND:            string = "Utilisateur inexistant";
   public static readonly NAME_FORMAT_LENTGH_ERROR:  string = "Le nom doit contenir entre 4 et 15 characteres";
   public static readonly NAME_FORMAT_REGEX_ERROR:   string = "Le nom doit contenir seulement des caracteres alphanumerics";
-  public static readonly SUCCESS_TITLE:             string = "onSuccess";
-  public static readonly ERROR_TITLE:               string = "onError";
-  public static readonly REGEX_FORMAT:              string = "^[a-zA-Z0-9_]*$";
-  public static readonly MAX_VALUE:                 number = 15;
-  public static readonly MIN_VALUE:                 number = 4;
 
   // Constants for arena.ts
   public static readonly FF:                        number = 255;
