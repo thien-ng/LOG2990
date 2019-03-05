@@ -12,6 +12,7 @@ import {
 import { MatDialogRef, MatSnackBar } from "@angular/material";
 import { ISceneVariablesMessage } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
+import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../constants";
 
 @Component({
@@ -70,9 +71,9 @@ export class CreateFreeGameComponent {
     this.formControl = this.formBuilder.group({
       nameControl: new FormControl("", [
         Validators.required,
-        Validators.pattern(Constants.GAME_REGEX_PATTERN),
-        Validators.minLength(Constants.MIN_GAME_LENGTH),
-        Validators.maxLength(Constants.MAX_GAME_LENGTH),
+        Validators.pattern(CCommon.REGEX_PATTERN),
+        Validators.minLength(CCommon.MIN_GAME_LENGTH),
+        Validators.maxLength(CCommon.MAX_GAME_LENGTH),
       ]),
       selectControl: new FormControl("", [
         Validators.required,
