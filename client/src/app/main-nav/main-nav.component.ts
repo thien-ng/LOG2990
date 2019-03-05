@@ -12,6 +12,7 @@ import { CreateFreeGameComponent } from "../create-free-game/create-free-game.co
 import { CreateSimpleGameComponent } from "../create-simple-game/create-simple-game.component";
 import { SocketService } from "../websocket/socket.service";
 import { AdminToggleService } from "./admin-toggle.service";
+import { CCommon } from "../../../../common/constantes/cCommon";
 
 @Component({
   selector:     "app-main-nav",
@@ -89,7 +90,7 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.isAdminMode = activeState;
     });
 
-    this.socketService.onMsg(Constants.ON_USER_EVENT).subscribe((answer: IUser) => {
+    this.socketService.onMsg(CCommon.USER_EVENT).subscribe((answer: IUser) => {
       this.assignUser(answer);
     });
   }
