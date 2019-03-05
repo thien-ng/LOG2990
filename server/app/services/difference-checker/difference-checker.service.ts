@@ -1,4 +1,5 @@
 import { injectable } from "inversify";
+import { CCommon } from "../../../../common/constantes/cCommon";
 import { ClusterCounter } from "./utilities/clusterCounter";
 import { Constants } from "./utilities/constants";
 import { DifferenceEnlarger } from "./utilities/differenceEnlarger";
@@ -66,7 +67,7 @@ export class DifferenceCheckerService {
 
     private sendErrorMessage(message: string): Message {
         return {
-            title: Constants.ON_ERROR_MESSAGE,
+            title: CCommon.ON_ERROR,
             body: message,
         } as Message;
     }
