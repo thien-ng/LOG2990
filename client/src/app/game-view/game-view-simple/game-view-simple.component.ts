@@ -5,6 +5,7 @@ import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../../common/communication/iGameRequest";
 import { IClickMessage, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { Message } from "../../../../../common/communication/message";
+import { CCommon } from "../../../../../common/constantes/cCommon";
 import { Constants } from "../../constants";
 import { SocketService } from "../../websocket/socket.service";
 import { GameViewSimpleService } from "./game-view-simple.service";
@@ -73,15 +74,15 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
 
   private handleGameRequest(): void {
   this.httpClient.post(Constants.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
-      if (data.title === Constants.ON_SUCCESS_MESSAGE) {
+      if (data.title === CCommon.ON_SUCCESS) {
         this.arenaID = parseInt(data.body, Constants.DECIMAL);
-        this.socketService.sendMsg(Constants.ON_GAME_CONNECTION, this.arenaID);
+        this.socketService.sendMsg(CCommon.GAME_CONNECTION, this.arenaID);
       }
     });
   }
 
   public ngOnDestroy(): void {
-    this.socketService.sendMsg(Constants.ON_GAME_DISCONNECT, this.username);
+    this.socketService.sendMsg(CCommon.GAME_DISCONNECT, this.username);
   }
 
   private getActiveCard(username: string): void {
@@ -92,8 +93,8 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
         this.cardLoaded = true;
         this.createGameRequest(username);
       });
-      this.originalPath = Constants.PATH_TO_IMAGES + "/" + gameID + Constants.ORIGINAL_FILE;
-      this.modifiedPath = Constants.PATH_TO_IMAGES + "/" + gameID + Constants.MODIFIED_FILE;
+      this.originalPath = Constants.PATH_TO_IMAGES + "/" + gameID + CCommon.ORIGINAL_FILE;
+      this.modifiedPath = Constants.PATH_TO_IMAGES + "/" + gameID + CCommon.MODIFIED_FILE;
     }
   }
 
