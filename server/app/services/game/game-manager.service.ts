@@ -4,6 +4,7 @@ import { IGameRequest } from "../../../../common/communication/iGameRequest";
 import { IOriginalPixelCluster, IPlayerInputResponse } from "../../../../common/communication/iGameplay";
 import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
+import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../../constants";
 import Types from "../../types";
 import { UserManagerService } from "../user-manager.service";
@@ -31,7 +32,7 @@ export class GameManagerService {
 
     private returnError(errorMessage: string): Message {
         return {
-            title:  Constants.ON_ERROR_MESSAGE,
+            title:  CCommon.ON_ERROR,
             body:   errorMessage,
         };
     }
@@ -60,7 +61,7 @@ export class GameManagerService {
         this.arenas.set(arenaInfo.arenaId, this.arena);
 
         return {
-            title:  Constants.ON_SUCCESS_MESSAGE,
+            title:  CCommon.ON_SUCCESS,
             body:   arenaInfo.arenaId.toString(),
         };
     }
@@ -73,18 +74,18 @@ export class GameManagerService {
         return {
             arenaId:            this.generateArenaID(),
             users:              [user],
-            originalGameUrl:    Constants.PATH_TO_IMAGES + gameId + Constants.ORIGINAL_FILE,
+            originalGameUrl:    Constants.PATH_TO_IMAGES + gameId + CCommon.ORIGINAL_FILE,
             differenceGameUrl:  Constants.PATH_TO_IMAGES + gameId + Constants.GENERATED_FILE,
         };
     }
 
     private create3DArena(request: IGameRequest): Message {
         const paths: string = JSON.stringify([
-            Constants.BASE_URL + "/scene/" + request.gameId + Constants.SCENES_FILE,
+            CCommon.BASE_URL + "/scene/" + request.gameId + Constants.SCENES_FILE,
         ]);
 
         return {
-            title:  Constants.ON_SUCCESS_MESSAGE,
+            title:  CCommon.ON_SUCCESS,
             body:   paths,
         };
     }
@@ -137,7 +138,7 @@ export class GameManagerService {
         }
 
         return {
-            status:     Constants.ON_ERROR_MESSAGE,
+            status:     CCommon.ON_ERROR,
             response:   ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
         };
     }
