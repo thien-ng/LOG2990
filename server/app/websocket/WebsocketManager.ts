@@ -3,6 +3,7 @@ import { inject, injectable } from "inversify";
 import * as SocketIO from "socket.io";
 import { IClickMessage, IPlayerInputResponse } from "../../../common/communication/iGameplay";
 import { IUser } from "../../../common/communication/iUser";
+import { CCommon } from "../../../common/constantes/cCommon";
 import { Constants } from "../constants";
 import { IPlayerInput } from "../services/game/arena/interfaces";
 import { GameManagerService } from "../services/game/game-manager.service";
@@ -38,12 +39,12 @@ export class WebsocketManager {
 
     private gameSocketChecker(socketID: string, socket: SocketIO.Socket): void {
 
-        socket.on(Constants.GAME_CONNECTION, () => {
+        socket.on(CCommon.GAME_CONNECTION, () => {
             socketID = socket.id;
             this.gameManagerService.subscribeSocketID(socketID, socket);
         });
 
-        socket.on(Constants.GAME_DISCONNECT, (username: string) => {
+        socket.on(CCommon.GAME_DISCONNECT, (username: string) => {
             this.gameManagerService.unsubscribeSocketID(socketID, username);
         });
 
@@ -54,9 +55,9 @@ export class WebsocketManager {
                 const playerInput: IPlayerInput = this.buildPlayerInput(data, user);
                 this.gameManagerService.onPlayerInput(playerInput)
                 .then((response: IPlayerInputResponse) => {
-                    socket.emit(Constants.ON_ARENA_RESPONSE, response);
+                    socket.emit(CCommon.ON_ARENA_RESPONSE, response);
                 }).catch((error: Error) => {
-                    socket.emit(Constants.ON_ERROR_MESSAGE, error);
+                    socket.emit(CCommon.ON_ERROR, error);
                 });
             }
         });
@@ -76,13 +77,13 @@ export class WebsocketManager {
 
     private loginSocketChecker(user: IUser, socketID: string , socket: SocketIO.Socket): void {
 
-        socket.on(Constants.LOGIN_EVENT, (data: string) => {
+        socket.on(CCommon.LOGIN_EVENT, (data: string) => {
             user = {
                 username:       data,
                 socketID:       socket.id,
             };
             this.userManagerService.updateSocketID(user);
-            socket.emit(Constants.USER_EVENT, user);
+            socket.emit(CCommon.USER_EVENT, user);
         });
 
         socket.on(Constants.DISCONNECT_EVENT, () => {
