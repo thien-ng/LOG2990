@@ -2,17 +2,13 @@ import * as http from "http";
 import { inject, injectable } from "inversify";
 import * as SocketIO from "socket.io";
 import { IClickMessage, IPlayerInputResponse } from "../../../common/communication/iGameplay";
-import { IChat } from "../../../common/communication/iChat";
 import { IUser } from "../../../common/communication/iUser";
 import { Constants } from "../constants";
 import { IPlayerInput } from "../services/game/arena/interfaces";
 import { GameManagerService } from "../services/game/game-manager.service";
-import { TimeManagerService } from "../services/time-manager.service";
 import { UserManagerService } from "../services/user-manager.service";
 import Types from "../types";
-
-const LOGIN_MESSAGE: string = " has logged in";
-const LOGOUT_MESSAGE: string = " has logged out";
+import { ChatManagerService } from "../services/chat-manager.service";
 
 @injectable()
 export class WebsocketManager {
@@ -22,29 +18,21 @@ export class WebsocketManager {
     public constructor(
         @inject(Types.UserManagerService) private userManagerService: UserManagerService,
         @inject(Types.GameManagerService) private gameManagerService: GameManagerService,
-        @inject(Types.TimeManagerService) private timeManagerService: TimeManagerService) {}
+        @inject(Types.ChatManagerService) private chatManagerService: ChatManagerService) {}
 
     public createWebsocket(server: http.Server): void {
         this.io = SocketIO(server);
         this.io.on(Constants.CONNECTION, (socket: SocketIO.Socket) => {
 
+            const socketID: string = "";
             const user: IUser = {
                 username:       "",
                 socketID:       "",
             };
 
-            const socketID: string = "";
-
             this.loginSocketChecker(user, socketID, socket);
             this.gameSocketChecker(socketID, socket);
-
-            socket.on("test", (data: string) => {
-                socket.emit("onPlayerStatus", 
-                    {username: "nameHere",
-                    message: data,
-                    time: this.timeManagerService.getTimeNow()
-                });
-            });
+            this.chatSocketChecker(socket);
 
          });
         this.io.listen(Constants.WEBSOCKET_PORT_NUMBER);
@@ -76,16 +64,11 @@ export class WebsocketManager {
         });
     }
 
-    private buildPlayerInput(data: IClickMessage, user: IUser): IPlayerInput {
-        return {
-            event:      Constants.CLICK_EVENT,
-            arenaId:    data.arenaID,
-            user:       user,
-            position:   {
-                x:  data.position.x,
-                y:  data.position.y,
-            },
-        };
+    // test for chat messsage
+    private chatSocketChecker(socket: SocketIO.Socket): void {
+        socket.on("test", (data: string) => {
+            this.chatManagerService.sendChatMessage(data, socket);
+        });
     }
 
     private loginSocketChecker(user: IUser, socketID: string , socket: SocketIO.Socket): void {
@@ -96,25 +79,26 @@ export class WebsocketManager {
                 socketID:       socket.id,
             };
             this.userManagerService.updateSocketID(user);
+            this.chatManagerService.sendPlayerLogin(user.username, socket, true);
             socket.emit(Constants.USER_EVENT, user);
-
-            this.emitPlayerStatus("Server", user.username + LOGIN_MESSAGE, socket);
         });
 
         socket.on(Constants.DISCONNECT_EVENT, () => {
             this.userManagerService.leaveBrowser(user);
             this.gameManagerService.unsubscribeSocketID(socketID, user.username);
-
-            this.emitPlayerStatus("Server", user.username + LOGOUT_MESSAGE, socket);
+            this.chatManagerService.sendPlayerLogin(user.username, socket, false);
         });
     }
 
-    private emitPlayerStatus(username: string, message: string, socket: SocketIO.Socket): void {
-
-        socket.broadcast.emit("onPlayerStatus",
-            {username: username,
-            message: message,
-            time: this.timeManagerService.getTimeNow(),
-        } as IChat);
+    private buildPlayerInput(data: IClickMessage, user: IUser): IPlayerInput {
+        return {
+            event:      Constants.CLICK_EVENT,
+            arenaId:    data.arenaID,
+            user:       user,
+            position:   {
+                x:  data.position.x,
+                y:  data.position.y,
+            },
+        };
     }
 }
