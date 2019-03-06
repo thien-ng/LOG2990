@@ -62,7 +62,8 @@ export class ChatManagerService {
     public sendPositionValidationMessage(data: IPlayerInputResponse, socket: SocketIO.Socket): void {
 
         this.socket = socket;
-        const status:       string = (data.status === Constants.ON_SUCCESS_MESSAGE) ? "Différence trouvée." : "Erreur"; // aussi doit adapter pour multi
+        // aussi doit adapter pour multi
+        const status:       string = (data.status === Constants.ON_SUCCESS_MESSAGE) ? "Différence trouvée." : "Erreur";
         const message:      string =  status;
         const iChatMessage: IChat  = this.generateMessage(SERVER_NAME, message);
 
