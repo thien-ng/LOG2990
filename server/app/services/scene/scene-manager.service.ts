@@ -82,7 +82,7 @@ export class SceneManager {
     }
 
     private validateName(name: string): boolean {
-        const expression: RegExp = new RegExp(CCommon.REGEX_PATTERN);
+        const expression: RegExp = new RegExp(CCommon.REGEX_PATTERN_ALPHANUM);
 
         return (expression.test(name));
     }
