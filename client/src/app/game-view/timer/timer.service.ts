@@ -18,8 +18,8 @@ export class TimerService {
   }
 
   public timeFormat(totalTimeInSeconds: number): void {
-    const min: number = Math.floor((totalTimeInSeconds / Constants.MINUTE_IN_SECONDS));
-    const sec: number = totalTimeInSeconds - (min * Constants.MINUTE_IN_SECONDS);
+    const min: number = Math.floor((totalTimeInSeconds / Constants.SECONDS_IN_MINUTE));
+    const sec: number = totalTimeInSeconds - (min * Constants.SECONDS_IN_MINUTE);
 
     let timeFormat: string = (min < Constants.TWO_DIGITS ? "0" + min.toString() : min.toString());
 

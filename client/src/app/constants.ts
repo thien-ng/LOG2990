@@ -2,16 +2,16 @@ import { CCommon } from "../../../common/constantes/cCommon";
 
 export class Constants {
 
-  public static readonly LOGIN_REDIRECT:            string = "/login";
   public static readonly LOGIN_PATH:                string = "login";
+  public static readonly LOGIN_REDIRECT:            string = "/" + Constants.LOGIN_PATH;
   public static readonly ADMIN_PATH:                string = "admin";
-  public static readonly ADMIN_REDIRECT:            string = "/admin";
+  public static readonly ADMIN_REDIRECT:            string = "/" + Constants.ADMIN_PATH;
   public static readonly GAME_VIEW_SIMPLE:          string = "game-view-simple/:id/:gamemode";
   public static readonly GAME_VIEW_FREE:            string = "game-view-free/:id/:gamemode";
   public static readonly ROOT_PATH:                 string = "";
   public static readonly NAV_PATH:                  string = "";
   public static readonly GAMELIST_PATH:             string = "gamelist";
-  public static readonly GAMELIST_REDIRECT:         string = "/gamelist";
+  public static readonly GAMELIST_REDIRECT:         string = "/" + Constants.GAMELIST_PATH;
   public static readonly PATH_MATCH_FULL:           string = "full";
   public static readonly PATH_TO_ICONS:             string = CCommon.BASE_URL + "/icon";
   public static readonly PATH_TO_IMAGES:            string = CCommon.BASE_URL + "/image";
@@ -52,7 +52,7 @@ export class Constants {
 
   // Constants for game-view-simple.service.ts
   public static readonly ON_POSITION_VALIDATION:    string = "onPositionValidation";
-  public static readonly DECIMAL:                   number = 10;
+  public static readonly DECIMAL_BASE:                   number = 10;
   public static readonly ID_BY_URL:                 string = "id";
 
   // Constants for game view free component
@@ -70,7 +70,7 @@ export class Constants {
   public static readonly PERCENT:                   number = 100;
 
   // Constants for timer.service
-  public static readonly MINUTE_IN_SECONDS:         number = 60;
+  public static readonly SECONDS_IN_MINUTE:         number = 60;
   public static readonly TWO_DIGITS:                number = 10;
 
   // Constants for create simple game

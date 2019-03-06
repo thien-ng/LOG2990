@@ -75,7 +75,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   private handleGameRequest(): void {
   this.httpClient.post(Constants.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
       if (data.title === CCommon.ON_SUCCESS) {
-        this.arenaID = parseInt(data.body, Constants.DECIMAL);
+        this.arenaID = parseInt(data.body, Constants.DECIMAL_BASE);
         this.socketService.sendMsg(CCommon.GAME_CONNECTION, this.arenaID);
       }
     });
