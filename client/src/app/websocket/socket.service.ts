@@ -30,12 +30,11 @@ export class SocketService {
     this.socket.addEventListener(Constants.ON_CONNECT, () => {
 
       this.socket.on(Constants.ON_ARENA_RESPONSE, (data: IPlayerInputResponse) => {
-        this.chatViewService.updateConversation(data);
         this.gameViewSimpleService.onArenaResponse(data);
       });
 
       this.socket.on(Constants.ON_CHAT_EVENT, (data: IChat) => {
-        this.chatViewService.updateConversationPlayerStatus(data);
+        this.chatViewService.updateConversation(data);
       });
 
       this.socket.on(Constants.ON_TIMER_UPDATE, (data: number) => {
