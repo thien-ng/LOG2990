@@ -42,7 +42,7 @@ export class LoginValidatorComponent {
 
   public usernameFormControl: FormControl = new FormControl("", [
     Validators.required,
-    Validators.pattern(CCommon.REGEX_PATTERN),
+    Validators.pattern(CCommon.REGEX_PATTERN_ALPHANUM),
     Validators.minLength(CCommon.MIN_NAME_LENGTH),
     Validators.maxLength(CCommon.MAX_NAME_LENGTH),
   ]);

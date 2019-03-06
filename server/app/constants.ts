@@ -36,7 +36,7 @@ export class Constants {
 
   public static readonly CARD_EXISTING:             string = "Le titre de la carte existe déjà";
   public static readonly CARD_CREATION_ERROR:       string = "Les données entrées sont invalides";
-  public static readonly GAME_FORMAT_REGEX_ERROR:   string = "Le titre du jeu doit contenir seulement des caracteres alphanumeriques";
+  public static readonly GAME_NAME_ERROR:   string = "Le titre du jeu doit contenir seulement des caracteres alphanumeriques";
   public static readonly GAME_FORMAT_LENTGH_ERROR:  string = "Le titre du jeu doit contenir entre" + CCommon.MIN_GAME_LENGTH +
                                                              " et " + CCommon.MAX_GAME_LENGTH + "caracteres";
   public static readonly GAME_TITLE_IS_CORRECT:     string = "Le titre est correct";
@@ -52,8 +52,8 @@ export class Constants {
 
   // Constants for user manager service
   public static readonly USER_NOT_FOUND:            string = "Utilisateur inexistant";
-  public static readonly NAME_FORMAT_LENTGH_ERROR:  string = "Le nom doit contenir entre 4 et 15 characteres";
-  public static readonly NAME_FORMAT_REGEX_ERROR:   string = "Le nom doit contenir seulement des caracteres alphanumerics";
+  public static readonly NAME_FORMAT_LENGTH_ERROR:  string = "Le nom doit contenir entre 4 et 15 characteres";
+  public static readonly USER_NAME_ERROR:   string = "Le nom doit contenir seulement des caracteres alphanumériques";
 
   // Constants for arena.ts
   public static readonly FF:                        number = 255;
