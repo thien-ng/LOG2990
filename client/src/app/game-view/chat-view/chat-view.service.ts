@@ -18,6 +18,7 @@ export class ChatViewService {
 
   public getConversation(): IChat[] {
     this.conversation = [];
+
     return this.conversation;
   }
 

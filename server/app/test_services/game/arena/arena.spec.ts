@@ -17,7 +17,7 @@ import { Player } from "../../../services/game/arena/player";
 import { GameManagerService } from "../../../services/game/game-manager.service";
 import { UserManagerService } from "../../../services/user-manager.service";
 
-// tslint:disable:no-magic-numbers no-any max-file-line-count
+// tslint:disable:no-magic-numbers no-any max-file-line-count no-empty
 
 const activeUser: IUser = {
     username: "mike",

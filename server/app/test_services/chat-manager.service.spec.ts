@@ -1,10 +1,12 @@
 import * as chai from "chai";
 import * as spies from "chai-spies";
+import SocketIO = require("socket.io");
+import * as Mockito from "ts-mockito";
+import { IPlayerInputResponse } from "../../../common/communication/iGameplay";
 import { ChatManagerService } from "../services/chat-manager.service";
 import { TimeManagerService } from "../services/time-manager.service";
-import * as Mockito from "ts-mockito";
-import SocketIO = require("socket.io");
-import { IPlayerInputResponse } from "../../../common/communication/iGameplay";
+
+// tslint:disable:no-magic-numbers no-any
 
 let chatManagerService: ChatManagerService;
 let timeManagerService: TimeManagerService;
@@ -13,10 +15,10 @@ let server: SocketIO.Server;
 chai.use(spies);
 
 beforeEach(() => {
-    socket = Mockito.mock(SocketIO);
-    server = Mockito.mock(SocketIO);
-    timeManagerService = new TimeManagerService();
-    chatManagerService = new ChatManagerService(timeManagerService);
+    socket              = Mockito.mock(SocketIO);
+    server              = Mockito.mock(SocketIO);
+    timeManagerService  = new TimeManagerService();
+    chatManagerService  = new ChatManagerService(timeManagerService);
 });
 
 describe("ChatManagerService Tests", () => {
@@ -74,7 +76,7 @@ describe("ChatManagerService Tests", () => {
                 cluster: [{
                     color: {R: 1, G: 1, B: 1},
                     position: {x: 1, y: 1},
-                }]
+                }],
             },
         };
         chatManagerService.sendPositionValidationMessage(test, socket);
@@ -95,7 +97,7 @@ describe("ChatManagerService Tests", () => {
                 cluster: [{
                     color: {R: 1, G: 1, B: 1},
                     position: {x: 1, y: 1},
-                }]
+                }],
             },
         };
         chatManagerService.sendPositionValidationMessage(test, socket);
@@ -103,6 +105,5 @@ describe("ChatManagerService Tests", () => {
         chai.expect(spy).to.have.been.called();
         done();
     });
-
 
 });

@@ -65,9 +65,8 @@ export class WebsocketManager {
         });
     }
 
-    // test for chat messsage
     private chatSocketChecker(socket: SocketIO.Socket): void {
-        socket.on("test", (data: string) => {
+        socket.on(Constants.ON_CHAT_EVENT, (data: string) => {
             this.chatManagerService.sendChatMessage(data, socket);
         });
     }

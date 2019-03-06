@@ -2,9 +2,9 @@ import { inject, injectable } from "inversify";
 import { String } from "typescript-string-operations";
 import { IChat } from "../../../common/communication/iChat";
 import { IPlayerInputResponse } from "../../../common/communication/iGameplay";
+import { Constants } from "../constants";
 import Types from "../types";
 import { TimeManagerService } from "./time-manager.service";
-import { Constants } from "../constants";
 
 const LOGIN_MESSAGE: string = " vient de se connecter.";
 const LOGOUT_MESSAGE: string = " vient de se déconnecter.";
