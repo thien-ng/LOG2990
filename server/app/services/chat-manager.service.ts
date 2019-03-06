@@ -11,6 +11,11 @@ const LOGOUT_MESSAGE: string = " vient de se déconnecter.";
 const NEW_HIGHSCORE_MESSAGE: string = "{0} obtient la {1} place dans les meilleurs temps dujeu {2} en {3}";
 const SERVER_NAME: string = "Serveur";
 const CHAT_EVENT: string = "onChatEvent";
+const FIRST_POSITION: string = "première";
+const SECOND_POSITION: string = "deuxième";
+const THIRD_POSITION: string = "troisième";
+const SINGLE_GAMEMODE: string = "solo";
+const MULTI_GAMEMODE: string = "un contre un";
 
 @injectable()
 export class ChatManagerService {
@@ -42,17 +47,20 @@ export class ChatManagerService {
     // send message for highscore
     public sendNewHighScoreMessage(
         username: string,
-        position: string,
+        position: number,
         gameName: string,
-        gameMode: string,
+        gameMode: number,
         socket: SocketIO.Server): void {
 
         this.server = socket;
+
+        const stringPosition: string = this.stringifyPosition(position);
+        const stringGameMode: string = (gameMode === 0) ? SINGLE_GAMEMODE : MULTI_GAMEMODE;
         const message: string = String.Format(  NEW_HIGHSCORE_MESSAGE,
                                                 username,
-                                                position,
+                                                stringPosition,
                                                 gameName,
-                                                gameMode);
+                                                stringGameMode);
 
         const iChatMessage: IChat = this.generateMessage(SERVER_NAME, message);
         this.server.emit(CHAT_EVENT, iChatMessage);
@@ -68,6 +76,20 @@ export class ChatManagerService {
         const iChatMessage: IChat  = this.generateMessage(SERVER_NAME, message);
 
         this.socket.emit(CHAT_EVENT, iChatMessage);
+    }
+
+    private stringifyPosition(positionValue: number): string {
+
+        let position: string = THIRD_POSITION;
+
+        if (positionValue === 0) {
+            position = FIRST_POSITION;
+        }
+        else if(positionValue === 1) {
+            position = SECOND_POSITION;
+        }
+
+        return position;
     }
 
     private generateMessage(username: string, message: string): IChat {

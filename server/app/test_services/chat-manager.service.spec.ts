@@ -53,12 +53,67 @@ describe("ChatManagerService Tests", () => {
         done();
     });
 
-    it ("should emit highscore message message", (done: Function) => {
+    it ("should emit highscore message single mode and first position", (done: Function) => {
         chatManagerService["server"] = server;
         const spy: any  = chai.spy.on(chatManagerService["server"], "emit");
 
         chatManagerService.sendNewHighScoreMessage(
-            "username", "position", "gameName", "gameMode", server);
+            "username", 0, "gameName", 0, server);
+
+        chai.expect(spy).to.have.been.called();
+        done();
+    });
+
+    it ("should emit highscore message single mode and second position", (done: Function) => {
+        chatManagerService["server"] = server;
+        const spy: any  = chai.spy.on(chatManagerService["server"], "emit");
+
+        chatManagerService.sendNewHighScoreMessage(
+            "username", 0, "gameName", 1, server);
+
+        chai.expect(spy).to.have.been.called();
+        done();
+    });
+
+    it ("should emit highscore message single mode and thid position", (done: Function) => {
+        chatManagerService["server"] = server;
+        const spy: any  = chai.spy.on(chatManagerService["server"], "emit");
+
+        chatManagerService.sendNewHighScoreMessage(
+            "username", 0, "gameName", 2, server);
+
+        chai.expect(spy).to.have.been.called();
+        done();
+    });
+
+    it ("should emit highscore message multi mode and first position", (done: Function) => {
+        chatManagerService["server"] = server;
+        const spy: any  = chai.spy.on(chatManagerService["server"], "emit");
+
+        chatManagerService.sendNewHighScoreMessage(
+            "username", 1, "gameName", 0, server);
+
+        chai.expect(spy).to.have.been.called();
+        done();
+    });
+
+    it ("should emit highscore message multi mode and second position", (done: Function) => {
+        chatManagerService["server"] = server;
+        const spy: any  = chai.spy.on(chatManagerService["server"], "emit");
+
+        chatManagerService.sendNewHighScoreMessage(
+            "username", 1, "gameName", 1, server);
+
+        chai.expect(spy).to.have.been.called();
+        done();
+    });
+
+    it ("should emit highscore message multi mode and thid position", (done: Function) => {
+        chatManagerService["server"] = server;
+        const spy: any  = chai.spy.on(chatManagerService["server"], "emit");
+
+        chatManagerService.sendNewHighScoreMessage(
+            "username", 1, "gameName", 2, server);
 
         chai.expect(spy).to.have.been.called();
         done();
