@@ -291,7 +291,7 @@ describe("cardManagerService CardTitle test", () => {
         cardManagerService.simpleCardCreationRoutine(requirements, "titre*@#$")
         .then((message: Message) => {
             messageTitle = message.body;
-            chai.expect(messageTitle).to.equal(Constants.GAME_FORMAT_REGEX_ERROR);
+            chai.expect(messageTitle).to.equal(Constants.GAME_NAME_ERROR);
         }).catch();
 
         done();
