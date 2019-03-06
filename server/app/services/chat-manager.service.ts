@@ -1,8 +1,10 @@
 import { inject, injectable } from "inversify";
 import { String } from "typescript-string-operations";
 import { IChat } from "../../../common/communication/iChat";
+import { IPlayerInputResponse } from "../../../common/communication/iGameplay";
 import Types from "../types";
 import { TimeManagerService } from "./time-manager.service";
+import { Constants } from "../constants";
 
 const LOGIN_MESSAGE: string = " vient de se connecter.";
 const LOGOUT_MESSAGE: string = " vient de se déconnecter.";
@@ -13,31 +15,39 @@ const CHAT_EVENT: string = "onChatEvent";
 @injectable()
 export class ChatManagerService {
 
+    private server: SocketIO.Server;
+    private socket: SocketIO.Socket;
+
     public constructor(@inject(Types.TimeManagerService) private timeManagerService: TimeManagerService) {}
 
     // send login and logout updates
-    public sendPlayerLogin(username: string, socket: SocketIO.Socket, isLogin: boolean): void {
+    public sendPlayerLogStatus(username: string, socket: SocketIO.Server, isLogin: boolean): void {
 
+        this.server = socket;
         const message: string = (isLogin) ? username + " " + LOGIN_MESSAGE : username + " " + LOGOUT_MESSAGE;
 
         const iChatMessage: IChat = this.generateMessage(SERVER_NAME, message);
-        socket.broadcast.emit(CHAT_EVENT, iChatMessage);
+        this.server.emit(CHAT_EVENT, iChatMessage);
     }
 
     // send message too conversation list
     public sendChatMessage(data: string, socket: SocketIO.Socket): void {
+
+        this.socket = socket;
         // get username
         const iChatMessage: IChat = this.generateMessage(SERVER_NAME, data);
-        socket.emit(CHAT_EVENT, iChatMessage);
+        this.socket.emit(CHAT_EVENT, iChatMessage);
     }
 
+    // send message for highscore
     public sendNewHighScoreMessage(
         username: string,
-        position: number,
+        position: string,
         gameName: string,
         gameMode: string,
-        socket: SocketIO.Socket): void {
+        socket: SocketIO.Server): void {
 
+        this.server = socket;
         const message: string = String.Format(  NEW_HIGHSCORE_MESSAGE,
                                                 username,
                                                 position,
@@ -45,7 +55,18 @@ export class ChatManagerService {
                                                 gameMode);
 
         const iChatMessage: IChat = this.generateMessage(SERVER_NAME, message);
-        socket.emit(CHAT_EVENT, iChatMessage);
+        this.server.emit(CHAT_EVENT, iChatMessage);
+    }
+
+    // send message for position validation
+    public sendPositionValidationMessage(data: IPlayerInputResponse, socket: SocketIO.Socket): void {
+
+        this.socket = socket;
+        const status:       string = (data.status === Constants.ON_SUCCESS_MESSAGE) ? "Good Hit" : "Wrong hit";
+        const message:      string =  status;
+        const iChatMessage: IChat  = this.generateMessage(SERVER_NAME, message);
+
+        this.socket.emit(CHAT_EVENT, iChatMessage);
     }
 
     private generateMessage(username: string, message: string): IChat {

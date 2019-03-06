@@ -57,6 +57,7 @@ export class WebsocketManager {
                 this.gameManagerService.onPlayerInput(playerInput)
                 .then((response: IPlayerInputResponse) => {
                     socket.emit(Constants.ON_ARENA_RESPONSE, response);
+                    this.chatManagerService.sendPositionValidationMessage(response, socket);
                 }).catch((error: Error) => {
                     socket.emit(Constants.ON_ERROR_MESSAGE, error);
                 });
@@ -80,13 +81,13 @@ export class WebsocketManager {
             };
             this.userManagerService.updateSocketID(user);
             socket.emit(Constants.USER_EVENT, user);
-            this.chatManagerService.sendPlayerLogin(user.username, socket, true);
+            this.chatManagerService.sendPlayerLogStatus(user.username, this.io, true);
         });
 
         socket.on(Constants.DISCONNECT_EVENT, () => {
             this.userManagerService.leaveBrowser(user);
             this.gameManagerService.unsubscribeSocketID(socketID, user.username);
-            this.chatManagerService.sendPlayerLogin(user.username, socket, false);
+            this.chatManagerService.sendPlayerLogStatus(user.username, this.io, false);
         });
     }
 
