@@ -52,7 +52,7 @@ export class Constants {
 
   // Constants for game-view-simple.service.ts
   public static readonly ON_POSITION_VALIDATION:    string = "onPositionValidation";
-  public static readonly DECIMAL_BASE:                   number = 10;
+  public static readonly DECIMAL_BASE:              number = 10;
   public static readonly ID_BY_URL:                 string = "id";
 
   // Constants for game view free component
@@ -61,8 +61,8 @@ export class Constants {
   public static readonly SUCCESS_STATUS:            number = 200;
 
   // Constants for card.component.ts
-  public static readonly GAME_VIEW_SIMPLE_PATH:     string = "/game-view-simple";
   public static readonly GAME_VIEW_FREE_PATH:       string = "/game-view-free";
+  public static readonly GAME_VIEW_SIMPLE_PATH:     string = "/game-view-simple";
   public static readonly GAMEMODE_SIMPLE:           string = "simple";
 
   // Constants for difference-counter.service.ts
@@ -71,14 +71,13 @@ export class Constants {
 
   // Constants for timer.service
   public static readonly SECONDS_IN_MINUTE:         number = 60;
-  public static readonly TWO_DIGITS:                number = 10;
 
   // Constants for create simple game
-  public static readonly FREE_SUBMIT_PATH:          string = CCommon.BASE_URL + "/api/card/submitFree";
+  public static readonly SIMPLE_SUBMIT_PATH:        string = CCommon.BASE_URL + "/api/card/submitSimple";
 
   // Constants for create free game
+  public static readonly FREE_SUBMIT_PATH:          string = CCommon.BASE_URL + "/api/card/submitFree";
   public static readonly FREE_SCENE_GENERATOR_PATH: string = CCommon.BASE_URL + "/api/scene/generator";
-  public static readonly SIMPLE_SUBMIT_PATH:        string = CCommon.BASE_URL + "/api/card/submitSimple";
 
   // Constants for three js
   public static readonly FOV:                       number = 80;
