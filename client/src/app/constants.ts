@@ -80,7 +80,7 @@ export class Constants {
   public static readonly FREE_SCENE_GENERATOR_PATH: string = CCommon.BASE_URL + "/api/scene/generator";
 
   // Constants for three js
-  public static readonly FIELD_OF_VIEW:                       number = 80;
+  public static readonly FIELD_OF_VIEW:             number = 80;
   public static readonly MAX_VIEW_DISTANCE:         number = 1000;
   public static readonly MIN_VIEW_DISTANCE:         number = 0.1;
 
