@@ -3,8 +3,8 @@ import "reflect-metadata";
 import { expect } from "chai";
 import { IUser } from "../../../common/communication/iUser";
 import { Message } from "../../../common/communication/message";
-import { UserManagerService } from "../services/user-manager.service";
 import { Constants } from "../constants";
+import { UserManagerService } from "../services/user-manager.service";
 
 let userManagerService: UserManagerService;
 
