@@ -25,4 +25,8 @@ export class ChatViewService {
   public clearConversations(): void {
     this.conversation = [];
   }
+
+  public getConversationLength(): number {
+    return this.conversation.length;
+  }
 }

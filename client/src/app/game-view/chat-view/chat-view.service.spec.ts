@@ -2,6 +2,8 @@ import { TestBed } from "@angular/core/testing";
 import { IChat } from "../../../../../common/communication/iChat";
 import { ChatViewService } from "./chat-view.service";
 
+// tslint:disable:no-magic-numbers no-any
+
 const chatViewService:          ChatViewService       = new ChatViewService();
 const mockIChat:                IChat                 = {
   username: "SERVEUR",
@@ -27,4 +29,18 @@ describe("ChatViewService", () => {
     chatViewService.clearConversations();
     expect(chatViewService.getConversation().length).toBe(0);
   });
+
+  it("should return 1 for lenght of chat", () => {
+    chatViewService.updateConversation(mockIChat);
+    expect(chatViewService.getConversationLength()).toBe(1);
+  });
+
+  it("should return 4 for length of chat", () => {
+    chatViewService.updateConversation(mockIChat);
+    chatViewService.updateConversation(mockIChat);
+    chatViewService.updateConversation(mockIChat);
+    chatViewService.updateConversation(mockIChat);
+    expect(chatViewService.getConversationLength()).toBe(5);
+  });
+
 });

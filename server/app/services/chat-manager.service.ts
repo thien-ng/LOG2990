@@ -84,8 +84,7 @@ export class ChatManagerService {
 
         if (positionValue === 0) {
             position = FIRST_POSITION;
-        }
-        else if(positionValue === 1) {
+        } else if (positionValue === 1) {
             position = SECOND_POSITION;
         }
 
