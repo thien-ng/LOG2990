@@ -3,6 +3,7 @@ import "reflect-metadata";
 import { expect } from "chai";
 import { IUser } from "../../../common/communication/iUser";
 import { Message } from "../../../common/communication/message";
+import { Constants } from "../constants";
 import { UserManagerService } from "../services/user-manager.service";
 
 let userManagerService: UserManagerService;
@@ -70,7 +71,7 @@ describe("UserManagerService test", () => {
 
         const resultExpected:   Message = {
             title:          "onError",
-            body:           "Le nom doit contenir entre 4 et 15 characteres",
+            body:           Constants.NAME_FORMAT_LENGTH_ERROR,
         };
         const result: Message = userManagerService.validateName(testString);
 
@@ -83,7 +84,7 @@ describe("UserManagerService test", () => {
 
         const resultExpected:   Message = {
             title:          "onError",
-            body:           "Le nom doit contenir seulement des caracteres alphanumerics",
+            body:           Constants.USER_NAME_ERROR,
         };
         const result: Message = userManagerService.validateName(testString);
 

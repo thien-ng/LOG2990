@@ -1,6 +1,7 @@
 import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { inject } from "inversify";
 import { IUser } from "../../../../../common/communication/iUser";
+import { CCommon } from "../../../../../common/constantes/cCommon";
 import { Constants } from "../../../constants";
 import Types from "../../../types";
 import { GameManagerService } from "../game-manager.service";
@@ -113,7 +114,7 @@ export class Arena {
                 const pixelCluster: IOriginalPixelCluster | undefined = this.originalPixelClusters.get(hitConfirmation.hitPixelColor[0]);
 
                 if (pixelCluster !== undefined) {
-                    inputResponse = this.buildPlayerInputResponse(Constants.ON_SUCCESS_MESSAGE, pixelCluster);
+                    inputResponse = this.buildPlayerInputResponse(CCommon.ON_SUCCESS, pixelCluster);
                 }
                 if (this.gameIsFinished()) {
                     this.endOfGameRoutine();
@@ -123,7 +124,7 @@ export class Arena {
             return inputResponse;
         })
         .catch ((error: Error) => {
-            return this.buildPlayerInputResponse(Constants.ON_ERROR_MESSAGE, Constants.ON_ERROR_PIXEL_CLUSTER);
+            return this.buildPlayerInputResponse(CCommon.ON_ERROR, Constants.ON_ERROR_PIXEL_CLUSTER);
         });
     }
 
@@ -136,7 +137,7 @@ export class Arena {
         this.timer.startTimer();
         this.timer.getTimer().subscribe((newTime: number) => {
             this.players.forEach((player: Player) => {
-                this.gameManagerService.sendMessage(player.userSocketId, Constants.ON_TIMER_UPDATE, newTime);
+                this.gameManagerService.sendMessage(player.userSocketId, CCommon.ON_TIMER_UPDATE, newTime);
             });
         });
     }
@@ -160,7 +161,7 @@ export class Arena {
 
         if (player !== undefined) {
             player.addPoints(1);
-            this.gameManagerService.sendMessage(player.userSocketId, Constants.ON_POINT_ADDED, player.points);
+            this.gameManagerService.sendMessage(player.userSocketId, CCommon.ON_POINT_ADDED, player.points);
         }
     }
 

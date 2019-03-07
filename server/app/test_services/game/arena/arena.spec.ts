@@ -9,6 +9,7 @@ import sinon = require("sinon");
 
 import { IOriginalPixelCluster, IPlayerInputResponse, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
+import { CCommon } from "../../../../../common/constantes/cCommon";
 import { Constants } from "../../../constants";
 import { BMPBuilder } from "../../../services/difference-checker/utilities/bmpBuilder";
 import { Arena } from "../../../services/game/arena/arena";
@@ -147,7 +148,7 @@ describe("Arena tests", () => {
     it("should validate hit with a call to a microservice", async () => {
 
         const expectedResponse: IPlayerInputResponse = {
-            status:     Constants.ON_SUCCESS_MESSAGE,
+            status:     CCommon.ON_SUCCESS,
             response:   expectedPixelClusters,
         };
         const sandbox: sinon.SinonSandbox = sinon.createSandbox();
@@ -176,7 +177,7 @@ describe("Arena tests", () => {
 
     it("should return a correct PlayerInputResponse", async () => {
         const playerInputResponseExpected: IPlayerInputResponse = {
-            status:     Constants.ON_SUCCESS_MESSAGE,
+            status:     CCommon.ON_SUCCESS,
             response:   expectedPixelClusters,
         };
 
@@ -198,7 +199,7 @@ describe("Arena tests", () => {
 
     it("should return an error on problematic HitConfirmation", async () => {
         const playerInputResponseExpected: IPlayerInputResponse = {
-            status:     Constants.ON_ERROR_MESSAGE,
+            status:     CCommon.ON_ERROR,
             response:   Constants.ON_ERROR_PIXEL_CLUSTER,
         };
 

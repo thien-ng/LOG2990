@@ -5,6 +5,7 @@ import * as THREE from "three";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
 import { ISceneVariables, ISceneVariablesMessage } from "../../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../../common/communication/message";
+import { CCommon } from "../../../../../../common/constantes/cCommon";
 import { CardManagerService } from "../../../card/card-manager.service";
 import { Constants } from "../../../constants";
 import { ThreejsViewService } from "./threejs-view.service";
@@ -84,10 +85,10 @@ export class TheejsViewComponent implements OnChanges {
 
   private analyseResponse(response: Message): void {
 
-    if (response.title === Constants.ON_SUCCESS_MESSAGE) {
+    if (response.title === CCommon.ON_SUCCESS) {
       this.cardManagerService.updateCards(true);
       this.sceneGenerated.emit();
-    } else if (response.title === Constants.ON_ERROR_MESSAGE) {
+    } else if (response.title === CCommon.ON_ERROR) {
       this.openSnackBar(response.body, Constants.SNACK_ACTION);
     }
   }

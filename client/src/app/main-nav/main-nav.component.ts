@@ -7,6 +7,7 @@ import { NavigationEnd, Router } from "@angular/router";
 import { Observable, Subscription } from "rxjs";
 import { map } from "rxjs/operators";
 import { IUser } from "../../../../common/communication/iUser";
+import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../constants";
 import { CreateFreeGameComponent } from "../create-free-game/create-free-game.component";
 import { CreateSimpleGameComponent } from "../create-simple-game/create-simple-game.component";
@@ -89,7 +90,7 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.isAdminMode = activeState;
     });
 
-    this.socketService.onMsg(Constants.ON_USER_EVENT).subscribe((answer: IUser) => {
+    this.socketService.onMsg(CCommon.USER_EVENT).subscribe((answer: IUser) => {
       this.assignUser(answer);
     });
   }
