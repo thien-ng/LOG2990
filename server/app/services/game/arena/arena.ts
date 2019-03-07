@@ -33,14 +33,15 @@ export class Arena {
 
     private players:                Player[];
     public timer:                   Timer;
-    private originalPixelClusters:  Map<number, IOriginalPixelCluster>;
+    private referee:                Referee;
+    private originalElements:       Map<number, IOriginalPixelCluster>; // A BOUGER DANS LES ARENA 2D et 3D
 
     public constructor(
         private arenaInfos: IArenaInfos,
         @inject(Types.GameManagerService) public gameManagerService: GameManagerService) {
         this.players = [];
         this.createPlayers();
-        this.originalPixelClusters = new Map<number, IOriginalPixelCluster>();
+        this.originalElements = new Map<number, IOriginalPixelCluster>();
         this.timer = new Timer();
         this.pointsNeededToWin = arenaInfos.users.length === 1 ? this.POINTS_TO_WIN_SINGLE : this.POINTS_TO_WIN_MULTI;
         this.differencesFound = [];
@@ -187,7 +188,7 @@ export class Arena {
         const originalImage:    Buffer                  = await this.getImageFromUrl(this.arenaInfos.originalGameUrl);
         const differenceImage:  Buffer                  = await this.getImageFromUrl(this.arenaInfos.differenceGameUrl);
         const extractor:        DifferencesExtractor    = new DifferencesExtractor();
-        this.originalPixelClusters = extractor.extractPixelClustersFrom(originalImage, differenceImage);
+        this.originalElements = extractor.extractPixelClustersFrom(originalImage, differenceImage);
     }
 
     private async getImageFromUrl(imageUrl: string): Promise<Buffer> {
