@@ -1,4 +1,4 @@
-import * as fs from "fs";
+import * as fs from "fs-extra";
 import { Constants } from "../constants";
 
 const IMAGES_PATH:              string = "./app/asset/image";
@@ -49,6 +49,17 @@ export class AssetManagerService {
             fs.writeFileSync(path, data);
         } catch (error) {
             throw TypeError(FILE_SAVING_ERROR);
+        }
+    }
+
+    public createTempDir(): void {
+        if (!fs.existsSync(Constants.IMAGES_PATH + "/temp")) {
+            fs.mkdirSync(Constants.IMAGES_PATH + "/temp");
+        }
+    }
+    public deleteTempDir(): void {
+        if (fs.existsSync(Constants.IMAGES_PATH + "/temp")) {
+            fs.removeSync(Constants.IMAGES_PATH + "/temp");
         }
     }
 }
