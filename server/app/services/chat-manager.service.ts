@@ -2,7 +2,7 @@ import { inject, injectable } from "inversify";
 import { String } from "typescript-string-operations";
 import { IChat } from "../../../common/communication/iChat";
 import { IPlayerInputResponse } from "../../../common/communication/iGameplay";
-import { Constants } from "../constants";
+import { CCommon } from "../../../common/constantes/cCommon";
 import Types from "../types";
 import { TimeManagerService } from "./time-manager.service";
 
@@ -10,7 +10,6 @@ const LOGIN_MESSAGE: string = " vient de se connecter.";
 const LOGOUT_MESSAGE: string = " vient de se déconnecter.";
 const NEW_HIGHSCORE_MESSAGE: string = "{0} obtient la {1} place dans les meilleurs temps dujeu {2} en {3}";
 const SERVER_NAME: string = "Serveur";
-const CHAT_EVENT: string = "onChatEvent";
 const FIRST_POSITION: string = "première";
 const SECOND_POSITION: string = "deuxième";
 const THIRD_POSITION: string = "troisième";
@@ -32,7 +31,7 @@ export class ChatManagerService {
         const message: string = (isLogin) ? username + " " + LOGIN_MESSAGE : username + " " + LOGOUT_MESSAGE;
 
         const iChatMessage: IChat = this.generateMessage(SERVER_NAME, message);
-        this.server.emit(CHAT_EVENT, iChatMessage);
+        this.server.emit(CCommon.CHAT_EVENT, iChatMessage);
     }
 
     // send message too conversation list
@@ -41,7 +40,7 @@ export class ChatManagerService {
         this.socket = socket;
         // get username
         const iChatMessage: IChat = this.generateMessage(SERVER_NAME, data);
-        this.socket.emit(CHAT_EVENT, iChatMessage);
+        this.socket.emit(CCommon.CHAT_EVENT, iChatMessage);
     }
 
     // send message for highscore
@@ -63,19 +62,19 @@ export class ChatManagerService {
                                                 stringGameMode);
 
         const iChatMessage: IChat = this.generateMessage(SERVER_NAME, message);
-        this.server.emit(CHAT_EVENT, iChatMessage);
+        this.server.emit(CCommon.CHAT_EVENT, iChatMessage);
     }
 
     // send message for position validation
     public sendPositionValidationMessage(data: IPlayerInputResponse, socket: SocketIO.Socket): void {
 
         this.socket = socket;
-        // aussi doit adapter pour multi
-        const status:       string = (data.status === Constants.ON_SUCCESS_MESSAGE) ? "Différence trouvée." : "Erreur";
+        // todo: adapt message to multiplayer
+        const status:       string = (data.status === CCommon.ON_SUCCESS) ? "Différence trouvée." : "Erreur";
         const message:      string =  status;
         const iChatMessage: IChat  = this.generateMessage(SERVER_NAME, message);
 
-        this.socket.emit(CHAT_EVENT, iChatMessage);
+        this.socket.emit(CCommon.CHAT_EVENT, iChatMessage);
     }
 
     private stringifyPosition(positionValue: number): string {
