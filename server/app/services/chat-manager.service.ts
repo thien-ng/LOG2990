@@ -6,15 +6,17 @@ import { CCommon } from "../../../common/constantes/cCommon";
 import Types from "../types";
 import { TimeManagerService } from "./time-manager.service";
 
-const LOGIN_MESSAGE: string = " vient de se connecter.";
-const LOGOUT_MESSAGE: string = " vient de se déconnecter.";
-const NEW_HIGHSCORE_MESSAGE: string = "{0} obtient la {1} place dans les meilleurs temps dujeu {2} en {3}";
-const SERVER_NAME: string = "Serveur";
-const FIRST_POSITION: string = "première";
-const SECOND_POSITION: string = "deuxième";
-const THIRD_POSITION: string = "troisième";
-const SINGLE_GAMEMODE: string = "solo";
-const MULTI_GAMEMODE: string = "un contre un";
+const LOGIN_MESSAGE:            string = " vient de se connecter.";
+const LOGOUT_MESSAGE:           string = " vient de se déconnecter.";
+const NEW_HIGHSCORE_MESSAGE:    string = "{0} obtient la {1} place dans les meilleurs temps dujeu {2} en {3}";
+const SERVER_NAME:              string = "Serveur";
+const FIRST_POSITION:           string = "première";
+const SECOND_POSITION:          string = "deuxième";
+const THIRD_POSITION:           string = "troisième";
+const SINGLE_GAMEMODE:          string = "solo";
+const MULTI_GAMEMODE:           string = "un contre un";
+const FOUND_DIFFERENCE:         string = "Différence trouvée.";
+const ERROR:                    string = "Erreur";
 
 @injectable()
 export class ChatManagerService {
@@ -70,7 +72,7 @@ export class ChatManagerService {
 
         this.socket = socket;
         // to do: adapt message to multiplayer
-        const status:       string = (data.status === CCommon.ON_SUCCESS) ? "Différence trouvée." : "Erreur";
+        const status:       string = (data.status === CCommon.ON_SUCCESS) ? FOUND_DIFFERENCE : ERROR;
         const message:      string =  status;
         const iChatMessage: IChat  = this.generateMessage(SERVER_NAME, message);
 
