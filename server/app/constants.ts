@@ -53,7 +53,7 @@ export class Constants {
   // Constants for user manager service
   public static readonly USER_NOT_FOUND:            string = "Utilisateur inexistant";
   public static readonly NAME_FORMAT_LENGTH_ERROR:  string = "Le nom doit contenir entre 4 et 15 characteres";
-  public static readonly USER_NAME_ERROR:   string = "Le nom doit contenir seulement des caracteres alphanumériques";
+  public static readonly USER_NAME_ERROR:           string = "Le nom doit contenir seulement des caracteres alphanumériques";
 
   // Constants for arena.ts
   public static readonly FF:                        number = 255;

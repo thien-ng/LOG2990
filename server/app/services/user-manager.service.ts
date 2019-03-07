@@ -83,7 +83,7 @@ export class UserManagerService {
         const regex: RegExp = new RegExp(CCommon.REGEX_PATTERN_ALPHANUM);
 
         if (username.length < CCommon.MIN_NAME_LENGTH || username.length > CCommon.MAX_NAME_LENGTH) {
-            return this.generateMessage(CCommon.ON_ERROR, Constants.USER_NAME_ERROR);
+            return this.generateMessage(CCommon.ON_ERROR, Constants.NAME_FORMAT_LENGTH_ERROR);
         }
 
         if (!regex.test(username)) {
