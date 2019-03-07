@@ -21,7 +21,7 @@ export class ThreejsViewService {
 
   private init(): void {
     this.camera = new THREE.PerspectiveCamera(
-      Constants.FOV,
+      Constants.FIELD_OF_VIEW,
       window.innerWidth / window.innerHeight,
       Constants.MIN_VIEW_DISTANCE,
       Constants.MAX_VIEW_DISTANCE,

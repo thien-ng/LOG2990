@@ -3,6 +3,7 @@ import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/form
 import { ErrorStateMatcher, MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import { Message } from "../../../../../common/communication/message";
+import { CCommon } from "../../../../../common/constantes/cCommon";
 import { Constants } from "../../constants";
 import { SocketService } from "../../websocket/socket.service";
 import { LoginValidatorService } from "../login-validator.service";
@@ -24,7 +25,7 @@ export class LoginValidatorComponent {
   public readonly HINT_USERNAME:  string = "Nom d'utilisateur";
   public readonly HINT:           string = "Veuillez entrer un alias";
   public readonly ERROR_PATTERN:  string = "Caractères autorisés: A-Z, a-z, 0-9";
-  public readonly ERROR_SIZE:     string = "Taille: " + Constants.MIN_LENGTH + "-" + Constants.MAX_LENGTH + " caractères";
+  public readonly ERROR_SIZE:     string = "Taille: " + CCommon.MIN_NAME_LENGTH + "-" + CCommon.MAX_NAME_LENGTH + " caractères";
   public readonly ERROR_REQUIRED: string = "Nom d'utilisateur requis";
   public readonly BUTTON_SUBMIT:  string = "Soumettre";
 
@@ -41,24 +42,24 @@ export class LoginValidatorComponent {
 
   public usernameFormControl: FormControl = new FormControl("", [
     Validators.required,
-    Validators.pattern(Constants.REGEX_PATTERN),
-    Validators.minLength(Constants.MIN_LENGTH),
-    Validators.maxLength(Constants.MAX_LENGTH),
+    Validators.pattern(CCommon.REGEX_PATTERN_ALPHANUM),
+    Validators.minLength(CCommon.MIN_NAME_LENGTH),
+    Validators.maxLength(CCommon.MAX_NAME_LENGTH),
   ]);
 
   public addUsername(): void {
     if (this.usernameFormControl.errors === null) {
       this.loginValidatorService.addUsername(this.usernameFormControl.value).subscribe(async (response: Message) => {
 
-        if (response.title === Constants.ON_ERROR_MESSAGE) {
+        if (response.title === CCommon.ON_ERROR) {
           this.displaySnackBar(response.body, Constants.SNACK_ACTION);
 
           return;
         }
 
-        if (response.body === Constants.IS_UNIQUE) {
+        if (response.body === CCommon.IS_UNIQUE) {
           this.displayNameIsUnique();
-          this.socketService.sendMsg(Constants.LOGIN_REQUEST, this.usernameFormControl.value);
+          this.socketService.sendMsg(CCommon.LOGIN_EVENT, this.usernameFormControl.value);
           await this.router.navigate([Constants.ROUTER_LOGIN]);
         } else {
           this.displayNameNotUnique();

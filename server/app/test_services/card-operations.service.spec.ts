@@ -4,6 +4,7 @@ import * as chai from "chai";
 import * as spies from "chai-spies";
 import { GameMode, ICard } from "../../../common/communication/iCard";
 import { Message } from "../../../common/communication/message";
+import { CCommon } from "../../../common/constantes/cCommon";
 import { Constants } from "../constants";
 import { AssetManagerService } from "../services/asset-manager.service";
 import { CardOperations } from "../services/card-operations.service";
@@ -11,7 +12,7 @@ import { HighscoreService } from "../services/highscore.service";
 
 /*tslint:disable no-magic-numbers no-any */
 
-const FAKE_PATH:        string = Constants.BASE_URL + "/image";
+const FAKE_PATH:        string = CCommon.BASE_URL + "/image";
 const CARD_NOT_FOUND:   string = "Erreur de suppression, carte pas trouvée";
 
 let highscoreService:   HighscoreService;
@@ -137,8 +138,8 @@ describe("Card-operations tests", () => {
     });
 
     it("should delete card 2D", () => {
-        const originalImagePath:    string              = Constants.IMAGES_PATH + "/" + 4 + Constants.ORIGINAL_FILE;
-        const modifiedImagePath:    string              = Constants.IMAGES_PATH + "/" + 4 + Constants.MODIFIED_FILE;
+        const originalImagePath:    string              = Constants.IMAGES_PATH + "/" + 4 + CCommon.ORIGINAL_FILE;
+        const modifiedImagePath:    string              = Constants.IMAGES_PATH + "/" + 4 + CCommon.MODIFIED_FILE;
         const generatedImagePath:   string              = Constants.IMAGES_PATH + "/" + 4 + Constants.GENERATED_FILE;
         const assetManager:         AssetManagerService = new AssetManagerService();
 
@@ -168,7 +169,7 @@ describe("Card-operations tests", () => {
         const error:    SyntaxError = new SyntaxError();
         const result:   Message     = cardOperations.generateErrorMessage(error);
 
-        chai.expect(result).to.deep.equal({title: Constants.ON_ERROR_MESSAGE, body: Constants.UNKNOWN_ERROR});
+        chai.expect(result).to.deep.equal({title: CCommon.ON_ERROR, body: Constants.UNKNOWN_ERROR});
     });
 
 });

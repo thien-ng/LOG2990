@@ -5,6 +5,7 @@ import { ICardLists } from "../../../common/communication/iCardLists";
 import { ISceneMessage } from "../../../common/communication/iSceneMessage";
 import { ISceneVariablesMessage } from "../../../common/communication/iSceneVariables";
 import { Message } from "../../../common/communication/message";
+import { CCommon } from "../../../common/constantes/cCommon";
 import { Constants } from "../constants";
 import Types from "../types";
 import { AssetManagerService } from "./asset-manager.service";
@@ -37,7 +38,7 @@ export class CardManagerService {
 
     public async simpleCardCreationRoutine(requirements: ImageRequirements, cardTitle: string): Promise<Message> {
         const nameValidationStatus: Message = this.validateCardTitle(cardTitle);
-        if (nameValidationStatus.title === Constants.ERROR_TITLE) {
+        if (nameValidationStatus.title === CCommon.ON_ERROR) {
             return nameValidationStatus;
         }
 
@@ -45,7 +46,7 @@ export class CardManagerService {
         this.modifiedImageRequest = requirements.modifiedImage;
 
         let returnValue: Message = {
-            title:  Constants.ON_ERROR_MESSAGE,
+            title:  CCommon.ON_ERROR,
             body:   Constants.VALIDATION_FAILED,
         };
         try {
@@ -73,8 +74,8 @@ export class CardManagerService {
             gamemode:       GameMode.free,
             title:          body.iSceneVariablesMessage.originalScene.gameName,
             subtitle:       body.iSceneVariablesMessage.originalScene.gameName,
-            avatarImageUrl: Constants.BASE_URL + "/image" + sceneImage,
-            gameImageUrl:   Constants.BASE_URL + "/image" + sceneImage,
+            avatarImageUrl: CCommon.BASE_URL + "/image" + sceneImage,
+            gameImageUrl:   CCommon.BASE_URL + "/image" + sceneImage,
         };
 
         return this.generateMessage(cardReceived);
@@ -88,12 +89,12 @@ export class CardManagerService {
     private generateMessage(cardReceived: ICard): Message {
         if (this.cardOperations.addCard3D(cardReceived)) {
             return {
-                title:  Constants.ON_SUCCESS_MESSAGE,
+                title:  CCommon.ON_SUCCESS,
                 body:   Constants.CARD_ADDED,
             } as Message;
         } else {
             return {
-                title:  Constants.ON_ERROR_MESSAGE,
+                title:  CCommon.ON_ERROR,
                 body:   Constants.CARD_EXISTING,
             } as Message;
         }
@@ -105,8 +106,8 @@ export class CardManagerService {
             return result;
         } else {
             const cardId:               number = this.generateId();
-            const originalImagePath:    string = "/" + cardId + Constants.ORIGINAL_FILE;
-            const modifiedImagePath:    string = "/" + cardId + Constants.MODIFIED_FILE;
+            const originalImagePath:    string = "/" + cardId + CCommon.ORIGINAL_FILE;
+            const modifiedImagePath:    string = "/" + cardId + CCommon.MODIFIED_FILE;
             this.imageManagerService.stockImage(Constants.IMAGES_PATH + originalImagePath, this.originalImageRequest);
             this.imageManagerService.stockImage(Constants.IMAGES_PATH + modifiedImagePath, this.modifiedImageRequest);
             this.imageManagerService.createBMP(result, cardId);
@@ -115,8 +116,8 @@ export class CardManagerService {
                     gameID:         cardId,
                     title:          cardTitle,
                     subtitle:       cardTitle,
-                    avatarImageUrl: Constants.BASE_URL + "/image" + originalImagePath,
-                    gameImageUrl:   Constants.BASE_URL + "/image" + originalImagePath,
+                    avatarImageUrl: CCommon.BASE_URL + "/image" + originalImagePath,
+                    gameImageUrl:   CCommon.BASE_URL + "/image" + originalImagePath,
                     gamemode:       GameMode.simple,
             };
 
@@ -127,12 +128,12 @@ export class CardManagerService {
     private verifyCard(card: ICard): Message {
         if (this.cardOperations.addCard2D(card)) {
             return {
-                title:  Constants.ON_SUCCESS_MESSAGE,
+                title:  CCommon.ON_SUCCESS,
                 body:   "Card " + card.gameID + " created",
             } as Message;
         } else {
             return {
-                title:  Constants.ON_ERROR_MESSAGE,
+                title:  CCommon.ON_ERROR,
                 body:   Constants.CARD_EXISTING,
             } as Message;
         }
@@ -166,7 +167,7 @@ export class CardManagerService {
         const errorMessage: string  = isTypeError ? error.message : Constants.UNKNOWN_ERROR;
 
         return {
-            title:  Constants.ON_ERROR_MESSAGE,
+            title:  CCommon.ON_ERROR,
             body:   errorMessage,
         };
     }
@@ -174,22 +175,22 @@ export class CardManagerService {
     private validateCardTitle(cardTitle: string): Message {
 
         if (!this.titleIsValid(cardTitle)) {
-            return this.buildValidatorMessage(Constants.ERROR_TITLE, Constants.GAME_FORMAT_LENTGH_ERROR);
+            return this.buildValidatorMessage(CCommon.ON_ERROR, Constants.GAME_FORMAT_LENTGH_ERROR);
         }
 
         if (this.formatIsValid(cardTitle)) {
-            return this.buildValidatorMessage(Constants.ERROR_TITLE, Constants.GAME_FORMAT_REGEX_ERROR);
+            return this.buildValidatorMessage(CCommon.ON_ERROR, Constants.GAME_NAME_ERROR);
         }
 
-        return this.buildValidatorMessage(Constants.SUCCESS_TITLE, Constants.GAME_TITLE_IS_CORRECT);
+        return this.buildValidatorMessage(CCommon.ON_SUCCESS, Constants.GAME_TITLE_IS_CORRECT);
     }
 
     private titleIsValid(cardTitle: string): boolean {
-        return !(cardTitle.length < Constants.MIN_GAME_LENGTH || cardTitle.length > Constants.MAX_GAME_LENGTH);
+        return !(cardTitle.length < CCommon.MIN_GAME_LENGTH || cardTitle.length > CCommon.MAX_GAME_LENGTH);
     }
 
     private formatIsValid(cardTitle: string): boolean {
-        const regex: RegExp = new RegExp(Constants.GAME_REGEX_PATTERN);
+        const regex: RegExp = new RegExp(CCommon.REGEX_PATTERN_ALPHANUM);
 
         return !regex.test(cardTitle);
     }

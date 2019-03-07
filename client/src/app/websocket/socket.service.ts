@@ -3,6 +3,7 @@ import { Observable } from "rxjs";
 import * as io from "socket.io-client";
 import { IChat } from "../../../../common/communication/iChat";
 import { IPlayerInputResponse } from "../../../../common/communication/iGameplay";
+import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../constants";
 import { ChatViewService } from "../game-view/chat-view/chat-view.service";
 import { DifferenceCounterService } from "../game-view/difference-counter/difference-counter.service";
@@ -29,7 +30,7 @@ export class SocketService {
 
     this.socket.addEventListener(Constants.ON_CONNECT, () => {
 
-      this.socket.on(Constants.ON_ARENA_RESPONSE, (data: IPlayerInputResponse) => {
+      this.socket.on(CCommon.ON_ARENA_RESPONSE, (data: IPlayerInputResponse) => {
         this.gameViewSimpleService.onArenaResponse(data);
       });
 
@@ -37,11 +38,11 @@ export class SocketService {
         this.chatViewService.updateConversation(data);
       });
 
-      this.socket.on(Constants.ON_TIMER_UPDATE, (data: number) => {
+      this.socket.on(CCommon.ON_TIMER_UPDATE, (data: number) => {
         this.timerService.timeFormat(data);
       });
 
-      this.socket.on(Constants.ON_POINT_ADDED, ((newPoints: number) => {
+      this.socket.on(CCommon.ON_POINT_ADDED, ((newPoints: number) => {
         this.differenceCounterService.updateCounter(newPoints);
       }));
     });
