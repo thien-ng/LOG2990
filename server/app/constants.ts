@@ -26,6 +26,7 @@ export class Constants {
   public static readonly CARD_DELETED:              string = "Carte supprimée";
   public static readonly CARD_ADDED:                string = "Carte ajoutée";
   public static readonly IMAGES_PATH:               string = "./app/asset/image";
+  public static readonly TEMP_IMAGES_PATH:          string = Constants.IMAGES_PATH + "/temp";
   public static readonly SCENE_PATH:                string = "./app/asset/scene";
   public static readonly CARD_NOT_FOUND:            string = "Erreur de suppression, carte pas trouvée";
   public static readonly REQUIRED_HEIGHT:           number = 480;

@@ -51,4 +51,8 @@ export class AssetManagerService {
             throw TypeError(FILE_SAVING_ERROR);
         }
     }
+
+    public copyFile(sourcePath: string): void {
+        fs.copyFileSync(sourcePath, Constants.TEMP_IMAGES_PATH);
+    }
 }
