@@ -1,7 +1,7 @@
-import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import { /*AxiosError,*/ AxiosInstance, AxiosResponse } from "axios";
 import { inject } from "inversify";
 import { IUser } from "../../../../../common/communication/iUser";
-import { CCommon } from "../../../../../common/constantes/cCommon";
+// import { CCommon } from "../../../../../common/constantes/cCommon";
 import { Constants } from "../../../constants";
 import Types from "../../../types";
 import { GameManagerService } from "../game-manager.service";
@@ -15,10 +15,12 @@ import {
 } from "../../../../../common/communication/iGameplay";
 import {
     IArenaInfos,
+    // IHitConfirmation,
+    // IHitToValidate,
     IHitConfirmation,
-    IHitToValidate,
     IPlayerInput,
 } from "./interfaces";
+import { Referee } from "./referee";
 import { Timer } from "./timer";
 
 const axios: AxiosInstance = require("axios");
@@ -26,14 +28,9 @@ const axios: AxiosInstance = require("axios");
 export class Arena {
 
     private readonly ERROR_ON_HTTPGET:      string = "Didn't succeed to get image buffer from URL given. File: arena.ts.";
-    private readonly ERROR_HIT_VALIDATION:  string = "Problem during Hit Validation process.";
     private readonly ON_FAILED_CLICK:       string = "onFailedClick";
     private readonly USER_EVENT:            string = "onClick";
-    private readonly POINTS_TO_WIN_SINGLE:  number = 7;
-    private readonly POINTS_TO_WIN_MULTI:   number = 4;
 
-    private pointsNeededToWin:      number;
-    private differencesFound:       number[];
     private players:                Player[];
     public timer:                   Timer;
     private originalPixelClusters:  Map<number, IOriginalPixelCluster>;
