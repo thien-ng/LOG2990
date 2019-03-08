@@ -130,7 +130,7 @@ describe("ChatManagerService Tests", () => {
                 differenceKey: 1,
                 cluster: [
                     {
-                        color: {R: 1, G: 1, B: 1},
+                        color:    {R: 1, G: 1, B: 1},
                         position: {x: 1, y: 1},
                     },
                 ],
@@ -153,7 +153,7 @@ describe("ChatManagerService Tests", () => {
                 differenceKey: 1,
                 cluster: [
                     {
-                        color: {R: 1, G: 1, B: 1},
+                        color:    {R: 1, G: 1, B: 1},
                         position: {x: 1, y: 1},
                     },
                 ],

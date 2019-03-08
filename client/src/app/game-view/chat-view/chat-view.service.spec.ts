@@ -4,7 +4,7 @@ import { ChatViewService } from "./chat-view.service";
 
 // tslint:disable:no-magic-numbers no-any
 
-const chatViewService:          ChatViewService       = new ChatViewService();
+let chatViewService:          ChatViewService       = new ChatViewService();
 const mockIChat:                IChat                 = {
   username: "SERVEUR",
   message: "message",
@@ -35,12 +35,13 @@ describe("ChatViewService", () => {
     expect(chatViewService.getConversationLength()).toBe(1);
   });
 
-  it("should return 5 for length of chat", () => {
+  it("should return 4 for length of chat", () => {
+    chatViewService = new ChatViewService();
     chatViewService.updateConversation(mockIChat);
     chatViewService.updateConversation(mockIChat);
     chatViewService.updateConversation(mockIChat);
     chatViewService.updateConversation(mockIChat);
-    expect(chatViewService.getConversationLength()).toBe(5);
+    expect(chatViewService.getConversationLength()).toBe(4);
   });
 
 });
