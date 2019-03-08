@@ -1,3 +1,4 @@
+import { AxiosInstance, AxiosResponse } from "axios";
 import { inject } from "inversify";
 import { IUser } from "../../../../../common/communication/iUser";
 import { Constants } from "../../../constants";
