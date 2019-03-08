@@ -19,7 +19,7 @@ import { IOriginalPixelCluster, IPlayerInputResponse, IPosition2D } from "../../
 import { IUser } from "../../../../../common/communication/iUser";
 import { IArenaInfos, IHitConfirmation, IPlayerInput } from "../../../services/game/arena/interfaces";
 
-// tslint:disable:no-magic-numbers no-any max-file-line-count
+// tslint:disable:no-magic-numbers no-any max-file-line-count no-empty
 
 const activeUser: IUser = {
     username: "mike",
@@ -97,9 +97,7 @@ describe("Arena tests", () => {
 
         await arena.prepareArenaForGameplay()
         .then(() => { /* */ })
-        .catch((error: Error) => {
-            // errorMessage = error.message;
-        });
+        .catch((error: Error) => {});
 
         arena["referee"].timer.stopTimer();
 

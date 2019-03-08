@@ -24,4 +24,5 @@ export class CCommon {
     public static readonly GAME_DISCONNECT:           string = "onGameDisconnect";
     public static readonly LOGIN_EVENT:               string = "onLogin";
     public static readonly USER_EVENT:                string = "onNewUser";
+    public static readonly CHAT_EVENT:                string = "onChatEvent";
 }

@@ -48,7 +48,12 @@ export class Constants {
 
   // Constants for socket.service.ts
   public static readonly ON_CONNECT:                string = "connect";
+  public static readonly ON_ARENA_RESPONSE:         string = "onArenaResponse";
   public static readonly ON_GAME_FREE_DATA:         string = "onGameFreeData";
+  public static readonly ON_USER_EVENT:             string = "onNewUser";
+  public static readonly ON_POINT_ADDED:            string = "onPointAdded";
+  public static readonly ON_RETRIEVE_USER:          string = "onRetrieveUser";
+  public static readonly ON_TIMER_UPDATE:           string = "onTimerUpdate";
 
   // Constants for game-view-simple.service.ts
   public static readonly ON_POSITION_VALIDATION:    string = "onPositionValidation";
