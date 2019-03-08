@@ -83,18 +83,9 @@ export class Arena {
     }
 
     public async onPlayerClick(position: IPosition2D, user: IUser): Promise<IPlayerInputResponse> {
-
         return this.referee.onPlayerClick(position, user);
     }
 
-    private initTimer(): void {
-        this.timer.startTimer();
-        this.timer.getTimer().subscribe((newTime: number) => {
-            this.players.forEach((player: Player) => {
-                this.gameManagerService.sendMessage(player.userSocketId, CCommon.ON_TIMER_UPDATE, newTime);
-            });
-        });
-    }
 
     private endOfGameRoutine(): void {
         this.timer.stopTimer();
