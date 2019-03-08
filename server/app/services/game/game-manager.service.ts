@@ -63,6 +63,7 @@ export class GameManagerService {
     private async create2DArena(user: IUser, gameId: number): Promise<Message> {
 
         const arenaInfo: IArenaInfos = this.buildArenaInfos(user, gameId);
+        this.tempRoutine(gameId);
         this.arena = new Arena(arenaInfo, this);
         this.init2DArena().catch(() => Constants.INIT_ARENA_ERROR);
         this.arenas.set(arenaInfo.arenaId, this.arena);
@@ -71,6 +72,21 @@ export class GameManagerService {
             title:  CCommon.ON_SUCCESS,
             body:   arenaInfo.arenaId.toString(),
         };
+    }
+
+    private tempRoutine(gameId: number): void {
+    try {
+        this.assetManager.copyFileToTemp(Constants.IMAGES_PATH + "/" + gameId + Constants.GENERATED_FILE, gameId, Constants.GENERATED_FILE);
+        this.assetManager.copyFileToTemp(Constants.IMAGES_PATH + "/" + gameId + CCommon.ORIGINAL_FILE, gameId, CCommon.ORIGINAL_FILE);
+        const arenaAlive: number | undefined =  this.countByGameId.get(gameId);
+        if (arenaAlive !== undefined) {
+                this.countByGameId.set(gameId, arenaAlive + 1);
+            } else {
+            this.countByGameId.set(gameId, 1);
+        }
+        } catch (error) {
+            throw new TypeError();
+        }
     }
 
     private async init2DArena(): Promise<void> {
