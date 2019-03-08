@@ -274,13 +274,11 @@ describe("Arena tests", () => {
         clock.restore();
     });
 
-    it("should set the right number of points to win depending on number of players", () => {
+    it("should set the right number of points to win depending on number of players", async () => {
 
+        gameManager = new GameManagerService(new UserManagerService());
         arenaInfo.users = [activeUser, activeUser];
-        arena           = new Arena(arenaInfo, gameManager);
-        arena.timer.stopTimer();
 
-        const pointsNeededToWin: number = arena["pointsNeededToWin"];
         arena       = new Arena(arenaInfo, gameManager);
         mockAxios   = new MockAdapter.default(axios);
 
