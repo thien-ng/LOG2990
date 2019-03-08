@@ -108,4 +108,8 @@ export class Referee {
         }
     }
 
+    private isAnUndiscoveredDifference(differenceIndex: number): boolean {
+        return this.differencesFound.indexOf(differenceIndex) < 0;
+    }
+
 }
