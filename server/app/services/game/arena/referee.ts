@@ -133,4 +133,12 @@ export class Referee {
         };
     }
 
+    private buildPostData(position: IPosition2D): IHitToValidate {
+        return {
+            position:       position,
+            imageUrl:       this.arenaInfos.differenceGameUrl,
+            colorToIgnore:  Constants.WHITE,
+        };
+    }
+
 }
