@@ -268,7 +268,7 @@ describe("Arena tests", () => {
         const clock:    any = sinon.useFakeTimers();
         const spy:      any = chai.spy.on(arena.gameManagerService, "sendMessage");
 
-        arena["initTimer"]();
+        arena["referee"]["initTimer"]();
         clock.tick(1010);
         chai.expect(spy).to.have.been.called();
         clock.restore();
