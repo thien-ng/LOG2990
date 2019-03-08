@@ -17,18 +17,16 @@ const axios: AxiosInstance = require("axios");
 
 export class Arena {
 
-    private readonly ERROR_ON_HTTPGET:      string = "Didn't succeed to get image buffer from URL given. File: arena.ts.";
-    private readonly ON_FAILED_CLICK:       string = "onFailedClick";
-    private readonly ON_PLAYER_CLICK:       string = "onClick";
+    private readonly ERROR_ON_HTTPGET:  string = "Didn't succeed to get image buffer from URL given. File: arena.ts.";
+    private readonly ON_FAILED_CLICK:   string = "onFailedClick";
+    private readonly ON_PLAYER_CLICK:   string = "onClick";
 
-    private players:                Player[];
-    public  timer:                  Timer;
-    private referee:                Referee;
-    private originalElements:       Map<number, IOriginalPixelCluster>; // A BOUGER DANS LES ARENA 2D et 3D
+    private players:            Player[];
+    public  timer:              Timer;
+    private referee:            Referee;
+    private originalElements:   Map<number, IOriginalPixelCluster>; // A BOUGER DANS LES ARENA 2D et 3D
 
-    public constructor(
-        private arenaInfos: IArenaInfos,
-        @inject(Types.GameManagerService) public gameManagerService: GameManagerService) {
+    public constructor(private arenaInfos: IArenaInfos, @inject(Types.GameManagerService) public gameManagerService: GameManagerService) {
         this.players = [];
         this.createPlayers();
         this.originalElements = new Map<number, IOriginalPixelCluster>();
