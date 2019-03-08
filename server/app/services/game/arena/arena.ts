@@ -29,8 +29,8 @@ export class Arena {
     public constructor(private arenaInfos: IArenaInfos, @inject(Types.GameManagerService) public gameManagerService: GameManagerService) {
         this.players = [];
         this.createPlayers();
-        this.originalElements = new Map<number, IOriginalPixelCluster>();
-        this.timer = new Timer();
+        this.originalElements   = new Map<number, IOriginalPixelCluster>();
+        this.timer              = new Timer();
     }
 
     public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {
