@@ -281,6 +281,26 @@ describe("Arena tests", () => {
         arena.timer.stopTimer();
 
         const pointsNeededToWin: number = arena["pointsNeededToWin"];
+        arena       = new Arena(arenaInfo, gameManager);
+        mockAxios   = new MockAdapter.default(axios);
+
+        const builder:          BMPBuilder  = new BMPBuilder(4, 4, 100);
+        const bufferOriginal:   Buffer      = Buffer.from(builder.buffer);
+        builder.setColorAtPos(1, 1, 1, 1, 1);
+        const bufferDifferences: Buffer     = Buffer.from(builder.buffer);
+
+        mockAxios.onGet(arenaInfo.originalGameUrl).replyOnce(200,   () => bufferOriginal );
+        mockAxios.onGet(arenaInfo.differenceGameUrl).replyOnce(200, () => bufferDifferences );
+
+        await arena.prepareArenaForGameplay()
+        .then(() => { /* */ })
+        .catch((error: Error) => {
+            // errorMessage = error.message;
+        });
+
+        arena["referee"].timer.stopTimer();
+
+        const pointsNeededToWin: number = arena["referee"]["pointsNeededToWin"];
 
         chai.expect(pointsNeededToWin).to.equal(4);
     });
