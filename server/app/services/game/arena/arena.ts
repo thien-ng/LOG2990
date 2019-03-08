@@ -159,15 +159,6 @@ export class Arena {
             });
     }
 
-    private buildPostConfig(): AxiosRequestConfig {
-        return {
-            headers: {
-                "Content-Type": "application/json;charset=UTF-8",
-                "Access-Control-Allow-Origin": "*",
-            },
-        };
-    }
-
     private createPlayers(): void {
         this.arenaInfos.users.forEach((user: IUser) => {
             this.players.push(new Player(user));
