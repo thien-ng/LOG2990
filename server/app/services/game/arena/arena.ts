@@ -159,14 +159,6 @@ export class Arena {
             });
     }
 
-    private buildPostData(position: IPosition2D): IHitToValidate {
-        return {
-            position:       position,
-            imageUrl:       this.arenaInfos.differenceGameUrl,
-            colorToIgnore:  Constants.WHITE,
-        };
-    }
-
     private buildPostConfig(): AxiosRequestConfig {
         return {
             headers: {
