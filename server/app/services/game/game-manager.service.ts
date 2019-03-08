@@ -7,6 +7,7 @@ import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../../constants";
 import Types from "../../types";
+import { AssetManagerService } from "../asset-manager.service";
 import { UserManagerService } from "../user-manager.service";
 import { Arena } from "./arena/arena";
 import { IArenaInfos, IPlayerInput } from "./arena/interfaces";
@@ -19,15 +20,21 @@ const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey:
 @injectable()
 export class GameManagerService {
 
-    private arenaID:    number;
-    private playerList: Map<string, SocketIO.Socket>;
-    private arenas:     Map<number, Arena>;
-    public arena:       Arena;
+    private arenaID:       number;
+    private playerList:    Map<string, SocketIO.Socket>;
+    private arenas:        Map<number, Arena>;
+    private gameIdByArena: Map<number, number>;
+    public  arena:         Arena;
+    private assetManager:  AssetManagerService;
+    private countByGameId: Map<number, number>;
 
     public constructor(@inject(Types.UserManagerService) private userManagerService: UserManagerService) {
         this.playerList = new Map<string, SocketIO.Socket>();
         this.arenas     = new Map<number, Arena>();
         this.arenaID    = ARENA_START_ID;
+        this.assetManager = new AssetManagerService();
+        this.countByGameId = new Map<number, number>();
+        this.gameIdByArena = new Map<number, number>();
     }
 
     private returnError(errorMessage: string): Message {
