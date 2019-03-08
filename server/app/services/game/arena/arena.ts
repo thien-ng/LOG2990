@@ -83,11 +83,6 @@ export class Arena {
         return this.referee.onPlayerClick(position, user);
     }
 
-
-    private endOfGameRoutine(): void {
-        this.timer.stopTimer();
-    }
-
     private addToDifferencesFound(differenceIndex: number): void {
         this.differencesFound.push(differenceIndex);
     }
