@@ -1,12 +1,14 @@
 import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import { IOriginalPixelCluster, IPlayerInputResponse, IPosition2D } from "../../../../../common/communication/iGameplay";
-import { IUser } from "../../../../../common/communication/iUser";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { Constants } from "../../../constants";
+
 import { Arena } from "./arena";
-import { IArenaInfos, IHitConfirmation, IHitToValidate } from "./interfaces";
 import { Player } from "./player";
 import { Timer } from "./timer";
+
+import { IOriginalPixelCluster, IPlayerInputResponse, IPosition2D } from "../../../../../common/communication/iGameplay";
+import { IUser } from "../../../../../common/communication/iUser";
+import { IArenaInfos, IHitConfirmation, IHitToValidate } from "./interfaces";
 
 const axios: AxiosInstance = require("axios");
 
