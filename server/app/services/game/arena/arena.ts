@@ -32,7 +32,7 @@ export class Arena {
     private readonly ON_PLAYER_CLICK:       string = "onClick";
 
     private players:                Player[];
-    public timer:                   Timer;
+    public  timer:                  Timer;
     private referee:                Referee;
     private originalElements:       Map<number, IOriginalPixelCluster>; // A BOUGER DANS LES ARENA 2D et 3D
 
