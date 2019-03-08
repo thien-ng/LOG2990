@@ -126,4 +126,11 @@ export class Referee {
         this.timer.stopTimer();
     }
 
+    private buildPlayerInputResponse(status: string, response: IOriginalPixelCluster): IPlayerInputResponse {
+        return {
+            status: status,
+            response: response,
+        };
+    }
+
 }
