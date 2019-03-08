@@ -6,17 +6,18 @@ import * as fs from "fs";
 import * as path from "path";
 import { of } from "rxjs/index";
 import sinon = require("sinon");
-
-import { IOriginalPixelCluster, IPlayerInputResponse, IPosition2D } from "../../../../../common/communication/iGameplay";
-import { IUser } from "../../../../../common/communication/iUser";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { Constants } from "../../../constants";
+
 import { BMPBuilder } from "../../../services/difference-checker/utilities/bmpBuilder";
 import { Arena } from "../../../services/game/arena/arena";
-import { IArenaInfos, IHitConfirmation, IPlayerInput } from "../../../services/game/arena/interfaces";
 import { Player } from "../../../services/game/arena/player";
 import { GameManagerService } from "../../../services/game/game-manager.service";
 import { UserManagerService } from "../../../services/user-manager.service";
+
+import { IOriginalPixelCluster, IPlayerInputResponse, IPosition2D } from "../../../../../common/communication/iGameplay";
+import { IUser } from "../../../../../common/communication/iUser";
+import { IArenaInfos, IHitConfirmation, IPlayerInput } from "../../../services/game/arena/interfaces";
 
 // tslint:disable:no-magic-numbers no-any max-file-line-count
 
