@@ -115,10 +115,8 @@ export class Referee {
 
     private gameIsFinished(): boolean {
 
-        const playerHasReachPointsNeeded: boolean = this.players.some((player: Player) => {
-            return player.points >= this.pointsNeededToWin;
-        });
-        const differenceAreAllFound: boolean = this.differencesFound.length >= this.originalElements.size;
+        const playerHasReachPointsNeeded:   boolean = this.players.some((player: Player) => player.points >= this.pointsNeededToWin );
+        const differenceAreAllFound:        boolean = this.differencesFound.length >= this.originalElements.size;
 
         return playerHasReachPointsNeeded || differenceAreAllFound;
     }
