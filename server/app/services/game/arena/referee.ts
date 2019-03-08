@@ -35,4 +35,13 @@ export class Referee {
         this.initTimer();
     }
 
+    private initTimer(): void {
+        this.timer.startTimer();
+        this.timer.getTimer().subscribe((newTime: number) => {
+            this.players.forEach((player: Player) => {
+                this.arena.sendMessage(player.userSocketId, CCommon.ON_TIMER_UPDATE, newTime);
+            });
+        });
+    }
+
 }
