@@ -52,7 +52,15 @@ export class AssetManagerService {
         }
     }
 
-    public copyFile(sourcePath: string): void {
-        fs.copyFileSync(sourcePath, Constants.TEMP_IMAGES_PATH);
+    public copyFileToTemp(sourcePath: string, gameid: number, type: string): void {
+        const imgPathTemp: string = Constants.TEMP_IMAGES_PATH + gameid + type;
+        if (!fs.existsSync(imgPathTemp) && fs.existsSync(sourcePath)) {
+            try {
+                fs.copyFileSync(sourcePath, imgPathTemp);
+            } catch (error) {
+                throw new TypeError(FILE_GENERATION_ERROR);
+            }
+        }
+    }
     }
 }
