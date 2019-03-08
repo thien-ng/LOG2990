@@ -16,12 +16,11 @@ export class Referee {
 
     private readonly ERROR_HIT_VALIDATION:  string = "Problem during Hit Validation process.";
     private readonly ON_FAILED_CLICK:       string = "onFailedClick";
-
     private readonly POINTS_TO_WIN_SINGLE:  number = 7;
     private readonly POINTS_TO_WIN_MULTI:   number = 4;
 
-    private differencesFound:       number[];
-    private pointsNeededToWin:      number;
+    private differencesFound:   number[];
+    private pointsNeededToWin:  number;
 
     public constructor(public  arena:               Arena,
                        private players:             Player[],
@@ -130,8 +129,8 @@ export class Referee {
 
     private buildPlayerInputResponse(status: string, response: IOriginalPixelCluster): IPlayerInputResponse {
         return {
-            status: status,
-            response: response,
+            status:     status,
+            response:   response,
         };
     }
 
@@ -146,8 +145,8 @@ export class Referee {
     private buildPostConfig(): AxiosRequestConfig {
         return {
             headers: {
-                "Content-Type": "application/json;charset=UTF-8",
-                "Access-Control-Allow-Origin": "*",
+                "Content-Type":                 "application/json;charset=UTF-8",
+                "Access-Control-Allow-Origin":  "*",
             },
         };
     }
