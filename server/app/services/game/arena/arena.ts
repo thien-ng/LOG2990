@@ -1,7 +1,5 @@
-import { /*AxiosError,*/ AxiosInstance, AxiosResponse } from "axios";
 import { inject } from "inversify";
 import { IUser } from "../../../../../common/communication/iUser";
-// import { CCommon } from "../../../../../common/constantes/cCommon";
 import { Constants } from "../../../constants";
 import Types from "../../../types";
 import { GameManagerService } from "../game-manager.service";
@@ -15,8 +13,6 @@ import {
 } from "../../../../../common/communication/iGameplay";
 import {
     IArenaInfos,
-    // IHitConfirmation,
-    // IHitToValidate,
     IHitConfirmation,
     IPlayerInput,
 } from "./interfaces";
@@ -163,5 +159,4 @@ export class Arena {
     public sendMessage(playerSocketId: string, event: string, message: number): void {
         this.gameManagerService.sendMessage(playerSocketId, event, message);
     }
-
 }
