@@ -50,12 +50,14 @@ const playerInputClick: IPlayerInput = {
     user:       activeUser,
     position:   hitPosition,
 };
+
 const playerInputWrong: IPlayerInput = {
     event:      "wrongInput",
     arenaId:    1,
     user:       activeUser,
     position:   hitPosition,
 };
+
 let arena: Arena;
 const arenaInfo: IArenaInfos = {
         arenaId:            1,
@@ -190,7 +192,7 @@ describe("Arena tests", () => {
         mockAxios.onPost(Constants.URL_HIT_VALIDATOR).reply(200, hitConfirmationExpected);
 
         let responseToPlayerInput: IPlayerInputResponse | void;
-        arena["originalPixelClusters"].set(1, expectedPixelClusters);
+        arena["originalElements"].set(1, expectedPixelClusters);
 
         responseToPlayerInput = await arena.onPlayerClick(hitPosition, activeUser);
 
@@ -207,7 +209,7 @@ describe("Arena tests", () => {
         mockAxios.onPost(Constants.URL_HIT_VALIDATOR).reply(200, {});
 
         let responseToPlayerInput: IPlayerInputResponse | void;
-        arena["originalPixelClusters"].set(1, expectedPixelClusters);
+        arena["originalElements"].set(1, expectedPixelClusters);
 
         responseToPlayerInput = await arena.onPlayerClick(hitPosition, activeUser);
 
