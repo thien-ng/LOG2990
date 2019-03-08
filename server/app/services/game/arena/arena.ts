@@ -92,6 +92,7 @@ export class Arena {
 
     public async prepareArenaForGameplay(): Promise<void> {
         await this.extractOriginalPixelClusters();
+        this.referee = new Referee(this, this.players, this.originalElements, this.timer, this.arenaInfos);
     }
 
     private async extractOriginalPixelClusters(): Promise<void> {
