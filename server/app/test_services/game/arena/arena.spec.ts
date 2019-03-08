@@ -76,7 +76,6 @@ describe("Arena tests", () => {
     beforeEach(async () => {
         gameManager = new GameManagerService(new UserManagerService());
         arena       = new Arena(arenaInfo, gameManager);
-        arena.timer.stopTimer();
         mockAxios   = new MockAdapter.default(axios);
         chai.use(spies);
 
@@ -98,6 +97,8 @@ describe("Arena tests", () => {
         .catch((error: Error) => {
             // errorMessage = error.message;
         });
+
+        arena["referee"].timer.stopTimer();
 
     });
 
