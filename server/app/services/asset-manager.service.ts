@@ -62,5 +62,15 @@ export class AssetManagerService {
             }
         }
     }
+
+    public deleteFileInTemp(gameid: number, type: string): void {
+        const imgPathTemp: string = Constants.TEMP_IMAGES_PATH + gameid + type;
+        if (fs.existsSync(imgPathTemp)) {
+            try {
+                fs.unlinkSync(imgPathTemp);
+            } catch (error) {
+                throw new TypeError(FILE_DELETION_ERROR);
+            }
+        }
     }
 }
