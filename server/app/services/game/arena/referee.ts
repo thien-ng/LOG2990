@@ -97,4 +97,15 @@ export class Referee {
         this.differencesFound.push(differenceIndex);
     }
 
+    private attributePoints(user: IUser): void {
+        const player: Player | undefined = this.players.find( (p: Player) => {
+            return p.username === user.username;
+        });
+
+        if (player !== undefined) {
+            player.addPoints(1);
+            this.arena.sendMessage(player.userSocketId, CCommon.ON_POINT_ADDED, player.points);
+        }
+    }
+
 }
