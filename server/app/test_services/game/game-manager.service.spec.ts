@@ -226,7 +226,7 @@ describe("GameManagerService tests", () => {
         const spy: any = chai.spy.on(gameManagerService["arenas"], "delete");
 
         gameManagerService.analyseRequest(request2D).catch();
-        gameManagerService.deleteArena(iArenaInfos.arenaId);
+        gameManagerService.deleteArena(iArenaInfos);
         chai.expect(spy).to.have.been.called();
 
     });
