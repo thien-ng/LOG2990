@@ -88,4 +88,9 @@ export class Referee {
             });
     }
 
+    private onHitConfirmation(user: IUser, hitConfirmation: IHitConfirmation): void {
+        this.attributePoints(user);
+        this.addToDifferencesFound(hitConfirmation.hitPixelColor[0]);
+    }
+
 }
