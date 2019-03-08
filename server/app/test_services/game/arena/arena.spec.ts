@@ -153,7 +153,7 @@ describe("Arena tests", () => {
             response:   expectedPixelClusters,
         };
         const sandbox: sinon.SinonSandbox = sinon.createSandbox();
-        sandbox.stub(arena, "onPlayerClick").callsFake( async () => of(expectedResponse).toPromise());
+        sandbox.stub(arena["referee"], "onPlayerClick").callsFake( async () => of(expectedResponse).toPromise());
 
         const responseToInput: IPlayerInputResponse = await arena.onPlayerInput(playerInputClick);
 
@@ -168,7 +168,7 @@ describe("Arena tests", () => {
             response:   Constants.ON_ERROR_PIXEL_CLUSTER,
         };
         const sandbox: sinon.SinonSandbox = sinon.createSandbox();
-        sandbox.stub(arena, "onPlayerClick").callsFake( async () => of(expectedResponse).toPromise());
+        sandbox.stub(arena["referee"], "onPlayerClick").callsFake( async () => of(expectedResponse).toPromise());
 
         const responseToInput:  IPlayerInputResponse = await arena.onPlayerInput(playerInputWrong);
 
