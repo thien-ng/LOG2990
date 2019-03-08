@@ -61,9 +61,9 @@ export class GameManagerService {
     }
 
     private async create2DArena(user: IUser, gameId: number): Promise<Message> {
-
         const arenaInfo: IArenaInfos = this.buildArenaInfos(user, gameId);
         this.tempRoutine(gameId);
+        this.gameIdByArena.set(arenaInfo.arenaId, gameId);
         this.arena = new Arena(arenaInfo, this);
         this.init2DArena().catch(() => Constants.INIT_ARENA_ERROR);
         this.arenas.set(arenaInfo.arenaId, this.arena);
@@ -97,8 +97,6 @@ export class GameManagerService {
         return {
             arenaId:            this.generateArenaID(),
             users:              [user],
-            originalGameUrl:    Constants.PATH_TO_IMAGES + gameId + CCommon.ORIGINAL_FILE,
-            differenceGameUrl:  Constants.PATH_TO_IMAGES + gameId + Constants.GENERATED_FILE,
             originalGameUrl:    Constants.PATH_TO_TEMP_IMAGES + gameId + CCommon.ORIGINAL_FILE,
             differenceGameUrl:  Constants.PATH_TO_TEMP_IMAGES + gameId + Constants.GENERATED_FILE,
         };
@@ -139,8 +137,22 @@ export class GameManagerService {
         });
     }
 
-    public deleteArena(arenaID: number): void {
-        this.arenas.delete(arenaID);
+    public deleteArena(arena: IArenaInfos): void {
+        const arenaId: number = arena.arenaId;
+        const gameId: number | undefined = this.gameIdByArena.get(arenaId);
+        if (gameId !== undefined) {
+            const arenaAlive: number | undefined = this.countByGameId.get(gameId);
+            if (arenaAlive !== undefined) {
+                if (arenaAlive !== 0) {
+                    this.countByGameId.set(gameId, arenaAlive - 1);
+                }
+                if (arenaAlive === 0) {
+                    this.assetManager.deleteFileInTemp(gameId, Constants.GENERATED_FILE);
+                    this.assetManager.deleteFileInTemp(gameId, CCommon.ORIGINAL_FILE);
+                }
+            }
+        }
+        this.arenas.delete(arena.arenaId);
     }
 
     public get userList(): Map<string, SocketIO.Socket> {
