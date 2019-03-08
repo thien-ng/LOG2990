@@ -83,10 +83,6 @@ export class Arena {
         return this.referee.onPlayerClick(position, user);
     }
 
-    private addToDifferencesFound(differenceIndex: number): void {
-        this.differencesFound.push(differenceIndex);
-    }
-
     private isAnUndiscoveredDifference(differenceIndex: number): boolean {
         return this.differencesFound.indexOf(differenceIndex) < 0;
     }
