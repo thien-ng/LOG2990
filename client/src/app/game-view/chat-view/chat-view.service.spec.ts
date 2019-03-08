@@ -35,7 +35,7 @@ describe("ChatViewService", () => {
     expect(chatViewService.getConversationLength()).toBe(1);
   });
 
-  it("should return 4 for length of chat", () => {
+  it("should return 5 for length of chat", () => {
     chatViewService.updateConversation(mockIChat);
     chatViewService.updateConversation(mockIChat);
     chatViewService.updateConversation(mockIChat);

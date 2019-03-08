@@ -125,13 +125,15 @@ describe("ChatManagerService Tests", () => {
         const spy: any  = chai.spy.on(chatManagerService["socket"], "emit");
 
         const test: IPlayerInputResponse = {
-            status: "wrontHit",
+            status: "wrongHit",
             response: {
                 differenceKey: 1,
-                cluster: [{
-                    color: {R: 1, G: 1, B: 1},
-                    position: {x: 1, y: 1},
-                }],
+                cluster: [
+                    {
+                        color: {R: 1, G: 1, B: 1},
+                        position: {x: 1, y: 1},
+                    },
+                ],
             },
         };
         chatManagerService.sendPositionValidationMessage(test, socket);
@@ -149,10 +151,12 @@ describe("ChatManagerService Tests", () => {
             status: "onSuccess",
             response: {
                 differenceKey: 1,
-                cluster: [{
-                    color: {R: 1, G: 1, B: 1},
-                    position: {x: 1, y: 1},
-                }],
+                cluster: [
+                    {
+                        color: {R: 1, G: 1, B: 1},
+                        position: {x: 1, y: 1},
+                    },
+                ],
             },
         };
         chatManagerService.sendPositionValidationMessage(test, socket);
