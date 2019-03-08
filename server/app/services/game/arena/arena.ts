@@ -29,7 +29,7 @@ export class Arena {
 
     private readonly ERROR_ON_HTTPGET:      string = "Didn't succeed to get image buffer from URL given. File: arena.ts.";
     private readonly ON_FAILED_CLICK:       string = "onFailedClick";
-    private readonly USER_EVENT:            string = "onClick";
+    private readonly ON_PLAYER_CLICK:       string = "onClick";
 
     private players:                Player[];
     public timer:                   Timer;
