@@ -122,4 +122,8 @@ export class Referee {
         return playerHasReachPointsNeeded || differenceAreAllFound;
     }
 
+    private endOfGameRoutine(): void {
+        this.timer.stopTimer();
+    }
+
 }
