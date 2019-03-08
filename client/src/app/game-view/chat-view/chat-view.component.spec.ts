@@ -5,7 +5,6 @@ import { ChatViewComponent } from "./chat-view.component";
 import { MessageViewComponent } from "./message-view/message-view.component";
 
 describe("ChatViewComponent", () => {
-  let component:  ChatViewComponent;
   let fixture:    ComponentFixture<ChatViewComponent>;
 
   beforeEach(async(() => {
@@ -24,11 +23,6 @@ describe("ChatViewComponent", () => {
 
   beforeEach(() => {
     fixture   = TestBed.createComponent(ChatViewComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  it("should create", () => {
-    expect(component).toBeTruthy();
   });
 });
