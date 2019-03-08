@@ -93,4 +93,8 @@ export class Referee {
         this.addToDifferencesFound(hitConfirmation.hitPixelColor[0]);
     }
 
+    private addToDifferencesFound(differenceIndex: number): void {
+        this.differencesFound.push(differenceIndex);
+    }
+
 }
