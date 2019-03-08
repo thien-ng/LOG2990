@@ -11,6 +11,7 @@ import { Timer } from "./timer";
 const axios: AxiosInstance = require("axios");
 
 export class Referee {
+
     private readonly ERROR_HIT_VALIDATION:  string = "Problem during Hit Validation process.";
     private readonly ON_FAILED_CLICK:       string = "onFailedClick";
 
@@ -19,5 +20,19 @@ export class Referee {
 
     private differencesFound:       number[];
     private pointsNeededToWin:      number;
+
+    public constructor(public  arena:               Arena,
+                       private players:             Player[],
+                       private originalElements:    Map<number, IOriginalPixelCluster>,
+                       public  timer:               Timer,
+                       public  arenaInfos:          IArenaInfos,
+    ) {
+
+        this.timer = new Timer();
+        this.pointsNeededToWin = players.length === 1 ? this.POINTS_TO_WIN_SINGLE : this.POINTS_TO_WIN_MULTI;
+
+        this.differencesFound = [];
+        this.initTimer();
+    }
 
 }
