@@ -1,24 +1,17 @@
 import { AxiosInstance, AxiosResponse } from "axios";
 import { inject } from "inversify";
-import { IUser } from "../../../../../common/communication/iUser";
 import { Constants } from "../../../constants";
 import Types from "../../../types";
+
 import { GameManagerService } from "../game-manager.service";
 import { DifferencesExtractor } from "./differencesExtractor";
 import { Player } from "./player";
-
-import {
-    IOriginalPixelCluster,
-    IPlayerInputResponse,
-    IPosition2D,
-} from "../../../../../common/communication/iGameplay";
-import {
-    IArenaInfos,
-    IHitConfirmation,
-    IPlayerInput,
-} from "./interfaces";
 import { Referee } from "./referee";
 import { Timer } from "./timer";
+
+import { IOriginalPixelCluster, IPlayerInputResponse, IPosition2D } from "../../../../../common/communication/iGameplay";
+import { IUser } from "../../../../../common/communication/iUser";
+import { IArenaInfos, IHitConfirmation, IPlayerInput } from "./interfaces";
 
 const axios: AxiosInstance = require("axios");
 
