@@ -44,4 +44,34 @@ export class Referee {
         });
     }
 
+    public async onPlayerClick(position: IPosition2D, user: IUser): Promise<IPlayerInputResponse> {
+
+        let inputResponse: IPlayerInputResponse = this.buildPlayerInputResponse(
+            this.ON_FAILED_CLICK,
+            Constants.ON_ERROR_PIXEL_CLUSTER,
+        );
+
+        return this.validateHit(position)
+        .then((hitConfirmation: IHitConfirmation) => {
+            const isAnUndiscoveredDifference: boolean = this.isAnUndiscoveredDifference(hitConfirmation.hitPixelColor[0]);
+
+            if (hitConfirmation.isAHit && isAnUndiscoveredDifference) {
+                this.onHitConfirmation(user, hitConfirmation);
+                const pixelCluster: IOriginalPixelCluster | undefined = this.originalElements.get(hitConfirmation.hitPixelColor[0]);
+
+                if (pixelCluster !== undefined) {
+                    inputResponse = this.buildPlayerInputResponse(CCommon.ON_SUCCESS, pixelCluster);
+                }
+                if (this.gameIsFinished()) {
+                    this.endOfGameRoutine();
+                }
+            }
+
+            return inputResponse;
+        })
+        .catch ((error: Error) => {
+            return this.buildPlayerInputResponse(CCommon.ON_ERROR, Constants.ON_ERROR_PIXEL_CLUSTER);
+        });
+    }
+
 }
