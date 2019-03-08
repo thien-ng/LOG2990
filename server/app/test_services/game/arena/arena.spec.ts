@@ -293,9 +293,7 @@ describe("Arena tests", () => {
 
         await arena.prepareArenaForGameplay()
         .then(() => { /* */ })
-        .catch((error: Error) => {
-            // errorMessage = error.message;
-        });
+        .catch((error: Error) => { /* Do nothing */ });
 
         arena["referee"].timer.stopTimer();
 
