@@ -142,4 +142,24 @@ export class GameManagerService {
             response:   ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
         };
     }
+
+    public getUsersInArena(arenaId: number): IUser[] {
+
+        const users: IUser[]            = [];
+        const arena: Arena | undefined  = this.arenas.get(arenaId);
+
+        if (arena) {
+            const players: Player[] = arena.getPlayers();
+
+            players.forEach(( player: Player) => {
+                const user: IUser = {
+                    username: player.username,
+                    socketID: player.userSocketId,
+                };
+                users.push(user);
+            });
+        }
+
+        return users;
+    }
 }
