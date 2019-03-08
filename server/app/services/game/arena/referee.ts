@@ -10,3 +10,14 @@ import { Timer } from "./timer";
 
 const axios: AxiosInstance = require("axios");
 
+export class Referee {
+    private readonly ERROR_HIT_VALIDATION:  string = "Problem during Hit Validation process.";
+    private readonly ON_FAILED_CLICK:       string = "onFailedClick";
+
+    private readonly POINTS_TO_WIN_SINGLE:  number = 7;
+    private readonly POINTS_TO_WIN_MULTI:   number = 4;
+
+    private differencesFound:       number[];
+    private pointsNeededToWin:      number;
+
+}
