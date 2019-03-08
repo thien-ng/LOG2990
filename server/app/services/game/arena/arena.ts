@@ -83,10 +83,6 @@ export class Arena {
         return this.referee.onPlayerClick(position, user);
     }
 
-    private isAnUndiscoveredDifference(differenceIndex: number): boolean {
-        return this.differencesFound.indexOf(differenceIndex) < 0;
-    }
-
     private attributePoints(user: IUser): void {
         const player: Player | undefined = this.players.find( (p: Player) => {
             return p.username === user.username;
