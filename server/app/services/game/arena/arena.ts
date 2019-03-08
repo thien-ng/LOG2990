@@ -83,17 +83,6 @@ export class Arena {
         return this.referee.onPlayerClick(position, user);
     }
 
-    private attributePoints(user: IUser): void {
-        const player: Player | undefined = this.players.find( (p: Player) => {
-            return p.username === user.username;
-        });
-
-        if (player !== undefined) {
-            player.addPoints(1);
-            this.gameManagerService.sendMessage(player.userSocketId, CCommon.ON_POINT_ADDED, player.points);
-        }
-    }
-
     private gameIsFinished(): boolean {
 
         const playerHasReachPointsNeeded: boolean = this.players.some((player: Player) => {
