@@ -98,8 +98,8 @@ describe("GameManagerService tests", () => {
         const arenaInfo: IArenaInfos = {
             arenaId:            1000,
             users:              [{username: "Frank", socketID: "12345"}],
-            originalGameUrl:    Constants.PATH_TO_IMAGES + "1" + CCommon.ORIGINAL_FILE,
-            differenceGameUrl:  Constants.PATH_TO_IMAGES + "1" + Constants.GENERATED_FILE,
+            originalGameUrl:    Constants.PATH_TO_TEMP_IMAGES + "1" + CCommon.ORIGINAL_FILE,
+            differenceGameUrl:  Constants.PATH_TO_TEMP_IMAGES + "1" + Constants.GENERATED_FILE,
         };
         chai.spy.on(gameManagerService, "buildArenaInfos");
         chai.expect(
