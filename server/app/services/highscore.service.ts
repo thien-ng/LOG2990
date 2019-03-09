@@ -151,22 +151,26 @@ export class HighscoreService {
         return score;
     }
 
-    public updateHighscore(value: number, mode: Mode, cardID: number): void {
+    public async updateHighscore(value: Time, mode: Mode, cardID: number): Promise<Highscore> {
         const highscore: Highscore = this.highscores[this.findHighScoreByID(cardID)];
 
         if (highscore !== undefined) {
             switch (mode) {
                 case Mode.Singleplayer:
-                    this.checkScore(value, highscore.timesSingle);
+                    const messageSingle: HighscoreValidationMessage = this.generateApiMessage(value, highscore.timesSingle);
+                    highscore.timesSingle = await this.validateHighscore(messageSingle, highscore, mode);
                     break;
                 case Mode.Multiplayer:
-                    this.checkScore(value, highscore.timesMulti);
+                    const messageMulti: HighscoreValidationMessage = this.generateApiMessage(value, highscore.timesMulti);
+                    highscore.timesMulti = await this.validateHighscore(messageMulti, highscore, mode);
                     break;
                 default:
                     // Fails quietly
                     break;
             }
         }
+
+        return highscore;
     }
 
     private checkScore(value: number, times: [number, number, number]): void {
