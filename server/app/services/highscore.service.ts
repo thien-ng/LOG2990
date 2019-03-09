@@ -83,11 +83,14 @@ export class HighscoreService {
 
     public generateNewHighscore(id: number): void {
         const index: number = this.findHighScoreByID(id);
+        let i: number = 0;
         this.setMaxValue(index);
+        const randomSingleTimes: [number, number, number] = [DEFAULT_NUMBER, DEFAULT_NUMBER, DEFAULT_NUMBER];
+        const randomMultiTimes: [number, number, number] = [DEFAULT_NUMBER, DEFAULT_NUMBER, DEFAULT_NUMBER];
 
-        this.highscores[index].timesMulti.forEach(() => {
-            this.checkScore(this.randomTime(MIN_TIME, MAX_TIME), this.highscores[index].timesMulti);
-            this.checkScore(this.randomTime(MIN_TIME, MAX_TIME), this.highscores[index].timesSingle);
+        randomSingleTimes.forEach(() => {
+            randomSingleTimes[i] = this.randomTime(MIN_TIME, MAX_TIME);
+            randomMultiTimes[i++] = this.randomTime(MIN_TIME, MAX_TIME);
         });
     }
 
