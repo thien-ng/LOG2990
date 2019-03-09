@@ -76,6 +76,10 @@ export class Arena {
         return this.referee.validateHit(position);
     }
 
+    public sendMessage(playerSocketId: string, event: string, message: number): void {
+        this.gameManagerService.sendMessage(playerSocketId, event, message);
+    }
+
     }
 
     public async prepareArenaForGameplay(): Promise<void> {
@@ -112,8 +116,6 @@ export class Arena {
         return this.players;
     }
 
-    public sendMessage(playerSocketId: string, event: string, message: number): void {
-        this.gameManagerService.sendMessage(playerSocketId, event, message);
     private buildPlayerInputResponse(status: string, response: IOriginalPixelCluster): IPlayerInputResponse {
         return {
             status: status,
