@@ -92,6 +92,14 @@ export class HighscoreService {
             randomSingleTimes[i] = this.randomTime(MIN_TIME, MAX_TIME);
             randomMultiTimes[i++] = this.randomTime(MIN_TIME, MAX_TIME);
         });
+
+        randomMultiTimes.sort();
+        randomSingleTimes.sort();
+
+        for (let j: number = 0; j < randomMultiTimes.length; j++) {
+            this.highscores[index].timesSingle[j].time = randomSingleTimes[j];
+            this.highscores[index].timesMulti[j].time = randomMultiTimes[j];
+        }
     }
 
     private setMaxValue(index: number): void {
