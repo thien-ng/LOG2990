@@ -9,14 +9,14 @@ import { mock, verify } from "ts-mockito";
 import { GameMode } from "../../../../common/communication/iCard";
 import { GameType, IGameRequest } from "../../../../common/communication/iGameRequest";
 import { IOriginalPixelCluster, IPlayerInputResponse } from "../../../../common/communication/iGameplay";
+import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../../constants";
+import { Arena } from "../../services/game/arena/arena";
 import { IArenaInfos, IPlayerInput } from "../../services/game/arena/interfaces";
 import { GameManagerService } from "../../services/game/game-manager.service";
 import { UserManagerService } from "../../services/user-manager.service";
-import { Arena } from "../../services/game/arena/arena";
-import { IUser } from "../../../../common/communication/iUser";
 /*tslint:disable no-magic-numbers no-any await-promise */
 
 let gameManagerService: GameManagerService;
