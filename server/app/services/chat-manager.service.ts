@@ -2,8 +2,8 @@ import { inject, injectable } from "inversify";
 import { String } from "typescript-string-operations";
 import { IChat, IChatSender } from "../../../common/communication/iChat";
 import { IPlayerInputResponse } from "../../../common/communication/iGameplay";
-import { CCommon } from "../../../common/constantes/cCommon";
 import { IUser } from "../../../common/communication/iUser";
+import { CCommon } from "../../../common/constantes/cCommon";
 import Types from "../types";
 import { TimeManagerService } from "./time-manager.service";
 

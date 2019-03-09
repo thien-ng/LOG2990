@@ -1,6 +1,7 @@
 import * as http from "http";
 import { inject, injectable } from "inversify";
 import * as SocketIO from "socket.io";
+import { IChatSender } from "../../../common/communication/iChat";
 import { IClickMessage, IPlayerInputResponse } from "../../../common/communication/iGameplay";
 import { IUser } from "../../../common/communication/iUser";
 import { CCommon } from "../../../common/constantes/cCommon";
@@ -10,7 +11,6 @@ import { IPlayerInput } from "../services/game/arena/interfaces";
 import { GameManagerService } from "../services/game/game-manager.service";
 import { UserManagerService } from "../services/user-manager.service";
 import Types from "../types";
-import { IChatSender } from "../../../common/communication/iChat";
 
 @injectable()
 export class WebsocketManager {

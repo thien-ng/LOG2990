@@ -24,10 +24,10 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
   public conversationLength: number;
 
   @Input()
-  private arenaID:        number; 
+  private arenaID:        number;
 
   @Input()
-  private username:        string | null; 
+  private username:        string | null;
 
   @ViewChild("chatBox", {read: ElementRef})
   public chatBox:  ElementRef;

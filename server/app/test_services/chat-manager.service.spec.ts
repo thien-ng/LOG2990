@@ -2,11 +2,11 @@ import * as chai from "chai";
 import * as spies from "chai-spies";
 import SocketIO = require("socket.io");
 import * as Mockito from "ts-mockito";
+import { IChatSender } from "../../../common/communication/iChat";
 import { IPlayerInputResponse } from "../../../common/communication/iGameplay";
 import { IUser } from "../../../common/communication/iUser";
 import { ChatManagerService } from "../services/chat-manager.service";
 import { TimeManagerService } from "../services/time-manager.service";
-import { IChatSender } from "../../../common/communication/iChat";
 
 // tslint:disable:no-magic-numbers no-any
 
