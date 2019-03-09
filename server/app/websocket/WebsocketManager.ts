@@ -10,6 +10,7 @@ import { IPlayerInput } from "../services/game/arena/interfaces";
 import { GameManagerService } from "../services/game/game-manager.service";
 import { UserManagerService } from "../services/user-manager.service";
 import Types from "../types";
+import { IChatSender } from "../../../common/communication/iChat";
 
 @injectable()
 export class WebsocketManager {
@@ -67,8 +68,10 @@ export class WebsocketManager {
     }
 
     private chatSocketChecker(socket: SocketIO.Socket): void {
-        socket.on(Constants.ON_CHAT_EVENT, (data: string) => {
-            this.chatManagerService.sendChatMessage(data, socket);
+        socket.on(Constants.ON_CHAT_EVENT, (messageRecieved: IChatSender) => {
+
+            const userList: IUser[] = this.gameManagerService.getUsersInArena(messageRecieved.arenaID);
+            this.chatManagerService.sendChatMessage(userList, messageRecieved, this.io);
         });
     }
 
