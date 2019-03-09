@@ -24,8 +24,6 @@ export class Arena {
     private players:            Player[];
     public  timer:              Timer;
     private referee:            Referee;
-    public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {
-        return this.referee.validateHit(position);
     private originalElements:   Map<number, IOriginalPixelCluster>; // _TODO: A BOUGER DANS LES ARENA 2D et 3D
 
     public constructor(
@@ -79,6 +77,10 @@ export class Arena {
             status: status,
             response: response,
         };
+    public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {
+        return this.referee.validateHit(position);
+    }
+
     }
 
     public async prepareArenaForGameplay(): Promise<void> {
