@@ -1,67 +1,38 @@
-import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import { AxiosInstance, AxiosResponse } from "axios";
 import { inject } from "inversify";
-import { IUser } from "../../../../../common/communication/iUser";
-import { CCommon } from "../../../../../common/constantes/cCommon";
 import { Constants } from "../../../constants";
 import Types from "../../../types";
+
 import { GameManagerService } from "../game-manager.service";
 import { DifferencesExtractor } from "./differencesExtractor";
 import { Player } from "./player";
-
-import {
-    IOriginalPixelCluster,
-    IPlayerInputResponse,
-    IPosition2D,
-} from "../../../../../common/communication/iGameplay";
-import {
-    IArenaInfos,
-    IHitConfirmation,
-    IHitToValidate,
-    IPlayerInput,
-} from "./interfaces";
+import { Referee } from "./referee";
 import { Timer } from "./timer";
+
+import { IOriginalPixelCluster, IPlayerInputResponse, IPosition2D } from "../../../../../common/communication/iGameplay";
+import { IUser } from "../../../../../common/communication/iUser";
+import { IArenaInfos, IHitConfirmation, IPlayerInput } from "./interfaces";
 
 const axios: AxiosInstance = require("axios");
 
 export class Arena {
 
-    private readonly ERROR_ON_HTTPGET:      string = "Didn't succeed to get image buffer from URL given. File: arena.ts.";
-    private readonly ERROR_HIT_VALIDATION:  string = "Problem during Hit Validation process.";
-    private readonly ON_FAILED_CLICK:       string = "onFailedClick";
-    private readonly USER_EVENT:            string = "onClick";
-    private readonly POINTS_TO_WIN_SINGLE:  number = 7;
-    private readonly POINTS_TO_WIN_MULTI:   number = 4;
+    private readonly ERROR_ON_HTTPGET:  string = "Didn't succeed to get image buffer from URL given. File: arena.ts.";
+    private readonly ON_FAILED_CLICK:   string = "onFailedClick";
+    private readonly ON_CLICK:   string = "onClick";
 
-    private pointsNeededToWin:      number;
-    private differencesFound:       number[];
-    private players:                Player[];
-    public timer:                   Timer;
-    private originalPixelClusters:  Map<number, IOriginalPixelCluster>;
+    private players:            Player[];
+    public  timer:              Timer;
+    private referee:            Referee;
+    private originalElements:   Map<number, IOriginalPixelCluster>; // _TODO: A BOUGER DANS LES ARENA 2D et 3D
 
     public constructor(
         private arenaInfos: IArenaInfos,
         @inject(Types.GameManagerService) public gameManagerService: GameManagerService) {
-        this.players = [];
-        this.createPlayers();
-        this.originalPixelClusters = new Map<number, IOriginalPixelCluster>();
-        this.timer = new Timer();
-        this.pointsNeededToWin = arenaInfos.users.length === 1 ? this.POINTS_TO_WIN_SINGLE : this.POINTS_TO_WIN_MULTI;
-        this.differencesFound = [];
-        this.initTimer();
-    }
-
-    public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {
-
-        const postData:     IHitToValidate      = this.buildPostData(position);
-        const postConfig:   AxiosRequestConfig  = this.buildPostConfig();
-
-        return axios.post(Constants.URL_HIT_VALIDATOR, postData, postConfig)
-            .then((res: AxiosResponse) => {
-                return res.data;
-            })
-            .catch((err: AxiosError) => {
-                throw new TypeError(this.ERROR_HIT_VALIDATION);
-            });
+            this.players = [];
+            this.createPlayers();
+            this.originalElements   = new Map<number, IOriginalPixelCluster>();
+            this.timer              = new Timer();
     }
 
     public async onPlayerInput(playerInput: IPlayerInput): Promise<IPlayerInputResponse> {
@@ -72,7 +43,7 @@ export class Arena {
         );
 
         switch (playerInput.event) {
-            case this.USER_EVENT:
+            case this.ON_CLICK:
                 response = await this.onPlayerClick(playerInput.position, playerInput.user);
                 break;
             default:
@@ -98,99 +69,31 @@ export class Arena {
     }
 
     public async onPlayerClick(position: IPosition2D, user: IUser): Promise<IPlayerInputResponse> {
-
-        let inputResponse: IPlayerInputResponse = this.buildPlayerInputResponse(
-            this.ON_FAILED_CLICK,
-            Constants.ON_ERROR_PIXEL_CLUSTER,
-            );
-
-        return this.validateHit(position)
-        .then((hitConfirmation: IHitConfirmation) => {
-
-            const isAnUndiscoveredDifference: boolean = this.isAnUndiscoveredDifference(hitConfirmation.hitPixelColor[0]);
-
-            if (hitConfirmation.isAHit && isAnUndiscoveredDifference) {
-                this.onHitConfirmation(user, hitConfirmation);
-                const pixelCluster: IOriginalPixelCluster | undefined = this.originalPixelClusters.get(hitConfirmation.hitPixelColor[0]);
-
-                if (pixelCluster !== undefined) {
-                    inputResponse = this.buildPlayerInputResponse(CCommon.ON_SUCCESS, pixelCluster);
-                }
-                if (this.gameIsFinished()) {
-                    this.endOfGameRoutine();
-                }
-            }
-
-            return inputResponse;
-        })
-        .catch ((error: Error) => {
-            return this.buildPlayerInputResponse(CCommon.ON_ERROR, Constants.ON_ERROR_PIXEL_CLUSTER);
-        });
+        return this.referee.onPlayerClick(position, user);
     }
 
-    private onHitConfirmation(user: IUser, hitConfirmation: IHitConfirmation): void {
-        this.attributePoints(user);
-        this.addToDifferencesFound(hitConfirmation.hitPixelColor[0]);
+    public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {
+        return this.referee.validateHit(position);
     }
 
-    private initTimer(): void {
-        this.timer.startTimer();
-        this.timer.getTimer().subscribe((newTime: number) => {
-            this.players.forEach((player: Player) => {
-                this.gameManagerService.sendMessage(player.userSocketId, CCommon.ON_TIMER_UPDATE, newTime);
-            });
-        });
+    public sendMessage(playerSocketId: string, event: string, message: number): void {
+        this.gameManagerService.sendMessage(playerSocketId, event, message);
     }
 
-    private endOfGameRoutine(): void {
-        this.timer.stopTimer();
-    }
-
-    private addToDifferencesFound(differenceIndex: number): void {
-        this.differencesFound.push(differenceIndex);
-    }
-
-    private isAnUndiscoveredDifference(differenceIndex: number): boolean {
-        return this.differencesFound.indexOf(differenceIndex) < 0;
-    }
-
-    private attributePoints(user: IUser): void {
-        const player: Player | undefined = this.players.find( (p: Player) => {
-            return p.username === user.username;
-        });
-
-        if (player !== undefined) {
-            player.addPoints(1);
-            this.gameManagerService.sendMessage(player.userSocketId, CCommon.ON_POINT_ADDED, player.points);
-        }
-    }
-
-    private gameIsFinished(): boolean {
-
-        const playerHasReachPointsNeeded: boolean = this.players.some((player: Player) => {
-            return player.points >= this.pointsNeededToWin;
-        });
-        const differenceAreAllFound: boolean = this.differencesFound.length >= this.originalPixelClusters.size;
-
-        return playerHasReachPointsNeeded || differenceAreAllFound;
-    }
-
-    private buildPlayerInputResponse(status: string, response: IOriginalPixelCluster): IPlayerInputResponse {
-        return {
-            status: status,
-            response: response,
-        };
+    public getPlayers(): Player[] {
+        return this.players;
     }
 
     public async prepareArenaForGameplay(): Promise<void> {
         await this.extractOriginalPixelClusters();
+        this.referee = new Referee(this, this.players, this.originalElements, this.timer, this.arenaInfos);
     }
 
     private async extractOriginalPixelClusters(): Promise<void> {
         const originalImage:    Buffer                  = await this.getImageFromUrl(this.arenaInfos.originalGameUrl);
         const differenceImage:  Buffer                  = await this.getImageFromUrl(this.arenaInfos.differenceGameUrl);
         const extractor:        DifferencesExtractor    = new DifferencesExtractor();
-        this.originalPixelClusters = extractor.extractPixelClustersFrom(originalImage, differenceImage);
+        this.originalElements = extractor.extractPixelClustersFrom(originalImage, differenceImage);
     }
 
     private async getImageFromUrl(imageUrl: string): Promise<Buffer> {
@@ -205,31 +108,16 @@ export class Arena {
             });
     }
 
-    private buildPostData(position: IPosition2D): IHitToValidate {
-        return {
-            position:       position,
-            imageUrl:       this.arenaInfos.differenceGameUrl,
-            colorToIgnore:  Constants.WHITE,
-        };
-    }
-
-    private buildPostConfig(): AxiosRequestConfig {
-        return {
-            headers: {
-                "Content-Type": "application/json;charset=UTF-8",
-                "Access-Control-Allow-Origin": "*",
-            },
-        };
-    }
-
     private createPlayers(): void {
         this.arenaInfos.users.forEach((user: IUser) => {
             this.players.push(new Player(user));
         });
     }
 
-    public getPlayers(): Player[] {
-        return this.players;
+    private buildPlayerInputResponse(status: string, response: IOriginalPixelCluster): IPlayerInputResponse {
+        return {
+            status: status,
+            response: response,
+        };
     }
-
 }

@@ -6,17 +6,18 @@ import * as fs from "fs";
 import * as path from "path";
 import { of } from "rxjs/index";
 import sinon = require("sinon");
-
-import { IOriginalPixelCluster, IPlayerInputResponse, IPosition2D } from "../../../../../common/communication/iGameplay";
-import { IUser } from "../../../../../common/communication/iUser";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { Constants } from "../../../constants";
+
 import { BMPBuilder } from "../../../services/difference-checker/utilities/bmpBuilder";
 import { Arena } from "../../../services/game/arena/arena";
-import { IArenaInfos, IHitConfirmation, IPlayerInput } from "../../../services/game/arena/interfaces";
 import { Player } from "../../../services/game/arena/player";
 import { GameManagerService } from "../../../services/game/game-manager.service";
 import { UserManagerService } from "../../../services/user-manager.service";
+
+import { IOriginalPixelCluster, IPlayerInputResponse, IPosition2D } from "../../../../../common/communication/iGameplay";
+import { IUser } from "../../../../../common/communication/iUser";
+import { IArenaInfos, IHitConfirmation, IPlayerInput } from "../../../services/game/arena/interfaces";
 
 // tslint:disable:no-magic-numbers no-any max-file-line-count no-empty
 
@@ -50,12 +51,14 @@ const playerInputClick: IPlayerInput = {
     user:       activeUser,
     position:   hitPosition,
 };
+
 const playerInputWrong: IPlayerInput = {
     event:      "wrongInput",
     arenaId:    1,
     user:       activeUser,
     position:   hitPosition,
 };
+
 let arena: Arena;
 const arenaInfo: IArenaInfos = {
         arenaId:            1,
@@ -76,7 +79,6 @@ describe("Arena tests", () => {
     beforeEach(async () => {
         gameManager = new GameManagerService(new UserManagerService());
         arena       = new Arena(arenaInfo, gameManager);
-        arena.timer.stopTimer();
         mockAxios   = new MockAdapter.default(axios);
         chai.use(spies);
 
@@ -96,6 +98,8 @@ describe("Arena tests", () => {
         await arena.prepareArenaForGameplay()
         .then(() => { /* */ })
         .catch((error: Error) => {});
+
+        arena["referee"].timer.stopTimer();
 
     });
 
@@ -150,7 +154,7 @@ describe("Arena tests", () => {
             response:   expectedPixelClusters,
         };
         const sandbox: sinon.SinonSandbox = sinon.createSandbox();
-        sandbox.stub(arena, "onPlayerClick").callsFake( async () => of(expectedResponse).toPromise());
+        sandbox.stub(arena["referee"], "onPlayerClick").callsFake( async () => of(expectedResponse).toPromise());
 
         const responseToInput: IPlayerInputResponse = await arena.onPlayerInput(playerInputClick);
 
@@ -165,7 +169,7 @@ describe("Arena tests", () => {
             response:   Constants.ON_ERROR_PIXEL_CLUSTER,
         };
         const sandbox: sinon.SinonSandbox = sinon.createSandbox();
-        sandbox.stub(arena, "onPlayerClick").callsFake( async () => of(expectedResponse).toPromise());
+        sandbox.stub(arena["referee"], "onPlayerClick").callsFake( async () => of(expectedResponse).toPromise());
 
         const responseToInput:  IPlayerInputResponse = await arena.onPlayerInput(playerInputWrong);
 
@@ -187,7 +191,7 @@ describe("Arena tests", () => {
         mockAxios.onPost(Constants.URL_HIT_VALIDATOR).reply(200, hitConfirmationExpected);
 
         let responseToPlayerInput: IPlayerInputResponse | void;
-        arena["originalPixelClusters"].set(1, expectedPixelClusters);
+        arena["originalElements"].set(1, expectedPixelClusters);
 
         responseToPlayerInput = await arena.onPlayerClick(hitPosition, activeUser);
 
@@ -204,7 +208,7 @@ describe("Arena tests", () => {
         mockAxios.onPost(Constants.URL_HIT_VALIDATOR).reply(200, {});
 
         let responseToPlayerInput: IPlayerInputResponse | void;
-        arena["originalPixelClusters"].set(1, expectedPixelClusters);
+        arena["originalElements"].set(1, expectedPixelClusters);
 
         responseToPlayerInput = await arena.onPlayerClick(hitPosition, activeUser);
 
@@ -263,19 +267,35 @@ describe("Arena tests", () => {
         const clock:    any = sinon.useFakeTimers();
         const spy:      any = chai.spy.on(arena.gameManagerService, "sendMessage");
 
-        arena["initTimer"]();
+        arena["referee"]["initTimer"]();
         clock.tick(1010);
         chai.expect(spy).to.have.been.called();
         clock.restore();
     });
 
-    it("should set the right number of points to win depending on number of players", () => {
+    it("should set the right number of points to win depending on number of players", async () => {
 
+        gameManager = new GameManagerService(new UserManagerService());
         arenaInfo.users = [activeUser, activeUser];
-        arena           = new Arena(arenaInfo, gameManager);
-        arena.timer.stopTimer();
 
-        const pointsNeededToWin: number = arena["pointsNeededToWin"];
+        arena       = new Arena(arenaInfo, gameManager);
+        mockAxios   = new MockAdapter.default(axios);
+
+        const builder:          BMPBuilder  = new BMPBuilder(4, 4, 100);
+        const bufferOriginal:   Buffer      = Buffer.from(builder.buffer);
+        builder.setColorAtPos(1, 1, 1, 1, 1);
+        const bufferDifferences: Buffer     = Buffer.from(builder.buffer);
+
+        mockAxios.onGet(arenaInfo.originalGameUrl).replyOnce(200,   () => bufferOriginal );
+        mockAxios.onGet(arenaInfo.differenceGameUrl).replyOnce(200, () => bufferDifferences );
+
+        await arena.prepareArenaForGameplay()
+        .then(() => { /* */ })
+        .catch((error: Error) => { /* Do nothing */ });
+
+        arena["referee"].timer.stopTimer();
+
+        const pointsNeededToWin: number = arena["referee"]["pointsNeededToWin"];
 
         chai.expect(pointsNeededToWin).to.equal(4);
     });
