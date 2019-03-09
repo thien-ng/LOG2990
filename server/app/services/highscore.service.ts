@@ -64,6 +64,23 @@ export class HighscoreService {
         return messageHighscore;
     }
 
+    private generateTimesMessage(): [TimeMessage, TimeMessage, TimeMessage] {
+        return [
+            {
+                username: "",
+                time: "",
+            },
+            {
+                username: "",
+                time: "",
+            },
+            {
+                username: "",
+                time: "",
+            },
+        ];
+    }
+
     public generateNewHighscore(id: number): void {
         const index: number = this.findHighScoreByID(id);
         this.setMaxValue(index);
