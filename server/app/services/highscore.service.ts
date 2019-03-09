@@ -110,8 +110,17 @@ export class HighscoreService {
     }
 
     private setMaxValue(index: number): void {
-        this.highscores[index].timesMulti   = [MAX_NUMBER, MAX_NUMBER, MAX_NUMBER];
-        this.highscores[index].timesSingle  = [MAX_NUMBER, MAX_NUMBER, MAX_NUMBER];
+        let i: number = 1;
+        this.highscores[index].timesSingle = [
+            this.generateDefaultTime(NAME + i++),
+            this.generateDefaultTime(NAME + i++),
+            this.generateDefaultTime(NAME + i++),
+        ];
+        this.highscores[index].timesMulti   = [
+            this.generateDefaultTime(NAME + i++),
+            this.generateDefaultTime(NAME + i++),
+            this.generateDefaultTime(NAME + i++),
+        ];
     }
 
     public findHighScoreByID(id: number): number {
