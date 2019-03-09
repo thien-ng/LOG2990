@@ -1,13 +1,13 @@
 export interface Highscore {
     id:             number,
-    timesSingle:    [number, number, number],
-    timesMulti:     [number, number, number],
+    timesSingle:    [Time, Time, Time],
+    timesMulti:     [Time, Time, Time],
   }
 
 export interface HighscoreMessage {
     id:             number,
-    timesSingle:    [string, string, string],
-    timesMulti:     [string, string, string],
+    timesSingle:    [TimeMessage, TimeMessage, TimeMessage],
+    timesMulti:     [TimeMessage, TimeMessage, TimeMessage],
 }
 
 export enum Mode{
