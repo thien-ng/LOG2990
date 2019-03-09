@@ -1,8 +1,9 @@
 import { inject, injectable } from "inversify";
 import { String } from "typescript-string-operations";
-import { IChat } from "../../../common/communication/iChat";
+import { IChat, IChatSender } from "../../../common/communication/iChat";
 import { IPlayerInputResponse } from "../../../common/communication/iGameplay";
 import { CCommon } from "../../../common/constantes/cCommon";
+import { IUser } from "../../../common/communication/iUser";
 import Types from "../types";
 import { TimeManagerService } from "./time-manager.service";
 
@@ -36,13 +37,15 @@ export class ChatManagerService {
         this.server.emit(CCommon.CHAT_EVENT, iChatMessage);
     }
 
-    // send message too conversation list
-    public sendChatMessage(data: string, socket: SocketIO.Socket): void {
+    public sendChatMessage(userList: IUser[], messageRecieved: IChatSender, socket: SocketIO.Server): void {
 
-        this.socket = socket;
-        // get username
-        const iChatMessage: IChat = this.generateMessage(SERVER_NAME, data);
-        this.socket.emit(CCommon.CHAT_EVENT, iChatMessage);
+        this.server = socket;
+
+        const iChatMessage: IChat = this.generateMessage(messageRecieved.username, messageRecieved.message);
+        userList.forEach((user: IUser) => {
+            
+            this.server.to(user.socketID).emit(CCommon.CHAT_EVENT, iChatMessage);
+        });
     }
 
     // send message for highscore
