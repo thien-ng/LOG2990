@@ -102,6 +102,13 @@ export class HighscoreService {
         }
     }
 
+    private generateApiMessage(value: Time, timeList: [Time, Time, Time]): HighscoreValidationMessage {
+        return {
+            newValue: value,
+            times: timeList,
+        };
+    }
+
     private setMaxValue(index: number): void {
         this.highscores[index].timesMulti   = [MAX_NUMBER, MAX_NUMBER, MAX_NUMBER];
         this.highscores[index].timesSingle  = [MAX_NUMBER, MAX_NUMBER, MAX_NUMBER];
