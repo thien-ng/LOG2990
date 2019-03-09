@@ -43,7 +43,7 @@ export class Arena {
         );
 
         switch (playerInput.event) {
-            case this.ON_PLAYER_CLICK:
+            case this.ON_CLICK:
                 response = await this.onPlayerClick(playerInput.position, playerInput.user);
                 break;
             default:
