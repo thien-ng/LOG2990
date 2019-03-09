@@ -50,14 +50,15 @@ export class HighscoreService {
         };
     }
 
-    private secondsToMinutes(times: [number, number, number]): [string, string, string] {
-        const messageHighscore: [string, string, string] = ["", "", ""];
+    private secondsToMinutes(times: [Time, Time, Time]): [TimeMessage, TimeMessage, TimeMessage] {
+        const messageHighscore: [TimeMessage, TimeMessage, TimeMessage] = this.generateTimesMessage();
         let i: number = 0;
 
-        times.forEach((element: number) => {
-            const minutes: string = Math.floor(element / SECONDS_IN_MINUTES).toString();
-            const seconds: string = (element - parseFloat(minutes) * SECONDS_IN_MINUTES).toString();
-            messageHighscore[i++] = minutes + ":" + this.formatZeroDecimal(parseFloat(seconds)) + seconds;
+        times.forEach((element: Time) => {
+            const minutes: string = Math.floor(element.time / SECONDS_IN_MINUTES).toString();
+            const seconds: string = (element.time - parseFloat(minutes) * SECONDS_IN_MINUTES).toString();
+            messageHighscore[i].username = element.username;
+            messageHighscore[i++].time = minutes + ":" + this.formatZeroDecimal(parseFloat(seconds)) + seconds;
         });
 
         return messageHighscore;
