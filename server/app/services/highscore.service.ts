@@ -173,16 +173,18 @@ export class HighscoreService {
         return highscore;
     }
 
-    private checkScore(value: number, times: [number, number, number]): void {
-        let hasBeenReplaced: Boolean = false;
+    private async validateHighscore(message: HighscoreValidationMessage, highscore: Highscore, mode: Mode): Promise<[Time, Time, Time]> {
+        return axios.post(Constants.VALIDATE_HIGHSCORE_PATH, message)
+        .then((response: AxiosResponse) => {
+            return response.data;
+        }).catch((error: Error) => {throw new TypeError(error.message); });
+    }
 
     private generateDefaultTime(name: string): Time {
         return {
             username: name,
             time: MAX_TIME,
         };
-    }
-        });
     }
 
     // Methods for testing
