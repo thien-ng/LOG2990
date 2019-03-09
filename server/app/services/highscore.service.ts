@@ -41,16 +41,13 @@ export class HighscoreService {
     }
 
     public convertToString(id: number): HighscoreMessage {
-        const message: HighscoreMessage = {
-            id:             id,
-            timesSingle:    ["", "", ""],
-            timesMulti:     ["", "", ""],
-        };
         const index: number = this.findHighScoreByID(id);
-        message.timesMulti  = this.secondsToMinutes(this.highscores[index].timesMulti);
-        message.timesSingle = this.secondsToMinutes(this.highscores[index].timesSingle);
 
-        return message;
+        return {
+            id:             id,
+            timesSingle:    this.secondsToMinutes(this.highscores[index].timesSingle),
+            timesMulti:     this.secondsToMinutes(this.highscores[index].timesMulti),
+        };
     }
 
     private secondsToMinutes(times: [number, number, number]): [string, string, string] {
