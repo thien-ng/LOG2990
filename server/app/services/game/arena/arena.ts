@@ -24,17 +24,17 @@ export class Arena {
     private players:            Player[];
     public  timer:              Timer;
     private referee:            Referee;
-    public constructor(private arenaInfos: IArenaInfos, @inject(Types.GameManagerService) public gameManagerService: GameManagerService) {
-        this.players = [];
-        this.createPlayers();
-        this.originalElements   = new Map<number, IOriginalPixelCluster>();
-        this.timer              = new Timer();
-    }
-
     public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {
         return this.referee.validateHit(position);
     private originalElements:   Map<number, IOriginalPixelCluster>; // _TODO: A BOUGER DANS LES ARENA 2D et 3D
 
+    public constructor(
+        private arenaInfos: IArenaInfos,
+        @inject(Types.GameManagerService) public gameManagerService: GameManagerService) {
+            this.players = [];
+            this.createPlayers();
+            this.originalElements   = new Map<number, IOriginalPixelCluster>();
+            this.timer              = new Timer();
     }
 
     public async onPlayerInput(playerInput: IPlayerInput): Promise<IPlayerInputResponse> {
