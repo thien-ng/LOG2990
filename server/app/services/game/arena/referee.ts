@@ -36,15 +36,6 @@ export class Referee {
         this.initTimer();
     }
 
-    private initTimer(): void {
-        this.timer.startTimer();
-        this.timer.getTimer().subscribe((newTime: number) => {
-            this.players.forEach((player: Player) => {
-                this.arena.sendMessage(player.userSocketId, CCommon.ON_TIMER_UPDATE, newTime);
-            });
-        });
-    }
-
     public async onPlayerClick(position: IPosition2D, user: IUser): Promise<IPlayerInputResponse> {
 
         let inputResponse: IPlayerInputResponse = this.buildPlayerInputResponse(
@@ -111,6 +102,15 @@ export class Referee {
 
     private isAnUndiscoveredDifference(differenceIndex: number): boolean {
         return this.differencesFound.indexOf(differenceIndex) < 0;
+    }
+
+    private initTimer(): void {
+        this.timer.startTimer();
+        this.timer.getTimer().subscribe((newTime: number) => {
+            this.players.forEach((player: Player) => {
+                this.arena.sendMessage(player.userSocketId, CCommon.ON_TIMER_UPDATE, newTime);
+            });
+        });
     }
 
     private gameIsFinished(): boolean {
