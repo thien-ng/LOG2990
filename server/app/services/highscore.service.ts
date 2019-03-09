@@ -176,12 +176,12 @@ export class HighscoreService {
     private checkScore(value: number, times: [number, number, number]): void {
         let hasBeenReplaced: Boolean = false;
 
-        times.forEach((element: number) => {
-            if (element > value && !hasBeenReplaced) {
-                times.splice(times.indexOf(element), REMOVE_NOTHING, value);
-                times.pop();
-                hasBeenReplaced = true;
-            }
+    private generateDefaultTime(name: string): Time {
+        return {
+            username: name,
+            time: MAX_TIME,
+        };
+    }
         });
     }
 
