@@ -53,13 +53,14 @@ export class WebsocketManager {
 
         socket.on(Constants.POSITION_VALIDATION_EVENT, (data: IClickMessage) => {
             const user: IUser | string = this.userManagerService.getUserByUsername(data.username);
+            const userList: IUser[] = this.gameManagerService.getUsersInArena(data.arenaID);
 
             if (typeof user !== "string") {
                 const playerInput: IPlayerInput = this.buildPlayerInput(data, user);
                 this.gameManagerService.onPlayerInput(playerInput)
                 .then((response: IPlayerInputResponse) => {
                     socket.emit(CCommon.ON_ARENA_RESPONSE, response);
-                    this.chatManagerService.sendPositionValidationMessage(response, socket);
+                    this.chatManagerService.sendPositionValidationMessage(data.username, userList, response, this.io);
                 }).catch((error: Error) => {
                     socket.emit(CCommon.ON_ERROR, error);
                 });
