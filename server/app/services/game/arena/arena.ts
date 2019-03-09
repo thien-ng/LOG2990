@@ -24,8 +24,6 @@ export class Arena {
     private players:            Player[];
     public  timer:              Timer;
     private referee:            Referee;
-    private originalElements:   Map<number, IOriginalPixelCluster>; // A BOUGER DANS LES ARENA 2D et 3D
-
     public constructor(private arenaInfos: IArenaInfos, @inject(Types.GameManagerService) public gameManagerService: GameManagerService) {
         this.players = [];
         this.createPlayers();
@@ -35,6 +33,8 @@ export class Arena {
 
     public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {
         return this.referee.validateHit(position);
+    private originalElements:   Map<number, IOriginalPixelCluster>; // _TODO: A BOUGER DANS LES ARENA 2D et 3D
+
     }
 
     public async onPlayerInput(playerInput: IPlayerInput): Promise<IPlayerInputResponse> {
