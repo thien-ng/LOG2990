@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
-import { HighscoreMessage } from "../../../../common/communication/highscore";
+import { HighscoreMessage, TimeMessage } from "../../../../common/communication/highscore";
 import { Constants } from "../constants";
 
 @Injectable()
@@ -42,14 +42,14 @@ export class HighscoreService {
     return timeElement.indexOf(selector) >= 0;
   }
 
-  private validateTimes(times: string[]): boolean {
+  private validateTimes(times: TimeMessage[]): boolean {
     let isValid: boolean = true;
 
     times.forEach((timeElement) => {
       let highscoreSplit: string[] = [];
 
-      if (this.validateSelector(timeElement, this.SELECTOR)) {
-        highscoreSplit = timeElement.split(this.SELECTOR);
+      if (this.validateSelector(timeElement.time, this.SELECTOR)) {
+        highscoreSplit = timeElement.time.split(this.SELECTOR);
 
         highscoreSplit.forEach((splitElement) => {
           if (Number(splitElement) > this.MAX_TIME || Number(splitElement) < this.MIN_TIME) {
