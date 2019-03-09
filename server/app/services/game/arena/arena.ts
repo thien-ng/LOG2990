@@ -72,11 +72,6 @@ export class Arena {
         return this.referee.onPlayerClick(position, user);
     }
 
-    private buildPlayerInputResponse(status: string, response: IOriginalPixelCluster): IPlayerInputResponse {
-        return {
-            status: status,
-            response: response,
-        };
     public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {
         return this.referee.validateHit(position);
     }
@@ -119,5 +114,10 @@ export class Arena {
 
     public sendMessage(playerSocketId: string, event: string, message: number): void {
         this.gameManagerService.sendMessage(playerSocketId, event, message);
+    private buildPlayerInputResponse(status: string, response: IOriginalPixelCluster): IPlayerInputResponse {
+        return {
+            status: status,
+            response: response,
+        };
     }
 }
