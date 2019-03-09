@@ -1,6 +1,6 @@
-import { AfterViewChecked, Component, ElementRef, OnDestroy, ViewChild } from "@angular/core";
+import { AfterViewChecked, Component, ElementRef, Input, OnDestroy, ViewChild } from "@angular/core";
 import { FormControl, Validators } from "@angular/forms";
-import { IChat } from "../../../../../common/communication/iChat";
+import { IChat, IChatSender } from "../../../../../common/communication/iChat";
 import { SocketService } from "../../websocket/socket.service";
 import { ChatViewService } from "./chat-view.service";
 
@@ -14,7 +14,7 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
 
   public readonly CHAT_TITLE:       string = "Notification du serveur";
   public readonly CHAT_DESCRIPTION: string = "クリスチャンサーバー";
-  public readonly MESSAGE_PATTERN:  string = "[^\s]+";
+  public readonly MESSAGE_PATTERN:  string = ".+";
 
   private readonly CHAT_EVENT:      string = "onChatEvent";
 
@@ -22,6 +22,12 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
   public initialValue: string;
   public usernameFormControl: FormControl;
   public conversationLength: number;
+
+  @Input()
+  private arenaID:        number; 
+
+  @Input()
+  private username:        string | null; 
 
   @ViewChild("chatBox", {read: ElementRef})
   public chatBox:  ElementRef;
@@ -57,9 +63,19 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
 
   public sendMessage(): void {
     if (this.usernameFormControl.errors === null) {
-      this.socketService.sendMsg(this.CHAT_EVENT, this.usernameFormControl.value);
+
+      const generatedMessage: IChatSender = this.generateMessage(this.usernameFormControl.value);
+      this.socketService.sendMsg(this.CHAT_EVENT, generatedMessage);
       this.initialValue = "";
     }
+  }
+
+  private generateMessage(data: string): IChatSender {
+    return {
+      arenaID:  this.arenaID,
+      username: this.username,
+      message:  data,
+    } as IChatSender;
   }
 
 }
