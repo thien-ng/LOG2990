@@ -90,13 +90,13 @@ export class Referee {
     }
 
     private attributePoints(user: IUser): void {
-        const player: Player | undefined = this.players.find( (p: Player) => {
-            return p.username === user.username;
+        const foundPlayer: Player | undefined = this.players.find( (player: Player) => {
+            return player.username === user.username;
         });
 
-        if (player !== undefined) {
-            player.addPoints(1);
-            this.arena.sendMessage(player.userSocketId, CCommon.ON_POINT_ADDED, player.points);
+        if (foundPlayer !== undefined) {
+            foundPlayer.addPoints(1);
+            this.arena.sendMessage(foundPlayer.userSocketId, CCommon.ON_POINT_ADDED, foundPlayer.points);
         }
     }
 
