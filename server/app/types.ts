@@ -18,4 +18,6 @@ export default  {
         SceneManagerController: Symbol("SceneManagerController"),
         SceneManager: Symbol("SceneManager"),
         CardOperations: Symbol("CardOperations"),
+        HighscoreApiController: Symbol("HighscoreApiController"),
+        HighscoreApiService: Symbol("HighscoreApiService"),
 };
