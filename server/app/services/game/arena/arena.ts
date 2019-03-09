@@ -80,6 +80,8 @@ export class Arena {
         this.gameManagerService.sendMessage(playerSocketId, event, message);
     }
 
+    public getPlayers(): Player[] {
+        return this.players;
     }
 
     public async prepareArenaForGameplay(): Promise<void> {
@@ -110,10 +112,6 @@ export class Arena {
         this.arenaInfos.users.forEach((user: IUser) => {
             this.players.push(new Player(user));
         });
-    }
-
-    public getPlayers(): Player[] {
-        return this.players;
     }
 
     private buildPlayerInputResponse(status: string, response: IOriginalPixelCluster): IPlayerInputResponse {
