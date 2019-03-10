@@ -1,10 +1,18 @@
 import { AxiosInstance, AxiosResponse } from "axios";
 import { injectable } from "inversify";
-import { Highscore, HighscoreMessage, HighscoreValidationMessage, Mode, Time, TimeMessage } from "../../../common/communication/highscore";
+import {
+    Highscore,
+    HighscoreMessage,
+    HighscoreValidationMessage,
+    HighscoreValidationStatus,
+    Mode,
+    Time,
+    TimeMessage
+} from "../../../common/communication/highscore";
+import { CCommon } from "../../../common/constantes/cCommon";
 import { Constants } from "../constants";
 
 const DEFAULT_NUMBER:       number = 0;
-const REMOVE_NOTHING:       number = 0;
 const MAX_TIME:             number = 600;
 const MIN_TIME:             number = 180;
 const DOESNT_EXIST:         number = -1;
