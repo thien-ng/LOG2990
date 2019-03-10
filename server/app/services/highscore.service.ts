@@ -58,21 +58,22 @@ export class HighscoreService {
         };
     }
 
-    private secondsToMinutes(times: [Time, Time, Time]): [TimeMessage, TimeMessage, TimeMessage] {
-        const messageHighscore: [TimeMessage, TimeMessage, TimeMessage] = this.generateTimesMessage();
+    private secondsToMinutes(times: [Time, Time, Time]): [StringFormatedTime, StringFormatedTime, StringFormatedTime] {
+        const messageHighscore: [StringFormatedTime, StringFormatedTime, StringFormatedTime] = this.generateTimesMessage();
         let i: number = 0;
 
-        times.forEach((element: Time) => {
-            const minutes: string = Math.floor(element.time / SECONDS_IN_MINUTES).toString();
-            const seconds: string = (element.time - parseFloat(minutes) * SECONDS_IN_MINUTES).toString();
-            messageHighscore[i].username = element.username;
-            messageHighscore[i++].time = minutes + ":" + this.formatZeroDecimal(parseFloat(seconds)) + seconds;
+        times.forEach((time: Time) => {
+            const minutes: string = Math.floor(time.time / SECONDS_IN_MINUTES).toString();
+            const seconds: string = (time.time - parseFloat(minutes) * SECONDS_IN_MINUTES).toString();
+            messageHighscore[i].username = time.username;
+            messageHighscore[i].time = minutes + ":" + this.formatZeroDecimal(parseFloat(seconds)) + seconds;
+            i++;
         });
 
         return messageHighscore;
     }
 
-    private generateTimesMessage(): [TimeMessage, TimeMessage, TimeMessage] {
+    private generateTimesMessage(): [StringFormatedTime, StringFormatedTime, StringFormatedTime] {
         return [
             {
                 username: "",
@@ -89,33 +90,12 @@ export class HighscoreService {
         ];
     }
 
-    public generateNewHighscore(id: number): void {
-        const index: number = this.findHighScoreByID(id);
-        let i: number = 0;
-        this.setMaxValue(index);
-        const randomSingleTimes: [number, number, number] = [DEFAULT_NUMBER, DEFAULT_NUMBER, DEFAULT_NUMBER];
-        const randomMultiTimes: [number, number, number] = [DEFAULT_NUMBER, DEFAULT_NUMBER, DEFAULT_NUMBER];
-
-        randomSingleTimes.forEach(() => {
-            randomSingleTimes[i] = this.randomTime(MIN_TIME, MAX_TIME);
-            randomMultiTimes[i++] = this.randomTime(MIN_TIME, MAX_TIME);
-        });
-
-        randomMultiTimes.sort();
-        randomSingleTimes.sort();
-
-        for (let j: number = 0; j < randomMultiTimes.length; j++) {
-            this.highscores[index].timesSingle[j].time = randomSingleTimes[j];
-            this.highscores[index].timesMulti[j].time = randomMultiTimes[j];
-        }
-    }
-
     private generateApiMessage(value: Time, highscore: Highscore, mode: Mode): HighscoreValidationMessage {
         return {
             newValue: value,
             mode: mode,
             times: highscore,
-        };
+        } as HighscoreValidationMessage;
     }
 
     private setMaxValue(index: number): void {
@@ -125,7 +105,7 @@ export class HighscoreService {
             this.generateDefaultTime(NAME + i++),
             this.generateDefaultTime(NAME + i++),
         ];
-        this.highscores[index].timesMulti   = [
+        this.highscores[index].timesMulti = [
             this.generateDefaultTime(NAME + i++),
             this.generateDefaultTime(NAME + i++),
             this.generateDefaultTime(NAME + i++),
@@ -133,7 +113,7 @@ export class HighscoreService {
     }
 
     public findHighScoreByID(id: number): number {
-        let index: number = DOESNT_EXIST;
+        let index: number = ERROR;
 
         this.highscores.forEach((highscore: Highscore) => {
             if (highscore.id === id) {
