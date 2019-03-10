@@ -17,35 +17,36 @@ describe("HighscoreService tests", () => {
 
     const higscoreMessageExpected:  HighscoreMessage = {
         id:             4,
-        timesMulti:     ["2:02", "2:04", "2:16"],
-        timesSingle:    ["2:02", "2:04", "2:16"],
+        timesMulti:     [{username: "cpu", time: "2:02"}, {username: "cpu", time: "2:04"}, {username: "cpu", time: "2:16"}],
+        timesSingle:    [{username: "cpu", time: "2:02"}, {username: "cpu", time: "2:04"}, {username: "cpu", time: "2:16"}],
     };
 
     beforeEach(() => {
+        mockAxios = new mockAdapter.default(axios);
         mockHighscore = [
             {
                 id:             1,
-                timesSingle:    [2, 4 , 6],
-                timesMulti:     [2, 4 , 6],
+                timesSingle:    [{username: "cpu", time: 2}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
+                timesMulti:     [{username: "cpu", time: 2}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
             },
             {
                 id:             2,
-                timesSingle:    [2, 4 , 6],
-                timesMulti:     [2, 4 , 6],
+                timesSingle:    [{username: "cpu", time: 2}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
+                timesMulti:     [{username: "cpu", time: 2}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
             },
             {
                 id:             3,
-                timesSingle:    [MOCK_SCORE_VALUE_1, MOCK_SCORE_VALUE_2, MOCK_SCORE_VALUE_3],
-                timesMulti:     [MOCK_SCORE_VALUE_1, MOCK_SCORE_VALUE_2, MOCK_SCORE_VALUE_3],
+                timesSingle:    [{username: "cpu", time: 400}, {username: "cpu", time: 500}, {username: "cpu", time: 600}],
+                timesMulti:     [{username: "cpu", time: 400}, {username: "cpu", time: 500}, {username: "cpu", time: 600}],
             },
             {
                 id:             4,
-                timesSingle:    [122, 124 , 136],
-                timesMulti:     [122, 124 , 136],
+                timesSingle:    [{username: "cpu", time: 122}, {username: "cpu", time: 124}, {username: "cpu", time: 136}],
+                timesMulti:     [{username: "cpu", time: 122}, {username: "cpu", time: 124}, {username: "cpu", time: 136}],
             },
         ];
         highscoreService = new HighscoreService();
-        highscoreService.addHighscore(mockHighscore);
+        highscoreService["highscores"] = mockHighscore;
     });
 
     it("Should return the right highscore", () => {
