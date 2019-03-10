@@ -131,5 +131,13 @@ describe("Highscore micro service tests", () => {
         expect(newHighscore.status).to.be.equal(INVALID_PARAMS);
     });
 
+    it("Should return an error status if the mode is not as expected", () => {
+        const param: HighscoreValidationMessage = {
+            newValue: {username: "cpu", time: 1},
+            mode: UNDEFINED,
+            times: mockHighscore,
+        };
+        const newHighscore: HighscoreValidationResponse = highscoreService["checkScore"](param);
+        expect(newHighscore.status).to.be.equal(INVALID_MODE);
     });
 });
