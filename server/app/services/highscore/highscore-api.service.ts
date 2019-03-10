@@ -50,8 +50,13 @@ export class HighscoreApiService {
                 times.pop();
                 hasBeenReplaced = true;
             }
-        });
 
-        return times;
+    private timeListIsValid(times: Highscore): boolean {
+        const idIsValid: boolean = (times.id > 0);
+        const timesSingleIsValid: boolean = times.timesSingle.every((t: Time) =>  this.timeIsValid(t)) && (times.timesSingle.length > 0);
+        const timesMultiIsValid: boolean = times.timesMulti.every((t: Time) =>  this.timeIsValid(t)) && (times.timesMulti.length > 0);
+
+        return idIsValid && timesSingleIsValid && timesMultiIsValid;
     }
+
 }
