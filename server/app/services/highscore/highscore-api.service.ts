@@ -39,16 +39,27 @@ export class HighscoreApiService {
                 break;
         }
 
-        return times;
-    }
+    private sortTimes(times: [Time, Time, Time], newValue: Time): SortTimesResponse {
+        let hasBeenReplaced: boolean = false;
+        let position: Position = Position.notReplaced;
 
-    private sortTimes(times: [Time, Time, Time], newValue: Time): [Time, Time, Time] {
-        let hasBeenReplaced: Boolean = false;
-        times.forEach((element: Time) => {
-            if (element.time > newValue.time && !hasBeenReplaced) {
-                times.splice(times.indexOf(element), REMOVE_NOTHING, newValue);
+        for (let i: number = 0; i < times.length; i++) {
+            if (times[i].time > newValue.time && !hasBeenReplaced) {
+                times.splice(i, REMOVE_NOTHING, newValue);
                 times.pop();
                 hasBeenReplaced = true;
+                position = i;
+            }
+        }
+
+        return {
+            status: ON_SUCCESS,
+            isNewHighscore: hasBeenReplaced,
+            index: position,
+            times: times,
+        };
+    }
+
     private timeIsValid(newValue: Time): boolean {
         if (typeof newValue.username === "string" && newValue.username !== "") {
             if (newValue.time >= 0) {
