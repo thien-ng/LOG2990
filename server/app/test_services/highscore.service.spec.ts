@@ -123,9 +123,10 @@ describe("HighscoreService tests", () => {
     });
 
     it("Should not change the mock highscores if cardId is undefined", () => {
-        highscoreService.updateHighscore(1, Mode.Singleplayer, UNDEFINED);
-        expect(highscoreService.allHighscores).to.deep.equal(mockHighscore);
+        highscoreService.updateHighscore({username: "cpu", time: 1}, Mode.Singleplayer, UNDEFINED);
+        expect(highscoreService["highscores"]).to.deep.equal(mockHighscore);
     });
+
     it("Should add the zero if necessary", () => {
         expect(highscoreService.convertToString(4)).to.deep.equal(higscoreMessageExpected);
     });
