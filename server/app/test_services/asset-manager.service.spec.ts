@@ -75,4 +75,28 @@ describe("Image manager service tests", () => {
             imageManagerService.deleteStoredImages(path);
         }).to.not.throw(TypeError);
     });
+    it("Should copy an image to the temp directory",  () => {
+        const gameId: number = 1;
+        const path: string = Constants.IMAGES_PATH + "/" + gameId + Constants.GENERATED_FILE;
+        chai.expect(() => {
+            imageManagerService.stockImage(path, buffer);
+            setTimeout(() => imageManagerService.copyFileToTemp(path, gameId, Constants.GENERATED_FILE), 1000);
+        }).to.not.throw(TypeError);
+
+    });
+    // it("Should delete an image to the temp directory", () => {
+    //     const gameId: number = 1;
+    //     const imgPathTemp: string = Constants.TEMP_IMAGES_PATH + gameId + Constants.GENERATED_FILE;
+    //     imageManagerService.deleteFileInTemp(gameId, Constants.GENERATED_FILE);
+    //     chai.expect(fs.existsSync(imgPathTemp)).to.equal(false);
+    // });
+    // it("Should delete an image to the temp directory", () => {
+    //     chai.spy.on(imageManagerService["fs"], "copyFileSync", () => { throw new TypeError; });
+    //     const gameId: number = 1;
+    //     // const imgPathTemp: string = Constants.TEMP_IMAGES_PATH + gameId + Constants.GENERATED_FILE;
+    //     imageManagerService.deleteFileInTemp(gameId, Constants.GENERATED_FILE);
+    //     chai.spy.on(fs, "existsSync", () => true);
+    //     chai.expect(imageManagerService.deleteFileInTemp(gameId, Constants.GENERATED_FILE)).to.throw();
+    // });
+
 });
