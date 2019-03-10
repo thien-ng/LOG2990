@@ -1,10 +1,13 @@
 import { expect } from "chai";
-import { Highscore, Mode } from "../../../../../common/communication/highscore";
 import { HighscoreApiService } from "../highscore-api.service";
+import { Highscore, HighscoreValidationMessage, HighscoreValidationResponse, Mode } from "../utilities/interfaces";
 
 // tslint:disable:no-magic-numbers no-any
 
-const UNDEFINED: number = 4;
+const UNDEFINED:                number = 4;
+const INVALID_MODE:             string = "invalidMode";
+const INVALID_PARAMS_VALUE:     string = "invalidParamsValue";
+const INVALID_PARAMS:           string = "invalidParams";
 
 let highscoreService: HighscoreApiService;
 let mockHighscore: Highscore;
