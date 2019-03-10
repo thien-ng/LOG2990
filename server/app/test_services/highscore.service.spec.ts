@@ -1,4 +1,3 @@
-// tslint:disable:no-magic-numbers
 import { expect } from "chai";
 import { Highscore, HighscoreMessage, Mode } from "../../../common/communication/highscore";
 import { Constants } from "../constants";
@@ -129,5 +128,15 @@ describe("HighscoreService tests", () => {
 
     it("Should add the zero if necessary", () => {
         expect(highscoreService.convertToString(4)).to.deep.equal(higscoreMessageExpected);
+    });
+
+    it("Should fail quietly if the post fails", async () => {
+        highscoreService.updateHighscore({username: "cpu", time: 1}, Mode.Singleplayer, 1);
+        expect(highscoreService["highscores"]).to.deep.equal(mockHighscore);
+    });
+
+    it("Should fail quietly if the response status is unexpected", () => {
+        highscoreService["analyseHighscoreResponse"]({status: "undefined", result: ""}, 2);
+        expect(highscoreService["highscores"]).to.deep.equal(mockHighscore);
     });
 });
