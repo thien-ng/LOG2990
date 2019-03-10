@@ -1,5 +1,6 @@
 import { expect } from "chai";
 import { Highscore, HighscoreMessage, Mode } from "../../../common/communication/highscore";
+import { CCommon } from "../../../common/constantes/cCommon";
 import { Constants } from "../constants";
 import { HighscoreService } from "../services/highscore.service";
 
@@ -59,30 +60,41 @@ describe("HighscoreService tests", () => {
 
     it("Should update the single player highscore", async () => {
         const answer: any = {
-            id:             1,
-            timesSingle:    [{username: "cpu", time: 1}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
-            timesMulti:     [{username: "cpu", time: 2}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
+            status: CCommon.ON_SUCCESS,
+            isNewHighscore: true,
+            index: 0,
+            highscore: {
+                id:             1,
+                timesSingle:    [{username: "cpu", time: 1}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
+                timesMulti:     [{username: "cpu", time: 2}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
+            },
         };
+
         mockAxios.onPost(Constants.VALIDATE_HIGHSCORE_PATH)
         .reply(200, answer);
 
         await highscoreService.updateHighscore({username: "cpu", time: 1}, Mode.Singleplayer, 1);
         const index: number = highscoreService.findHighScoreByID(1);
-        expect(highscoreService["highscores"][index]).deep.equal(answer);
+        expect(highscoreService["highscores"][index]).deep.equal(answer.highscore);
     });
 
     it("Should update the multi player highscore", async () => {
         const answer: any = {
-            id:             1,
-            timesSingle:    [{username: "cpu", time: 2}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
-            timesMulti:     [{username: "cpu", time: 1}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
+            status: CCommon.ON_SUCCESS,
+            isNewHighscore: true,
+            index: 0,
+            highscore: {
+                id:             1,
+                timesSingle:    [{username: "cpu", time: 2}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
+                timesMulti:     [{username: "cpu", time: 1}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
+            },
         };
         mockAxios.onPost(Constants.VALIDATE_HIGHSCORE_PATH)
         .reply(200, answer);
 
         await highscoreService.updateHighscore({username: "cpu", time: 1}, Mode.Multiplayer, 1);
         const index: number = highscoreService.findHighScoreByID(1);
-        expect(highscoreService["highscores"][index]).deep.equal(answer);
+        expect(highscoreService["highscores"][index]).deep.equal(answer.highscore);
     });
 
     it("Should not update the highscore", () => {
@@ -135,8 +147,7 @@ describe("HighscoreService tests", () => {
         expect(highscoreService["highscores"]).to.deep.equal(mockHighscore);
     });
 
-    it("Should fail quietly if the response status is unexpected", () => {
-        highscoreService["analyseHighscoreResponse"]({status: "undefined", result: ""}, 2);
-        expect(highscoreService["highscores"]).to.deep.equal(mockHighscore);
+    it("Should return a HighscoreMessage with -1 for id if id is invalid", () => {
+        expect(highscoreService.convertToString(55).id).to.equal(-1);
     });
 });
