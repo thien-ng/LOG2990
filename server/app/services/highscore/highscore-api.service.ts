@@ -29,6 +29,26 @@ export class HighscoreApiService {
 
         return false;
     }
+
+    public checkScoreRoutine(params: HighscoreValidationMessage): HighscoreValidationResponse {
+        try {
+            const paramsIsValid: boolean = this.validateParams(params);
+
+            if (paramsIsValid) {
+                return this.checkScore(params);
+            }
+
+            return {
+                status: INVALID_PARAMS_VALUE,
+            } as HighscoreValidationResponse;
+
+        } catch (error) {
+            return {
+                status: INVALID_PARAMS,
+            } as HighscoreValidationResponse;
+        }
+    }
+
             case Mode.Singleplayer:
                 times.timesSingle = this.sortTimes(times.timesSingle, newValue);
                 break;
