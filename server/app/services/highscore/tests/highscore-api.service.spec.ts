@@ -73,5 +73,24 @@ describe("Highscore micro service tests", () => {
         expect(newHighscore.highscore.timesMulti[1]).to.be.equal(param.newValue);
     });
 
+    it("Should not update the times when all of the highscores are equal (singleplayer)", () => {
+        const param1: HighscoreValidationMessage = {
+            newValue: {username: "cpu", time: 2},
+            mode: Mode.Singleplayer,
+            times: mockHighscore,
+        };
+        highscoreService.checkScoreRoutine(param1);
+        highscoreService.checkScoreRoutine(param1);
+
+        const param2: HighscoreValidationMessage = {
+            newValue: {username: "cpu2", time: 2},
+            mode: Mode.Singleplayer,
+            times: mockHighscore,
+        };
+        const newHighscore: HighscoreValidationResponse = highscoreService.checkScoreRoutine(param2);
+        expect(newHighscore.highscore.timesSingle[0]).to.deep.equal(param1.newValue);
+        expect(newHighscore.highscore.timesSingle[1]).to.deep.equal(param1.newValue);
+        expect(newHighscore.highscore.timesSingle[2]).to.deep.equal(param1.newValue);
+    });
     });
 });
