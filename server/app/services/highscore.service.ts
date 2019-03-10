@@ -177,7 +177,7 @@ export class HighscoreService {
         ];
     }
 
-    public findHighScoreByID(id: number): number {
+    private findHighScoreByID(id: number): number {
         let index: number = ERROR;
 
         this.highscores.forEach((highscore: Highscore) => {
