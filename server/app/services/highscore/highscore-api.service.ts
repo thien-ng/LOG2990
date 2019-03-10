@@ -5,8 +5,10 @@ const REMOVE_NOTHING: number = 0;
 
 @injectable()
 export class HighscoreApiService {
-    public checkScore(newValue: Time, times: [Time, Time, Time]): [Time, Time, Time] {
-        // todo if -1
+    public checkScore(newValue: Time, times: Highscore, mode: Mode): Highscore {
+        if (newValue.time < 0) {
+            return times;
+        }
         let hasBeenReplaced: Boolean = false;
 
         times.forEach((element: Time) => {
