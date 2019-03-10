@@ -23,6 +23,7 @@ import { LoginPageComponent } from "./login/login-page/login-page.component";
 import { LoginValidatorComponent } from "./login/login-validator/login-validator.component";
 import { LoginViewComponent } from "./login/login-view/login-view.component";
 import { MainNavComponent } from "./main-nav/main-nav.component";
+import { SpinnerComponent } from "./spinner/spinner.component";
 import { TestingImportsModule } from "./testing-imports/testing-imports.module";
 
 const routes: Routes = [
@@ -85,6 +86,7 @@ const routes: Routes = [
     ChatViewComponent,
     MessageViewComponent,
     TheejsViewComponent,
+    SpinnerComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
