@@ -35,5 +35,8 @@ describe("Highscore micro service tests", () => {
         expect(newHighscore.timesMulti[0].time).to.be.equal(1);
     });
 
-   });
+    it("Should fail quietly if the mode is undefined", () => {
+        const newHighscore: Highscore = highscoreService.checkScore({username: "cpu", time: 1}, mockHighscore, UNDEFINED);
+        expect(newHighscore).to.be.equal(mockHighscore);
+    });
 });
