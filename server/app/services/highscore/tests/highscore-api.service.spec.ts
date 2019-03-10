@@ -44,7 +44,7 @@ describe("Highscore micro service tests", () => {
     });
 
     it("Should update the times when the new value is smaller than any of the previous highscores (multiplayer)", () => {
-        const newHighscore: Highscore = highscoreService.checkScore({username: "cpu", time: 1}, mockHighscore, Mode.Multiplayer);
+        const param: HighscoreValidationMessage = {
             newValue: {username: "cpu", time: 1},
             mode: Mode.Multiplayer,
             times: mockHighscore,
@@ -53,6 +53,14 @@ describe("Highscore micro service tests", () => {
         expect(newHighscore.highscore.timesMulti[0].time).to.be.equal(1);
     });
 
+    it("Should update the times when the new value is equal to the first highscore (singleplayer)", () => {
+        const param: HighscoreValidationMessage = {
+            newValue: {username: "cpu2", time: 2},
+            mode: Mode.Singleplayer,
+            times: mockHighscore,
+        };
+        const newHighscore: HighscoreValidationResponse = highscoreService.checkScoreRoutine(param);
+        expect(newHighscore.highscore.timesSingle[1]).to.be.equal(param.newValue);
     });
 
     it("Should fail quietly if the mode is undefined", () => {
