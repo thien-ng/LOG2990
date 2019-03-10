@@ -161,17 +161,17 @@ export class HighscoreService {
     }
 
     public async updateHighscore(value: Time, mode: Mode, cardID: number): Promise<Highscore> {
-        const highscore: Highscore = this.highscores[this.findHighScoreByID(cardID)];
+        const index: number = this.findHighScoreByID(cardID);
 
-        if (highscore !== undefined) {
+        if (this.highscores[index] !== undefined) {
             switch (mode) {
                 case Mode.Singleplayer:
-                    const messageSingle: HighscoreValidationMessage = this.generateApiMessage(value, highscore.timesSingle);
-                    highscore.timesSingle = await this.validateHighscore(messageSingle, highscore, mode);
+                    const messageSingle: HighscoreValidationMessage = this.generateApiMessage(value, this.highscores[index], mode);
+                    this.analyseHighscoreResponse(await this.validateHighscore(messageSingle), index);
                     break;
                 case Mode.Multiplayer:
-                    const messageMulti: HighscoreValidationMessage = this.generateApiMessage(value, highscore.timesMulti);
-                    highscore.timesMulti = await this.validateHighscore(messageMulti, highscore, mode);
+                    const messageMulti: HighscoreValidationMessage = this.generateApiMessage(value, this.highscores[index], mode);
+                    this.analyseHighscoreResponse(await this.validateHighscore(messageMulti), index);
                     break;
                 default:
                     // Fails quietly
@@ -179,7 +179,9 @@ export class HighscoreService {
             }
         }
 
-        return highscore;
+        return this.highscores[index];
+    }
+
     }
 
     private async validateHighscore(message: HighscoreValidationMessage, highscore: Highscore, mode: Mode): Promise<[Time, Time, Time]> {
