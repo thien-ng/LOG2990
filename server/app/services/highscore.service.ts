@@ -197,14 +197,4 @@ export class HighscoreService {
             time: MAX_TIME,
         };
     }
-
-    // Methods for testing
-    public addHighscore(hs: Highscore[]): void {
-        this.highscores.splice(REMOVE_NOTHING, this.highscores.length);
-        this.highscores = hs;
-    }
-
-    public get allHighscores(): Highscore[] {
-        return this.highscores;
-    }
 }
