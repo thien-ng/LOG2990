@@ -89,13 +89,7 @@ export class HighscoreApiService {
     }
 
     private timeIsValid(newValue: Time): boolean {
-        if (typeof newValue.username === "string" && newValue.username !== "") {
-            if (newValue.time >= 0) {
-                return true;
-            }
-        }
-
-        return false;
+        return typeof newValue.username === "string" && newValue.username !== "" && newValue.time >= 0;
     }
 
     private modeIsValid(mode: Mode): boolean {
