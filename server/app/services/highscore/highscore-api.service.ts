@@ -49,7 +49,19 @@ export class HighscoreApiService {
                 times.splice(times.indexOf(element), REMOVE_NOTHING, newValue);
                 times.pop();
                 hasBeenReplaced = true;
+    private timeIsValid(newValue: Time): boolean {
+        if (typeof newValue.username === "string" && newValue.username !== "") {
+            if (newValue.time >= 0) {
+                return true;
             }
+        }
+
+        return false;
+    }
+
+    private modeIsValid(mode: Mode): boolean {
+        return (mode === Mode.Singleplayer || mode === Mode.Multiplayer);
+    }
 
     private timeListIsValid(times: Highscore): boolean {
         const idIsValid: boolean = (times.id > 0);
