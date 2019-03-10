@@ -182,6 +182,19 @@ export class HighscoreService {
         return this.highscores[index];
     }
 
+    private analyseHighscoreResponse(response: HighscoreValidationStatus, index: number): void {
+        switch (response.status) {
+            case CCommon.ON_SUCCESS:
+                if (typeof response.result !== "string") {
+                    this.highscores[index] = response.result;
+                }
+                break;
+            case CCommon.ON_ERROR:
+                // TBD
+                break;
+            default:
+                break;
+        }
     }
 
     private async validateHighscore(message: HighscoreValidationMessage, highscore: Highscore, mode: Mode): Promise<[Time, Time, Time]> {
