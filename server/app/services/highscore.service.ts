@@ -197,11 +197,19 @@ export class HighscoreService {
         }
     }
 
-    private async validateHighscore(message: HighscoreValidationMessage, highscore: Highscore, mode: Mode): Promise<[Time, Time, Time]> {
+    private async validateHighscore(message: HighscoreValidationMessage): Promise<HighscoreValidationStatus> {
         return axios.post(Constants.VALIDATE_HIGHSCORE_PATH, message)
         .then((response: AxiosResponse) => {
-            return response.data;
-        }).catch((error: Error) => {throw new TypeError(error.message); });
+            return {
+                status: CCommon.ON_SUCCESS,
+                result: response.data,
+            };
+        }).catch((error: Error) => {
+            return {
+                status: CCommon.ON_ERROR,
+                result: error.message,
+            };
+        });
     }
 
     private generateDefaultTime(name: string): Time {
