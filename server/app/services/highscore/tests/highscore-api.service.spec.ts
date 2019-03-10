@@ -23,9 +23,14 @@ describe("Highscore micro service tests", () => {
         highscoreService = new HighscoreApiService();
    });
 
-    it("Should not update the times when the new value is negative", () => {
-        const newHighscore: Highscore = highscoreService.checkScore({username: "cpu", time: -1}, mockHighscore, Mode.Singleplayer);
-        expect(newHighscore).to.be.equal(mockHighscore);
+    it("Should return a status saying that the parameters values are invalid if the time is negative", () => {
+        const param: HighscoreValidationMessage = {
+            newValue: {username: "cpu", time: -1},
+            mode: Mode.Singleplayer,
+            times: mockHighscore,
+        };
+        const newHighscore: HighscoreValidationResponse = highscoreService.checkScoreRoutine(param);
+        expect(newHighscore.status).to.be.equal(INVALID_PARAMS_VALUE);
     });
 
     it("Should update the times when the new value is smaller than any of the previous highscores (singleplayer)", () => {
