@@ -54,22 +54,12 @@ export class HighscoreApiService {
                 sortTimesResponse = this.sortTimes(params.times.timesSingle, params.newValue);
                 params.times.timesSingle = sortTimesResponse.times;
 
-                return {
-                    status: sortTimesResponse.status,
-                    isNewHighscore: sortTimesResponse.isNewHighscore,
-                    index: sortTimesResponse.index,
-                    highscore: params.times,
-                };
+                return this.generateHighscoreResponse(sortTimesResponse, params.times);
             case Mode.Multiplayer:
                 sortTimesResponse = this.sortTimes(params.times.timesMulti, params.newValue);
                 params.times.timesMulti = sortTimesResponse.times;
 
-                return {
-                    status: sortTimesResponse.status,
-                    isNewHighscore: sortTimesResponse.isNewHighscore,
-                    index: sortTimesResponse.index,
-                    highscore: params.times,
-                };
+                return this.generateHighscoreResponse(sortTimesResponse, params.times);
             default:
                 return {
                     status: INVALID_MODE,
