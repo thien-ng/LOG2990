@@ -22,7 +22,13 @@ export interface TimeMessage {
 
 export interface HighscoreValidationMessage {
     newValue:   Time,
-    times:      [Time, Time, Time],
+    mode:       Mode,
+    times:      Highscore,
+}
+
+export interface HighscoreValidationStatus { 
+    status: string,
+    result: Highscore | string,
 }
 
 export enum Mode {
