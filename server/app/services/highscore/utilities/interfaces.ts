@@ -15,6 +15,13 @@ export interface HighscoreValidationMessage {
     times:      Highscore;
 }
 
+export interface SortTimesResponse {
+    status: string;
+    isNewHighscore: boolean;
+    index: Position;
+    times: [Time, Time, Time];
+}
+
 export enum Position {
     position1 = 0,
     position2 = 1,
