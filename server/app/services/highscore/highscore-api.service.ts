@@ -17,12 +17,18 @@ const INVALID_PARAMS:           string = "invalidParams";
 
 @injectable()
 export class HighscoreApiService {
-    public checkScore(newValue: Time, times: Highscore, mode: Mode): Highscore {
-        if (newValue.time < 0) {
-            return times;
+
+    public validateParams(params: HighscoreValidationMessage): boolean {
+        if (this.timeListIsValid(params.times)) {
+            if (this.modeIsValid(params.mode)) {
+                if (this.timeIsValid(params.newValue)) {
+                    return true;
+                }
+            }
         }
 
-        switch (mode) {
+        return false;
+    }
             case Mode.Singleplayer:
                 times.timesSingle = this.sortTimes(times.timesSingle, newValue);
                 break;
