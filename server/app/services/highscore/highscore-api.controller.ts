@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { inject, injectable } from "inversify";
-import { Highscore } from "../../../../common/communication/highscore";
 import { HighscoreApiService } from "./highscore-api.service";
+import { HighscoreValidationResponse } from "./utilities/interfaces";
 
 import Types from "../../types";
 
@@ -15,7 +15,7 @@ export class HighscoreApiController {
         const router: Router = Router();
 
         router.post("/", async (req: Request, res: Response, next: NextFunction) => {
-            const highscore: Highscore = this.highscoreApiService.checkScore(req.body.newValue, req.body.times, req.body.mode);
+            const highscore: HighscoreValidationResponse = this.highscoreApiService.checkScoreRoutine(req.body);
             res.json(highscore);
         });
 
