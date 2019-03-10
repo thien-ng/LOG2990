@@ -117,7 +117,13 @@ export class HighscoreApiService {
         const timesSingleIsValid: boolean = times.timesSingle.every((t: Time) =>  this.timeIsValid(t)) && (times.timesSingle.length > 0);
         const timesMultiIsValid: boolean = times.timesMulti.every((t: Time) =>  this.timeIsValid(t)) && (times.timesMulti.length > 0);
 
-        return idIsValid && timesSingleIsValid && timesMultiIsValid;
+    private generateHighscoreResponse(response: SortTimesResponse, highscore: Highscore): HighscoreValidationResponse {
+        return {
+            status: response.status,
+            isNewHighscore: response.isNewHighscore,
+            index: response.index,
+            highscore: highscore,
+        };
     }
 
 }
