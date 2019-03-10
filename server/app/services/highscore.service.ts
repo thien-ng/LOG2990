@@ -1,21 +1,21 @@
-import { AxiosInstance, AxiosResponse } from "axios";
+import { AxiosInstance } from "axios";
 import { injectable } from "inversify";
 import {
     Highscore,
     HighscoreMessage,
     HighscoreValidationMessage,
-    HighscoreValidationStatus,
+    HighscoreValidationResponse,
     Mode,
-    Time,
-    TimeMessage
+    StringFormatedTime,
+    Time
 } from "../../../common/communication/highscore";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { Constants } from "../constants";
 
+const ERROR:                number = -1;
 const DEFAULT_NUMBER:       number = 0;
 const MAX_TIME:             number = 600;
 const MIN_TIME:             number = 180;
-const DOESNT_EXIST:         number = -1;
 const SECONDS_IN_MINUTES:   number = 60;
 const BASE_DECIMAL:         number = 10;
 const NAME:                 string = "ordinateur";
@@ -42,10 +42,6 @@ export class HighscoreService {
         };
         this.highscores.push(highscore);
         this.generateNewHighscore(id);
-    }
-
-    private formatZeroDecimal(value: number): string {
-        return (value < BASE_DECIMAL) ? "0" : "";
     }
 
     public convertToString(id: number): HighscoreMessage {
@@ -83,6 +79,23 @@ export class HighscoreService {
             this.highscores[index].timesMulti[j].time = randomMultiTimes[j];
         }
     }
+
+    public randomTime(min: number, max: number): number {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    public getHighscoreById(id: number): Highscore | undefined {
+        let score: Highscore | undefined;
+
+        this.highscores.forEach((element: Highscore) => {
+            if (element.id === id) {
+                score = element;
+            }
+        });
+
+        return score;
+    }
+
     public async updateHighscore(value: Time, mode: Mode, cardID: number): Promise<HighscoreValidationResponse> {
         const index: number = this.findHighScoreByID(cardID);
 
