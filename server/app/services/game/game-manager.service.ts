@@ -170,7 +170,7 @@ export class GameManagerService {
         const arena: Arena | undefined = this.arenas.get(playerInput.arenaId);
         if (arena !== undefined) {
             if (arena.contains(playerInput.user)) {
-                return arena.onPlayerInput(playerInput);
+                return  arena.onPlayerInput(playerInput);
             }
         }
 

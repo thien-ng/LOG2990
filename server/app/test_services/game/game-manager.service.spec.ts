@@ -1,5 +1,6 @@
 import "reflect-metadata";
 
+import { throws } from "assert";
 import * as chai from "chai";
 import * as spies from "chai-spies";
 import * as fs from "fs";
@@ -8,7 +9,7 @@ import SocketIO = require("socket.io");
 import { mock, verify } from "ts-mockito";
 import { GameMode } from "../../../../common/communication/iCard";
 import { GameType, IGameRequest } from "../../../../common/communication/iGameRequest";
-import { IOriginalPixelCluster, IPlayerInputResponse } from "../../../../common/communication/iGameplay";
+import { IOriginalPixelCluster, IPlayerInputResponse} from "../../../../common/communication/iGameplay";
 import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../../constants";
@@ -237,4 +238,92 @@ describe("GameManagerService tests", () => {
         gameManagerService.sendMessage("socketID", "onEvent", 1);
         verify(socket.emit("onEvent", 1)).atLeast(0);
     });
+    it("Should increment to 1 the counter linked to the gameId", () => {
+        userManagerService.validateName(request2D.username);
+
+        mockAxios.onGet(iArenaInfos.originalGameUrl, {
+            responseType: "arraybuffer",
+        }).reply(200, original);
+
+        mockAxios.onGet(iArenaInfos.differenceGameUrl, {
+            responseType: "arraybuffer",
+        }).reply(200, modified);
+
+        chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
+        chai.spy.on(gameManagerService, "init2DArena", () => {
+            gameManagerService.arena.timer.stopTimer();
+        });
+
+        gameManagerService.analyseRequest(request2D).then().catch();
+        chai.expect(gameManagerService["countByGameId"].get(request2D.gameId)).to.equal(1);
+
+    });
+    it("Should increment to 2 the counter linked to the gameId when adding a 2nd arena with same game id", () => {
+        userManagerService.validateName(request2D.username);
+
+        mockAxios.onGet(iArenaInfos.originalGameUrl, {
+            responseType: "arraybuffer",
+        }).reply(200, original);
+
+        mockAxios.onGet(iArenaInfos.differenceGameUrl, {
+            responseType: "arraybuffer",
+        }).reply(200, modified);
+
+        chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
+        chai.spy.on(gameManagerService, "init2DArena", () => {
+            gameManagerService.arena.timer.stopTimer();
+        });
+
+        gameManagerService.analyseRequest(request2D).then().catch();
+        gameManagerService.analyseRequest(request2D).then().catch();
+        chai.expect(gameManagerService["countByGameId"].get(request2D.gameId)).to.equal(2);
+
+    });
+    it("Should throw an error if cannot copy the gameImages", () => {
+        userManagerService.validateName(request2D.username);
+        chai.spy.on(gameManagerService["assetManager"], "copyFileToTemp", () =>  throws(() => new TypeError()));
+
+        mockAxios.onGet(iArenaInfos.originalGameUrl, {
+            responseType: "arraybuffer",
+        }).reply(200, original);
+
+        mockAxios.onGet(iArenaInfos.differenceGameUrl, {
+            responseType: "arraybuffer",
+        }).reply(200, modified);
+
+        chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
+        chai.spy.on(gameManagerService, "init2DArena", () => {
+            gameManagerService.arena.timer.stopTimer();
+        });
+        const spy: any = chai.spy.on(gameManagerService, "tempRoutine");
+
+        gameManagerService.analyseRequest(request2D).then().catch();
+        gameManagerService.analyseRequest(request2D).then().catch();
+        chai.expect(spy).to.throw();
+
+    });
+    it("should delete the temp images if we delete the last arena alive", () => {
+        userManagerService.validateName(request2D.username);
+        mockAxios.onGet(iArenaInfos.originalGameUrl, {
+            responseType: "arraybuffer",
+        }).reply(200, original);
+
+        mockAxios.onGet(iArenaInfos.differenceGameUrl, {
+            responseType: "arraybuffer",
+        }).reply(200, modified);
+
+        chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
+        chai.spy.on(gameManagerService, "init2DArena", () => {
+            gameManagerService["arena"].timer.stopTimer();
+        });
+        const spy: any = chai.spy.on(gameManagerService["gameIdByArena"], "set");
+
+        gameManagerService.analyseRequest(request2D).catch();
+        gameManagerService["countByGameId"].set(1, 0);
+        gameManagerService.deleteArena(iArenaInfos);
+        chai.expect(spy).to.have.been.called();
+
+    });
+    // tslint:disable-next-line:max-func-body-length
+// tslint:disable-next-line:max-file-line-count
 });
