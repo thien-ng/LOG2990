@@ -63,8 +63,15 @@ describe("Highscore micro service tests", () => {
         expect(newHighscore.highscore.timesSingle[1]).to.be.equal(param.newValue);
     });
 
-    it("Should fail quietly if the mode is undefined", () => {
-        const newHighscore: Highscore = highscoreService.checkScore({username: "cpu", time: 1}, mockHighscore, UNDEFINED);
-        expect(newHighscore).to.be.equal(mockHighscore);
+    it("Should update the times when the new value is equal to the first highscore (multiplayer)", () => {
+        const param: HighscoreValidationMessage = {
+            newValue: {username: "cpu2", time: 2},
+            mode: Mode.Multiplayer,
+            times: mockHighscore,
+        };
+        const newHighscore: HighscoreValidationResponse = highscoreService.checkScoreRoutine(param);
+        expect(newHighscore.highscore.timesMulti[1]).to.be.equal(param.newValue);
+    });
+
     });
 });
