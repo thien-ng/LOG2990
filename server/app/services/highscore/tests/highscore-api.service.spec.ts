@@ -19,5 +19,10 @@ describe("Highscore micro service tests", () => {
         };
         highscoreService = new HighscoreApiService();
    });
+
+    it("Should not update the times when the new value is negative", () => {
+        const newHighscore: Highscore = highscoreService.checkScore({username: "cpu", time: -1}, mockHighscore, Mode.Singleplayer);
+        expect(newHighscore).to.be.equal(mockHighscore);
+    });
    });
 });
