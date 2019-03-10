@@ -50,12 +50,39 @@ export class HighscoreService {
 
     public convertToString(id: number): HighscoreMessage {
         const index: number = this.findHighScoreByID(id);
+        if (index !== ERROR) {
+            return {
+                id:             id,
+                timesSingle:    this.secondsToMinutes(this.highscores[index].timesSingle),
+                timesMulti:     this.secondsToMinutes(this.highscores[index].timesMulti),
+            } as HighscoreMessage;
+        }
 
         return {
-            id:             id,
-            timesSingle:    this.secondsToMinutes(this.highscores[index].timesSingle),
-            timesMulti:     this.secondsToMinutes(this.highscores[index].timesMulti),
-        };
+            id: ERROR,
+        } as HighscoreMessage;
+    }
+
+    public generateNewHighscore(id: number): void {
+        const index: number = this.findHighScoreByID(id);
+
+        this.setMaxValue(index);
+        const randomSingleTimes: [number, number, number] = [DEFAULT_NUMBER, DEFAULT_NUMBER, DEFAULT_NUMBER];
+        const randomMultiTimes: [number, number, number] = [DEFAULT_NUMBER, DEFAULT_NUMBER, DEFAULT_NUMBER];
+
+        for (let i: number = 0; i < randomSingleTimes.length; i++) {
+            randomSingleTimes[i] = this.randomTime(MIN_TIME, MAX_TIME);
+            randomMultiTimes[i] = this.randomTime(MIN_TIME, MAX_TIME);
+        }
+
+        randomMultiTimes.sort();
+        randomSingleTimes.sort();
+
+        for (let j: number = 0; j < randomMultiTimes.length; j++) {
+            this.highscores[index].timesSingle[j].time = randomSingleTimes[j];
+            this.highscores[index].timesMulti[j].time = randomMultiTimes[j];
+        }
+    }
     public async updateHighscore(value: Time, mode: Mode, cardID: number): Promise<HighscoreValidationResponse> {
         const index: number = this.findHighScoreByID(cardID);
 
