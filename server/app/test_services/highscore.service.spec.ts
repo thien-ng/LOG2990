@@ -97,26 +97,31 @@ describe("HighscoreService tests", () => {
     });
 
     it("Should fail quietly and not update the highscores", () => {
-        highscoreService.updateHighscore(1, UNDEFINED, 1);
+        highscoreService.updateHighscore({username: "cpu", time: 1}, UNDEFINED, 1);
         const index: number = highscoreService.findHighScoreByID(1);
-        expect(highscoreService.allHighscores[index].timesMulti).deep.equal([2, 4, 6]);
+        expect(highscoreService["highscores"][index].timesMulti).deep.equal(mockHighscore[0].timesMulti);
     });
+
     it("Should generate new random score", () => {
         highscoreService.generateNewHighscore(3);
-        expect(mockHighscore[2].timesMulti).not.deep.equal([MOCK_SCORE_VALUE_1, MOCK_SCORE_VALUE_2, MOCK_SCORE_VALUE_3]);
+        expect(mockHighscore[2].timesMulti).not.deep.equal([400, 500, 600]);
     });
+
     it("First score should be inferior to 2nd Score", () => {
         highscoreService.generateNewHighscore(3);
-        expect(mockHighscore[2].timesMulti[0]).to.be.at.most(mockHighscore[2].timesMulti[1]);
+        expect(mockHighscore[2].timesMulti[0].time).to.be.at.most(mockHighscore[2].timesMulti[1].time);
     });
+
     it("2nd score should be inferior to 3rd score", () => {
         highscoreService.generateNewHighscore(3);
-        expect(mockHighscore[2].timesMulti[1]).to.be.at.most(mockHighscore[2].timesMulti[2]);
+        expect(mockHighscore[2].timesMulti[1].time).to.be.at.most(mockHighscore[2].timesMulti[2].time);
     });
+
     it("Should return the highscore message coresponding to the id", () => {
         const cardId: number = 1;
         expect(highscoreService.convertToString(cardId).id).to.be.equal(cardId);
     });
+
     it("Should not change the mock highscores if cardId is undefined", () => {
         highscoreService.updateHighscore(1, Mode.Singleplayer, UNDEFINED);
         expect(highscoreService.allHighscores).to.deep.equal(mockHighscore);
