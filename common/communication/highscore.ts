@@ -2,12 +2,12 @@ export interface Highscore {
     id:             number,
     timesSingle:    [Time, Time, Time],
     timesMulti:     [Time, Time, Time],
-  }
+}
 
 export interface HighscoreMessage {
     id:             number,
-    timesSingle:    [TimeMessage, TimeMessage, TimeMessage],
-    timesMulti:     [TimeMessage, TimeMessage, TimeMessage],
+    timesSingle:    [StringFormatedTime, StringFormatedTime, StringFormatedTime],
+    timesMulti:     [StringFormatedTime, StringFormatedTime, StringFormatedTime],
 }
 
 export interface Time {
@@ -15,7 +15,7 @@ export interface Time {
     time:       number,
 }
 
-export interface TimeMessage {
+export interface StringFormatedTime {
     username:   string,
     time:       string,
 }
@@ -37,7 +37,7 @@ export enum Mode {
 }
 
 export enum Position {
-    position1 = 0,
-    position2 = 1,
-    position3 = 2,
+    position1,
+    position2,
+    position3,
 }
