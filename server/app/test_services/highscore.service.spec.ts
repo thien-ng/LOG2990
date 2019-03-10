@@ -87,10 +87,15 @@ describe("HighscoreService tests", () => {
     });
 
     it("Should not update the highscore", () => {
-        highscoreService.updateHighscore(7, Mode.Multiplayer, 1);
+        const answer: any = [{username: "cpu", time: 2}, {username: "cpu", time: 4}, {username: "cpu", time: 6}];
+        mockAxios.onPost(Constants.VALIDATE_HIGHSCORE_PATH)
+        .reply(200, answer);
+
+        highscoreService.updateHighscore({username: "cpu", time: 7}, Mode.Multiplayer, 1);
         const index: number = highscoreService.findHighScoreByID(1);
-        expect(highscoreService.allHighscores[index].timesMulti).deep.equal(mockHighscore[0].timesMulti);
+        expect(highscoreService["highscores"][index].timesMulti).deep.equal(mockHighscore[0].timesMulti);
     });
+
     it("Should fail quietly and not update the highscores", () => {
         highscoreService.updateHighscore(1, UNDEFINED, 1);
         const index: number = highscoreService.findHighScoreByID(1);
