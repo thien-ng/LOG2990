@@ -1,8 +1,19 @@
 import { injectable } from "inversify";
-import { Highscore, Mode } from "../../../../common/communication/highscore";
-import { Time } from "./utilities/interfaces";
+import {
+    Highscore,
+    HighscoreValidationMessage,
+    HighscoreValidationResponse,
+    Mode,
+    Position,
+    SortTimesResponse,
+    Time
+} from "./utilities/interfaces";
 
-const REMOVE_NOTHING: number = 0;
+const REMOVE_NOTHING:           number = 0;
+const ON_SUCCESS:               string = "onSuccess";
+const INVALID_MODE:             string = "invalidMode";
+const INVALID_PARAMS_VALUE:     string = "invalidParamsValue";
+const INVALID_PARAMS:           string = "invalidParams";
 
 @injectable()
 export class HighscoreApiService {
