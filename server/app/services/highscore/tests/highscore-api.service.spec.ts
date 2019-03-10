@@ -24,5 +24,10 @@ describe("Highscore micro service tests", () => {
         const newHighscore: Highscore = highscoreService.checkScore({username: "cpu", time: -1}, mockHighscore, Mode.Singleplayer);
         expect(newHighscore).to.be.equal(mockHighscore);
     });
+
+    it("Should update the times when the new value is smaller than any of the previous highscores (singleplayer)", () => {
+        const newHighscore: Highscore = highscoreService.checkScore({username: "cpu", time: 1}, mockHighscore, Mode.Singleplayer);
+        expect(newHighscore.timesSingle[0].time).to.be.equal(1);
+    });
    });
 });
