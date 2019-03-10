@@ -110,10 +110,11 @@ export class HighscoreService {
         }
     }
 
-    private generateApiMessage(value: Time, timeList: [Time, Time, Time]): HighscoreValidationMessage {
+    private generateApiMessage(value: Time, highscore: Highscore, mode: Mode): HighscoreValidationMessage {
         return {
             newValue: value,
-            times: timeList,
+            mode: mode,
+            times: highscore,
         };
     }
 
