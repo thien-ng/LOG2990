@@ -56,6 +56,31 @@ export class HighscoreService {
             timesSingle:    this.secondsToMinutes(this.highscores[index].timesSingle),
             timesMulti:     this.secondsToMinutes(this.highscores[index].timesMulti),
         };
+    public async updateHighscore(value: Time, mode: Mode, cardID: number): Promise<HighscoreValidationResponse> {
+        const index: number = this.findHighScoreByID(cardID);
+
+        if (this.highscores[index] !== undefined) {
+            switch (mode) {
+                case Mode.Singleplayer:
+                    const messageSingle: HighscoreValidationMessage = this.generateApiMessage(value, this.highscores[index], mode);
+
+                    return this.validateHighscore(messageSingle, index);
+                case Mode.Multiplayer:
+                    const messageMulti: HighscoreValidationMessage = this.generateApiMessage(value, this.highscores[index], mode);
+
+                    return this.validateHighscore(messageMulti, index);
+                default:
+                    break;
+            }
+        }
+
+        return {
+            status: CCommon.ON_ERROR,
+        } as HighscoreValidationResponse;
+    }
+
+    private formatZeroDecimal(value: number): string {
+        return (value < BASE_DECIMAL) ? "0" : "";
     }
 
     private secondsToMinutes(times: [Time, Time, Time]): [StringFormatedTime, StringFormatedTime, StringFormatedTime] {
