@@ -26,9 +26,11 @@ export interface HighscoreValidationMessage {
     times:      Highscore,
 }
 
-export interface HighscoreValidationStatus { 
-    status: string,
-    result: Highscore | string,
+export interface HighscoreValidationResponse {
+    status: string;
+    isNewHighscore: boolean;
+    index: Position;
+    highscore: Highscore;
 }
 
 export enum Mode {
