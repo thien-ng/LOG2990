@@ -1,12 +1,15 @@
 // tslint:disable:no-magic-numbers
 import { expect } from "chai";
 import { Highscore, HighscoreMessage, Mode } from "../../../common/communication/highscore";
+import { Constants } from "../constants";
 import { HighscoreService } from "../services/highscore.service";
 
+// tslint:disable:no-magic-numbers no-any no-floating-promises
+
 const UNDEFINED:            number = 100;
-const MOCK_SCORE_VALUE_1:   number = 400;
-const MOCK_SCORE_VALUE_2:   number = 500;
-const MOCK_SCORE_VALUE_3:   number = 600;
+let   mockAxios:            any;
+const axios:                any     = require("axios");
+const mockAdapter:          any     = require("axios-mock-adapter");
 
 describe("HighscoreService tests", () => {
     let mockHighscore:              Highscore[];
