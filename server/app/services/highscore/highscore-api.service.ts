@@ -49,15 +49,35 @@ export class HighscoreApiService {
         }
     }
 
+    private checkScore(params: HighscoreValidationMessage): HighscoreValidationResponse {
+        let sortTimesResponse: SortTimesResponse;
+        switch (params.mode) {
             case Mode.Singleplayer:
-                times.timesSingle = this.sortTimes(times.timesSingle, newValue);
-                break;
+                sortTimesResponse = this.sortTimes(params.times.timesSingle, params.newValue);
+                params.times.timesSingle = sortTimesResponse.times;
+
+                return {
+                    status: sortTimesResponse.status,
+                    isNewHighscore: sortTimesResponse.isNewHighscore,
+                    index: sortTimesResponse.index,
+                    highscore: params.times,
+                };
             case Mode.Multiplayer:
-                times.timesMulti = this.sortTimes(times.timesMulti, newValue);
-                break;
+                sortTimesResponse = this.sortTimes(params.times.timesMulti, params.newValue);
+                params.times.timesMulti = sortTimesResponse.times;
+
+                return {
+                    status: sortTimesResponse.status,
+                    isNewHighscore: sortTimesResponse.isNewHighscore,
+                    index: sortTimesResponse.index,
+                    highscore: params.times,
+                };
             default:
-                break;
+                return {
+                    status: INVALID_MODE,
+                } as HighscoreValidationResponse;
         }
+    }
 
     private sortTimes(times: [Time, Time, Time], newValue: Time): SortTimesResponse {
         let hasBeenReplaced: boolean = false;
