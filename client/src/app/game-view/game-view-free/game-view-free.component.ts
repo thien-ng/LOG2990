@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, OnInit } from "@angular/core";
+import { AfterViewInit, Component, OnInit } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
 import { Constants } from "src/app/constants";
@@ -14,13 +14,14 @@ import { CCommon } from "../../../../../common/constantes/cCommon";
   templateUrl:  "./game-view-free.component.html",
   styleUrls:    ["./game-view-free.component.css"],
 })
-export class GameViewFreeComponent implements OnInit {
+export class GameViewFreeComponent implements AfterViewInit, OnInit {
 
   public readonly NEEDED_SNAPSHOT: boolean = false;
   public originalVariables: ISceneVariables;
   public modifiedVariables: ISceneVariables;
   public activeCard:        ICard;
   public gameRequest:       IGameRequest;
+  public status:            boolean;
 
   private gameType:         GameType;
 
@@ -31,11 +32,16 @@ export class GameViewFreeComponent implements OnInit {
     ) {}
 
   public ngOnInit(): void {
+      this.status = false;
       const gameID:   string | null = this.route.snapshot.paramMap.get("id");
       const username: string | null = sessionStorage.getItem(Constants.USERNAME_KEY);
       if (gameID !== null && username !== null) {
         this.createGameRequest(gameID, username);
       }
+  }
+
+  public ngAfterViewInit(): void {
+    this.status = true;
   }
 
   private createGameRequest(gameID: string, username: string): void {
