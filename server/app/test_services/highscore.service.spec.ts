@@ -49,14 +49,27 @@ describe("HighscoreService tests", () => {
         highscoreService["highscores"] = mockHighscore;
     });
 
+    afterEach(() => {
+        mockAxios.restore();
+    });
+
     it("Should return the right highscore", () => {
         const updatedHS: Highscore | undefined = highscoreService.getHighscoreById(1);
         expect(updatedHS).deep.equal(mockHighscore[0]);
     });
-    it("Should update the single player highscore", () => {
-        highscoreService.updateHighscore(1, Mode.Singleplayer, 1);
+
+    it("Should update the single player highscore", async () => {
+        const answer: any = {
+            id:             1,
+            timesSingle:    [{username: "cpu", time: 1}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
+            timesMulti:     [{username: "cpu", time: 2}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
+        };
+        mockAxios.onPost(Constants.VALIDATE_HIGHSCORE_PATH)
+        .reply(200, answer);
+
+        await highscoreService.updateHighscore({username: "cpu", time: 1}, Mode.Singleplayer, 1);
         const index: number = highscoreService.findHighScoreByID(1);
-        expect(highscoreService.allHighscores[index].timesSingle).deep.equal([1, 2, 4]);
+        expect(highscoreService["highscores"][index]).deep.equal(answer);
     });
     it("Should update the multi player highscore", () => {
         highscoreService.updateHighscore(1, Mode.Multiplayer, 1);
