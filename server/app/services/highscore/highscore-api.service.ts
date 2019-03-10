@@ -18,18 +18,6 @@ const INVALID_PARAMS:           string = "invalidParams";
 @injectable()
 export class HighscoreApiService {
 
-    public validateParams(params: HighscoreValidationMessage): boolean {
-        if (this.timeListIsValid(params.times)) {
-            if (this.modeIsValid(params.mode)) {
-                if (this.timeIsValid(params.newValue)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
     public checkScoreRoutine(params: HighscoreValidationMessage): HighscoreValidationResponse {
         try {
             const paramsIsValid: boolean = this.validateParams(params);
@@ -47,6 +35,14 @@ export class HighscoreApiService {
                 status: INVALID_PARAMS,
             } as HighscoreValidationResponse;
         }
+    }
+
+    public validateParams(params: HighscoreValidationMessage): boolean {
+        const timeListIsValid:  boolean = this.timeListIsValid(params.times);
+        const timeIsValid:      boolean = this.timeIsValid(params.newValue);
+        const modeIsValid:      boolean = this.modeIsValid(params.mode);
+
+        return timeListIsValid && timeIsValid && modeIsValid;
     }
 
     private checkScore(params: HighscoreValidationMessage): HighscoreValidationResponse {
