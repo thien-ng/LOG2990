@@ -71,7 +71,7 @@ export class CreateFreeGameComponent {
     this.formControl = this.formBuilder.group({
       nameControl: new FormControl("", [
         Validators.required,
-        Validators.pattern(CCommon.REGEX_PATTERN),
+        Validators.pattern(CCommon.REGEX_PATTERN_ALPHANUM),
         Validators.minLength(CCommon.MIN_GAME_LENGTH),
         Validators.maxLength(CCommon.MAX_GAME_LENGTH),
       ]),

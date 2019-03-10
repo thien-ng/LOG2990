@@ -179,7 +179,7 @@ export class CardManagerService {
         }
 
         if (this.formatIsValid(cardTitle)) {
-            return this.buildValidatorMessage(CCommon.ON_ERROR, Constants.GAME_FORMAT_REGEX_ERROR);
+            return this.buildValidatorMessage(CCommon.ON_ERROR, Constants.GAME_NAME_ERROR);
         }
 
         return this.buildValidatorMessage(CCommon.ON_SUCCESS, Constants.GAME_TITLE_IS_CORRECT);
@@ -190,7 +190,7 @@ export class CardManagerService {
     }
 
     private formatIsValid(cardTitle: string): boolean {
-        const regex: RegExp = new RegExp(CCommon.REGEX_PATTERN);
+        const regex: RegExp = new RegExp(CCommon.REGEX_PATTERN_ALPHANUM);
 
         return !regex.test(cardTitle);
     }

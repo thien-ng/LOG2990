@@ -9,9 +9,11 @@ import { mock, verify } from "ts-mockito";
 import { GameMode } from "../../../../common/communication/iCard";
 import { GameType, IGameRequest } from "../../../../common/communication/iGameRequest";
 import { IOriginalPixelCluster, IPlayerInputResponse } from "../../../../common/communication/iGameplay";
+import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../../constants";
+import { Arena } from "../../services/game/arena/arena";
 import { IArenaInfos, IPlayerInput } from "../../services/game/arena/interfaces";
 import { GameManagerService } from "../../services/game/game-manager.service";
 import { UserManagerService } from "../../services/user-manager.service";
@@ -83,6 +85,19 @@ describe("GameManagerService tests", () => {
         gameManagerService.subscribeSocketID("dylan", socket);
         const result: SocketIO.Socket | undefined = gameManagerService.userList.get("dylan");
         chai.expect(result).to.be.equal(socket);
+    });
+
+    it("should add socketID in playerList", () => {
+
+        const arena: Arena = new Arena(iArenaInfos, gameManagerService);
+        gameManagerService["arenas"].set(iArenaInfos.arenaId, arena);
+        const usersInArena: IUser[] = gameManagerService.getUsersInArena(iArenaInfos.arenaId);
+
+        const isRightUsername:      boolean = usersInArena[0].username === "Frank";
+        const isRightSocketId:      boolean = usersInArena[0].socketID === "12345";
+        const isRightNumberOfUsers: boolean = usersInArena.length === 1;
+
+        chai.expect(isRightSocketId && isRightUsername && isRightNumberOfUsers).to.equal(true);
     });
 
     it("should remove socketID in playerList", () => {

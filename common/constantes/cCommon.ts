@@ -4,7 +4,7 @@ export class CCommon {
     public static readonly ORIGINAL_FILE:             string = "_original.bmp";
     public static readonly MODIFIED_FILE:             string = "_modified.bmp";
     
-    public static readonly REGEX_PATTERN:             string = "^[a-zA-Z0-9]+$";
+    public static readonly REGEX_PATTERN_ALPHANUM:    string = "^[a-zA-Z0-9]+$";
     
     public static readonly IS_UNIQUE:                 string = "isUnique";
 
@@ -24,4 +24,5 @@ export class CCommon {
     public static readonly GAME_DISCONNECT:           string = "onGameDisconnect";
     public static readonly LOGIN_EVENT:               string = "onLogin";
     public static readonly USER_EVENT:                string = "onNewUser";
+    public static readonly CHAT_EVENT:                string = "onChatEvent";
 }

@@ -18,6 +18,11 @@ export default  {
         SceneManagerController: Symbol("SceneManagerController"),
         SceneManager: Symbol("SceneManager"),
         CardOperations: Symbol("CardOperations"),
+<<<<<<< HEAD
         HighscoreApiController: Symbol("HighscoreApiController"),
         HighscoreApiService: Symbol("HighscoreApiService"),
+=======
+        TimeManagerService: Symbol("TimeManagerService"),
+        ChatManagerService: Symbol("ChatManagerService"),
+>>>>>>> 38ba638431519586a211d5c4ecd183f90e6c42cf
 };

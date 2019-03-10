@@ -80,14 +80,14 @@ export class UserManagerService {
 
     private isUsernameFormatCorrect(username: string): Message {
 
-        const regex: RegExp = new RegExp(CCommon.REGEX_PATTERN);
+        const regex: RegExp = new RegExp(CCommon.REGEX_PATTERN_ALPHANUM);
 
         if (username.length < CCommon.MIN_NAME_LENGTH || username.length > CCommon.MAX_NAME_LENGTH) {
-            return this.generateMessage(CCommon.ON_ERROR, Constants.NAME_FORMAT_LENTGH_ERROR);
+            return this.generateMessage(CCommon.ON_ERROR, Constants.NAME_FORMAT_LENGTH_ERROR);
         }
 
         if (!regex.test(username)) {
-            return this.generateMessage(CCommon.ON_ERROR, Constants.NAME_FORMAT_REGEX_ERROR);
+            return this.generateMessage(CCommon.ON_ERROR, Constants.USER_NAME_ERROR);
         }
 
         return this.generateMessage(CCommon.ON_SUCCESS, CCommon.ON_SUCCESS);

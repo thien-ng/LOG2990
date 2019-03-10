@@ -2,16 +2,16 @@ import { CCommon } from "../../../common/constantes/cCommon";
 
 export class Constants {
 
-  public static readonly LOGIN_REDIRECT:            string = "/login";
   public static readonly LOGIN_PATH:                string = "login";
+  public static readonly LOGIN_REDIRECT:            string = "/" + Constants.LOGIN_PATH;
   public static readonly ADMIN_PATH:                string = "admin";
-  public static readonly ADMIN_REDIRECT:            string = "/admin";
+  public static readonly ADMIN_REDIRECT:            string = "/" + Constants.ADMIN_PATH;
   public static readonly GAME_VIEW_SIMPLE:          string = "game-view-simple/:id/:gamemode";
   public static readonly GAME_VIEW_FREE:            string = "game-view-free/:id/:gamemode";
   public static readonly ROOT_PATH:                 string = "";
   public static readonly NAV_PATH:                  string = "";
   public static readonly GAMELIST_PATH:             string = "gamelist";
-  public static readonly GAMELIST_REDIRECT:         string = "/gamelist";
+  public static readonly GAMELIST_REDIRECT:         string = "/" + Constants.GAMELIST_PATH;
   public static readonly PATH_MATCH_FULL:           string = "full";
   public static readonly PATH_TO_ICONS:             string = CCommon.BASE_URL + "/icon";
   public static readonly PATH_TO_IMAGES:            string = CCommon.BASE_URL + "/image";
@@ -48,11 +48,16 @@ export class Constants {
 
   // Constants for socket.service.ts
   public static readonly ON_CONNECT:                string = "connect";
+  public static readonly ON_ARENA_RESPONSE:         string = "onArenaResponse";
   public static readonly ON_GAME_FREE_DATA:         string = "onGameFreeData";
+  public static readonly ON_USER_EVENT:             string = "onNewUser";
+  public static readonly ON_POINT_ADDED:            string = "onPointAdded";
+  public static readonly ON_RETRIEVE_USER:          string = "onRetrieveUser";
+  public static readonly ON_TIMER_UPDATE:           string = "onTimerUpdate";
 
   // Constants for game-view-simple.service.ts
   public static readonly ON_POSITION_VALIDATION:    string = "onPositionValidation";
-  public static readonly DECIMAL:                   number = 10;
+  public static readonly DECIMAL_BASE:              number = 10;
   public static readonly ID_BY_URL:                 string = "id";
 
   // Constants for game view free component
@@ -61,8 +66,8 @@ export class Constants {
   public static readonly SUCCESS_STATUS:            number = 200;
 
   // Constants for card.component.ts
-  public static readonly GAME_VIEW_SIMPLE_PATH:     string = "/game-view-simple";
   public static readonly GAME_VIEW_FREE_PATH:       string = "/game-view-free";
+  public static readonly GAME_VIEW_SIMPLE_PATH:     string = "/game-view-simple";
   public static readonly GAMEMODE_SIMPLE:           string = "simple";
 
   // Constants for difference-counter.service.ts
@@ -70,18 +75,17 @@ export class Constants {
   public static readonly PERCENT:                   number = 100;
 
   // Constants for timer.service
-  public static readonly MINUTE_IN_SECONDS:         number = 60;
-  public static readonly TWO_DIGITS:                number = 10;
+  public static readonly SECONDS_IN_MINUTE:         number = 60;
 
   // Constants for create simple game
-  public static readonly FREE_SUBMIT_PATH:          string = CCommon.BASE_URL + "/api/card/submitFree";
-
-  // Constants for create free game
-  public static readonly FREE_SCENE_GENERATOR_PATH: string = CCommon.BASE_URL + "/api/scene/generator";
   public static readonly SIMPLE_SUBMIT_PATH:        string = CCommon.BASE_URL + "/api/card/submitSimple";
 
+  // Constants for create free game
+  public static readonly FREE_SUBMIT_PATH:          string = CCommon.BASE_URL + "/api/card/submitFree";
+  public static readonly FREE_SCENE_GENERATOR_PATH: string = CCommon.BASE_URL + "/api/scene/generator";
+
   // Constants for three js
-  public static readonly FOV:                       number = 80;
+  public static readonly FIELD_OF_VIEW:             number = 80;
   public static readonly MAX_VIEW_DISTANCE:         number = 1000;
   public static readonly MIN_VIEW_DISTANCE:         number = 0.1;
 
