@@ -30,7 +30,13 @@ export interface HighscoreValidationResponse {
 }
 
 export enum Position {
-    position1 = 0,
-    position2 = 1,
-    position3 = 2,
+    position1,
+    position2,
+    position3,
+    notReplaced,
+}
+
+export enum Mode {
+    Singleplayer,
+    Multiplayer,
 }
