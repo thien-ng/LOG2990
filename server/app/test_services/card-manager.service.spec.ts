@@ -42,7 +42,7 @@ describe("Card-manager tests", () => {
     };
 
     const c2: ICard = {
-        gameID:             2,
+        gameID:             4,
         title:              "Default 3D",
         subtitle:           "default 3D",
         avatarImageUrl:     FAKE_PATH + "/moutain.jpg",
