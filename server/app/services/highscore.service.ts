@@ -144,72 +144,19 @@ export class HighscoreService {
         return index;
     }
 
-    public randomTime(min: number, max: number): number {
-        return Math.floor(Math.random() * (max - min + 1) + min);
-    }
-
-    public getHighscoreById(id: number): Highscore | undefined {
-        let score: Highscore | undefined;
-
-        this.highscores.forEach((element: Highscore) => {
-            if (element.id === id) {
-                score = element;
+    private async validateHighscore(message: HighscoreValidationMessage, index: number): Promise<HighscoreValidationResponse> {
+        try {
+            const response: HighscoreValidationResponse = (await axios.post(Constants.VALIDATE_HIGHSCORE_PATH, message)).data;
+            if (response.status === CCommon.ON_SUCCESS && response.isNewHighscore) {
+                this.highscores[index] = response.highscore;
             }
-        });
 
-        return score;
-    }
-
-    public async updateHighscore(value: Time, mode: Mode, cardID: number): Promise<Highscore> {
-        const index: number = this.findHighScoreByID(cardID);
-
-        if (this.highscores[index] !== undefined) {
-            switch (mode) {
-                case Mode.Singleplayer:
-                    const messageSingle: HighscoreValidationMessage = this.generateApiMessage(value, this.highscores[index], mode);
-                    this.analyseHighscoreResponse(await this.validateHighscore(messageSingle), index);
-                    break;
-                case Mode.Multiplayer:
-                    const messageMulti: HighscoreValidationMessage = this.generateApiMessage(value, this.highscores[index], mode);
-                    this.analyseHighscoreResponse(await this.validateHighscore(messageMulti), index);
-                    break;
-                default:
-                    // Fails quietly
-                    break;
-            }
-        }
-
-        return this.highscores[index];
-    }
-
-    private analyseHighscoreResponse(response: HighscoreValidationStatus, index: number): void {
-        switch (response.status) {
-            case CCommon.ON_SUCCESS:
-                if (typeof response.result !== "string") {
-                    this.highscores[index] = response.result;
-                }
-                break;
-            case CCommon.ON_ERROR:
-                // TBD
-                break;
-            default:
-                break;
-        }
-    }
-
-    private async validateHighscore(message: HighscoreValidationMessage): Promise<HighscoreValidationStatus> {
-        return axios.post(Constants.VALIDATE_HIGHSCORE_PATH, message)
-        .then((response: AxiosResponse) => {
-            return {
-                status: CCommon.ON_SUCCESS,
-                result: response.data,
-            };
-        }).catch((error: Error) => {
+            return response;
+        } catch (error) {
             return {
                 status: CCommon.ON_ERROR,
-                result: error.message,
-            };
-        });
+            } as HighscoreValidationResponse;
+        }
     }
 
     private generateDefaultTime(name: string): Time {
