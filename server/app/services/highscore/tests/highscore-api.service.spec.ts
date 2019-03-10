@@ -122,5 +122,14 @@ describe("Highscore micro service tests", () => {
         const newHighscore: HighscoreValidationResponse = highscoreService.checkScoreRoutine(param);
         expect(newHighscore.status).to.be.equal(INVALID_PARAMS_VALUE);
     });
+
+    it("Should return an error status if the parameters are not as expected", () => {
+        const param: any = {
+            invalid: "params",
+        };
+        const newHighscore: HighscoreValidationResponse = highscoreService.checkScoreRoutine(param);
+        expect(newHighscore.status).to.be.equal(INVALID_PARAMS);
+    });
+
     });
 });
