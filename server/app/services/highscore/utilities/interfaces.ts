@@ -9,6 +9,12 @@ export interface Highscore {
     timesMulti:     [Time, Time, Time];
 }
 
+export interface HighscoreValidationMessage {
+    newValue:   Time;
+    mode:       Mode;
+    times:      Highscore;
+}
+
 export enum Position {
     position1 = 0,
     position2 = 1,
