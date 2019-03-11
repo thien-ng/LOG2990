@@ -3,3 +3,9 @@ export interface IChat {
     message:    string;
     time:       string;
 }
+
+export interface IChatSender {
+    arenaID:    number;
+    username:   string;
+    message:    string;
+}

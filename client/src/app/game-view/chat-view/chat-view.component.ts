@@ -1,6 +1,6 @@
-import { AfterViewChecked, Component, ElementRef, OnDestroy, ViewChild } from "@angular/core";
+import { AfterViewChecked, Component, ElementRef, Input, OnDestroy, ViewChild } from "@angular/core";
 import { FormControl, Validators } from "@angular/forms";
-import { IChat } from "../../../../../common/communication/iChat";
+import { IChat, IChatSender } from "../../../../../common/communication/iChat";
 import { SocketService } from "../../websocket/socket.service";
 import { ChatViewService } from "./chat-view.service";
 
@@ -12,19 +12,24 @@ import { ChatViewService } from "./chat-view.service";
 
 export class ChatViewComponent implements AfterViewChecked, OnDestroy {
 
-  public readonly CHAT_TITLE:       string = "Notification du serveur";
-  public readonly CHAT_DESCRIPTION: string = "クリスチャンサーバー";
-  public readonly MESSAGE_PATTERN:  string = "[^\s]+";
+  public readonly CHAT_TITLE:             string = "Notification du serveur";
+  public readonly CHAT_DESCRIPTION:       string = "クリスチャンサーバー";
+  public readonly MESSAGE_PATTERN_REGEX:  string = ".+";
+  private readonly CHAT_EVENT:            string = "onChatEvent";
 
-  private readonly CHAT_EVENT:      string = "onChatEvent";
+  public conversations:                   IChat[];
+  public initialValue:                    string;
+  public usernameFormControl:             FormControl;
+  public conversationLength:              number;
 
-  public conversations: IChat[];
-  public initialValue: string;
-  public usernameFormControl: FormControl;
-  public conversationLength: number;
+  @Input()
+  private arenaID:                        number;
+
+  @Input()
+  private username:                       string;
 
   @ViewChild("chatBox", {read: ElementRef})
-  public chatBox:  ElementRef;
+  public chatBox:                         ElementRef;
 
   public constructor(
     private chatViewService: ChatViewService,
@@ -47,7 +52,7 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
     this.conversations = this.chatViewService.getConversation();
     this.usernameFormControl = new FormControl("", [
       Validators.required,
-      Validators.pattern(this.MESSAGE_PATTERN),
+      Validators.pattern(this.MESSAGE_PATTERN_REGEX),
     ]);
   }
 
@@ -57,9 +62,19 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
 
   public sendMessage(): void {
     if (this.usernameFormControl.errors === null) {
-      this.socketService.sendMsg(this.CHAT_EVENT, this.usernameFormControl.value);
+
+      const generatedMessage: IChatSender = this.generateMessage(this.usernameFormControl.value);
+      this.socketService.sendMsg(this.CHAT_EVENT, generatedMessage);
       this.initialValue = "";
     }
+  }
+
+  private generateMessage(data: string): IChatSender {
+    return {
+      arenaID:  this.arenaID,
+      username: this.username,
+      message:  data,
+    } as IChatSender;
   }
 
 }
