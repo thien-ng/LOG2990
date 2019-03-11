@@ -1,7 +1,9 @@
 import * as chai from "chai";
 import * as spies from "chai-spies";
+import * as sinon from "sinon";
 import SocketIO = require("socket.io");
 import * as Mockito from "ts-mockito";
+
 import { IChatSender } from "../../../common/communication/iChat";
 import { IPlayerInputResponse } from "../../../common/communication/iGameplay";
 import { IUser } from "../../../common/communication/iUser";
@@ -64,9 +66,8 @@ describe("ChatManagerService Tests", () => {
 
     it ("should emit chat message to solo arena", (done: Function) => {
         chatManagerService["server"] = server;
-        const spy: any  = chai.spy.on(chatManagerService["server"], "to");
-
-        Mockito.when(server.to(soloUser[0].socketID)).thenReturn(Mockito.mock(SocketIO));
+        sinon.stub(chatManagerService, "sendToSocketIDMessage").callsFake(() => {/* do nothing */});
+        const spy: any = chai.spy.on(chatManagerService, "sendToSocketIDMessage");
 
         const chatSender: IChatSender = {
             arenaID: 1,
@@ -82,7 +83,8 @@ describe("ChatManagerService Tests", () => {
 
     it ("should emit chat message to multi arena", (done: Function) => {
         chatManagerService["server"] = server;
-        const spy: any  = chai.spy.on(chatManagerService["server"], "to");
+        sinon.stub(chatManagerService, "sendToSocketIDMessage").callsFake(() => {/* do nothing */});
+        const spy: any = chai.spy.on(chatManagerService, "sendToSocketIDMessage");
 
         const chatSender: IChatSender = {
             arenaID: 1,
@@ -118,7 +120,7 @@ describe("ChatManagerService Tests", () => {
         done();
     });
 
-    it ("should emit highscore message single mode and thid position", (done: Function) => {
+    it ("should emit highscore message single mode and third position", (done: Function) => {
         chatManagerService["server"] = server;
         const spy: any  = chai.spy.on(chatManagerService["server"], "emit");
 
@@ -151,7 +153,7 @@ describe("ChatManagerService Tests", () => {
         done();
     });
 
-    it ("should emit highscore message multi mode and thid position", (done: Function) => {
+    it ("should emit highscore message multi mode and third position", (done: Function) => {
         chatManagerService["server"] = server;
         const spy: any  = chai.spy.on(chatManagerService["server"], "emit");
 
@@ -165,7 +167,8 @@ describe("ChatManagerService Tests", () => {
     it ("should emit message of position validation if wrong hit in solo mode", (done: Function) => {
 
         chatManagerService["server"] = server;
-        const spy: any  = chai.spy.on(chatManagerService["server"], "emit");
+        sinon.stub(chatManagerService, "sendToSocketIDMessage").callsFake(() => {/* do nothing */});
+        const spy: any = chai.spy.on(chatManagerService, "sendToSocketIDMessage");
 
         const test: IPlayerInputResponse = {
             status: "wrongHit",
@@ -188,7 +191,8 @@ describe("ChatManagerService Tests", () => {
     it ("should emit message of position validation if good hit in solo mode", (done: Function) => {
 
         chatManagerService["server"] = server;
-        const spy: any  = chai.spy.on(chatManagerService["server"], "emit");
+        sinon.stub(chatManagerService, "sendToSocketIDMessage").callsFake(() => {/* do nothing */});
+        const spy: any = chai.spy.on(chatManagerService, "sendToSocketIDMessage");
 
         const test: IPlayerInputResponse = {
             status: "onSuccess",
@@ -211,7 +215,8 @@ describe("ChatManagerService Tests", () => {
     it ("should emit message of position validation if wrong hit in multi mode", (done: Function) => {
 
         chatManagerService["server"] = server;
-        const spy: any  = chai.spy.on(chatManagerService["server"], "emit");
+        sinon.stub(chatManagerService, "sendToSocketIDMessage").callsFake(() => {/* do nothing */});
+        const spy: any = chai.spy.on(chatManagerService, "sendToSocketIDMessage");
 
         const test: IPlayerInputResponse = {
             status: "wrongHit",
@@ -234,7 +239,8 @@ describe("ChatManagerService Tests", () => {
     it ("should emit message of position validation if good hit in multi mode", (done: Function) => {
 
         chatManagerService["server"] = server;
-        const spy: any  = chai.spy.on(chatManagerService["server"], "emit");
+        sinon.stub(chatManagerService, "sendToSocketIDMessage").callsFake(() => {/* do nothing */});
+        const spy: any = chai.spy.on(chatManagerService, "sendToSocketIDMessage");
 
         const test: IPlayerInputResponse = {
             status: "onSuccess",

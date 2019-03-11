@@ -42,9 +42,7 @@ export class ChatManagerService {
         this.server = socket;
 
         const iChatMessage: IChat = this.generateMessage(messageRecieved.username, messageRecieved.message);
-        userList.forEach((user: IUser) => {
-            this.server.to(user.socketID).emit(CCommon.CHAT_EVENT, iChatMessage);
-        });
+        this.sendToSocketIDMessage(userList, iChatMessage);
     }
 
     public sendNewHighScoreMessage(
@@ -82,6 +80,10 @@ export class ChatManagerService {
         const message:               string =  status;
         const iChatMessage:          IChat  = this.generateMessage(SERVER_NAME, message);
 
+        this.sendToSocketIDMessage(userList, iChatMessage);
+    }
+
+    public sendToSocketIDMessage(userList: IUser[], iChatMessage: IChat): void {
         userList.forEach((user: IUser) => {
             this.server.to(user.socketID).emit(CCommon.CHAT_EVENT, iChatMessage);
         });
