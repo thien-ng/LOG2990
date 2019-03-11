@@ -77,6 +77,17 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy, AfterView
     }, pauseBetweenIncrement);
   }
 
+  public printDummyMessage(): void {
+    // console.log("Scroll height au depart: " + this.chatBox.nativeElement.scrollHeight);
+    // const generatedMessage: IChatSender = this.generateMessage("Salut je m'appelle allo");
+    const message: IChat = {
+      username:   "pet",
+      message:    "Salut je m'appelle allo",
+      time:       "13:45",
+  };
+    this.chatViewService.updateConversation(message);
+  }
+
   public init(): void {
     this.initialValue = "";
     this.conversations = this.chatViewService.getConversation();
