@@ -88,9 +88,15 @@ describe("Highscore micro service tests", () => {
             times: mockHighscore,
         };
         const newHighscore: HighscoreValidationResponse = highscoreService.checkScoreRoutine(param2);
-        expect(newHighscore.highscore.timesSingle[0]).to.deep.equal(param1.newValue);
-        expect(newHighscore.highscore.timesSingle[1]).to.deep.equal(param1.newValue);
-        expect(newHighscore.highscore.timesSingle[2]).to.deep.equal(param1.newValue);
+
+        const value1: boolean = newHighscore.highscore.timesSingle[0].username === param1.newValue.username &&
+                                newHighscore.highscore.timesSingle[0].time     === param1.newValue.time;
+        const value2: boolean = newHighscore.highscore.timesSingle[1].username === param1.newValue.username &&
+                                newHighscore.highscore.timesSingle[1].time     === param1.newValue.time;
+        const value3: boolean = newHighscore.highscore.timesSingle[2].username === param1.newValue.username &&
+                                newHighscore.highscore.timesSingle[2].time     === param1.newValue.time;
+
+        expect(value1 && value2 && value3).to.equal(true);
     });
 
     it("Should not update the times when all of the highscores are equal (multiplayer)", () => {
