@@ -6,8 +6,10 @@ import { HighscoreService } from "../services/highscore.service";
 
 // tslint:disable:no-magic-numbers no-any no-floating-promises
 
-const UNDEFINED:            number = 100;
 let   mockAxios:            any;
+const UNDEFINED:            number = 100;
+const MAX_TIME:             number = 600;
+const MIN_TIME:             number = 180;
 const axios:                any     = require("axios");
 const mockAdapter:          any     = require("axios-mock-adapter");
 
@@ -115,7 +117,16 @@ describe("HighscoreService tests", () => {
 
     it("Should generate new random score", () => {
         highscoreService.generateNewHighscore(3);
-        expect(mockHighscore[2].timesMulti).not.deep.equal([400, 500, 600]);
+
+        const time1: boolean = mockHighscore[2].timesMulti[0].time >= MIN_TIME && mockHighscore[2].timesMulti[0].time <= MAX_TIME;
+        const time2: boolean = mockHighscore[2].timesMulti[1].time >= MIN_TIME && mockHighscore[2].timesMulti[1].time <= MAX_TIME;
+        const time3: boolean = mockHighscore[2].timesMulti[2].time >= MIN_TIME && mockHighscore[2].timesMulti[2].time <= MAX_TIME;
+        expect(time1 && time2 && time3).to.equal(true);
+    });
+
+    it("Should generate new random score with a time an a username", () => {
+        highscoreService.generateNewHighscore(3);
+        expect(mockHighscore[2].timesMulti[0]).to.have.all.keys("username", "time");
     });
 
     it("First score should be inferior to 2nd Score", () => {
