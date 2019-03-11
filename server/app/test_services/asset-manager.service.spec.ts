@@ -1,6 +1,8 @@
 import * as chai from "chai";
 import * as spies from "chai-spies";
+import * as fs from "fs";
 import "reflect-metadata";
+import { setTimeout } from "timers";
 import { Constants } from "../constants";
 import { AssetManagerService } from "../services/asset-manager.service";
 
@@ -74,33 +76,20 @@ describe("Image manager service tests", () => {
             imageManagerService.deleteStoredImages(path);
         }).to.not.throw(TypeError);
     });
-    it("Should copy an image to the temp directory", async () => {
+    it("Should copy an image to the temp directory", async (done: Function) => {
         const gameId: number = 1;
-        // const imgPathTemp: string = Constants.TEMP_IMAGES_PATH + gameId + Constants.GENERATED_FILE;
+        const imgPathTemp: string = Constants.TEMP_IMAGES_PATH + gameId + Constants.GENERATED_FILE;
         const path: string = Constants.IMAGES_PATH + "/testBitmap/" + gameId + Constants.GENERATED_FILE;
-        await imageManagerService.stockImage(path, buffer);
-        try { setTimeout(() => chai.expect(() => imageManagerService.copyFileToTemp(path, gameId, Constants.GENERATED_FILE)).to.not.throw(TypeError), 2000);
-        } catch(e) {
-            console.log(e);
-        }
-        // chai.expect(async () => {
-        //     imageManagerService.copyFileToTemp(path, gameId, Constants.GENERATED_FILE);
-        // }).to.not.throw(TypeError);
-
+        setTimeout(() => { imageManagerService.stockImage(path, buffer);}, 1000);
+        setTimeout(() => {
+            imageManagerService.copyFileToTemp(path, gameId, Constants.GENERATED_FILE);}, 2000);
+        done();
+        chai.expect(fs.existsSync(imgPathTemp)).to.equal(true);
     });
     it("Should delete an image to the temp directory", () => {
         const gameId: number = 1;
-        // const imgPathTemp: string = Constants.TEMP_IMAGES_PATH + gameId + Constants.GENERATED_FILE;
-        chai.expect(() => imageManagerService.deleteFileInTemp(gameId, Constants.GENERATED_FILE)).to.not.throw(TypeError);
-        // chai.expect(fs.existsSync(imgPathTemp)).to.equal(false);
+        const imgPathTemp: string = Constants.TEMP_IMAGES_PATH + gameId + Constants.GENERATED_FILE;
+        setTimeout(() => { imageManagerService.deleteFileInTemp(gameId, Constants.GENERATED_FILE); },2000);
+        chai.expect(fs.existsSync(imgPathTemp)).to.equal(false);
     });
-    // it("Should delete an image to the temp directory", () => {
-    //     chai.spy.on(imageManagerService["fs"], "copyFileSync", () => { throw new TypeError; });
-    //     const gameId: number = 1;
-    //     // const imgPathTemp: string = Constants.TEMP_IMAGES_PATH + gameId + Constants.GENERATED_FILE;
-    //     imageManagerService.deleteFileInTemp(gameId, Constants.GENERATED_FILE);
-    //     chai.spy.on(fs, "existsSync", () => true);
-    //     chai.expect(imageManagerService.deleteFileInTemp(gameId, Constants.GENERATED_FILE)).to.throw();
-    // });
-
 });
