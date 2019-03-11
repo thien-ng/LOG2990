@@ -24,7 +24,8 @@ h2 {
       z-index: 999;
       width:100%;
       position: fixed  !important;
-      background-color: rgb(255, 255, 255) !important;
+      /* background-color: rgb(255, 255, 255) !important; */
+      /* background-image: url("../../wallpaper_mikael_gustafsson.png"); */
 }
 ::ng-deep .mat-tab-body-wrapper{
     position: relative !important;

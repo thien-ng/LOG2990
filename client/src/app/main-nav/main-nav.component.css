@@ -1,14 +1,15 @@
 .logo {
   padding: 10px;
   cursor: pointer;
+  color: white;
 }
 
 .mat-toolbar.mat-primary {
-  height: 7%;
+  height: 5%;
   position: sticky;
   top: 0;
   z-index: 1;
-  padding: 10px;
+  padding: 0.05%;
   overflow: hidden;
 }
 
@@ -17,10 +18,12 @@
 }
 
 .button:hover {
-  background: #EC407A;
+  background: #3F51B5;
+  color: white;
 }
 .content {
-  height: 93%;
+  height: 95%;
+  background-image: url("../../background.jpg")
 }
 
 #header {
@@ -42,6 +45,7 @@
 #text {
   display: inline;
   padding-right: 10px;
+  color: white;
 }
 
 #slider {
