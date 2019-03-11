@@ -39,8 +39,8 @@ describe("HighscoreService tests", () => {
   it("should call highscoreUpdated.next() with right data value", () => {
     dataMock = {
       id:           idMock,
-      timesSingle:  ["3:21", "3:32", "6:17"],
-      timesMulti:   ["3:31", "9:38", "9:42"],
+      timesSingle:  [{username: "cpu", time: "3:21"}, {username: "cpu", time: "3:32"}, {username: "cpu", time: "6:17"}],
+      timesMulti:   [{username: "cpu", time: "3:31"}, {username: "cpu", time: "9:38"}, {username: "cpu", time: "9:42"}],
     };
 
     const spyNext: any = spyOn<any>(highscoreService["highscoreUpdated"], "next");
@@ -54,8 +54,8 @@ describe("HighscoreService tests", () => {
   it("should not call highscoreUpdated.next() with wrong seconds value in timesSingle", () => {
     dataMock = {
       id:           idMock,
-      timesSingle:  ["3:62", "3:32", "6:17"],
-      timesMulti:   ["3:31", "9:38", "9:42"],
+      timesSingle:  [{username: "cpu", time: "3:62"}, {username: "cpu", time: "3:32"}, {username: "cpu", time: "6:17"}],
+      timesMulti:   [{username: "cpu", time: "3:31"}, {username: "cpu", time: "9:38"}, {username: "cpu", time: "9:42"}],
     };
 
     const spyNext: any = spyOn<any>(highscoreService["highscoreUpdated"], "next");
@@ -69,8 +69,8 @@ describe("HighscoreService tests", () => {
   it("should not call highscoreUpdated.next() with wrong minutes value in timesSingle", () => {
     dataMock = {
       id:           idMock,
-      timesSingle:  ["63:21", "3:32", "6:17"],
-      timesMulti:   ["3:31", "9:38", "9:42"],
+      timesSingle:  [{username: "cpu", time: "63:21"}, {username: "cpu", time: "3:32"}, {username: "cpu", time: "6:17"}],
+      timesMulti:   [{username: "cpu", time: "3:31"}, {username: "cpu", time: "9:38"}, {username: "cpu", time: "9:42"}],
     };
 
     const spyNext: any = spyOn<any>(highscoreService["highscoreUpdated"], "next");
@@ -84,8 +84,8 @@ describe("HighscoreService tests", () => {
   it("should not call highscoreUpdated.next() with wrong selector in timesSingle", () => {
     dataMock = {
       id:           idMock,
-      timesSingle:  ["3,21", "3:32", "6:17"],
-      timesMulti:   ["3:31", "9:38", "9:42"],
+      timesSingle:  [{username: "cpu", time: "3,21"}, {username: "cpu", time: "3:32"}, {username: "cpu", time: "6:17"}],
+      timesMulti:   [{username: "cpu", time: "3:31"}, {username: "cpu", time: "9:38"}, {username: "cpu", time: "9:42"}],
     };
 
     const spyNext: any = spyOn<any>(highscoreService["highscoreUpdated"], "next");
@@ -99,8 +99,8 @@ describe("HighscoreService tests", () => {
   it("should not call highscoreUpdated.next() with wrong seconds value in timesMulti", () => {
     dataMock = {
       id:           idMock,
-      timesSingle:  ["3:21", "3:32", "6:17"],
-      timesMulti:   ["3:31", "9:38", "9:62"],
+      timesSingle:  [{username: "cpu", time: "3:21"}, {username: "cpu", time: "3:32"}, {username: "cpu", time: "6:17"}],
+      timesMulti:   [{username: "cpu", time: "3:31"}, {username: "cpu", time: "9:38"}, {username: "cpu", time: "9:62"}],
     };
 
     const spyNext: any = spyOn<any>(highscoreService["highscoreUpdated"], "next");
@@ -114,8 +114,8 @@ describe("HighscoreService tests", () => {
   it("should not call highscoreUpdated.next() with wrong minutes value in timesMulti", () => {
     dataMock = {
       id:           idMock,
-      timesSingle:  ["3:21", "3:32", "6:17"],
-      timesMulti:   ["3:31", "9:38", "69:42"],
+      timesSingle:  [{username: "cpu", time: "3:21"}, {username: "cpu", time: "3:32"}, {username: "cpu", time: "6:17"}],
+      timesMulti:   [{username: "cpu", time: "3:31"}, {username: "cpu", time: "9:38"}, {username: "cpu", time: "69:42"}],
     };
 
     const spyNext: any = spyOn<any>(highscoreService["highscoreUpdated"], "next");
@@ -129,8 +129,8 @@ describe("HighscoreService tests", () => {
   it("should not call highscoreUpdated.next() with wrong selector in timesMulti", () => {
     dataMock = {
       id:           idMock,
-      timesSingle:  ["3:21", "3:32", "6:17"],
-      timesMulti:   ["3:31", "9:38", "9'42"],
+      timesSingle:  [{username: "cpu", time: "3:21"}, {username: "cpu", time: "3:32"}, {username: "cpu", time: "6:17"}],
+      timesMulti:   [{username: "cpu", time: "3:31"}, {username: "cpu", time: "9:38"}, {username: "cpu", time: "9'42"}],
     };
 
     const spyNext: any = spyOn<any>(highscoreService["highscoreUpdated"], "next");
