@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, ElementRef, Input, OnDestroy, ViewChild } from "@angular/core";
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild } from "@angular/core";
 import { FormControl, Validators } from "@angular/forms";
 import { IChat, IChatSender } from "../../../../../common/communication/iChat";
 import { SocketService } from "../../websocket/socket.service";
@@ -10,7 +10,7 @@ import { ChatViewService } from "./chat-view.service";
   styleUrls:    ["./chat-view.component.css"],
 })
 
-export class ChatViewComponent implements AfterViewChecked, OnDestroy {
+export class ChatViewComponent implements AfterViewChecked, OnDestroy, AfterViewInit {
 
   public readonly CHAT_TITLE:             string = "Boîte de messagerie";
   public readonly CHAT_DESCRIPTION:       string = "Message sur serveur et des joueurs";
@@ -28,6 +28,8 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
   @Input()
   private username:                       string;
 
+  private chatHeight: number;
+
   @ViewChild("chatBox", {read: ElementRef})
   public chatBox:                         ElementRef;
 
@@ -39,20 +41,21 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
       this.conversationLength = this.chatViewService.getConversationLength();
   }
 
+  public ngAfterViewInit(): void {
+    this.chatHeight = this.chatBox.nativeElement.scrollHeight;
+    // console.log("ChatHeight : " + this.chatHeight);
+  }
   public ngAfterViewChecked(): void {
 
     if (this.conversationLength < this.chatViewService.getConversationLength()) {
       this.conversationLength = this.chatViewService.getConversationLength();
       this.scrollToBottom();
-      // this.chatBox.nativeElement.scrollTop = this.chatBox.nativeElement.scrollHeight;
     }
   }
 
   private scrollToBottom(): void {
-    // const startPositionY: number = this.chatBox.nativeElement.scrollTop;
-    // const aimedPosition: number = this.chatBox.nativeElement.scrollHeight;
     const increment: number = 5;
-    const pauseBetweenIncrement: number = 200;
+    const pauseBetweenIncrement: number = 7;
 
     const interval: NodeJS.Timeout = setInterval(() => {
       if (this.chatBox.nativeElement.scrollTop + increment <= this.chatBox.nativeElement.scrollHeight) {
