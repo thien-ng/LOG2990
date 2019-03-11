@@ -26,20 +26,10 @@ export class HighscoreService {
     private highscores: Highscore[] = [];
 
     public createHighscore(id: number): void {
-        let i: number = 1;
         const highscore: Highscore = {
-            id:             id,
-            timesSingle:    [
-                this.generateDefaultTime(NAME + i++),
-                this.generateDefaultTime(NAME + i++),
-                this.generateDefaultTime(NAME + i++),
-            ],
-            timesMulti:     [
-                this.generateDefaultTime(NAME + i++),
-                this.generateDefaultTime(NAME + i++),
-                this.generateDefaultTime(NAME + i++),
-            ],
-        };
+            id: id,
+        } as Highscore;
+
         this.highscores.push(highscore);
         this.generateNewHighscore(id);
     }
