@@ -136,7 +136,7 @@ export class CreateFreeGameComponent {
   }
 
   public submit(formData: NgForm): void {
-    this.status = true;
+    this.status = false;
     this.isButtonEnabled = false;
     const formValue: FormMessage = this.createFormMessage(formData);
 
@@ -150,7 +150,7 @@ export class CreateFreeGameComponent {
 
     });
     this.isButtonEnabled = true;
-    this.status = false;
+    this.status = true;
   }
 
   private openSnackBar(msg: string, action: string): void {
