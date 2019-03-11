@@ -30,7 +30,7 @@ describe("Card-operations tests", () => {
     };
 
     const c2: ICard = {
-        gameID:             2,
+        gameID:             7,
         title:              "Default 3D",
         subtitle:           "default 3D",
         avatarImageUrl:     FAKE_PATH + "/moutain.jpg",
@@ -95,7 +95,7 @@ describe("Card-operations tests", () => {
     });
 
     it("should return an error while deleting the default 3D card", () => {
-        chai.expect(cardOperations.removeCard3D(1)).deep.equal(Constants.DELETION_ERROR_MESSAGE);
+        chai.expect(cardOperations.removeCard3D(2)).deep.equal(Constants.DELETION_ERROR_MESSAGE);
     });
 
     it("should return false because the card doesnt exist", () => {
@@ -104,11 +104,6 @@ describe("Card-operations tests", () => {
 
     it("should return false because the card doesnt exist", () => {
         chai.expect(cardOperations.removeCard3D(0)).to.equal(CARD_NOT_FOUND);
-    });
-
-    it("should return the existing card", () => {
-        cardOperations.addCard3D(c3);
-        chai.expect(cardOperations.getCardById("3", GameMode.free)).to.deep.equal(c3);
     });
 
     it("should return an error message because path image doesnt exist", () => {
@@ -119,22 +114,6 @@ describe("Card-operations tests", () => {
     it("should return an error message because path image doesnt exist", () => {
         cardOperations.addCard3D(c3);
         chai.expect(cardOperations.removeCard3D(3)).to.equal("error while deleting file");
-    });
-
-    it("should return an error while deleting the default 2D card", () => {
-        chai.expect(cardOperations.removeCard2D(1)).deep.equal(Constants.DELETION_ERROR_MESSAGE);
-    });
-
-    it("should return an error while deleting the default 3D card", () => {
-        chai.expect(cardOperations.removeCard3D(1)).deep.equal(Constants.DELETION_ERROR_MESSAGE);
-    });
-
-    it("should return false because the card doesnt exist", () => {
-        chai.expect(cardOperations.removeCard2D(0)).to.equal(CARD_NOT_FOUND);
-    });
-
-    it("should return false because the card doesnt exist", () => {
-        chai.expect(cardOperations.removeCard3D(0)).to.equal(CARD_NOT_FOUND);
     });
 
     it("should delete card 2D", () => {
@@ -153,8 +132,8 @@ describe("Card-operations tests", () => {
     });
 
     it("should delete card 3D", () => {
-        const snapshot:             string = Constants.IMAGES_PATH + "/" + 2 + Constants.GENERATED_SNAPSHOT;
-        const generatedScene:       string = Constants.SCENE_PATH  + "/" + 2 + Constants.SCENES_FILE;
+        const snapshot:             string = Constants.IMAGES_PATH + "/" + 7 + Constants.GENERATED_SNAPSHOT;
+        const generatedScene:       string = Constants.SCENE_PATH  + "/" + 7 + Constants.SCENES_FILE;
         const assetManager:         AssetManagerService = new AssetManagerService();
 
         cardOperations.addCard3D(c2);
@@ -162,7 +141,7 @@ describe("Card-operations tests", () => {
         assetManager.saveImage(snapshot, "test");
         assetManager.saveGeneratedScene(generatedScene, "test");
 
-        chai.expect(cardOperations.removeCard3D(2)).to.equal(Constants.CARD_DELETED);
+        chai.expect(cardOperations.removeCard3D(7)).to.equal(Constants.CARD_DELETED);
     });
 
     it("should generate message with unknown error", () => {

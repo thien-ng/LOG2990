@@ -46,7 +46,8 @@ export class Constants {
   public static readonly GAME_TITLE_IS_CORRECT:     string = "Le titre est correct";
 
   // Constants for card-manager-controller
-  public static readonly DEFAULT_CARD_ID:           number = 1;
+  public static readonly DEFAULT_CARD_2D:           number = 1;
+  public static readonly DEFAULT_CARD_3D:           number = 2;
   public static readonly DELETION_ERROR_MESSAGE:    string = "Impossible de supprimer la carte par défault";
 
   // Constants for game manager
@@ -71,4 +72,7 @@ export class Constants {
   public static readonly MAX_ITEMS_IN_SCENE:        number = 200;
   public static readonly THEME_GEOMETRIC:           string = "geometric";
   public static readonly THEME_THEMATIC:            string = "thematic";
+
+  // Constants for highscore.service.ts
+  public static readonly VALIDATE_HIGHSCORE_PATH:   string = CCommon.BASE_URL + "/api/highscore-api";
 }
