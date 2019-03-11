@@ -37,11 +37,11 @@ export class ChatManagerService {
         this.server.emit(CCommon.CHAT_EVENT, iChatMessage);
     }
 
-    public sendChatMessage(userList: IUser[], messageRecieved: IChatSender, socket: SocketIO.Server): void {
+    public sendChatMessage(userList: IUser[], messageReceived: IChatSender, socket: SocketIO.Server): void {
 
         this.server = socket;
 
-        const iChatMessage: IChat = this.generateMessage(messageRecieved.username, messageRecieved.message);
+        const iChatMessage: IChat = this.generateMessage(messageReceived.username, messageReceived.message);
         this.sendToSocketIDMessage(userList, iChatMessage);
     }
 

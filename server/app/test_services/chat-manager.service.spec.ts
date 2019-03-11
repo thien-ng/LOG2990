@@ -70,9 +70,9 @@ describe("ChatManagerService Tests", () => {
         const spy: any = chai.spy.on(chatManagerService, "sendToSocketIDMessage");
 
         const chatSender: IChatSender = {
-            arenaID: 1,
-            username: "username",
-            message: "message",
+            arenaID:    1,
+            username:   "username",
+            message:    "message",
         };
 
         chatManagerService.sendChatMessage(soloUser, chatSender, server);
@@ -87,9 +87,9 @@ describe("ChatManagerService Tests", () => {
         const spy: any = chai.spy.on(chatManagerService, "sendToSocketIDMessage");
 
         const chatSender: IChatSender = {
-            arenaID: 1,
-            username: "username",
-            message: "message",
+            arenaID:    1,
+            username:   "username",
+            message:    "message",
         };
 
         chatManagerService.sendChatMessage(multiUser, chatSender, server);
