@@ -1,8 +1,10 @@
 .chatMessageBox {
-    background-color: white;
+    background-color: #D8F91E;
     height: auto;
-    margin-top: 3px;
-    margin-bottom: 3px;
+    border-radius: 23px;
+    padding: 13px 20px 13px 20px;
+    margin-top: 6px;
+    margin-bottom: 6px;
 }
 
 .messageFormat {
