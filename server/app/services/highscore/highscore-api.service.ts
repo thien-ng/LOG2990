@@ -6,7 +6,7 @@ import {
     Mode,
     Position,
     SortTimesResponse,
-    Time
+    Time,
 } from "./utilities/interfaces";
 
 const REMOVE_NOTHING:           number = 0;
