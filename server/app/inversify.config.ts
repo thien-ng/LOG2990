@@ -8,6 +8,7 @@ import { UserController } from "./controllers/user.controller";
 import { Server } from "./server";
 import { CardManagerService } from "./services/card-manager.service";
 import { CardOperations } from "./services/card-operations.service";
+import { ChatManagerService } from "./services/chat-manager.service";
 import { DifferenceCheckerController } from "./services/difference-checker/difference-checker.controller";
 import { DifferenceCheckerService } from "./services/difference-checker/difference-checker.service";
 import { GameManagerService } from "./services/game/game-manager.service";
@@ -15,6 +16,7 @@ import { HighscoreService } from "./services/highscore.service";
 import { HitValidatorController } from "./services/hitValidator/hitValidator.controller";
 import { HitValidatorService } from "./services/hitValidator/hitValidator.service";
 import { SceneManager } from "./services/scene/scene-manager.service";
+import { TimeManagerService } from "./services/time-manager.service";
 import { UserManagerService } from "./services/user-manager.service";
 import Types from "./types";
 import { WebsocketManager } from "./websocket/WebsocketManager";
@@ -47,5 +49,8 @@ container.bind(Types.GameManagerService).to(GameManagerService).inSingletonScope
 
 container.bind(Types.SceneManagerController).to(SceneManagerController);
 container.bind(Types.SceneManager).to(SceneManager).inSingletonScope();
+
+container.bind(Types.TimeManagerService).to(TimeManagerService).inSingletonScope();
+container.bind(Types.ChatManagerService).to(ChatManagerService).inSingletonScope();
 
 export { container };

@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import * as io from "socket.io-client";
+import { IChat } from "../../../../common/communication/iChat";
 import { IPlayerInputResponse } from "../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../constants";
@@ -30,8 +31,11 @@ export class SocketService {
     this.socket.addEventListener(Constants.ON_CONNECT, () => {
 
       this.socket.on(CCommon.ON_ARENA_RESPONSE, (data: IPlayerInputResponse) => {
-        this.chatViewService.updateConversation(data);
         this.gameViewSimpleService.onArenaResponse(data);
+      });
+
+      this.socket.on(CCommon.CHAT_EVENT, (data: IChat) => {
+        this.chatViewService.updateConversation(data);
       });
 
       this.socket.on(CCommon.ON_TIMER_UPDATE, (data: number) => {

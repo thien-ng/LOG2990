@@ -27,13 +27,13 @@ cache:
 
 
 script:
+  - cd server
+  - npm install
+  - npm run lint
+  - npm test
+  - cd ..
   - cd client
   - npm install
   - npm i three --save
-  - npm test
   - npm run lint
-  - cd ..
-  - cd server
-  - npm install
   - npm test
-  - npm run lint
