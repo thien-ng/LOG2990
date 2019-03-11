@@ -1,6 +1,8 @@
 mat-card {
     display: block;
     position: absolute;
+    background-color: grey;
+    color: white;
     top: 0px;
     left:0px;
     height: 100%;
