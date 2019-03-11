@@ -12,25 +12,24 @@ import { ChatViewService } from "./chat-view.service";
 
 export class ChatViewComponent implements AfterViewChecked, OnDestroy {
 
-  public readonly CHAT_TITLE:       string = "Notification du serveur";
-  public readonly CHAT_DESCRIPTION: string = "クリスチャンサーバー";
-  public readonly MESSAGE_PATTERN:  string = ".+";
+  public readonly CHAT_TITLE:             string = "Notification du serveur";
+  public readonly CHAT_DESCRIPTION:       string = "クリスチャンサーバー";
+  public readonly MESSAGE_PATTERN_REGEX:  string = ".+";
+  private readonly CHAT_EVENT:            string = "onChatEvent";
 
-  private readonly CHAT_EVENT:      string = "onChatEvent";
-
-  public conversations: IChat[];
-  public initialValue: string;
-  public usernameFormControl: FormControl;
-  public conversationLength: number;
-
-  @Input()
-  private arenaID:        number;
+  public conversations:                   IChat[];
+  public initialValue:                    string;
+  public usernameFormControl:             FormControl;
+  public conversationLength:              number;
 
   @Input()
-  private username:        string | null;
+  private arenaID:                        number;
+
+  @Input()
+  private username:                       string;
 
   @ViewChild("chatBox", {read: ElementRef})
-  public chatBox:  ElementRef;
+  public chatBox:                         ElementRef;
 
   public constructor(
     private chatViewService: ChatViewService,
@@ -53,7 +52,7 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
     this.conversations = this.chatViewService.getConversation();
     this.usernameFormControl = new FormControl("", [
       Validators.required,
-      Validators.pattern(this.MESSAGE_PATTERN),
+      Validators.pattern(this.MESSAGE_PATTERN_REGEX),
     ]);
   }
 
