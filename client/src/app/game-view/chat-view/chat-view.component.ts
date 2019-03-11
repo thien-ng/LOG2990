@@ -12,8 +12,8 @@ import { ChatViewService } from "./chat-view.service";
 
 export class ChatViewComponent implements AfterViewChecked, OnDestroy {
 
-  public readonly CHAT_TITLE:             string = "Notification du serveur";
-  public readonly CHAT_DESCRIPTION:       string = "クリスチャンサーバー";
+  public readonly CHAT_TITLE:             string = "Boîte de messagerie";
+  public readonly CHAT_DESCRIPTION:       string = "Message sur serveur et des joueurs";
   public readonly MESSAGE_PATTERN_REGEX:  string = ".+";
   private readonly CHAT_EVENT:            string = "onChatEvent";
 
