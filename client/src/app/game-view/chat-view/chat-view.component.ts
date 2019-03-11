@@ -43,7 +43,8 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
 
     if (this.conversationLength < this.chatViewService.getConversationLength()) {
       this.conversationLength = this.chatViewService.getConversationLength();
-      this.chatBox.nativeElement.scrollTop = this.chatBox.nativeElement.scrollHeight;
+      this.scrollToBottom();
+      // this.chatBox.nativeElement.scrollTop = this.chatBox.nativeElement.scrollHeight;
     }
   }
 
