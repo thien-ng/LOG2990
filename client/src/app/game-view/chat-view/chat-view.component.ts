@@ -51,16 +51,17 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
   private scrollToBottom(): void {
     // const startPositionY: number = this.chatBox.nativeElement.scrollTop;
     // const aimedPosition: number = this.chatBox.nativeElement.scrollHeight;
-    const increment: number = 2;
+    const increment: number = 5;
+    const pauseBetweenIncrement: number = 200;
 
     const interval: NodeJS.Timeout = setInterval(() => {
       if (this.chatBox.nativeElement.scrollTop + increment <= this.chatBox.nativeElement.scrollHeight) {
-        // fdgd
         this.chatBox.nativeElement.scrollTop += increment;
       } else {
         clearInterval(interval);
       }
-    }, 100);
+
+    }, pauseBetweenIncrement);
   }
 
   public init(): void {
