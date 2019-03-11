@@ -58,10 +58,20 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy, AfterView
     const pauseBetweenIncrement: number = 7;
 
     const interval: NodeJS.Timeout = setInterval(() => {
-      if (this.chatBox.nativeElement.scrollTop + increment <= this.chatBox.nativeElement.scrollHeight) {
+
+      const scrollPosition: number = this.chatBox.nativeElement.scrollTop + this.chatHeight;
+      // const maxOffset: number = this.chatBox.nativeElement.scrollTop + this.chatHeight;
+      // si sT + cH + increment < sH, on incrémente, sinon on stoppe
+
+      if (scrollPosition + increment <= this.chatBox.nativeElement.scrollHeight) {
+        // console.log("Scroll height : " + this.chatBox.nativeElement.scrollHeight);
+        // console.log("Scroll Top : " + this.chatBox.nativeElement.scrollTop);
+
         this.chatBox.nativeElement.scrollTop += increment;
+        console.log("scroll!");
       } else {
         clearInterval(interval);
+        console.log("Stopped scrolling.");
       }
 
     }, pauseBetweenIncrement);
