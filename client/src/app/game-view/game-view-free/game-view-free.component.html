@@ -1,6 +1,3 @@
-<div *ngIf="status">
-  <app-spinner></app-spinner>
-</div>
 <mat-grid-list cols="9" rowHeight="19.9%">
   <mat-grid-tile
     [colspan]="7"
@@ -18,6 +15,7 @@
   [colspan]="7"
   [rowspan]="3"
   [style.background]='lightblue'>
+  <app-spinner *ngIf="status"></app-spinner>
   <app-threejs-view id="originalScene" [iSceneVariables]="originalVariables" [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
   <app-threejs-view id="modifiedScene" [iSceneVariables]="modifiedVariables" [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
   </mat-grid-tile>

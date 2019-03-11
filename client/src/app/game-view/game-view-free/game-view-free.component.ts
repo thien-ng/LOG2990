@@ -32,7 +32,6 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit {
     ) {}
 
   public ngOnInit(): void {
-      this.status = false;
       const gameID:   string | null = this.route.snapshot.paramMap.get("id");
       const username: string | null = sessionStorage.getItem(Constants.USERNAME_KEY);
       if (gameID !== null && username !== null) {
@@ -103,6 +102,8 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit {
       }).catch((error) => {
         this.openSnackBar(error, Constants.SNACK_ACTION);
       });
+
+      this.status = false;
     }
   }
 
