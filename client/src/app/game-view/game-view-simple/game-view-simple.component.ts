@@ -114,7 +114,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     imgModified.onload = () => {
       canvasModified.drawImage(imgModified, 0, 0);
     };
-    this.gameViewService.setCanvas(canvasModified);
+    this.gameViewService.setCanvas(canvasModified, canvasOriginal);
     this.gameViewService.setSounds(this.successSound, this.failSound);
   }
 
