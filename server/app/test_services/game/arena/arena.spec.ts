@@ -10,13 +10,13 @@ import { CCommon } from "../../../../../common/constantes/cCommon";
 import { Constants } from "../../../constants";
 
 import { BMPBuilder } from "../../../services/difference-checker/utilities/bmpBuilder";
-import { Arena } from "../../../services/game/arena/arena";
 import { Player } from "../../../services/game/arena/player";
 import { GameManagerService } from "../../../services/game/game-manager.service";
 import { UserManagerService } from "../../../services/user-manager.service";
 
 import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
+import { Arena2D } from "../../../services/game/arena/arena2d";
 import { IArenaInfos, IHitConfirmation, IPlayerInput } from "../../../services/game/arena/interfaces";
 
 // tslint:disable:no-magic-numbers no-any max-file-line-count no-empty
@@ -45,21 +45,21 @@ const expectedPixelClusters: IOriginalPixelCluster = {
     ],
 };
 
-const playerInputClick: IPlayerInput = {
+const playerInputClick: IPlayerInput<IPosition2D> = {
     event:      Constants.CLICK_EVENT,
     arenaId:    1,
     user:       activeUser,
     eventInfo:  hitPosition,
 };
 
-const playerInputWrong: IPlayerInput = {
+const playerInputWrong: IPlayerInput<IPosition2D> = {
     event:      "wrongInput",
     arenaId:    1,
     user:       activeUser,
     eventInfo:  hitPosition,
 };
 
-let arena: Arena;
+let arena: Arena2D;
 const arenaInfo: IArenaInfos = {
         arenaId:            1,
         users:              [activeUser],
@@ -78,7 +78,7 @@ describe("Arena tests", () => {
 
     beforeEach(async () => {
         gameManager = new GameManagerService(new UserManagerService());
-        arena       = new Arena(arenaInfo, gameManager);
+        arena       = new Arena2D(arenaInfo, gameManager);
         mockAxios   = new MockAdapter.default(axios);
         chai.use(spies);
 
@@ -149,14 +149,14 @@ describe("Arena tests", () => {
 
     it("should validate hit with a call to a microservice", async () => {
 
-        const expectedResponse: IArenaResponse = {
+        const expectedResponse: IArenaResponse<IOriginalPixelCluster> = {
             status:     CCommon.ON_SUCCESS,
             response:   expectedPixelClusters,
         };
         const sandbox: sinon.SinonSandbox = sinon.createSandbox();
         sandbox.stub(arena["referee"], "onPlayerClick").callsFake( async () => of(expectedResponse).toPromise());
 
-        const responseToInput: IArenaResponse = await arena.onPlayerInput(playerInputClick);
+        const responseToInput: IArenaResponse<IOriginalPixelCluster> = await arena.onPlayerInput(playerInputClick);
 
         chai.expect(responseToInput).to.deep.equal(expectedResponse);
         sandbox.restore();
@@ -164,21 +164,21 @@ describe("Arena tests", () => {
 
     it("should return a failed response when the event passed isn't recognize", async () => {
 
-        const expectedResponse: IArenaResponse = {
+        const expectedResponse: IArenaResponse<IOriginalPixelCluster> = {
             status:     "onFailedClick",
             response:   Constants.ON_ERROR_PIXEL_CLUSTER,
         };
         const sandbox: sinon.SinonSandbox = sinon.createSandbox();
         sandbox.stub(arena["referee"], "onPlayerClick").callsFake( async () => of(expectedResponse).toPromise());
 
-        const responseToInput:  IArenaResponse = await arena.onPlayerInput(playerInputWrong);
+        const responseToInput:  IArenaResponse<IOriginalPixelCluster> = await arena.onPlayerInput(playerInputWrong);
 
         chai.expect(responseToInput).to.deep.equal(expectedResponse);
         sandbox.restore();
     });
 
     it("should return a correct IArenaResponse", async () => {
-        const playerInputResponseExpected: IArenaResponse = {
+        const playerInputResponseExpected: IArenaResponse<IOriginalPixelCluster> = {
             status:     CCommon.ON_SUCCESS,
             response:   expectedPixelClusters,
         };
@@ -190,7 +190,7 @@ describe("Arena tests", () => {
 
         mockAxios.onPost(Constants.URL_HIT_VALIDATOR + "/2d").reply(200, hitConfirmationExpected);
 
-        let responseToPlayerInput: IArenaResponse | void;
+        let responseToPlayerInput: IArenaResponse<IOriginalPixelCluster> | void;
         arena["originalElements"].set(1, expectedPixelClusters);
 
         responseToPlayerInput = await arena.onPlayerClick(hitPosition, activeUser);
@@ -200,14 +200,14 @@ describe("Arena tests", () => {
     });
 
     it("should return an error on problematic HitConfirmation", async () => {
-        const playerInputResponseExpected: IArenaResponse = {
+        const playerInputResponseExpected: IArenaResponse<IOriginalPixelCluster> = {
             status:     CCommon.ON_ERROR,
             response:   Constants.ON_ERROR_PIXEL_CLUSTER,
         };
 
         mockAxios.onPost(Constants.URL_HIT_VALIDATOR).reply(200, {});
 
-        let responseToPlayerInput: IArenaResponse | void;
+        let responseToPlayerInput: IArenaResponse<IOriginalPixelCluster> | void;
         arena["originalElements"].set(1, expectedPixelClusters);
 
         responseToPlayerInput = await arena.onPlayerClick(hitPosition, activeUser);
@@ -278,7 +278,7 @@ describe("Arena tests", () => {
         gameManager = new GameManagerService(new UserManagerService());
         arenaInfo.users = [activeUser, activeUser];
 
-        arena       = new Arena(arenaInfo, gameManager);
+        arena       = new Arena2D(arenaInfo, gameManager);
         mockAxios   = new MockAdapter.default(axios);
 
         const builder:          BMPBuilder  = new BMPBuilder(4, 4, 100);
