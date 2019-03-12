@@ -11,9 +11,9 @@ export interface ICacheElement {
 }
 
 export interface IHitToValidate {
-    position:               IPosition2D;
-    imageUrl:               string;
-    colorToIgnore:          number[];
+    eventInfo:              any;
+    differenceDataURL:      string;
+    colorToIgnore?:         number;
 }
 
 export interface IHitConfirmation {
