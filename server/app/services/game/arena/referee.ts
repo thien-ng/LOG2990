@@ -133,12 +133,12 @@ export class Referee<EVT_T, DIFF_T> {
         } as IArenaResponse<DIFF_T>;
     }
 
-    private buildPostData(position: IPosition2D): IHitToValidate {
+    private buildPostData(eventInfos: EVT_T): IHitToValidate<EVT_T> {
         return {
-            eventInfo:          position,
+            eventInfo:          eventInfos,
             differenceDataURL:  this.arenaInfos.differenceGameUrl,
             colorToIgnore:      Constants.FF,
-        };
+        } as IHitToValidate<EVT_T>;
     }
 
     private buildPostConfig(): AxiosRequestConfig {
