@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import * as io from "socket.io-client";
+import { GameMode } from "../../../../common/communication/iCard";
 import { IChat } from "../../../../common/communication/iChat";
 import { IArenaResponse } from "../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../common/constantes/cCommon";
