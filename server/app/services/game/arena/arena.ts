@@ -65,6 +65,15 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
     }
 
     protected async getDifferenceDataFromURL(differenceDataURL: string): Promise<Buffer> {
+
+        return axios
+            .get(differenceDataURL, {
+                responseType: "arraybuffer",
+            })
+            .then((response: AxiosResponse) => Buffer.from(response.data, "binary"))
+            .catch((error: Error) => {
+                throw new TypeError(this.ERROR_ON_HTTPGET);
+            });
     }
 
     protected createPlayers(): void {
