@@ -56,6 +56,12 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
     }
 
     public removePlayer(username: string): void {
+        this.players = this.players.filter( (player: Player) => {
+            return player.username !== username;
+        });
+        if (this.players.length === 0) {
+            this.gameManagerService.deleteArena(this.arenaInfos.arenaId);
+        }
     }
 
     protected async getDifferenceDataFromURL(differenceDataURL: string): Promise<Buffer> {
