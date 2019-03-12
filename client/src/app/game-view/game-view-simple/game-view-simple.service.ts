@@ -1,5 +1,11 @@
 import { ElementRef, Injectable } from "@angular/core";
-import { IArenaResponse, IClickMessage, IPosition2D, IReplacementPixel } from "../../../../../common/communication/iGameplay";
+import {
+  IArenaResponse,
+  IClickMessage,
+  IOriginalPixelCluster,
+  IPosition2D,
+  IReplacementPixel
+ } from "../../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 
 @Injectable({
