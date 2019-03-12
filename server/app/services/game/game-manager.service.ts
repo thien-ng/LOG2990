@@ -1,7 +1,7 @@
 import { inject, injectable } from "inversify";
 import { GameMode } from "../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../common/communication/iGameRequest";
-import { IOriginalPixelCluster, IArenaResponse } from "../../../../common/communication/iGameplay";
+import { IArenaResponse, IOriginalPixelCluster } from "../../../../common/communication/iGameplay";
 import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
