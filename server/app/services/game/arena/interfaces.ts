@@ -1,11 +1,5 @@
-import { IPosition2D } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
-
-export interface IHitToValidate {
-    position:           IPosition2D;
-    imageUrl:           string;
-    colorToIgnore:      number[];
-}
+// tslint:disable:no-any
 
 export interface IArenaInfos {
     arenaId:            number;
@@ -14,14 +8,20 @@ export interface IArenaInfos {
     differenceGameUrl:  string;
 }
 
-export interface IHitConfirmation {
-    isAHit:             Boolean;
-    hitPixelColor:      number[];
-}
-
 export interface IPlayerInput {
     event:              string;
     arenaId:            number;
     user:               IUser;
-    position:           IPosition2D;
+    eventInfo:          any;
+}
+
+export interface IHitToValidate {
+    eventInfo:          any;
+    differenceDataURL:  string;
+    colorToIgnore?:     number;
+}
+
+export interface IHitConfirmation {
+    isAHit:             Boolean;
+    differenceIndex:    number;
 }
