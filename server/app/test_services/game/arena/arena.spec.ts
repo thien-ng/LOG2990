@@ -178,19 +178,19 @@ describe("Arena tests", () => {
     });
 
     it("should return a correct PlayerInputResponse", async () => {
-        const playerInputResponseExpected: IPlayerInputResponse = {
+        const playerInputResponseExpected: IArenaResponse = {
             status:     CCommon.ON_SUCCESS,
             response:   expectedPixelClusters,
         };
 
         const hitConfirmationExpected: IHitConfirmation = {
-            isAHit:         true,
-            hitPixelColor:  [ 1, 1, 1],
+            isAHit:             true,
+            differenceIndex:    1,
         };
 
         mockAxios.onPost(Constants.URL_HIT_VALIDATOR).reply(200, hitConfirmationExpected);
 
-        let responseToPlayerInput: IPlayerInputResponse | void;
+        let responseToPlayerInput: IArenaResponse | void;
         arena["originalElements"].set(1, expectedPixelClusters);
 
         responseToPlayerInput = await arena.onPlayerClick(hitPosition, activeUser);
@@ -200,14 +200,14 @@ describe("Arena tests", () => {
     });
 
     it("should return an error on problematic HitConfirmation", async () => {
-        const playerInputResponseExpected: IPlayerInputResponse = {
+        const playerInputResponseExpected: IArenaResponse = {
             status:     CCommon.ON_ERROR,
             response:   Constants.ON_ERROR_PIXEL_CLUSTER,
         };
 
         mockAxios.onPost(Constants.URL_HIT_VALIDATOR).reply(200, {});
 
-        let responseToPlayerInput: IPlayerInputResponse | void;
+        let responseToPlayerInput: IArenaResponse | void;
         arena["originalElements"].set(1, expectedPixelClusters);
 
         responseToPlayerInput = await arena.onPlayerClick(hitPosition, activeUser);
@@ -219,8 +219,8 @@ describe("Arena tests", () => {
     it("should be able to return a hit validation response", async () => {
 
         const hitConfirmationExpected: IHitConfirmation = {
-            isAHit:         true,
-            hitPixelColor:  [ 1, 1, 1],
+            isAHit:             true,
+            differenceIndex:    1,
         };
 
         mockAxios.onPost(Constants.URL_HIT_VALIDATOR).reply(200, hitConfirmationExpected);
