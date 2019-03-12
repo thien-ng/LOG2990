@@ -27,8 +27,8 @@ export interface IOriginalPixelCluster {
     cluster:        IReplacementPixel[];
 }
 
-export interface IArenaResponse {
+export interface IArenaResponse<RES_T> {
     status:         string;
-    response:       any;
+    response:       RES_T;
     arenaType?:     GameMode;
 }
