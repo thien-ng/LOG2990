@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { inject, injectable } from "inversify";
 import { HitValidatorService2D } from "./hitValidator2D.service";
-import { HitValidatorService3D } from "./hitValidator3D.service";
+// import { HitValidatorService3D } from "./hitValidator3D.service";
 import { IHitToValidate } from "./interfaces";
 
+import { GameMode } from "../../../../common/communication/iCard";
 import { IPosition2D } from "../../../../common/communication/iGameplay";
 import Types from "../../types";
-import { GameMode } from "../../../../common/communication/iCard";
 
 @injectable()
 export class HitValidatorController {
