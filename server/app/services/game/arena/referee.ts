@@ -67,12 +67,12 @@ export class Referee<EVT_T, DIFF_T> {
         });
     }
 
-    public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {
+    public async validateHit(eventInfos: EVT_T): Promise<IHitConfirmation> {
 
-        const postData:     IHitToValidate      = this.buildPostData(position);
-        const postConfig:   AxiosRequestConfig  = this.buildPostConfig();
+        const postData:     IHitToValidate<EVT_T>   = this.buildPostData(eventInfos);
+        const postConfig:   AxiosRequestConfig      = this.buildPostConfig();
 
-        return axios.post(Constants.URL_HIT_VALIDATOR + "/2d", postData, postConfig)
+        return axios.post(Constants.URL_HIT_VALIDATOR + "/" + this.arena.ARENA_TYPE, postData, postConfig)
             .then((res: AxiosResponse) => {
                 return res.data;
             })
