@@ -25,7 +25,7 @@ export interface IOriginalPixelCluster {
     cluster:        IReplacementPixel[];
 }
 
-export interface IPlayerInputResponse {
+export interface IArenaResponse {
     status:         string;
-    response:       IOriginalPixelCluster;
+    response:       any;
 }
