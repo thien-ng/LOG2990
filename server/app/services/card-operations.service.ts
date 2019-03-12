@@ -57,7 +57,7 @@ export class CardOperations {
     }
 
     public removeCard2D(id: number): string {
-        if (id === Constants.DEFAULT_CARD_ID) {
+        if (id === Constants.DEFAULT_CARD_2D) {
             return Constants.DELETION_ERROR_MESSAGE;
         }
         const index: number = this.findCard2D(id);
@@ -81,7 +81,7 @@ export class CardOperations {
     }
 
     public removeCard3D(id: number): string {
-        if (id === Constants.DEFAULT_CARD_ID) {
+        if (id === Constants.DEFAULT_CARD_3D) {
             return Constants.DELETION_ERROR_MESSAGE;
         }
         const index: number = this.findCard3D(id);

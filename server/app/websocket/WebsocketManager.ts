@@ -1,6 +1,7 @@
 import * as http from "http";
 import { inject, injectable } from "inversify";
 import * as SocketIO from "socket.io";
+import { IChatSender } from "../../../common/communication/iChat";
 import { IClickMessage, IPlayerInputResponse } from "../../../common/communication/iGameplay";
 import { IUser } from "../../../common/communication/iUser";
 import { CCommon } from "../../../common/constantes/cCommon";
@@ -52,13 +53,14 @@ export class WebsocketManager {
 
         socket.on(Constants.POSITION_VALIDATION_EVENT, (data: IClickMessage) => {
             const user: IUser | string = this.userManagerService.getUserByUsername(data.username);
+            const userList: IUser[] = this.gameManagerService.getUsersInArena(data.arenaID);
 
             if (typeof user !== "string") {
                 const playerInput: IPlayerInput = this.buildPlayerInput(data, user);
                 this.gameManagerService.onPlayerInput(playerInput)
                 .then((response: IPlayerInputResponse) => {
                     socket.emit(CCommon.ON_ARENA_RESPONSE, response);
-                    this.chatManagerService.sendPositionValidationMessage(response, socket);
+                    this.chatManagerService.sendPositionValidationMessage(data.username, userList, response, this.io);
                 }).catch((error: Error) => {
                     socket.emit(CCommon.ON_ERROR, error);
                 });
@@ -67,8 +69,10 @@ export class WebsocketManager {
     }
 
     private chatSocketChecker(socket: SocketIO.Socket): void {
-        socket.on(Constants.ON_CHAT_EVENT, (data: string) => {
-            this.chatManagerService.sendChatMessage(data, socket);
+        socket.on(Constants.ON_CHAT_EVENT, (messageRecieved: IChatSender) => {
+
+            const userList: IUser[] = this.gameManagerService.getUsersInArena(messageRecieved.arenaID);
+            this.chatManagerService.sendChatMessage(userList, messageRecieved, this.io);
         });
     }
 
