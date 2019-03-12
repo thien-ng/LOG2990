@@ -39,28 +39,28 @@ export class Referee<EVT_T, DIFF_T> {
 
     public async onPlayerClick(eventInfos: EVT_T, user: IUser): Promise<IArenaResponse<DIFF_T>> {
 
-        let inputResponse: IArenaResponse = this.buildPlayerInputResponse(
+        let arenaResponse: IArenaResponse<DIFF_T> = this.buildArenaResponse(
             this.ON_FAILED_CLICK,
-            Constants.ON_ERROR_PIXEL_CLUSTER,
-        );
+            this.arena.DEFAULT_DIFF_TO_UPDATE,
+        ) as IArenaResponse<DIFF_T>;
 
-        return this.validateHit(position)
+        return this.validateHit(eventInfos)
         .then((hitConfirmation: IHitConfirmation) => {
             const isAnUndiscoveredDifference: boolean = this.isAnUndiscoveredDifference(hitConfirmation.differenceIndex);
 
             if (hitConfirmation.isAHit && isAnUndiscoveredDifference) {
                 this.onHitConfirmation(user, hitConfirmation);
-                const pixelCluster: IOriginalPixelCluster | undefined = this.originalElements.get(hitConfirmation.differenceIndex);
+                const differenceToUpdate: DIFF_T | undefined = this.originalElements.get(hitConfirmation.differenceIndex);
 
-                if (pixelCluster !== undefined) {
-                    inputResponse = this.buildPlayerInputResponse(CCommon.ON_SUCCESS, pixelCluster);
+                if (differenceToUpdate !== undefined) {
+                    arenaResponse = this.buildArenaResponse(CCommon.ON_SUCCESS, differenceToUpdate);
                 }
                 if (this.gameIsFinished()) {
                     this.endOfGameRoutine();
                 }
             }
 
-            return inputResponse;
+            return arenaResponse;
         })
         .catch ((error: Error) => {
             return this.buildPlayerInputResponse(CCommon.ON_ERROR, Constants.ON_ERROR_PIXEL_CLUSTER);
