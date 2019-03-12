@@ -36,7 +36,7 @@ export class Referee<EVT_T, DIFF_T> {
         this.initTimer();
     }
 
-    public async onPlayerClick(position: IPosition2D, user: IUser): Promise<IArenaResponse> {
+    public async onPlayerClick(eventInfos: EVT_T, user: IUser): Promise<IArenaResponse<DIFF_T>> {
 
         let inputResponse: IArenaResponse = this.buildPlayerInputResponse(
             this.ON_FAILED_CLICK,
