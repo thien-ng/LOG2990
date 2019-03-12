@@ -1,5 +1,5 @@
 import { ElementRef, Injectable } from "@angular/core";
-import { IClickMessage, IPlayerInputResponse, IPosition2D } from "../../../../../common/communication/iGameplay";
+import { IArenaResponse, IClickMessage, IPosition2D, IReplacementPixel } from "../../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 
 @Injectable({
@@ -12,10 +12,10 @@ export class GameViewSimpleService {
   public successSound:    ElementRef;
   public failSound:       ElementRef;
 
-  public onArenaResponse(data: IPlayerInputResponse): void {
+  public onArenaResponse(data: IArenaResponse): void {
     if (data.status === CCommon.ON_SUCCESS) {
       this.playSuccessSound();
-      data.response.cluster.forEach((pixel) => {
+      data.response.cluster.forEach((pixel: IReplacementPixel) => {
         this.canvasModified.fillStyle = "rgb(" + pixel.color.R + ", " + pixel.color.G + ", " + pixel.color.B + ")";
         this.canvasModified.fillRect(pixel.position.x, pixel.position.y, 1, 1);
       });
