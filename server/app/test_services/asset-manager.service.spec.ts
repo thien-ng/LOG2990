@@ -86,7 +86,7 @@ describe("Image manager service tests", () => {
         const nonExistantgameId: number = 15;
         // const imgPathTemp: string = Constants.TEMP_IMAGES_PATH + gameId + Constants.GENERATED_FILE;
         const path: string = Constants.IMAGES_PATH + "/testBitmap/" + nonExistantgameId + Constants.GENERATED_FILE;
-        chai.expect(() => { imageManagerService.copyFileToTemp(path, nonExistantgameId, Constants.GENERATED_FILE);})
+        chai.expect(() => { imageManagerService.copyFileToTemp(path, nonExistantgameId, Constants.GENERATED_FILE); })
             .to.throw(TypeError);
 
     });
