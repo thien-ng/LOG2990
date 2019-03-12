@@ -177,7 +177,7 @@ describe("Arena tests", () => {
         sandbox.restore();
     });
 
-    it("should return a correct PlayerInputResponse", async () => {
+    it("should return a correct IArenaResponse", async () => {
         const playerInputResponseExpected: IArenaResponse = {
             status:     CCommon.ON_SUCCESS,
             response:   expectedPixelClusters,
