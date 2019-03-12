@@ -12,8 +12,6 @@
     "tsc:w": "tsc -w",
     "clean": "rimraf out node_modules",
     "postinstall": "rimraf false",
-    "client": "cd .. && cd client && npm start",
-    "dev": "concurrently \"npm start\" \"npm run client\""
   },
   "nyc": {
     "check-coverage": true,
