@@ -9,7 +9,7 @@ import { Player } from "./player";
 import { Referee } from "./referee";
 import { Timer } from "./timer";
 
-import { IOriginalPixelCluster, IPlayerInputResponse, IPosition2D } from "../../../../../common/communication/iGameplay";
+import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
 import { IArenaInfos, IHitConfirmation, IPlayerInput } from "./interfaces";
 
@@ -35,16 +35,16 @@ export class Arena {
             this.timer              = new Timer();
     }
 
-    public async onPlayerInput(playerInput: IPlayerInput): Promise<IPlayerInputResponse> {
+    public async onPlayerInput(playerInput: IPlayerInput): Promise<IArenaResponse> {
 
-        let response: IPlayerInputResponse = this.buildPlayerInputResponse(
+        let response: IArenaResponse = this.buildPlayerInputResponse(
             this.ON_FAILED_CLICK,
             Constants.ON_ERROR_PIXEL_CLUSTER,
         );
 
         switch (playerInput.event) {
             case this.ON_CLICK:
-                response = await this.onPlayerClick(playerInput.position, playerInput.user);
+                response = await this.onPlayerClick(playerInput.eventInfo, playerInput.user);
                 break;
             default:
                 break;
@@ -68,7 +68,7 @@ export class Arena {
         }
     }
 
-    public async onPlayerClick(position: IPosition2D, user: IUser): Promise<IPlayerInputResponse> {
+    public async onPlayerClick(position: IPosition2D, user: IUser): Promise<IArenaResponse> {
         return this.referee.onPlayerClick(position, user);
     }
 
@@ -114,7 +114,7 @@ export class Arena {
         });
     }
 
-    private buildPlayerInputResponse(status: string, response: IOriginalPixelCluster): IPlayerInputResponse {
+    private buildPlayerInputResponse(status: string, response: IOriginalPixelCluster): IArenaResponse {
         return {
             status: status,
             response: response,
