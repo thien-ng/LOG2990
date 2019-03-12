@@ -6,7 +6,7 @@ import { Arena } from "./arena";
 import { Player } from "./player";
 import { Timer } from "./timer";
 
-import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../../common/communication/iGameplay";
+import { IArenaResponse } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
 import { IArenaInfos, IHitConfirmation, IHitToValidate } from "./interfaces";
 
