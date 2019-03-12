@@ -8,7 +8,9 @@ import Types from "../../types";
 @injectable()
 export class HitValidatorController {
 
-    public constructor(@inject(Types.HitValidatorService) private hitValidatorService: HitValidatorService) {}
+    public constructor(
+        @inject(Types.HitValidatorService2D) private hitValidatorService2D: HitValidatorService2D,
+        @inject(Types.HitValidatorService3D) private hitValidatorService3D: HitValidatorService3D) {}
 
     public get router(): Router {
 
