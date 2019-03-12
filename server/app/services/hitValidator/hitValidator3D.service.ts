@@ -35,4 +35,8 @@ export class HitValidatorService3D {
         };
     }
 
+    private isValidHit(hitToValidate: IHitToValidate, hitPixelColor: number): boolean {
+        return hitToValidate.colorToIgnore !== hitPixelColor;
+    }
+
 }
