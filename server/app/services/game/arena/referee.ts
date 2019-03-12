@@ -63,7 +63,7 @@ export class Referee<EVT_T, DIFF_T> {
             return arenaResponse;
         })
         .catch ((error: Error) => {
-            return this.buildPlayerInputResponse(CCommon.ON_ERROR, Constants.ON_ERROR_PIXEL_CLUSTER);
+            return this.buildArenaResponse(CCommon.ON_ERROR, this.arena.DEFAULT_DIFF_TO_UPDATE);
         });
     }
 
