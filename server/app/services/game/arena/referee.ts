@@ -12,7 +12,6 @@ import { IArenaInfos, IHitConfirmation, IHitToValidate } from "./interfaces";
 
 const axios: AxiosInstance = require("axios");
 
-export class Referee {
 export class Referee<EVT_T, DIFF_T> {
 
     private readonly ERROR_HIT_VALIDATION:  string = "Problem during Hit Validation process.";
@@ -23,10 +22,8 @@ export class Referee<EVT_T, DIFF_T> {
     private differencesFound:   number[];
     private pointsNeededToWin:  number;
 
-    public constructor(public  arena:               Arena,
     public constructor(public  arena:               Arena<DIFF_T>,
                        private players:             Player[],
-                       private originalElements:    Map<number, IOriginalPixelCluster>,
                        private originalElements:    Map<number, DIFF_T>,
                        public  timer:               Timer,
                        public  arenaInfos:          IArenaInfos,
