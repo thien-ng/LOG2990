@@ -8,11 +8,11 @@ export interface IArenaInfos {
     differenceGameUrl:  string;
 }
 
-export interface IPlayerInput {
+export interface IPlayerInput<EVT_T> {
     event:              string;
     arenaId:            number;
     user:               IUser;
-    eventInfo:          any;
+    eventInfo:          EVT_T;
 }
 
 export interface IHitToValidate {
