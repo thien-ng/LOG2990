@@ -1,4 +1,4 @@
-import { IPosition2D } from "../../../../common/communication/iGameplay";
+// tslint:disable:no-any
 
 export interface IImageToCache {
     imageUrl:               string;
@@ -18,5 +18,5 @@ export interface IHitToValidate {
 
 export interface IHitConfirmation {
     isAHit:                 Boolean;
-    hitPixelColor:          number[];
+    differenceIndex:        number;
 }
