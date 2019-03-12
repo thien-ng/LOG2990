@@ -71,7 +71,7 @@ export class Referee {
         const postData:     IHitToValidate      = this.buildPostData(position);
         const postConfig:   AxiosRequestConfig  = this.buildPostConfig();
 
-        return axios.post(Constants.URL_HIT_VALIDATOR, postData, postConfig)
+        return axios.post(Constants.URL_HIT_VALIDATOR + "/2d", postData, postConfig)
             .then((res: AxiosResponse) => {
                 return res.data;
             })
