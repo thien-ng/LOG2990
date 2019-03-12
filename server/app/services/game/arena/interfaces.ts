@@ -15,8 +15,8 @@ export interface IPlayerInput<EVT_T> {
     eventInfo:          EVT_T;
 }
 
-export interface IHitToValidate {
-    eventInfo:          any;
+export interface IHitToValidate<EVT_T> {
+    eventInfo:          EVT_T;
     differenceDataURL:  string;
     colorToIgnore?:     number;
 }
