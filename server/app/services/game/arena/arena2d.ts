@@ -37,7 +37,9 @@ export class Arena2D extends Arena<IPlayerInput<IPosition2D>, IArenaResponse<IOr
     }
 
     public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {
+        return this.referee.validateHit(position);
     }
+
     public async onPlayerInput(playerInput: IPlayerInput<IPosition2D>): Promise<IArenaResponse<IOriginalPixelCluster>> {
     }
 
