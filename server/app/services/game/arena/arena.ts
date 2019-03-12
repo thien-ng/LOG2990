@@ -28,6 +28,12 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
     protected originalElements:           Map<number, DIFF_T>; // _TODO: A BOUGER DANS LES ARENA 2D et 3D
 
     public constructor (
+        protected arenaInfos: IArenaInfos,
+        @inject(Types.GameManagerService) public gameManagerService: GameManagerService) {
+            this.players = [];
+            this.createPlayers();
+            this.originalElements   = new Map<number, DIFF_T>();
+            this.timer              = new Timer();
         }
 
     public sendMessage(playerSocketId: string, event: string, message: number): void {
