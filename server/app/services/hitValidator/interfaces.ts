@@ -1,5 +1,3 @@
-// tslint:disable:no-any
-
 export interface IImageToCache {
     imageUrl:               string;
     buffer:                 Buffer;
@@ -10,8 +8,8 @@ export interface ICacheElement {
     obsolescenceDegree:     number;
 }
 
-export interface IHitToValidate {
-    eventInfo:              any;
+export interface IHitToValidate<EVT_T> {
+    eventInfo:              EVT_T;
     differenceDataURL:      string;
     colorToIgnore?:         number;
 }
