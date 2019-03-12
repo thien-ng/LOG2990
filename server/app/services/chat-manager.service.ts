@@ -66,7 +66,8 @@ export class ChatManagerService {
         this.server.emit(CCommon.CHAT_EVENT, iChatMessage);
     }
 
-    public sendPositionValidationMessage(username: string, userList: IUser[], data: IArenaResponse, socket: SocketIO.Server): void {
+    // tslint:disable-next-line:no-any
+    public sendPositionValidationMessage(username: string, userList: IUser[], data: IArenaResponse<any>, socket: SocketIO.Server): void {
 
         this.server = socket;
 
