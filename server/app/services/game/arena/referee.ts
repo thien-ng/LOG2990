@@ -22,7 +22,8 @@ export class Referee<EVT_T, DIFF_T> {
     private differencesFound:   number[];
     private pointsNeededToWin:  number;
 
-    public constructor(public  arena:               Arena<DIFF_T>,
+    // tslint:disable-next-line:no-any
+    public constructor(public  arena:               Arena<any, any, any, any>,
                        private players:             Player[],
                        private originalElements:    Map<number, DIFF_T>,
                        public  timer:               Timer,
