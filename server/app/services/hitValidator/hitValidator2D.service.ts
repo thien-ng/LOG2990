@@ -21,7 +21,7 @@ export class HitValidatorService2D {
         this.cache = new Cache(this.CACHE_SIZE);
     }
 
-    public async confirmHit(hitToValidate: IHitToValidate): Promise<IHitConfirmation> {
+    public async confirmHit(hitToValidate: IHitToValidate<IPosition2D>): Promise<IHitConfirmation> {
 
         let buffer: Buffer;
 
@@ -39,7 +39,7 @@ export class HitValidatorService2D {
         };
     }
 
-    private isValidHit(hitToValidate: IHitToValidate, hitPixelColor: number): boolean {
+    private isValidHit(hitToValidate: IHitToValidate<IPosition2D>, hitPixelColor: number): boolean {
         return hitToValidate.colorToIgnore !== hitPixelColor;
     }
 
