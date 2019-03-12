@@ -20,9 +20,9 @@ export class HitValidatorController {
         router.post("/2d", async (req: Request, res: Response, next: NextFunction) => {
 
             const hitToValidate: IHitToValidate = {
-                position:       req.body.position,
-                imageUrl:       String(req.body.imageUrl),
-                colorToIgnore:  req.body.colorToIgnore,
+                eventInfo:          req.body.eventInfo,
+                differenceDataURL:  String(req.body.differenceDataURL),
+                colorToIgnore:      req.body.colorToIgnore,
             };
 
             res.json(await this.hitValidatorService2D.confirmHit(hitToValidate));
@@ -31,8 +31,8 @@ export class HitValidatorController {
         router.post("/3d", async (req: Request, res: Response, next: NextFunction) => {
 
             const hitToValidate: IHitToValidate = {
-                position:       req.body.position,
-                imageUrl:       String(req.body.imageUrl),
+                eventInfo:          req.body.eventInfo,
+                differenceDataURL:  String(req.body.differenceDataURL),
             };
 
             res.json(await this.hitValidatorService3D.confirmHit(hitToValidate));
