@@ -30,4 +30,5 @@ export interface IOriginalPixelCluster {
 export interface IArenaResponse {
     status:         string;
     response:       any;
+    arenaType?:     GameMode;
 }
