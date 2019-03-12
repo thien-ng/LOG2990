@@ -8,7 +8,7 @@ import SocketIO = require("socket.io");
 import { mock, verify } from "ts-mockito";
 import { GameMode } from "../../../../common/communication/iCard";
 import { GameType, IGameRequest } from "../../../../common/communication/iGameRequest";
-import { IOriginalPixelCluster, IPlayerInputResponse } from "../../../../common/communication/iGameplay";
+import { IArenaResponse, IOriginalPixelCluster } from "../../../../common/communication/iGameplay";
 import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
@@ -60,7 +60,7 @@ const playerInput: IPlayerInput = {
         username: "Frank",
         socketID: "12345",
     },
-    position: {
+    eventInfo: {
         x: 12,
         y: 12,
     },
@@ -169,7 +169,7 @@ describe("GameManagerService tests", () => {
 
     it("Should return an error message when loading an invalid game", async () => {
         const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
-        const expectedMessage: IPlayerInputResponse = {
+        const expectedMessage: IArenaResponse = {
             status:     CCommon.ON_ERROR,
             response:   ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
         };
@@ -195,7 +195,7 @@ describe("GameManagerService tests", () => {
         gameManagerService.analyseRequest(request2D).catch();
 
         const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
-        const expectedMessage: IPlayerInputResponse = {
+        const expectedMessage: IArenaResponse = {
             status:     CCommon.ON_ERROR,
             response:   ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
         };
