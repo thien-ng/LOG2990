@@ -188,7 +188,7 @@ describe("Arena tests", () => {
             differenceIndex:    1,
         };
 
-        mockAxios.onPost(Constants.URL_HIT_VALIDATOR).reply(200, hitConfirmationExpected);
+        mockAxios.onPost(Constants.URL_HIT_VALIDATOR + "/2d").reply(200, hitConfirmationExpected);
 
         let responseToPlayerInput: IArenaResponse | void;
         arena["originalElements"].set(1, expectedPixelClusters);
@@ -223,7 +223,7 @@ describe("Arena tests", () => {
             differenceIndex:    1,
         };
 
-        mockAxios.onPost(Constants.URL_HIT_VALIDATOR).reply(200, hitConfirmationExpected);
+        mockAxios.onPost(Constants.URL_HIT_VALIDATOR + "/2d").reply(200, hitConfirmationExpected);
 
         const responseToValidation: IHitConfirmation = await arena.validateHit(hitPosition);
 
