@@ -31,8 +31,8 @@ export class SocketService {
 
     this.socket.addEventListener(Constants.ON_CONNECT, () => {
 
-      this.socket.on(CCommon.ON_ARENA_RESPONSE, (data: IArenaResponse) => {
-        this.gameViewSimpleService.onArenaResponse(data);
+      // tslint:disable-next-line:no-any
+      this.socket.on(CCommon.ON_ARENA_RESPONSE, (data: IArenaResponse<any>) => {
       });
 
       this.socket.on(CCommon.CHAT_EVENT, (data: IChat) => {
