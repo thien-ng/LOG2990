@@ -28,6 +28,16 @@ export class HitValidatorController {
             res.json(await this.hitValidatorService2D.confirmHit(hitToValidate));
         });
 
+        router.post("/3d", async (req: Request, res: Response, next: NextFunction) => {
+
+            const hitToValidate: IHitToValidate = {
+                position:       req.body.position,
+                imageUrl:       String(req.body.imageUrl),
+            };
+
+            res.json(await this.hitValidatorService3D.confirmHit(hitToValidate));
+        });
+
         return router;
     }
 
