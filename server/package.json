@@ -11,7 +11,7 @@
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "clean": "rimraf out node_modules",
-    "postinstall": "rimraf false",
+    "postinstall": "rimraf false"
   },
   "nyc": {
     "check-coverage": true,
