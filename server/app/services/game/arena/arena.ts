@@ -12,8 +12,6 @@ import { Timer } from "./timer";
 
 const axios: AxiosInstance = require("axios");
 
-    public readonly ARENA_TYPE: GameMode = GameMode.simple;
-    public DEFAULT_DIFF_TO_UPDATE: DIFF_T;
 export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
 
     public ARENA_TYPE:              GameMode;
