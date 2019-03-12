@@ -7,11 +7,11 @@ import { IHitToValidate } from "../interfaces";
 // tslint:disable:no-magic-numbers no-any
 
 const iHitToValidate: IHitToValidate = {
-    position: {
+    eventInfo: {
         x: 1,
         y: 1,
     },
-    imageUrl:       path.resolve(__dirname, "../../../asset/image/testBitmap/imagetestOg.bmp"),
+    differenceDataURL:       path.resolve(__dirname, "../../../asset/image/testBitmap/imagetestOg.bmp"),
     colorToIgnore:  -1,
 };
 
@@ -34,7 +34,7 @@ describe("Hit Validator micro-service tests", () => {
 
     it("should return hit with color from pixel and insert image in cache", async () => {
 
-        mockAxios.onGet(iHitToValidate.imageUrl, {
+        mockAxios.onGet(iHitToValidate.differenceDataURL, {
             responseType: "arraybuffer",
         })
         .reply(200, imageBuffer);
@@ -46,7 +46,7 @@ describe("Hit Validator micro-service tests", () => {
 
     it("should return hit with color from pixel and get image from cache", async () => {
 
-        mockAxios.onGet(iHitToValidate.imageUrl, {
+        mockAxios.onGet(iHitToValidate.differenceDataURL, {
             responseType: "arraybuffer",
         })
         .reply(200, imageBuffer);
@@ -58,7 +58,7 @@ describe("Hit Validator micro-service tests", () => {
 
     it("should return and error of not getting image buffer from url", async () => {
 
-        mockAxios.onGet(iHitToValidate.imageUrl, {
+        mockAxios.onGet(iHitToValidate.differenceDataURL, {
             responseType: "arraybuffer",
         })
         .reply(400);
