@@ -2,7 +2,7 @@ import * as http from "http";
 import { inject, injectable } from "inversify";
 import * as SocketIO from "socket.io";
 import { IChatSender } from "../../../common/communication/iChat";
-import { IClickMessage, IArenaResponse } from "../../../common/communication/iGameplay";
+import { IArenaResponse, IClickMessage } from "../../../common/communication/iGameplay";
 import { IUser } from "../../../common/communication/iUser";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { Constants } from "../constants";
