@@ -6,7 +6,7 @@ import { Arena } from "./arena";
 import { Player } from "./player";
 import { Timer } from "./timer";
 
-import { IOriginalPixelCluster, IPlayerInputResponse, IPosition2D } from "../../../../../common/communication/iGameplay";
+import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
 import { IArenaInfos, IHitConfirmation, IHitToValidate } from "./interfaces";
 
@@ -36,20 +36,20 @@ export class Referee {
         this.initTimer();
     }
 
-    public async onPlayerClick(position: IPosition2D, user: IUser): Promise<IPlayerInputResponse> {
+    public async onPlayerClick(position: IPosition2D, user: IUser): Promise<IArenaResponse> {
 
-        let inputResponse: IPlayerInputResponse = this.buildPlayerInputResponse(
+        let inputResponse: IArenaResponse = this.buildPlayerInputResponse(
             this.ON_FAILED_CLICK,
             Constants.ON_ERROR_PIXEL_CLUSTER,
         );
 
         return this.validateHit(position)
         .then((hitConfirmation: IHitConfirmation) => {
-            const isAnUndiscoveredDifference: boolean = this.isAnUndiscoveredDifference(hitConfirmation.hitPixelColor[0]);
+            const isAnUndiscoveredDifference: boolean = this.isAnUndiscoveredDifference(hitConfirmation.differenceIndex);
 
             if (hitConfirmation.isAHit && isAnUndiscoveredDifference) {
                 this.onHitConfirmation(user, hitConfirmation);
-                const pixelCluster: IOriginalPixelCluster | undefined = this.originalElements.get(hitConfirmation.hitPixelColor[0]);
+                const pixelCluster: IOriginalPixelCluster | undefined = this.originalElements.get(hitConfirmation.differenceIndex);
 
                 if (pixelCluster !== undefined) {
                     inputResponse = this.buildPlayerInputResponse(CCommon.ON_SUCCESS, pixelCluster);
@@ -82,7 +82,7 @@ export class Referee {
 
     private onHitConfirmation(user: IUser, hitConfirmation: IHitConfirmation): void {
         this.attributePoints(user);
-        this.addToDifferencesFound(hitConfirmation.hitPixelColor[0]);
+        this.addToDifferencesFound(hitConfirmation.differenceIndex);
     }
 
     private addToDifferencesFound(differenceIndex: number): void {
@@ -125,7 +125,7 @@ export class Referee {
         this.timer.stopTimer();
     }
 
-    private buildPlayerInputResponse(status: string, response: IOriginalPixelCluster): IPlayerInputResponse {
+    private buildPlayerInputResponse(status: string, response: IOriginalPixelCluster): IArenaResponse {
         return {
             status:     status,
             response:   response,
@@ -134,9 +134,9 @@ export class Referee {
 
     private buildPostData(position: IPosition2D): IHitToValidate {
         return {
-            position:       position,
-            imageUrl:       this.arenaInfos.differenceGameUrl,
-            colorToIgnore:  Constants.WHITE,
+            eventInfo:          position,
+            differenceDataURL:  this.arenaInfos.differenceGameUrl,
+            colorToIgnore:      Constants.FF,
         };
     }
 
