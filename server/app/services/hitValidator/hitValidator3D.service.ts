@@ -61,4 +61,7 @@ export class HitValidatorService3D {
         this.cache.insert(newCacheElement);
     }
 
+    private isStoredInCache(imageUrl: string): boolean {
+        return this.cache.contains(imageUrl);
+    }
 }
