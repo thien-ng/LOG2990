@@ -1,12 +1,13 @@
 import * as chai from "chai";
 import * as fs from "fs";
 import * as path from "path";
+import { IPosition2D } from "../../../../../common/communication/iGameplay";
 import { HitValidatorService2D } from "../hitValidator2D.service";
 import { IHitToValidate } from "../interfaces";
 
 // tslint:disable:no-magic-numbers no-any
 
-const iHitToValidate: IHitToValidate = {
+const iHitToValidate: IHitToValidate<IPosition2D> = {
     eventInfo: {
         x: 1,
         y: 1,
