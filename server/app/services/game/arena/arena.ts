@@ -44,7 +44,9 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
     public abstract async validateHit(eventInfos: EVT_T):                Promise<IHitConfirmation>; // _TODO: Pour fin de tests (a enlever)
     public abstract async onPlayerInput(playerInput: IN_T):              Promise<IArenaResponse<DIFF_T>>;
     public abstract async prepareArenaForGameplay():    Promise<void>;
+
     public getPlayers(): Player[] {
+        return this.players;
     }
 
     public contains(user: IUser): boolean {
