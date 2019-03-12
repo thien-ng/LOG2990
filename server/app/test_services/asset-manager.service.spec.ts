@@ -1,8 +1,7 @@
 import * as chai from "chai";
 import * as spies from "chai-spies";
-import * as fs from "fs";
+// import * as fs from "fs";
 import "reflect-metadata";
-import { setTimeout } from "timers";
 import { Constants } from "../constants";
 import { AssetManagerService } from "../services/asset-manager.service";
 
@@ -21,7 +20,7 @@ describe("Image manager service tests", () => {
         imageManagerService = new AssetManagerService();
     });
 
-    it("Should call the stockImage funciton when creating bmp", () => {
+    it("Should call the stockImage function when creating bmp", () => {
         const spy: any = chai.spy.on(imageManagerService, "stockImage");
         imageManagerService.createBMP(buffer, 6);
         chai.expect(spy).to.have.been.called();
@@ -76,20 +75,23 @@ describe("Image manager service tests", () => {
             imageManagerService.deleteStoredImages(path);
         }).to.not.throw(TypeError);
     });
-    it("Should copy an image to the temp directory", async (done: Function) => {
-        const gameId: number = 1;
-        const imgPathTemp: string = Constants.TEMP_IMAGES_PATH + gameId + Constants.GENERATED_FILE;
-        const path: string = Constants.IMAGES_PATH + "/testBitmap/" + gameId + Constants.GENERATED_FILE;
-        setTimeout(() => { imageManagerService.stockImage(path, buffer);}, 1000);
-        setTimeout(() => {
-            imageManagerService.copyFileToTemp(path, gameId, Constants.GENERATED_FILE);}, 2000);
-        done();
-        chai.expect(fs.existsSync(imgPathTemp)).to.equal(true);
+    it("Should not copy an inexistant image to the temp directory and throw error", async () => {
+        const nonExistantgameId: number = 15;
+        // const imgPathTemp: string = Constants.TEMP_IMAGES_PATH + gameId + Constants.GENERATED_FILE;
+        const path: string = Constants.IMAGES_PATH + "/testBitmap/" + nonExistantgameId + Constants.GENERATED_FILE;
+        chai.expect(() => { imageManagerService.copyFileToTemp(path, nonExistantgameId, Constants.GENERATED_FILE);})
+            .to.throw(TypeError);
+
     });
-    it("Should delete an image to the temp directory", () => {
-        const gameId: number = 1;
-        const imgPathTemp: string = Constants.TEMP_IMAGES_PATH + gameId + Constants.GENERATED_FILE;
-        setTimeout(() => { imageManagerService.deleteFileInTemp(gameId, Constants.GENERATED_FILE); },2000);
-        chai.expect(fs.existsSync(imgPathTemp)).to.equal(false);
+    it("Should delete an image to the temp directory (no error thrown)", async () => {
+        const gameId: number = 5;
+        chai.expect(() => imageManagerService.deleteFileInTemp(gameId, Constants.GENERATED_FILE))
+            .to.not.throw(TypeError);
+
+    });
+    it("Should not delete an inexistant image to the temp directory and throw error", async () => {
+        const nonExistantgameId: number = 15;
+        chai.expect(() => imageManagerService.deleteFileInTemp(nonExistantgameId, Constants.GENERATED_FILE))
+            .to.throw(TypeError);
     });
 });
