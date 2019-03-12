@@ -33,6 +33,7 @@ export class SocketService {
 
       // tslint:disable-next-line:no-any
       this.socket.on(CCommon.ON_ARENA_RESPONSE, (data: IArenaResponse<any>) => {
+        this.emitOnArenaResponse(data);
       });
 
       this.socket.on(CCommon.CHAT_EVENT, (data: IChat) => {
@@ -47,6 +48,21 @@ export class SocketService {
         this.differenceCounterService.updateCounter(newPoints);
       }));
     });
+  }
+
+  // tslint:disable-next-line:no-any
+  private emitOnArenaResponse(arenaResponse: IArenaResponse<any>): void {
+    switch (arenaResponse.arenaType) {
+      case GameMode.simple:
+        this.gameViewSimpleService.onArenaResponse(arenaResponse);
+        break;
+      case GameMode.free:
+        break;
+      case GameMode.invalid:
+        break;
+      default:
+        break;
+    }
   }
 
   public sendMsg<T>(type: string, msg: T): void {
