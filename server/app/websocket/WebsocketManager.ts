@@ -2,7 +2,7 @@ import * as http from "http";
 import { inject, injectable } from "inversify";
 import * as SocketIO from "socket.io";
 import { IChatSender } from "../../../common/communication/iChat";
-import { IClickMessage, IPlayerInputResponse } from "../../../common/communication/iGameplay";
+import { IClickMessage, IArenaResponse } from "../../../common/communication/iGameplay";
 import { IUser } from "../../../common/communication/iUser";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { Constants } from "../constants";
@@ -58,7 +58,7 @@ export class WebsocketManager {
             if (typeof user !== "string") {
                 const playerInput: IPlayerInput = this.buildPlayerInput(data, user);
                 this.gameManagerService.onPlayerInput(playerInput)
-                .then((response: IPlayerInputResponse) => {
+                .then((response: IArenaResponse) => {
                     socket.emit(CCommon.ON_ARENA_RESPONSE, response);
                     this.chatManagerService.sendPositionValidationMessage(data.username, userList, response, this.io);
                 }).catch((error: Error) => {
@@ -100,7 +100,7 @@ export class WebsocketManager {
             event:      Constants.CLICK_EVENT,
             arenaId:    data.arenaID,
             user:       user,
-            position:   {
+            eventInfo:   {
                 x:  data.position.x,
                 y:  data.position.y,
             },
