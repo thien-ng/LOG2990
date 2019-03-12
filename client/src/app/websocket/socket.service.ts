@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import * as io from "socket.io-client";
 import { IChat } from "../../../../common/communication/iChat";
-import { IPlayerInputResponse } from "../../../../common/communication/iGameplay";
+import { IArenaResponse } from "../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../constants";
 import { ChatViewService } from "../game-view/chat-view/chat-view.service";
@@ -30,7 +30,7 @@ export class SocketService {
 
     this.socket.addEventListener(Constants.ON_CONNECT, () => {
 
-      this.socket.on(CCommon.ON_ARENA_RESPONSE, (data: IPlayerInputResponse) => {
+      this.socket.on(CCommon.ON_ARENA_RESPONSE, (data: IArenaResponse) => {
         this.gameViewSimpleService.onArenaResponse(data);
       });
 
