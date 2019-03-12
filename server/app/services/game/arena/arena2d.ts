@@ -24,6 +24,10 @@ export class Arena2D extends Arena<IPlayerInput<IPosition2D>, IArenaResponse<IOr
         }
 
     public async onPlayerClick(position: IPosition2D, user: IUser): Promise<IArenaResponse<IOriginalPixelCluster>> {
+        const arenaResponse: IArenaResponse<IOriginalPixelCluster> = await this.referee.onPlayerClick(position, user);
+        arenaResponse.arenaType = GameMode.simple;
+
+        return arenaResponse;
     }
 
     public async prepareArenaForGameplay(): Promise<void> {
