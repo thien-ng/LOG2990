@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { inject, injectable } from "inversify";
-import { HitValidatorService } from "./hitValidator.service";
+import { HitValidatorService2D } from "./hitValidator2D.service";
+import { HitValidatorService3D } from "./hitValidator3D.service";
 import { IHitToValidate } from "./interfaces";
 
 import Types from "../../types";
