@@ -59,5 +59,9 @@ export class Arena2D extends Arena<IPlayerInput<IPosition2D>, IArenaResponse<IOr
     }
 
     private async extractOriginalPixelClusters(): Promise<void> {
+        const originalImage:    Buffer                  = await this.getDifferenceDataFromURL(this.arenaInfos.originalGameUrl);
+        const differenceImage:  Buffer                  = await this.getDifferenceDataFromURL(this.arenaInfos.differenceGameUrl);
+        const extractor:        DifferencesExtractor    = new DifferencesExtractor();
+        this.originalElements = extractor.extractPixelClustersFrom(originalImage, differenceImage);
     }
 }
