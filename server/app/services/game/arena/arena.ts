@@ -77,6 +77,9 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
     }
 
     protected createPlayers(): void {
+        this.arenaInfos.users.forEach((user: IUser) => {
+            this.players.push(new Player(user));
+        });
     }
 
     protected buildPlayerInputResponse(status: string, response: DIFF_T): IArenaResponse<DIFF_T> {
