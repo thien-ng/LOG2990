@@ -15,7 +15,7 @@ import { Player } from "../../../services/game/arena/player";
 import { GameManagerService } from "../../../services/game/game-manager.service";
 import { UserManagerService } from "../../../services/user-manager.service";
 
-import { IOriginalPixelCluster, IPlayerInputResponse, IPosition2D } from "../../../../../common/communication/iGameplay";
+import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
 import { IArenaInfos, IHitConfirmation, IPlayerInput } from "../../../services/game/arena/interfaces";
 
@@ -49,14 +49,14 @@ const playerInputClick: IPlayerInput = {
     event:      Constants.CLICK_EVENT,
     arenaId:    1,
     user:       activeUser,
-    position:   hitPosition,
+    eventInfo:  hitPosition,
 };
 
 const playerInputWrong: IPlayerInput = {
     event:      "wrongInput",
     arenaId:    1,
     user:       activeUser,
-    position:   hitPosition,
+    eventInfo:  hitPosition,
 };
 
 let arena: Arena;
@@ -149,14 +149,14 @@ describe("Arena tests", () => {
 
     it("should validate hit with a call to a microservice", async () => {
 
-        const expectedResponse: IPlayerInputResponse = {
+        const expectedResponse: IArenaResponse = {
             status:     CCommon.ON_SUCCESS,
             response:   expectedPixelClusters,
         };
         const sandbox: sinon.SinonSandbox = sinon.createSandbox();
         sandbox.stub(arena["referee"], "onPlayerClick").callsFake( async () => of(expectedResponse).toPromise());
 
-        const responseToInput: IPlayerInputResponse = await arena.onPlayerInput(playerInputClick);
+        const responseToInput: IArenaResponse = await arena.onPlayerInput(playerInputClick);
 
         chai.expect(responseToInput).to.deep.equal(expectedResponse);
         sandbox.restore();
@@ -164,14 +164,14 @@ describe("Arena tests", () => {
 
     it("should return a failed response when the event passed isn't recognize", async () => {
 
-        const expectedResponse: IPlayerInputResponse = {
+        const expectedResponse: IArenaResponse = {
             status:     "onFailedClick",
             response:   Constants.ON_ERROR_PIXEL_CLUSTER,
         };
         const sandbox: sinon.SinonSandbox = sinon.createSandbox();
         sandbox.stub(arena["referee"], "onPlayerClick").callsFake( async () => of(expectedResponse).toPromise());
 
-        const responseToInput:  IPlayerInputResponse = await arena.onPlayerInput(playerInputWrong);
+        const responseToInput:  IArenaResponse = await arena.onPlayerInput(playerInputWrong);
 
         chai.expect(responseToInput).to.deep.equal(expectedResponse);
         sandbox.restore();
