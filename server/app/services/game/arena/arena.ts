@@ -15,6 +15,18 @@ const axios: AxiosInstance = require("axios");
     public readonly ARENA_TYPE: GameMode = GameMode.simple;
     public DEFAULT_DIFF_TO_UPDATE: DIFF_T;
 export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
+
+    public ARENA_TYPE:              GameMode;
+    public DEFAULT_DIFF_TO_UPDATE:  DIFF_T;
+    public  timer:                  Timer;
+
+    protected readonly ERROR_ON_HTTPGET:  string = "Didn't succeed to get image buffer from URL given. File: arena.ts.";
+    protected readonly ON_FAILED_CLICK:   string = "onFailedClick";
+    protected readonly ON_CLICK:          string = "onClick";
+    protected players:                    Player[];
+    // protected referee:                    Referee<any, DIFF_T, any>;
+    protected originalElements:           Map<number, DIFF_T>; // _TODO: A BOUGER DANS LES ARENA 2D et 3D
+
     public constructor (
         }
 
