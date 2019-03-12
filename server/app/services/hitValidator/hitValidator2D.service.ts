@@ -49,7 +49,7 @@ export class HitValidatorService2D {
         const offsetX:          number      = position.x * this.BUFFER_24BIT_SIZE;
         const offsetY:          number      = reversedY * this.getImageWidth(buffer) * this.BUFFER_24BIT_SIZE;
 
-        return offsetX + offsetY + this.BUFFER_HEADER_SIZE;
+        return buffer[offsetX + offsetY + this.BUFFER_HEADER_SIZE];
     }
 
     private async getImageFromUrl(imageUrl: string): Promise<Buffer> {
