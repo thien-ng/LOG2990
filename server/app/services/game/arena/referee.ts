@@ -126,11 +126,11 @@ export class Referee<EVT_T, DIFF_T> {
         this.timer.stopTimer();
     }
 
-    private buildPlayerInputResponse(status: string, response: IOriginalPixelCluster): IArenaResponse {
+    private buildArenaResponse(status: string, response: DIFF_T): IArenaResponse<DIFF_T> {
         return {
             status:     status,
             response:   response,
-        };
+        } as IArenaResponse<DIFF_T>;
     }
 
     private buildPostData(position: IPosition2D): IHitToValidate {
