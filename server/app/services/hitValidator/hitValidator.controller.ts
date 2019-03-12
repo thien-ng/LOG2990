@@ -14,7 +14,7 @@ export class HitValidatorController {
 
         const router: Router = Router();
 
-        router.post("/", async (req: Request, res: Response, next: NextFunction) => {
+        router.post("/2d", async (req: Request, res: Response, next: NextFunction) => {
 
             const hitToValidate: IHitToValidate = {
                 position:       req.body.position,
@@ -22,7 +22,7 @@ export class HitValidatorController {
                 colorToIgnore:  req.body.colorToIgnore,
             };
 
-            res.json(await this.hitValidatorService.confirmHit(hitToValidate));
+            res.json(await this.hitValidatorService2D.confirmHit(hitToValidate));
         });
 
         return router;
