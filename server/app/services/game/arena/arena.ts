@@ -19,12 +19,12 @@ export class Arena {
 
     private readonly ERROR_ON_HTTPGET:  string = "Didn't succeed to get image buffer from URL given. File: arena.ts.";
     private readonly ON_FAILED_CLICK:   string = "onFailedClick";
-    private readonly ON_CLICK:   string = "onClick";
+    private readonly ON_CLICK:          string = "onClick";
+    private players:                    Player[];
+    private referee:                    Referee;
+    private originalElements:           Map<number, IOriginalPixelCluster>; // _TODO: A BOUGER DANS LES ARENA 2D et 3D
 
-    private players:            Player[];
     public  timer:              Timer;
-    private referee:            Referee;
-    private originalElements:   Map<number, IOriginalPixelCluster>; // _TODO: A BOUGER DANS LES ARENA 2D et 3D
 
     public constructor(
         private arenaInfos: IArenaInfos,
