@@ -1,3 +1,4 @@
+import { GameMode } from "../../../../../common/communication/iCard";
 
 
 
