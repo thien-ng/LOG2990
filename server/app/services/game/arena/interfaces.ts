@@ -1,5 +1,4 @@
 import { IUser } from "../../../../../common/communication/iUser";
-// tslint:disable:no-any
 
 export interface IArenaInfos {
     arenaId:            number;
