@@ -52,4 +52,13 @@ export class HitValidatorService3D {
                 throw new TypeError(this.ERROR_ON_HTTPGET);
             });
     }
+
+    private insertElementInCache(imageUrl: string, buffer: Buffer): void {
+        const newCacheElement: IImageToCache = {
+            imageUrl:   imageUrl,
+            buffer:     buffer,
+        };
+        this.cache.insert(newCacheElement);
+    }
+
 }
