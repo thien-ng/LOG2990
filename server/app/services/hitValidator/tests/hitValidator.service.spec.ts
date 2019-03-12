@@ -1,7 +1,7 @@
 import * as chai from "chai";
 import * as fs from "fs";
 import * as path from "path";
-import { HitValidatorService } from "../hitValidator.service";
+import { HitValidatorService2D } from "../hitValidator.service";
 import { IHitToValidate } from "../interfaces";
 
 // tslint:disable:no-magic-numbers no-any
@@ -12,7 +12,7 @@ const iHitToValidate: IHitToValidate = {
         y: 1,
     },
     imageUrl:       path.resolve(__dirname, "../../../asset/image/testBitmap/imagetestOg.bmp"),
-    colorToIgnore:  [],
+    colorToIgnore:  -1,
 };
 
 let   mockAxios:            any;
@@ -20,7 +20,7 @@ const axios:                any     = require("axios");
 const mockAdapter:          any     = require("axios-mock-adapter");
 const imageBuffer:          Buffer  = fs.readFileSync(path.resolve(__dirname, "../../../asset/image/testBitmap/imagetestOg.bmp"));
 
-let   hitValidatorService:    HitValidatorService = new HitValidatorService();
+let   hitValidatorService:    HitValidatorService2D = new HitValidatorService2D();
 
 describe("Hit Validator micro-service tests", () => {
 
@@ -63,7 +63,7 @@ describe("Hit Validator micro-service tests", () => {
         })
         .reply(400);
 
-        hitValidatorService = new HitValidatorService();
+        hitValidatorService = new HitValidatorService2D();
         hitValidatorService.confirmHit(iHitToValidate).then().catch((error: any) => {
             chai.expect(error.message).to
             .equal("Didn't succeed to get image buffer from URL given. File: hitValidator.service.ts. Line: 64.");
@@ -77,7 +77,7 @@ describe("Hit Validator micro-service tests", () => {
         })
         .reply(400);
 
-        hitValidatorService = new HitValidatorService();
+        hitValidatorService = new HitValidatorService2D();
         hitValidatorService.confirmHit(iHitToValidate).then().catch((error: any) => {
             chai.expect(error.message).to
             .equal("Didn't succeed to get image buffer from URL given. File: hitValidator.service.ts. Line: 64.");
