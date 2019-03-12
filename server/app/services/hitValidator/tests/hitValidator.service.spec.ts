@@ -1,7 +1,7 @@
 import * as chai from "chai";
 import * as fs from "fs";
 import * as path from "path";
-import { HitValidatorService2D } from "../hitValidator.service";
+import { HitValidatorService2D } from "../hitValidator2D.service";
 import { IHitToValidate } from "../interfaces";
 
 // tslint:disable:no-magic-numbers no-any
