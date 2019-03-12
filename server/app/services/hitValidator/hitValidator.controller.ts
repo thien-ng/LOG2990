@@ -21,7 +21,6 @@ export class HitValidatorController {
 
         router.post("/" + GameMode.simple, async (req: Request, res: Response, next: NextFunction) => {
 
-            const hitToValidate: IHitToValidate = {
             const hitToValidate: IHitToValidate<IPosition2D> = {
                 eventInfo:          req.body.eventInfo,
                 differenceDataURL:  String(req.body.differenceDataURL),
