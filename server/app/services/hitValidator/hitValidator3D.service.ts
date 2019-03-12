@@ -39,4 +39,17 @@ export class HitValidatorService3D {
         return hitToValidate.colorToIgnore !== hitPixelColor;
     }
 
+    private async getImageFromUrl(imageUrl: string): Promise<Buffer> {
+
+        const axios: AxiosInstance = require("axios");
+
+        return axios
+            .get(imageUrl, {
+                responseType: "arraybuffer",
+            })
+            .then((response: AxiosResponse) => Buffer.from(response.data, "binary"))
+            .catch((error: Error) => {
+                throw new TypeError(this.ERROR_ON_HTTPGET);
+            });
+    }
 }
