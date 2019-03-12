@@ -62,7 +62,6 @@ export class Constants {
 
   // Constants for arena.ts
   public static readonly FF:                        number = 255;
-  public static readonly WHITE:                     number[] = [Constants.FF, Constants.FF, Constants.FF];
   public static readonly URL_HIT_VALIDATOR:         string = "http://localhost:3000/api/hitvalidator";
   public static readonly ONE_SECOND:                number = 1000;
   public static readonly ON_ERROR_PIXEL_CLUSTER:    IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
