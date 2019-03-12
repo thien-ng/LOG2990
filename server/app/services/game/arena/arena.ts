@@ -50,6 +50,9 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
     }
 
     public contains(user: IUser): boolean {
+        return this.players.some((player: Player) => {
+            return player.username === user.username;
+        });
     }
 
     public removePlayer(username: string): void {
