@@ -18,7 +18,7 @@ export class GameViewSimpleService {
   public successSound:    ElementRef;
   public failSound:       ElementRef;
 
-  public onArenaResponse(data: IArenaResponse): void {
+  public onArenaResponse(data: IArenaResponse<IOriginalPixelCluster>): void {
     if (data.status === CCommon.ON_SUCCESS) {
       this.playSuccessSound();
       data.response.cluster.forEach((pixel: IReplacementPixel) => {
