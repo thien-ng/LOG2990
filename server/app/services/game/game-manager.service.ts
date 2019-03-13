@@ -18,6 +18,7 @@ const REQUEST_ERROR_MESSAGE:            string = "Game mode invalide";
 const ARENA_START_ID:                   number = 1000;
 const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
 
+// tslint:disable:no-any
 @injectable()
 export class GameManagerService {
 
