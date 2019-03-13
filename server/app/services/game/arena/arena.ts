@@ -34,10 +34,7 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
             this.timer              = new Timer();
         }
 
-    public sendMessage(playerSocketId: string, event: string, message: number): void {
-        this.gameManagerService.sendMessage(playerSocketId, event, message);
-    }
-
+    public abstract sendMessage(playerSocketId: string, event: string, message: number): void;
     public abstract async onPlayerClick(eventInfos: EVT_T, user: IUser): Promise<IArenaResponse<DIFF_T>>;
     public abstract async validateHit(eventInfos: EVT_T):                Promise<IHitConfirmation>; // _TODO: Pour fin de tests (a enlever)
     public abstract async onPlayerInput(playerInput: IN_T):              Promise<IArenaResponse<DIFF_T>>;
