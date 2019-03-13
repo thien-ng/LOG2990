@@ -1,7 +1,9 @@
+
 .logo {
   padding: 10px;
   cursor: pointer;
   color: white;
+  padding-left: 20px;
 }
 
 .mat-toolbar.mat-primary {
@@ -23,7 +25,8 @@
 }
 .content {
   height: 95%;
-  background-image: url("../../background.jpg")
+  background-image: url("../../background.jpg");
+  background-repeat: no-repeat;
 }
 
 #header {
@@ -58,3 +61,14 @@
   transition-property: width;
   transition-duration: 0.5s;
 }
+.account {
+  color: white;
+  padding-left: 1%;
+  padding-bottom: 0.7%;
+  font-size: 200%;
+}
+.account:hover {
+  color: grey;
+  cursor: pointer;
+}
+
