@@ -24,12 +24,12 @@ export class GameManagerService {
 
     private arenaID:    number;
     private playerList: Map<string, SocketIO.Socket>;
-    private arenas:     Map<number, Arena>;
-    public arena:       Arena;
+    private arenas:     Map<number, Arena<any, any, any, any>>;
+    public arena:       Arena<any, any, any, any>;
 
     public constructor(@inject(Types.UserManagerService) private userManagerService: UserManagerService) {
         this.playerList = new Map<string, SocketIO.Socket>();
-        this.arenas     = new Map<number, Arena>();
+        this.arenas     = new Map<number, Arena<any, any, any, any>>();
         this.arenaID    = ARENA_START_ID;
     }
 
@@ -107,7 +107,7 @@ export class GameManagerService {
     }
 
     private removePlayerFromArena(username: string): void {
-        this.arenas.forEach((arena: Arena) => {
+        this.arenas.forEach((arena: Arena<any, any, any, any>) => {
             arena.getPlayers().forEach((player: Player) => {
                 arena.removePlayer(username);
                 if (player.username === username) {
@@ -149,7 +149,7 @@ export class GameManagerService {
     public getUsersInArena(arenaId: number): IUser[] {
 
         const users: IUser[]            = [];
-        const arena: Arena | undefined  = this.arenas.get(arenaId);
+        const arena: Arena<any, any, any, any> | undefined  = this.arenas.get(arenaId);
 
         if (arena) {
             const players: Player[] = arena.getPlayers();
