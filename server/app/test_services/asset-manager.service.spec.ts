@@ -1,6 +1,5 @@
 import * as chai from "chai";
 import * as spies from "chai-spies";
-// import * as fs from "fs";
 import "reflect-metadata";
 import { Constants } from "../constants";
 import { AssetManagerService } from "../services/asset-manager.service";
@@ -84,7 +83,6 @@ describe("Image manager service tests", () => {
     });
     it("Should not copy an inexistant image to the temp directory and throw error", async () => {
         const nonExistantgameId: number = 15;
-        // const imgPathTemp: string = Constants.TEMP_IMAGES_PATH + gameId + Constants.GENERATED_FILE;
         const path: string = Constants.IMAGES_PATH + "/testBitmap/" + nonExistantgameId + Constants.GENERATED_FILE;
         chai.expect(() => { imageManagerService.copyFileToTemp(path, nonExistantgameId, Constants.GENERATED_FILE); })
             .to.throw(TypeError);
