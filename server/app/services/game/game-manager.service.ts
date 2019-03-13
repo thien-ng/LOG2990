@@ -97,8 +97,8 @@ export class GameManagerService {
         return {
             arenaId:            this.generateArenaID(),
             users:              [user],
-            originalGameUrl:    Constants.PATH_TO_TEMP_IMAGES + gameId + CCommon.ORIGINAL_FILE,
-            differenceGameUrl:  Constants.PATH_TO_TEMP_IMAGES + gameId + Constants.GENERATED_FILE,
+            originalGameUrl:    Constants.PATH_SERVER_TEMP + gameId + CCommon.ORIGINAL_FILE,
+            differenceGameUrl:  Constants.PATH_SERVER_TEMP + gameId + Constants.GENERATED_FILE,
         };
     }
 

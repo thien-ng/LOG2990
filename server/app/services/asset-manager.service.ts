@@ -53,7 +53,7 @@ export class AssetManagerService {
     }
 
     public copyFileToTemp(sourcePath: string, gameid: number, type: string): void {
-        const imgPathTemp: string = Constants.TEMP_IMAGES_PATH + gameid + type;
+        const imgPathTemp: string = Constants.PATH_LOCAL_TEMP + gameid + type;
         try {
             fs.copyFileSync(sourcePath, imgPathTemp);
         } catch (error) {
@@ -62,7 +62,7 @@ export class AssetManagerService {
     }
 
     public deleteFileInTemp(gameid: number, type: string): void {
-        const imgPathTemp: string = Constants.TEMP_IMAGES_PATH + gameid + type;
+        const imgPathTemp: string = Constants.PATH_LOCAL_TEMP + gameid + type;
         try {
             fs.unlinkSync(imgPathTemp);
         } catch (error) {
