@@ -18,7 +18,8 @@ import { Arena } from "../../services/game/arena/arena";
 import { IArenaInfos, IPlayerInput } from "../../services/game/arena/interfaces";
 import { GameManagerService } from "../../services/game/game-manager.service";
 import { UserManagerService } from "../../services/user-manager.service";
-/*tslint:disable no-magic-numbers no-any await-promise */
+// tslint:disable no-magic-numbers no-any await-promise
+// tslint:disable-next-line:max-func-body-length
 
 let gameManagerService: GameManagerService;
 let userManagerService: UserManagerService;
@@ -114,8 +115,8 @@ describe("GameManagerService tests", () => {
         const arenaInfo: IArenaInfos = {
             arenaId:            1000,
             users:              [{username: "Frank", socketID: "12345"}],
-            originalGameUrl:    Constants.PATH_TO_TEMP_IMAGES + "1" + CCommon.ORIGINAL_FILE,
-            differenceGameUrl:  Constants.PATH_TO_TEMP_IMAGES + "1" + Constants.GENERATED_FILE,
+            originalGameUrl:    Constants.PATH_SERVER_TEMP + "1" + CCommon.ORIGINAL_FILE,
+            differenceGameUrl:  Constants.PATH_SERVER_TEMP + "1" + Constants.GENERATED_FILE,
         };
         chai.spy.on(gameManagerService, "buildArenaInfos");
         chai.expect(
@@ -339,6 +340,5 @@ describe("GameManagerService tests", () => {
         chai.expect(spy).to.have.been.called();
 
     });
-    // tslint:disable-next-line:max-func-body-length
-// tslint:disable-next-line:max-file-line-count
 });
+// tslint:disable-next-line:max-file-line-count
