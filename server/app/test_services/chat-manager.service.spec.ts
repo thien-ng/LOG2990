@@ -170,7 +170,7 @@ describe("ChatManagerService Tests", () => {
         sinon.stub(chatManagerService, "sendToSocketIDMessage").callsFake(() => {/* do nothing */});
         const spy: any = chai.spy.on(chatManagerService, "sendToSocketIDMessage");
 
-        const test: IArenaResponse = {
+        const test: IArenaResponse<any> = {
             status: "wrongHit",
             response: {
                 differenceKey: 1,
@@ -194,7 +194,7 @@ describe("ChatManagerService Tests", () => {
         sinon.stub(chatManagerService, "sendToSocketIDMessage").callsFake(() => {/* do nothing */});
         const spy: any = chai.spy.on(chatManagerService, "sendToSocketIDMessage");
 
-        const test: IArenaResponse = {
+        const test: IArenaResponse<any> = {
             status: "onSuccess",
             response: {
                 differenceKey: 1,
@@ -218,7 +218,7 @@ describe("ChatManagerService Tests", () => {
         sinon.stub(chatManagerService, "sendToSocketIDMessage").callsFake(() => {/* do nothing */});
         const spy: any = chai.spy.on(chatManagerService, "sendToSocketIDMessage");
 
-        const test: IArenaResponse = {
+        const test: IArenaResponse<any> = {
             status: "wrongHit",
             response: {
                 differenceKey: 1,
@@ -242,7 +242,7 @@ describe("ChatManagerService Tests", () => {
         sinon.stub(chatManagerService, "sendToSocketIDMessage").callsFake(() => {/* do nothing */});
         const spy: any = chai.spy.on(chatManagerService, "sendToSocketIDMessage");
 
-        const test: IArenaResponse = {
+        const test: IArenaResponse<any> = {
             status: "onSuccess",
             response: {
                 differenceKey: 1,
