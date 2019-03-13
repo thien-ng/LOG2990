@@ -21,7 +21,9 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls:    ["./login-validator.component.css"],
 })
 export class LoginValidatorComponent {
+  
 
+  public readonly LOGO_URL: string = Constants.PATH_TO_IMAGES + "/logo.png";
   public readonly HINT_USERNAME:  string = "Nom d'utilisateur";
   public readonly HINT:           string = "Veuillez entrer un alias";
   public readonly ERROR_PATTERN:  string = "Caractères autorisés: A-Z, a-z, 0-9";
