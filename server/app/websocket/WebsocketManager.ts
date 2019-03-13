@@ -58,7 +58,7 @@ export class WebsocketManager {
             if (typeof user !== "string") {
                 const playerInput: IPlayerInput<IPosition2D | number> = this.buildPlayerInput(data, user);
                 this.gameManagerService.onPlayerInput(playerInput)
-                .then((response: IArenaResponse<IOriginalPixelCluster | Obj3DDifferences>) => {    // _TODO: type de RES_T pour scene 3d
+                .then((response: IArenaResponse<IOriginalPixelCluster | any>) => {    // _TODO: type de RES_T pour scene 3d
                     socket.emit(CCommon.ON_ARENA_RESPONSE, response);
                     this.chatManagerService.sendPositionValidationMessage(data.username, userList, response, this.io);
                 }).catch((error: Error) => {
