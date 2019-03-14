@@ -295,12 +295,16 @@ describe("GameManagerService tests", () => {
         });
 
         const spy: any = chai.spy.on(gameManagerService["arenas"], "delete");
+    //     chai.spy.on(gameManagerService, "init2DArena", () => {
+    //         gameManagerService["arena"].timer.stopTimer();
+    //     });
 
-        gameManagerService.analyseRequest(request2DSimple).catch();
-        gameManagerService.deleteArena(iArenaInfos);
-        chai.expect(spy).to.have.been.called();
+    //     const spy: any = chai.spy.on(gameManagerService["arenas"][0], "delete");
 
-    });
+    //     gameManagerService.analyseRequest(request2DSimple).catch();
+    //     gameManagerService.deleteArena(iArenaInfos);
+    //     chai.expect(spy).to.have.been.called();
+    // });
 
     it("Should send message with socket", async () => {
         gameManagerService = new GameManagerService(userManagerService);
