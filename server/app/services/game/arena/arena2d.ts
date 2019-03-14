@@ -36,7 +36,7 @@ export class Arena2D extends Arena<IPlayerInput<IPosition2D>, IArenaResponse<IOr
     public async prepareArenaForGameplay(): Promise<void> {
         await this.extractOriginalPixelClusters();
         this.referee = new Referee<IPosition2D, IOriginalPixelCluster>(
-            this, this._players, this.originalElements, this.timer, this.arenaInfos.dataUrl.difference);
+            this, this.players, this.originalElements, this.timer, this.arenaInfos.dataUrl.difference);
     }
 
     public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {

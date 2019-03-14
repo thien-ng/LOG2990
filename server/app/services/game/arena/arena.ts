@@ -22,14 +22,14 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
     protected readonly ERROR_ON_HTTPGET:  string = "Didn't succeed to get image buffer from URL given. File: arena.ts.";
     protected readonly ON_FAILED_CLICK:   string = "onFailedClick";
     protected readonly ON_CLICK:          string = "onClick";
-    protected _players:                    Player[];
+    protected players:                    Player[];
     protected referee:                    Referee<any, any>;
     protected originalElements:           Map<number, DIFF_T>; // _TODO: A BOUGER DANS LES ARENA 2D et 3D
 
     public constructor (
         protected arenaInfos: IArenaInfos<I2DInfos | I3DInfos>,
         @inject(Types.GameManagerService) public gameManagerService: GameManagerService) {
-            this._players = [];
+            this.players = [];
             this.createPlayers();
             this.originalElements   = new Map<number, DIFF_T>();
             this.timer              = new Timer();
@@ -41,21 +41,21 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
     public abstract async validateHit(eventInfos: EVT_T):                Promise<IHitConfirmation>; // _TODO: Pour fin de tests (a enlever)
     public abstract async prepareArenaForGameplay():                     Promise<void>;
 
-    public get players(): Player[] {
-        return this._players;
+    public getPlayers(): Player[] {
+        return this.players;
     }
 
     public contains(user: IUser): boolean {
-        return this._players.some((player: Player) => {
+        return this.players.some((player: Player) => {
             return player.username === user.username;
         });
     }
 
     public removePlayer(username: string): void {
-        this._players = this._players.filter( (player: Player) => {
+        this.players = this.players.filter( (player: Player) => {
             return player.username !== username;
         });
-        if (this._players.length === 0) {
+        if (this.players.length === 0) {
             this.gameManagerService.deleteArena(this.arenaInfos);
         }
     }
@@ -74,7 +74,7 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
 
     protected createPlayers(): void {
         this.arenaInfos.users.forEach((user: IUser) => {
-            this._players.push(new Player(user));
+            this.players.push(new Player(user));
         });
     }
 
