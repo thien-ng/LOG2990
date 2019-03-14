@@ -156,18 +156,16 @@ export class GameManagerService {
 
     public deleteArena(arena: IArenaInfos<I2DInfos | I3DInfos>): void {
         const arenaId: number = arena.arenaId;
-        const gameId: number | undefined = this.gameIdByArena.get(arenaId);
+        const gameId:  number | undefined = this.gameIdByArena.get(arenaId);
         if (gameId === undefined) {
             return;
         }
-        const arenaAlive: number | undefined = this.countByGameId.get(gameId);
-
-        if (arenaAlive === undefined) {
-
+        const aliveArenaCount: number | undefined = this.countByGameId.get(gameId);
+        if (aliveArenaCount === undefined) {
             return;
         }
-        if (arenaAlive !== 0) {
-            this.countByGameId.set(gameId, arenaAlive - 1);
+        if (aliveArenaCount !== 0) {
+            this.countByGameId.set(gameId, aliveArenaCount - 1);
         } else {
             this.assetManager.deleteFileInTemp(gameId, Constants.GENERATED_FILE);
             this.assetManager.deleteFileInTemp(gameId, CCommon.ORIGINAL_FILE);
