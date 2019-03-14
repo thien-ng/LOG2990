@@ -12,7 +12,6 @@ import { Arena } from "./arena/arena";
 import { Arena2D } from "./arena/arena2d";
 import { IArenaInfos, IPlayerInput } from "./arena/interfaces";
 import { Player } from "./arena/player";
-import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
 
 const REQUEST_ERROR_MESSAGE:            string = "Game mode invalide";
 const ARENA_START_ID:                   number = 1000;
@@ -25,7 +24,6 @@ export class GameManagerService {
     private arenaID:    number;
     private playerList: Map<string, SocketIO.Socket>;
     private arenas:     Map<number, Arena<any, any, any, any>>;
-    public arena:       Arena<any, any, any, any>;
 
     public constructor(@inject(Types.UserManagerService) private userManagerService: UserManagerService) {
         this.playerList = new Map<string, SocketIO.Socket>();
