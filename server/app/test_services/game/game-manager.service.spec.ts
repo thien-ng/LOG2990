@@ -151,14 +151,14 @@ describe("GameManagerService tests", () => {
     //         responseType: "arraybuffer",
     //     }).reply(200, modified);
 
-        chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
-        chai.spy.on(gameManagerService, "init2DArena", () => {
-            gameManagerService.arena.timer.stopTimer();
-        });
+    //     chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
+    //     chai.spy.on(gameManagerService, "init2DArena", () => {
+    //         gameManagerService.arena.timer.stopTimer();
+    //     });
 
-        gameManagerService.analyseRequest(request2DSimple).then((message: any) => {
-            chai.expect(message.title).to.equal("onSuccess");
-        });
+    //     gameManagerService.analyseRequest(request2DSimple).then((message: any) => {
+    //         chai.expect(message.title).to.equal("onSuccess");
+    //     });
 
     });
 
