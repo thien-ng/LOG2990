@@ -14,7 +14,7 @@ import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../../constants";
 import { Arena2D } from "../../services/game/arena/arena2d";
-import { IArenaInfos, IPlayerInput } from "../../services/game/arena/interfaces";
+import { I2DInfos, IArenaInfos, IPlayerInput } from "../../services/game/arena/interfaces";
 import { GameManagerService } from "../../services/game/game-manager.service";
 import { UserManagerService } from "../../services/user-manager.service";
 /*tslint:disable no-magic-numbers no-any await-promise */
@@ -46,11 +46,13 @@ const invalidRequest: IGameRequest = {
     mode:       GameMode.invalid,
 };
 
-const iArenaInfos: IArenaInfos = {
+const iArenaInfos: IArenaInfos<I2DInfos> = {
     arenaId:            1,
     users:              [{username: "Frank", socketID: "12345"}],
-    originalGameUrl:    "../../../asset/image/1_original.bmp",
-    differenceGameUrl:  "../../../asset/image/1_modified.bmp",
+    dataUrl:            {
+        original:    "../../../asset/image/1_original.bmp",
+        difference:  "../../../asset/image/1_modified.bmp",
+    },
 };
 
 const playerInput: IPlayerInput<IPosition2D | number> = {
