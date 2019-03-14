@@ -10,4 +10,8 @@ export class Arena3D extends Arena<any, any, any, any> {
         this.gameManagerService.sendMessage(playerSocketId, event, message);
     }
 
+    public onPlayerClick(eventInfos: any, user: IUser): Promise<IArenaResponse<any>> {
+        throw new Error("Method not implemented.");
+    }
+
 }
