@@ -269,15 +269,15 @@ describe("GameManagerService tests", () => {
     // //         responseType: "arraybuffer",
     // //     }).reply(200, modified);
 
-        chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
-        chai.spy.on(gameManagerService, "init2DArena", async () => {
-            await gameManagerService["arena"].timer.stopTimer();
-        });
+    // //     chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
+    // //     chai.spy.on(gameManagerService, "init2DArena", async () => {
+    // //         await gameManagerService["arena"].timer.stopTimer();
+    // //     });
 
-        gameManagerService.analyseRequest(request2DSimple).catch();
-        gameManagerService.unsubscribeSocketID("12345", "Frank");
-        chai.expect(gameManagerService["arena"].getPlayers().length).to.deep.equal(0);
-    });
+    //     gameManagerService.analyseRequest(request2DSimple).catch();
+    //     gameManagerService.unsubscribeSocketID("12345", "Frank");
+    //     chai.expect(gameManagerService["arena"].getPlayers().length).to.deep.equal(0);
+    // });
 
     it("should delete arena succesfully", async () => {
         userManagerService.validateName(request2DSimple.username);
