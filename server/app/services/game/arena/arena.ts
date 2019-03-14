@@ -37,9 +37,9 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
 
     public abstract sendMessage(playerSocketId: string, event: string, message: number): void;
     public abstract async onPlayerClick(eventInfos: EVT_T, user: IUser): Promise<IArenaResponse<DIFF_T>>;
-    public abstract async validateHit(eventInfos: EVT_T):                Promise<IHitConfirmation>; // _TODO: Pour fin de tests (a enlever)
     public abstract async onPlayerInput(playerInput: IN_T):              Promise<IArenaResponse<DIFF_T>>;
-    public abstract async prepareArenaForGameplay():    Promise<void>;
+    public abstract async validateHit(eventInfos: EVT_T):                Promise<IHitConfirmation>; // _TODO: Pour fin de tests (a enlever)
+    public abstract async prepareArenaForGameplay():                     Promise<void>;
 
     public get players(): Player[] {
         return this._players;
