@@ -24,18 +24,17 @@ const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey:
 export class GameManagerService {
 
     private arenaID:        number;
+    private arenas:         Map<number, Arena<any, any, any, any>>;
     private lobby:          Map<number, IUser[]>;
     private playerList:     Map<string, SocketIO.Socket>;
-    private arenas:         Map<number, Arena>;
-    public arena:           Arena;
     private gameIdByArena:  Map<number, number>;
-    private assetManager:   AssetManagerService;
     private countByGameId:  Map<number, number>;
+    private assetManager:   AssetManagerService;
 
     public constructor(@inject(Types.UserManagerService) private userManagerService: UserManagerService) {
         this.lobby      = new Map<number, IUser[]>();
         this.playerList = new Map<string, SocketIO.Socket>();
-        this.arenas     = new Map<number, Arena>();
+        this.arenas     = new Map<number, Arena<any, any, any, any>>();
         this.arenaID    = ARENA_START_ID;
         this.assetManager = new AssetManagerService();
         this.countByGameId = new Map<number, number>();
