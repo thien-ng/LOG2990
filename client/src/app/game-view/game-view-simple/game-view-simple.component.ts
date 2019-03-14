@@ -44,14 +44,16 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   private modifiedPath:   string;
 
   public constructor(
-    @Inject(GameViewSimpleService) public   gameViewService:  GameViewSimpleService,
+    @Inject(GameViewSimpleService)  public   gameViewService:  GameViewSimpleService,
     @Inject(SocketService)          private socketService:    SocketService,
-    private route:      ActivatedRoute,
-    private httpClient: HttpClient,
+    private gameConnectionService:  GameConnectionService,
+    private route:                  ActivatedRoute,
+    private httpClient:             HttpClient,
     ) {
-      this.mode       = this.route.snapshot.paramMap.get("gamemode");
-      this.cardLoaded = false;
-      this.username   = sessionStorage.getItem(Constants.USERNAME_KEY);
+      this.mode         = Number(this.route.snapshot.paramMap.get("gamemode"));
+      this.cardLoaded   = false;
+      this.gameStarted  = false;
+      this.username     = sessionStorage.getItem(Constants.USERNAME_KEY);
     }
 
   public ngOnInit(): void {
