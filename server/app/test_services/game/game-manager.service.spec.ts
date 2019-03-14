@@ -176,6 +176,12 @@ describe("GameManagerService tests", () => {
     //         .to.deep.equal(arenaInfo);
     // });
 
+    // it("Should return a success message when creating a 2D arena", async () => {
+    //     userManagerService.validateName(request2D.username);
+
+    //     mockAxios.onGet(iArenaInfos.dataUrl.original, {
+    //         responseType: "arraybuffer",
+    //     }).reply(200, original);
     it("Should return a success message when creating a 3D arena", async () => {
         userManagerService.validateName(request3DSimple.username);
         const message: Message = await gameManagerService.analyseRequest(request3DSimple);
