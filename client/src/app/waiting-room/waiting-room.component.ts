@@ -9,3 +9,10 @@ import { Constants } from "../constants";
 const SUCCESS_MESSAGE:  string = "Attente annulée";
 const ERROR_MESSAGE:    string = "Impossible d'annuler l'attente";
 
+@Component({
+  selector: "app-waiting-room",
+  templateUrl: "./waiting-room.component.html",
+  styleUrls: ["./waiting-room.component.css"],
+})
+export class WaitingRoomComponent {
+
