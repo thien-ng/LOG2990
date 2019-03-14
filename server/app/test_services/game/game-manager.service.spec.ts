@@ -275,6 +275,10 @@ describe("GameManagerService tests", () => {
     });
 
 
+    it("Should return an error message when deleting an unexisting arena", async () => {
+        chai.expect(gameManagerService.cancelRequest(2).title).to.deep.equal(CCommon.ON_ERROR);
+    });
+
     it("Should return a success message when deleting an existing arena", async () => {
         const user: IUser = {username: "Frank", socketID: "Frank"};
         gameManagerService["lobby"].set(1, [user]);
