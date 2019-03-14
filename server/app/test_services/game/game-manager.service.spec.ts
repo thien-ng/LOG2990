@@ -107,7 +107,7 @@ describe("GameManagerService tests", () => {
 
     it("should add socketID in playerList", () => {
 
-        const arena: Arena = new Arena(iArenaInfos, gameManagerService);
+        const arena: Arena2D = new Arena2D(iArenaInfos, gameManagerService);
         gameManagerService["arenas"].set(iArenaInfos.arenaId, arena);
         const usersInArena: IUser[] = gameManagerService.getUsersInArena(iArenaInfos.arenaId);
 
@@ -128,14 +128,15 @@ describe("GameManagerService tests", () => {
     });
 
     it("Should return buildArenaInfo successfully", async () => {
-        const arenaInfo: IArenaInfos = {
+        const arenaInfo: IArenaInfos<I2DInfos> = {
             arenaId:            1000,
             users:              [{username: "Frank", socketID: "12345"}],
-            originalGameUrl:    Constants.PATH_SERVER_TEMP + "1" + CCommon.ORIGINAL_FILE,
-            differenceGameUrl:  Constants.PATH_SERVER_TEMP + "1" + Constants.GENERATED_FILE,
+            dataUrl: {
+                original:    Constants.PATH_SERVER_TEMP + "1" + CCommon.ORIGINAL_FILE,
+                difference:  Constants.PATH_SERVER_TEMP + "1" + Constants.GENERATED_FILE,
+            },
         };
-        chai.spy.on(gameManagerService, "buildArenaInfos");
-        chai.expect(gameManagerService["buildArenaInfos"]([{username: "Frank", socketID: "12345"}], 1))
+        chai.expect(gameManagerService["buildArena2DInfos"]([{username: "Frank", socketID: "12345"}], 1))
         .to.deep.equal(arenaInfo);
     });
 
