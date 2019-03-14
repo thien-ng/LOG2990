@@ -47,6 +47,13 @@ const request2DMulti: IGameRequest = {
     mode:       GameMode.simple,
 };
 
+const request3DMulti: IGameRequest = {
+    username:   "Franky",
+    gameId:     105,
+    type:       GameType.multiPlayer,
+    mode:       GameMode.free,
+};
+
 const invalidRequest: IGameRequest = {
     username:   "Frankette",
     gameId:     103,
