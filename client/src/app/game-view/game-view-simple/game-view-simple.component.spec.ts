@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { WaitingRoomComponent } from "src/app/waiting-room/waiting-room.component";
 import { Constants } from "../../constants";
 import { TestingImportsModule } from "../../testing-imports/testing-imports.module";
 import { ChatViewComponent } from "../chat-view/chat-view.component";
@@ -19,6 +20,7 @@ describe("GameViewSimpleComponent", () => {
         ChatViewComponent,
         MessageViewComponent,
         TimerComponent,
+        WaitingRoomComponent,
       ],
       imports: [
         TestingImportsModule,
