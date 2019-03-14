@@ -195,7 +195,7 @@ describe("GameManagerService tests", () => {
         gameManagerService.analyseRequest(request2D).catch();
 
         const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
-        const expectedMessage: IArenaResponse = {
+        const expectedMessage: IArenaResponse<any> = {
             status:     CCommon.ON_ERROR,
             response:   ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
         };
