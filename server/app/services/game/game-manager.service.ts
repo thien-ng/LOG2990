@@ -137,15 +137,18 @@ export class GameManagerService {
     private tempRoutine(gameId: number): void {
         try {
             this.assetManager.copyFileToTemp(
-        this.assetManager.copyFileToTemp(Constants.IMAGES_PATH + "/" + gameId + CCommon.ORIGINAL_FILE, gameId, CCommon.ORIGINAL_FILE);
-        const arenaAlive: number | undefined =  this.countByGameId.get(gameId);
-        if (arenaAlive !== undefined) {
-                this.countByGameId.set(gameId, arenaAlive + 1);
-            } else {
-            this.countByGameId.set(gameId, 1);
-        }
-        } catch (error) {
-            throw new TypeError();
+                Constants.IMAGES_PATH + "/" + gameId + Constants.GENERATED_FILE, gameId, Constants.GENERATED_FILE);
+            this.assetManager.copyFileToTemp(
+                Constants.IMAGES_PATH + "/" + gameId + CCommon.ORIGINAL_FILE, gameId, CCommon.ORIGINAL_FILE);
+
+            const aliveArenaCount: number | undefined =  this.countByGameId.get(gameId);
+            if (aliveArenaCount !== undefined) {
+                    this.countByGameId.set(gameId, aliveArenaCount + 1);
+                } else {
+                this.countByGameId.set(gameId, 1);
+            }
+            } catch (error) {
+                throw new TypeError(TEMP_ROUTINE_ERROR);
         }
     }
 
