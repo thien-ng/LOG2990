@@ -56,7 +56,7 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
             return player.username !== username;
         });
         if (this.players.length === 0) {
-            this.gameManagerService.deleteArena(this.arenaInfos.arenaId);
+            this.gameManagerService.deleteArena(this.arenaInfos);
         }
     }
 
