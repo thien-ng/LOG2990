@@ -20,4 +20,7 @@ export class Arena3D extends Arena<any, any, any, any> {
     public onPlayerInput(playerInput: any): Promise<IArenaResponse<any>> {
         throw new Error("Method not implemented.");
     }
+    public prepareArenaForGameplay(): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
 }
