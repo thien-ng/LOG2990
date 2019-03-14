@@ -1,27 +1,33 @@
-import { IPosition2D } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
 
-export interface IHitToValidate {
-    position:           IPosition2D;
-    imageUrl:           string;
-    colorToIgnore:      number[];
-}
-
-export interface IArenaInfos {
+export interface IArenaInfos<IInfos> {
     arenaId:            number;
     users:              IUser[];
-    originalGameUrl:    string;
-    differenceGameUrl:  string;
+    dataUrl:            IInfos;
+}
+
+export interface I3DInfos {
+    sceneInfos: string;
+}
+
+export interface I2DInfos {
+    original:   string;
+    difference: string;
+}
+export interface IPlayerInput<EVT_T> {
+    event:              string;
+    arenaId:            number;
+    user:               IUser;
+    eventInfo:          EVT_T;
+}
+
+export interface IHitToValidate<EVT_T> {
+    eventInfo:          EVT_T;
+    differenceDataURL:  string;
+    colorToIgnore?:     number;
 }
 
 export interface IHitConfirmation {
     isAHit:             Boolean;
-    hitPixelColor:      number[];
-}
-
-export interface IPlayerInput {
-    event:              string;
-    arenaId:            number;
-    user:               IUser;
-    position:           IPosition2D;
+    differenceIndex:    number;
 }

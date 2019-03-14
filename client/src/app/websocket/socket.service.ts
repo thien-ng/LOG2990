@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import * as io from "socket.io-client";
+import { GameMode } from "../../../../common/communication/iCard";
 import { IChat } from "../../../../common/communication/iChat";
-import { IPlayerInputResponse } from "../../../../common/communication/iGameplay";
+import { IArenaResponse } from "../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../constants";
 import { GameConnectionService } from "../game-connection.service";
@@ -32,8 +33,9 @@ export class SocketService {
 
     this.socket.addEventListener(Constants.ON_CONNECT, () => {
 
-      this.socket.on(CCommon.ON_ARENA_RESPONSE, (data: IPlayerInputResponse) => {
-        this.gameViewSimpleService.onArenaResponse(data);
+      // tslint:disable-next-line:no-any
+      this.socket.on(CCommon.ON_ARENA_RESPONSE, (data: IArenaResponse<any>) => {
+        this.emitOnArenaResponse(data);
       });
 
       this.socket.on(CCommon.CHAT_EVENT, (data: IChat) => {
@@ -52,6 +54,19 @@ export class SocketService {
         this.gameConnectionService.updateGameConnected(arenaID);
       }));
     });
+  }
+
+  // tslint:disable-next-line:no-any
+  private emitOnArenaResponse(arenaResponse: IArenaResponse<any>): void {
+    switch (arenaResponse.arenaType) {
+      case GameMode.simple:
+        this.gameViewSimpleService.onArenaResponse(arenaResponse);
+        break;
+      case GameMode.free:
+        break;
+      default:
+        break;
+    }
   }
 
   public sendMsg<T>(type: string, msg: T): void {

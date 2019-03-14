@@ -5,7 +5,7 @@ import SocketIO = require("socket.io");
 import * as Mockito from "ts-mockito";
 
 import { IChatSender } from "../../../common/communication/iChat";
-import { IPlayerInputResponse } from "../../../common/communication/iGameplay";
+import { IArenaResponse } from "../../../common/communication/iGameplay";
 import { IUser } from "../../../common/communication/iUser";
 import { ChatManagerService } from "../services/chat-manager.service";
 import { TimeManagerService } from "../services/time-manager.service";
@@ -170,7 +170,7 @@ describe("ChatManagerService Tests", () => {
         sinon.stub(chatManagerService, "sendToSocketIDMessage").callsFake(() => {/* do nothing */});
         const spy: any = chai.spy.on(chatManagerService, "sendToSocketIDMessage");
 
-        const test: IPlayerInputResponse = {
+        const test: IArenaResponse<any> = {
             status: "wrongHit",
             response: {
                 differenceKey: 1,
@@ -194,7 +194,7 @@ describe("ChatManagerService Tests", () => {
         sinon.stub(chatManagerService, "sendToSocketIDMessage").callsFake(() => {/* do nothing */});
         const spy: any = chai.spy.on(chatManagerService, "sendToSocketIDMessage");
 
-        const test: IPlayerInputResponse = {
+        const test: IArenaResponse<any> = {
             status: "onSuccess",
             response: {
                 differenceKey: 1,
@@ -218,7 +218,7 @@ describe("ChatManagerService Tests", () => {
         sinon.stub(chatManagerService, "sendToSocketIDMessage").callsFake(() => {/* do nothing */});
         const spy: any = chai.spy.on(chatManagerService, "sendToSocketIDMessage");
 
-        const test: IPlayerInputResponse = {
+        const test: IArenaResponse<any> = {
             status: "wrongHit",
             response: {
                 differenceKey: 1,
@@ -242,7 +242,7 @@ describe("ChatManagerService Tests", () => {
         sinon.stub(chatManagerService, "sendToSocketIDMessage").callsFake(() => {/* do nothing */});
         const spy: any = chai.spy.on(chatManagerService, "sendToSocketIDMessage");
 
-        const test: IPlayerInputResponse = {
+        const test: IArenaResponse<any> = {
             status: "onSuccess",
             response: {
                 differenceKey: 1,

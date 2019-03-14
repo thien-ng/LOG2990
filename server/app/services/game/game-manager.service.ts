@@ -1,7 +1,7 @@
 import { inject, injectable } from "inversify";
 import { GameMode } from "../../../../common/communication/iCard";
 import { GameType, IGameRequest } from "../../../../common/communication/iGameRequest";
-import { IOriginalPixelCluster, IPlayerInputResponse } from "../../../../common/communication/iGameplay";
+import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../common/communication/iGameplay";
 import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
@@ -10,13 +10,16 @@ import Types from "../../types";
 import { AssetManagerService } from "../asset-manager.service";
 import { UserManagerService } from "../user-manager.service";
 import { Arena } from "./arena/arena";
-import { IArenaInfos, IPlayerInput } from "./arena/interfaces";
+import { Arena2D } from "./arena/arena2d";
+import { I2DInfos, I3DInfos, IArenaInfos, IPlayerInput } from "./arena/interfaces";
 import { Player } from "./arena/player";
 
 const REQUEST_ERROR_MESSAGE:            string = "Game mode invalide";
+const TEMP_ROUTINE_ERROR:               string = "error while copying to temp";
 const ARENA_START_ID:                   number = 1000;
 const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
 
+// tslint:disable:no-any
 @injectable()
 export class GameManagerService {
 
