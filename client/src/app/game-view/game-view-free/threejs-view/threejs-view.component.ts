@@ -38,11 +38,20 @@ export class TheejsViewComponent implements OnChanges {
   @ViewChild("originalScene", {read: ElementRef})
   private originalScene:          ElementRef;
 
+  private interval: NodeJS.Timeout;
+
   @HostListener("body:keydown", ["$event"])
-  public handleKeyboardEvent(event: KeyboardEvent) {
-    if (84) {
-      this.threejsViewService.changeObjectsColor(this.modifiedObjectList, this.cheatFlag);
-      this.cheatFlag = (this.cheatFlag) ? false : true;
+  public async handleKeyboardEvent(event: KeyboardEvent): Promise<void> {
+    if (event.keyCode === 84) {
+      await this.getModifiedObjectIds();
+      this.interval = setInterval(() => {
+        this.cheatFlag = (this.cheatFlag) ? false : true;
+        this.threejsViewService.changeObjectsColor(this.modifiedObjectList, this.cheatFlag);
+      }, 125);
+    }
+    else if (event.keyCode === 80) {
+      clearInterval(this.interval);
+      this.threejsViewService.changeObjectsColor(this.modifiedObjectList, false);
     }
   }
 
@@ -54,13 +63,19 @@ export class TheejsViewComponent implements OnChanges {
     ) {
     this.sceneGenerated = new EventEmitter();
     this.scene          = new THREE.Scene();
-    this.cheatFlag      = true;
+    this.cheatFlag      = false;
   }
 
   public ngOnChanges(): void {
     if (this.iSceneVariables !== undefined) {
       this.initScene();
     }
+  }
+
+  private getModifiedObjectIds(): void {
+    // this.httpClient.get(Constants.GET_OBJECTS_ID_PATH + "id").subscribe((list: number[]) => {
+    //   this.modifiedObjectList = list;
+    // });
   }
 
   private initScene(): void {

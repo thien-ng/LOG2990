@@ -93,7 +93,7 @@ export class SceneBuilder {
         return (hex.length < SceneConstants.TWO) ? "0" + hex : hex;
    }
 
-    public rgbToHex(r: number, g: number, b: number): string {
+    private rgbToHex(r: number, g: number, b: number): string {
 
        let red: string = r.toString( SceneConstants.HEX_TYPE );
        red = this.forceTwoDigitsColor(red);

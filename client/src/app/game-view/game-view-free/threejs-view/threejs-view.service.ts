@@ -57,12 +57,10 @@ export class ThreejsViewService {
       const meshObject: THREE.Mesh | undefined = this.recoverObjectFromScene(index);
 
       if (meshObject !== undefined) {
-        if (isCheating) {
-          meshObject.material = new THREE.MeshPhongMaterial({color: "#FF0000"});
-        } else {
-          const objectColor: string | undefined = this.mapOriginColor.get(index);
-          meshObject.material = new THREE.MeshPhongMaterial({color: objectColor});
-        }
+        const objectColor: string | undefined = this.mapOriginColor.get(index);
+        const chosenColor: string | undefined= (isCheating) ? "#FF0000" : objectColor;
+
+        meshObject.material = new THREE.MeshPhongMaterial({color: chosenColor});
       }
     });
   }
@@ -72,7 +70,10 @@ export class ThreejsViewService {
     const objectId: number| undefined = this.modifiedMap.get(index);
     const object: THREE.Object3D | undefined = this.scene.getObjectById(objectId as number);
     const instanceObject3D: THREE.Object3D = object as THREE.Object3D;
-
+    
+    console.log(instanceObject3D instanceof THREE.Mesh);
+    console.log(instanceObject3D !== undefined);
+    
     if (instanceObject3D instanceof THREE.Mesh && instanceObject3D !== undefined) {
       return instanceObject3D;
     }

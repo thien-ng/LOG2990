@@ -113,6 +113,8 @@ export class Constants {
   public static readonly CAMERA_LOOK_AT_Y:          number = 50;
   public static readonly CAMERA_LOOK_AT_Z:          number = 50;
 
+  public static readonly GET_OBJECTS_ID_PATH:       string = CCommon.BASE_URL + "/api/game/";
+
   // Constants for chat view
   public static readonly ON_FAILED_CLICK:           string = "onFailedClick";
   public static readonly FAILED_CLICK_MESSAGE:      string = "Wrong Hit";
