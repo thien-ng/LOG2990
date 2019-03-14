@@ -274,4 +274,10 @@ describe("GameManagerService tests", () => {
         chai.expect(response.body).to.deep.equal(CCommon.ON_WAITING);
     });
 
+
+    it("Should return a success message when deleting an existing arena", async () => {
+        const user: IUser = {username: "Frank", socketID: "Frank"};
+        gameManagerService["lobby"].set(1, [user]);
+        chai.expect(gameManagerService.cancelRequest(1).title).to.deep.equal(CCommon.ON_SUCCESS);
+    });
 });
