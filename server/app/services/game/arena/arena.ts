@@ -7,9 +7,10 @@ import Types from "../../../types";
 import { GameManagerService } from "../game-manager.service";
 import { I2DInfos, I3DInfos, IArenaInfos, IHitConfirmation } from "./interfaces";
 import { Player } from "./player";
-// import { Referee } from "./referee";
+import { Referee } from "./referee";
 import { Timer } from "./timer";
 
+// tslint:disable:no-any
 const axios: AxiosInstance = require("axios");
 
 export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
@@ -22,7 +23,7 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
     protected readonly ON_FAILED_CLICK:   string = "onFailedClick";
     protected readonly ON_CLICK:          string = "onClick";
     protected players:                    Player[];
-    // protected referee:                    Referee<any, DIFF_T, any>;
+    protected referee:                    Referee<any, any>;
     protected originalElements:           Map<number, DIFF_T>; // _TODO: A BOUGER DANS LES ARENA 2D et 3D
 
     public constructor (
