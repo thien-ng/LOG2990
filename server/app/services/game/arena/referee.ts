@@ -8,7 +8,7 @@ import { Timer } from "./timer";
 
 import { IArenaResponse } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
-import { IArenaInfos, IHitConfirmation, IHitToValidate } from "./interfaces";
+import { IHitConfirmation, IHitToValidate } from "./interfaces";
 
 const axios: AxiosInstance = require("axios");
 
@@ -27,7 +27,7 @@ export class Referee<EVT_T, DIFF_T> {
                        private players:             Player[],
                        private originalElements:    Map<number, DIFF_T>,
                        public  timer:               Timer,
-                       public  arenaInfos:          IArenaInfos,
+                       public  differenceDataUrl:   string,
     ) {
 
         this.timer = new Timer();
@@ -137,7 +137,7 @@ export class Referee<EVT_T, DIFF_T> {
     private buildPostData(eventInfos: EVT_T): IHitToValidate<EVT_T> {
         return {
             eventInfo:          eventInfos,
-            differenceDataURL:  this.arenaInfos.differenceGameUrl,
+            differenceDataURL:  this.differenceDataUrl,
             colorToIgnore:      Constants.FF,
         } as IHitToValidate<EVT_T>;
     }
