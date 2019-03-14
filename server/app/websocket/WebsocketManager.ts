@@ -1,7 +1,8 @@
 import * as http from "http";
 import { inject, injectable } from "inversify";
 import * as SocketIO from "socket.io";
-import { IClickMessage, IPlayerInputResponse } from "../../../common/communication/iGameplay";
+import { IChatSender } from "../../../common/communication/iChat";
+import { IArenaResponse, IClickMessage, IOriginalPixelCluster, IPosition2D } from "../../../common/communication/iGameplay";
 import { IUser } from "../../../common/communication/iUser";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { Constants } from "../constants";
@@ -52,13 +53,15 @@ export class WebsocketManager {
 
         socket.on(Constants.POSITION_VALIDATION_EVENT, (data: IClickMessage) => {
             const user: IUser | string = this.userManagerService.getUserByUsername(data.username);
+            const userList: IUser[] = this.gameManagerService.getUsersInArena(data.arenaID);
 
             if (typeof user !== "string") {
-                const playerInput: IPlayerInput = this.buildPlayerInput(data, user);
+                const playerInput: IPlayerInput<IPosition2D | number> = this.buildPlayerInput(data, user);
                 this.gameManagerService.onPlayerInput(playerInput)
-                .then((response: IPlayerInputResponse) => {
+                // tslint:disable-next-line:no-any
+                .then((response: IArenaResponse<IOriginalPixelCluster | any>) => {    // _TODO: type de RES_T pour scene 3d
                     socket.emit(CCommon.ON_ARENA_RESPONSE, response);
-                    this.chatManagerService.sendPositionValidationMessage(response, socket);
+                    this.chatManagerService.sendPositionValidationMessage(data.username, userList, response, this.io);
                 }).catch((error: Error) => {
                     socket.emit(CCommon.ON_ERROR, error);
                 });
@@ -67,8 +70,10 @@ export class WebsocketManager {
     }
 
     private chatSocketChecker(socket: SocketIO.Socket): void {
-        socket.on(Constants.ON_CHAT_EVENT, (data: string) => {
-            this.chatManagerService.sendChatMessage(data, socket);
+        socket.on(Constants.ON_CHAT_EVENT, (messageRecieved: IChatSender) => {
+
+            const userList: IUser[] = this.gameManagerService.getUsersInArena(messageRecieved.arenaID);
+            this.chatManagerService.sendChatMessage(userList, messageRecieved, this.io);
         });
     }
 
@@ -91,12 +96,12 @@ export class WebsocketManager {
         });
     }
 
-    private buildPlayerInput(data: IClickMessage, user: IUser): IPlayerInput {
+    private buildPlayerInput(data: IClickMessage, user: IUser): IPlayerInput<IPosition2D | number> {
         return {
             event:      Constants.CLICK_EVENT,
             arenaId:    data.arenaID,
             user:       user,
-            position:   {
+            eventInfo:   {
                 x:  data.position.x,
                 y:  data.position.y,
             },

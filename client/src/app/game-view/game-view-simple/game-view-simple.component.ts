@@ -21,21 +21,23 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   public readonly SUCCESS_SOUND:  string = "http://localhost:3000/audio/fail.wav";
   public readonly FAIL_SOUND:     string = "http://localhost:3000/audio/success.wav";
 
-  @ViewChild("successSound",  {read: ElementRef}) public successSound:  ElementRef;
-  @ViewChild("failSound",     {read: ElementRef}) public failSound:     ElementRef;
-
+  @ViewChild("successSound",  {read: ElementRef})
+  public successSound:    ElementRef;
+  @ViewChild("failSound",     {read: ElementRef})
+  public failSound:       ElementRef;
   @ViewChild("originalImage", {read: ElementRef})
   public canvasOriginal:  ElementRef;
+  @ViewChild("modifiedImage", {read: ElementRef})
+  public canvasModified:  ElementRef;
+
   public activeCard:      ICard;
   public cardLoaded:      boolean;
   public username:        string | null;
-  @ViewChild("modifiedImage", {read: ElementRef})
-  public canvasModified:  ElementRef;
+  public mode:            string | null;
   private originalPath:   string;
   private gameRequest:    IGameRequest;
   private modifiedPath:   string;
   private arenaID:        number;
-  public mode:            string | null;
 
   public constructor(
     @Inject(GameViewSimpleService) public   gameViewService:  GameViewSimpleService,
