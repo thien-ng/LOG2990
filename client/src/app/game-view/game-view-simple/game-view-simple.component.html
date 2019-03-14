@@ -14,19 +14,22 @@
     </mat-grid-tile>
     <mat-grid-tile
     [colspan]="7"
-      <canvas #modifiedImage class="canvas" width="640" height="480"></canvas>
-    </div>
-  </mat-grid-tile>
-  <mat-grid-tile
-    [colspan]="4"
-    [rowspan]="20">
-    <app-timer></app-timer>
-  </mat-grid-tile>
-  <mat-grid-tile
-      *ngIf="mode === '0'"
-      [colspan]="2"
+    [rowspan]="57">
+      <div id="displayGame">
+        <canvas #originalImage class="canvas" width="640" height="480"></canvas>
+        <canvas #modifiedImage class="canvas" width="640" height="480"></canvas>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile
+      [colspan]="4"
       [rowspan]="20">
-      <app-difference-counter>{{username}}</app-difference-counter>
+      <app-timer></app-timer>
+    </mat-grid-tile>
+    <mat-grid-tile
+        *ngIf="mode === 0"
+        [colspan]="2"
+        [rowspan]="20">
+        <app-difference-counter>{{username}}</app-difference-counter>
     </mat-grid-tile>
   <div *ngIf="mode === '1'">
     <mat-grid-tile
