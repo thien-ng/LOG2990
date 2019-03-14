@@ -190,6 +190,14 @@ describe("GameManagerService tests", () => {
     //     chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
     //     chai.spy.on(gameManagerService, "init2DArena", () => {
     //         gameManagerService.arena.timer.stopTimer();
+    //     });
+
+    //     gameManagerService.analyseRequest(request2D).then((message: any) => {
+    //         chai.expect(message.title).to.equal("onSuccess");
+    //     }).catch();
+
+    // });
+
     it("Should return a success message when creating a 3D arena", async () => {
         userManagerService.validateName(request3DSimple.username);
         const message: Message = await gameManagerService.analyseRequest(request3DSimple);
