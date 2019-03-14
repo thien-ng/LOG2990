@@ -17,7 +17,8 @@ import { Arena } from "../../services/game/arena/arena";
 import { IArenaInfos, IPlayerInput } from "../../services/game/arena/interfaces";
 import { GameManagerService } from "../../services/game/game-manager.service";
 import { UserManagerService } from "../../services/user-manager.service";
-/*tslint:disable no-magic-numbers no-any await-promise */
+
+// tslint:disable no-magic-numbers no-any await-promise no-floating-promises max-file-line-count
 
 let gameManagerService: GameManagerService;
 let userManagerService: UserManagerService;
@@ -25,14 +26,14 @@ const mockAdapter:  any = require("axios-mock-adapter");
 const axios:        any = require("axios");
 let mockAxios:      any;
 
-const request2D: IGameRequest = {
+const request2DSimple: IGameRequest = {
     username:   "Frank",
     gameId:     1,
     type:       GameType.singlePlayer,
     mode:       GameMode.simple,
 };
 
-const request3D: IGameRequest = {
+const request3DSimple: IGameRequest = {
     username:   "Franky",
     gameId:     105,
     type:       GameType.singlePlayer,
