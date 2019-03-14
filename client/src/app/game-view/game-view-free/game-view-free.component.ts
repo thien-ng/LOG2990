@@ -21,7 +21,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit {
   public modifiedVariables: ISceneVariables;
   public activeCard:        ICard;
   public gameRequest:       IGameRequest;
-  public status:            boolean;
+  public isLoading:         boolean;
 
   private gameType:         GameType;
 
@@ -40,7 +40,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit {
   }
 
   public ngAfterViewInit(): void {
-    this.status = true;
+    this.isLoading = true;
   }
 
   private createGameRequest(gameID: string, username: string): void {
@@ -103,7 +103,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit {
         this.openSnackBar(error, Constants.SNACK_ACTION);
       });
 
-      this.status = false;
+      this.isLoading = false;
     }
   }
 
