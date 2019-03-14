@@ -1,7 +1,6 @@
-import "reflect-metadata";
-
 import * as chai from "chai";
 import * as spies from "chai-spies";
+import "reflect-metadata";
 import { Constants } from "../constants";
 import { AssetManagerService } from "../services/asset-manager.service";
 
@@ -20,7 +19,7 @@ describe("Image manager service tests", () => {
         imageManagerService = new AssetManagerService();
     });
 
-    it("Should call the stockImage funciton when creating bmp", () => {
+    it("Should call the stockImage function when creating bmp", () => {
         const spy: any = chai.spy.on(imageManagerService, "stockImage");
         imageManagerService.createBMP(buffer, 6);
         chai.expect(spy).to.have.been.called();
@@ -74,5 +73,30 @@ describe("Image manager service tests", () => {
             imageManagerService.saveGeneratedScene(path[0], "string");
             imageManagerService.deleteStoredImages(path);
         }).to.not.throw(TypeError);
+    });
+    it("Should copy an image to the temp directory (no error thrown)", async () => {
+        const gameId: number = 5;
+        const path: string = Constants.IMAGES_PATH + "/testBitmap/" + "7dots.bmp";
+        chai.expect(() => imageManagerService.copyFileToTemp(path, gameId, Constants.GENERATED_FILE))
+            .to.not.throw(TypeError("error while generating file"));
+
+    });
+    it("Should not copy an inexistant image to the temp directory and throw error", async () => {
+        const nonExistantgameId: number = 15;
+        const path: string = Constants.IMAGES_PATH + "/testBitmap/" + nonExistantgameId + Constants.GENERATED_FILE;
+        chai.expect(() => { imageManagerService.copyFileToTemp(path, nonExistantgameId, Constants.GENERATED_FILE); })
+            .to.throw(TypeError);
+
+    });
+    it("Should delete an image to the temp directory (no error thrown)", async () => {
+        const gameId: number = 5;
+        chai.expect(() => imageManagerService.deleteFileInTemp(gameId, Constants.GENERATED_FILE))
+            .to.not.throw(TypeError);
+
+    });
+    it("Should not delete an inexistant image to the temp directory and throw error", async () => {
+        const nonExistantgameId: number = 15;
+        chai.expect(() => imageManagerService.deleteFileInTemp(nonExistantgameId, Constants.GENERATED_FILE))
+            .to.throw(TypeError);
     });
 });
