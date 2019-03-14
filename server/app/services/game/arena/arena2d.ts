@@ -36,7 +36,7 @@ export class Arena2D extends Arena<IPlayerInput<IPosition2D>, IArenaResponse<IOr
     public async prepareArenaForGameplay(): Promise<void> {
         await this.extractOriginalPixelClusters();
         this.referee = new Referee<IPosition2D, IOriginalPixelCluster>(
-            this, this.players, this.originalElements, this.timer, this.arenaInfos);
+            this, this.players, this.originalElements, this.timer, this.arenaInfos.dataUrl.difference);
     }
 
     public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {
@@ -62,8 +62,8 @@ export class Arena2D extends Arena<IPlayerInput<IPosition2D>, IArenaResponse<IOr
     }
 
     private async extractOriginalPixelClusters(): Promise<void> {
-        const originalImage:    Buffer                  = await this.getDifferenceDataFromURL(this.arenaInfos.originalGameUrl);
-        const differenceImage:  Buffer                  = await this.getDifferenceDataFromURL(this.arenaInfos.differenceGameUrl);
+        const originalImage:    Buffer                  = await this.getDifferenceDataFromURL(this.arenaInfos.dataUrl.original);
+        const differenceImage:  Buffer                  = await this.getDifferenceDataFromURL(this.arenaInfos.dataUrl.difference);
         const extractor:        DifferencesExtractor    = new DifferencesExtractor();
         this.originalElements = extractor.extractPixelClustersFrom(originalImage, differenceImage);
     }
