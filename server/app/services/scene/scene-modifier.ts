@@ -23,6 +23,7 @@ export class SceneModifier {
     public modifyScene(iSceneOptions: ISceneOptions, iSceneVariables: ISceneVariables): ISceneVariables {
         this.cloneSceneVariables = this.clone(iSceneVariables);
         this.sceneObjects = this.cloneSceneVariables.sceneObjects;
+
         for (let i: number = 0; i < this.NUMBER_ITERATION; i++) {
             const selectedOpstion: string = this.generateSelectedIndex(iSceneOptions.selectedOptions);
 
@@ -90,7 +91,7 @@ export class SceneModifier {
         } while (this.containsInModifedList(generatedIndex) || this.idNotExist(generatedIndex));
 
         this.sceneObjects = this.sceneObjects.filter((object: ISceneObject) => object.id !== generatedIndex);
-
+        this.modifiedIndex.push(generatedIndex);
     }
 
     private changeObjectColor(): void {
@@ -119,7 +120,6 @@ export class SceneModifier {
     }
 
     private containsInModifedList(generatedIndex: number): boolean {
-
         let indexContains: boolean = false;
         this.modifiedIndex.forEach((index: number) => {
             if (index === generatedIndex) {

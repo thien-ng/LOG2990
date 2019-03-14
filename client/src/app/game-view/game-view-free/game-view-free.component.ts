@@ -17,8 +17,8 @@ import { CCommon } from "../../../../../common/constantes/cCommon";
 export class GameViewFreeComponent implements OnInit {
 
   public readonly NEEDED_SNAPSHOT: boolean = false;
-  public originalVariables: ISceneVariables;
-  public modifiedVariables: ISceneVariables;
+  public originalVariables:   ISceneVariables;
+  public modifiedVariables:   ISceneVariables;
   public activeCard:        ICard;
   public gameRequest:       IGameRequest;
 

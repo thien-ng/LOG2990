@@ -8,32 +8,39 @@ import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 @Injectable()
 export class ThreejsViewService {
 
-  private scene:            THREE.Scene;
-  private camera:           THREE.PerspectiveCamera;
-  private renderer:         THREE.WebGLRenderer;
-  private ambLight:         THREE.AmbientLight;
-  private sceneVariable:    ISceneVariables;
-  private threejsGenerator: ThreejsGenerator;
+  private scene:                  THREE.Scene;
+  private camera:                 THREE.PerspectiveCamera;
+  private renderer:               THREE.WebGLRenderer;
+  private ambLight:               THREE.AmbientLight;
+  private sceneVariable:          ISceneVariables;
+  private threejsGenerator:       ThreejsGenerator;
+  private modifiedMap:            Map<number, number>;
+  private mapOriginColor:  Map<number, string>;
 
   public constructor() {
     this.init();
   }
 
   private init(): void {
-    this.camera = new THREE.PerspectiveCamera(
+    this.camera = new   THREE.PerspectiveCamera(
       Constants.FIELD_OF_VIEW,
       window.innerWidth / window.innerHeight,
       Constants.MIN_VIEW_DISTANCE,
       Constants.MAX_VIEW_DISTANCE,
     );
     this.ambLight = new THREE.AmbientLight(Constants.AMBIENT_LIGHT_COLOR, Constants.AMBIENT_LIGHT_INTENSITY);
+    this.modifiedMap = new Map();
+    this.mapOriginColor = new Map();
   }
 
   public createScene(scene: THREE.Scene, iSceneVariables: ISceneVariables, renderer: THREE.WebGLRenderer): void {
     this.renderer         = renderer;
     this.scene            = scene;
     this.sceneVariable    = iSceneVariables;
-    this.threejsGenerator = new ThreejsGenerator(this.scene);
+    this.threejsGenerator = new ThreejsGenerator(
+      this.scene,
+      this.modifiedMap,
+      this.mapOriginColor);
 
     this.renderer.setSize(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
     this.renderer.setClearColor(this.sceneVariable.sceneBackgroundColor);
@@ -42,6 +49,34 @@ export class ThreejsViewService {
     this.generateSceneObjects();
 
     this.camera.lookAt(this.scene.position);
+  }
+
+  public changeObjectsColor(modifiedList: number[], isCheating: boolean): void {
+
+    modifiedList.forEach((index: number) => {
+      const meshObject: THREE.Mesh | undefined = this.recoverObjectFromScene(index);
+
+      if (meshObject !== undefined) {
+        if (isCheating) {
+          meshObject.material = new THREE.MeshPhongMaterial({color: "#FF0000"});
+        } else {
+          const objectColor: string | undefined = this.mapOriginColor.get(index);
+          meshObject.material = new THREE.MeshPhongMaterial({color: objectColor});
+        }
+      }
+    });
+  }
+
+  private recoverObjectFromScene(index: number): THREE.Mesh | undefined {
+
+    const objectId: number| undefined = this.modifiedMap.get(index);
+    const object: THREE.Object3D | undefined = this.scene.getObjectById(objectId as number);
+    const instanceObject3D: THREE.Object3D = object as THREE.Object3D;
+
+    if (instanceObject3D instanceof THREE.Mesh && instanceObject3D !== undefined) {
+      return instanceObject3D;
+    }
+    return undefined;
   }
 
   private createLighting(): void {

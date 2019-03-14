@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, ElementRef, EventEmitter, Inject, Input, OnChanges, Output, ViewChild } from "@angular/core";
+import { Component, ElementRef, EventEmitter, HostListener, Inject, Input, OnChanges, Output, ViewChild } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import * as THREE from "three";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
@@ -20,6 +20,8 @@ export class TheejsViewComponent implements OnChanges {
 
   private renderer:               THREE.WebGLRenderer;
   private scene:                  THREE.Scene;
+  private cheatFlag:              boolean;
+  private modifiedObjectList:     number[] = [1,2,3,4,5,6,7]; //test
 
   @Input()
   private iSceneVariables:        ISceneVariables;
@@ -36,6 +38,14 @@ export class TheejsViewComponent implements OnChanges {
   @ViewChild("originalScene", {read: ElementRef})
   private originalScene:          ElementRef;
 
+  @HostListener("body:keydown", ["$event"])
+  public handleKeyboardEvent(event: KeyboardEvent) {
+    if (84) {
+      this.threejsViewService.changeObjectsColor(this.modifiedObjectList, this.cheatFlag);
+      this.cheatFlag = (this.cheatFlag) ? false : true;
+    }
+  }
+
   public constructor(
     @Inject(ThreejsViewService) private threejsViewService: ThreejsViewService,
     private httpClient:         HttpClient,
@@ -44,6 +54,7 @@ export class TheejsViewComponent implements OnChanges {
     ) {
     this.sceneGenerated = new EventEmitter();
     this.scene          = new THREE.Scene();
+    this.cheatFlag      = true;
   }
 
   public ngOnChanges(): void {
