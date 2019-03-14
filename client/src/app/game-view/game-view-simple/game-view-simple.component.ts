@@ -148,4 +148,8 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       }
     });
   }
+
+  public ngOnDestroy(): void {
+    this.socketService.sendMsg(CCommon.GAME_DISCONNECT, this.username);
+  }
 }
