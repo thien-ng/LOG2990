@@ -16,3 +16,12 @@ const ERROR_MESSAGE:    string = "Impossible d'annuler l'attente";
 })
 export class WaitingRoomComponent {
 
+  @Input()
+  private gameID: string | null;
+
+  public constructor(
+    private router:        Router,
+    private httpClient:   HttpClient,
+    private snackBar:     MatSnackBar,
+  ) {}
+
