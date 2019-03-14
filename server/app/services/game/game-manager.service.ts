@@ -130,9 +130,13 @@ export class GameManagerService {
         };
     }
 
+    private async initArena(arena: Arena<any, any, any, any>): Promise<void> {
+        await arena.prepareArenaForGameplay();
+    }
+
     private tempRoutine(gameId: number): void {
-    try {
-        this.assetManager.copyFileToTemp(Constants.IMAGES_PATH + "/" + gameId + Constants.GENERATED_FILE, gameId, Constants.GENERATED_FILE);
+        try {
+            this.assetManager.copyFileToTemp(
         this.assetManager.copyFileToTemp(Constants.IMAGES_PATH + "/" + gameId + CCommon.ORIGINAL_FILE, gameId, CCommon.ORIGINAL_FILE);
         const arenaAlive: number | undefined =  this.countByGameId.get(gameId);
         if (arenaAlive !== undefined) {
