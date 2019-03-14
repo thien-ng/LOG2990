@@ -58,8 +58,6 @@ export class SocketService {
         break;
       case GameMode.free:
         break;
-      case GameMode.invalid:
-        break;
       default:
         break;
     }
