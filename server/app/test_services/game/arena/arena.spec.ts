@@ -248,7 +248,7 @@ describe("Arena tests", () => {
     });
 
     it("should return the players in the arena", async () => {
-        const players:      Player[]    = arena.players;
+        const players:      Player[]    = arena.getPlayers();
         const playerInside: Player      = new Player(activeUser);
 
         chai.expect(playerInside).to.deep.equal(players[0]);
@@ -261,7 +261,7 @@ describe("Arena tests", () => {
 
     it("should be able to remove a player from the arena", () => {
         arena.removePlayer(activeUser.username);
-        const players: Player[] = arena.players;
+        const players: Player[] = arena.getPlayers();
         chai.expect(players.length).to.equal(0);
     });
 
