@@ -360,7 +360,7 @@ describe("GameManagerService tests", () => {
 
         chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
         chai.spy.on(gameManagerService, "init2DArena", () => {
-            gameManagerService.arena.timer.stopTimer();
+            gameManagerService["arenas[0]"].timer.stopTimer();
         });
 
         gameManagerService.analyseRequest(request2DSimple).then().catch();
@@ -372,17 +372,17 @@ describe("GameManagerService tests", () => {
         userManagerService.validateName(request2DSimple.username);
         chai.spy.on(gameManagerService["assetManager"], "copyFileToTemp", () =>  throws(() => new TypeError()));
 
-        mockAxios.onGet(iArenaInfos.originalGameUrl, {
+        mockAxios.onGet(iArenaInfos.dataUrl.original, {
             responseType: "arraybuffer",
         }).reply(200, original);
 
-        mockAxios.onGet(iArenaInfos.differenceGameUrl, {
+        mockAxios.onGet(iArenaInfos.dataUrl.difference, {
             responseType: "arraybuffer",
         }).reply(200, modified);
 
         chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
         chai.spy.on(gameManagerService, "init2DArena", () => {
-            gameManagerService.arena.timer.stopTimer();
+            gameManagerService["arenas[0]"].timer.stopTimer();
         });
         const spy: any = chai.spy.on(gameManagerService, "tempRoutine");
 
@@ -391,19 +391,20 @@ describe("GameManagerService tests", () => {
         chai.expect(spy).to.throw();
 
     });
+
     it("should delete the temp images if we delete the last arena alive", () => {
         userManagerService.validateName(request2DSimple.username);
-        mockAxios.onGet(iArenaInfos.originalGameUrl, {
+        mockAxios.onGet(iArenaInfos.dataUrl.original, {
             responseType: "arraybuffer",
         }).reply(200, original);
 
-        mockAxios.onGet(iArenaInfos.differenceGameUrl, {
+        mockAxios.onGet(iArenaInfos.dataUrl.difference, {
             responseType: "arraybuffer",
         }).reply(200, modified);
 
         chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
         chai.spy.on(gameManagerService, "init2DArena", () => {
-            gameManagerService["arena"].timer.stopTimer();
+            gameManagerService["arenas"][0].timer.stopTimer();
         });
         const spy: any = chai.spy.on(gameManagerService["gameIdByArena"], "set");
 
