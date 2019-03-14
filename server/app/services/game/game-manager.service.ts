@@ -200,7 +200,6 @@ export class GameManagerService {
     private removePlayerFromArena(username: string): void {
         this.arenas.forEach((arena: Arena<any, any, any, any>) => {
             arena.getPlayers().forEach((player: Player) => {
-                arena.removePlayer(username);
                 if (player.username === username) {
                     arena.removePlayer(username);
                 }
