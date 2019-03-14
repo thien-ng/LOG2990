@@ -72,6 +72,14 @@ export class GameManagerService {
         return this.generateMessage(CCommon.ON_ERROR, gameID.toString());
     }
 
+    private async verifyLobby(request: IGameRequest, user: IUser): Promise<Message> {
+        const lobby: IUser[] | undefined = this.lobby.get(request.gameId);
+
+        if (lobby === undefined) {
+            this.lobby.set(request.gameId.valueOf(), [user]);
+
+            return this.generateMessage(CCommon.ON_WAITING, CCommon.ON_WAITING);
+        } else {
 
         const arenaInfo: IArenaInfos = this.buildArenaInfos(user, gameId);
 
