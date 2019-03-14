@@ -14,6 +14,7 @@ export class GameViewSimpleService {
   public canvasModified:  CanvasRenderingContext2D;
   public successSound:    ElementRef;
   public failSound:       ElementRef;
+  private position:       IPosition2D;
 
   public onArenaResponse(data: IPlayerInputResponse): void {
     if (data.status === CCommon.ON_SUCCESS) {
@@ -24,7 +25,14 @@ export class GameViewSimpleService {
       });
     } else {
       this.playFailSound();
-      this.disableClickRoutine();
+      const canvasBack: HTMLCanvasElement = document.createElement("canvas");
+      canvasBack.width = this.canvasOriginal.canvas.width;
+      canvasBack.height = this.canvasOriginal.canvas.height;
+      const canvasBackctx: CanvasRenderingContext2D | null = canvasBack.getContext("2d");
+      if (canvasBackctx !== null) {
+        canvasBackctx.drawImage(this.canvasOriginal.canvas, 0, 0);
+      }
+      this.disableClickRoutine(canvasBack);
     }
   }
 
