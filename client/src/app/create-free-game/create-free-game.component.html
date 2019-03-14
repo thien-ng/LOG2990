@@ -1,3 +1,4 @@
+<app-spinner *ngIf="isLoading"></app-spinner>
 <div class="mat-title">
   {{TITLE}}
   <hr>
@@ -48,6 +49,7 @@
   <button class="button-padding" [disabled]="hasFormControlErrors()" mat-raised-button>{{SUBMIT}}</button>
   <button class="button-padding" mat-raised-button type="button" (click)="closeDialog()">{{CANCEL}}</button>
 </form>
+<app-spinner *ngIf="isSceneGenerated"></app-spinner>
 <div *ngIf="isSceneGenerated" style="display: none">
   <app-threejs-view [iSceneVariablesMessage]="iSceneVariablesMessage"
                     [iSceneVariables]="iSceneVariablesMessage.originalScene"
