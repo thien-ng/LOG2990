@@ -32,3 +32,13 @@ export class WaitingRoomComponent {
       this.router.navigate([Constants.GAMELIST_REDIRECT]).catch((error: TypeError) => this.openSnackbar(error.message));
     });
   }
+
+  private openSnackbar(message: string): void {
+    this.snackBar.open( message, Constants.SNACK_ACTION, {
+      duration:           Constants.SNACKBAR_DURATION,
+      verticalPosition:   "top",
+      panelClass:         ["snackbar"],
+    });
+  }
+
+}
