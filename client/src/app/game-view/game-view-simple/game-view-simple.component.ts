@@ -66,7 +66,6 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     this.gameID = Number(this.route.snapshot.paramMap.get(Constants.ID_BY_URL));
     if (this.gameID !== null && this.username !== null) {
       this.getActiveCard(this.username);
-      this.canvasRoutine();
     }
   }
 
@@ -74,6 +73,10 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     this.initListener();
   }
 
+  private getActiveCard(username: string): void {
+    if (this.gameID !== null) {
+      this.httpClient.get(Constants.PATH_TO_GET_CARD + this.gameID + "/" + GameMode.simple).subscribe((response: ICard) => {
+        this.activeCard = response;
   private createGameRequest(username: string): void {
     if (this.mode !== null) {
       this.gameRequest = {
