@@ -267,4 +267,11 @@ describe("GameManagerService tests", () => {
         gameManagerService.sendMessage("socketID", "onEvent", 1);
         verify(socket.emit("onEvent", 1)).atLeast(0);
     });
+
+    it("Should return a message saying onWaiting when no one is in the lobby", async () => {
+        userManagerService["users"].push({username: "Frank", socketID: "Frank"});
+        const response: Message = await gameManagerService.analyseRequest(request2DMulti);
+        chai.expect(response.body).to.deep.equal(CCommon.ON_WAITING);
+    });
+
 });
