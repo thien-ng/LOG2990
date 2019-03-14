@@ -27,7 +27,6 @@ export class GameManagerService {
     private playerList:    Map<string, SocketIO.Socket>;
     private arenas:        Map<number, Arena<any, any, any, any>>;
     private gameIdByArena: Map<number, number>;
-    // public  arena:         Arena;
     private assetManager:  AssetManagerService;
     private countByGameId: Map<number, number>;
 
