@@ -87,9 +87,9 @@ export class GameManagerService {
             this.assetManager.copyFileToTemp(
                 Constants.IMAGES_PATH + "/" + gameId + CCommon.ORIGINAL_FILE, gameId, CCommon.ORIGINAL_FILE);
 
-            const arenaAlive: number | undefined =  this.countByGameId.get(gameId);
-            if (arenaAlive !== undefined) {
-                    this.countByGameId.set(gameId, arenaAlive + 1);
+            const aliveArenaCount: number | undefined =  this.countByGameId.get(gameId);
+            if (aliveArenaCount !== undefined) {
+                    this.countByGameId.set(gameId, aliveArenaCount + 1);
                 } else {
                 this.countByGameId.set(gameId, 1);
             }
