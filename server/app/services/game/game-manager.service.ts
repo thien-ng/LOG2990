@@ -67,8 +67,8 @@ export class GameManagerService {
         };
     }
 
-    private async init2DArena(): Promise<void> {
-        await this.arena.prepareArenaForGameplay();
+    private async initArena(arena: Arena<any, any, any, any>): Promise<void> {
+        await arena.prepareArenaForGameplay();
     }
 
     private buildArenaInfos(user: IUser, gameId: number): IArenaInfos {
