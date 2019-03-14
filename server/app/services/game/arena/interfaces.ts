@@ -10,6 +10,10 @@ export interface I3DInfos {
     sceneInfos: string;
 }
 
+export interface I2DInfos {
+    original:   string;
+    difference: string;
+}
 export interface IPlayerInput<EVT_T> {
     event:              string;
     arenaId:            number;
