@@ -330,17 +330,17 @@ describe("GameManagerService tests", () => {
     it("Should increment to 1 the counter linked to the gameId", () => {
         userManagerService.validateName(request2DSimple.username);
 
-        mockAxios.onGet(iArenaInfos.originalGameUrl, {
+        mockAxios.onGet(iArenaInfos.dataUrl.original, {
             responseType: "arraybuffer",
         }).reply(200, original);
 
-        mockAxios.onGet(iArenaInfos.differenceGameUrl, {
+        mockAxios.onGet(iArenaInfos.dataUrl.difference, {
             responseType: "arraybuffer",
         }).reply(200, modified);
 
         chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
         chai.spy.on(gameManagerService, "init2DArena", () => {
-            gameManagerService.arena.timer.stopTimer();
+            gameManagerService["arenas[0]"].timer.stopTimer();
         });
 
         gameManagerService.analyseRequest(request2DSimple).then().catch();
@@ -350,11 +350,11 @@ describe("GameManagerService tests", () => {
     it("Should increment to 2 the counter linked to the gameId when adding a 2nd arena with same game id", () => {
         userManagerService.validateName(request2DSimple.username);
 
-        mockAxios.onGet(iArenaInfos.originalGameUrl, {
+        mockAxios.onGet(iArenaInfos.dataUrl.original, {
             responseType: "arraybuffer",
         }).reply(200, original);
 
-        mockAxios.onGet(iArenaInfos.differenceGameUrl, {
+        mockAxios.onGet(iArenaInfos.dataUrl.difference, {
             responseType: "arraybuffer",
         }).reply(200, modified);
 
