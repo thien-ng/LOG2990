@@ -306,6 +306,14 @@ describe("GameManagerService tests", () => {
         chai.expect(response.title).to.deep.equal(CCommon.ON_SUCCESS);
     });
 
+    it("Should return a message saying the mode is invalid", async () => {
+        const user1: IUser = {username: "Frank", socketID: "Frank"};
+        const user2: IUser = {username: "Frankette", socketID: "Frankette"};
+        gameManagerService["lobby"].set(invalidRequest.gameId, [user1]);
+        const response: Message = await gameManagerService["verifyLobby"](invalidRequest, user2);
+        chai.expect(response.title).to.deep.equal(CCommon.ON_MODE_INVALID);
+    });
+
     it("Should return an error message when deleting an unexisting arena", async () => {
         chai.expect(gameManagerService.cancelRequest(2).title).to.deep.equal(CCommon.ON_ERROR);
     });
