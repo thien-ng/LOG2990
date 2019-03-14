@@ -48,6 +48,8 @@
 }
 button {
   position: absolute;
-  top: 77%;
-  left: 47.5%;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
 }
