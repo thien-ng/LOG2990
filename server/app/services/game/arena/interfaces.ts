@@ -6,6 +6,10 @@ export interface IArenaInfos<IInfos> {
     dataUrl:            IInfos;
 }
 
+export interface I3DInfos {
+    sceneInfos: string;
+}
+
 export interface IPlayerInput<EVT_T> {
     event:              string;
     arenaId:            number;
