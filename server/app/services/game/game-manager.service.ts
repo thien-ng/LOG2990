@@ -198,7 +198,7 @@ export class GameManagerService {
     }
 
     private removePlayerFromArena(username: string): void {
-        this.arenas.forEach((arena: Arena) => {
+        this.arenas.forEach((arena: Arena<any, any, any, any>) => {
             arena.getPlayers().forEach((player: Player) => {
                 arena.removePlayer(username);
                 if (player.username === username) {
@@ -208,7 +208,7 @@ export class GameManagerService {
         });
     }
 
-    public deleteArena(arena: IArenaInfos): void {
+    public deleteArena(arena: IArenaInfos<I2DInfos | I3DInfos>): void {
         const arenaId: number = arena.arenaId;
         const gameId:  number | undefined = this.gameIdByArena.get(arenaId);
         if (gameId === undefined) {
@@ -224,6 +224,7 @@ export class GameManagerService {
             this.assetManager.deleteFileInTemp(gameId, Constants.GENERATED_FILE);
             this.assetManager.deleteFileInTemp(gameId, CCommon.ORIGINAL_FILE);
         }
+
         this.arenas.delete(arena.arenaId);
     }
 
@@ -238,8 +239,9 @@ export class GameManagerService {
         }
     }
 
-    public async onPlayerInput(playerInput: IPlayerInput): Promise<IPlayerInputResponse>  {
-        const arena: Arena | undefined = this.arenas.get(playerInput.arenaId);
+    public async onPlayerInput(playerInput: IPlayerInput<IPosition2D | number>):
+        Promise<IArenaResponse<IOriginalPixelCluster | any>>  {
+        const arena: Arena<any, any, any, any> | undefined = this.arenas.get(playerInput.arenaId);
         if (arena !== undefined) {
             if (arena.contains(playerInput.user)) {
                 return  arena.onPlayerInput(playerInput);
@@ -255,7 +257,7 @@ export class GameManagerService {
     public getUsersInArena(arenaId: number): IUser[] {
 
         const users: IUser[]            = [];
-        const arena: Arena | undefined  = this.arenas.get(arenaId);
+        const arena: Arena<any, any, any, any> | undefined  = this.arenas.get(arenaId);
 
         if (arena) {
             const players: Player[] = arena.getPlayers();
