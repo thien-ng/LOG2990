@@ -36,17 +36,21 @@ export class GameViewSimpleService {
     }
   }
 
-  private enableClickRoutine(): void {
+  private enableClickRoutine(canvasback: HTMLCanvasElement): void {
       document.body.style.cursor = "auto";
       this.canvasModified.canvas.style.pointerEvents = "auto";
       this.canvasOriginal.canvas.style.pointerEvents = "auto";
+      this.canvasOriginal.drawImage(canvasback,0,0);
     }
 
-  private disableClickRoutine(): void {
+  private disableClickRoutine(canvasback: HTMLCanvasElement): void {
       document.body.style.cursor = "not-allowed";
       this.canvasModified.canvas.style.pointerEvents = "none";
       this.canvasOriginal.canvas.style.pointerEvents = "none";
-      window.setTimeout(() => this.enableClickRoutine() , DELAY);
+      this.canvasOriginal.font = "30px Verdana";
+      this.canvasOriginal.fillStyle = "red";
+      this.canvasOriginal.fillText("hello", this.position.x, this.position.y);
+      window.setTimeout(() => this.enableClickRoutine(canvasback) , DELAY);
 }
 
   public playFailSound(): void {
@@ -70,6 +74,8 @@ export class GameViewSimpleService {
   }
 
   public onCanvasClick(pos: IPosition2D, id: number, username: string): IClickMessage {
+    this.position = pos;
+
     return {
       position:     pos,
       arenaID:      id,
