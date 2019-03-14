@@ -18,8 +18,7 @@ import { Arena } from "../../services/game/arena/arena";
 import { IArenaInfos, IPlayerInput } from "../../services/game/arena/interfaces";
 import { GameManagerService } from "../../services/game/game-manager.service";
 import { UserManagerService } from "../../services/user-manager.service";
-// tslint:disable no-magic-numbers no-any await-promise
-// tslint:disable-next-line:max-func-body-length
+// tslint:disable no-magic-numbers no-any await-promise max-file-line-count
 
 let gameManagerService: GameManagerService;
 let userManagerService: UserManagerService;
@@ -341,4 +340,3 @@ describe("GameManagerService tests", () => {
 
     });
 });
-// tslint:disable-next-line:max-file-line-count
