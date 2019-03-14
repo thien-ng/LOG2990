@@ -133,12 +133,12 @@ describe("GameManagerService tests", () => {
         };
         chai.spy.on(gameManagerService, "buildArenaInfos");
         chai.expect(
-            gameManagerService["buildArenaInfos"]({username: "Frank", socketID: "12345"}, 1))
+            gameManagerService["buildArenaInfos"]([{username: "Frank", socketID: "12345"}], 1))
             .to.deep.equal(arenaInfo);
     });
 
     it("Should return a success message when creating a 2D arena", async () => {
-        userManagerService.validateName(request2D.username);
+        userManagerService.validateName(request2DSimple.username);
 
         mockAxios.onGet(iArenaInfos.originalGameUrl, {
             responseType: "arraybuffer",
@@ -153,21 +153,21 @@ describe("GameManagerService tests", () => {
             gameManagerService.arena.timer.stopTimer();
         });
 
-        gameManagerService.analyseRequest(request2D).then((message: any) => {
+        gameManagerService.analyseRequest(request2DSimple).then((message: any) => {
             chai.expect(message.title).to.equal("onSuccess");
-        }).catch();
+        });
 
     });
 
     it("Should return a success message when creating a 3D arena", async () => {
-        userManagerService.validateName(request3D.username);
-        const message: Message = await gameManagerService.analyseRequest(request3D);
+        userManagerService.validateName(request3DSimple.username);
+        const message: Message = await gameManagerService.analyseRequest(request3DSimple);
         chai.expect(message.title).to.equal("onSuccess");
     });
 
     it("Should return a success message when creating a 3D arena", async () => {
-        userManagerService.validateName(request3D.username);
-        const message: Message = await gameManagerService.analyseRequest(request3D);
+        userManagerService.validateName(request3DSimple.username);
+        const message: Message = await gameManagerService.analyseRequest(request3DSimple);
         chai.expect(message.title).to.equal("onSuccess");
     });
 
