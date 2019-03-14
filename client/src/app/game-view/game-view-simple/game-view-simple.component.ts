@@ -1,6 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { AfterContentInit, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+import { first } from "rxjs/operators";
+import { GameConnectionService } from "src/app/game-connection.service";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../../common/communication/iGameRequest";
 import { IClickMessage, IPosition2D } from "../../../../../common/communication/iGameplay";
@@ -32,12 +34,14 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
 
   public activeCard:      ICard;
   public cardLoaded:      boolean;
+  public gameStarted:     boolean;
   public username:        string | null;
-  public mode:            string | null;
+  public mode:            number;
+  public arenaID:         number;
+  public gameID:         number;
   private originalPath:   string;
   private gameRequest:    IGameRequest;
   private modifiedPath:   string;
-  private arenaID:        number;
 
   public constructor(
     @Inject(GameViewSimpleService) public   gameViewService:  GameViewSimpleService,
