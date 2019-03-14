@@ -25,6 +25,7 @@ import { SceneModifier } from "../services/scene/scene-modifier";
 const FAKE_PATH:            string  = CCommon.BASE_URL + "/image";
 const mockAdapter:          any     = require("axios-mock-adapter");
 const axios:                any     = require("axios");
+let modifiedList:         number[];
 let mockAxios:              any;
 let cardManagerService:     CardManagerService;
 let highscoreService:       HighscoreService;
@@ -60,6 +61,7 @@ describe("Card-manager tests", () => {
     };
 
     beforeEach(() => {
+        modifiedList = [];
         assetManagerService = new AssetManagerService();
         highscoreService    = new HighscoreService();
         cardOperations      = new CardOperations(highscoreService);
@@ -122,7 +124,8 @@ describe("Card-manager tests", () => {
 
         const iSceneVariablesMessage:   ISceneVariablesMessage  = {
             originalScene:          isceneVariable,
-            modifiedScene:          sceneModifier.modifyScene(sceneOptions10, isceneVariable),
+            modifiedScene:          sceneModifier.modifyScene(sceneOptions10, isceneVariable, modifiedList),
+            modifiedIdList:         modifiedList,
         };
         const sceneMessage: ISceneMessage = {
             iSceneVariablesMessage: iSceneVariablesMessage,
@@ -151,7 +154,8 @@ describe("Card-manager tests", () => {
 
         const iSceneVariablesMessage: ISceneVariablesMessage = {
             originalScene:          isceneVariable,
-            modifiedScene:          sceneModifier.modifyScene(sceneOptions10, isceneVariable),
+            modifiedScene:          sceneModifier.modifyScene(sceneOptions10, isceneVariable, modifiedList),
+            modifiedIdList:         modifiedList,
         };
         const sceneMessage: ISceneMessage = {
             iSceneVariablesMessage: iSceneVariablesMessage,

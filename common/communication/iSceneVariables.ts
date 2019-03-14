@@ -4,6 +4,7 @@ import { SceneType } from "./iSceneOptions";
 export interface ISceneVariablesMessage {
     originalScene:          ISceneVariables;
     modifiedScene:          ISceneVariables;
+    modifiedIdList:         number[];
 }
 
 export interface ISceneVariables {

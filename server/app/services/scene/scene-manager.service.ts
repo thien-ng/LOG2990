@@ -27,13 +27,15 @@ export class SceneManager {
 
         if (this.cardManagerService.isSceneNameNew(formMessage.gameName)) {
             if (isFormValid) {
+                const modifiedList: number[] = [];
                 const iSceneOptions: ISceneOptions = this.sceneOptionsMapper(formMessage);
                 const generatedOriginalScene: ISceneVariables = this.sceneBuilder.generateScene(iSceneOptions);
-                const generatedModifiedScene: ISceneVariables = this.sceneModifier.modifyScene(iSceneOptions, generatedOriginalScene);
+                const generatedModifiedScene: ISceneVariables = this.sceneModifier.modifyScene(iSceneOptions, generatedOriginalScene, modifiedList);
 
                 return {
                     originalScene: generatedOriginalScene,
                     modifiedScene: generatedModifiedScene,
+                    modifiedIdList: modifiedList,
                 } as ISceneVariablesMessage;
             } else {
                 return Constants.CARD_CREATION_ERROR;

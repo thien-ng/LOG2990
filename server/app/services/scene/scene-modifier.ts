@@ -17,12 +17,12 @@ export class SceneModifier {
 
     public constructor(sceneBuilder: SceneBuilder) {
         this.sceneBuilder = sceneBuilder;
-        this.modifiedIndex = [];
     }
 
-    public modifyScene(iSceneOptions: ISceneOptions, iSceneVariables: ISceneVariables): ISceneVariables {
+    public modifyScene(iSceneOptions: ISceneOptions, iSceneVariables: ISceneVariables, modifiedList: number[]): ISceneVariables {
         this.cloneSceneVariables = this.clone(iSceneVariables);
         this.sceneObjects = this.cloneSceneVariables.sceneObjects;
+        this.modifiedIndex = modifiedList;
 
         for (let i: number = 0; i < this.NUMBER_ITERATION; i++) {
             const selectedOpstion: string = this.generateSelectedIndex(iSceneOptions.selectedOptions);
