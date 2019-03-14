@@ -90,37 +90,26 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       this.gameRequest = {
         username:   username,
         gameId:     this.activeCard.gameID,
-        type:       JSON.parse(this.mode),
+        type:       this.mode,
         mode:       GameMode.simple,
       };
       this.handleGameRequest();
     }
- }
+  }
 
   private handleGameRequest(): void {
   this.httpClient.post(Constants.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
       if (data.title === CCommon.ON_SUCCESS) {
         this.arenaID = parseInt(data.body, Constants.DECIMAL_BASE);
         this.socketService.sendMsg(CCommon.GAME_CONNECTION, this.arenaID);
+        this.gameStarted = true;
+        this.canvasRoutine();
+      } else if (data.title === CCommon.ON_WAITING) {
+        this.arenaID = parseInt(data.body, Constants.DECIMAL_BASE);
+        this.socketService.sendMsg(CCommon.GAME_CONNECTION, CCommon.ON_WAITING);
+        this.gameStarted = false;
       }
     });
-  }
-
-  public ngOnDestroy(): void {
-    this.socketService.sendMsg(CCommon.GAME_DISCONNECT, this.username);
-  }
-
-  private getActiveCard(username: string): void {
-    const gameID: string | null = this.route.snapshot.paramMap.get("id");
-    if (gameID !== null) {
-      this.httpClient.get(Constants.PATH_TO_GET_CARD + gameID + "/" + GameMode.simple).subscribe((response: ICard) => {
-        this.activeCard = response;
-        this.cardLoaded = true;
-        this.createGameRequest(username);
-      });
-      this.originalPath = Constants.PATH_TO_IMAGES + "/" + gameID + CCommon.ORIGINAL_FILE;
-      this.modifiedPath = Constants.PATH_TO_IMAGES + "/" + gameID + CCommon.MODIFIED_FILE;
-    }
   }
 
   private canvasRoutine(): void {
