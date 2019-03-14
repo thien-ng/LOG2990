@@ -54,11 +54,17 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       this.cardLoaded   = false;
       this.gameStarted  = false;
       this.username     = sessionStorage.getItem(Constants.USERNAME_KEY);
+      this.gameConnectionService.getGameConnectedListener().pipe(first()).subscribe((arenaID: number) => {
+        this.arenaID = arenaID;
+        this.socketService.sendMsg(CCommon.GAME_CONNECTION, arenaID);
+        this.gameStarted = true;
+        this.canvasRoutine();
+      });
     }
 
   public ngOnInit(): void {
-    const gameID: string | null = this.route.snapshot.paramMap.get(Constants.ID_BY_URL);
-    if (gameID !== null && this.username !== null) {
+    this.gameID = Number(this.route.snapshot.paramMap.get(Constants.ID_BY_URL));
+    if (this.gameID !== null && this.username !== null) {
       this.getActiveCard(this.username);
       this.canvasRoutine();
     }
