@@ -77,6 +77,14 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     if (this.gameID !== null) {
       this.httpClient.get(Constants.PATH_TO_GET_CARD + this.gameID + "/" + GameMode.simple).subscribe((response: ICard) => {
         this.activeCard = response;
+        this.cardLoaded = true;
+        this.createGameRequest(username);
+      });
+      this.originalPath = Constants.PATH_TO_IMAGES + "/" + this.gameID + CCommon.ORIGINAL_FILE;
+      this.modifiedPath = Constants.PATH_TO_IMAGES + "/" + this.gameID + CCommon.MODIFIED_FILE;
+    }
+  }
+
   private createGameRequest(username: string): void {
     if (this.mode !== null) {
       this.gameRequest = {
