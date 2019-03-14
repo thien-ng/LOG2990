@@ -97,18 +97,18 @@ export class GameManagerService {
         await this.arena.prepareArenaForGameplay();
     }
 
-    private buildArenaInfos(user: IUser, gameId: number): IArenaInfos {
+    private buildArenaInfos(users: IUser[], gameId: number): IArenaInfos {
         return {
             arenaId:            this.generateArenaID(),
-            users:              [user],
+            users:              users,
             originalGameUrl:    Constants.PATH_TO_IMAGES + gameId + CCommon.ORIGINAL_FILE,
             differenceGameUrl:  Constants.PATH_TO_IMAGES + gameId + Constants.GENERATED_FILE,
         };
     }
 
-    private create3DArena(request: IGameRequest): Message {
+    private create3DArena(users: IUser[], gameId: number): Message {
         const paths: string = JSON.stringify([
-            CCommon.BASE_URL + "/scene/" + request.gameId + Constants.SCENES_FILE,
+            CCommon.BASE_URL + "/scene/" + gameId + Constants.SCENES_FILE,
         ]);
 
         return {
