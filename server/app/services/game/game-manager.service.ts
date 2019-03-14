@@ -95,8 +95,17 @@ export class GameManagerService {
 
                     return message;
                 default:
+                    return this.generateMessage(CCommon.ON_MODE_INVALID, CCommon.ON_MODE_INVALID);
+            }
+        }
+    }
 
-        const arenaInfo: IArenaInfos = this.buildArenaInfos(user, gameId);
+    private generateMessage(title: string, body: string): Message {
+        return {
+            title: title,
+            body: body,
+        };
+    }
 
     private async create2DArena(users: IUser[], gameId: number): Promise<Message> {
 
