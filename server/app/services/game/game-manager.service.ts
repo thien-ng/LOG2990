@@ -64,7 +64,14 @@ export class GameManagerService {
         }
     }
 
-    private async create2DArena(user: IUser, gameId: number): Promise<Message> {
+    public cancelRequest(gameID: number): Message {
+        if (this.lobby.delete(gameID)) {
+            return this.generateMessage(CCommon.ON_SUCCESS, gameID.toString());
+        }
+
+        return this.generateMessage(CCommon.ON_ERROR, gameID.toString());
+    }
+
 
         const arenaInfo: IArenaInfos = this.buildArenaInfos(user, gameId);
         this.arena = new Arena(arenaInfo, this);
