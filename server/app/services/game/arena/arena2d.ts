@@ -7,7 +7,7 @@ import Types from "../../../types";
 import { GameManagerService } from "../game-manager.service";
 import { Arena } from "./arena";
 import { DifferencesExtractor } from "./differencesExtractor";
-import { IArenaInfos, IHitConfirmation, IPlayerInput } from "./interfaces";
+import { I2DInfos, IArenaInfos, IHitConfirmation, IPlayerInput } from "./interfaces";
 import { Referee } from "./referee";
 
 export class Arena2D extends Arena<IPlayerInput<IPosition2D>, IArenaResponse<IOriginalPixelCluster>, IOriginalPixelCluster, IPosition2D> {
@@ -15,7 +15,7 @@ export class Arena2D extends Arena<IPlayerInput<IPosition2D>, IArenaResponse<IOr
     private referee: Referee<IPosition2D, IOriginalPixelCluster>;
 
     public constructor (
-        protected arenaInfos: IArenaInfos,
+        protected arenaInfos: IArenaInfos<I2DInfos>,
         @inject(Types.GameManagerService) public gameManagerService: GameManagerService) {
             super(arenaInfos, gameManagerService);
             this.ARENA_TYPE = GameMode.simple;
