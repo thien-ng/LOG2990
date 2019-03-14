@@ -17,4 +17,14 @@ describe("WaitingRoomComponent", () => {
     .catch(() => Constants.OBLIGATORY_CATCH);
   }));
 
+  beforeEach(() => {
+    fixture = TestBed.createComponent(WaitingRoomComponent);
+    component = fixture.componentInstance;
+    component["gameID"] = "1";
+    fixture.detectChanges();
+  });
+
+  it("should create", () => {
+    expect(component).toBeTruthy();
+  });
 });
