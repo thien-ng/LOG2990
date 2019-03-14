@@ -57,9 +57,9 @@ export class GameManagerService {
     private async create2DArena(user: IUser, gameId: number): Promise<Message> {
 
         const arenaInfo: IArenaInfos = this.buildArenaInfos(user, gameId);
-        this.arena = new Arena(arenaInfo, this);
-        this.init2DArena().catch(() => Constants.INIT_ARENA_ERROR);
-        this.arenas.set(arenaInfo.arenaId, this.arena);
+        const arena: Arena2D = new Arena2D(arenaInfo, this);
+        this.initArena(arena).catch(() => Constants.INIT_ARENA_ERROR);
+        this.arenas.set(arenaInfo.arenaId, arena);
 
         return {
             title:  CCommon.ON_SUCCESS,
