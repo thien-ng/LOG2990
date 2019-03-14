@@ -10,17 +10,17 @@ export class Arena3D extends Arena<any, any, any, any> {
         this.gameManagerService.sendMessage(playerSocketId, event, message);
     }
 
-    public onPlayerClick(eventInfos: any, user: IUser): Promise<IArenaResponse<any>> {
+    public async onPlayerClick(eventInfos: any, user: IUser): Promise<IArenaResponse<any>> {
         throw new Error("Method not implemented.");
     }
 
-    public validateHit(eventInfos: any): Promise<IHitConfirmation> {
+    public async validateHit(eventInfos: any): Promise<IHitConfirmation> {
         throw new Error("Method not implemented.");
     }
-    public onPlayerInput(playerInput: any): Promise<IArenaResponse<any>> {
+    public async onPlayerInput(playerInput: any): Promise<IArenaResponse<any>> {
         throw new Error("Method not implemented.");
     }
-    public prepareArenaForGameplay(): Promise<void> {
+    public async prepareArenaForGameplay(): Promise<void> {
         throw new Error("Method not implemented.");
     }
 }
