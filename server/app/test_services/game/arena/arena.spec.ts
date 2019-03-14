@@ -63,8 +63,10 @@ let arena: Arena2D;
 const arenaInfo: IArenaInfos<I2DInfos> = {
         arenaId:            1,
         users:              [activeUser],
-        originalGameUrl:    "http://localhost:3000/image/1_original.bmp",
-        differenceGameUrl:  "http://localhost:3000/image/1_generated.bmp",
+        dataUrl:            {
+            original:       "http://localhost:3000/image/1_original.bmp",
+            difference:     "http://localhost:3000/image/1_generated.bmp",
+        },
     };
 
 const axios: AxiosInstance = require("axios");
@@ -88,10 +90,10 @@ describe("Arena tests", () => {
         builder.setColorAtPos(1, 1, 1, 1, 1);
         const bufferDifferences: Buffer     = Buffer.from(builder.buffer);
 
-        mockAxios.onGet(arenaInfo.originalGameUrl).replyOnce(200, () => {
+        mockAxios.onGet(arenaInfo.dataUrl.original).replyOnce(200, () => {
             return bufferOriginal;
         });
-        mockAxios.onGet(arenaInfo.differenceGameUrl).replyOnce(200, () => {
+        mockAxios.onGet(arenaInfo.dataUrl.difference).replyOnce(200, () => {
             return bufferDifferences;
         });
 
@@ -113,7 +115,7 @@ describe("Arena tests", () => {
         const spy: any  = chai.spy.on(arena, "extractOriginalPixelClusters");
         mockAxios       = new MockAdapter.default(axios);
 
-        mockAxios.onGet(arenaInfo.originalGameUrl, {
+        mockAxios.onGet(arenaInfo.dataUrl.original, {
             responseType: "arraybuffer",
         }).reply(200, (response: Buffer) => {
             return testImageOriginale;
@@ -133,7 +135,7 @@ describe("Arena tests", () => {
         let errorMessage: string = "";
         mockAxios = new MockAdapter.default(axios);
 
-        mockAxios.onGet(arenaInfo.originalGameUrl, {
+        mockAxios.onGet(arenaInfo.dataUrl.original, {
             responseType: "arraybuffer",
         }).reply(400, (response: Buffer) => {
             return response;
@@ -286,8 +288,8 @@ describe("Arena tests", () => {
         builder.setColorAtPos(1, 1, 1, 1, 1);
         const bufferDifferences: Buffer     = Buffer.from(builder.buffer);
 
-        mockAxios.onGet(arenaInfo.originalGameUrl).replyOnce(200,   () => bufferOriginal );
-        mockAxios.onGet(arenaInfo.differenceGameUrl).replyOnce(200, () => bufferDifferences );
+        mockAxios.onGet(arenaInfo.dataUrl.original).replyOnce(200,   () => bufferOriginal );
+        mockAxios.onGet(arenaInfo.dataUrl.difference).replyOnce(200, () => bufferDifferences );
 
         await arena.prepareArenaForGameplay()
         .then(() => { /* */ })
