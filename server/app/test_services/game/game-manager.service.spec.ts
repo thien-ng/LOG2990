@@ -290,6 +290,21 @@ describe("GameManagerService tests", () => {
         chai.expect(response.title).to.deep.equal(CCommon.ON_SUCCESS);
     });
 
+    it("Should return a message saying onWaiting when no one is in the lobby (3D)", async () => {
+
+        const request: IGameRequest = {
+            username:   "Frank",
+            gameId:     105,
+            type:       GameType.multiPlayer,
+            mode:       GameMode.free,
+        };
+
+        userManagerService["users"].push({username: "Franky", socketID: "Franky"});
+        userManagerService["users"].push({username: "Frank", socketID: "Frank"});
+        gameManagerService.analyseRequest(request);
+        const response: Message = await gameManagerService.analyseRequest(request3DMulti);
+        chai.expect(response.title).to.deep.equal(CCommon.ON_SUCCESS);
+    });
 
     it("Should return an error message when deleting an unexisting arena", async () => {
         chai.expect(gameManagerService.cancelRequest(2).title).to.deep.equal(CCommon.ON_ERROR);
