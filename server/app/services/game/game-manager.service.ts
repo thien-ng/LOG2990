@@ -71,12 +71,14 @@ export class GameManagerService {
         await arena.prepareArenaForGameplay();
     }
 
-    private buildArenaInfos(user: IUser, gameId: number): IArenaInfos {
+    private buildArena2DInfos(user: IUser, gameId: number): IArenaInfos<I2DInfos> {
         return {
             arenaId:            this.generateArenaID(),
             users:              [user],
-            originalGameUrl:    Constants.PATH_TO_IMAGES + gameId + CCommon.ORIGINAL_FILE,
-            differenceGameUrl:  Constants.PATH_TO_IMAGES + gameId + Constants.GENERATED_FILE,
+            dataUrl:             {
+                original:       Constants.PATH_TO_IMAGES + gameId + CCommon.ORIGINAL_FILE,
+                difference:     Constants.PATH_TO_IMAGES + gameId + Constants.GENERATED_FILE,
+            },
         };
     }
 
