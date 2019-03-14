@@ -14,4 +14,7 @@ export class Arena3D extends Arena<any, any, any, any> {
         throw new Error("Method not implemented.");
     }
 
+    public validateHit(eventInfos: any): Promise<IHitConfirmation> {
+        throw new Error("Method not implemented.");
+    }
 }
