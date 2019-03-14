@@ -12,7 +12,7 @@ import { Referee } from "./referee";
 
 export class Arena2D extends Arena<IPlayerInput<IPosition2D>, IArenaResponse<IOriginalPixelCluster>, IOriginalPixelCluster, IPosition2D> {
 
-    private referee: Referee<IPosition2D, IOriginalPixelCluster>;
+    protected referee: Referee<IPosition2D, IOriginalPixelCluster>;
 
     public constructor (
         protected arenaInfos: IArenaInfos<I2DInfos>,
