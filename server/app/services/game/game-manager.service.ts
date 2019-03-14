@@ -80,6 +80,16 @@ export class GameManagerService {
         };
     }
 
+    // private buildArena3DInfos(user: IUser, gameId: number): IArenaInfos<I3DInfos> {
+    //     return {
+    //         arenaId:            this.generateArenaID(),
+    //         users:              [user],
+    //         dataUrl:            {
+    //             sceneInfos:     "bloop bloop",
+    //         },
+    //     };
+    // }
+
     private create3DArena(request: IGameRequest): Message {
         const paths: string = JSON.stringify([
             CCommon.BASE_URL + "/scene/" + request.gameId + Constants.SCENES_FILE,
