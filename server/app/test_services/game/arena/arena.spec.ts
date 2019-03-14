@@ -17,7 +17,7 @@ import { UserManagerService } from "../../../services/user-manager.service";
 import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
 import { Arena2D } from "../../../services/game/arena/arena2d";
-import { IArenaInfos, IHitConfirmation, IPlayerInput } from "../../../services/game/arena/interfaces";
+import { I2DInfos, IArenaInfos, /*IHitConfirmation,*/ IPlayerInput } from "../../../services/game/arena/interfaces";
 
 // tslint:disable:no-magic-numbers no-any max-file-line-count no-empty
 
@@ -60,7 +60,7 @@ const playerInputWrong: IPlayerInput<IPosition2D> = {
 };
 
 let arena: Arena2D;
-const arenaInfo: IArenaInfos = {
+const arenaInfo: IArenaInfos<I2DInfos> = {
         arenaId:            1,
         users:              [activeUser],
         originalGameUrl:    "http://localhost:3000/image/1_original.bmp",
