@@ -62,21 +62,23 @@ const invalidRequest: IGameRequest = {
     mode:       GameMode.invalid,
 };
 
-const iArenaInfos: IArenaInfos = {
+const iArenaInfos: IArenaInfos<I2DInfos> = {
     arenaId:            1,
     users:              [{username: "Frank", socketID: "12345"}],
-    originalGameUrl:    "../../../asset/image/1_original.bmp",
-    differenceGameUrl:  "../../../asset/image/1_modified.bmp",
+    dataUrl:            {
+        original:    "../../../asset/image/1_original.bmp",
+        difference:  "../../../asset/image/1_modified.bmp",
+    },
 };
 
-const playerInput: IPlayerInput = {
+const playerInput: IPlayerInput<IPosition2D | number> = {
     event:      "onClick",
     arenaId:    1,
     user: {
         username: "Frank",
         socketID: "12345",
     },
-    position: {
+    eventInfo: {
         x: 12,
         y: 12,
     },
