@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
 import { GameMode } from "../../../../common/communication/iCard";
-import { IGameRequest } from "../../../../common/communication/iGameRequest";
+import { GameType, IGameRequest } from "../../../../common/communication/iGameRequest";
 import { IOriginalPixelCluster, IPlayerInputResponse } from "../../../../common/communication/iGameplay";
 import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
@@ -20,11 +20,13 @@ const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey:
 export class GameManagerService {
 
     private arenaID:    number;
+    private lobby:      Map<number, IUser[]>;
     private playerList: Map<string, SocketIO.Socket>;
     private arenas:     Map<number, Arena>;
     public arena:       Arena;
 
     public constructor(@inject(Types.UserManagerService) private userManagerService: UserManagerService) {
+        this.lobby      = new Map<number, IUser[]>();
         this.playerList = new Map<string, SocketIO.Socket>();
         this.arenas     = new Map<number, Arena>();
         this.arenaID    = ARENA_START_ID;
@@ -39,6 +41,7 @@ export class GameManagerService {
 
     public async analyseRequest(request: IGameRequest): Promise<Message> {
         const user: IUser | string = this.userManagerService.getUserByUsername(request.username);
+
         if (typeof user === "string") {
             return this.returnError(Constants.USER_NOT_FOUND);
         } else {
