@@ -1,10 +1,9 @@
 import { IUser } from "../../../../../common/communication/iUser";
 
-export interface IArenaInfos {
+export interface IArenaInfos<IInfos> {
     arenaId:            number;
     users:              IUser[];
-    originalGameUrl:    string;
-    differenceGameUrl:  string;
+    dataUrl:            IInfos;
 }
 
 export interface IPlayerInput<EVT_T> {
