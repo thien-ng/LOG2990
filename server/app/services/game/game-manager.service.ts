@@ -152,16 +152,14 @@ export class GameManagerService {
         }
     }
 
-    private async init2DArena(): Promise<void> {
-        await this.arena.prepareArenaForGameplay();
-    }
-
-    private buildArenaInfos(users: IUser[], gameId: number): IArenaInfos {
+    private buildArena2DInfos(users: IUser[], gameId: number): IArenaInfos<I2DInfos> {
         return {
             arenaId:            this.generateArenaID(),
             users:              users,
-            originalGameUrl:    Constants.PATH_SERVER_TEMP + gameId + CCommon.ORIGINAL_FILE,
-            differenceGameUrl:  Constants.PATH_SERVER_TEMP + gameId + Constants.GENERATED_FILE,
+            dataUrl:             {
+                original:       Constants.PATH_SERVER_TEMP + gameId + CCommon.ORIGINAL_FILE,
+                difference:     Constants.PATH_SERVER_TEMP + gameId + Constants.GENERATED_FILE,
+            },
         };
     }
 
