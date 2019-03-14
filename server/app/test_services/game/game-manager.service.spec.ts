@@ -169,7 +169,7 @@ describe("GameManagerService tests", () => {
 
     it("Should return an error message when loading an invalid game", async () => {
         const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
-        const expectedMessage: IArenaResponse = {
+        const expectedMessage: IArenaResponse<any> = {
             status:     CCommon.ON_ERROR,
             response:   ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
         };
