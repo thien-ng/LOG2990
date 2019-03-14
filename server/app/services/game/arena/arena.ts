@@ -64,7 +64,7 @@ export class Arena {
             return player.username !== username;
         });
         if (this.players.length === 0) {
-            this.gameManagerService.deleteArena(this.arenaInfos.arenaId);
+            this.gameManagerService.deleteArena(this.arenaInfos);
         }
     }
 
