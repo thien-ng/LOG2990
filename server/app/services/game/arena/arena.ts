@@ -5,7 +5,7 @@ import { IArenaResponse } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
 import Types from "../../../types";
 import { GameManagerService } from "../game-manager.service";
-import { IArenaInfos, IHitConfirmation } from "./interfaces";
+import { I2DInfos, I3DInfos, IArenaInfos, IHitConfirmation } from "./interfaces";
 import { Player } from "./player";
 // import { Referee } from "./referee";
 import { Timer } from "./timer";
@@ -26,7 +26,7 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
     protected originalElements:           Map<number, DIFF_T>; // _TODO: A BOUGER DANS LES ARENA 2D et 3D
 
     public constructor (
-        protected arenaInfos: IArenaInfos,
+        protected arenaInfos: IArenaInfos<I2DInfos | I3DInfos>,
         @inject(Types.GameManagerService) public gameManagerService: GameManagerService) {
             this.players = [];
             this.createPlayers();
