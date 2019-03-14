@@ -88,6 +88,13 @@ export class GameManagerService {
                     this.sendMessage(lobby[0].socketID, CCommon.ON_ARENA_CONNECT, Number(message.body));
                     this.lobby.delete(request.gameId);
 
+                    return message;
+                case GameMode.free:
+                    message = this.create3DArena(lobby, request.gameId);
+                    this.lobby.delete(request.gameId);
+
+                    return message;
+                default:
 
         const arenaInfo: IArenaInfos = this.buildArenaInfos(user, gameId);
 
