@@ -13,13 +13,16 @@ export class CCommon {
     public static readonly MIN_NAME_LENGTH:           number = 4;
     public static readonly MAX_NAME_LENGTH:           number = 15;
 
+    public static readonly ON_ARENA_CONNECT:          string = "onArenaConnect";
     public static readonly ON_ARENA_RESPONSE:         string = "onArenaResponse";
     public static readonly ON_CHAT_MESSAGE:           string = "onChatMessage";
     public static readonly ON_ERROR:                  string = "onError";
+    public static readonly ON_MODE_INVALID:           string = "onModeInvalid"
     public static readonly ON_POINT_ADDED:            string = "onPointAdded";
     public static readonly ON_RETRIEVE_USER:          string = "onRetrieveUser";
     public static readonly ON_SUCCESS:                string = "onSuccess";
     public static readonly ON_TIMER_UPDATE:           string = "onTimerUpdate";
+    public static readonly ON_WAITING:                string = "onWaiting";
     public static readonly GAME_CONNECTION:           string = "onGameConnection";
     public static readonly GAME_DISCONNECT:           string = "onGameDisconnect";
     public static readonly LOGIN_EVENT:               string = "onLogin";
