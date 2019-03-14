@@ -47,9 +47,17 @@ export class GameManagerService {
         } else {
             switch (request.mode) {
                 case GameMode.simple:
-                    return this.create2DArena(user, request.gameId);
+                    if (request.type === GameType.multiPlayer) {
+                        return this.verifyLobby(request, user);
+                    }
+
+                    return this.create2DArena([user], request.gameId);
                 case GameMode.free:
-                    return this.create3DArena(request);
+                    if (request.type === GameType.multiPlayer) {
+                        return this.verifyLobby(request, user);
+                    }
+
+                    return this.create3DArena([user], request.gameId);
                 default:
                     return this.returnError(REQUEST_ERROR_MESSAGE);
             }
