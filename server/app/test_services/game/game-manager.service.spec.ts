@@ -160,7 +160,15 @@ describe("GameManagerService tests", () => {
     //         chai.expect(message.title).to.equal("onSuccess");
     //     });
 
-    });
+    // });
+    // it("Should return buildArenaInfo successfully", async () => {
+    //     const arenaInfo: IArenaInfos<I2DInfos> = {
+    //         arenaId:            1000,
+    //         users:              [{username: "Frank", socketID: "12345"}],
+    //         dataUrl:            {
+    //             original:    Constants.PATH_TO_IMAGES + "1" + CCommon.ORIGINAL_FILE,
+    //             difference:  Constants.PATH_TO_IMAGES + "1" + Constants.GENERATED_FILE,
+    //         },
 
     it("Should return a success message when creating a 3D arena", async () => {
         userManagerService.validateName(request3DSimple.username);
