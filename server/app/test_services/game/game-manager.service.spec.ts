@@ -201,7 +201,7 @@ describe("GameManagerService tests", () => {
 
     it("Should return an error message when loading an invalid game", async () => {
         const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
-        const expectedMessage: IPlayerInputResponse = {
+        const expectedMessage: IArenaResponse<any> = {
             status:     CCommon.ON_ERROR,
             response:   ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
         };
@@ -211,11 +211,11 @@ describe("GameManagerService tests", () => {
     it("Should return error if arena have been created", async () => {
         userManagerService.validateName(request2DSimple.username);
 
-        mockAxios.onGet(iArenaInfos.originalGameUrl, {
+        mockAxios.onGet(iArenaInfos.dataUrl.original, {
             responseType: "arraybuffer",
         }).reply(200, original);
 
-        mockAxios.onGet(iArenaInfos.differenceGameUrl, {
+        mockAxios.onGet(iArenaInfos.dataUrl.difference, {
             responseType: "arraybuffer",
         }).reply(200, modified);
 
@@ -227,7 +227,7 @@ describe("GameManagerService tests", () => {
         gameManagerService.analyseRequest(request2DSimple).catch();
 
         const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
-        const expectedMessage: IPlayerInputResponse = {
+        const expectedMessage: IArenaResponse<any> = {
             status:     CCommon.ON_ERROR,
             response:   ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
         };
