@@ -289,16 +289,17 @@ describe("GameManagerService tests", () => {
     //     chai.expect(gameManagerService["arena"].getPlayers().length).to.deep.equal(0);
     // });
 
-        mockAxios.onGet(iArenaInfos.differenceGameUrl, {
-            responseType: "arraybuffer",
-        }).reply(200, modified);
+    // it("should delete arena succesfully", async () => {
+    //     userManagerService.validateName(request2DSimple.username);
+    //     mockAxios.onGet(iArenaInfos.dataUrl.original, {
+    //         responseType: "arraybuffer",
+    //     }).reply(200, original);
 
-        chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
-        chai.spy.on(gameManagerService, "init2DArena", () => {
-            gameManagerService["arena"].timer.stopTimer();
-        });
+    //     mockAxios.onGet(iArenaInfos.dataUrl.difference, {
+    //         responseType: "arraybuffer",
+    //     }).reply(200, modified);
 
-        const spy: any = chai.spy.on(gameManagerService["arenas"], "delete");
+    //     chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
     //     chai.spy.on(gameManagerService, "init2DArena", () => {
     //         gameManagerService["arena"].timer.stopTimer();
     //     });
