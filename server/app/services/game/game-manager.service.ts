@@ -80,6 +80,14 @@ export class GameManagerService {
 
             return this.generateMessage(CCommon.ON_WAITING, CCommon.ON_WAITING);
         } else {
+            let message: Message;
+            lobby.push(user);
+            switch (request.mode) {
+                case GameMode.simple:
+                    message = await this.create2DArena(lobby, request.gameId);
+                    this.sendMessage(lobby[0].socketID, CCommon.ON_ARENA_CONNECT, Number(message.body));
+                    this.lobby.delete(request.gameId);
+
 
         const arenaInfo: IArenaInfos = this.buildArenaInfos(user, gameId);
 
