@@ -25,3 +25,10 @@ export class WaitingRoomComponent {
     private snackBar:     MatSnackBar,
   ) {}
 
+  public cancelRequest(): void {
+    this.httpClient.get(Constants.CANCEL_REQUEST_PATH + this.gameID).subscribe((response: Message) => {
+      const message: string = (response.title === CCommon.ON_SUCCESS) ? SUCCESS_MESSAGE : ERROR_MESSAGE;
+      this.openSnackbar(message);
+      this.router.navigate([Constants.GAMELIST_REDIRECT]).catch((error: TypeError) => this.openSnackbar(error.message));
+    });
+  }
