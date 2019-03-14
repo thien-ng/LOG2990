@@ -2,7 +2,7 @@ import * as http from "http";
 import { inject, injectable } from "inversify";
 import * as SocketIO from "socket.io";
 import { IChatSender } from "../../../common/communication/iChat";
-import { IClickMessage, IPlayerInputResponse } from "../../../common/communication/iGameplay";
+import { IArenaResponse, IClickMessage, IOriginalPixelCluster, IPosition2D } from "../../../common/communication/iGameplay";
 import { IUser } from "../../../common/communication/iUser";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { Constants } from "../constants";
@@ -56,9 +56,10 @@ export class WebsocketManager {
             const userList: IUser[] = this.gameManagerService.getUsersInArena(data.arenaID);
 
             if (typeof user !== "string") {
-                const playerInput: IPlayerInput = this.buildPlayerInput(data, user);
+                const playerInput: IPlayerInput<IPosition2D | number> = this.buildPlayerInput(data, user);
                 this.gameManagerService.onPlayerInput(playerInput)
-                .then((response: IPlayerInputResponse) => {
+                // tslint:disable-next-line:no-any
+                .then((response: IArenaResponse<IOriginalPixelCluster | any>) => {    // _TODO: type de RES_T pour scene 3d
                     socket.emit(CCommon.ON_ARENA_RESPONSE, response);
                     this.chatManagerService.sendPositionValidationMessage(data.username, userList, response, this.io);
                 }).catch((error: Error) => {
@@ -95,12 +96,12 @@ export class WebsocketManager {
         });
     }
 
-    private buildPlayerInput(data: IClickMessage, user: IUser): IPlayerInput {
+    private buildPlayerInput(data: IClickMessage, user: IUser): IPlayerInput<IPosition2D | number> {
         return {
             event:      Constants.CLICK_EVENT,
             arenaId:    data.arenaID,
             user:       user,
-            position:   {
+            eventInfo:   {
                 x:  data.position.x,
                 y:  data.position.y,
             },
