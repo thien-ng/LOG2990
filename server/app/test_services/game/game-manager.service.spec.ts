@@ -53,7 +53,7 @@ const iArenaInfos: IArenaInfos = {
     differenceGameUrl:  "../../../asset/image/1_modified.bmp",
 };
 
-const playerInput: IPlayerInput = {
+const playerInput: IPlayerInput<IPosition2D | number> = {
     event:      "onClick",
     arenaId:    1,
     user: {
