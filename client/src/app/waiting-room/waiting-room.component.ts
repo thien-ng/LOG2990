@@ -6,3 +6,6 @@ import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../constants";
 
+const SUCCESS_MESSAGE:  string = "Attente annulée";
+const ERROR_MESSAGE:    string = "Impossible d'annuler l'attente";
+
