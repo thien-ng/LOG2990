@@ -169,6 +169,12 @@ describe("GameManagerService tests", () => {
     //             original:    Constants.PATH_TO_IMAGES + "1" + CCommon.ORIGINAL_FILE,
     //             difference:  Constants.PATH_TO_IMAGES + "1" + Constants.GENERATED_FILE,
     //         },
+    //     };
+    //     chai.spy.on(gameManagerService, "buildArenaInfos");
+    //     chai.expect(
+    //         gameManagerService["buildArenaInfos"]({username: "Frank", socketID: "12345"}, 1))
+    //         .to.deep.equal(arenaInfo);
+    // });
 
     it("Should return a success message when creating a 3D arena", async () => {
         userManagerService.validateName(request3DSimple.username);
