@@ -67,15 +67,11 @@ export class ThreejsViewService {
 
   private recoverObjectFromScene(index: number): THREE.Mesh | undefined {
 
-    const objectId: number| undefined = this.modifiedMap.get(index);
-    const object: THREE.Object3D | undefined = this.scene.getObjectById(objectId as number);
-    const instanceObject3D: THREE.Object3D = object as THREE.Object3D;
-    
-    console.log(instanceObject3D instanceof THREE.Mesh);
-    console.log(instanceObject3D !== undefined);
-    
-    if (instanceObject3D instanceof THREE.Mesh && instanceObject3D !== undefined) {
-      return instanceObject3D;
+    const objectId: number = (this.modifiedMap.get(index)) as number;
+    const instanceObject3D: THREE.Object3D | undefined = this.scene.getObjectById(objectId);
+
+    if (instanceObject3D !== undefined) {
+      return (instanceObject3D as THREE.Mesh);
     }
     return undefined;
   }

@@ -1,6 +1,6 @@
 import { inject, TestBed } from "@angular/core/testing";
 import * as THREE from "three";
-import { mock, when, anyString } from "ts-mockito";
+import { anyNumber, mock, when } from "ts-mockito";
 import { SceneObjectType } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { ThreejsViewService } from "./threejs-view.service";
@@ -26,7 +26,7 @@ const sceneVariables: ISceneVariables = {
 const renderer: THREE.WebGLRenderer = mock(THREE.WebGLRenderer);
 const scene:    THREE.Scene         = mock(THREE.Scene);
 
-fdescribe("ThreejsViewService Tests", () => {
+describe("ThreejsViewService Tests", () => {
   beforeEach(() => TestBed.configureTestingModule({
     providers: [ThreejsViewService],
   }));
@@ -50,27 +50,32 @@ fdescribe("ThreejsViewService Tests", () => {
     expect(spy).toHaveBeenCalled();
   }));
 
-  it("should change color of the mesh object", inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+  it("should change color of the mesh object to cheat color", inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+    const spy: any = spyOn<any>(threejsViewService, "generateSceneObjects");
+
     const generatedColor:   THREE.MeshBasicMaterial = new THREE.MeshPhongMaterial( {color: "#FFFFFF"} )
     const sphereGeometry:   THREE.Geometry          = new THREE.SphereGeometry(1);
     const generatedObject:  THREE.Mesh              = new THREE.Mesh(sphereGeometry, generatedColor);
 
-    // const mapOriginColor: Map<number, string> = new Map();
-    // const modifiedMap:    Map<number, number> = new Map();
-
-    // mapOriginColor.set(1, "#FF0000");
-    // modifiedMap.set(1, generatedColor.id);
-
-    // threejsViewService["mapOriginColor"] = mapOriginColor;
-    // threejsViewService["modifiedMap"] = modifiedMap;
-
-    when(scene.getObjectById(anyString())).thenReturn(generatedObject);
+    when(scene.getObjectById(anyNumber())).thenReturn(generatedObject);
 
     const modifiedList: number[] = [1];
     threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.changeObjectsColor(modifiedList, false);
     threejsViewService.changeObjectsColor(modifiedList, true);
 
-
+    expect(spy).toHaveBeenCalled();
   }));
+  
+  // it("should change color of the mesh object to original color", inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+  //   const generatedColor:   THREE.MeshBasicMaterial = new THREE.MeshPhongMaterial( {color: "#FFFFFF"} )
+  //   const sphereGeometry:   THREE.Geometry          = new THREE.SphereGeometry(1);
+  //   const generatedObject:  THREE.Mesh              = new THREE.Mesh(sphereGeometry, generatedColor);
+    
+  //   when(scene.getObjectById(anyNumber())).thenReturn(generatedObject);
+    
+  //   const modifiedList: number[] = [2];
+  //   threejsViewService.createScene(scene, sceneVariables, renderer);
+  // }));
 
 });
