@@ -183,11 +183,11 @@ describe("GameManagerService tests", () => {
     it("Should return error if arena have been created", async () => {
         userManagerService.validateName(request2D.username);
 
-        mockAxios.onGet(iArenaInfos.originalGameUrl, {
+        mockAxios.onGet(iArenaInfos.dataUrl.original, {
             responseType: "arraybuffer",
         }).reply(200, original);
 
-        mockAxios.onGet(iArenaInfos.differenceGameUrl, {
+        mockAxios.onGet(iArenaInfos.dataUrl.difference, {
             responseType: "arraybuffer",
         }).reply(200, modified);
 
@@ -229,11 +229,11 @@ describe("GameManagerService tests", () => {
 
     it("should delete arena succesfully", async () => {
         userManagerService.validateName(request2D.username);
-        mockAxios.onGet(iArenaInfos.originalGameUrl, {
+        mockAxios.onGet(iArenaInfos.dataUrl.original, {
             responseType: "arraybuffer",
         }).reply(200, original);
 
-        mockAxios.onGet(iArenaInfos.differenceGameUrl, {
+        mockAxios.onGet(iArenaInfos.dataUrl.difference, {
             responseType: "arraybuffer",
         }).reply(200, modified);
 
