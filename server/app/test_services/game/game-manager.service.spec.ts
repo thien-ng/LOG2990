@@ -192,7 +192,7 @@ describe("GameManagerService tests", () => {
     });
 
     it("Should return error if arena have been created", async () => {
-        userManagerService.validateName(request2D.username);
+        userManagerService.validateName(request2DSimple.username);
 
         mockAxios.onGet(iArenaInfos.originalGameUrl, {
             responseType: "arraybuffer",
@@ -207,7 +207,7 @@ describe("GameManagerService tests", () => {
             gameManagerService["arena"].timer.stopTimer();
         });
 
-        gameManagerService.analyseRequest(request2D).catch();
+        gameManagerService.analyseRequest(request2DSimple).catch();
 
         const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
         const expectedMessage: IPlayerInputResponse = {
@@ -218,7 +218,7 @@ describe("GameManagerService tests", () => {
     });
 
     it("should remove player patate from arena", async () => {
-        userManagerService.validateName(request2D.username);
+        userManagerService.validateName(request2DSimple.username);
 
         mockAxios.onGet(iArenaInfos.originalGameUrl, {
             responseType: "arraybuffer",
@@ -233,13 +233,13 @@ describe("GameManagerService tests", () => {
             await gameManagerService["arena"].timer.stopTimer();
         });
 
-        gameManagerService.analyseRequest(request2D).catch();
+        gameManagerService.analyseRequest(request2DSimple).catch();
         gameManagerService.unsubscribeSocketID("12345", "Frank");
         chai.expect(gameManagerService["arena"].getPlayers().length).to.deep.equal(0);
     });
 
     it("should delete arena succesfully", async () => {
-        userManagerService.validateName(request2D.username);
+        userManagerService.validateName(request2DSimple.username);
         mockAxios.onGet(iArenaInfos.originalGameUrl, {
             responseType: "arraybuffer",
         }).reply(200, original);
@@ -255,7 +255,7 @@ describe("GameManagerService tests", () => {
 
         const spy: any = chai.spy.on(gameManagerService["arenas"], "delete");
 
-        gameManagerService.analyseRequest(request2D).catch();
+        gameManagerService.analyseRequest(request2DSimple).catch();
         gameManagerService.deleteArena(iArenaInfos.arenaId);
         chai.expect(spy).to.have.been.called();
 
