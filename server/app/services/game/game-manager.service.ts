@@ -15,6 +15,7 @@ import { I2DInfos, I3DInfos, IArenaInfos, IPlayerInput } from "./arena/interface
 import { Player } from "./arena/player";
 
 const REQUEST_ERROR_MESSAGE:            string = "Game mode invalide";
+const TEMP_ROUTINE_ERROR:               string = "error while copying to temp";
 const ARENA_START_ID:                   number = 1000;
 const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
 
@@ -94,7 +95,7 @@ export class GameManagerService {
                 this.countByGameId.set(gameId, 1);
             }
             } catch (error) {
-                throw new TypeError();
+                throw new TypeError(TEMP_ROUTINE_ERROR);
         }
     }
 
