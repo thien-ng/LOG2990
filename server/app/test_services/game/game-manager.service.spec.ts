@@ -89,7 +89,7 @@ describe("GameManagerService tests", () => {
 
     it("should add socketID in playerList", () => {
 
-        const arena: Arena = new Arena(iArenaInfos, gameManagerService);
+        const arena: Arena2D = new Arena2D(iArenaInfos, gameManagerService);
         gameManagerService["arenas"].set(iArenaInfos.arenaId, arena);
         const usersInArena: IUser[] = gameManagerService.getUsersInArena(iArenaInfos.arenaId);
 
