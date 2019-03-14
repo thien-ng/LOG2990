@@ -74,8 +74,17 @@ export class GameManagerService {
 
 
         const arenaInfo: IArenaInfos = this.buildArenaInfos(user, gameId);
+
+    private async create2DArena(users: IUser[], gameId: number): Promise<Message> {
+
+        const arenaInfo: IArenaInfos = this.buildArenaInfos(users, gameId);
         this.arena = new Arena(arenaInfo, this);
-        this.init2DArena().catch(() => Constants.INIT_ARENA_ERROR);
+        this.init2DArena().catch(() => {
+            return {
+                title: Constants.INIT_ARENA_ERROR,
+                body: Constants.INIT_ARENA_ERROR,
+            };
+        });
         this.arenas.set(arenaInfo.arenaId, this.arena);
 
         return {
