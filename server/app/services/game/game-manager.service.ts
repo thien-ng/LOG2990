@@ -10,7 +10,7 @@ import Types from "../../types";
 import { UserManagerService } from "../user-manager.service";
 import { Arena } from "./arena/arena";
 import { Arena2D } from "./arena/arena2d";
-import { IArenaInfos, IPlayerInput } from "./arena/interfaces";
+import { I2DInfos, /*I3DInfos,*/ IArenaInfos, IPlayerInput } from "./arena/interfaces";
 import { Player } from "./arena/player";
 
 const REQUEST_ERROR_MESSAGE:            string = "Game mode invalide";
@@ -56,7 +56,7 @@ export class GameManagerService {
 
     private async create2DArena(user: IUser, gameId: number): Promise<Message> {
 
-        const arenaInfo: IArenaInfos = this.buildArenaInfos(user, gameId);
+        const arenaInfo: IArenaInfos<I2DInfos> = this.buildArena2DInfos(user, gameId);
         const arena: Arena2D = new Arena2D(arenaInfo, this);
         this.initArena(arena).catch(() => Constants.INIT_ARENA_ERROR);
         this.arenas.set(arenaInfo.arenaId, arena);
