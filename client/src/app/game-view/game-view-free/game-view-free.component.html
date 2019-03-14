@@ -15,6 +15,7 @@
   [colspan]="7"
   [rowspan]="3"
   [style.background]='lightblue'>
+  <app-spinner *ngIf="isLoading"></app-spinner>
   <app-threejs-view id="originalScene" [iSceneVariables]="originalVariables" [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
   <app-threejs-view id="modifiedScene" [iSceneVariables]="modifiedVariables" [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
   </mat-grid-tile>

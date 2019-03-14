@@ -43,6 +43,7 @@ export class CreateFreeGameComponent {
   public addChecked:                    boolean;
   public delChecked:                    boolean;
   public colorChecked:                  boolean;
+  public isLoading:                     boolean;
 
   public readonly modifTypes: {name: string}[] = [
       { name:   this.EDIT_TYPE_ADD    },
@@ -135,6 +136,7 @@ export class CreateFreeGameComponent {
   }
 
   public submit(formData: NgForm): void {
+    this.isLoading = false;
     this.isButtonEnabled = false;
     const formValue: FormMessage = this.createFormMessage(formData);
 
@@ -148,6 +150,7 @@ export class CreateFreeGameComponent {
 
     });
     this.isButtonEnabled = true;
+    this.isLoading = true;
   }
 
   private openSnackBar(msg: string, action: string): void {
