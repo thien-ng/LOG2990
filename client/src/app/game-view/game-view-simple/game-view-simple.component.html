@@ -1,19 +1,19 @@
-<mat-grid-list cols="9" rowHeight="1%">
-  <mat-grid-tile
+<app-waiting-room [gameID]="gameID" *ngIf="!gameStarted && mode !== 0"></app-waiting-room>
+
+<span [hidden]="!gameStarted">
+  <mat-grid-list id="game" cols="9" rowHeight="1%">
+    <mat-grid-tile
+      [colspan]="7"
+      [rowspan]="12">
+      <div class="gameName" *ngIf="cardLoaded">{{activeCard.title}}</div>
+    </mat-grid-tile>
+    <mat-grid-tile
+      [colspan]="2"
+      [rowspan]="89">
+      <app-chat-view [arenaID]="arenaID" [username]="username" ></app-chat-view>
+    </mat-grid-tile>
+    <mat-grid-tile
     [colspan]="7"
-    [rowspan]="12">
-    <div class="gameName" *ngIf="cardLoaded">{{activeCard.title}}</div>
-  </mat-grid-tile>
-  <mat-grid-tile
-    [colspan]="2"
-    [rowspan]="89">
-    <app-chat-view [arenaID]="arenaID" [username]="username" ></app-chat-view>
-  </mat-grid-tile>
-  <mat-grid-tile
-  [colspan]="7"
-  [rowspan]="57">
-    <div id="displayGame">
-      <canvas #originalImage class="canvas" width="640" height="480"></canvas>
       <canvas #modifiedImage class="canvas" width="640" height="480"></canvas>
     </div>
   </mat-grid-tile>
