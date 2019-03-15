@@ -27,8 +27,8 @@ h2 {
   border: transparent;
 }
 ::ng-deep .mat-tab-body-wrapper{
-    position: relative !important;
-    margin-top:55px;
+  position: relative !important;
+  margin-top:55px;
 }
 ::ng-deep .mat-tab-label-content {
   color: #3F51B5;
@@ -37,4 +37,4 @@ h2 {
 ::ng-deep .mat-tab-label[aria-selected=true] .mat-tab-label-content {
   color:#4153b6; 
   font-weight: bold;
-} 
+}
