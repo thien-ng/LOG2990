@@ -120,7 +120,8 @@ export class GameManagerService {
     private async create2DArena(users: IUser[], gameId: number): Promise<Message> {
         const arenaInfo: IArenaInfos<I2DInfos> = this.buildArena2DInfos(users, gameId);
         const arena: Arena2D = new Arena2D(arenaInfo, this);
-        this.tempRoutine(gameId);
+        this.tempRoutine2d(gameId);
+        this.manageCounter(gameId);
         this.gameIdByArenaId.set(arenaInfo.arenaId, gameId);
         this.initArena(arena).catch(() => Constants.INIT_ARENA_ERROR);
         this.arenas.set(arenaInfo.arenaId, arena);
@@ -135,7 +136,9 @@ export class GameManagerService {
         await arena.prepareArenaForGameplay();
     }
 
-    private tempRoutine(gameId: number): void {
+    private tempRoutine2d(gameId: number): void {
+        const pathOriginal:  string = Constants.IMAGES_PATH + "/" + gameId + CCommon.ORIGINAL_FILE;
+        const pathGenerated: string = Constants.IMAGES_PATH + "/" + gameId + Constants.GENERATED_FILE;
         try {
             this.assetManager.copyFileToTemp(
                 Constants.IMAGES_PATH + "/" + gameId + Constants.GENERATED_FILE, gameId, Constants.GENERATED_FILE);
