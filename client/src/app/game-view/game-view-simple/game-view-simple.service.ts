@@ -57,6 +57,7 @@ export class GameViewSimpleService {
       const positionTop: number = this.position.y - CENTERY;
       const positionRight: number = this.position.x - CENTERX;
       const positionRight2: number = this.position.x + PADDING_CANVAS_2 - CENTERX;
+
       this.textCanvasOriginal.style.top =  positionTop + "px";
       this.textCanvasOriginal.style.left = positionRight + "px";
       this.textCanvasModified.style.top = positionTop + "px";
