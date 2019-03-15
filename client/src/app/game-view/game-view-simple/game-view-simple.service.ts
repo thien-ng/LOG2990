@@ -2,7 +2,10 @@ import { ElementRef, Injectable } from "@angular/core";
 import { IClickMessage, IPlayerInputResponse, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 
-const DELAY: number = 1000;
+const DELAY:            number = 1000;
+const CENTERY:          number = 15;
+const CENTERX:          number = 50;
+const PADDING_CANVAS_2: number = 640;
 
 @Injectable({
   providedIn: "root",
