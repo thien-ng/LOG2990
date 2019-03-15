@@ -28,6 +28,11 @@ export interface IOriginalPixelCluster {
     cluster:        IReplacementPixel[];
 }
 
+export interface ISceneObjectUpdate {
+    actionToApply:  ActionType;
+    sceneObject?:   ISceneObject;
+}
+
 export interface IArenaResponse<RES_T> {
     status:         string;
     response:       RES_T;
