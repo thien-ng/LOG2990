@@ -274,6 +274,30 @@ describe("GameManagerService tests", () => {
         chai.spy.restore();
     });
 
+    it("should delete arena succesfully", async () => {
+        userManagerService.validateName(request2DSimple.username);
+        mockAxios.onGet(iArenaInfos.dataUrl.original, {
+            responseType: "arraybuffer",
+        }).reply(200, original);
+
+        mockAxios.onGet(iArenaInfos.dataUrl.difference, {
+            responseType: "arraybuffer",
+        }).reply(200, modified);
+
+        chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
+        chai.spy.on(gameManagerService, ["tempRoutine2d"], () => {return; });
+        chai.spy.on(gameManagerService, "init2DArena", () => {});
+        chai.spy.on(gameManagerService, "deleteTempFiles", () => {});
+        chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
+
+        const spy: any = chai.spy.on(gameManagerService["arenas"], "delete");
+
+        gameManagerService.analyseRequest(request2DSimple).catch();
+        gameManagerService.deleteArena(iArenaInfos);
+        chai.expect(spy).to.have.been.called();
+        chai.spy.restore();
+    });
+
     it("Should send message with socket", async () => {
         gameManagerService = new GameManagerService(userManagerService);
         gameManagerService.subscribeSocketID("socketID", socket);
