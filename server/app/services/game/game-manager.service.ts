@@ -236,12 +236,11 @@ export class GameManagerService {
             return;
         }
         const aliveArenaCount: number | undefined = this.countByGameId.get(gameId);
+
         if (aliveArenaCount === undefined) {
             return;
         }
-        if (aliveArenaCount !== 1) {
-            this.countByGameId.set(gameId, aliveArenaCount - 1);
-        } else {
+        if (aliveArenaCount === 1) {
             if ("original" in arena.dataUrl) {
                 this.assetManager.deleteFileInTemp(gameId, Constants.GENERATED_FILE);
                 this.assetManager.deleteFileInTemp(gameId, CCommon.ORIGINAL_FILE);
@@ -249,6 +248,7 @@ export class GameManagerService {
                 this.assetManager.deleteFileInTemp(gameId, CCommon.SCENE_FILE);
             }
         }
+        this.countByGameId.set(gameId, aliveArenaCount - 1);
 
         this.arenas.delete(arena.arenaId);
     }
