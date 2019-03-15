@@ -20,7 +20,7 @@ import { HighscoreService } from "../services/highscore.service";
 import { SceneBuilder } from "../services/scene/scene-builder";
 import { SceneModifier } from "../services/scene/scene-modifier";
 
-/*tslint:disable no-magic-numbers no-any */
+/*tslint:disable no-magic-numbers no-any max-file-line-count */
 
 const FAKE_PATH:            string  = CCommon.BASE_URL + "/image";
 const mockAdapter:          any     = require("axios-mock-adapter");
