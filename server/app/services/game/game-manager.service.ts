@@ -137,6 +137,12 @@ export class GameManagerService {
         await arena.prepareArenaForGameplay();
     }
 
+    public getDifferencesIndex(arenaId: number): number[] {
+        const arena: Arena<any, any, any, any> | undefined = this.arenas.get(arenaId);
+
+        return arena ? arena.getDifferencesIds() : [];
+    }
+
     private tempRoutine2d(gameId: number): void {
         const pathOriginal:  string = Constants.IMAGES_PATH + "/" + gameId + CCommon.ORIGINAL_FILE;
         const pathGenerated: string = Constants.IMAGES_PATH + "/" + gameId + Constants.GENERATED_FILE;
@@ -180,8 +186,8 @@ export class GameManagerService {
         return {
             arenaId:            this.generateArenaID(),
             users:              users,
-            dataUrl:            {
-            sceneData:         "http://localhost:3000/scene/2_scene",
+            dataUrl:  {
+                sceneData:  Constants.PATH_SERVER_TEMP + gameId + CCommon.SCENE_FILE,
             },
         };
     }
@@ -196,7 +202,7 @@ export class GameManagerService {
         this.arenas.set(arenaInfo.arenaId, arena);
 
         const paths: string = JSON.stringify([
-            CCommon.BASE_URL + "/temp/" + gameId + Constants.SCENES_FILE,
+            Constants.PATH_SERVER_TEMP + gameId + Constants.SCENES_FILE,
         ]);
 
         return {
@@ -296,4 +302,6 @@ export class GameManagerService {
 
         return users;
     }
+    // _TODO: OTER CA APRES REFACTOR
+// tslint:disable-next-line:max-file-line-count
 }

@@ -25,6 +25,7 @@ import { SceneModifier } from "../services/scene/scene-modifier";
 const FAKE_PATH:            string  = CCommon.BASE_URL + "/image";
 const mockAdapter:          any     = require("axios-mock-adapter");
 const axios:                any     = require("axios");
+let modifiedList:           IModification[];
 let mockAxios:              any;
 let cardManagerService:     CardManagerService;
 let highscoreService:       HighscoreService;
@@ -70,6 +71,7 @@ describe("Card-manager tests", () => {
     };
 
     beforeEach(() => {
+        modifiedList        = [];
         assetManagerService = new AssetManagerService();
         highscoreService    = new HighscoreService();
         cardOperations      = new CardOperations(highscoreService);
@@ -132,7 +134,7 @@ describe("Card-manager tests", () => {
 
         const iSceneVariablesMessage:   ISceneData  = {
             originalScene:          isceneVariable,
-            modifiedScene:          sceneModifier.modifyScene(sceneOptions10, isceneVariable),
+            modifiedScene:          sceneModifier.modifyScene(sceneOptions10, isceneVariable, modifiedList),
             modifications:          modifications,
         };
         const sceneMessage: ISceneMessage = {
@@ -162,7 +164,7 @@ describe("Card-manager tests", () => {
 
         const iSceneVariablesMessage: ISceneData = {
             originalScene:          isceneVariable,
-            modifiedScene:          sceneModifier.modifyScene(sceneOptions10, isceneVariable),
+            modifiedScene:          sceneModifier.modifyScene(sceneOptions10, isceneVariable, modifiedList),
             modifications:          modifications,
         };
         const sceneMessage: ISceneMessage = {
@@ -309,3 +311,4 @@ describe("cardManagerService CardTitle test", () => {
         done();
     });
 });
+/*tslint:disable max-file-line-count */
