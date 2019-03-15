@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
 import { ISceneOptions, SceneType } from "../../../../common/communication/iSceneOptions";
-import { ISceneVariables, ISceneVariablesMessage } from "../../../../common/communication/iSceneVariables";
+import { IModificationMap, ISceneVariables, ISceneVariablesMessage } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../../constants";
@@ -27,7 +27,7 @@ export class SceneManager {
 
         if (this.cardManagerService.isSceneNameNew(formMessage.gameName)) {
             if (isFormValid) {
-                const modifiedList: number[] = [];
+                const modifiedList: IModificationMap[] = [];
                 const iSceneOptions: ISceneOptions = this.sceneOptionsMapper(formMessage);
                 const generatedOriginalScene: ISceneVariables = this.sceneBuilder.generateScene(iSceneOptions);
                 const generatedModifiedScene: ISceneVariables = this.sceneModifier.modifyScene(iSceneOptions, generatedOriginalScene, modifiedList);

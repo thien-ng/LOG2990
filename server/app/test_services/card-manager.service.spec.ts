@@ -8,7 +8,7 @@ import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/c
 import { ICardLists } from "../../../common/communication/iCardLists";
 import { ISceneMessage } from "../../../common/communication/iSceneMessage";
 import { ISceneOptions, SceneType } from "../../../common/communication/iSceneOptions";
-import { ISceneVariables, ISceneVariablesMessage } from "../../../common/communication/iSceneVariables";
+import { IModificationMap, ISceneVariables, ISceneVariablesMessage } from "../../../common/communication/iSceneVariables";
 import { Message } from "../../../common/communication/message";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { Constants } from "../constants";
@@ -25,7 +25,7 @@ import { SceneModifier } from "../services/scene/scene-modifier";
 const FAKE_PATH:            string  = CCommon.BASE_URL + "/image";
 const mockAdapter:          any     = require("axios-mock-adapter");
 const axios:                any     = require("axios");
-let modifiedList:         number[];
+let modifiedList:           IModificationMap[];
 let mockAxios:              any;
 let cardManagerService:     CardManagerService;
 let highscoreService:       HighscoreService;

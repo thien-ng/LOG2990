@@ -4,7 +4,12 @@ import { SceneType } from "./iSceneOptions";
 export interface ISceneVariablesMessage {
     originalScene:          ISceneVariables;
     modifiedScene:          ISceneVariables;
-    modifiedIdList:         number[];
+    modifiedIdList:         IModificationMap[];
+}
+
+export interface IModificationMap {
+    id:                     number;
+    type:                   IModificationType;
 }
 
 export interface ISceneVariables {
@@ -13,4 +18,10 @@ export interface ISceneVariables {
     sceneObjectsQuantity:   number;
     sceneObjects:           ISceneObject[];
     sceneBackgroundColor:   string;
+}
+
+export enum IModificationType {
+    added,
+    removed,
+    changedColor,
 }

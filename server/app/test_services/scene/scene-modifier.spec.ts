@@ -3,7 +3,7 @@ import * as spies from "chai-spies";
 import "reflect-metadata";
 import { ISceneObject} from "../../../../common/communication/iSceneObject";
 import { ISceneOptions, SceneType } from "../../../../common/communication/iSceneOptions";
-import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
+import { IModificationMap, ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { SceneBuilder } from "../../services/scene/scene-builder";
 import { SceneModifier } from "../../services/scene/scene-modifier";
 
@@ -15,7 +15,7 @@ let iSceneVariables:        ISceneVariables;
 let iSceneObjectGenerated:  ISceneObject[];
 let iSceneOptions:          ISceneOptions;
 let counterDifference:      number;
-let modifiedList:           number[];
+let modifiedList:           IModificationMap[];
 
 beforeEach(() => {
     chai.use(spies);

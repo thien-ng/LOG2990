@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import * as THREE from "three";
 import { ISceneObject } from "../../../../../../common/communication/iSceneObject";
-import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
+import { IModificationMap, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Constants } from "../../../constants";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 
@@ -15,7 +15,7 @@ export class ThreejsViewService {
   private sceneVariable:          ISceneVariables;
   private threejsGenerator:       ThreejsGenerator;
   private modifiedMap:            Map<number, number>;
-  private mapOriginColor:  Map<number, string>;
+  private mapOriginColor:         Map<number, string>;
 
   public constructor() {
     this.init();
@@ -51,14 +51,14 @@ export class ThreejsViewService {
     this.camera.lookAt(this.scene.position);
   }
 
-  public changeObjectsColor(modifiedList: number[], isCheating: boolean): void {
+  public changeObjectsColor(modifiedList: IModificationMap[], isCheating: boolean): void {
 
-    modifiedList.forEach((index: number) => {
-      const meshObject: THREE.Mesh | undefined = this.recoverObjectFromScene(index);
+    modifiedList.forEach((modificationElement: IModificationMap) => {
+      const meshObject: THREE.Mesh | undefined = this.recoverObjectFromScene(modificationElement.id);
 
       if (meshObject !== undefined) {
-        const objectColor: string | undefined = this.mapOriginColor.get(index);
-        const chosenColor: string | undefined= (isCheating) ? "#FF0000" : objectColor;
+        const objectColor: string | undefined = this.mapOriginColor.get(modificationElement.id);
+        const chosenColor: string | undefined= (!isCheating) ? "#FF0000" : objectColor;
 
         meshObject.material = new THREE.MeshPhongMaterial({color: chosenColor});
       }

@@ -3,7 +3,7 @@ import { Component, ElementRef, EventEmitter, HostListener, Inject, Input, OnCha
 import { MatSnackBar } from "@angular/material";
 import * as THREE from "three";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
-import { ISceneVariables, ISceneVariablesMessage } from "../../../../../../common/communication/iSceneVariables";
+import { IModificationMap, ISceneVariables, ISceneVariablesMessage } from "../../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../../common/communication/message";
 import { CCommon } from "../../../../../../common/constantes/cCommon";
 import { CardManagerService } from "../../../card/card-manager.service";
@@ -21,7 +21,7 @@ export class TheejsViewComponent implements OnChanges {
   private renderer:               THREE.WebGLRenderer;
   private scene:                  THREE.Scene;
   private cheatFlag:              boolean;
-  private modifiedObjectList:     number[] = [1,2,3,4,5,6,7]; //test
+  private modifiedObjectList:     IModificationMap[] = [{id: 1, type: 1}, {id: 2, type: 1} , {id: 3, type: 1}, {id: 4, type: 1}];
 
   @Input()
   private iSceneVariables:        ISceneVariables;
@@ -40,18 +40,22 @@ export class TheejsViewComponent implements OnChanges {
 
   private interval: NodeJS.Timeout;
 
-  @HostListener("body:keydown", ["$event"])
+  @HostListener("body:keyup", ["$event"])
   public async handleKeyboardEvent(event: KeyboardEvent): Promise<void> {
     if (event.keyCode === 84) {
       await this.getModifiedObjectIds();
-      this.interval = setInterval(() => {
-        this.cheatFlag = (this.cheatFlag) ? false : true;
-        this.threejsViewService.changeObjectsColor(this.modifiedObjectList, this.cheatFlag);
-      }, 125);
-    }
-    else if (event.keyCode === 80) {
-      clearInterval(this.interval);
-      this.threejsViewService.changeObjectsColor(this.modifiedObjectList, false);
+      if (this.cheatFlag) {
+        this.cheatFlag = !this.cheatFlag;
+        let flashValue: boolean = true;
+        this.interval = setInterval(() => {
+          flashValue = !flashValue;
+          this.threejsViewService.changeObjectsColor(this.modifiedObjectList, flashValue);
+        }, 125);
+      } else {
+        clearInterval(this.interval);
+        this.cheatFlag = !this.cheatFlag;
+        this.threejsViewService.changeObjectsColor(this.modifiedObjectList, true);
+      }
     }
   }
 
@@ -63,7 +67,7 @@ export class TheejsViewComponent implements OnChanges {
     ) {
     this.sceneGenerated = new EventEmitter();
     this.scene          = new THREE.Scene();
-    this.cheatFlag      = false;
+    this.cheatFlag      = true;
   }
 
   public ngOnChanges(): void {
@@ -73,9 +77,9 @@ export class TheejsViewComponent implements OnChanges {
   }
 
   private getModifiedObjectIds(): void {
-    // this.httpClient.get(Constants.GET_OBJECTS_ID_PATH + "id").subscribe((list: number[]) => {
-    //   this.modifiedObjectList = list;
-    // });
+    this.httpClient.get(Constants.GET_OBJECTS_ID_PATH + "id").subscribe((modificationMap: IModificationMap[]) => {
+      this.modifiedObjectList = modificationMap;
+    });
   }
 
   private initScene(): void {
