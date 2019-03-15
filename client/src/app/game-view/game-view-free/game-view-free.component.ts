@@ -22,19 +22,19 @@ const GAMEMODE_KEY: string = "gamemode";
 export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
 
   public readonly NEEDED_SNAPSHOT: boolean = false;
-  public originalVariables: ISceneVariables;
-  public modifiedVariables: ISceneVariables;
-  public activeCard:        ICard;
-  public gameRequest:       IGameRequest;
-  public isLoading:         boolean;
-  public gameIsStarted:     boolean;
-  public cardIsLoaded:      boolean;
-  public arenaID:           number;
-  public mode:              number;
-  public gameID:            string | null;
-  public username:          string | null;
-  private scenePath:        string;
-  private gameType:         GameType;
+  public  originalVariables: ISceneVariables;
+  public  modifiedVariables: ISceneVariables;
+  public  activeCard:        ICard;
+  public  gameRequest:       IGameRequest;
+  public  isLoading:         boolean;
+  public  gameIsStarted:     boolean;
+  public  cardIsLoaded:      boolean;
+  public  arenaID:           number;
+  public  mode:              number;
+  public  gameID:            string | null;
+  public  username:          string | null;
+  private scenePath:         string;
+  private gameType:          GameType;
 
   public constructor(
     @Inject(SocketService)          private socketService:    SocketService,
