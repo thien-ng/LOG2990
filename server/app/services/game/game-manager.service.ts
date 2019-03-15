@@ -140,19 +140,18 @@ export class GameManagerService {
         const pathOriginal:  string = Constants.IMAGES_PATH + "/" + gameId + CCommon.ORIGINAL_FILE;
         const pathGenerated: string = Constants.IMAGES_PATH + "/" + gameId + Constants.GENERATED_FILE;
         try {
-            this.assetManager.copyFileToTemp(
-                Constants.IMAGES_PATH + "/" + gameId + Constants.GENERATED_FILE, gameId, Constants.GENERATED_FILE);
-            this.assetManager.copyFileToTemp(
-                Constants.IMAGES_PATH + "/" + gameId + CCommon.ORIGINAL_FILE, gameId, CCommon.ORIGINAL_FILE);
+            this.assetManager.copyFileToTemp(pathGenerated, gameId, Constants.GENERATED_FILE);
+            this.assetManager.copyFileToTemp(pathOriginal, gameId, CCommon.ORIGINAL_FILE);
+        } catch (error) {
+            throw new TypeError(TEMP_ROUTINE_ERROR);
+        }
+    }
 
-            const aliveArenaCount: number | undefined =  this.countByGameId.get(gameId);
-            if (aliveArenaCount !== undefined) {
-                    this.countByGameId.set(gameId, aliveArenaCount + 1);
-                } else {
-                this.countByGameId.set(gameId, 1);
-            }
-            } catch (error) {
-                throw new TypeError(TEMP_ROUTINE_ERROR);
+    private tempRoutine3d(gameId: number): void {
+        const path: string = Constants.SCENE_PATH + "/" + gameId + Constants.SCENES_FILE;
+            throw new TypeError(TEMP_ROUTINE_ERROR);
+        }
+    }
         }
     }
 
