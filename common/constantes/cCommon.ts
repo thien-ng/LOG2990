@@ -15,6 +15,8 @@ export class CCommon {
 
     public static readonly ON_ARENA_CONNECT:          string = "onArenaConnect";
     public static readonly ON_ARENA_RESPONSE:         string = "onArenaResponse";
+    public static readonly ON_PENALTY_ON:             string = "onPenaltyON";
+    public static readonly ON_PENALTY_OFF:            string = "onPenaltyOFF";
     public static readonly ON_CHAT_MESSAGE:           string = "onChatMessage";
     public static readonly ON_ERROR:                  string = "onError";
     public static readonly ON_MODE_INVALID:           string = "onModeInvalid"
