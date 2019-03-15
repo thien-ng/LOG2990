@@ -168,7 +168,6 @@ describe("Arena tests", () => {
 
         const expectedResponse: IArenaResponse<IOriginalPixelCluster> = {
             status:     "onFailedClick",
-            response:   Constants.ON_ERROR_PIXEL_CLUSTER,
         };
         const sandbox: sinon.SinonSandbox = sinon.createSandbox();
         sandbox.stub(arena["referee"], "onPlayerClick").callsFake( async () => of(expectedResponse).toPromise());
