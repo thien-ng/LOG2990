@@ -20,8 +20,13 @@ export class Arena3D extends Arena<any, any, any, any> {
     public async onPlayerInput(playerInput: any): Promise<IArenaResponse<any>> {
         throw new Error("Method not implemented.");
     }
+
     public async prepareArenaForGameplay(): Promise<void> {
-        throw new Error("Method not implemented.");
+        await this.extractModifiedSceneObjects();
+        this.referee = new Referee<number, ISceneObjectUpdate>(
+            this, this.players, this.originalElements, this.timer, this.arenaInfos.dataUrl.sceneData);
+    }
+
     private async extractModifiedSceneObjects(): Promise<void> {
         const sceneData:        Buffer                  = await this.getDifferenceDataFromURL(this.arenaInfos.dataUrl.sceneData);
         const sceneDataJson:    ISceneVariablesMessage  = JSON.parse(sceneData.toString()) as ISceneVariablesMessage;
