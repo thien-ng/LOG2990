@@ -137,6 +137,12 @@ export class GameManagerService {
         await arena.prepareArenaForGameplay();
     }
 
+    public getDifferencesIndex(arenaId: number): number[] {
+        const arena: Arena<any, any, any, any> | undefined = this.arenas.get(arenaId);
+
+        return arena ? arena.getDifferencesIds() : [];
+    }
+
     private tempRoutine2d(gameId: number): void {
         const pathOriginal:  string = Constants.IMAGES_PATH + "/" + gameId + CCommon.ORIGINAL_FILE;
         const pathGenerated: string = Constants.IMAGES_PATH + "/" + gameId + Constants.GENERATED_FILE;
@@ -149,9 +155,9 @@ export class GameManagerService {
     }
 
     private tempRoutine3d(gameId: number): void {
-        const path: string = Constants.SCENE_PATH + "/" + gameId + CCommon.SCENES_FILE;
+        const path: string = Constants.SCENE_PATH + "/" + gameId + CCommon.SCENE_FILE;
         try {
-            this.assetManager.copyFileToTemp(path, gameId, CCommon.SCENES_FILE);
+            this.assetManager.copyFileToTemp(path, gameId, CCommon.SCENE_FILE);
         } catch (error) {
             throw new TypeError(TEMP_ROUTINE_ERROR);
         }
@@ -180,8 +186,8 @@ export class GameManagerService {
         return {
             arenaId:            this.generateArenaID(),
             users:              users,
-            dataUrl:            {
-            sceneData:         "http://localhost:3000/scene/2_scene",
+            dataUrl:  {
+                sceneData:  Constants.PATH_SERVER_TEMP + gameId + CCommon.SCENE_FILE,
             },
         };
     }
@@ -241,7 +247,7 @@ export class GameManagerService {
                 this.assetManager.deleteFileInTemp(gameId, Constants.GENERATED_FILE);
                 this.assetManager.deleteFileInTemp(gameId, CCommon.ORIGINAL_FILE);
             } else {
-                this.assetManager.deleteFileInTemp(gameId, CCommon.SCENES_FILE);
+                this.assetManager.deleteFileInTemp(gameId, CCommon.SCENE_FILE);
             }
         }
 
@@ -292,4 +298,6 @@ export class GameManagerService {
 
         return users;
     }
+    // _TODO: OTER CA APRES REFACTOR
+// tslint:disable-next-line:max-file-line-count
 }

@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Observable, Subject } from "rxjs";
 import { IChat } from "../../../../../common/communication/iChat";
 
 @Injectable({
@@ -7,9 +8,11 @@ import { IChat } from "../../../../../common/communication/iChat";
 export class ChatViewService {
 
   private conversation: IChat[];
+  private chatFocus:    Subject<boolean>;
 
   public constructor() {
     this.conversation = [];
+    this.chatFocus = new Subject<boolean>();
   }
 
   public updateConversation(data: IChat): void {
@@ -29,4 +32,13 @@ export class ChatViewService {
   public getConversationLength(): number {
     return this.conversation.length;
   }
+
+  public getChatFocusListener(): Observable<boolean> {
+    return this.chatFocus.asObservable();
+  }
+
+  public updateChatFocus(value: boolean): void {
+    this.chatFocus.next(value);
+  }
+
 }

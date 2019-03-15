@@ -64,7 +64,7 @@ export class CardManagerService {
     public freeCardCreationRoutine(body: ISceneMessage): Message {
         const cardId:       number = this.generateSceneId();
         const sceneImage:   string = "/" + cardId + Constants.SCENE_SNAPSHOT;
-        const scenesPath:   string = Constants.SCENE_PATH + "/" + cardId + CCommon.SCENES_FILE;
+        const scenesPath:   string = Constants.SCENE_PATH + "/" + cardId + CCommon.SCENE_FILE;
 
         this.imageManagerService.saveImage(Constants.IMAGES_PATH + sceneImage, body.image);
         this.saveSceneJson(body.iSceneVariablesMessage, scenesPath);

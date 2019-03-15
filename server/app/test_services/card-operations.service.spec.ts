@@ -133,7 +133,7 @@ describe("Card-operations tests", () => {
 
     it("should delete card 3D", () => {
         const snapshot:             string = Constants.IMAGES_PATH + "/" + 7 + Constants.GENERATED_SNAPSHOT;
-        const generatedScene:       string = Constants.SCENE_PATH  + "/" + 7 + CCommon.SCENES_FILE;
+        const generatedScene:       string = Constants.SCENE_PATH  + "/" + 7 + CCommon.SCENE_FILE;
         const assetManager:         AssetManagerService = new AssetManagerService();
 
         cardOperations.addCard3D(c2);

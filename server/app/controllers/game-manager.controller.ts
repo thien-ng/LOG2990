@@ -23,6 +23,10 @@ export class GameManagerController {
             res.json(await this.gameManagerService.onPlayerInput(req.body));
         });
 
+        router.get("/cheat/:arenaId", async (req: Request, res: Response, next: NextFunction) => {
+            res.json(this.gameManagerService.getDifferencesIndex(req.params.arenaId));
+        });
+
         router.get("/cancel-request/:id", async (req: Request, res: Response, next: NextFunction) => {
             const id: number = Number(req.params.id);
             res.json(this.gameManagerService.cancelRequest(id));

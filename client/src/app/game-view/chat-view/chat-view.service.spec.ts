@@ -44,4 +44,12 @@ describe("ChatViewService", () => {
     expect(chatViewService.getConversationLength()).toBe(4);
   });
 
+  it("should return an boolean observable", () => {
+    chatViewService.getChatFocusListener().subscribe((newValue: boolean) => {
+      expect(newValue).toBe(true);
+    });
+
+    chatViewService.updateChatFocus(true);
+  });
+
 });

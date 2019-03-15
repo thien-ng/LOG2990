@@ -31,6 +31,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit {
   public mode:              number;
   private scenePath:        string;
   private gameType:         GameType;
+  public cardIsLoaded:      boolean;
 
   public constructor(
     @Inject(SocketService)          private socketService:    SocketService,
@@ -39,10 +40,10 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit {
     private route:                  ActivatedRoute,
     private snackBar:               MatSnackBar,
     ) {
+      this.cardIsLoaded = false;
       this.mode = Number(this.route.snapshot.paramMap.get("gamemode"));
       this.gameIsStarted = false;
       this.gameConnectionService.getGameConnectedListener().pipe(first()).subscribe((arenaID: number) => {
-        console.log(arenaID);
 
         this.arenaID = arenaID;
         this.gameIsStarted = true;
@@ -53,6 +54,8 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit {
           });
       });
     }
+
+
 
   public ngOnInit(): void {
       this.gameID = this.route.snapshot.paramMap.get("id");
@@ -69,12 +72,13 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit {
   private createGameRequest(gameID: string, username: string): void {
      this.httpClient.get(Constants.PATH_TO_GET_CARD + gameID + "/" + GameMode.free).subscribe((response: ICard) => {
       this.activeCard = response;
-      this.scenePath = CCommon.BASE_URL + "/temp/" + this.activeCard.gameID + CCommon.SCENES_FILE;
+      this.scenePath = CCommon.BASE_URL + "/temp/" + this.activeCard.gameID + CCommon.SCENE_FILE;
 
       const type: string | null = this.route.snapshot.paramMap.get("gamemode");
       if (type !== null) {
         this.getSceneVariables(type, username);
       }
+      this.cardIsLoaded = true;
     });
 
   }

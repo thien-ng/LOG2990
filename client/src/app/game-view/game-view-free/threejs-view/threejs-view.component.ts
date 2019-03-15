@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, ElementRef, EventEmitter, Inject, Input, OnChanges, Output, ViewChild } from "@angular/core";
+import { Component, ElementRef, EventEmitter, HostListener, Inject, Input, OnChanges, Output, ViewChild } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import * as THREE from "three";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
@@ -8,6 +8,7 @@ import { Message } from "../../../../../../common/communication/message";
 import { CCommon } from "../../../../../../common/constantes/cCommon";
 import { CardManagerService } from "../../../card/card-manager.service";
 import { Constants } from "../../../constants";
+import { ChatViewService } from "../../chat-view/chat-view.service";
 import { ThreejsViewService } from "./threejs-view.service";
 
 @Component({
@@ -18,8 +19,14 @@ import { ThreejsViewService } from "./threejs-view.service";
 })
 export class TheejsViewComponent implements OnChanges {
 
+  private CHEAT_KEY_CODE:         string = "t";
+  private CHEAT_INTERVAL_TIME:    number = 125;
+
   private renderer:               THREE.WebGLRenderer;
   private scene:                  THREE.Scene;
+  private cheatFlag:              boolean;
+  private interval:               NodeJS.Timeout;
+  private focusChat:              boolean;
 
   @Input()
   private iSceneVariables:        ISceneVariables;
@@ -36,14 +43,27 @@ export class TheejsViewComponent implements OnChanges {
   @ViewChild("originalScene", {read: ElementRef})
   private originalScene:          ElementRef;
 
+  @HostListener("body:keyup", ["$event"])
+  public async keyboardEventListener(keyboardEvent: KeyboardEvent): Promise<void> {
+    if (!this.focusChat) {
+      this.handleKeyboardEvent(keyboardEvent);
+    }
+  }
+
   public constructor(
     @Inject(ThreejsViewService) private threejsViewService: ThreejsViewService,
+    @Inject(ChatViewService)    private chatViewService:    ChatViewService,
     private httpClient:         HttpClient,
     private snackBar:           MatSnackBar,
     private cardManagerService: CardManagerService,
     ) {
     this.sceneGenerated = new EventEmitter();
     this.scene          = new THREE.Scene();
+    this.cheatFlag      = false;
+    this.focusChat      = false;
+    this.chatViewService.getChatFocusListener().subscribe((newValue: boolean) => {
+      this.focusChat = newValue;
+    });
   }
 
   public ngOnChanges(): void {
@@ -59,6 +79,35 @@ export class TheejsViewComponent implements OnChanges {
     this.threejsViewService.createScene(this.scene, this.iSceneVariables, this.renderer);
     this.threejsViewService.animate();
     this.takeSnapShot();
+  }
+
+  private handleKeyboardEvent(keyboardEvent: KeyboardEvent): void {
+
+    if (keyboardEvent.key === this.CHEAT_KEY_CODE) {
+
+      // _TODO: Ajouter le :arenaId apres le cheat
+      this.httpClient.get(Constants.GET_OBJECTS_ID_PATH + "cheat/1000").subscribe((modifications: number[]) => {
+        this.changeColor(modifications);
+      });
+    }
+  }
+
+  private changeColor(modifications: number[]): void {
+    this.cheatFlag = !this.cheatFlag;
+    if (this.cheatFlag) {
+
+      let flashValue: boolean = true;
+      this.interval = setInterval(
+        () => {
+          flashValue = !flashValue;
+          this.threejsViewService.changeObjectsColor(modifications, flashValue);
+        },
+        this.CHEAT_INTERVAL_TIME);
+    } else {
+
+      clearInterval(this.interval);
+      this.threejsViewService.changeObjectsColor(modifications, true);
+    }
   }
 
   private takeSnapShot(): void {
