@@ -24,7 +24,7 @@ export class ThreejsViewService {
   }
 
   private init(): void {
-    const windowRatio: number = window.innerWidth / window.innerHeight
+    const windowRatio: number = window.innerWidth / window.innerHeight;
     this.camera = new   THREE.PerspectiveCamera(
       Constants.FIELD_OF_VIEW,
       windowRatio,
@@ -43,7 +43,7 @@ export class ThreejsViewService {
     this.threejsGenerator = new ThreejsGenerator(
       this.scene,
       this.modifiedMap,
-      this.mapOriginColor
+      this.mapOriginColor,
     );
 
     this.renderer.setSize(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
