@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { Constants } from "../constants";
+import { SpinnerComponent } from "../spinner/spinner.component";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { WaitingRoomComponent } from "./waiting-room.component";
 
@@ -10,8 +11,11 @@ describe("WaitingRoomComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WaitingRoomComponent ],
       imports:      [ TestingImportsModule ],
+      declarations: [
+        WaitingRoomComponent,
+        SpinnerComponent,
+      ],
     })
     .compileComponents()
     .catch(() => Constants.OBLIGATORY_CATCH);
