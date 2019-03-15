@@ -60,7 +60,7 @@ describe("ThreejsViewService Tests", () => {
 
     when(scene.getObjectById(anyNumber())).thenReturn(generatedObject);
 
-    const modifiedList: IModification[] = [{id: 1, type: 0}];
+    const modifiedList: number[] = [1];
     threejsViewService.createScene(scene, sceneVariables, renderer);
     threejsViewService.changeObjectsColor(modifiedList, true);
 
@@ -77,7 +77,7 @@ describe("ThreejsViewService Tests", () => {
 
     when(scene.getObjectById(anyNumber())).thenReturn(generatedObject);
 
-    const modifiedList: IModification[] = [{id: 1, type: 0}];
+    const modifiedList: number[] = [1];
     threejsViewService.createScene(scene, sceneVariables, renderer);
     threejsViewService.changeObjectsColor(modifiedList, false);
 

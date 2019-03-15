@@ -3,7 +3,7 @@ import { Component, ElementRef, EventEmitter, HostListener, Inject, Input, OnCha
 import { MatSnackBar } from "@angular/material";
 import * as THREE from "three";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
-import { IModification, ISceneData, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
+import { ISceneData, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../../common/communication/message";
 import { CCommon } from "../../../../../../common/constantes/cCommon";
 import { CardManagerService } from "../../../card/card-manager.service";
@@ -86,13 +86,13 @@ export class TheejsViewComponent implements OnChanges {
     if (keyboardEvent.key === this.CHEAT_KEY_CODE) {
 
       // _TODO: Ajouter le :arenaId apres le cheat
-      this.httpClient.get(Constants.GET_OBJECTS_ID_PATH + "cheat/1000").subscribe((modificationMap: IModification[]) => {
-        this.changeColor(modificationMap);
+      this.httpClient.get(Constants.GET_OBJECTS_ID_PATH + "cheat/1000").subscribe((modifications: number[]) => {
+        this.changeColor(modifications);
       });
     }
   }
 
-  private changeColor(modificationMap: IModification[]): void {
+  private changeColor(modifications: number[]): void {
     this.cheatFlag = !this.cheatFlag;
     if (this.cheatFlag) {
 
@@ -100,13 +100,13 @@ export class TheejsViewComponent implements OnChanges {
       this.interval = setInterval(
         () => {
           flashValue = !flashValue;
-          this.threejsViewService.changeObjectsColor(modificationMap, flashValue);
+          this.threejsViewService.changeObjectsColor(modifications, flashValue);
         },
         this.CHEAT_INTERVAL_TIME);
     } else {
 
       clearInterval(this.interval);
-      this.threejsViewService.changeObjectsColor(modificationMap, true);
+      this.threejsViewService.changeObjectsColor(modifications, true);
     }
   }
 

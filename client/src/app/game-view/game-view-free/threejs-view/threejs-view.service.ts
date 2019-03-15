@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import * as THREE from "three";
 import { ISceneObject } from "../../../../../../common/communication/iSceneObject";
-import { IModification, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
+import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Constants } from "../../../constants";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 
@@ -55,13 +55,13 @@ export class ThreejsViewService {
     this.camera.lookAt(this.scene.position);
   }
 
-  public changeObjectsColor(modifiedList: IModification[], isCheating: boolean): void {
+  public changeObjectsColor(modifiedList: number[], isCheating: boolean): void {
 
-    modifiedList.forEach((modificationElement: IModification) => {
-      const meshObject: THREE.Mesh | undefined = this.recoverObjectFromScene(modificationElement.id);
+    modifiedList.forEach((differenceId: number) => {
+      const meshObject: THREE.Mesh | undefined = this.recoverObjectFromScene(differenceId);
 
       if (meshObject !== undefined) {
-        const objectColor: string | undefined = this.mapOriginColor.get(modificationElement.id);
+        const objectColor: string | undefined = this.mapOriginColor.get(differenceId);
         const chosenColor: string | undefined = (!isCheating) ? this.CHEAT_COLOR : objectColor;
 
         meshObject.material = new THREE.MeshPhongMaterial({color: chosenColor});
