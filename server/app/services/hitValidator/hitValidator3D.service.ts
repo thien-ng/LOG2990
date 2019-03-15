@@ -41,4 +41,20 @@ export class HitValidatorService3D {
         });
     }
 
+    private async getSceneDataFromUrl(url: string): Promise<ISceneVariablesMessage> {
+
+        const axios: AxiosInstance = require("axios");
+
+        return axios
+            .get(url, {
+                responseType: "arraybuffer",
+            })
+            .then((response: AxiosResponse) => {
+                return JSON.parse(response.data.toString()) as ISceneVariablesMessage;
+            })
+            .catch((error: Error) => {
+                throw new TypeError(this.ERROR_ON_HTTPGET);
+            });
+    }
+
 }
