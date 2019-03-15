@@ -19,11 +19,12 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit {
   public readonly NEEDED_SNAPSHOT: boolean = false;
   public originalVariables:   ISceneVariables;
   public modifiedVariables:   ISceneVariables;
-  public activeCard:        ICard;
-  public gameRequest:       IGameRequest;
-  public isLoading:         boolean;
-  public cardIsLoaded:      boolean;
-  private gameType:         GameType;
+  public activeCard:          ICard;
+  public gameRequest:         IGameRequest;
+  public isLoading:           boolean;
+  public cardIsLoaded:        boolean;
+
+  private gameType:           GameType;
 
   public constructor(
     private httpClient:     HttpClient,

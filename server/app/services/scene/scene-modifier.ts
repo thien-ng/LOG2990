@@ -8,11 +8,11 @@ import { SceneConstants } from "./sceneConstants";
 export class SceneModifier {
 
     private readonly LIST_SELECTION_OPTIONS: string[] = ["add", "remove", "changeColor"];
-    private readonly NUMBER_ITERATION: number = 7;
+    private readonly NUMBER_ITERATION:       number = 7;
 
-    private sceneBuilder: SceneBuilder;
-    private modifiedIndex: IModification[];
-    private sceneObjects: ISceneObject[];
+    private sceneBuilder:        SceneBuilder;
+    private sceneObjects:        ISceneObject[];
+    private modifiedIndex:       IModification[];
     private cloneSceneVariables: ISceneVariables;
 
     public constructor(sceneBuilder: SceneBuilder) {

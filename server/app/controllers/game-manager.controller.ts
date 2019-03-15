@@ -26,7 +26,8 @@ export class GameManagerController {
 
         router.get("/id", async (req: Request, res: Response, next: NextFunction) => {
             // _TODO: implement return real modification values
-            const iModificationMap: IModification[] = [{id: 1, type: 1}, {id: 2, type: 1} , {id: 3, type: 1}, {id: 4, type: 1}];
+            const iModificationMap: IModification[] = [{id: 1, type: 1}, {id: 2, type: 1} , {id: 3, type: 1}, {id: 4, type: 1},
+                                                       {id: 5, type: 1}, {id: 6, type: 1} , {id: 7, type: 1}, {id: 8, type: 1}];
             res.json(iModificationMap);
         });
 

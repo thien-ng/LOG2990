@@ -71,7 +71,7 @@ describe("Card-manager tests", () => {
     };
 
     beforeEach(() => {
-        modifiedList = [];
+        modifiedList        = [];
         assetManagerService = new AssetManagerService();
         highscoreService    = new HighscoreService();
         cardOperations      = new CardOperations(highscoreService);

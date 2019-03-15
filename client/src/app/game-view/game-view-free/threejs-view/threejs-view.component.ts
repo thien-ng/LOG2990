@@ -25,7 +25,6 @@ export class TheejsViewComponent implements OnChanges {
   private renderer:               THREE.WebGLRenderer;
   private scene:                  THREE.Scene;
   private cheatFlag:              boolean;
-  private modifiedObjectList:     IModification[];
   private interval:               NodeJS.Timeout;
   private focusChat:              boolean;
 
@@ -53,14 +52,14 @@ export class TheejsViewComponent implements OnChanges {
 
   public constructor(
     @Inject(ThreejsViewService) private threejsViewService: ThreejsViewService,
-    @Inject(ChatViewService)    private chatViewService: ChatViewService,
+    @Inject(ChatViewService)    private chatViewService:    ChatViewService,
     private httpClient:         HttpClient,
     private snackBar:           MatSnackBar,
     private cardManagerService: CardManagerService,
     ) {
     this.sceneGenerated = new EventEmitter();
     this.scene          = new THREE.Scene();
-    this.cheatFlag      = true;
+    this.cheatFlag      = false;
     this.focusChat      = false;
     this.chatViewService.getChatFocusListener().subscribe((newValue: boolean) => {
       this.focusChat = newValue;
@@ -86,31 +85,28 @@ export class TheejsViewComponent implements OnChanges {
 
     if (keyboardEvent.key === this.CHEAT_KEY_CODE) {
 
-      this.getModifiedObjectIds();
-      if (this.cheatFlag) {
-
-        this.cheatFlag = !this.cheatFlag;
-        let flashValue: boolean = true;
-
-        this.interval = setInterval(
-          () => {
-            flashValue = !flashValue;
-            this.threejsViewService.changeObjectsColor(this.modifiedObjectList, flashValue);
-          },
-          this.CHEAT_INTERVAL_TIME);
-      } else {
-
-        clearInterval(this.interval);
-        this.cheatFlag = !this.cheatFlag;
-        this.threejsViewService.changeObjectsColor(this.modifiedObjectList, true);
-      }
+      this.httpClient.get(Constants.GET_OBJECTS_ID_PATH + "id").subscribe((modificationMap: IModification[]) => {
+        this.changeColor(modificationMap);
+      });
     }
   }
 
-  private getModifiedObjectIds(): void {
-    this.httpClient.get(Constants.GET_OBJECTS_ID_PATH + "id").subscribe((modificationMap: IModification[]) => {
-      this.modifiedObjectList = modificationMap;
-    });
+  private changeColor(modificationMap: IModification[]): void {
+    this.cheatFlag = !this.cheatFlag;
+    if (this.cheatFlag) {
+
+      let flashValue: boolean = true;
+      this.interval = setInterval(
+        () => {
+          flashValue = !flashValue;
+          this.threejsViewService.changeObjectsColor(modificationMap, flashValue);
+        },
+        this.CHEAT_INTERVAL_TIME);
+    } else {
+
+      clearInterval(this.interval);
+      this.threejsViewService.changeObjectsColor(modificationMap, true);
+    }
   }
 
   private takeSnapShot(): void {

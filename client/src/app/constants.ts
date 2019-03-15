@@ -103,8 +103,8 @@ export class Constants {
   public static readonly FIRST_LIGHT_POSITION_Z:    number = 50;
   public static readonly SECOND_LIGHT_COLOR:        string = "#FFFFFF";
   public static readonly SECOND_LIGHT_INTENSITY:    number = 0.2;
-  public static readonly SECOND_LIGHT_POSITION_Y:   number = -10;
   public static readonly SECOND_LIGHT_POSITION_X:   number = -10;
+  public static readonly SECOND_LIGHT_POSITION_Y:   number = -10;
   public static readonly SECOND_LIGHT_POSITION_Z:   number = -10;
 
   public static readonly SPEED_FACTOR:              number = 0.001;

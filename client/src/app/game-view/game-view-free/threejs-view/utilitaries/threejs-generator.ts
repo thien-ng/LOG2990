@@ -7,8 +7,8 @@ export class ThreejsGenerator {
   private readonly INFINITE_CORNERS:        number = 1000;
 
   public constructor(
-    private scene: THREE.Scene,
-    private modifiedMap: Map<number, number>,
+    private scene:          THREE.Scene,
+    private modifiedMap:    Map<number, number>,
     private mapOriginColor: Map<number, string>) {}
 
   public initiateObject(object3D: ISceneObject): void {
@@ -50,7 +50,7 @@ export class ThreejsGenerator {
       object3D.scale.y,
     );
 
-    const generatedObject:  THREE.Mesh              = new THREE.Mesh(cubeGeometry, generatedColor);
+    const generatedObject:  THREE.Mesh = new THREE.Mesh(cubeGeometry, generatedColor);
 
     this.addColorToMap(object3D.id, object3D.color);
     this.addObjectIdToMap(object3D.id, generatedObject.id);
@@ -66,7 +66,7 @@ export class ThreejsGenerator {
       this.INFINITE_CORNERS,
     );
 
-    const generatedObject: THREE.Mesh               = new THREE.Mesh(coneGeometry, generatedColor);
+    const generatedObject: THREE.Mesh = new THREE.Mesh(coneGeometry, generatedColor);
 
     this.addColorToMap(object3D.id, object3D.color);
     this.addObjectIdToMap(object3D.id, generatedObject.id);
@@ -83,7 +83,7 @@ export class ThreejsGenerator {
       this.INFINITE_CORNERS,
     );
 
-    const generatedObject:  THREE.Mesh              = new THREE.Mesh(cylinderGeometry, generatedColor);
+    const generatedObject:  THREE.Mesh = new THREE.Mesh(cylinderGeometry, generatedColor);
 
     this.addColorToMap(object3D.id, object3D.color);
     this.addObjectIdToMap(object3D.id, generatedObject.id);
@@ -99,7 +99,7 @@ export class ThreejsGenerator {
       this.NUMBER_CORNERS_PYRAMID,
     );
 
-    const generatedObject:  THREE.Mesh              = new THREE.Mesh(pyramidGeometry, generatedColor);
+    const generatedObject:  THREE.Mesh = new THREE.Mesh(pyramidGeometry, generatedColor);
 
     this.addColorToMap(object3D.id, object3D.color);
     this.addObjectIdToMap(object3D.id, generatedObject.id);

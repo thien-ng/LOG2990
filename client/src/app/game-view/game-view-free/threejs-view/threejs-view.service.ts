@@ -8,6 +8,8 @@ import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 @Injectable()
 export class ThreejsViewService {
 
+  private CHEAT_COLOR:            string = "#FF0000";
+
   private scene:                  THREE.Scene;
   private camera:                 THREE.PerspectiveCamera;
   private renderer:               THREE.WebGLRenderer;
@@ -22,15 +24,16 @@ export class ThreejsViewService {
   }
 
   private init(): void {
+    const windowRatio: number = window.innerWidth / window.innerHeight
     this.camera = new   THREE.PerspectiveCamera(
       Constants.FIELD_OF_VIEW,
-      window.innerWidth / window.innerHeight,
+      windowRatio,
       Constants.MIN_VIEW_DISTANCE,
       Constants.MAX_VIEW_DISTANCE,
     );
-    this.ambLight = new THREE.AmbientLight(Constants.AMBIENT_LIGHT_COLOR, Constants.AMBIENT_LIGHT_INTENSITY);
-    this.modifiedMap = new Map();
-    this.mapOriginColor = new Map();
+    this.ambLight       = new THREE.AmbientLight(Constants.AMBIENT_LIGHT_COLOR, Constants.AMBIENT_LIGHT_INTENSITY);
+    this.modifiedMap    = new Map<number, number>();
+    this.mapOriginColor = new Map<number, string>();
   }
 
   public createScene(scene: THREE.Scene, iSceneVariables: ISceneVariables, renderer: THREE.WebGLRenderer): void {
@@ -40,7 +43,8 @@ export class ThreejsViewService {
     this.threejsGenerator = new ThreejsGenerator(
       this.scene,
       this.modifiedMap,
-      this.mapOriginColor);
+      this.mapOriginColor
+    );
 
     this.renderer.setSize(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
     this.renderer.setClearColor(this.sceneVariable.sceneBackgroundColor);
@@ -58,7 +62,7 @@ export class ThreejsViewService {
 
       if (meshObject !== undefined) {
         const objectColor: string | undefined = this.mapOriginColor.get(modificationElement.id);
-        const chosenColor: string | undefined = (!isCheating) ? "#FF0000" : objectColor;
+        const chosenColor: string | undefined = (!isCheating) ? this.CHEAT_COLOR : objectColor;
 
         meshObject.material = new THREE.MeshPhongMaterial({color: chosenColor});
       }
@@ -68,6 +72,7 @@ export class ThreejsViewService {
   private recoverObjectFromScene(index: number): THREE.Mesh | undefined {
 
     const objectId: number = (this.modifiedMap.get(index)) as number;
+
     const instanceObject3D: THREE.Object3D | undefined = this.scene.getObjectById(objectId);
 
     if (instanceObject3D !== undefined) {
