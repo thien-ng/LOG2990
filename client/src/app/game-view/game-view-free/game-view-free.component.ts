@@ -12,6 +12,8 @@ import { ISceneData, ISceneVariables } from "../../../../../common/communication
 import { Message } from "../../../../../common/communication/message";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 
+const GAMEMODE_KEY: string = "gamemode";
+
 @Component({
   selector:     "app-game-view-free",
   templateUrl:  "./game-view-free.component.html",
@@ -26,13 +28,13 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
   public gameRequest:       IGameRequest;
   public isLoading:         boolean;
   public gameIsStarted:     boolean;
+  public cardIsLoaded:      boolean;
   public arenaID:           number;
+  public mode:              number;
   public gameID:            string | null;
   public username:          string | null;
-  public mode:              number;
   private scenePath:        string;
   private gameType:         GameType;
-  public cardIsLoaded:      boolean;
 
   public constructor(
     @Inject(SocketService)          private socketService:    SocketService,
@@ -42,9 +44,10 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
     private snackBar:               MatSnackBar,
     ) {
       this.cardIsLoaded   = false;
-      this.mode           = Number(this.route.snapshot.paramMap.get("gamemode"));
+      this.mode           = Number(this.route.snapshot.paramMap.get(GAMEMODE_KEY));
       this.gameIsStarted  = false;
       this.username       = sessionStorage.getItem(Constants.USERNAME_KEY);
+
       this.gameConnectionService.getGameConnectedListener().pipe(first()).subscribe((arenaID: number) => {
         this.arenaID = arenaID;
         this.gameIsStarted = true;
@@ -73,7 +76,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
       this.activeCard = response;
       this.scenePath = CCommon.BASE_URL + "/temp/" + this.activeCard.gameID + CCommon.SCENE_FILE;
 
-      const type: string | null = this.route.snapshot.paramMap.get("gamemode");
+      const type: string | null = this.route.snapshot.paramMap.get(GAMEMODE_KEY);
       if (type !== null) {
         this.getSceneVariables(type, username);
       }
