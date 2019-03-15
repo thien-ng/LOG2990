@@ -20,7 +20,7 @@ export class WaitingRoomComponent {
   private gameID: string | null;
 
   public constructor(
-    private router:        Router,
+    private router:       Router,
     private httpClient:   HttpClient,
     private snackBar:     MatSnackBar,
   ) {}
