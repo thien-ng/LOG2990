@@ -2,8 +2,9 @@ import { ISceneObject } from "./iSceneObject";
 import { SceneType } from "./iSceneOptions";
 
 export interface ISceneVariablesMessage {
-    originalScene:          ISceneVariables;
-    modifiedScene:          ISceneVariables;
+    originalScene:      ISceneVariables;
+    modifiedScene:      ISceneVariables;
+    modifications:      IModification[];
 }
 
 export interface ISceneVariables {
