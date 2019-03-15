@@ -6,6 +6,7 @@ const DELAY:            number = 1000;
 const CENTERY:          number = 15;
 const CENTERX:          number = 50;
 const PADDING_CANVAS_2: number = 640;
+const ERROR_MESSAGE:    string = "⚠ ERREUR ⚠";
 
 @Injectable({
   providedIn: "root",
@@ -13,13 +14,13 @@ const PADDING_CANVAS_2: number = 640;
 
 export class GameViewSimpleService {
 
-  public canvasOriginal:  CanvasRenderingContext2D;
-  public canvasModified:  CanvasRenderingContext2D;
-  public successSound:    ElementRef;
-  public failSound:       ElementRef;
-  public text1div:        HTMLDivElement;
-  public text2div:        HTMLDivElement;
-  private position:       IPosition2D;
+  public canvasOriginal:        CanvasRenderingContext2D;
+  public canvasModified:        CanvasRenderingContext2D;
+  public successSound:          ElementRef;
+  public failSound:             ElementRef;
+  public textCanvasOriginal:    HTMLDivElement;
+  public textCanvasModified:    HTMLDivElement;
+  private position:             IPosition2D;
 
   public onArenaResponse(data: IPlayerInputResponse): void {
     if (data.status === CCommon.ON_SUCCESS) {
