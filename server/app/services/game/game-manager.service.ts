@@ -65,7 +65,7 @@ export class GameManagerService {
         const arenaInfo: IArenaInfos<I2DInfos> = this.buildArena2DInfos(user, gameId);
         const arena: Arena2D = new Arena2D(arenaInfo, this);
         this.tempRoutine(gameId);
-        this.gameIdByArena.set(arenaInfo.arenaId, gameId);
+        this.gameIdByArenaId.set(arenaInfo.arenaId, gameId);
         this.initArena(arena).catch(() => Constants.INIT_ARENA_ERROR);
         this.arenas.set(arenaInfo.arenaId, arena);
 
@@ -162,7 +162,7 @@ export class GameManagerService {
 
     public deleteArena(arena: IArenaInfos<I2DInfos | I3DInfos>): void {
         const arenaId: number = arena.arenaId;
-        const gameId: number | undefined = this.gameIdByArena.get(arenaId);
+        const gameId: number | undefined = this.gameIdByArenaId.get(arenaId);
         if (gameId === undefined) {
             return;
         }
