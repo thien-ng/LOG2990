@@ -149,9 +149,18 @@ export class GameManagerService {
 
     private tempRoutine3d(gameId: number): void {
         const path: string = Constants.SCENE_PATH + "/" + gameId + Constants.SCENES_FILE;
+        try {
+            this.assetManager.copyFileToTemp(path, gameId, Constants.SCENES_FILE);
+        } catch (error) {
             throw new TypeError(TEMP_ROUTINE_ERROR);
         }
     }
+    private manageCounter(gameId: number): void {
+        const aliveArenaCount: number | undefined =  this.countByGameId.get(gameId);
+        if (aliveArenaCount !== undefined) {
+            this.countByGameId.set(gameId, aliveArenaCount + 1);
+        } else {
+            this.countByGameId.set(gameId, 1);
         }
     }
 
