@@ -29,23 +29,11 @@ export class SocketService {
       this.socket = io(Constants.WEBSOCKET_URL);
     }
 
-  // tslint:disable-next-line:max-func-body-length
   public initWebsocketListener(): void {
 
     this.socket.addEventListener(Constants.ON_CONNECT, () => {
 
-      // tslint:disable-next-line:no-any
-      this.socket.on(CCommon.ON_ARENA_RESPONSE, (data: IArenaResponse<any>) => {
-        this.emitOnArenaResponse(data);
-      });
-      // tslint:disable-next-line:no-any
-      this.socket.on(CCommon.ON_PENALTY_ON, (data: IArenaResponse<any>) => {
-        this.gameViewSimpleService.wrongClickRoutine();
-      });
-      // tslint:disable-next-line:no-any
-      this.socket.on(CCommon.ON_PENALTY_OFF, (data: IArenaResponse<any>) => {
-        this.gameViewSimpleService.enableClickRoutine();
-      });
+      this.initGameViewListeners();
 
       this.socket.on(CCommon.CHAT_EVENT, (data: IChat) => {
         this.chatViewService.updateConversation(data);
@@ -64,8 +52,22 @@ export class SocketService {
       }));
     });
   }
+  private initGameViewListeners(): void {
+    // tslint:disable-next-line:no-any _TODO
+    this.socket.on(CCommon.ON_ARENA_RESPONSE, (data: IArenaResponse<any>) => {
+      this.emitOnArenaResponse(data);
+    });
+    // tslint:disable-next-line:no-any _TODO
+    this.socket.on(CCommon.ON_PENALTY_ON, (data: IArenaResponse<any>) => {
+      this.gameViewSimpleService.wrongClickRoutine();
+    });
+    // tslint:disable-next-line:no-any _TODO
+    this.socket.on(CCommon.ON_PENALTY_OFF, (data: IArenaResponse<any>) => {
+      this.gameViewSimpleService.enableClickRoutine();
+    });
+  }
 
-  // tslint:disable-next-line:no-any
+  // tslint:disable-next-line:no-any _TODO
   private emitOnArenaResponse(arenaResponse: IArenaResponse<any>): void {
     switch (arenaResponse.arenaType) {
       case GameMode.simple:
