@@ -30,23 +30,10 @@ export class GameViewSimpleService {
       });
     } else {
       this.playFailSound();
-      const canvasBack: HTMLCanvasElement = document.createElement("canvas");
-      canvasBack.width = this.canvasOriginal.canvas.width;
-      canvasBack.height = this.canvasOriginal.canvas.height;
-      const canvasBackctx: CanvasRenderingContext2D | null = canvasBack.getContext("2d");
-      if (canvasBackctx !== null) {
-        canvasBackctx.drawImage(this.canvasOriginal.canvas, 0, 0);
-      }
-      this.disableClickRoutine(canvasBack);
+      this.disableClickRoutine();
     }
   }
 
-  private enableClickRoutine(canvasback: HTMLCanvasElement): void {
-      document.body.style.cursor = "auto";
-      this.canvasModified.canvas.style.pointerEvents = "auto";
-      this.canvasOriginal.canvas.style.pointerEvents = "auto";
-      this.canvasOriginal.drawImage(canvasback,0,0);
-    }
 
   private disableClickRoutine(canvasback: HTMLCanvasElement): void {
       document.body.style.cursor = "not-allowed";
