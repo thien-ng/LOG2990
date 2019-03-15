@@ -1,4 +1,3 @@
-import { IOriginalPixelCluster } from "../../common/communication/iGameplay";
 import { CCommon } from "../../common/constantes/cCommon";
 
 export class Constants {
@@ -66,7 +65,6 @@ export class Constants {
   public static readonly FF:                        number = 255;
   public static readonly URL_HIT_VALIDATOR:         string = "http://localhost:3000/api/hitvalidator";
   public static readonly ONE_SECOND:                number = 1000;
-  public static readonly ON_ERROR_PIXEL_CLUSTER:    IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
 
   // Constants for scene manager service
   public static readonly MIN_ITEMS_IN_SCENE:        number = 10;
