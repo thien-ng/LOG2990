@@ -96,18 +96,17 @@ export class GameManagerService {
             switch (request.mode) {
                 case GameMode.simple:
                     message = await this.create2DArena(lobby, request.gameId);
-                    this.sendMessage(lobby[0].socketID, CCommon.ON_ARENA_CONNECT, Number(message.body));
-                    this.lobby.delete(request.gameId);
-
-                    return message;
+                    break;
                 case GameMode.free:
                     message = await this.create3DArena(lobby, request.gameId);
-                    this.lobby.delete(request.gameId);
-
-                    return message;
+                    break;
                 default:
                     return this.generateMessage(CCommon.ON_MODE_INVALID, CCommon.ON_MODE_INVALID);
             }
+            this.sendMessage(lobby[0].socketID, CCommon.ON_ARENA_CONNECT, Number(message.body));
+            this.lobby.delete(request.gameId);
+
+            return message;
         }
     }
 
@@ -155,9 +154,9 @@ export class GameManagerService {
     }
 
     private tempRoutine3d(gameId: number): void {
-        const path: string = Constants.SCENE_PATH + "/" + gameId + Constants.SCENES_FILE;
+        const path: string = Constants.SCENE_PATH + "/" + gameId + CCommon.SCENE_FILE;
         try {
-            this.assetManager.copyFileToTemp(path, gameId, Constants.SCENES_FILE);
+            this.assetManager.copyFileToTemp(path, gameId, CCommon.SCENE_FILE);
         } catch (error) {
             throw new TypeError(TEMP_ROUTINE_ERROR);
         }
@@ -201,13 +200,9 @@ export class GameManagerService {
         this.initArena(arena).catch(() => Constants.INIT_ARENA_ERROR);
         this.arenas.set(arenaInfo.arenaId, arena);
 
-        const paths: string = JSON.stringify([
-            Constants.PATH_SERVER_TEMP + gameId + Constants.SCENES_FILE,
-        ]);
-
         return {
             title:  CCommon.ON_SUCCESS,
-            body:   paths,
+            body:   arenaInfo.arenaId.toString(),
         };
     }
 
@@ -234,28 +229,27 @@ export class GameManagerService {
         });
     }
 
-    public deleteArena(arena: IArenaInfos<I2DInfos | I3DInfos>): void {
-        const arenaId:  number              = arena.arenaId;
+    public deleteArena(arenaInfo: IArenaInfos<I2DInfos | I3DInfos>): void {
+        const arenaId:  number              = arenaInfo.arenaId;
         const gameId:   number | undefined  = this.gameIdByArenaId.get(arenaId);
         if (gameId === undefined) {
             return;
         }
         const aliveArenaCount: number | undefined = this.countByGameId.get(gameId);
+
         if (aliveArenaCount === undefined) {
             return;
         }
-        if (aliveArenaCount !== 1) {
-            this.countByGameId.set(gameId, aliveArenaCount - 1);
-        } else {
-            if ("original" in arena.dataUrl) {
+        if (aliveArenaCount === 1) {
+            if ("original" in arenaInfo.dataUrl) {
                 this.assetManager.deleteFileInTemp(gameId, Constants.GENERATED_FILE);
                 this.assetManager.deleteFileInTemp(gameId, CCommon.ORIGINAL_FILE);
             } else {
-                this.assetManager.deleteFileInTemp(gameId, Constants.SCENES_FILE);
+                this.assetManager.deleteFileInTemp(gameId, CCommon.SCENE_FILE);
             }
         }
-
-        this.arenas.delete(arena.arenaId);
+        this.countByGameId.set(gameId, aliveArenaCount - 1);
+        this.arenas.delete(arenaInfo.arenaId);
     }
 
     public get userList(): Map<string, SocketIO.Socket> {

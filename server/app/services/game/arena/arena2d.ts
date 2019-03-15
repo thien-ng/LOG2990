@@ -42,7 +42,6 @@ export class Arena2D extends Arena<IPlayerInput<IPosition2D>, IArenaResponse<IOr
     }
 
     public async onPlayerInput(playerInput: IPlayerInput<IPosition2D>): Promise<IArenaResponse<IOriginalPixelCluster>> {
-
         let response: IArenaResponse<IOriginalPixelCluster>;
 
         switch (playerInput.event) {

@@ -21,7 +21,6 @@ export class Constants {
   public static readonly VALIDATION_FAILED:         string = "Validation services failed";
   public static readonly UNKNOWN_ERROR:             string = "Erreur inconnue";
   public static readonly GENERATED_SNAPSHOT:        string = "_snapshot.jpeg";
-  public static readonly SCENES_FILE:               string = "_scene";
   public static readonly ORIGINAL_SCENE_FILE:       string = "_sceneOriginal.txt";
   public static readonly MODIFIED_SCENE_FILE:       string = "_sceneModified.txt";
   public static readonly DECIMAL:                   number = 10;
