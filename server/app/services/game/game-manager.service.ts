@@ -118,6 +118,13 @@ export class GameManagerService {
         };
     }
 
+    private async create3DArena(user: IUser, gameId: number): Promise<Message> {
+        const arenaInfo: IArenaInfos<I3DInfos> = this.buildArena3DInfos(user, gameId);
+        const arena: Arena3D = new Arena3D(arenaInfo, this);
+        // this.tempRoutine(gameId);    // _TODO: Reimplementer avec la fonciton pour les scenes (ARTHUR)
+        this.gameIdByArenaId.set(arenaInfo.arenaId, gameId);
+        this.initArena(arena).catch(() => Constants.INIT_ARENA_ERROR);
+        this.arenas.set(arenaInfo.arenaId, arena);
 
     private create3DArena(request: IGameRequest): Message {
         const paths: string = JSON.stringify([
