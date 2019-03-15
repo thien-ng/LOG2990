@@ -8,7 +8,7 @@ import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/c
 import { ICardLists } from "../../../common/communication/iCardLists";
 import { ISceneMessage } from "../../../common/communication/iSceneMessage";
 import { ISceneOptions, SceneType } from "../../../common/communication/iSceneOptions";
-import { IModification, ISceneVariables, ISceneVariablesMessage, ModificationType } from "../../../common/communication/iSceneVariables";
+import { IModification, ISceneData, ISceneVariables, ModificationType } from "../../../common/communication/iSceneVariables";
 import { Message } from "../../../common/communication/message";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { Constants } from "../constants";
@@ -130,7 +130,7 @@ describe("Card-manager tests", () => {
         const sceneModifier:    SceneModifier   = new SceneModifier(sceneBuilder);
         const isceneVariable:   ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
 
-        const iSceneVariablesMessage:   ISceneVariablesMessage  = {
+        const iSceneVariablesMessage:   ISceneData  = {
             originalScene:          isceneVariable,
             modifiedScene:          sceneModifier.modifyScene(sceneOptions10, isceneVariable),
             modifications:          modifications,
@@ -160,7 +160,7 @@ describe("Card-manager tests", () => {
         const sceneModifier:    SceneModifier   = new SceneModifier(sceneBuilder);
         const isceneVariable:   ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
 
-        const iSceneVariablesMessage: ISceneVariablesMessage = {
+        const iSceneVariablesMessage: ISceneData = {
             originalScene:          isceneVariable,
             modifiedScene:          sceneModifier.modifyScene(sceneOptions10, isceneVariable),
             modifications:          modifications,
