@@ -35,4 +35,10 @@ export class HitValidatorService3D {
         };
     }
 
+    private isValidHit(objectId: number, sceneData: ISceneVariablesMessage): boolean {
+        return sceneData.modifications.some((modification: IModification) => {
+            return objectId === modification.id;
+        });
+    }
+
 }
