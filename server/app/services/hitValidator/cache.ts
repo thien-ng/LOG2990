@@ -4,7 +4,7 @@ export class Cache {
 
     private storage: ICacheElement[];
     private readonly ON_NOTFOUND_ERROR: string =
-    "The element wanted has not been found in the cache. File: Cache.ts. Line: 44. \nError message: ";
+    "The element wanted has not been found in the cache. \nError message: ";
 
     public constructor(private cacheSize: number) {
         this.storage = [];
