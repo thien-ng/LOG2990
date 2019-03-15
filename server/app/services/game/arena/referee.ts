@@ -100,15 +100,9 @@ export class Referee<EVT_T, DIFF_T> {
         this.differencesFound.push(differenceIndex);
     }
 
-    private attributePoints(user: IUser): void {
-        const foundPlayer: Player | undefined = this.players.find( (player: Player) => {
-            return player.username === user.username;
-        });
-
-        if (foundPlayer !== undefined) {
-            foundPlayer.addPoints(1);
-            this.arena.sendMessage(foundPlayer.userSocketId, CCommon.ON_POINT_ADDED, foundPlayer.points);
-        }
+    private attributePoints(player: Player): void {
+        player.addPoints(1);
+        this.arena.sendMessage(player.userSocketId, CCommon.ON_POINT_ADDED, player.points);
     }
 
     private isAnUndiscoveredDifference(differenceIndex: number): boolean {
