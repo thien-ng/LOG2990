@@ -1,8 +1,8 @@
 import { ICacheElement, IImageToCache } from "./interfaces";
 
-export class Cache {
+export class Cache<T> {
 
-    private storage: ICacheElement[];
+    private storage: ICacheElement<T>[];
     private readonly ON_NOTFOUND_ERROR: string =
     "The element wanted has not been found in the cache. \nError message: ";
 
