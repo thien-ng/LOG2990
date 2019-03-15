@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { inject, injectable } from "inversify";
-
 import { HighscoreService } from "../services/highscore.service";
+
 import Types from "../types";
 
 const BASE_DECIMAL: number = 10;

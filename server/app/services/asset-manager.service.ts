@@ -52,25 +52,21 @@ export class AssetManagerService {
         }
     }
 
-    public copyFileToTemp(sourcePath: string, gameid: number, type: string): void {
-        const imgPathTemp: string = Constants.TEMP_IMAGES_PATH + gameid + type;
-        if (!fs.existsSync(imgPathTemp) && fs.existsSync(sourcePath)) {
-            try {
-                fs.copyFileSync(sourcePath, imgPathTemp);
-            } catch (error) {
-                throw new TypeError(FILE_GENERATION_ERROR);
-            }
+    public copyFileToTemp(sourcePath: string, gameId: number, type: string): void {
+        const imgPathTemp: string = Constants.PATH_LOCAL_TEMP + gameId + type;
+        try {
+            fs.copyFileSync(sourcePath, imgPathTemp);
+        } catch (error) {
+            throw new TypeError(FILE_GENERATION_ERROR);
         }
     }
 
-    public deleteFileInTemp(gameid: number, type: string): void {
-        const imgPathTemp: string = Constants.TEMP_IMAGES_PATH + gameid + type;
-        if (fs.existsSync(imgPathTemp)) {
-            try {
-                fs.unlinkSync(imgPathTemp);
-            } catch (error) {
-                throw new TypeError(FILE_DELETION_ERROR);
-            }
+    public deleteFileInTemp(gameId: number, type: string): void {
+        const imgPathTemp: string = Constants.PATH_LOCAL_TEMP + gameId + type;
+        try {
+            fs.unlinkSync(imgPathTemp);
+        } catch (error) {
+            throw new TypeError(FILE_DELETION_ERROR);
         }
     }
 }

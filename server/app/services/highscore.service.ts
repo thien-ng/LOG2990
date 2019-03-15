@@ -1,13 +1,25 @@
+import { AxiosInstance } from "axios";
 import { injectable } from "inversify";
-import { Highscore, HighscoreMessage, Mode } from "../../../common/communication/highscore";
+import {
+    Highscore,
+    HighscoreMessage,
+    HighscoreValidationMessage,
+    HighscoreValidationResponse,
+    Mode,
+    StringFormatedTime,
+    Time
+} from "../../../common/communication/highscore";
+import { CCommon } from "../../../common/constantes/cCommon";
+import { Constants } from "../constants";
 
-const REMOVE_NOTHING:       number = 0;
+const ERROR:                number = -1;
+const DEFAULT_NUMBER:       number = 0;
 const MAX_TIME:             number = 600;
 const MIN_TIME:             number = 180;
-const DOESNT_EXIST:         number = -1;
 const SECONDS_IN_MINUTES:   number = 60;
 const BASE_DECIMAL:         number = 10;
-const MAX_NUMBER:           number = Number.MAX_SAFE_INTEGER;
+const NAME:                 string = "ordinateur";
+const axios:                AxiosInstance = require("axios");
 
 @injectable()
 export class HighscoreService {
@@ -15,69 +27,47 @@ export class HighscoreService {
 
     public createHighscore(id: number): void {
         const highscore: Highscore = {
-            id:             id,
-            timesSingle:    [MAX_TIME, MAX_TIME, MAX_TIME],
-            timesMulti:     [MAX_TIME, MAX_TIME, MAX_TIME],
-        };
+            id: id,
+        } as Highscore;
+
         this.highscores.push(highscore);
         this.generateNewHighscore(id);
     }
 
-    private formatZeroDecimal(value: number): string {
-        return (value < BASE_DECIMAL) ? "0" : "";
-    }
-
     public convertToString(id: number): HighscoreMessage {
-        const message: HighscoreMessage = {
-            id:             id,
-            timesSingle:    ["", "", ""],
-            timesMulti:     ["", "", ""],
-        };
         const index: number = this.findHighScoreByID(id);
-        message.timesMulti  = this.secondsToMinutes(this.highscores[index].timesMulti);
-        message.timesSingle = this.secondsToMinutes(this.highscores[index].timesSingle);
+        if (index !== ERROR) {
+            return {
+                id:             id,
+                timesSingle:    this.secondsToMinutes(this.highscores[index].timesSingle),
+                timesMulti:     this.secondsToMinutes(this.highscores[index].timesMulti),
+            } as HighscoreMessage;
+        }
 
-        return message;
-    }
-
-    private secondsToMinutes(times: [number, number, number]): [string, string, string] {
-        const messageHighscore: [string, string, string] = ["", "", ""];
-        let i: number = 0;
-
-        times.forEach((element: number) => {
-            const minutes: string = Math.floor(element / SECONDS_IN_MINUTES).toString();
-            const seconds: string = (element - parseFloat(minutes) * SECONDS_IN_MINUTES).toString();
-            messageHighscore[i++] = minutes + ":" + this.formatZeroDecimal(parseFloat(seconds)) + seconds;
-        });
-
-        return messageHighscore;
+        return {
+            id: ERROR,
+        } as HighscoreMessage;
     }
 
     public generateNewHighscore(id: number): void {
         const index: number = this.findHighScoreByID(id);
+
         this.setMaxValue(index);
+        const randomSingleTimes: [number, number, number] = [DEFAULT_NUMBER, DEFAULT_NUMBER, DEFAULT_NUMBER];
+        const randomMultiTimes: [number, number, number] = [DEFAULT_NUMBER, DEFAULT_NUMBER, DEFAULT_NUMBER];
 
-        this.highscores[index].timesMulti.forEach(() => {
-            this.checkScore(this.randomTime(MIN_TIME, MAX_TIME), this.highscores[index].timesMulti);
-            this.checkScore(this.randomTime(MIN_TIME, MAX_TIME), this.highscores[index].timesSingle);
-        });
-    }
+        for (let i: number = 0; i < randomSingleTimes.length; i++) {
+            randomSingleTimes[i] = this.randomTime(MIN_TIME, MAX_TIME);
+            randomMultiTimes[i] = this.randomTime(MIN_TIME, MAX_TIME);
+        }
 
-    private setMaxValue(index: number): void {
-        this.highscores[index].timesMulti   = [MAX_NUMBER, MAX_NUMBER, MAX_NUMBER];
-        this.highscores[index].timesSingle  = [MAX_NUMBER, MAX_NUMBER, MAX_NUMBER];
-    }
+        randomMultiTimes.sort();
+        randomSingleTimes.sort();
 
-    public findHighScoreByID(id: number): number {
-        let index: number = DOESNT_EXIST;
-
-        this.highscores.forEach((highscore: Highscore) => {
-            if (highscore.id === id) {
-                index = this.highscores.indexOf(highscore);
-            }
-        });
-
-        return index;
+        for (let j: number = 0; j < randomMultiTimes.length; j++) {
+            this.highscores[index].timesSingle[j].time = randomSingleTimes[j];
+            this.highscores[index].timesMulti[j].time = randomMultiTimes[j];
+        }
     }
 
     public randomTime(min: number, max: number): number {
@@ -96,43 +86,118 @@ export class HighscoreService {
         return score;
     }
 
-    public updateHighscore(value: number, mode: Mode, cardID: number): void {
-        const highscore: Highscore = this.highscores[this.findHighScoreByID(cardID)];
+    public async updateHighscore(value: Time, mode: Mode, cardID: number): Promise<HighscoreValidationResponse> {
+        const index: number = this.findHighScoreByID(cardID);
 
-        if (highscore !== undefined) {
+        if (this.highscores[index] !== undefined) {
             switch (mode) {
                 case Mode.Singleplayer:
-                    this.checkScore(value, highscore.timesSingle);
-                    break;
+                    const messageSingle: HighscoreValidationMessage = this.generateApiMessage(value, this.highscores[index], mode);
+
+                    return this.validateHighscore(messageSingle, index);
                 case Mode.Multiplayer:
-                    this.checkScore(value, highscore.timesMulti);
-                    break;
+                    const messageMulti: HighscoreValidationMessage = this.generateApiMessage(value, this.highscores[index], mode);
+
+                    return this.validateHighscore(messageMulti, index);
                 default:
-                    // Fails quietly
                     break;
             }
         }
+
+        return {
+            status: CCommon.ON_ERROR,
+        } as HighscoreValidationResponse;
     }
 
-    private checkScore(value: number, times: [number, number, number]): void {
-        let hasBeenReplaced: Boolean = false;
+    private formatZeroDecimal(value: number): string {
+        return (value < BASE_DECIMAL) ? "0" : "";
+    }
 
-        times.forEach((element: number) => {
-            if (element > value && !hasBeenReplaced) {
-                times.splice(times.indexOf(element), REMOVE_NOTHING, value);
-                times.pop();
-                hasBeenReplaced = true;
+    private secondsToMinutes(times: [Time, Time, Time]): [StringFormatedTime, StringFormatedTime, StringFormatedTime] {
+        const messageHighscore: [StringFormatedTime, StringFormatedTime, StringFormatedTime] = this.generateTimesMessage();
+        let i: number = 0;
+
+        times.forEach((time: Time) => {
+            const minutes: string = Math.floor(time.time / SECONDS_IN_MINUTES).toString();
+            const seconds: string = (time.time - parseFloat(minutes) * SECONDS_IN_MINUTES).toString();
+            messageHighscore[i].username = time.username;
+            messageHighscore[i].time = minutes + ":" + this.formatZeroDecimal(parseFloat(seconds)) + seconds;
+            i++;
+        });
+
+        return messageHighscore;
+    }
+
+    private generateTimesMessage(): [StringFormatedTime, StringFormatedTime, StringFormatedTime] {
+        return [
+            {
+                username: "",
+                time: "",
+            },
+            {
+                username: "",
+                time: "",
+            },
+            {
+                username: "",
+                time: "",
+            },
+        ];
+    }
+
+    private generateApiMessage(value: Time, highscore: Highscore, mode: Mode): HighscoreValidationMessage {
+        return {
+            newValue: value,
+            mode: mode,
+            times: highscore,
+        } as HighscoreValidationMessage;
+    }
+
+    private setMaxValue(index: number): void {
+        let i: number = 1;
+        this.highscores[index].timesSingle = [
+            this.generateDefaultTime(NAME + i++),
+            this.generateDefaultTime(NAME + i++),
+            this.generateDefaultTime(NAME + i++),
+        ];
+        this.highscores[index].timesMulti = [
+            this.generateDefaultTime(NAME + i++),
+            this.generateDefaultTime(NAME + i++),
+            this.generateDefaultTime(NAME + i++),
+        ];
+    }
+
+    private findHighScoreByID(id: number): number {
+        let index: number = ERROR;
+
+        this.highscores.forEach((highscore: Highscore) => {
+            if (highscore.id === id) {
+                index = this.highscores.indexOf(highscore);
             }
         });
+
+        return index;
     }
 
-    // Methods for testing
-    public addHighscore(hs: Highscore[]): void {
-        this.highscores.splice(REMOVE_NOTHING, this.highscores.length);
-        this.highscores = hs;
+    private async validateHighscore(message: HighscoreValidationMessage, index: number): Promise<HighscoreValidationResponse> {
+        try {
+            const response: HighscoreValidationResponse = (await axios.post(Constants.VALIDATE_HIGHSCORE_PATH, message)).data;
+            if (response.status === CCommon.ON_SUCCESS && response.isNewHighscore) {
+                this.highscores[index] = response.highscore;
+            }
+
+            return response;
+        } catch (error) {
+            return {
+                status: CCommon.ON_ERROR,
+            } as HighscoreValidationResponse;
+        }
     }
 
-    public get allHighscores(): Highscore[] {
-        return this.highscores;
+    private generateDefaultTime(name: string): Time {
+        return {
+            username: name,
+            time: MAX_TIME,
+        };
     }
 }

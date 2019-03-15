@@ -2,20 +2,17 @@
     <h1>{{ RANKING }}</h1>
     <div class="grid_ranking">
 
-        <div><h3>{{ SIMPLE }}</h3></div>
+        <div  class="rightAlign"style="grid-column: 1 / 3"><h3>{{ SIMPLE }}</h3></div>
         <div></div>
-        <div><h3>{{ ONE_VS_ONE }}</h3></div>
+        <div  class="leftAlign" style="grid-column: 4 / 6"><h3>{{ ONE_VS_ONE }}</h3></div>
 
-        <div>{{ highscore.timesSingle[0] }}</div>
-        <div><img class="medals" src="{{IMAGE_MEDAL_URL[0]}}"></div>
-        <div>{{ highscore.timesMulti[0] }}</div>
+        <ng-container *ngFor="let medal of IMAGE_MEDAL_URL; index as i">
+            <div class="rightAlign">{{ highscore.timesSingle[i].username }}</div>
+            <div class="rightAlign">{{ highscore.timesSingle[i].time }}</div>
+            <div><img class="medals" src="{{medal}}"></div>
+            <div class="leftAlign">{{ highscore.timesMulti[i].time }}</div>
+            <div class="leftAlign">{{ highscore.timesMulti[i].username }}</div>
+        </ng-container>
 
-        <div>{{ highscore.timesSingle[1] }}</div>
-        <div><img class="medals" src="{{IMAGE_MEDAL_URL[1]}}"></div>
-        <div>{{ highscore.timesMulti[1] }}</div>
-
-        <div>{{ highscore.timesSingle[2] }}</div>
-        <div><img class="medals" src="{{IMAGE_MEDAL_URL[2]}}"></div>
-        <div>{{ highscore.timesMulti[2] }}</div>
     </div>
   </mat-expansion-panel>
