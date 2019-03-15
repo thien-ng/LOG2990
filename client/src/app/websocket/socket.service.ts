@@ -29,6 +29,7 @@ export class SocketService {
       this.socket = io(Constants.WEBSOCKET_URL);
     }
 
+  // tslint:disable-next-line:max-func-body-length
   public initWebsocketListener(): void {
 
     this.socket.addEventListener(Constants.ON_CONNECT, () => {
@@ -36,6 +37,14 @@ export class SocketService {
       // tslint:disable-next-line:no-any
       this.socket.on(CCommon.ON_ARENA_RESPONSE, (data: IArenaResponse<any>) => {
         this.emitOnArenaResponse(data);
+      });
+
+      this.socket.on(CCommon.ON_PENALTY_ON, (data: IArenaResponse<any>) => {
+        this.gameViewSimpleService.wrongClickRoutine();
+      });
+
+      this.socket.on(CCommon.ON_PENALTY_OFF, (data: IArenaResponse<any>) => {
+        this.gameViewSimpleService.enableClickRoutine();
       });
 
       this.socket.on(CCommon.CHAT_EVENT, (data: IChat) => {
