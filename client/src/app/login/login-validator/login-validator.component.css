@@ -17,14 +17,38 @@
 }
 
 #submit-button {
-  color: rgb(246, 130, 31);
-  background-color: rgb(0, 127, 97);
+  color: white;
+  background-color:#36365b;
   float: bottom;
 }
 
 #submit-button[disabled] {
-  color: rgb(255, 238, 193);
+  color: white;
   background-color: rgb(150, 150, 150);;
   float: bottom;
 }
-  
+
+.container {
+  margin-top: 5%;
+  position: absolute;
+  width: 100%;
+}
+
+.container form {
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+}
+button {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
