@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { SpinnerComponent } from "src/app/spinner/spinner.component";
 import { WaitingRoomComponent } from "src/app/waiting-room/waiting-room.component";
 import { Constants } from "../../constants";
 import { TestingImportsModule } from "../../testing-imports/testing-imports.module";
@@ -21,6 +22,7 @@ describe("GameViewSimpleComponent", () => {
         MessageViewComponent,
         TimerComponent,
         WaitingRoomComponent,
+        SpinnerComponent,
       ],
       imports: [
         TestingImportsModule,
