@@ -34,11 +34,11 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
 
   public activeCard:      ICard;
   public cardLoaded:      boolean;
-  public gameStarted:     boolean;
+  public gameIsStarted:     boolean;
   public username:        string | null;
   public mode:            number;
   public arenaID:         number;
-  public gameID:         number;
+  public gameID:          number;
   private originalPath:   string;
   private gameRequest:    IGameRequest;
   private modifiedPath:   string;
@@ -50,14 +50,14 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     private route:                  ActivatedRoute,
     private httpClient:             HttpClient,
     ) {
-      this.mode         = Number(this.route.snapshot.paramMap.get("gamemode"));
-      this.cardLoaded   = false;
-      this.gameStarted  = false;
-      this.username     = sessionStorage.getItem(Constants.USERNAME_KEY);
+      this.mode           = Number(this.route.snapshot.paramMap.get("gamemode"));
+      this.cardLoaded     = false;
+      this.gameIsStarted  = false;
+      this.username       = sessionStorage.getItem(Constants.USERNAME_KEY);
       this.gameConnectionService.getGameConnectedListener().pipe(first()).subscribe((arenaID: number) => {
         this.arenaID = arenaID;
         this.socketService.sendMsg(CCommon.GAME_CONNECTION, arenaID);
-        this.gameStarted = true;
+        this.gameIsStarted = true;
         this.canvasRoutine();
       });
     }
@@ -102,12 +102,12 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       if (data.title === CCommon.ON_SUCCESS) {
         this.arenaID = parseInt(data.body, Constants.DECIMAL_BASE);
         this.socketService.sendMsg(CCommon.GAME_CONNECTION, this.arenaID);
-        this.gameStarted = true;
+        this.gameIsStarted = true;
         this.canvasRoutine();
       } else if (data.title === CCommon.ON_WAITING) {
         this.arenaID = parseInt(data.body, Constants.DECIMAL_BASE);
         this.socketService.sendMsg(CCommon.GAME_CONNECTION, CCommon.ON_WAITING);
-        this.gameStarted = false;
+        this.gameIsStarted = false;
       }
     });
   }
