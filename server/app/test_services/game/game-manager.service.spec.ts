@@ -239,6 +239,7 @@ describe("GameManagerService tests", () => {
         }).reply(200, modified);
 
         chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
+        chai.spy.on(gameManagerService, "init2DArena", () => {});
 
         gameManagerService.analyseRequest(request2DSimple).catch();
 
@@ -251,60 +252,27 @@ describe("GameManagerService tests", () => {
         chai.spy.restore();
     });
 
-    // it("should remove player patate from arena", async () => {
-    //     userManagerService.validateName(request2DSimple.username);
-    // // it("should remove player patate from arena", async () => {
-    // //     userManagerService.validateName(request2D.username);
+    it("should remove player patate from arena and delete arena", async () => {
+        userManagerService.validateName(request2DSimple.username);
+        chai.spy.on(gameManagerService, ["tempRoutine2d"], () => {return; });
+        chai.spy.on(gameManagerService, ["deleteArena"], () => {return; });
 
-    // //     mockAxios.onGet(iArenaInfos.dataUrl.original, {
-    // //         responseType: "arraybuffer",
-    // //     }).reply(200, original);
+        mockAxios.onGet(iArenaInfos.dataUrl.original, {
+            responseType: "arraybuffer",
+        }).reply(200, original);
 
-    // //     mockAxios.onGet(iArenaInfos.dataUrl.difference, {
-    // //         responseType: "arraybuffer",
-    // //     }).reply(200, modified);
+        mockAxios.onGet(iArenaInfos.dataUrl.difference, {
+            responseType: "arraybuffer",
+        }).reply(200, modified);
 
-    // //     chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
-    // //     chai.spy.on(gameManagerService, "init2DArena", async () => {
-    // //         await gameManagerService["arena"].timer.stopTimer();
-    // //     });
+        chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
+        chai.spy.on(gameManagerService, "init2DArena", async () => {});
 
-    //     gameManagerService.analyseRequest(request2DSimple).catch();
-    //     gameManagerService.unsubscribeSocketID("12345", "Frank");
-    //     chai.expect(gameManagerService["arena"].getPlayers().length).to.deep.equal(0);
-    // });
-
-    // it("should delete arena succesfully", async () => {
-    //     userManagerService.validateName(request2DSimple.username);
-    //     mockAxios.onGet(iArenaInfos.dataUrl.original, {
-    //         responseType: "arraybuffer",
-    //     }).reply(200, original);
-    //     gameManagerService.analyseRequest(request2D).catch();
-    //     gameManagerService.unsubscribeSocketID("12345", "Frank");
-    //     chai.expect(gameManagerService["arena"].getPlayers().length).to.deep.equal(0);
-    // });
-
-    // it("should delete arena succesfully", async () => {
-    //     userManagerService.validateName(request2DSimple.username);
-    //     mockAxios.onGet(iArenaInfos.dataUrl.original, {
-    //         responseType: "arraybuffer",
-    //     }).reply(200, original);
-
-    //     mockAxios.onGet(iArenaInfos.dataUrl.difference, {
-    //         responseType: "arraybuffer",
-    //     }).reply(200, modified);
-
-    //     chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
-    //     chai.spy.on(gameManagerService, "init2DArena", () => {
-    //         gameManagerService["arena"].timer.stopTimer();
-    //     });
-
-    //     const spy: any = chai.spy.on(gameManagerService["arenas"][0], "delete");
-
-    //     gameManagerService.analyseRequest(request2DSimple).catch();
-    //     gameManagerService.deleteArena(iArenaInfos);
-    //     chai.expect(spy).to.have.been.called();
-    // });
+        gameManagerService.analyseRequest(request2DSimple).catch();
+        gameManagerService.unsubscribeSocketID("12345", "Frank");
+        chai.expect(gameManagerService.getUsersInArena(1).length).to.deep.equal(0);
+        chai.spy.restore();
+    });
 
     it("Should send message with socket", async () => {
         gameManagerService = new GameManagerService(userManagerService);
