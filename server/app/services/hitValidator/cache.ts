@@ -21,9 +21,9 @@ export class Cache {
         }
     }
 
-    public contains(imageUrl: string): boolean {
-        return this.storage.some((cachedElement: ICacheElement): boolean => {
-            return cachedElement.imageToCache.imageUrl === imageUrl;
+    public contains(url: string): boolean {
+        return this.storage.some((cachedElement: ICacheElement<T>): boolean => {
+            return cachedElement.dataToCache.dataUrl === url;
         });
     }
 
