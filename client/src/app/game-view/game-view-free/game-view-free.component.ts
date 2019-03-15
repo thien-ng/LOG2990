@@ -44,8 +44,8 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
     private snackBar:               MatSnackBar,
     ) {
       this.cardIsLoaded   = false;
-      this.mode           = Number(this.route.snapshot.paramMap.get(GAMEMODE_KEY));
       this.gameIsStarted  = false;
+      this.mode           = Number(this.route.snapshot.paramMap.get(GAMEMODE_KEY));
       this.username       = sessionStorage.getItem(Constants.USERNAME_KEY);
 
       this.gameConnectionService.getGameConnectedListener().pipe(first()).subscribe((arenaID: number) => {
