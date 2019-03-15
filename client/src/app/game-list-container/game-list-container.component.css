@@ -21,10 +21,10 @@ h2 {
 }
 
 ::ng-deep .mat-tab-header{
-      z-index: 999;
-      width:100%;
-      position: fixed  !important;
-      border: transparent;
+  z-index: 999;
+  width:100%;
+  position: fixed  !important;
+  border: transparent;
 }
 ::ng-deep .mat-tab-body-wrapper{
     position: relative !important;
