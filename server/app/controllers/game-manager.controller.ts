@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { inject, injectable } from "inversify";
 
-import { IModification } from "../../../common/communication/iSceneVariables";
 import { Message } from "../../../common/communication/message";
 import { GameManagerService } from "../services/game/game-manager.service";
 import Types from "../types";
