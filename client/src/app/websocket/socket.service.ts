@@ -38,11 +38,11 @@ export class SocketService {
       this.socket.on(CCommon.ON_ARENA_RESPONSE, (data: IArenaResponse<any>) => {
         this.emitOnArenaResponse(data);
       });
-
+      // tslint:disable-next-line:no-any
       this.socket.on(CCommon.ON_PENALTY_ON, (data: IArenaResponse<any>) => {
         this.gameViewSimpleService.wrongClickRoutine();
       });
-
+      // tslint:disable-next-line:no-any
       this.socket.on(CCommon.ON_PENALTY_OFF, (data: IArenaResponse<any>) => {
         this.gameViewSimpleService.enableClickRoutine();
       });
