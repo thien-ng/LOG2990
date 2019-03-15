@@ -16,7 +16,6 @@ const axios: AxiosInstance = require("axios");
 export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
 
     public ARENA_TYPE:              GameMode;
-    public DEFAULT_DIFF_TO_UPDATE:  DIFF_T;
     public timer:                   Timer;
 
     protected readonly ERROR_ON_HTTPGET:  string = "Didn't succeed to get image buffer from URL given. File: arena.ts.";
