@@ -161,6 +161,22 @@ describe("GameManagerService tests", () => {
         });
         chai.spy.restore();
     });
+    it("Should return buildArenaInfo successfully", async () => {
+        const arenaInfo: IArenaInfos<I2DInfos> = {
+            arenaId:            1000,
+            users:              [{username: "Frank", socketID: "12345"}],
+            dataUrl:            {
+                original:    Constants.PATH_SERVER_TEMP + "1" + CCommon.ORIGINAL_FILE,
+                difference:  Constants.PATH_SERVER_TEMP + "1" + Constants.GENERATED_FILE,
+            },
+        };
+        chai.spy.on(gameManagerService, "buildArenaInfos");
+        chai.expect(
+            gameManagerService["buildArena2DInfos"]([{username: "Frank", socketID: "12345"}], 1))
+            .to.deep.equal(arenaInfo);
+        chai.spy.restore();
+    });
+
 
     it("Should return a success message when creating a 3D arena", async () => {
         // const sandbox: sinon.SinonSandbox = sinon.createSandbox();
