@@ -1,18 +1,16 @@
 import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import { IArenaResponse } from "../../../../../common/communication/iGameplay";
+import { IUser } from "../../../../../common/communication/iUser";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { Constants } from "../../../constants";
-
 import { Arena } from "./arena";
+import { IHitConfirmation, IHitToValidate } from "./interfaces";
 import { Player } from "./player";
 import { Timer } from "./timer";
 
-import { IOriginalPixelCluster, IPlayerInputResponse, IPosition2D } from "../../../../../common/communication/iGameplay";
-import { IUser } from "../../../../../common/communication/iUser";
-import { IArenaInfos, IHitConfirmation, IHitToValidate } from "./interfaces";
-
 const axios: AxiosInstance = require("axios");
 
-export class Referee {
+export class Referee<EVT_T, DIFF_T> {
 
     private readonly ERROR_HIT_VALIDATION:  string = "Problem during Hit Validation process.";
     private readonly ON_FAILED_CLICK:       string = "onFailedClick";
@@ -22,56 +20,58 @@ export class Referee {
     private differencesFound:   number[];
     private pointsNeededToWin:  number;
 
-    public constructor(public  arena:               Arena,
+    // tslint:disable-next-line:no-any
+    public constructor(public  arena:               Arena<any, any, any, any>,
                        private players:             Player[],
-                       private originalElements:    Map<number, IOriginalPixelCluster>,
+                       private originalElements:    Map<number, DIFF_T>,
                        public  timer:               Timer,
-                       public  arenaInfos:          IArenaInfos,
+                       public  differenceDataUrl:   string,
     ) {
 
         this.timer = new Timer();
+        // _TODO: sortir ca de la (ca devrait aller dans le GameManager)
         this.pointsNeededToWin = players.length === 1 ? this.POINTS_TO_WIN_SINGLE : this.POINTS_TO_WIN_MULTI;
 
         this.differencesFound = [];
         this.initTimer();
     }
 
-    public async onPlayerClick(position: IPosition2D, user: IUser): Promise<IPlayerInputResponse> {
+    public async onPlayerClick(eventInfos: EVT_T, user: IUser): Promise<IArenaResponse<DIFF_T>> {
 
-        let inputResponse: IPlayerInputResponse = this.buildPlayerInputResponse(
+        let arenaResponse: IArenaResponse<DIFF_T> = this.buildArenaResponse(
             this.ON_FAILED_CLICK,
-            Constants.ON_ERROR_PIXEL_CLUSTER,
-        );
+            this.arena.DEFAULT_DIFF_TO_UPDATE,
+        ) as IArenaResponse<DIFF_T>;
 
-        return this.validateHit(position)
+        return this.validateHit(eventInfos)
         .then((hitConfirmation: IHitConfirmation) => {
-            const isAnUndiscoveredDifference: boolean = this.isAnUndiscoveredDifference(hitConfirmation.hitPixelColor[0]);
+            const isAnUndiscoveredDifference: boolean = this.isAnUndiscoveredDifference(hitConfirmation.differenceIndex);
 
             if (hitConfirmation.isAHit && isAnUndiscoveredDifference) {
                 this.onHitConfirmation(user, hitConfirmation);
-                const pixelCluster: IOriginalPixelCluster | undefined = this.originalElements.get(hitConfirmation.hitPixelColor[0]);
+                const differenceToUpdate: DIFF_T | undefined = this.originalElements.get(hitConfirmation.differenceIndex);
 
-                if (pixelCluster !== undefined) {
-                    inputResponse = this.buildPlayerInputResponse(CCommon.ON_SUCCESS, pixelCluster);
+                if (differenceToUpdate !== undefined) {
+                    arenaResponse = this.buildArenaResponse(CCommon.ON_SUCCESS, differenceToUpdate);
                 }
                 if (this.gameIsFinished()) {
                     this.endOfGameRoutine();
                 }
             }
 
-            return inputResponse;
+            return arenaResponse;
         })
         .catch ((error: Error) => {
-            return this.buildPlayerInputResponse(CCommon.ON_ERROR, Constants.ON_ERROR_PIXEL_CLUSTER);
+            return this.buildArenaResponse(CCommon.ON_ERROR, this.arena.DEFAULT_DIFF_TO_UPDATE);
         });
     }
 
-    public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {
+    public async validateHit(eventInfos: EVT_T): Promise<IHitConfirmation> {
 
-        const postData:     IHitToValidate      = this.buildPostData(position);
-        const postConfig:   AxiosRequestConfig  = this.buildPostConfig();
+        const postData:     IHitToValidate<EVT_T>   = this.buildPostData(eventInfos);
+        const postConfig:   AxiosRequestConfig      = this.buildPostConfig();
 
-        return axios.post(Constants.URL_HIT_VALIDATOR, postData, postConfig)
+        return axios.post(Constants.URL_HIT_VALIDATOR + "/" + this.arena.ARENA_TYPE, postData, postConfig)
             .then((res: AxiosResponse) => {
                 return res.data;
             })
@@ -82,7 +82,7 @@ export class Referee {
 
     private onHitConfirmation(user: IUser, hitConfirmation: IHitConfirmation): void {
         this.attributePoints(user);
-        this.addToDifferencesFound(hitConfirmation.hitPixelColor[0]);
+        this.addToDifferencesFound(hitConfirmation.differenceIndex);
     }
 
     private addToDifferencesFound(differenceIndex: number): void {
@@ -125,19 +125,19 @@ export class Referee {
         this.timer.stopTimer();
     }
 
-    private buildPlayerInputResponse(status: string, response: IOriginalPixelCluster): IPlayerInputResponse {
+    private buildArenaResponse(status: string, response: DIFF_T): IArenaResponse<DIFF_T> {
         return {
             status:     status,
             response:   response,
-        };
+        } as IArenaResponse<DIFF_T>;
     }
 
-    private buildPostData(position: IPosition2D): IHitToValidate {
+    private buildPostData(eventInfos: EVT_T): IHitToValidate<EVT_T> {
         return {
-            position:       position,
-            imageUrl:       this.arenaInfos.differenceGameUrl,
-            colorToIgnore:  Constants.WHITE,
-        };
+            eventInfo:          eventInfos,
+            differenceDataURL:  this.differenceDataUrl,
+            colorToIgnore:      Constants.FF,
+        } as IHitToValidate<EVT_T>;
     }
 
     private buildPostConfig(): AxiosRequestConfig {

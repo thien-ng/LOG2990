@@ -30,6 +30,11 @@ export class GameManagerController {
             res.json(iModificationMap);
         });
 
+        router.get("/cancel-request/:id", async (req: Request, res: Response, next: NextFunction) => {
+            const id: number = Number(req.params.id);
+            res.json(this.gameManagerService.cancelRequest(id));
+        });
+
         return router;
     }
 }

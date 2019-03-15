@@ -40,7 +40,7 @@ export class Constants {
 
   public static readonly CARD_EXISTING:             string = "Le titre de la carte existe déjà";
   public static readonly CARD_CREATION_ERROR:       string = "Les données entrées sont invalides";
-  public static readonly GAME_NAME_ERROR:   string = "Le titre du jeu doit contenir seulement des caracteres alphanumeriques";
+  public static readonly GAME_NAME_ERROR:           string = "Le titre du jeu doit contenir seulement des caracteres alphanumeriques";
   public static readonly GAME_FORMAT_LENTGH_ERROR:  string = "Le titre du jeu doit contenir entre" + CCommon.MIN_GAME_LENGTH +
                                                              " et " + CCommon.MAX_GAME_LENGTH + "caracteres";
   public static readonly GAME_TITLE_IS_CORRECT:     string = "Le titre est correct";
@@ -52,6 +52,8 @@ export class Constants {
 
   // Constants for game manager
   public static readonly PATH_TO_IMAGES:            string = CCommon.BASE_URL + "/image/";
+  public static readonly PATH_SERVER_TEMP:          string = CCommon.BASE_URL + "/temp/";
+  public static readonly PATH_LOCAL_TEMP:           string = "./app/asset/temp/";
   public static readonly NOT_UNIQUE_NAME:           string = "isNotUnique";
   public static readonly INIT_ARENA_ERROR:          string = "Erreur lors de l'initialisation de l'arène 2D";
 
@@ -62,7 +64,6 @@ export class Constants {
 
   // Constants for arena.ts
   public static readonly FF:                        number = 255;
-  public static readonly WHITE:                     number[] = [Constants.FF, Constants.FF, Constants.FF];
   public static readonly URL_HIT_VALIDATOR:         string = "http://localhost:3000/api/hitvalidator";
   public static readonly ONE_SECOND:                number = 1000;
   public static readonly ON_ERROR_PIXEL_CLUSTER:    IOriginalPixelCluster = { differenceKey: -1, cluster: [] };

@@ -63,6 +63,7 @@ export class Constants {
   // Constants for game view free component
   public static readonly DEFAULT_SLIDER_VALUE:      number = 100;
   public static readonly GAME_REQUEST_PATH:         string = CCommon.BASE_URL + "/api/game/request";
+  public static readonly CANCEL_REQUEST_PATH:       string = CCommon.BASE_URL + "/api/game/cancel-request/";
   public static readonly SUCCESS_STATUS:            number = 200;
 
   // Constants for card.component.ts
