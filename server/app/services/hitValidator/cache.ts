@@ -1,4 +1,4 @@
-import { ICacheElement, IImageToCache } from "./interfaces";
+import { ICacheElement, IDataToCache } from "./interfaces";
 
 export class Cache<T> {
 
