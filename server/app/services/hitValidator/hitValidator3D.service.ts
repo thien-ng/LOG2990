@@ -57,4 +57,12 @@ export class HitValidatorService3D {
             });
     }
 
+    private insertElementInCache(imageUrl: string, data: ISceneVariablesMessage): void {
+        const newCacheElement: IDataToCache<ISceneVariablesMessage> = {
+            dataUrl:    imageUrl,
+            data:       data,
+        };
+        this.cache.insert(newCacheElement);
+    }
+
 }
