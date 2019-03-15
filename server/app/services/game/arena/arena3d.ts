@@ -62,5 +62,10 @@ export class Arena3D extends Arena<any, any, any, any> {
         return sceneObjectUpdate;
     }
 
+    private buildSceneObjectUpdate(actionType: ActionType, sceneObject?: ISceneObject): ISceneObjectUpdate {
+        return {
+            actionToApply:  actionType,
+            sceneObject:    sceneObject,
+        } as ISceneObjectUpdate;
     }
 }
