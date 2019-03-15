@@ -137,6 +137,12 @@ export class GameManagerService {
         await arena.prepareArenaForGameplay();
     }
 
+    public getDifferencesIndex(arenaId: number): number[] {
+        const arena: Arena<any, any, any, any> | undefined = this.arenas.get(arenaId);
+
+        return arena ? arena.getDifferencesIds() : [];
+    }
+
     private tempRoutine2d(gameId: number): void {
         const pathOriginal:  string = Constants.IMAGES_PATH + "/" + gameId + CCommon.ORIGINAL_FILE;
         const pathGenerated: string = Constants.IMAGES_PATH + "/" + gameId + Constants.GENERATED_FILE;
