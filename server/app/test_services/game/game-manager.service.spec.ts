@@ -177,10 +177,28 @@ describe("GameManagerService tests", () => {
         chai.spy.restore();
     });
 
+    it("Should return a success message when creating a 2D arena", async () => {
+        userManagerService.validateName(request2DSimple.username);
+        chai.spy.on(gameManagerService, ["tempRoutine2d"], () => {return; });
+
+        mockAxios.onGet(iArenaInfos.dataUrl.original, {
+            responseType: "arraybuffer",
+        }).reply(200, original);
+
+        mockAxios.onGet(iArenaInfos.dataUrl.difference, {
+            responseType: "arraybuffer",
+        }).reply(200, modified);
+
+        chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
+        chai.spy.on(gameManagerService, "init2DArena", () => {});
+
+        gameManagerService.analyseRequest(request2DSimple).then((message: any) => {
+            chai.expect(message.title).to.equal("onSuccess");
+        }).catch();
+
+    });
 
     it("Should return a success message when creating a 3D arena", async () => {
-        // const sandbox: sinon.SinonSandbox = sinon.createSandbox();
-        // sandbox.stub(gameManagerService, "[tempRoutine2d]").callsFake(() => { return; });
         chai.spy.on(gameManagerService, ["tempRoutine3d"], () => {return; });
         userManagerService.validateName(request3DSimple.username);
         const message: Message = await gameManagerService.analyseRequest(request3DSimple);
@@ -221,9 +239,6 @@ describe("GameManagerService tests", () => {
         }).reply(200, modified);
 
         chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
-        chai.spy.on(gameManagerService, "init2DArena", () => {
-            gameManagerService["arena"].timer.stopTimer();
-        });
 
         gameManagerService.analyseRequest(request2DSimple).catch();
 
