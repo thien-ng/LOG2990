@@ -8,7 +8,6 @@ import {
  } from "../../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 
-const DELAY:            number = 1000;
 const CENTERY:          number = 15;
 const CENTERX:          number = 50;
 const PADDING_CANVAS_2: number = 640;
@@ -37,14 +36,15 @@ export class GameViewSimpleService {
           this.canvasModified.fillRect(pixel.position.x, pixel.position.y, 1, 1);
         });
       }
-
-    } else {
-      this.playFailSound();
-      this.disableClickRoutine();
     }
   }
 
-  private enableClickRoutine(): void {
+  public wrongClickRoutine(): void {
+    this.playFailSound();
+    this.disableClickRoutine();
+  }
+
+  public enableClickRoutine(): void {
     document.body.style.cursor = "auto";
     this.canvasModified.canvas.style.pointerEvents = "auto";
     this.canvasOriginal.canvas.style.pointerEvents = "auto";
@@ -63,9 +63,6 @@ export class GameViewSimpleService {
       this.textCanvasModified.style.left = positionRight2 + "px";
       this.textCanvasOriginal.textContent = ERROR_MESSAGE;
       this.textCanvasModified.textContent = ERROR_MESSAGE;
-      this.canvasModified.canvas.style.pointerEvents = "none";
-      this.canvasOriginal.canvas.style.pointerEvents = "none";
-      window.setTimeout(() => this.enableClickRoutine() , DELAY);
 }
 
   public playFailSound(): void {
