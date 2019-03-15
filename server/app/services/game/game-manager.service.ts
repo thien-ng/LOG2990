@@ -30,12 +30,12 @@ export class GameManagerService {
     private countByGameId:      Map<number, number>;
 
     public constructor(@inject(Types.UserManagerService) private userManagerService: UserManagerService) {
-        this.playerList = new Map<string, SocketIO.Socket>();
-        this.arenas     = new Map<number, Arena<any, any, any, any>>();
-        this.arenaID    = ARENA_START_ID;
-        this.assetManager = new AssetManagerService();
-        this.countByGameId = new Map<number, number>();
-        this.gameIdByArena = new Map<number, number>();
+        this.playerList     = new Map<string, SocketIO.Socket>();
+        this.arenas         = new Map<number, Arena<any, any, any, any>>();
+        this.arenaID        = ARENA_START_ID;
+        this.assetManager   = new AssetManagerService();
+        this.countByGameId  = new Map<number, number>();
+        this.gameIdByArenaId  = new Map<number, number>();
     }
 
     private returnError(errorMessage: string): Message {
