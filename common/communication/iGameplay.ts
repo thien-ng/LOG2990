@@ -38,3 +38,10 @@ export interface IArenaResponse<RES_T> {
     response?:      RES_T;
     arenaType?:     GameMode;
 }
+
+export enum ActionType {
+    ADD,
+    CHANGE_COLOR,
+    DELETE,
+    NO_ACTION_REQUIRED,
+}
