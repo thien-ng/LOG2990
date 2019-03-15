@@ -64,7 +64,8 @@
 .account {
   color: white;
   padding-left: 1%;
-  padding-bottom: 0.7%;
+  padding-bottom: 0.9%;
+  padding-top: 0.1%;
   font-size: 200%;
 }
 .account:hover {
