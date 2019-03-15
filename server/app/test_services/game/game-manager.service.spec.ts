@@ -453,4 +453,28 @@ describe("GameManagerService tests", () => {
         chai.spy.restore();
 
     });
+    it("should decrement the arenaAliveCount when deleting arena", () => {
+        userManagerService.validateName(request2DSimple.username);
+        mockAxios.onGet(iArenaInfos.dataUrl.original, {
+            responseType: "arraybuffer",
+        }).reply(200, original);
+
+        mockAxios.onGet(iArenaInfos.dataUrl.difference, {
+            responseType: "arraybuffer",
+        }).reply(200, modified);
+
+        chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
+        chai.spy.on(gameManagerService, ["tempRoutine2d"], () => {return; });
+        chai.spy.on(gameManagerService, "init2DArena", () => {});
+        chai.spy.on(gameManagerService, "deleteTempFiles", () => {});
+        chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
+
+        gameManagerService.analyseRequest(request2DSimple).catch();
+        gameManagerService.analyseRequest(request2DSimple).catch();
+        gameManagerService.deleteArena(iArenaInfos);
+        chai.expect(gameManagerService["countByGameId"].get(1)).to.equal(1);
+        chai.spy.restore();
+
+    });
+
 });
