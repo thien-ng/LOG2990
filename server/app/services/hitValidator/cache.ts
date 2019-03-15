@@ -27,15 +27,15 @@ export class Cache {
         });
     }
 
-    public get(imageUrl: string): Buffer {
+    public get(url: string): T {
 
         try {
-            const foundElement: ICacheElement = this.storage.filter((element: ICacheElement) => {
-                return element.imageToCache.imageUrl === imageUrl;
+            const foundElement: ICacheElement<T> = this.storage.filter((element: ICacheElement<T>) => {
+                return element.dataToCache.dataUrl === url;
             })[0];
             this.updateLRUPolitic(foundElement);
 
-            return foundElement.imageToCache.buffer;
+            return foundElement.dataToCache.data;
         } catch (error) {
             throw new TypeError(this.ON_NOTFOUND_ERROR + error.message);
         }
