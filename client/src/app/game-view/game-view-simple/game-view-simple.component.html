@@ -1,6 +1,6 @@
-<app-waiting-room [gameID]="gameID" *ngIf="!gameStarted && mode !== 0"></app-waiting-room>
+<app-waiting-room [gameID]="gameID" *ngIf="!gameIsStarted && mode !== 0"></app-waiting-room>
 
-<span [hidden]="!gameStarted">
+<span [hidden]="!gameIsStarted">
   <mat-grid-list id="game" cols="9" rowHeight="1%">
     <mat-grid-tile
       [colspan]="7"
