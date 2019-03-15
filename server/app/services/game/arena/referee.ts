@@ -16,6 +16,7 @@ export class Referee<EVT_T, DIFF_T> {
     private readonly ON_FAILED_CLICK:       string = "onFailedClick";
     private readonly POINTS_TO_WIN_SINGLE:  number = 7;
     private readonly POINTS_TO_WIN_MULTI:   number = 4;
+    private readonly PENALTY_TIMEOUT_MS:    number = 1000;
 
     private differencesFound:   number[];
     private pointsNeededToWin:  number;
