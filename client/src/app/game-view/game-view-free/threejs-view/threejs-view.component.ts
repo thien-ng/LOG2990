@@ -19,11 +19,13 @@ import { ThreejsViewService } from "./threejs-view.service";
 export class TheejsViewComponent implements OnChanges {
 
   private CHEAT_KEY_CODE:         number = 84;
+  private CHEAT_INTERVAL_TIME:    number = 125;
 
   private renderer:               THREE.WebGLRenderer;
   private scene:                  THREE.Scene;
   private cheatFlag:              boolean;
   private modifiedObjectList:     IModification[];
+  private interval:               NodeJS.Timeout;
 
   @Input()
   private iSceneVariables:        ISceneVariables;
@@ -39,8 +41,6 @@ export class TheejsViewComponent implements OnChanges {
 
   @ViewChild("originalScene", {read: ElementRef})
   private originalScene:          ElementRef;
-
-  private interval: NodeJS.Timeout;
 
   @HostListener("body:keyup", ["$event"])
   public async keyboardEventListener(keyboardEvent: KeyboardEvent): Promise<void> {
@@ -64,12 +64,6 @@ export class TheejsViewComponent implements OnChanges {
     }
   }
 
-  private getModifiedObjectIds(): void {
-    this.httpClient.get(Constants.GET_OBJECTS_ID_PATH + "id").subscribe((modificationMap: IModification[]) => {
-      this.modifiedObjectList = modificationMap;
-    });
-  }
-
   private initScene(): void {
 
     this.renderer = new THREE.WebGLRenderer();
@@ -79,22 +73,34 @@ export class TheejsViewComponent implements OnChanges {
     this.takeSnapShot();
   }
 
-  private async handleKeyboardEvent(keyboardEvent: KeyboardEvent): Promise<void> {
+  private handleKeyboardEvent(keyboardEvent: KeyboardEvent): void {
     if (keyboardEvent.keyCode === this.CHEAT_KEY_CODE) {
-      await this.getModifiedObjectIds();
+
+      this.getModifiedObjectIds();
       if (this.cheatFlag) {
+
         this.cheatFlag = !this.cheatFlag;
         let flashValue: boolean = true;
-        this.interval = setInterval(() => {
-          flashValue = !flashValue;
-          this.threejsViewService.changeObjectsColor(this.modifiedObjectList, flashValue);
-        }, 125);
+
+        this.interval = setInterval(
+          () => {
+            flashValue = !flashValue;
+            this.threejsViewService.changeObjectsColor(this.modifiedObjectList, flashValue);
+          },
+          this.CHEAT_INTERVAL_TIME);
       } else {
+
         clearInterval(this.interval);
         this.cheatFlag = !this.cheatFlag;
         this.threejsViewService.changeObjectsColor(this.modifiedObjectList, true);
       }
     }
+  }
+
+  private getModifiedObjectIds(): void {
+    this.httpClient.get(Constants.GET_OBJECTS_ID_PATH + "id").subscribe((modificationMap: IModification[]) => {
+      this.modifiedObjectList = modificationMap;
+    });
   }
 
   private takeSnapShot(): void {

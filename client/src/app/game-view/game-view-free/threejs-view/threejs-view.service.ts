@@ -58,7 +58,7 @@ export class ThreejsViewService {
 
       if (meshObject !== undefined) {
         const objectColor: string | undefined = this.mapOriginColor.get(modificationElement.id);
-        const chosenColor: string | undefined= (!isCheating) ? "#FF0000" : objectColor;
+        const chosenColor: string | undefined = (!isCheating) ? "#FF0000" : objectColor;
 
         meshObject.material = new THREE.MeshPhongMaterial({color: chosenColor});
       }
@@ -73,6 +73,7 @@ export class ThreejsViewService {
     if (instanceObject3D !== undefined) {
       return (instanceObject3D as THREE.Mesh);
     }
+
     return undefined;
   }
 

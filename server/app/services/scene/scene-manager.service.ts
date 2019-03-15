@@ -30,7 +30,9 @@ export class SceneManager {
                 const modifiedList: IModification[] = [];
                 const iSceneOptions: ISceneOptions = this.sceneOptionsMapper(formMessage);
                 const generatedOriginalScene: ISceneVariables = this.sceneBuilder.generateScene(iSceneOptions);
-                const generatedModifiedScene: ISceneVariables = this.sceneModifier.modifyScene(iSceneOptions, generatedOriginalScene, modifiedList);
+                const generatedModifiedScene: ISceneVariables = this.sceneModifier.modifyScene(iSceneOptions,
+                                                                                               generatedOriginalScene,
+                                                                                               modifiedList);
 
                 return {
                     originalScene: generatedOriginalScene,

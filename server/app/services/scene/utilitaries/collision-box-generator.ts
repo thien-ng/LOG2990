@@ -60,6 +60,6 @@ export class CollisionBoxGenerator {
     }
 
     private calculateSphereCollisionRadius(sceneObject: ISceneObject): number {
-        return Math.pow(sceneObject.scale.x, 2);
+        return Math.pow(sceneObject.scale.x, SceneConstants.POWER_TWO);
     }
 }

@@ -1,7 +1,7 @@
 import deepcopy from "ts-deepcopy";
 import { ISceneObject } from "../../../../common/communication/iSceneObject";
 import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
-import { IModification, ModificationType, ISceneVariables } from "../../../../common/communication/iSceneVariables";
+import { IModification, ISceneVariables, ModificationType } from "../../../../common/communication/iSceneVariables";
 import { SceneBuilder } from "./scene-builder";
 import { SceneConstants } from "./sceneConstants";
 

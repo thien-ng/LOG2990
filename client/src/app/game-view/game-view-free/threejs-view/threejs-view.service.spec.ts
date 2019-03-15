@@ -50,10 +50,11 @@ describe("ThreejsViewService Tests", () => {
     expect(spy).toHaveBeenCalled();
   }));
 
-  it("should change color of the mesh object to cheat color", inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+  it("should change color of the mesh object to cheat color",
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
     const spy: any = spyOn<any>(threejsViewService, "generateSceneObjects");
 
-    const generatedColor:   THREE.MeshBasicMaterial = new THREE.MeshPhongMaterial( {color: "#FFFFFF"} )
+    const generatedColor:   THREE.MeshBasicMaterial = new THREE.MeshPhongMaterial( {color: "#FFFFFF"} );
     const sphereGeometry:   THREE.Geometry          = new THREE.SphereGeometry(1);
     const generatedObject:  THREE.Mesh              = new THREE.Mesh(sphereGeometry, generatedColor);
 
@@ -66,16 +67,5 @@ describe("ThreejsViewService Tests", () => {
 
     expect(spy).toHaveBeenCalled();
   }));
-  
-  // it("should change color of the mesh object to original color", inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
-  //   const generatedColor:   THREE.MeshBasicMaterial = new THREE.MeshPhongMaterial( {color: "#FFFFFF"} )
-  //   const sphereGeometry:   THREE.Geometry          = new THREE.SphereGeometry(1);
-  //   const generatedObject:  THREE.Mesh              = new THREE.Mesh(sphereGeometry, generatedColor);
-    
-  //   when(scene.getObjectById(anyNumber())).thenReturn(generatedObject);
-    
-  //   const modifiedList: number[] = [2];
-  //   threejsViewService.createScene(scene, sceneVariables, renderer);
-  // }));
 
 });

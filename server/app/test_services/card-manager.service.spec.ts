@@ -301,3 +301,4 @@ describe("cardManagerService CardTitle test", () => {
         done();
     });
 });
+/*tslint:disable max-file-line-count */
