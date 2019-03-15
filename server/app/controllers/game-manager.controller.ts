@@ -24,11 +24,8 @@ export class GameManagerController {
             res.json(await this.gameManagerService.onPlayerInput(req.body));
         });
 
-        router.get("/id", async (req: Request, res: Response, next: NextFunction) => {
-            // _TODO: implement return real modification values
-            const iModificationMap: IModification[] = [{id: 1, type: 1}, {id: 2, type: 1} , {id: 3, type: 1}, {id: 4, type: 1},
-                                                       {id: 5, type: 1}, {id: 6, type: 1} , {id: 7, type: 1}, {id: 8, type: 1}];
-            res.json(iModificationMap);
+        router.get("/cheat/:arenaId", async (req: Request, res: Response, next: NextFunction) => {
+            res.json(this.gameManagerService.getDifferencesIndex(req.params.arenaId));
         });
 
         router.get("/cancel-request/:id", async (req: Request, res: Response, next: NextFunction) => {
