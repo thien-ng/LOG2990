@@ -41,8 +41,8 @@ export class Cache {
         }
     }
 
-    private updateLRUPolitic(elementRecentlyAccessed: ICacheElement): void {
-        this.storage.forEach((elementCached: ICacheElement) => {
+    private updateLRUPolitic(elementRecentlyAccessed: ICacheElement<T>): void {
+        this.storage.forEach((elementCached: ICacheElement<T>) => {
             if (elementCached !== elementRecentlyAccessed) {
                 elementCached.obsolescenceDegree++;
             }
