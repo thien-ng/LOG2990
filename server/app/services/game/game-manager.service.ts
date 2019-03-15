@@ -85,7 +85,6 @@ export class GameManagerService {
 
     private async verifyLobby(request: IGameRequest, user: IUser): Promise<Message> {
         const lobby: IUser[] | undefined = this.lobby.get(request.gameId);
-        console.log(lobby);
 
         if (lobby === undefined) {
             this.lobby.set(request.gameId.valueOf(), [user]);
