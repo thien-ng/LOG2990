@@ -10,10 +10,10 @@ export class Cache {
         this.storage = [];
     }
 
-    public insert(entry: IImageToCache): void {
-        if (!this.contains(entry.imageUrl)) {
-            const elementToInsert: ICacheElement = {
-                imageToCache: entry,
+    public insert(entry: IDataToCache<T>): void {
+        if (!this.contains(entry.dataUrl)) {
+            const elementToInsert: ICacheElement<T> = {
+                dataToCache: entry,
                 obsolescenceDegree: 0,
             };
             this.storage[this.leastRecentlyUsedIndex()] = elementToInsert;
