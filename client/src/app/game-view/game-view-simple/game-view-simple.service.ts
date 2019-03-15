@@ -74,6 +74,11 @@ export class GameViewSimpleService {
     this.canvasOriginal = original;
   }
 
+  public setText(text1: ElementRef, text2: ElementRef): void {
+    this.textCanvasOriginal = text1.nativeElement;
+    this.textCanvasModified = text2.nativeElement;
+  }
+
   public setSounds(success: ElementRef, fail: ElementRef): void {
     this.successSound = success;
     this.failSound    = fail;
