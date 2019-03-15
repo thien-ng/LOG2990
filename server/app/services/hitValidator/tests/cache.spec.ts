@@ -1,11 +1,11 @@
 import * as chai from "chai";
 import * as spies from "chai-spies";
 import { Cache } from "../cache";
-import { IImageToCache } from "../interfaces";
+import { IDataToCache } from "../interfaces";
 
 // tslint:disable:no-magic-numbers no-any
 
-let cache: Cache;
+let cache: Cache<Buffer>;
 
 const urls: string[] = ["a", "b", "c", "d", "e"];
 
@@ -17,12 +17,12 @@ const buffers: Buffer[] = [
     Buffer.from([4, 123, 232]),
 ];
 
-const elements: IImageToCache[] = [
-    { imageUrl: urls[0], buffer: buffers[0]},
-    { imageUrl: urls[1], buffer: buffers[1]},
-    { imageUrl: urls[2], buffer: buffers[2]},
-    { imageUrl: urls[3], buffer: buffers[3]},
-    { imageUrl: urls[4], buffer: buffers[4]},
+const elements: IDataToCache<Buffer>[] = [
+    { dataUrl: urls[0], data: buffers[0]},
+    { dataUrl: urls[1], data: buffers[1]},
+    { dataUrl: urls[2], data: buffers[2]},
+    { dataUrl: urls[3], data: buffers[3]},
+    { dataUrl: urls[4], data: buffers[4]},
 ];
 
 describe("Cache tests", () => {
@@ -67,8 +67,8 @@ describe("Cache tests", () => {
         cache.insert(elements[0]);
         cache.insert(elements[1]);
 
-        const element0isCached: boolean = cache.contains(elements[0].imageUrl);
-        const element1isCached: boolean = cache.contains(elements[1].imageUrl);
+        const element0isCached: boolean = cache.contains(elements[0].dataUrl);
+        const element1isCached: boolean = cache.contains(elements[1].dataUrl);
 
         chai.expect(element0isCached && element1isCached).to.equal(true);
         done();
@@ -80,7 +80,7 @@ describe("Cache tests", () => {
         cache.insert(elements[1]);
         cache.insert(elements[2]);
 
-        const element0isCached: boolean = cache.contains(elements[0].imageUrl);
+        const element0isCached: boolean = cache.contains(elements[0].dataUrl);
 
         chai.expect(element0isCached).to.equal(false);
         done();
@@ -93,7 +93,7 @@ describe("Cache tests", () => {
         cache.insert(elements[0]);
         cache.insert(elements[0]);
 
-        const element1isCached: boolean = cache.contains(elements[1].imageUrl);
+        const element1isCached: boolean = cache.contains(elements[1].dataUrl);
 
         chai.expect(element1isCached).to.equal(true);
         done();
@@ -103,16 +103,16 @@ describe("Cache tests", () => {
 
         cache.insert(elements[0]);
 
-        const elementRetrieved: Buffer | undefined = cache.get(elements[0].imageUrl);
+        const elementRetrieved: Buffer | undefined = cache.get(elements[0].dataUrl);
 
-        chai.expect(elementRetrieved).to.deep.equal(elements[0].buffer);
+        chai.expect(elementRetrieved).to.deep.equal(elements[0].data);
         done();
     });
 
     it("should be throwing an error if get function cannot find the object in cache", (done: Function) => {
 
         chai.expect(() => {
-            cache.get(elements[0].imageUrl);
+            cache.get(elements[0].dataUrl);
         }).to.throw(TypeError);
         done();
     });

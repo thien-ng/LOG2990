@@ -7,7 +7,7 @@ export interface IArenaInfos<IInfos> {
 }
 
 export interface I3DInfos {
-    sceneInfos: string;
+    sceneData: string;
 }
 
 export interface I2DInfos {

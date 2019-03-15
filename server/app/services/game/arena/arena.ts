@@ -16,7 +16,6 @@ const axios: AxiosInstance = require("axios");
 export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
 
     public ARENA_TYPE:              GameMode;
-    public DEFAULT_DIFF_TO_UPDATE:  DIFF_T;
     public timer:                   Timer;
 
     protected readonly ERROR_ON_HTTPGET:  string = "Didn't succeed to get image buffer from URL given. File: arena.ts.";
@@ -78,10 +77,16 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
         });
     }
 
-    protected buildArenaResponse(status: string, response: DIFF_T): IArenaResponse<DIFF_T> {
-        return {
+    protected buildArenaResponse(status: string, response?: DIFF_T): IArenaResponse<DIFF_T> {
+
+        const arenaResponse: IArenaResponse<DIFF_T> = {
             status: status,
-            response: response,
         };
+
+        if (response) {
+            arenaResponse.response = response;
+        }
+
+        return arenaResponse;
     }
 }
