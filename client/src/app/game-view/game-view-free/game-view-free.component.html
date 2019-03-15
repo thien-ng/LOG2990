@@ -2,7 +2,7 @@
   <mat-grid-tile
     [colspan]="7"
     [rowspan]="1">
-    <div class="gameName">{{activeCard.title}}</div>
+    <div class="gameName" *ngIf="cardIsLoaded">{{activeCard.title}}</div>
   </mat-grid-tile>
   <mat-grid-tile
     [colspan]="2"
