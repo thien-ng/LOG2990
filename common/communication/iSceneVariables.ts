@@ -7,6 +7,11 @@ export interface ISceneVariablesMessage {
     modifications:      IModification[];
 }
 
+export interface IModification {
+    id:                 number;
+    type:               ModificationType;
+}
+
 export interface ISceneVariables {
     theme:                  SceneType;
     gameName:               string;
