@@ -39,9 +39,19 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
     public abstract async onPlayerInput(playerInput: IN_T):              Promise<IArenaResponse<DIFF_T>>;
     public abstract async validateHit(eventInfos: EVT_T):                Promise<IHitConfirmation>; // _TODO: Pour fin de tests (a enlever)
     public abstract async prepareArenaForGameplay():                     Promise<void>;
-
     public getPlayers(): Player[] {
         return this.players;
+    }
+
+    public getDifferencesIds(): number[] {
+
+        const differencesIds: number[] = [];
+
+        this.originalElements.forEach((value: DIFF_T, key: number) => {
+            differencesIds.push(key);
+        });
+
+        return differencesIds;
     }
 
     public contains(user: IUser): boolean {

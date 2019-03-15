@@ -17,19 +17,22 @@ import { CCommon } from "../../../../../common/constantes/cCommon";
 export class GameViewFreeComponent implements AfterViewInit, OnInit {
 
   public readonly NEEDED_SNAPSHOT: boolean = false;
-  public originalVariables: ISceneVariables;
-  public modifiedVariables: ISceneVariables;
-  public activeCard:        ICard;
-  public gameRequest:       IGameRequest;
-  public isLoading:         boolean;
+  public originalVariables:   ISceneVariables;
+  public modifiedVariables:   ISceneVariables;
+  public activeCard:          ICard;
+  public gameRequest:         IGameRequest;
+  public isLoading:           boolean;
+  public cardIsLoaded:        boolean;
 
-  private gameType:         GameType;
+  private gameType:           GameType;
 
   public constructor(
     private httpClient:     HttpClient,
     private route:          ActivatedRoute,
     private snackBar:       MatSnackBar,
-    ) {}
+    ) {
+      this.cardIsLoaded = false;
+    }
 
   public ngOnInit(): void {
       const gameID:   string | null = this.route.snapshot.paramMap.get("id");
@@ -51,6 +54,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit {
       if (type !== null) {
         this.getSceneVariables(type, username);
       }
+      this.cardIsLoaded = true;
     });
 
   }

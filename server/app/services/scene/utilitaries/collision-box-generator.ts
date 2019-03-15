@@ -35,7 +35,7 @@ export class CollisionBoxGenerator {
         let result: number = 0;
 
         values.forEach((element: number) => {
-            result += Math.pow(element, SceneConstants.TWO);
+            result += Math.pow(element, SceneConstants.POWER_TWO);
         });
 
         return result;
@@ -60,6 +60,6 @@ export class CollisionBoxGenerator {
     }
 
     private calculateSphereCollisionRadius(sceneObject: ISceneObject): number {
-        return sceneObject.scale.x;
+        return Math.pow(sceneObject.scale.x, SceneConstants.POWER_TWO);
     }
 }

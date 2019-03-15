@@ -9,12 +9,15 @@ let threejsGenerator:   ThreejsGenerator;
 let scene:              THREE.Scene;
 let sceneObject:        ISceneObject;
 let iAxisValues:        IAxisValues;
-
+let modifiedIdBySceneId:        Map<number, number>;
+let mapColorByOriginalId:     Map<number, string>;
 beforeEach(() => {
-    scene               = mock(THREE.Scene);
-    threejsGenerator    = new ThreejsGenerator(scene);
-    iAxisValues         = { x: 1, y: 1, z: 1 };
-    sceneObject         = {
+    modifiedIdBySceneId     = new Map<number, number>();
+    mapColorByOriginalId    = new Map<number, string>();
+    scene                   = mock(THREE.Scene);
+    threejsGenerator        = new ThreejsGenerator(scene, modifiedIdBySceneId, mapColorByOriginalId);
+    iAxisValues             = { x: 1, y: 1, z: 1 };
+    sceneObject             = {
         id:         1,
         type:       SceneObjectType.Sphere,
         position:   iAxisValues,
