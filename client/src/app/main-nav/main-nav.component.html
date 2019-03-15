@@ -1,8 +1,9 @@
 <mat-toolbar *ngIf="this.router.url != LOGIN_PATH" color="primary">
-  <span class="logo" (click)="redirectGameList()">{{ client }}</span>
+    <mat-icon class="account" (click)="redirectGameList()">account_circle</mat-icon>
+    <span class="logo" (click)="redirectGameList()">{{ client }}</span>
   <div id="header" [@slideInOut]="isAdminMode ? 'open' : 'closed'">
     <div id="options" *ngIf="this.isValidUrl">
-      <div id="text">{{ TEXT_ADMIN }}</div>
+        <div id="text">{{ TEXT_ADMIN }}</div>
       <mat-slide-toggle id="slider" [checked]="isAdminMode" (change)="this.adminService.adminToggle()"></mat-slide-toggle>
       <div id="buttons">
         <button class="button" [disabled]="!isAdminMode" mat-raised-button (click)="openSimpleDialog()">{{ TEXT_BOUTON_2D }}</button>
