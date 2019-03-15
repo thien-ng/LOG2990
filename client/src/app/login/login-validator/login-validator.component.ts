@@ -21,7 +21,6 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls:    ["./login-validator.component.css"],
 })
 export class LoginValidatorComponent {
-  
 
   public readonly LOGO_URL: string = Constants.PATH_TO_IMAGES + "/logo.png";
   public readonly HINT_USERNAME:  string = "Nom d'utilisateur";
