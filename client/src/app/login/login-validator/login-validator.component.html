@@ -1,3 +1,5 @@
+<div class="container">
+    <img id="logo" src="{{ LOGO_URL }}" alt="game logo">
 <form class="login-form">
     <mat-form-field class="login-input">
       <input #newUsername matInput
@@ -25,8 +27,10 @@
   </form>
   <br>
   <br>
+  <div class="center">
   <button mat-raised-button id="submit-button"  (click)="addUsername()"
     [disabled]="!(this.usernameFormControl.errors == null)">
     <span>{{BUTTON_SUBMIT}}</span>
   </button>
-        
+  </div>
+</div>
