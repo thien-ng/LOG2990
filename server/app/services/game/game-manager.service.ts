@@ -43,13 +43,6 @@ export class GameManagerService {
         this.lobby              = new Map<number, IUser[]>();
     }
 
-    private returnError(errorMessage: string): Message {
-        return {
-            title:  CCommon.ON_ERROR,
-            body:   errorMessage,
-        };
-    }
-
     public async analyseRequest(request: IGameRequest): Promise<Message> {
         const user: IUser | string = this.userManagerService.getUserByUsername(request.username);
 
@@ -73,6 +66,13 @@ export class GameManagerService {
                     return this.returnError(REQUEST_ERROR_MESSAGE);
             }
         }
+    }
+
+    private returnError(errorMessage: string): Message {
+        return {
+            title:  CCommon.ON_ERROR,
+            body:   errorMessage,
+        };
     }
 
     public cancelRequest(gameID: number): Message {
