@@ -16,25 +16,25 @@ h2 {
   border: transparent;
 }
 ::ng-deep .mat-tab-group{
-  margin-top:0px !important;
+  margin-top: 0px !important;
   margin: 0 auto 0 auto !important;
 }
 
 ::ng-deep .mat-tab-header{
   z-index: 999;
-  width:100%;
+  width: 100%;
   position: fixed  !important;
   border: transparent;
 }
 ::ng-deep .mat-tab-body-wrapper{
   position: relative !important;
-  margin-top:55px;
+  margin-top: 55px;
 }
 ::ng-deep .mat-tab-label-content {
   color: #3F51B5;
 }
 
 ::ng-deep .mat-tab-label[aria-selected=true] .mat-tab-label-content {
-  color:#4153b6; 
+  color: #4153b6; 
   font-weight: bold;
 }
