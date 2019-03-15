@@ -188,13 +188,14 @@ export class GameManagerService {
     private async create3DArena(users: IUser[], gameId: number): Promise<Message> {
         const arenaInfo: IArenaInfos<I3DInfos> = this.buildArena3DInfos(users, gameId);
         const arena: Arena3D = new Arena3D(arenaInfo, this);
-        // this.tempRoutine(gameId);    // _TODO: Reimplementer avec la fonction pour les scenes (ARTHUR)
+        this.tempRoutine3d(gameId);
+        this.manageCounter(gameId);
         this.gameIdByArenaId.set(arenaInfo.arenaId, gameId);
         this.initArena(arena).catch(() => Constants.INIT_ARENA_ERROR);
         this.arenas.set(arenaInfo.arenaId, arena);
 
         const paths: string = JSON.stringify([
-            CCommon.BASE_URL + "/scene/" + gameId + Constants.SCENES_FILE,
+            CCommon.BASE_URL + "/temp/" + gameId + Constants.SCENES_FILE,
         ]);
 
         return {
@@ -236,11 +237,15 @@ export class GameManagerService {
         if (aliveArenaCount === undefined) {
             return;
         }
-        if (aliveArenaCount !== 0) {
+        if (aliveArenaCount !== 1) {
             this.countByGameId.set(gameId, aliveArenaCount - 1);
         } else {
-            this.assetManager.deleteFileInTemp(gameId, Constants.GENERATED_FILE);
-            this.assetManager.deleteFileInTemp(gameId, CCommon.ORIGINAL_FILE);
+            if ("original" in arena.dataUrl) {
+                this.assetManager.deleteFileInTemp(gameId, Constants.GENERATED_FILE);
+                this.assetManager.deleteFileInTemp(gameId, CCommon.ORIGINAL_FILE);
+            } else {
+                this.assetManager.deleteFileInTemp(gameId, Constants.SCENES_FILE);
+            }
         }
 
         this.arenas.delete(arena.arenaId);
