@@ -344,6 +344,7 @@ describe("GameManagerService tests", () => {
         gameManagerService.analyseRequest(request);
         const response: Message = await gameManagerService.analyseRequest(request3DMulti);
         chai.expect(response.title).to.deep.equal(CCommon.ON_SUCCESS);
+        chai.spy.restore();
     });
 
     it("Should return a message saying the mode is invalid", async () => {
@@ -430,26 +431,26 @@ describe("GameManagerService tests", () => {
         chai.spy.restore();
 
     });
-    // it("should delete the temp images if we delete the last arena alive", () => {
-    //     userManagerService.validateName(request2D.username);
-    //     mockAxios.onGet(iArenaInfos.dataUrl.original, {
-    //         responseType: "arraybuffer",
-    //     }).reply(200, original);
+    it("should delete the temp images if we delete the last arena alive", () => {
+        userManagerService.validateName(request2DSimple.username);
+        mockAxios.onGet(iArenaInfos.dataUrl.original, {
+            responseType: "arraybuffer",
+        }).reply(200, original);
 
-    //     mockAxios.onGet(iArenaInfos.dataUrl.difference, {
-    //         responseType: "arraybuffer",
-    //     }).reply(200, modified);
+        mockAxios.onGet(iArenaInfos.dataUrl.difference, {
+            responseType: "arraybuffer",
+        }).reply(200, modified);
 
-    //     chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
-    //     chai.spy.on(gameManagerService, "init2DArena", () => {
-    //         gameManagerService["arenas"][0].timer.stopTimer();
-    //     });
-    //     const spy: any = chai.spy.on(gameManagerService["gameIdByArena"], "set");
+        chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
+        chai.spy.on(gameManagerService, ["tempRoutine2d"], () => {return; });
+        chai.spy.on(gameManagerService, "init2DArena", () => {});
+        const spy: any = chai.spy.on(gameManagerService["assetManager"], "deleteFileInTemp", () => {});
+        chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
 
-    //     gameManagerService.analyseRequest(request2D).catch();
-    //     gameManagerService["countByGameId"].set(1, 0);
-    //     gameManagerService.deleteArena(iArenaInfos);
-    //     chai.expect(spy).to.have.been.called();
+        gameManagerService.analyseRequest(request2DSimple).catch();
+        gameManagerService.deleteArena(iArenaInfos);
+        chai.expect(spy).to.have.been.called();
+        chai.spy.restore();
 
-    // });
+    });
 });
