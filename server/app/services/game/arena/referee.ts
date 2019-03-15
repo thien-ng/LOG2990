@@ -57,6 +57,8 @@ export class Referee<EVT_T, DIFF_T> {
                 if (this.gameIsFinished()) {
                     this.endOfGameRoutine();
                 }
+            } else {
+                this.attributePenalty(user);
             }
 
             return arenaResponse;
@@ -78,6 +80,14 @@ export class Referee<EVT_T, DIFF_T> {
             .catch((err: AxiosError) => {
                 throw new TypeError(this.ERROR_HIT_VALIDATION);
             });
+    }
+
+    private attributePenalty(user: IUser): void {
+        this.arena.sendMessage(user.socketID, CCommon.ON_PENALTY_ON, 1);
+
+        setTimeout(() => {
+                   this.arena.sendMessage(user.socketID, CCommon.ON_PENALTY_OFF, 0);
+        },         this.PENALTY_TIMEOUT_MS);
     }
 
     private onHitConfirmation(user: IUser, hitConfirmation: IHitConfirmation): void {
