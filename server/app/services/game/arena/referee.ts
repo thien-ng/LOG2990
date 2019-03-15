@@ -42,7 +42,6 @@ export class Referee<EVT_T, DIFF_T> {
 
         let arenaResponse: IArenaResponse<DIFF_T> = this.buildArenaResponse(
             this.ON_FAILED_CLICK,
-            this.arena.DEFAULT_DIFF_TO_UPDATE,
         ) as IArenaResponse<DIFF_T>;
 
         return this.validateHit(eventInfos)
@@ -64,7 +63,7 @@ export class Referee<EVT_T, DIFF_T> {
             return arenaResponse;
         })
         .catch ((error: Error) => {
-            return this.buildArenaResponse(CCommon.ON_ERROR, this.arena.DEFAULT_DIFF_TO_UPDATE);
+            return this.buildArenaResponse(CCommon.ON_ERROR);
         });
     }
 
@@ -127,7 +126,7 @@ export class Referee<EVT_T, DIFF_T> {
         this.timer.stopTimer();
     }
 
-    private buildArenaResponse(status: string, response: DIFF_T): IArenaResponse<DIFF_T> {
+    private buildArenaResponse(status: string, response?: DIFF_T): IArenaResponse<DIFF_T> {
         return {
             status:     status,
             response:   response,
