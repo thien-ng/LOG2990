@@ -62,8 +62,8 @@ export class CreateFreeGameComponent {
     private snackBar:     MatSnackBar,
   ) {
 
-    this.isButtonEnabled  = true;
     this.sliderValue      = Constants.DEFAULT_SLIDER_VALUE;
+    this.isButtonEnabled  = true;
     this.addChecked       = false;
     this.delChecked       = false;
     this.colorChecked     = false;

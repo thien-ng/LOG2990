@@ -6,6 +6,7 @@ import { IChat } from "../../../../common/communication/iChat";
 import { IArenaResponse } from "../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../constants";
+import { GameConnectionService } from "../game-connection.service";
 import { ChatViewService } from "../game-view/chat-view/chat-view.service";
 import { DifferenceCounterService } from "../game-view/difference-counter/difference-counter.service";
 import { GameViewSimpleService } from "../game-view/game-view-simple/game-view-simple.service";
@@ -23,6 +24,7 @@ export class SocketService {
     private gameViewSimpleService:    GameViewSimpleService,
     private timerService:             TimerService,
     private differenceCounterService: DifferenceCounterService,
+    private gameConnectionService:    GameConnectionService,
     ) {
       this.socket = io(Constants.WEBSOCKET_URL);
     }
@@ -46,6 +48,10 @@ export class SocketService {
 
       this.socket.on(CCommon.ON_POINT_ADDED, ((newPoints: number) => {
         this.differenceCounterService.updateCounter(newPoints);
+      }));
+
+      this.socket.on(CCommon.ON_ARENA_CONNECT, ((arenaID: number) => {
+        this.gameConnectionService.updateGameConnected(arenaID);
       }));
     });
   }
