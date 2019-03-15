@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import * as THREE from "three";
 import { ISceneObject } from "../../../../../../common/communication/iSceneObject";
-import { IModificationMap, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
+import { IModification, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Constants } from "../../../constants";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 
@@ -51,9 +51,9 @@ export class ThreejsViewService {
     this.camera.lookAt(this.scene.position);
   }
 
-  public changeObjectsColor(modifiedList: IModificationMap[], isCheating: boolean): void {
+  public changeObjectsColor(modifiedList: IModification[], isCheating: boolean): void {
 
-    modifiedList.forEach((modificationElement: IModificationMap) => {
+    modifiedList.forEach((modificationElement: IModification) => {
       const meshObject: THREE.Mesh | undefined = this.recoverObjectFromScene(modificationElement.id);
 
       if (meshObject !== undefined) {

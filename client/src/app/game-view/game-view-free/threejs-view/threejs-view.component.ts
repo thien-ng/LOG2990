@@ -3,7 +3,7 @@ import { Component, ElementRef, EventEmitter, HostListener, Inject, Input, OnCha
 import { MatSnackBar } from "@angular/material";
 import * as THREE from "three";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
-import { IModificationMap, ISceneVariables, ISceneVariablesMessage } from "../../../../../../common/communication/iSceneVariables";
+import { IModification, ISceneVariables, ISceneVariablesMessage } from "../../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../../common/communication/message";
 import { CCommon } from "../../../../../../common/constantes/cCommon";
 import { CardManagerService } from "../../../card/card-manager.service";
@@ -18,10 +18,12 @@ import { ThreejsViewService } from "./threejs-view.service";
 })
 export class TheejsViewComponent implements OnChanges {
 
+  private CHEAT_KEY_CODE:         number = 84;
+
   private renderer:               THREE.WebGLRenderer;
   private scene:                  THREE.Scene;
   private cheatFlag:              boolean;
-  private modifiedObjectList:     IModificationMap[] = [{id: 1, type: 1}, {id: 2, type: 1} , {id: 3, type: 1}, {id: 4, type: 1}];
+  private modifiedObjectList:     IModification[];
 
   @Input()
   private iSceneVariables:        ISceneVariables;
@@ -41,22 +43,8 @@ export class TheejsViewComponent implements OnChanges {
   private interval: NodeJS.Timeout;
 
   @HostListener("body:keyup", ["$event"])
-  public async handleKeyboardEvent(event: KeyboardEvent): Promise<void> {
-    if (event.keyCode === 84) {
-      await this.getModifiedObjectIds();
-      if (this.cheatFlag) {
-        this.cheatFlag = !this.cheatFlag;
-        let flashValue: boolean = true;
-        this.interval = setInterval(() => {
-          flashValue = !flashValue;
-          this.threejsViewService.changeObjectsColor(this.modifiedObjectList, flashValue);
-        }, 125);
-      } else {
-        clearInterval(this.interval);
-        this.cheatFlag = !this.cheatFlag;
-        this.threejsViewService.changeObjectsColor(this.modifiedObjectList, true);
-      }
-    }
+  public async keyboardEventListener(keyboardEvent: KeyboardEvent): Promise<void> {
+    this.handleKeyboardEvent(keyboardEvent);
   }
 
   public constructor(
@@ -77,7 +65,7 @@ export class TheejsViewComponent implements OnChanges {
   }
 
   private getModifiedObjectIds(): void {
-    this.httpClient.get(Constants.GET_OBJECTS_ID_PATH + "id").subscribe((modificationMap: IModificationMap[]) => {
+    this.httpClient.get(Constants.GET_OBJECTS_ID_PATH + "id").subscribe((modificationMap: IModification[]) => {
       this.modifiedObjectList = modificationMap;
     });
   }
@@ -89,6 +77,24 @@ export class TheejsViewComponent implements OnChanges {
     this.threejsViewService.createScene(this.scene, this.iSceneVariables, this.renderer);
     this.threejsViewService.animate();
     this.takeSnapShot();
+  }
+
+  private async handleKeyboardEvent(keyboardEvent: KeyboardEvent): Promise<void> {
+    if (keyboardEvent.keyCode === this.CHEAT_KEY_CODE) {
+      await this.getModifiedObjectIds();
+      if (this.cheatFlag) {
+        this.cheatFlag = !this.cheatFlag;
+        let flashValue: boolean = true;
+        this.interval = setInterval(() => {
+          flashValue = !flashValue;
+          this.threejsViewService.changeObjectsColor(this.modifiedObjectList, flashValue);
+        }, 125);
+      } else {
+        clearInterval(this.interval);
+        this.cheatFlag = !this.cheatFlag;
+        this.threejsViewService.changeObjectsColor(this.modifiedObjectList, true);
+      }
+    }
   }
 
   private takeSnapShot(): void {

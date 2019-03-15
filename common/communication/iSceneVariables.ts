@@ -2,15 +2,21 @@ import { ISceneObject } from "./iSceneObject";
 import { SceneType } from "./iSceneOptions";
 
 export interface ISceneVariablesMessage {
-    originalScene:          ISceneVariables;
-    modifiedScene:          ISceneVariables;
-    modifiedIdList:         IModificationMap[];
+    originalScene:      ISceneVariables;
+    modifiedScene:      ISceneVariables;
+    modifications:      IModification[];
 }
 
-export interface IModificationMap {
-    id:                     number;
-    type:                   IModificationType;
+export interface IModification {
+    id:                 number;
+    type:               ModificationType;
 }
+
+export enum ModificationType {
+    added,
+    removed,
+    changedColor,
+  }
 
 export interface ISceneVariables {
     theme:                  SceneType;
@@ -18,10 +24,4 @@ export interface ISceneVariables {
     sceneObjectsQuantity:   number;
     sceneObjects:           ISceneObject[];
     sceneBackgroundColor:   string;
-}
-
-export enum IModificationType {
-    added,
-    removed,
-    changedColor,
 }

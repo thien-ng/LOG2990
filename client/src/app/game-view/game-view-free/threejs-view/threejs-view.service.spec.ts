@@ -2,7 +2,7 @@ import { inject, TestBed } from "@angular/core/testing";
 import * as THREE from "three";
 import { anyNumber, mock, when } from "ts-mockito";
 import { SceneObjectType } from "../../../../../../common/communication/iSceneObject";
-import { IModificationMap, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
+import { IModification, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { ThreejsViewService } from "./threejs-view.service";
 
 // tslint:disable:no-any
@@ -59,7 +59,7 @@ describe("ThreejsViewService Tests", () => {
 
     when(scene.getObjectById(anyNumber())).thenReturn(generatedObject);
 
-    const modifiedList: IModificationMap[] = [{id: 1, type: 0}];
+    const modifiedList: IModification[] = [{id: 1, type: 0}];
     threejsViewService.createScene(scene, sceneVariables, renderer);
     threejsViewService.changeObjectsColor(modifiedList, false);
     threejsViewService.changeObjectsColor(modifiedList, true);

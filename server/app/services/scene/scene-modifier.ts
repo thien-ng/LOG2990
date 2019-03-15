@@ -1,7 +1,7 @@
 import deepcopy from "ts-deepcopy";
 import { ISceneObject } from "../../../../common/communication/iSceneObject";
 import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
-import { IModificationMap, IModificationType, ISceneVariables } from "../../../../common/communication/iSceneVariables";
+import { IModification, ModificationType, ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { SceneBuilder } from "./scene-builder";
 import { SceneConstants } from "./sceneConstants";
 
@@ -11,7 +11,7 @@ export class SceneModifier {
     private readonly NUMBER_ITERATION: number = 7;
 
     private sceneBuilder: SceneBuilder;
-    private modifiedIndex: IModificationMap[];
+    private modifiedIndex: IModification[];
     private sceneObjects: ISceneObject[];
     private cloneSceneVariables: ISceneVariables;
 
@@ -19,7 +19,7 @@ export class SceneModifier {
         this.sceneBuilder = sceneBuilder;
     }
 
-    public modifyScene(iSceneOptions: ISceneOptions, iSceneVariables: ISceneVariables, modifiedList: IModificationMap[]): ISceneVariables {
+    public modifyScene(iSceneOptions: ISceneOptions, iSceneVariables: ISceneVariables, modifiedList: IModification[]): ISceneVariables {
         this.cloneSceneVariables = this.clone(iSceneVariables);
         this.sceneObjects = this.cloneSceneVariables.sceneObjects;
         this.modifiedIndex = modifiedList;
@@ -79,7 +79,7 @@ export class SceneModifier {
         const lastObjectElement: ISceneObject = this.sceneObjects[this.sceneObjects.length - 1];
         const newIndex: number = lastObjectElement.id + 1;
         const generatedObject: ISceneObject = this.sceneBuilder.generateModifyObject(newIndex, this.cloneSceneVariables);
-        const modificationMap: IModificationMap = {id: newIndex, type: IModificationType.added};
+        const modificationMap: IModification = {id: newIndex, type: ModificationType.added};
 
         this.modifiedIndex.push(modificationMap);
         this.sceneObjects.push(generatedObject);
@@ -93,7 +93,7 @@ export class SceneModifier {
         } while (this.containsInModifedList(generatedIndex) || this.idNotExist(generatedIndex));
 
         this.sceneObjects = this.sceneObjects.filter((object: ISceneObject) => object.id !== generatedIndex);
-        const modificationMap: IModificationMap = {id: generatedIndex, type: IModificationType.added};
+        const modificationMap: IModification = {id: generatedIndex, type: ModificationType.added};
 
         this.modifiedIndex.push(modificationMap);
     }
@@ -106,7 +106,7 @@ export class SceneModifier {
             generatedIndex = this.generateRandomIndex();
         } while (this.containsInModifedList(generatedIndex) || this.idNotExist(generatedIndex));
 
-        const modificationMap: IModificationMap = {id: generatedIndex, type: IModificationType.added};
+        const modificationMap: IModification = {id: generatedIndex, type: ModificationType.added};
         this.modifiedIndex.push(modificationMap);
 
         this.sceneObjects.forEach((object: ISceneObject) => {
@@ -126,7 +126,7 @@ export class SceneModifier {
 
     private containsInModifedList(generatedIndex: number): boolean {
         let indexContains: boolean = false;
-        this.modifiedIndex.forEach((elementMap: IModificationMap) => {
+        this.modifiedIndex.forEach((elementMap: IModification) => {
             if (elementMap.id === generatedIndex) {
                 indexContains = true;
             }
