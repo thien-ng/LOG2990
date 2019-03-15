@@ -83,8 +83,9 @@ export class Referee<EVT_T, DIFF_T> {
             });
     }
 
-    private attributePenalty(user: IUser): void {
-        this.arena.sendMessage(user.socketID, CCommon.ON_PENALTY_ON, 1);
+    private attributePenalty(player: Player): void {
+        player.setPenaltyState(true);
+        this.arena.sendMessage(player.userSocketId, CCommon.ON_PENALTY_ON, 1);
 
         setTimeout(() => {
                    this.arena.sendMessage(user.socketID, CCommon.ON_PENALTY_OFF, 0);
