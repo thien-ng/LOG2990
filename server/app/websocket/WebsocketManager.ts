@@ -71,7 +71,6 @@ export class WebsocketManager {
 
     private chatSocketChecker(socket: SocketIO.Socket): void {
         socket.on(Constants.ON_CHAT_EVENT, (messageRecieved: IChatSender) => {
-
             const userList: IUser[] = this.gameManagerService.getUsersInArena(messageRecieved.arenaID);
             this.chatManagerService.sendChatMessage(userList, messageRecieved, this.io);
         });
@@ -86,7 +85,9 @@ export class WebsocketManager {
             };
             this.userManagerService.updateSocketID(user);
             socket.emit(CCommon.USER_EVENT, user);
-            this.chatManagerService.sendPlayerLogStatus(user.username, this.io, true);
+            if (data !== "") {
+                this.chatManagerService.sendPlayerLogStatus(user.username, this.io, true);
+            }
         });
 
         socket.on(Constants.DISCONNECT_EVENT, () => {
