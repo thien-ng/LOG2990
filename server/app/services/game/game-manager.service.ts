@@ -11,6 +11,7 @@ import { AssetManagerService } from "../asset-manager.service";
 import { UserManagerService } from "../user-manager.service";
 import { Arena } from "./arena/arena";
 import { Arena2D } from "./arena/arena2d";
+import { Arena3D } from "./arena/arena3d";
 import { I2DInfos, I3DInfos, IArenaInfos, IPlayerInput } from "./arena/interfaces";
 import { Player } from "./arena/player";
 
