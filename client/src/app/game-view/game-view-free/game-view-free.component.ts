@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { AfterViewInit, Component, Inject, OnInit } from "@angular/core";
+import { AfterViewInit, Component, Inject, OnDestroy, OnInit } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
 import { first } from "rxjs/operators";
@@ -17,7 +17,7 @@ import { CCommon } from "../../../../../common/constantes/cCommon";
   templateUrl:  "./game-view-free.component.html",
   styleUrls:    ["./game-view-free.component.css"],
 })
-export class GameViewFreeComponent implements AfterViewInit, OnInit {
+export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
 
   public readonly NEEDED_SNAPSHOT: boolean = false;
   public originalVariables: ISceneVariables;
@@ -166,5 +166,9 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit {
       duration:           Constants.SNACKBAR_DURATION,
       verticalPosition:   "top",
     });
+  }
+
+  public ngOnDestroy(): void {
+    this.socketService.sendMsg(CCommon.GAME_DISCONNECT, this.username);
   }
 }
