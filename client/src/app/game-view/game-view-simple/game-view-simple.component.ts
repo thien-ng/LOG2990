@@ -23,6 +23,8 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
 
   @ViewChild("successSound",  {read: ElementRef}) public successSound:  ElementRef;
   @ViewChild("failSound",     {read: ElementRef}) public failSound:     ElementRef;
+  @ViewChild("textDiv",       {read: ElementRef}) public textDiv:       ElementRef;
+  @ViewChild("textDiv2",       {read: ElementRef}) public textDiv2:       ElementRef;
 
   @ViewChild("originalImage", {read: ElementRef})
   public canvasOriginal:  ElementRef;
@@ -116,6 +118,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     };
     this.gameViewService.setCanvas(canvasModified, canvasOriginal);
     this.gameViewService.setSounds(this.successSound, this.failSound);
+    this.gameViewService.setText(this.textDiv, this.textDiv2);
   }
 
   public initListener(): void {
