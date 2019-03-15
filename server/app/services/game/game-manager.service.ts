@@ -108,6 +108,16 @@ export class GameManagerService {
         };
     }
 
+    private buildArena3DInfos(user: IUser, gameId: number): IArenaInfos<I3DInfos> {
+        return {
+            arenaId:            this.generateArenaID(),
+            users:              [user],
+            dataUrl:            {
+            sceneData:         "http://localhost:3000/scene/2_scene",
+            },
+        };
+    }
+
 
     private create3DArena(request: IGameRequest): Message {
         const paths: string = JSON.stringify([
