@@ -186,8 +186,8 @@ export class GameManagerService {
         return {
             arenaId:            this.generateArenaID(),
             users:              users,
-            dataUrl:            {
-            sceneData:         "http://localhost:3000/scene/2_scene",
+            dataUrl:  {
+                sceneData:  Constants.PATH_SERVER_TEMP + gameId + CCommon.SCENE_FILE,
             },
         };
     }
@@ -202,7 +202,7 @@ export class GameManagerService {
         this.arenas.set(arenaInfo.arenaId, arena);
 
         const paths: string = JSON.stringify([
-            CCommon.BASE_URL + "/temp/" + gameId + Constants.SCENES_FILE,
+            Constants.PATH_SERVER_TEMP + gameId + Constants.SCENES_FILE,
         ]);
 
         return {
