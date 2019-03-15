@@ -20,7 +20,7 @@ import { GameManagerService } from "../../services/game/game-manager.service";
 import { UserManagerService } from "../../services/user-manager.service";
 // import sinon = require("sinon");
 
-// tslint:disable no-magic-numbers no-any await-promise no-floating-promises max-file-line-count
+// tslint:disable no-magic-numbers no-any await-promise no-floating-promises max-file-line-count max-func-body-length no-empty
 
 let gameManagerService: GameManagerService;
 let userManagerService: UserManagerService;
@@ -141,63 +141,26 @@ describe("GameManagerService tests", () => {
         .to.deep.equal(arenaInfo);
     });
 
-    // it("Should return a success message when creating a 2D arena", async () => {
-    //     userManagerService.validateName(request2DSimple.username);
+    it("Should return a success message when creating a 2D arena", async () => {
+        userManagerService.validateName(request2DSimple.username);
+        chai.spy.on(gameManagerService, ["tempRoutine2d"], () => {return; });
 
-    //     mockAxios.onGet(iArenaInfos.dataUrl.original, {
-    //         responseType: "arraybuffer",
-    //     }).reply(200, original);
+        mockAxios.onGet(iArenaInfos.dataUrl.original, {
+            responseType: "arraybuffer",
+        }).reply(200, original);
 
-    //     mockAxios.onGet(iArenaInfos.dataUrl.difference, {
-    //         responseType: "arraybuffer",
-    //     }).reply(200, modified);
+        mockAxios.onGet(iArenaInfos.dataUrl.difference, {
+            responseType: "arraybuffer",
+        }).reply(200, modified);
 
-    //     chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
-    //     chai.spy.on(gameManagerService, "init2DArena", () => {
-    //         gameManagerService.arena.timer.stopTimer();
-    //     });
+        chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
+        chai.spy.on(gameManagerService, "init2DArena", () => {});
 
-    //     gameManagerService.analyseRequest(request2DSimple).then((message: any) => {
-    //         chai.expect(message.title).to.equal("onSuccess");
-    //     });
-
-    // });
-    // it("Should return buildArenaInfo successfully", async () => {
-    //     const arenaInfo: IArenaInfos<I2DInfos> = {
-    //         arenaId:            1000,
-    //         users:              [{username: "Frank", socketID: "12345"}],
-    //         dataUrl:            {
-    //             original:    Constants.PATH_TO_IMAGES + "1" + CCommon.ORIGINAL_FILE,
-    //             difference:  Constants.PATH_TO_IMAGES + "1" + Constants.GENERATED_FILE,
-    //         },
-    //     };
-    //     chai.spy.on(gameManagerService, "buildArenaInfos");
-    //     chai.expect(
-    //         gameManagerService["buildArenaInfos"]({username: "Frank", socketID: "12345"}, 1))
-    //         .to.deep.equal(arenaInfo);
-    // });
-
-    // it("Should return a success message when creating a 2D arena", async () => {
-    //     userManagerService.validateName(request2D.username);
-
-    //     mockAxios.onGet(iArenaInfos.dataUrl.original, {
-    //         responseType: "arraybuffer",
-    //     }).reply(200, original);
-
-    //     mockAxios.onGet(iArenaInfos.dataUrl.difference, {
-    //         responseType: "arraybuffer",
-    //     }).reply(200, modified);
-
-    //     chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
-    //     chai.spy.on(gameManagerService, "init2DArena", () => {
-    //         gameManagerService.arena.timer.stopTimer();
-    //     });
-
-    //     gameManagerService.analyseRequest(request2D).then((message: any) => {
-    //         chai.expect(message.title).to.equal("onSuccess");
-    //     }).catch();
-
-    // });
+        gameManagerService.analyseRequest(request2DSimple).then((message: any) => {
+            chai.expect(message.title).to.equal("onSuccess");
+        });
+        chai.spy.restore();
+    });
 
     it("Should return a success message when creating a 3D arena", async () => {
         // const sandbox: sinon.SinonSandbox = sinon.createSandbox();
