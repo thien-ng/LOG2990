@@ -17,6 +17,8 @@ export class GameViewSimpleService {
   public canvasModified:  CanvasRenderingContext2D;
   public successSound:    ElementRef;
   public failSound:       ElementRef;
+  public text1div:        HTMLDivElement;
+  public text2div:        HTMLDivElement;
   private position:       IPosition2D;
 
   public onArenaResponse(data: IPlayerInputResponse): void {
