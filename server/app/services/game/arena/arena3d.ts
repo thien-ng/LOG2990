@@ -1,10 +1,19 @@
-import { IArenaResponse } from "../../../../../common/communication/iGameplay";
+import { inject } from "inversify";
+import { GameMode } from "../../../../../common/communication/iCard";
+import { ActionType, IArenaResponse, ISceneObjectUpdate } from "../../../../../common/communication/iGameplay";
+import { ISceneObject } from "../../../../../common/communication/iSceneObject";
+import { IModification, ISceneVariablesMessage, ModificationType } from "../../../../../common/communication/iSceneVariables";
 import { IUser } from "../../../../../common/communication/iUser";
+import Types from "../../../types";
+import { GameManagerService } from "../game-manager.service";
 import { Arena } from "./arena";
-import { IHitConfirmation } from "./interfaces";
+import { I3DInfos, IArenaInfos, IHitConfirmation, IPlayerInput } from "./interfaces";
+import { Referee } from "./referee";
 
 // tslint:disable:no-any
-export class Arena3D extends Arena<any, any, any, any> {
+export class Arena3D extends Arena<IPlayerInput<number>, IArenaResponse<ISceneObjectUpdate>, ISceneObjectUpdate, number> {
+
+    protected referee: Referee<number, ISceneObjectUpdate>;
 
     public constructor (
         protected arenaInfos: IArenaInfos<I3DInfos>,
