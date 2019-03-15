@@ -5,7 +5,7 @@ import { IDataToCache } from "../interfaces";
 
 // tslint:disable:no-magic-numbers no-any
 
-let cache: Cache;
+let cache: Cache<Buffer>;
 
 const urls: string[] = ["a", "b", "c", "d", "e"];
 
@@ -105,7 +105,7 @@ describe("Cache tests", () => {
 
         const elementRetrieved: Buffer | undefined = cache.get(elements[0].dataUrl);
 
-        chai.expect(elementRetrieved).to.deep.equal(elements[0].buffer);
+        chai.expect(elementRetrieved).to.deep.equal(elements[0].data);
         done();
     });
 
