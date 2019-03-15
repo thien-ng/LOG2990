@@ -17,8 +17,8 @@ export class Arena3D extends Arena<any, any, any, any> {
         return arenaResponse;
     }
 
-    public async validateHit(eventInfos: any): Promise<IHitConfirmation> {
-        throw new Error("Method not implemented.");
+    public async validateHit(objectId: number): Promise<IHitConfirmation> {
+        return this.referee.validateHit(objectId);
     }
 
     public async onPlayerInput(playerInput: IPlayerInput<number>): Promise<IArenaResponse<ISceneObjectUpdate>> {
