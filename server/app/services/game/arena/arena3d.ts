@@ -17,8 +17,22 @@ export class Arena3D extends Arena<any, any, any, any> {
     public async validateHit(eventInfos: any): Promise<IHitConfirmation> {
         throw new Error("Method not implemented.");
     }
-    public async onPlayerInput(playerInput: any): Promise<IArenaResponse<any>> {
-        throw new Error("Method not implemented.");
+
+    public async onPlayerInput(playerInput: IPlayerInput<number>): Promise<IArenaResponse<ISceneObjectUpdate>> {
+
+        let response: IArenaResponse<ISceneObjectUpdate> = this.buildArenaResponse(
+            this.ON_FAILED_CLICK,
+        );
+
+        switch (playerInput.event) {
+            case this.ON_CLICK:
+                response = await this.onPlayerClick(playerInput.eventInfo, playerInput.user);
+                break;
+            default:
+                break;
+        }
+
+        return response;
     }
 
     public async prepareArenaForGameplay(): Promise<void> {
