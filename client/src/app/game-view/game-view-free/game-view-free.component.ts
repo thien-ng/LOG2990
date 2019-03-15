@@ -28,6 +28,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit {
   public gameIsStarted:     boolean;
   public arenaID:           number;
   public gameID:            string | null;
+  public username:          string | null;
   public mode:              number;
   private scenePath:        string;
   private gameType:         GameType;
@@ -40,11 +41,11 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit {
     private route:                  ActivatedRoute,
     private snackBar:               MatSnackBar,
     ) {
-      this.cardIsLoaded = false;
-      this.mode = Number(this.route.snapshot.paramMap.get("gamemode"));
-      this.gameIsStarted = false;
+      this.cardIsLoaded   = false;
+      this.mode           = Number(this.route.snapshot.paramMap.get("gamemode"));
+      this.gameIsStarted  = false;
+      this.username       = sessionStorage.getItem(Constants.USERNAME_KEY);
       this.gameConnectionService.getGameConnectedListener().pipe(first()).subscribe((arenaID: number) => {
-
         this.arenaID = arenaID;
         this.gameIsStarted = true;
         this.socketService.sendMsg(CCommon.GAME_CONNECTION, arenaID);
@@ -54,8 +55,6 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit {
           });
       });
     }
-
-
 
   public ngOnInit(): void {
       this.gameID = this.route.snapshot.paramMap.get("id");
@@ -98,6 +97,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit {
     this.httpClient.post(Constants.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
       switch (data.title) {
         case CCommon.ON_SUCCESS:
+          this.arenaID = Number(data.body);
           this.gameIsStarted = true;
           this.socketService.sendMsg(CCommon.GAME_CONNECTION, this.arenaID);
           this.fetchSceneFromServer(this.scenePath)
