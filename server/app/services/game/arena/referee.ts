@@ -46,27 +46,32 @@ export class Referee<EVT_T, DIFF_T> {
 
         return this.validateHit(eventInfos)
         .then((hitConfirmation: IHitConfirmation) => {
-            const isAnUndiscoveredDifference: boolean = this.isAnUndiscoveredDifference(hitConfirmation.differenceIndex);
-
-            if (hitConfirmation.isAHit && isAnUndiscoveredDifference) {
-                this.onHitConfirmation(user, hitConfirmation);
-                const differenceToUpdate: DIFF_T | undefined = this.originalElements.get(hitConfirmation.differenceIndex);
-
-                if (differenceToUpdate !== undefined) {
-                    arenaResponse = this.buildArenaResponse(CCommon.ON_SUCCESS, differenceToUpdate);
-                }
-                if (this.gameIsFinished()) {
-                    this.endOfGameRoutine();
-                }
-            } else {
-                this.attributePenalty(user);
-            }
-
-            return arenaResponse;
+            return this.hitConfirmationRoutine(hitConfirmation, player);
         })
         .catch ((error: Error) => {
             return this.buildArenaResponse(CCommon.ON_ERROR);
         });
+    }
+
+    private hitConfirmationRoutine(hitConfirmation: IHitConfirmation, player: Player): IArenaResponse<DIFF_T> {
+        const isAnUndiscoveredDifference: boolean = this.isAnUndiscoveredDifference(hitConfirmation.differenceIndex);
+        let arenaResponse: IArenaResponse<DIFF_T> = this.buildArenaResponse(this.ON_FAILED_CLICK) as IArenaResponse<DIFF_T>;
+
+        if (hitConfirmation.isAHit && isAnUndiscoveredDifference) {
+            this.onHitConfirmation(player, hitConfirmation.differenceIndex);
+            const differenceToUpdate: DIFF_T | undefined = this.originalElements.get(hitConfirmation.differenceIndex);
+
+            if (differenceToUpdate !== undefined) {
+                arenaResponse = this.buildArenaResponse(CCommon.ON_SUCCESS, differenceToUpdate);
+            }
+            if (this.gameIsFinished()) {
+                this.endOfGameRoutine();
+            }
+        } else {
+            this.attributePenalty(player);
+        }
+
+        return arenaResponse;
     }
 
     public async validateHit(eventInfos: EVT_T): Promise<IHitConfirmation> {
