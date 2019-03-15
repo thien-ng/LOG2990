@@ -69,6 +69,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit {
   private createGameRequest(gameID: string, username: string): void {
      this.httpClient.get(Constants.PATH_TO_GET_CARD + gameID + "/" + GameMode.free).subscribe((response: ICard) => {
       this.activeCard = response;
+      this.scenePath = CCommon.BASE_URL + "/temp/" + this.activeCard.gameID + CCommon.SCENES_FILE;
 
       const type: string | null = this.route.snapshot.paramMap.get("gamemode");
       if (type !== null) {
@@ -91,16 +92,15 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit {
 
   private handleGameRequest(): void {
     this.httpClient.post(Constants.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
-
-      if (data.title === CCommon.ON_ERROR) {
-        this.openSnackBar(data.body, Constants.SNACK_ACTION);
-      }
-      const path: string = JSON.parse(data.body);
-
-      this.fetchSceneFromServer(path)
-      .catch((error) => {
-        this.openSnackBar(error, Constants.SNACK_ACTION);
-      });
+      switch (data.title) {
+        case CCommon.ON_SUCCESS:
+          this.gameIsStarted = true;
+          this.socketService.sendMsg(CCommon.GAME_CONNECTION, this.arenaID);
+          this.fetchSceneFromServer(this.scenePath)
+          .catch((error) => {
+            this.openSnackBar(error, Constants.SNACK_ACTION);
+          });
+          break;
     });
   }
 
