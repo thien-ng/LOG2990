@@ -47,7 +47,7 @@ export class Referee<EVT_T, DIFF_T> {
         }
 
         if (player.penaltyState) {
-            return this.buildArenaResponse("onPenalty") as IArenaResponse<DIFF_T>;
+            return this.buildArenaResponse(Constants.ON_PENALTY) as IArenaResponse<DIFF_T>;
         }
 
         return this.validateHit(eventInfos)
