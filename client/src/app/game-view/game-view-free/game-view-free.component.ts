@@ -42,7 +42,16 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit {
       this.mode = Number(this.route.snapshot.paramMap.get("gamemode"));
       this.gameIsStarted = false;
       this.gameConnectionService.getGameConnectedListener().pipe(first()).subscribe((arenaID: number) => {
+        console.log(arenaID);
 
+        this.arenaID = arenaID;
+        this.gameIsStarted = true;
+        this.socketService.sendMsg(CCommon.GAME_CONNECTION, arenaID);
+        this.fetchSceneFromServer(this.scenePath)
+          .catch((error) => {
+            this.openSnackBar(error, Constants.SNACK_ACTION);
+          });
+      });
   public ngOnInit(): void {
       const gameID:   string | null = this.route.snapshot.paramMap.get("id");
       const username: string | null = sessionStorage.getItem(Constants.USERNAME_KEY);
