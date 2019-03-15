@@ -3,8 +3,8 @@ export interface IImageToCache {
     buffer:                 Buffer;
 }
 
-export interface ICacheElement {
-    imageToCache:           IImageToCache;
+export interface ICacheElement<T> {
+    dataToCache:           IDataToCache<T>;
     obsolescenceDegree:     number;
 }
 
