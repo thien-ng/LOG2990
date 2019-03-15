@@ -1,7 +1,7 @@
 import { ISceneObject } from "./iSceneObject";
 import { SceneType } from "./iSceneOptions";
 
-export interface ISceneVariablesMessage {
+export interface ISceneData {
     originalScene:      ISceneVariables;
     modifiedScene:      ISceneVariables;
     modifications:      IModification[];

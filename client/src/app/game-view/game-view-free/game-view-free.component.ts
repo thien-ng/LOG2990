@@ -5,7 +5,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Constants } from "src/app/constants";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { GameType, IGameRequest } from "../../../../../common/communication/iGameRequest";
-import { ISceneVariables, ISceneVariablesMessage } from "../../../../../common/communication/iSceneVariables";
+import { ISceneData, ISceneVariables } from "../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../common/communication/message";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 
@@ -99,7 +99,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit {
     if (response.status !== Constants.SUCCESS_STATUS) {
       this.openSnackBar(response.statusText, Constants.SNACK_ACTION);
     } else {
-      await response.json().then((variables: ISceneVariablesMessage) => {
+      await response.json().then((variables: ISceneData) => {
 
         this.assignSceneVariable(variables);
       }).catch((error) => {
@@ -110,7 +110,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit {
     }
   }
 
-  private assignSceneVariable(variables: ISceneVariablesMessage): void {
+  private assignSceneVariable(variables: ISceneData): void {
     this.originalVariables = {
       theme:                  variables.originalScene.theme,
       gameName:               variables.originalScene.gameName,

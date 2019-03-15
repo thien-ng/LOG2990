@@ -1,66 +1,71 @@
-// import { AxiosInstance, AxiosResponse } from "axios";
+import { AxiosInstance, AxiosResponse } from "axios";
 import { injectable } from "inversify";
-// import { Cache } from "./cache";
-// import { IHitConfirmation, IHitToValidate, IImageToCache } from "./interfaces";
+import { IModification, ISceneData } from "../../../../common/communication/iSceneVariables";
+import { Cache } from "./cache";
+import { IDataToCache, IHitConfirmation, IHitToValidate } from "./interfaces";
 
 @injectable()
 export class HitValidatorService3D {
 
-    // private readonly ERROR_ON_HTTPGET:      string =
-    // "Didn't succeed to get scene buffer from URL given.";
-    // private readonly CACHE_SIZE:            number = 5;
+    private readonly ERROR_ON_HTTPGET:  string = "Didn't succeed to get scene buffer from URL given.";
+    private readonly CACHE_SIZE:        number = 5;
 
-    // private cache: Cache;
+    private cache: Cache<ISceneData>;
 
     public constructor() {
-        // this.cache = new Cache(this.CACHE_SIZE);
+        this.cache = new Cache<ISceneData>(this.CACHE_SIZE);
     }
 
-    // public async confirmHit(hitToValidate: IHitToValidate<>): Promise<IHitConfirmation> {
+    public async confirmHit(hitToValidate: IHitToValidate<number>): Promise<IHitConfirmation> {
 
-    //     let buffer: Buffer;
+        let data: ISceneData;
 
-    //     if (this.isStoredInCache(hitToValidate.differenceDataURL)) {
-    //         buffer = this.cache.get(hitToValidate.differenceDataURL);
-    //     } else {
-    //         buffer = await this.getImageFromUrl(hitToValidate.differenceDataURL);
-    //         this.insertElementInCache(hitToValidate.differenceDataURL, buffer);
-    //     }
+        if (this.isStoredInCache(hitToValidate.differenceDataURL)) {
+            data = this.cache.get(hitToValidate.differenceDataURL);
+        } else {
+            data = await this.getSceneDataFromUrl(hitToValidate.differenceDataURL);
+            this.insertElementInCache(hitToValidate.differenceDataURL, data);
+        }
 
-    //     // _TODO: A REFAIRE AU COMPLET
-    //     return {
-    //         isAHit:             this.isValidHit(hitToValidate, 1),
-    //         differenceIndex:    3,
-    //     };
-    // }
+        const isAHit: boolean = this.isValidHit(hitToValidate.eventInfo, data);
 
-    // private isValidHit(hitToValidate: IHitToValidate, hitPixelColor: number): boolean {
-    //     return hitToValidate.colorToIgnore !== hitPixelColor;
-    // }
+        return {
+            isAHit:             isAHit,
+            differenceIndex:    (isAHit) ? hitToValidate.eventInfo : -1,
+        };
+    }
 
-    // private async getImageFromUrl(imageUrl: string): Promise<Buffer> {
+    private isValidHit(objectId: number, sceneData: ISceneData): boolean {
+        return sceneData.modifications.some((modification: IModification) => {
+            return objectId === modification.id;
+        });
+    }
 
-    //     const axios: AxiosInstance = require("axios");
+    private async getSceneDataFromUrl(url: string): Promise<ISceneData> {
 
-    //     return axios
-    //         .get(imageUrl, {
-    //             responseType: "arraybuffer",
-    //         })
-    //         .then((response: AxiosResponse) => Buffer.from(response.data, "binary"))
-    //         .catch((error: Error) => {
-    //             throw new TypeError(this.ERROR_ON_HTTPGET);
-    //         });
-    // }
+        const axios: AxiosInstance = require("axios");
 
-    // private insertElementInCache(imageUrl: string, buffer: Buffer): void {
-    //     const newCacheElement: IImageToCache = {
-    //         imageUrl:   imageUrl,
-    //         buffer:     buffer,
-    //     };
-    //     this.cache.insert(newCacheElement);
-    // }
+        return axios
+            .get(url, {
+                responseType: "arraybuffer",
+            })
+            .then((response: AxiosResponse) => {
+                return JSON.parse(response.data.toString()) as ISceneData;
+            })
+            .catch((error: Error) => {
+                throw new TypeError(this.ERROR_ON_HTTPGET);
+            });
+    }
 
-    // private isStoredInCache(imageUrl: string): boolean {
-    //     return this.cache.contains(imageUrl);
-    // }
+    private insertElementInCache(imageUrl: string, data: ISceneData): void {
+        const newCacheElement: IDataToCache<ISceneData> = {
+            dataUrl:    imageUrl,
+            data:       data,
+        };
+        this.cache.insert(newCacheElement);
+    }
+
+    private isStoredInCache(imageUrl: string): boolean {
+        return this.cache.contains(imageUrl);
+    }
 }

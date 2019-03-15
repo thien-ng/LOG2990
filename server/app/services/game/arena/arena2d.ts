@@ -2,7 +2,6 @@ import { inject } from "inversify";
 import { GameMode } from "../../../../../common/communication/iCard";
 import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
-import { Constants } from "../../../constants";
 import Types from "../../../types";
 import { GameManagerService } from "../game-manager.service";
 import { Arena } from "./arena";
@@ -19,7 +18,6 @@ export class Arena2D extends Arena<IPlayerInput<IPosition2D>, IArenaResponse<IOr
         @inject(Types.GameManagerService) public gameManagerService: GameManagerService) {
             super(arenaInfos, gameManagerService);
             this.ARENA_TYPE = GameMode.simple;
-            this.DEFAULT_DIFF_TO_UPDATE = Constants.ON_ERROR_PIXEL_CLUSTER;
         }
 
     public sendMessage(playerSocketId: string, event: string, message: number): void {
@@ -45,16 +43,14 @@ export class Arena2D extends Arena<IPlayerInput<IPosition2D>, IArenaResponse<IOr
 
     public async onPlayerInput(playerInput: IPlayerInput<IPosition2D>): Promise<IArenaResponse<IOriginalPixelCluster>> {
 
-        let response: IArenaResponse<IOriginalPixelCluster> = this.buildArenaResponse(
-            this.ON_FAILED_CLICK,
-            this.DEFAULT_DIFF_TO_UPDATE,
-        );
+        let response: IArenaResponse<IOriginalPixelCluster>;
 
         switch (playerInput.event) {
             case this.ON_CLICK:
                 response = await this.onPlayerClick(playerInput.eventInfo, playerInput.user);
                 break;
             default:
+                response = this.buildArenaResponse(this.ON_FAILED_CLICK);
                 break;
         }
 

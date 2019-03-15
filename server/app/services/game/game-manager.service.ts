@@ -11,6 +11,7 @@ import { AssetManagerService } from "../asset-manager.service";
 import { UserManagerService } from "../user-manager.service";
 import { Arena } from "./arena/arena";
 import { Arena2D } from "./arena/arena2d";
+import { Arena3D } from "./arena/arena3d";
 import { I2DInfos, I3DInfos, IArenaInfos, IPlayerInput } from "./arena/interfaces";
 import { Player } from "./arena/player";
 
@@ -19,33 +20,27 @@ const TEMP_ROUTINE_ERROR:               string = "error while copying to temp";
 const ARENA_START_ID:                   number = 1000;
 const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
 
+// _TODO: Enlever les any après les avoir remplacés
 // tslint:disable:no-any
 @injectable()
 export class GameManagerService {
 
-    private arenaID:        number;
-    private arenas:         Map<number, Arena<any, any, any, any>>;
-    private lobby:          Map<number, IUser[]>;
-    private playerList:     Map<string, SocketIO.Socket>;
-    private gameIdByArena:  Map<number, number>;
-    private countByGameId:  Map<number, number>;
-    private assetManager:   AssetManagerService;
+    private arenaID:            number;
+    private assetManager:       AssetManagerService;
+    private playerList:         Map<string, SocketIO.Socket>;
+    private arenas:             Map<number, Arena<any, any, any, any>>;
+    private gameIdByArenaId:    Map<number, number>;
+    private countByGameId:      Map<number, number>;
+    private lobby:              Map<number, IUser[]>;
 
     public constructor(@inject(Types.UserManagerService) private userManagerService: UserManagerService) {
-        this.lobby      = new Map<number, IUser[]>();
-        this.playerList = new Map<string, SocketIO.Socket>();
-        this.arenas     = new Map<number, Arena<any, any, any, any>>();
-        this.arenaID    = ARENA_START_ID;
-        this.assetManager = new AssetManagerService();
-        this.countByGameId = new Map<number, number>();
-        this.gameIdByArena = new Map<number, number>();
-    }
-
-    private returnError(errorMessage: string): Message {
-        return {
-            title:  CCommon.ON_ERROR,
-            body:   errorMessage,
-        };
+        this.arenaID            = ARENA_START_ID;
+        this.assetManager       = new AssetManagerService();
+        this.playerList         = new Map<string, SocketIO.Socket>();
+        this.arenas             = new Map<number, Arena<any, any, any, any>>();
+        this.countByGameId      = new Map<number, number>();
+        this.gameIdByArenaId    = new Map<number, number>();
+        this.lobby              = new Map<number, IUser[]>();
     }
 
     public async analyseRequest(request: IGameRequest): Promise<Message> {
@@ -71,6 +66,13 @@ export class GameManagerService {
                     return this.returnError(REQUEST_ERROR_MESSAGE);
             }
         }
+    }
+
+    private returnError(errorMessage: string): Message {
+        return {
+            title:  CCommon.ON_ERROR,
+            body:   errorMessage,
+        };
     }
 
     public cancelRequest(gameID: number): Message {
@@ -99,7 +101,7 @@ export class GameManagerService {
 
                     return message;
                 case GameMode.free:
-                    message = this.create3DArena(lobby, request.gameId);
+                    message = await this.create3DArena(lobby, request.gameId);
                     this.lobby.delete(request.gameId);
 
                     return message;
@@ -119,8 +121,9 @@ export class GameManagerService {
     private async create2DArena(users: IUser[], gameId: number): Promise<Message> {
         const arenaInfo: IArenaInfos<I2DInfos> = this.buildArena2DInfos(users, gameId);
         const arena: Arena2D = new Arena2D(arenaInfo, this);
-        this.tempRoutine(gameId);
-        this.gameIdByArena.set(arenaInfo.arenaId, gameId);
+        this.tempRoutine2d(gameId);
+        this.manageCounter(gameId);
+        this.gameIdByArenaId.set(arenaInfo.arenaId, gameId);
         this.initArena(arena).catch(() => Constants.INIT_ARENA_ERROR);
         this.arenas.set(arenaInfo.arenaId, arena);
 
@@ -134,21 +137,31 @@ export class GameManagerService {
         await arena.prepareArenaForGameplay();
     }
 
-    private tempRoutine(gameId: number): void {
+    private tempRoutine2d(gameId: number): void {
+        const pathOriginal:  string = Constants.IMAGES_PATH + "/" + gameId + CCommon.ORIGINAL_FILE;
+        const pathGenerated: string = Constants.IMAGES_PATH + "/" + gameId + Constants.GENERATED_FILE;
         try {
-            this.assetManager.copyFileToTemp(
-                Constants.IMAGES_PATH + "/" + gameId + Constants.GENERATED_FILE, gameId, Constants.GENERATED_FILE);
-            this.assetManager.copyFileToTemp(
-                Constants.IMAGES_PATH + "/" + gameId + CCommon.ORIGINAL_FILE, gameId, CCommon.ORIGINAL_FILE);
+            this.assetManager.copyFileToTemp(pathGenerated, gameId, Constants.GENERATED_FILE);
+            this.assetManager.copyFileToTemp(pathOriginal, gameId, CCommon.ORIGINAL_FILE);
+        } catch (error) {
+            throw new TypeError(TEMP_ROUTINE_ERROR);
+        }
+    }
 
-            const aliveArenaCount: number | undefined =  this.countByGameId.get(gameId);
-            if (aliveArenaCount !== undefined) {
-                    this.countByGameId.set(gameId, aliveArenaCount + 1);
-                } else {
-                this.countByGameId.set(gameId, 1);
-            }
-            } catch (error) {
-                throw new TypeError(TEMP_ROUTINE_ERROR);
+    private tempRoutine3d(gameId: number): void {
+        const path: string = Constants.SCENE_PATH + "/" + gameId + Constants.SCENES_FILE;
+        try {
+            this.assetManager.copyFileToTemp(path, gameId, Constants.SCENES_FILE);
+        } catch (error) {
+            throw new TypeError(TEMP_ROUTINE_ERROR);
+        }
+    }
+    private manageCounter(gameId: number): void {
+        const aliveArenaCount: number | undefined =  this.countByGameId.get(gameId);
+        if (aliveArenaCount !== undefined) {
+            this.countByGameId.set(gameId, aliveArenaCount + 1);
+        } else {
+            this.countByGameId.set(gameId, 1);
         }
     }
 
@@ -156,26 +169,34 @@ export class GameManagerService {
         return {
             arenaId:            this.generateArenaID(),
             users:              users,
-            dataUrl:             {
-                original:       Constants.PATH_SERVER_TEMP + gameId + CCommon.ORIGINAL_FILE,
-                difference:     Constants.PATH_SERVER_TEMP + gameId + Constants.GENERATED_FILE,
+            dataUrl: {
+                original:   Constants.PATH_SERVER_TEMP + gameId + CCommon.ORIGINAL_FILE,
+                difference: Constants.PATH_SERVER_TEMP + gameId + Constants.GENERATED_FILE,
             },
         };
     }
 
-    // private buildArena3DInfos(user: IUser, gameId: number): IArenaInfos<I3DInfos> {
-    //     return {
-    //         arenaId:            this.generateArenaID(),
-    //         users:              [user],
-    //         dataUrl:            {
-    //             sceneInfos:     "bloop bloop",
-    //         },
-    //     };
-    // }
+    private buildArena3DInfos(users: IUser[], gameId: number): IArenaInfos<I3DInfos> {
+        return {
+            arenaId:            this.generateArenaID(),
+            users:              users,
+            dataUrl:            {
+            sceneData:         "http://localhost:3000/scene/2_scene",
+            },
+        };
+    }
 
-    private create3DArena(users: IUser[], gameId: number): Message {
+    private async create3DArena(users: IUser[], gameId: number): Promise<Message> {
+        const arenaInfo: IArenaInfos<I3DInfos> = this.buildArena3DInfos(users, gameId);
+        const arena: Arena3D = new Arena3D(arenaInfo, this);
+        this.tempRoutine3d(gameId);
+        this.manageCounter(gameId);
+        this.gameIdByArenaId.set(arenaInfo.arenaId, gameId);
+        this.initArena(arena).catch(() => Constants.INIT_ARENA_ERROR);
+        this.arenas.set(arenaInfo.arenaId, arena);
+
         const paths: string = JSON.stringify([
-            CCommon.BASE_URL + "/scene/" + gameId + Constants.SCENES_FILE,
+            CCommon.BASE_URL + "/temp/" + gameId + Constants.SCENES_FILE,
         ]);
 
         return {
@@ -208,8 +229,8 @@ export class GameManagerService {
     }
 
     public deleteArena(arena: IArenaInfos<I2DInfos | I3DInfos>): void {
-        const arenaId: number = arena.arenaId;
-        const gameId:  number | undefined = this.gameIdByArena.get(arenaId);
+        const arenaId:  number              = arena.arenaId;
+        const gameId:   number | undefined  = this.gameIdByArenaId.get(arenaId);
         if (gameId === undefined) {
             return;
         }
@@ -217,11 +238,15 @@ export class GameManagerService {
         if (aliveArenaCount === undefined) {
             return;
         }
-        if (aliveArenaCount !== 0) {
+        if (aliveArenaCount !== 1) {
             this.countByGameId.set(gameId, aliveArenaCount - 1);
         } else {
-            this.assetManager.deleteFileInTemp(gameId, Constants.GENERATED_FILE);
-            this.assetManager.deleteFileInTemp(gameId, CCommon.ORIGINAL_FILE);
+            if ("original" in arena.dataUrl) {
+                this.assetManager.deleteFileInTemp(gameId, Constants.GENERATED_FILE);
+                this.assetManager.deleteFileInTemp(gameId, CCommon.ORIGINAL_FILE);
+            } else {
+                this.assetManager.deleteFileInTemp(gameId, Constants.SCENES_FILE);
+            }
         }
 
         this.arenas.delete(arena.arenaId);
@@ -254,8 +279,7 @@ export class GameManagerService {
     }
 
     public getUsersInArena(arenaId: number): IUser[] {
-
-        const users: IUser[]            = [];
+        const users: IUser[] = [];
         const arena: Arena<any, any, any, any> | undefined  = this.arenas.get(arenaId);
 
         if (arena) {

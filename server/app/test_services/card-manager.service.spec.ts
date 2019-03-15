@@ -8,7 +8,7 @@ import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/c
 import { ICardLists } from "../../../common/communication/iCardLists";
 import { ISceneMessage } from "../../../common/communication/iSceneMessage";
 import { ISceneOptions, SceneType } from "../../../common/communication/iSceneOptions";
-import { IModification, ISceneVariables, ISceneVariablesMessage } from "../../../common/communication/iSceneVariables";
+import { IModification, ISceneData, ISceneVariables, ModificationType } from "../../../common/communication/iSceneVariables";
 import { Message } from "../../../common/communication/message";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { Constants } from "../constants";
@@ -20,7 +20,7 @@ import { HighscoreService } from "../services/highscore.service";
 import { SceneBuilder } from "../services/scene/scene-builder";
 import { SceneModifier } from "../services/scene/scene-modifier";
 
-/*tslint:disable no-magic-numbers no-any */
+/*tslint:disable no-magic-numbers no-any max-file-line-count */
 
 const FAKE_PATH:            string  = CCommon.BASE_URL + "/image";
 const mockAdapter:          any     = require("axios-mock-adapter");
@@ -41,6 +41,16 @@ describe("Card-manager tests", () => {
         list2D: [DefaultCard2D],
         list3D: [DefaultCard3D],
     };
+
+    const modifications: IModification[] = [
+        { id: 0, type: ModificationType.added },
+        { id: 1, type: ModificationType.added },
+        { id: 2, type: ModificationType.changedColor },
+        { id: 3, type: ModificationType.changedColor },
+        { id: 4, type: ModificationType.removed },
+        { id: 5, type: ModificationType.removed },
+        { id: 6, type: ModificationType.removed },
+    ];
 
     const c2: ICard = {
         gameID:             4,
@@ -122,10 +132,10 @@ describe("Card-manager tests", () => {
         const sceneModifier:    SceneModifier   = new SceneModifier(sceneBuilder);
         const isceneVariable:   ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
 
-        const iSceneVariablesMessage:   ISceneVariablesMessage  = {
+        const iSceneVariablesMessage:   ISceneData  = {
             originalScene:          isceneVariable,
             modifiedScene:          sceneModifier.modifyScene(sceneOptions10, isceneVariable, modifiedList),
-            modifications:         modifiedList,
+            modifications:          modifications,
         };
         const sceneMessage: ISceneMessage = {
             iSceneVariablesMessage: iSceneVariablesMessage,
@@ -152,10 +162,10 @@ describe("Card-manager tests", () => {
         const sceneModifier:    SceneModifier   = new SceneModifier(sceneBuilder);
         const isceneVariable:   ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
 
-        const iSceneVariablesMessage: ISceneVariablesMessage = {
+        const iSceneVariablesMessage: ISceneData = {
             originalScene:          isceneVariable,
             modifiedScene:          sceneModifier.modifyScene(sceneOptions10, isceneVariable, modifiedList),
-            modifications:         modifiedList,
+            modifications:          modifications,
         };
         const sceneMessage: ISceneMessage = {
             iSceneVariablesMessage: iSceneVariablesMessage,

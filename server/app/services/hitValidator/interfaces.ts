@@ -1,10 +1,10 @@
-export interface IImageToCache {
-    imageUrl:               string;
-    buffer:                 Buffer;
+export interface IDataToCache<T> {
+    dataUrl:                string;
+    data:                   T;
 }
 
-export interface ICacheElement {
-    imageToCache:           IImageToCache;
+export interface ICacheElement<T> {
+    dataToCache:            IDataToCache<T>;
     obsolescenceDegree:     number;
 }
 

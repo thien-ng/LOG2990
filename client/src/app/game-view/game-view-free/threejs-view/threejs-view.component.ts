@@ -3,7 +3,7 @@ import { Component, ElementRef, EventEmitter, HostListener, Inject, Input, OnCha
 import { MatSnackBar } from "@angular/material";
 import * as THREE from "three";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
-import { IModification, ISceneVariables, ISceneVariablesMessage } from "../../../../../../common/communication/iSceneVariables";
+import { IModification, ISceneData, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../../common/communication/message";
 import { CCommon } from "../../../../../../common/constantes/cCommon";
 import { CardManagerService } from "../../../card/card-manager.service";
@@ -33,7 +33,7 @@ export class TheejsViewComponent implements OnChanges {
   private iSceneVariables:        ISceneVariables;
 
   @Input()
-  private iSceneVariablesMessage: ISceneVariablesMessage;
+  private iSceneVariablesMessage: ISceneData;
 
   @Input()
   private isSnapshotNeeded:       boolean;
