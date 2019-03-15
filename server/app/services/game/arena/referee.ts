@@ -40,9 +40,15 @@ export class Referee<EVT_T, DIFF_T> {
 
     public async onPlayerClick(eventInfos: EVT_T, user: IUser): Promise<IArenaResponse<DIFF_T>> {
 
-        let arenaResponse: IArenaResponse<DIFF_T> = this.buildArenaResponse(
-            this.ON_FAILED_CLICK,
-        ) as IArenaResponse<DIFF_T>;
+        const player: Player | undefined = this.getPlayerFromUsername(user);
+
+        if (player === undefined) {
+            return this.buildArenaResponse(this.ON_FAILED_CLICK) as IArenaResponse<DIFF_T>;
+        }
+
+        if (player.penaltyState) {
+            return this.buildArenaResponse("onPenalty") as IArenaResponse<DIFF_T>;
+        }
 
         return this.validateHit(eventInfos)
         .then((hitConfirmation: IHitConfirmation) => {
