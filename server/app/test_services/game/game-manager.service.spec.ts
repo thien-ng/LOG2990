@@ -13,7 +13,6 @@ import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../
 import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
-// import { Constants } from "../../constants";
 import { Arena2D } from "../../services/game/arena/arena2d";
 import { I2DInfos, IArenaInfos, IPlayerInput } from "../../services/game/arena/interfaces";
 import { GameManagerService } from "../../services/game/game-manager.service";
@@ -322,27 +321,27 @@ describe("GameManagerService tests", () => {
         chai.expect(spy).to.throw();
 
     });
-    it("should delete the temp images if we delete the last arena alive", () => {
-        userManagerService.validateName(request2D.username);
-        mockAxios.onGet(iArenaInfos.dataUrl.original, {
-            responseType: "arraybuffer",
-        }).reply(200, original);
+    // it("should delete the temp images if we delete the last arena alive", () => {
+    //     userManagerService.validateName(request2D.username);
+    //     mockAxios.onGet(iArenaInfos.dataUrl.original, {
+    //         responseType: "arraybuffer",
+    //     }).reply(200, original);
 
-        mockAxios.onGet(iArenaInfos.dataUrl.difference, {
-            responseType: "arraybuffer",
-        }).reply(200, modified);
+    //     mockAxios.onGet(iArenaInfos.dataUrl.difference, {
+    //         responseType: "arraybuffer",
+    //     }).reply(200, modified);
 
-        chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
-        chai.spy.on(gameManagerService, "init2DArena", () => {
-            gameManagerService["arenas"][0].timer.stopTimer();
-        });
-        const spy: any = chai.spy.on(gameManagerService["gameIdByArena"], "set");
+    //     chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
+    //     chai.spy.on(gameManagerService, "init2DArena", () => {
+    //         gameManagerService["arenas"][0].timer.stopTimer();
+    //     });
+    //     const spy: any = chai.spy.on(gameManagerService["gameIdByArena"], "set");
 
-        gameManagerService.analyseRequest(request2D).catch();
-        gameManagerService["countByGameId"].set(1, 0);
-        gameManagerService.deleteArena(iArenaInfos);
-        chai.expect(spy).to.have.been.called();
+    //     gameManagerService.analyseRequest(request2D).catch();
+    //     gameManagerService["countByGameId"].set(1, 0);
+    //     gameManagerService.deleteArena(iArenaInfos);
+    //     chai.expect(spy).to.have.been.called();
 
-    });
+    // });
 });
 // tslint:disable-next-line:max-file-line-count
