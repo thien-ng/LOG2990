@@ -2,7 +2,7 @@ import { inject, TestBed } from "@angular/core/testing";
 import * as THREE from "three";
 import { anyNumber, mock, when } from "ts-mockito";
 import { SceneObjectType } from "../../../../../../common/communication/iSceneObject";
-import { IModification, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
+import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { ThreejsViewService } from "./threejs-view.service";
 
 // tslint:disable:no-any
