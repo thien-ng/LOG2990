@@ -7,15 +7,15 @@
       [rowspan]="1">
       <div class="gameName">{{activeCard.title}}</div>
     </mat-grid-tile>
-  <mat-grid-tile
-    [colspan]="2"
-    [rowspan]="5">
-    <app-chat-view></app-chat-view>
-  </mat-grid-tile>
-  <mat-grid-tile
-  [colspan]="7"
-  [rowspan]="3">
-  <app-spinner *ngIf="isLoading"></app-spinner>
+    <mat-grid-tile
+      [colspan]="2"
+      [rowspan]="5">
+      <app-chat-view></app-chat-view>
+    </mat-grid-tile>
+    <mat-grid-tile
+    [colspan]="7"
+    [rowspan]="3">
+    <app-spinner *ngIf="isLoading"></app-spinner>
   <app-threejs-view id="originalScene" [iSceneVariables]="originalVariables" [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
   <app-threejs-view id="modifiedScene" [iSceneVariables]="modifiedVariables" [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
   </mat-grid-tile>
