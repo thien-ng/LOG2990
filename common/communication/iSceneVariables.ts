@@ -12,6 +12,12 @@ export interface IModification {
     type:               ModificationType;
 }
 
+export enum ModificationType {
+    added,
+    removed,
+    changedColor,
+  }
+
 export interface ISceneVariables {
     theme:                  SceneType;
     gameName:               string;
