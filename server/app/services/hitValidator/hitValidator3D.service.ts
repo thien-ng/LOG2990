@@ -1,7 +1,8 @@
-// import { AxiosInstance, AxiosResponse } from "axios";
+import { AxiosInstance, AxiosResponse } from "axios";
 import { injectable } from "inversify";
-// import { Cache } from "./cache";
-// import { IHitConfirmation, IHitToValidate, IImageToCache } from "./interfaces";
+import { ISceneVariablesMessage } from "../../../../common/communication/iSceneVariables";
+import { Cache } from "./cache";
+import { IDataToCache, IHitConfirmation, IHitToValidate } from "./interfaces";
 
 @injectable()
 export class HitValidatorService3D {
