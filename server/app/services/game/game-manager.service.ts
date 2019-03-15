@@ -20,6 +20,7 @@ const TEMP_ROUTINE_ERROR:               string = "error while copying to temp";
 const ARENA_START_ID:                   number = 1000;
 const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
 
+// _TODO: Enlever les any après les avoir remplacés
 // tslint:disable:no-any
 @injectable()
 export class GameManagerService {
