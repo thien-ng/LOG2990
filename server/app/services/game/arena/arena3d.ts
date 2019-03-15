@@ -10,6 +10,7 @@ import { Arena } from "./arena";
 import { I3DInfos, IArenaInfos, IHitConfirmation, IPlayerInput } from "./interfaces";
 import { Referee } from "./referee";
 
+// _TODO: Remove this line after replacing all the anys
 // tslint:disable:no-any
 export class Arena3D extends Arena<IPlayerInput<number>, IArenaResponse<ISceneObjectUpdate>, ISceneObjectUpdate, number> {
 
