@@ -44,6 +44,17 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
         return this.players;
     }
 
+    public getDifferencesIds(): number[] {
+
+        const differencesIds: number[] = [];
+
+        this.originalElements.forEach((value: DIFF_T, key: number) => {
+            differencesIds.push(key);
+        });
+
+        return differencesIds;
+    }
+
     public contains(user: IUser): boolean {
         return this.players.some((player: Player) => {
             return player.username === user.username;
