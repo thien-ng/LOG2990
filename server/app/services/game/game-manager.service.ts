@@ -210,8 +210,7 @@ export class GameManagerService {
     }
 
     public getUsersInArena(arenaId: number): IUser[] {
-
-        const users: IUser[]            = [];
+        const users: IUser[] = [];
         const arena: Arena<any, any, any, any> | undefined  = this.arenas.get(arenaId);
 
         if (arena) {
