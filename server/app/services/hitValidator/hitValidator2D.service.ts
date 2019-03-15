@@ -2,7 +2,7 @@ import { AxiosInstance, AxiosResponse } from "axios";
 import { injectable } from "inversify";
 import { IPosition2D } from "../../../../common/communication/iGameplay";
 import { Cache } from "./cache";
-import { IHitConfirmation, IHitToValidate, IImageToCache } from "./interfaces";
+import { IDataToCache, IHitConfirmation, IHitToValidate } from "./interfaces";
 
 @injectable()
 export class HitValidatorService2D {
@@ -15,7 +15,7 @@ export class HitValidatorService2D {
     private readonly BUFFER_24BIT_SIZE:     number = 3;
     private readonly CACHE_SIZE:            number = 5;
 
-    private cache: Cache;
+    private cache: Cache<Buffer>;
 
     public constructor() {
         this.cache = new Cache(this.CACHE_SIZE);
@@ -75,9 +75,9 @@ export class HitValidatorService2D {
     }
 
     private insertElementInCache(imageUrl: string, buffer: Buffer): void {
-        const newCacheElement: IImageToCache = {
-            imageUrl:   imageUrl,
-            buffer:     buffer,
+        const newCacheElement: IDataToCache<Buffer> = {
+            dataUrl:   imageUrl,
+            data:     buffer,
         };
         this.cache.insert(newCacheElement);
     }

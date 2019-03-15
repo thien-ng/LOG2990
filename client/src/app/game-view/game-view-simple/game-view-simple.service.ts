@@ -21,10 +21,13 @@ export class GameViewSimpleService {
   public onArenaResponse(data: IArenaResponse<IOriginalPixelCluster>): void {
     if (data.status === CCommon.ON_SUCCESS) {
       this.playSuccessSound();
-      data.response.cluster.forEach((pixel: IReplacementPixel) => {
-        this.canvasModified.fillStyle = "rgb(" + pixel.color.R + ", " + pixel.color.G + ", " + pixel.color.B + ")";
-        this.canvasModified.fillRect(pixel.position.x, pixel.position.y, 1, 1);
-      });
+      if (data.response) {
+        data.response.cluster.forEach((pixel: IReplacementPixel) => {
+          this.canvasModified.fillStyle = "rgb(" + pixel.color.R + ", " + pixel.color.G + ", " + pixel.color.B + ")";
+          this.canvasModified.fillRect(pixel.position.x, pixel.position.y, 1, 1);
+        });
+      }
+
     } else {
       this.playFailSound();
     }

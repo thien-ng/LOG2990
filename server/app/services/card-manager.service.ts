@@ -3,7 +3,7 @@ import { inject, injectable } from "inversify";
 import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
 import { ISceneMessage } from "../../../common/communication/iSceneMessage";
-import { ISceneVariablesMessage } from "../../../common/communication/iSceneVariables";
+import { ISceneData } from "../../../common/communication/iSceneVariables";
 import { Message } from "../../../common/communication/message";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { Constants } from "../constants";
@@ -81,7 +81,7 @@ export class CardManagerService {
         return this.generateMessage(cardReceived);
     }
 
-    private saveSceneJson(body: ISceneVariablesMessage, path: string): void {
+    private saveSceneJson(body: ISceneData, path: string): void {
         const sceneObject: string = JSON.stringify(body);
         this.imageManagerService.saveGeneratedScene(path, sceneObject);
     }

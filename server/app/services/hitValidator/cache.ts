@@ -1,19 +1,19 @@
-import { ICacheElement, IImageToCache } from "./interfaces";
+import { ICacheElement, IDataToCache } from "./interfaces";
 
-export class Cache {
+export class Cache<T> {
 
-    private storage: ICacheElement[];
+    private storage: ICacheElement<T>[];
     private readonly ON_NOTFOUND_ERROR: string =
-    "The element wanted has not been found in the cache. File: Cache.ts. Line: 44. \nError message: ";
+    "The element wanted has not been found in the cache. \nError message: ";
 
     public constructor(private cacheSize: number) {
         this.storage = [];
     }
 
-    public insert(entry: IImageToCache): void {
-        if (!this.contains(entry.imageUrl)) {
-            const elementToInsert: ICacheElement = {
-                imageToCache: entry,
+    public insert(entry: IDataToCache<T>): void {
+        if (!this.contains(entry.dataUrl)) {
+            const elementToInsert: ICacheElement<T> = {
+                dataToCache: entry,
                 obsolescenceDegree: 0,
             };
             this.storage[this.leastRecentlyUsedIndex()] = elementToInsert;
@@ -21,28 +21,28 @@ export class Cache {
         }
     }
 
-    public contains(imageUrl: string): boolean {
-        return this.storage.some((cachedElement: ICacheElement): boolean => {
-            return cachedElement.imageToCache.imageUrl === imageUrl;
+    public contains(url: string): boolean {
+        return this.storage.some((cachedElement: ICacheElement<T>): boolean => {
+            return cachedElement.dataToCache.dataUrl === url;
         });
     }
 
-    public get(imageUrl: string): Buffer {
+    public get(url: string): T {
 
         try {
-            const foundElement: ICacheElement = this.storage.filter((element: ICacheElement) => {
-                return element.imageToCache.imageUrl === imageUrl;
+            const foundElement: ICacheElement<T> = this.storage.filter((element: ICacheElement<T>) => {
+                return element.dataToCache.dataUrl === url;
             })[0];
             this.updateLRUPolitic(foundElement);
 
-            return foundElement.imageToCache.buffer;
+            return foundElement.dataToCache.data;
         } catch (error) {
             throw new TypeError(this.ON_NOTFOUND_ERROR + error.message);
         }
     }
 
-    private updateLRUPolitic(elementRecentlyAccessed: ICacheElement): void {
-        this.storage.forEach((elementCached: ICacheElement) => {
+    private updateLRUPolitic(elementRecentlyAccessed: ICacheElement<T>): void {
+        this.storage.forEach((elementCached: ICacheElement<T>) => {
             if (elementCached !== elementRecentlyAccessed) {
                 elementCached.obsolescenceDegree++;
             }
@@ -59,7 +59,7 @@ export class Cache {
 
     private findMaxObsolescenceIndex(): number {
 
-        const allObsolescences: number[] = this.storage.map((element: ICacheElement) => element.obsolescenceDegree);
+        const allObsolescences: number[] = this.storage.map((element: ICacheElement<T>) => element.obsolescenceDegree);
 
         let maxFound:   number = 0;
         let indexOfMax: number = 0;
