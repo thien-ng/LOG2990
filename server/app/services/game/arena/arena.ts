@@ -77,10 +77,16 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
         });
     }
 
-    protected buildArenaResponse(status: string, response: DIFF_T): IArenaResponse<DIFF_T> {
-        return {
+    protected buildArenaResponse(status: string, response?: DIFF_T): IArenaResponse<DIFF_T> {
+
+        const arenaResponse: IArenaResponse<DIFF_T> = {
             status: status,
-            response: response,
         };
+
+        if (response) {
+            arenaResponse.response = response;
+        }
+
+        return arenaResponse;
     }
 }
