@@ -2,7 +2,7 @@ import { inject } from "inversify";
 import { GameMode } from "../../../../../common/communication/iCard";
 import { ActionType, IArenaResponse, ISceneObjectUpdate } from "../../../../../common/communication/iGameplay";
 import { ISceneObject } from "../../../../../common/communication/iSceneObject";
-import { IModification, ISceneVariablesMessage, ModificationType } from "../../../../../common/communication/iSceneVariables";
+import { IModification, ISceneData, ModificationType } from "../../../../../common/communication/iSceneVariables";
 import { IUser } from "../../../../../common/communication/iUser";
 import Types from "../../../types";
 import { GameManagerService } from "../game-manager.service";
@@ -62,7 +62,7 @@ export class Arena3D extends Arena<IPlayerInput<number>, IArenaResponse<ISceneOb
 
     private async extractModifiedSceneObjects(): Promise<void> {
         const sceneData:        Buffer                  = await this.getDifferenceDataFromURL(this.arenaInfos.dataUrl.sceneData);
-        const sceneDataJson:    ISceneVariablesMessage  = JSON.parse(sceneData.toString()) as ISceneVariablesMessage;
+        const sceneDataJson:    ISceneData  = JSON.parse(sceneData.toString()) as ISceneData;
 
         sceneDataJson.modifications.forEach((modification: IModification) => {
             const sceneObjectUpdate: ISceneObjectUpdate = this.findObjectToUpdate(modification, sceneDataJson);
@@ -70,7 +70,7 @@ export class Arena3D extends Arena<IPlayerInput<number>, IArenaResponse<ISceneOb
         });
     }
 
-    private findObjectToUpdate(modification: IModification, sceneVariableMessage: ISceneVariablesMessage): ISceneObjectUpdate {
+    private findObjectToUpdate(modification: IModification, sceneVariableMessage: ISceneData): ISceneObjectUpdate {
 
         const originalSceneObjects: ISceneObject[] = sceneVariableMessage.originalScene.sceneObjects;
         const modifiedSceneObjects: ISceneObject[] = sceneVariableMessage.modifiedScene.sceneObjects;
@@ -79,16 +79,16 @@ export class Arena3D extends Arena<IPlayerInput<number>, IArenaResponse<ISceneOb
 
         switch (modification.type) {
             case ModificationType.added:
-                sceneObjectUpdate = this.buildSceneObjectUpdate(ActionType.CHANGE_COLOR, modifiedSceneObjects[modification.id]);
+                sceneObjectUpdate = this.buildSceneObjectUpdate(ActionType.DELETE, modifiedSceneObjects[modification.id]);
                 break;
             case ModificationType.removed:
-                sceneObjectUpdate = this.buildSceneObjectUpdate(ActionType.CHANGE_COLOR, originalSceneObjects[modification.id]);
+                sceneObjectUpdate = this.buildSceneObjectUpdate(ActionType.ADD, originalSceneObjects[modification.id]);
                 break;
             case ModificationType.changedColor:
                 sceneObjectUpdate = this.buildSceneObjectUpdate(ActionType.CHANGE_COLOR, originalSceneObjects[modification.id]);
                 break;
             default:
-                sceneObjectUpdate = this.buildSceneObjectUpdate(ActionType.CHANGE_COLOR);
+                sceneObjectUpdate = this.buildSceneObjectUpdate(ActionType.NO_ACTION_REQUIRED);
                 break;
         }
 

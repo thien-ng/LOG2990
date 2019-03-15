@@ -1,6 +1,6 @@
 import { AxiosInstance, AxiosResponse } from "axios";
 import { injectable } from "inversify";
-import { IModification, ISceneVariablesMessage } from "../../../../common/communication/iSceneVariables";
+import { IModification, ISceneData } from "../../../../common/communication/iSceneVariables";
 import { Cache } from "./cache";
 import { IDataToCache, IHitConfirmation, IHitToValidate } from "./interfaces";
 
@@ -10,15 +10,15 @@ export class HitValidatorService3D {
     private readonly ERROR_ON_HTTPGET:  string = "Didn't succeed to get scene buffer from URL given.";
     private readonly CACHE_SIZE:        number = 5;
 
-    private cache: Cache<ISceneVariablesMessage>;
+    private cache: Cache<ISceneData>;
 
     public constructor() {
-        this.cache = new Cache<ISceneVariablesMessage>(this.CACHE_SIZE);
+        this.cache = new Cache<ISceneData>(this.CACHE_SIZE);
     }
 
     public async confirmHit(hitToValidate: IHitToValidate<number>): Promise<IHitConfirmation> {
 
-        let data: ISceneVariablesMessage;
+        let data: ISceneData;
 
         if (this.isStoredInCache(hitToValidate.differenceDataURL)) {
             data = this.cache.get(hitToValidate.differenceDataURL);
@@ -35,13 +35,13 @@ export class HitValidatorService3D {
         };
     }
 
-    private isValidHit(objectId: number, sceneData: ISceneVariablesMessage): boolean {
+    private isValidHit(objectId: number, sceneData: ISceneData): boolean {
         return sceneData.modifications.some((modification: IModification) => {
             return objectId === modification.id;
         });
     }
 
-    private async getSceneDataFromUrl(url: string): Promise<ISceneVariablesMessage> {
+    private async getSceneDataFromUrl(url: string): Promise<ISceneData> {
 
         const axios: AxiosInstance = require("axios");
 
@@ -50,15 +50,15 @@ export class HitValidatorService3D {
                 responseType: "arraybuffer",
             })
             .then((response: AxiosResponse) => {
-                return JSON.parse(response.data.toString()) as ISceneVariablesMessage;
+                return JSON.parse(response.data.toString()) as ISceneData;
             })
             .catch((error: Error) => {
                 throw new TypeError(this.ERROR_ON_HTTPGET);
             });
     }
 
-    private insertElementInCache(imageUrl: string, data: ISceneVariablesMessage): void {
-        const newCacheElement: IDataToCache<ISceneVariablesMessage> = {
+    private insertElementInCache(imageUrl: string, data: ISceneData): void {
+        const newCacheElement: IDataToCache<ISceneData> = {
             dataUrl:    imageUrl,
             data:       data,
         };

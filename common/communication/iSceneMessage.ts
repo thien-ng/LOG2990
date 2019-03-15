@@ -1,6 +1,6 @@
-import { ISceneVariablesMessage } from "./iSceneVariables";
+import { ISceneData } from "./iSceneVariables";
 
 export interface ISceneMessage {
-    iSceneVariablesMessage:     ISceneVariablesMessage;
+    iSceneVariablesMessage:     ISceneData;
     image:                      string;
 }

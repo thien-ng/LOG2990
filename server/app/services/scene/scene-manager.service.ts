@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
 import { ISceneOptions, SceneType } from "../../../../common/communication/iSceneOptions";
-import { ISceneVariables, ISceneVariablesMessage } from "../../../../common/communication/iSceneVariables";
+import { ISceneData, ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../../constants";
@@ -21,7 +21,7 @@ export class SceneManager {
         this.sceneModifier = new SceneModifier(this.sceneBuilder);
     }
 
-    public createScene(formMessage: FormMessage): ISceneVariablesMessage | string {
+    public createScene(formMessage: FormMessage): ISceneData | string {
 
         const isFormValid: boolean = this.validateForm(formMessage);
 
@@ -34,7 +34,7 @@ export class SceneManager {
                 return {
                     originalScene: generatedOriginalScene,
                     modifiedScene: generatedModifiedScene,
-                } as ISceneVariablesMessage;
+                } as ISceneData;
             } else {
                 return Constants.CARD_CREATION_ERROR;
             }
