@@ -302,4 +302,6 @@ export class GameManagerService {
 
         return users;
     }
+    // _TODO: OTER CA APRES REFACTOR
+// tslint:disable-next-line:max-file-line-count
 }
