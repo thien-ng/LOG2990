@@ -59,7 +59,7 @@ export class Cache {
 
     private findMaxObsolescenceIndex(): number {
 
-        const allObsolescences: number[] = this.storage.map((element: ICacheElement) => element.obsolescenceDegree);
+        const allObsolescences: number[] = this.storage.map((element: ICacheElement<T>) => element.obsolescenceDegree);
 
         let maxFound:   number = 0;
         let indexOfMax: number = 0;
