@@ -1,8 +1,11 @@
 import { HttpClient } from "@angular/common/http";
-import { AfterViewInit, Component, OnInit } from "@angular/core";
+import { AfterViewInit, Component, Inject, OnInit } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
+import { first } from "rxjs/operators";
 import { Constants } from "src/app/constants";
+import { GameConnectionService } from "src/app/game-connection.service";
+import { SocketService } from "src/app/websocket/socket.service";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { GameType, IGameRequest } from "../../../../../common/communication/iGameRequest";
 import { ISceneData, ISceneVariables } from "../../../../../common/communication/iSceneVariables";
@@ -22,7 +25,11 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit {
   public activeCard:        ICard;
   public gameRequest:       IGameRequest;
   public isLoading:         boolean;
-
+  public gameIsStarted:     boolean;
+  public arenaID:           number;
+  public gameID:            string | null;
+  public mode:              number;
+  private scenePath:        string;
   private gameType:         GameType;
 
   public constructor(
