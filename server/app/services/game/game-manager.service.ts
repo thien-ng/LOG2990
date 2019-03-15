@@ -227,8 +227,8 @@ export class GameManagerService {
         });
     }
 
-    public deleteArena(arena: IArenaInfos<I2DInfos | I3DInfos>): void {
-        const arenaId: number = arena.arenaId;
+    public deleteArena(arenaInfos: IArenaInfos<I2DInfos | I3DInfos>): void {
+        const arenaId: number = arenaInfos.arenaId;
         const gameId: number | undefined = this.gameIdByArenaId.get(arenaId);
         if (gameId === undefined) {
             return;
@@ -240,15 +240,18 @@ export class GameManagerService {
         if (aliveArenaCount !== 1) {
             this.countByGameId.set(gameId, aliveArenaCount - 1);
         } else {
-            if ("original" in arena.dataUrl) {
-                this.assetManager.deleteFileInTemp(gameId, Constants.GENERATED_FILE);
-                this.assetManager.deleteFileInTemp(gameId, CCommon.ORIGINAL_FILE);
-            } else {
-                this.assetManager.deleteFileInTemp(gameId, Constants.SCENES_FILE);
-            }
+            this.deleteTempFiles(arenaInfos, gameId);
         }
+        this.arenas.delete(arenaInfos.arenaId);
+    }
 
-        this.arenas.delete(arena.arenaId);
+    private deleteTempFiles(arenaInfos: IArenaInfos<I2DInfos | I3DInfos>, gameId: number): void {
+        if ("original" in arenaInfos.dataUrl) {
+            this.assetManager.deleteFileInTemp(gameId, Constants.GENERATED_FILE);
+            this.assetManager.deleteFileInTemp(gameId, CCommon.ORIGINAL_FILE);
+        } else {
+            this.assetManager.deleteFileInTemp(gameId, Constants.SCENES_FILE);
+        }
     }
 
     public get userList(): Map<string, SocketIO.Socket> {
