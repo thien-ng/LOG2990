@@ -85,6 +85,7 @@ export class GameManagerService {
 
     private async verifyLobby(request: IGameRequest, user: IUser): Promise<Message> {
         const lobby: IUser[] | undefined = this.lobby.get(request.gameId);
+        console.log(lobby);
 
         if (lobby === undefined) {
             this.lobby.set(request.gameId.valueOf(), [user]);
@@ -96,18 +97,17 @@ export class GameManagerService {
             switch (request.mode) {
                 case GameMode.simple:
                     message = await this.create2DArena(lobby, request.gameId);
-                    this.sendMessage(lobby[0].socketID, CCommon.ON_ARENA_CONNECT, Number(message.body));
-                    this.lobby.delete(request.gameId);
-
-                    return message;
+                    break;
                 case GameMode.free:
                     message = await this.create3DArena(lobby, request.gameId);
-                    this.lobby.delete(request.gameId);
-
-                    return message;
+                    break;
                 default:
                     return this.generateMessage(CCommon.ON_MODE_INVALID, CCommon.ON_MODE_INVALID);
             }
+            this.sendMessage(lobby[0].socketID, CCommon.ON_ARENA_CONNECT, Number(message.body));
+            this.lobby.delete(request.gameId);
+
+            return message;
         }
     }
 
@@ -149,9 +149,9 @@ export class GameManagerService {
     }
 
     private tempRoutine3d(gameId: number): void {
-        const path: string = Constants.SCENE_PATH + "/" + gameId + Constants.SCENES_FILE;
+        const path: string = Constants.SCENE_PATH + "/" + gameId + CCommon.SCENES_FILE;
         try {
-            this.assetManager.copyFileToTemp(path, gameId, Constants.SCENES_FILE);
+            this.assetManager.copyFileToTemp(path, gameId, CCommon.SCENES_FILE);
         } catch (error) {
             throw new TypeError(TEMP_ROUTINE_ERROR);
         }
@@ -195,13 +195,9 @@ export class GameManagerService {
         this.initArena(arena).catch(() => Constants.INIT_ARENA_ERROR);
         this.arenas.set(arenaInfo.arenaId, arena);
 
-        const paths: string = JSON.stringify([
-            CCommon.BASE_URL + "/temp/" + gameId + Constants.SCENES_FILE,
-        ]);
-
         return {
             title:  CCommon.ON_SUCCESS,
-            body:   paths,
+            body:   arenaInfo.arenaId.toString(),
         };
     }
 
@@ -245,7 +241,7 @@ export class GameManagerService {
                 this.assetManager.deleteFileInTemp(gameId, Constants.GENERATED_FILE);
                 this.assetManager.deleteFileInTemp(gameId, CCommon.ORIGINAL_FILE);
             } else {
-                this.assetManager.deleteFileInTemp(gameId, Constants.SCENES_FILE);
+                this.assetManager.deleteFileInTemp(gameId, CCommon.SCENES_FILE);
             }
         }
 
