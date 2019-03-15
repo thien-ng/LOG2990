@@ -8,7 +8,7 @@ import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/c
 import { ICardLists } from "../../../common/communication/iCardLists";
 import { ISceneMessage } from "../../../common/communication/iSceneMessage";
 import { ISceneOptions, SceneType } from "../../../common/communication/iSceneOptions";
-import { ISceneVariables, ISceneVariablesMessage } from "../../../common/communication/iSceneVariables";
+import { IModification, ISceneVariables, ISceneVariablesMessage, ModificationType } from "../../../common/communication/iSceneVariables";
 import { Message } from "../../../common/communication/message";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { Constants } from "../constants";
@@ -40,6 +40,16 @@ describe("Card-manager tests", () => {
         list2D: [DefaultCard2D],
         list3D: [DefaultCard3D],
     };
+
+    const modifications: IModification[] = [
+        { id: 0, type: ModificationType.added },
+        { id: 1, type: ModificationType.added },
+        { id: 2, type: ModificationType.changedColor },
+        { id: 3, type: ModificationType.changedColor },
+        { id: 4, type: ModificationType.removed },
+        { id: 5, type: ModificationType.removed },
+        { id: 6, type: ModificationType.removed },
+    ];
 
     const c2: ICard = {
         gameID:             4,
@@ -123,6 +133,7 @@ describe("Card-manager tests", () => {
         const iSceneVariablesMessage:   ISceneVariablesMessage  = {
             originalScene:          isceneVariable,
             modifiedScene:          sceneModifier.modifyScene(sceneOptions10, isceneVariable),
+            modifications:          modifications,
         };
         const sceneMessage: ISceneMessage = {
             iSceneVariablesMessage: iSceneVariablesMessage,
@@ -152,6 +163,7 @@ describe("Card-manager tests", () => {
         const iSceneVariablesMessage: ISceneVariablesMessage = {
             originalScene:          isceneVariable,
             modifiedScene:          sceneModifier.modifyScene(sceneOptions10, isceneVariable),
+            modifications:          modifications,
         };
         const sceneMessage: ISceneMessage = {
             iSceneVariablesMessage: iSceneVariablesMessage,
