@@ -49,8 +49,8 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
       this.username       = sessionStorage.getItem(Constants.USERNAME_KEY);
 
       this.gameConnectionService.getGameConnectedListener().pipe(first()).subscribe((arenaID: number) => {
-        this.arenaID = arenaID;
-        this.gameIsStarted = true;
+        this.arenaID        = arenaID;
+        this.gameIsStarted  = true;
         this.socketService.sendMsg(CCommon.GAME_CONNECTION, arenaID);
         this.fetchSceneFromServer(this.scenePath)
           .catch((error) => {
@@ -74,7 +74,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
   private createGameRequest(gameID: string, username: string): void {
      this.httpClient.get(Constants.PATH_TO_GET_CARD + gameID + "/" + GameMode.free).subscribe((response: ICard) => {
       this.activeCard = response;
-      this.scenePath = CCommon.BASE_URL + "/temp/" + this.activeCard.gameID + CCommon.SCENE_FILE;
+      this.scenePath  = CCommon.BASE_URL + "/temp/" + this.activeCard.gameID + CCommon.SCENE_FILE;
 
       const type: string | null = this.route.snapshot.paramMap.get(GAMEMODE_KEY);
       if (type !== null) {
@@ -86,8 +86,8 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   private getSceneVariables(type: string, username: string): void {
-    this.gameType = JSON.parse(type);
-    this.gameRequest = {
+    this.gameType     = JSON.parse(type);
+    this.gameRequest  = {
         username:     username,
         gameId:       this.activeCard.gameID,
         type:         this.gameType,
@@ -100,8 +100,8 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
     this.httpClient.post(Constants.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
       switch (data.title) {
         case CCommon.ON_SUCCESS:
-          this.arenaID = Number(data.body);
-          this.gameIsStarted = true;
+          this.arenaID        = Number(data.body);
+          this.gameIsStarted  = true;
           this.socketService.sendMsg(CCommon.GAME_CONNECTION, this.arenaID);
           this.fetchSceneFromServer(this.scenePath)
           .catch((error) => {
