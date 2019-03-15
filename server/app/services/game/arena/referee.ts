@@ -91,9 +91,15 @@ export class Referee<EVT_T, DIFF_T> {
         },         this.PENALTY_TIMEOUT_MS);
     }
 
-    private onHitConfirmation(user: IUser, hitConfirmation: IHitConfirmation): void {
-        this.attributePoints(user);
-        this.addToDifferencesFound(hitConfirmation.differenceIndex);
+    private getPlayerFromUsername(user: IUser): Player | undefined {
+        return this.players.find( (player: Player) => {
+            return player.username === user.username;
+        });
+    }
+
+    private onHitConfirmation(player: Player, differenceIndex: number): void {
+        this.attributePoints(player);
+        this.addToDifferencesFound(differenceIndex);
     }
 
     private addToDifferencesFound(differenceIndex: number): void {
