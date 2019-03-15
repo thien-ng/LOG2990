@@ -13,8 +13,11 @@ import { DifferenceCheckerController } from "./services/difference-checker/diffe
 import { DifferenceCheckerService } from "./services/difference-checker/difference-checker.service";
 import { GameManagerService } from "./services/game/game-manager.service";
 import { HighscoreService } from "./services/highscore.service";
+import { HighscoreApiController } from "./services/highscore/highscore-api.controller";
+import { HighscoreApiService } from "./services/highscore/highscore-api.service";
 import { HitValidatorController } from "./services/hitValidator/hitValidator.controller";
-import { HitValidatorService } from "./services/hitValidator/hitValidator.service";
+import { HitValidatorService2D } from "./services/hitValidator/hitValidator2D.service";
+import { HitValidatorService3D } from "./services/hitValidator/hitValidator3D.service";
 import { SceneManager } from "./services/scene/scene-manager.service";
 import { TimeManagerService } from "./services/time-manager.service";
 import { UserManagerService } from "./services/user-manager.service";
@@ -38,11 +41,15 @@ container.bind(Types.CardOperations).to(CardOperations).inSingletonScope();
 container.bind(Types.HighscoreController).to(HighscoreController);
 container.bind(Types.HighscoreService).to(HighscoreService).inSingletonScope();
 
+container.bind(Types.HighscoreApiController).to(HighscoreApiController);
+container.bind(Types.HighscoreApiService).to(HighscoreApiService);
+
 container.bind(Types.DifferenceCheckerController).to(DifferenceCheckerController);
 container.bind(Types.DifferenceCheckerService).to(DifferenceCheckerService);
 
 container.bind(Types.HitValidatorController).to(HitValidatorController);
-container.bind(Types.HitValidatorService).to(HitValidatorService);
+container.bind(Types.HitValidatorService2D).to(HitValidatorService2D);
+container.bind(Types.HitValidatorService3D).to(HitValidatorService3D);
 
 container.bind(Types.GameManagerController).to(GameManagerController);
 container.bind(Types.GameManagerService).to(GameManagerService).inSingletonScope();

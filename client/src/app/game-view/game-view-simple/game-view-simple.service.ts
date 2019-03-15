@@ -1,5 +1,11 @@
 import { ElementRef, Injectable } from "@angular/core";
-import { IClickMessage, IPlayerInputResponse, IPosition2D } from "../../../../../common/communication/iGameplay";
+import {
+  IArenaResponse,
+  IClickMessage,
+  IOriginalPixelCluster,
+  IPosition2D,
+  IReplacementPixel
+ } from "../../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 
 const DELAY:            number = 1000;
@@ -22,10 +28,10 @@ export class GameViewSimpleService {
   public textCanvasModified:    HTMLDivElement;
   private position:             IPosition2D;
 
-  public onArenaResponse(data: IPlayerInputResponse): void {
+  public onArenaResponse(data: IArenaResponse<IOriginalPixelCluster>): void {
     if (data.status === CCommon.ON_SUCCESS) {
       this.playSuccessSound();
-      data.response.cluster.forEach((pixel) => {
+      data.response.cluster.forEach((pixel: IReplacementPixel) => {
         this.canvasModified.fillStyle = "rgb(" + pixel.color.R + ", " + pixel.color.G + ", " + pixel.color.B + ")";
         this.canvasModified.fillRect(pixel.position.x, pixel.position.y, 1, 1);
       });

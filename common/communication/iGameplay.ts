@@ -1,3 +1,5 @@
+import { GameMode } from "./iCard";
+
 export interface IPosition2D {
     x:  number;
     y:  number;
@@ -25,7 +27,8 @@ export interface IOriginalPixelCluster {
     cluster:        IReplacementPixel[];
 }
 
-export interface IPlayerInputResponse {
+export interface IArenaResponse<RES_T> {
     status:         string;
-    response:       IOriginalPixelCluster;
+    response:       RES_T;
+    arenaType?:     GameMode;
 }
