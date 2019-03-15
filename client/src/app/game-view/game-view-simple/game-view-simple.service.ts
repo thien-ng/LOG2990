@@ -34,6 +34,13 @@ export class GameViewSimpleService {
     }
   }
 
+  private enableClickRoutine(): void {
+    document.body.style.cursor = "auto";
+    this.canvasModified.canvas.style.pointerEvents = "auto";
+    this.canvasOriginal.canvas.style.pointerEvents = "auto";
+    this.text1div.textContent = null;
+    this.text2div.textContent = null;
+  }
 
   private disableClickRoutine(canvasback: HTMLCanvasElement): void {
       document.body.style.cursor = "not-allowed";
