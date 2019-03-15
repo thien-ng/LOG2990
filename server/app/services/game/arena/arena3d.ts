@@ -22,6 +22,16 @@ export class Arena3D extends Arena<any, any, any, any> {
     }
     public async prepareArenaForGameplay(): Promise<void> {
         throw new Error("Method not implemented.");
+    private async extractModifiedSceneObjects(): Promise<void> {
+        const sceneData:        Buffer                  = await this.getDifferenceDataFromURL(this.arenaInfos.dataUrl.sceneData);
+        const sceneDataJson:    ISceneVariablesMessage  = JSON.parse(sceneData.toString()) as ISceneVariablesMessage;
+
+        sceneDataJson.modifications.forEach((modification: IModification) => {
+            const sceneObjectUpdate: ISceneObjectUpdate = this.findObjectToUpdate(modification, sceneDataJson);
+            this.originalElements.set(modification.id, sceneObjectUpdate);
+        });
+    }
+
     private findObjectToUpdate(modification: IModification, sceneVariableMessage: ISceneVariablesMessage): ISceneObjectUpdate {
 
         const originalSceneObjects: ISceneObject[] = sceneVariableMessage.originalScene.sceneObjects;
