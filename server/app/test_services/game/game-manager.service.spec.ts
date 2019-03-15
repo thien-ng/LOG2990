@@ -206,6 +206,7 @@ describe("GameManagerService tests", () => {
         userManagerService.validateName(request3DSimple.username);
         const message: Message = await gameManagerService.analyseRequest(request3DSimple);
         chai.expect(message.title).to.equal("onSuccess");
+        chai.spy.restore();
     });
 
     it("Should return an error message when loading an invalid game", async () => {
@@ -253,6 +254,7 @@ describe("GameManagerService tests", () => {
             response:   ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
         };
         chai.expect(await gameManagerService.onPlayerInput(playerInput)).to.deep.equal(expectedMessage);
+        chai.spy.restore();
     });
 
     // it("should remove player patate from arena", async () => {
@@ -322,6 +324,7 @@ describe("GameManagerService tests", () => {
         userManagerService["users"].push({username: "Frank", socketID: "Frank"});
         const response: Message = await gameManagerService.analyseRequest(request2DMulti);
         chai.expect(response.body).to.deep.equal(CCommon.ON_WAITING);
+        chai.spy.restore();
     });
 
     it("Should return a message saying onSuccess when someone is in the lobby (2D)", async () => {
@@ -338,6 +341,7 @@ describe("GameManagerService tests", () => {
         await gameManagerService.analyseRequest(request);
         const response: Message = await gameManagerService.analyseRequest(request2DMulti);
         chai.expect(response.title).to.deep.equal(CCommon.ON_SUCCESS);
+        chai.spy.restore();
     });
 
     it("Should return a message saying onSuccess when someone is in the lobby (3D)", async () => {
@@ -392,6 +396,7 @@ describe("GameManagerService tests", () => {
 
         gameManagerService.analyseRequest(request2DSimple).then().catch();
         chai.expect(gameManagerService["countByGameId"].get(request2DSimple.gameId)).to.equal(1);
+        chai.spy.restore();
 
     });
     it("Should increment to 2 the counter linked to the gameId when adding a 2nd arena with same game id", () => {
@@ -409,10 +414,10 @@ describe("GameManagerService tests", () => {
         chai.spy.on(gameManagerService, "init2DArena", () => {
             gameManagerService["arenas[0]"].timer.stopTimer();
         });
-
         gameManagerService.analyseRequest(request2DSimple).then().catch();
         gameManagerService.analyseRequest(request2DSimple).then().catch();
         chai.expect(gameManagerService["countByGameId"].get(request2DSimple.gameId)).to.equal(2);
+        chai.spy.restore();
 
     });
     it("Should throw an error if cannot copy the gameImages", () => {
@@ -436,6 +441,7 @@ describe("GameManagerService tests", () => {
         gameManagerService.analyseRequest(request2DSimple).then().catch();
         gameManagerService.analyseRequest(request2DSimple).then().catch();
         chai.expect(spy).to.throw();
+        chai.spy.restore();
 
     });
     // it("should delete the temp images if we delete the last arena alive", () => {
