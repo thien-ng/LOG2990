@@ -16,4 +16,23 @@ export class HitValidatorService3D {
         this.cache = new Cache<ISceneVariablesMessage>(this.CACHE_SIZE);
     }
 
+    public async confirmHit(hitToValidate: IHitToValidate<number>): Promise<IHitConfirmation> {
+
+        let data: ISceneVariablesMessage;
+
+        if (this.isStoredInCache(hitToValidate.differenceDataURL)) {
+            data = this.cache.get(hitToValidate.differenceDataURL);
+        } else {
+            data = await this.getSceneDataFromUrl(hitToValidate.differenceDataURL);
+            this.insertElementInCache(hitToValidate.differenceDataURL, data);
+        }
+
+        const isAHit: boolean = this.isValidHit(hitToValidate.eventInfo, data);
+
+        return {
+            isAHit:             isAHit,
+            differenceIndex:    (isAHit) ? hitToValidate.eventInfo : -1,
+        };
+    }
+
 }
