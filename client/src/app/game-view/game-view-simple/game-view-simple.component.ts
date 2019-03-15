@@ -34,7 +34,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
 
   public activeCard:      ICard;
   public cardLoaded:      boolean;
-  public gameIsStarted:     boolean;
+  public gameIsStarted:   boolean;
   public username:        string | null;
   public mode:            number;
   public arenaID:         number;
