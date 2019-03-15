@@ -10,8 +10,11 @@ export class Arena3D extends Arena<any, any, any, any> {
         this.gameManagerService.sendMessage(playerSocketId, event, message);
     }
 
-    public async onPlayerClick(eventInfos: any, user: IUser): Promise<IArenaResponse<any>> {
-        throw new Error("Method not implemented.");
+    public async onPlayerClick(objectId: number, user: IUser): Promise<IArenaResponse<ISceneObjectUpdate>> {
+        const arenaResponse: IArenaResponse<ISceneObjectUpdate> = await this.referee.onPlayerClick(objectId, user);
+        arenaResponse.arenaType = GameMode.free;
+
+        return arenaResponse;
     }
 
     public async validateHit(eventInfos: any): Promise<IHitConfirmation> {
