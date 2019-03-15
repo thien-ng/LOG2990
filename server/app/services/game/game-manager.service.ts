@@ -169,9 +169,9 @@ export class GameManagerService {
         return {
             arenaId:            this.generateArenaID(),
             users:              users,
-            dataUrl:             {
-                original:       Constants.PATH_SERVER_TEMP + gameId + CCommon.ORIGINAL_FILE,
-                difference:     Constants.PATH_SERVER_TEMP + gameId + Constants.GENERATED_FILE,
+            dataUrl: {
+                original:   Constants.PATH_SERVER_TEMP + gameId + CCommon.ORIGINAL_FILE,
+                difference: Constants.PATH_SERVER_TEMP + gameId + Constants.GENERATED_FILE,
             },
         };
     }
@@ -229,8 +229,8 @@ export class GameManagerService {
     }
 
     public deleteArena(arena: IArenaInfos<I2DInfos | I3DInfos>): void {
-        const arenaId: number = arena.arenaId;
-        const gameId: number | undefined = this.gameIdByArenaId.get(arenaId);
+        const arenaId:  number              = arena.arenaId;
+        const gameId:   number | undefined  = this.gameIdByArenaId.get(arenaId);
         if (gameId === undefined) {
             return;
         }
