@@ -1,9 +1,12 @@
-<mat-grid-list cols="9" rowHeight="19.9%">
-  <mat-grid-tile
-    [colspan]="7"
-    [rowspan]="1">
-    <div class="gameName">{{activeCard.title}}</div>
-  </mat-grid-tile>
+<app-waiting-room [gameID]="gameID" *ngIf="!gameIsStarted && mode !== 0"></app-waiting-room>
+
+<span [hidden]="!gameIsStarted">
+  <mat-grid-list cols="9" rowHeight="19.9%">
+    <mat-grid-tile
+      [colspan]="7"
+      [rowspan]="1">
+      <div class="gameName">{{activeCard.title}}</div>
+    </mat-grid-tile>
   <mat-grid-tile
     [colspan]="2"
     [rowspan]="5">
