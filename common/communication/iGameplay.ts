@@ -1,4 +1,5 @@
 import { GameMode } from "./iCard";
+import { ISceneObject } from "./iSceneObject";
 
 export interface IPosition2D {
     x:  number;
