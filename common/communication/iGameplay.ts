@@ -35,6 +35,6 @@ export interface ISceneObjectUpdate {
 
 export interface IArenaResponse<RES_T> {
     status:         string;
-    response:       RES_T;
+    response?:      RES_T;
     arenaType?:     GameMode;
 }
