@@ -33,10 +33,15 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit {
   private gameType:         GameType;
 
   public constructor(
-    private httpClient:     HttpClient,
-    private route:          ActivatedRoute,
-    private snackBar:       MatSnackBar,
-    ) {}
+    @Inject(SocketService)          private socketService:    SocketService,
+    private gameConnectionService:  GameConnectionService,
+    private httpClient:             HttpClient,
+    private route:                  ActivatedRoute,
+    private snackBar:               MatSnackBar,
+    ) {
+      this.mode = Number(this.route.snapshot.paramMap.get("gamemode"));
+      this.gameIsStarted = false;
+      this.gameConnectionService.getGameConnectedListener().pipe(first()).subscribe((arenaID: number) => {
 
   public ngOnInit(): void {
       const gameID:   string | null = this.route.snapshot.paramMap.get("id");
