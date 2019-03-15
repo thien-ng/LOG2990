@@ -1,5 +1,4 @@
 <app-waiting-room [gameID]="gameID" *ngIf="!gameIsStarted && mode !== 0"></app-waiting-room>
-
 <span [hidden]="!gameIsStarted">
   <mat-grid-list id="game" cols="9" rowHeight="1%">
     <mat-grid-tile
@@ -16,6 +15,8 @@
     [colspan]="7"
     [rowspan]="57">
       <div id="displayGame">
+          <div class="text" #textDiv></div>
+          <div class="text2" #textDiv2></div>
         <canvas #originalImage class="canvas" width="640" height="480"></canvas>
         <canvas #modifiedImage class="canvas" width="640" height="480"></canvas>
       </div>

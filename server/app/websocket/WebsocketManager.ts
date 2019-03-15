@@ -50,18 +50,18 @@ export class WebsocketManager {
         socket.on(CCommon.GAME_DISCONNECT, (username: string) => {
             this.gameManagerService.unsubscribeSocketID(socketID, username);
         });
-
         socket.on(Constants.POSITION_VALIDATION_EVENT, (data: IClickMessage) => {
             const user: IUser | string = this.userManagerService.getUserByUsername(data.username);
             const userList: IUser[] = this.gameManagerService.getUsersInArena(data.arenaID);
-
             if (typeof user !== "string") {
                 const playerInput: IPlayerInput<IPosition2D | number> = this.buildPlayerInput(data, user);
                 this.gameManagerService.onPlayerInput(playerInput)
                 // tslint:disable-next-line:no-any
                 .then((response: IArenaResponse<IOriginalPixelCluster | any>) => {    // _TODO: type de RES_T pour scene 3d
                     socket.emit(CCommon.ON_ARENA_RESPONSE, response);
-                    this.chatManagerService.sendPositionValidationMessage(data.username, userList, response, this.io);
+                    if (response.status !== Constants.ON_PENALTY) {
+                        this.chatManagerService.sendPositionValidationMessage(data.username, userList, response, this.io);
+                    }
                 }).catch((error: Error) => {
                     socket.emit(CCommon.ON_ERROR, error);
                 });

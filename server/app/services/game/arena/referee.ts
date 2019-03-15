@@ -40,33 +40,44 @@ export class Referee<EVT_T, DIFF_T> {
 
     public async onPlayerClick(eventInfos: EVT_T, user: IUser): Promise<IArenaResponse<DIFF_T>> {
 
-        let arenaResponse: IArenaResponse<DIFF_T> = this.buildArenaResponse(
-            this.ON_FAILED_CLICK,
-        ) as IArenaResponse<DIFF_T>;
+        const player: Player | undefined = this.getPlayerFromUsername(user);
+
+        if (player === undefined) {
+            return this.buildArenaResponse(this.ON_FAILED_CLICK) as IArenaResponse<DIFF_T>;
+        }
+
+        if (player.penaltyState) {
+            return this.buildArenaResponse(Constants.ON_PENALTY) as IArenaResponse<DIFF_T>;
+        }
 
         return this.validateHit(eventInfos)
         .then((hitConfirmation: IHitConfirmation) => {
-            const isAnUndiscoveredDifference: boolean = this.isAnUndiscoveredDifference(hitConfirmation.differenceIndex);
-
-            if (hitConfirmation.isAHit && isAnUndiscoveredDifference) {
-                this.onHitConfirmation(user, hitConfirmation);
-                const differenceToUpdate: DIFF_T | undefined = this.originalElements.get(hitConfirmation.differenceIndex);
-
-                if (differenceToUpdate !== undefined) {
-                    arenaResponse = this.buildArenaResponse(CCommon.ON_SUCCESS, differenceToUpdate);
-                }
-                if (this.gameIsFinished()) {
-                    this.endOfGameRoutine();
-                }
-            } else {
-                this.attributePenalty(user);
-            }
-
-            return arenaResponse;
+            return this.hitConfirmationRoutine(hitConfirmation, player);
         })
         .catch ((error: Error) => {
             return this.buildArenaResponse(CCommon.ON_ERROR);
         });
+    }
+
+    private hitConfirmationRoutine(hitConfirmation: IHitConfirmation, player: Player): IArenaResponse<DIFF_T> {
+        const isAnUndiscoveredDifference: boolean = this.isAnUndiscoveredDifference(hitConfirmation.differenceIndex);
+        let arenaResponse: IArenaResponse<DIFF_T> = this.buildArenaResponse(this.ON_FAILED_CLICK) as IArenaResponse<DIFF_T>;
+
+        if (hitConfirmation.isAHit && isAnUndiscoveredDifference) {
+            this.onHitConfirmation(player, hitConfirmation.differenceIndex);
+            const differenceToUpdate: DIFF_T | undefined = this.originalElements.get(hitConfirmation.differenceIndex);
+
+            if (differenceToUpdate !== undefined) {
+                arenaResponse = this.buildArenaResponse(CCommon.ON_SUCCESS, differenceToUpdate);
+            }
+            if (this.gameIsFinished()) {
+                this.endOfGameRoutine();
+            }
+        } else {
+            this.attributePenalty(player);
+        }
+
+        return arenaResponse;
     }
 
     public async validateHit(eventInfos: EVT_T): Promise<IHitConfirmation> {
@@ -83,32 +94,34 @@ export class Referee<EVT_T, DIFF_T> {
             });
     }
 
-    private attributePenalty(user: IUser): void {
-        this.arena.sendMessage(user.socketID, CCommon.ON_PENALTY_ON, 1);
+    private attributePenalty(player: Player): void {
+        player.setPenaltyState(true);
+        this.arena.sendMessage(player.userSocketId, CCommon.ON_PENALTY_ON, 1);
 
         setTimeout(() => {
-                   this.arena.sendMessage(user.socketID, CCommon.ON_PENALTY_OFF, 0);
+                   this.arena.sendMessage(player.userSocketId, CCommon.ON_PENALTY_OFF, 0);
+                   player.setPenaltyState(false);
         },         this.PENALTY_TIMEOUT_MS);
     }
 
-    private onHitConfirmation(user: IUser, hitConfirmation: IHitConfirmation): void {
-        this.attributePoints(user);
-        this.addToDifferencesFound(hitConfirmation.differenceIndex);
+    private getPlayerFromUsername(user: IUser): Player | undefined {
+        return this.players.find( (player: Player) => {
+            return player.username === user.username;
+        });
+    }
+
+    private onHitConfirmation(player: Player, differenceIndex: number): void {
+        this.attributePoints(player);
+        this.addToDifferencesFound(differenceIndex);
     }
 
     private addToDifferencesFound(differenceIndex: number): void {
         this.differencesFound.push(differenceIndex);
     }
 
-    private attributePoints(user: IUser): void {
-        const foundPlayer: Player | undefined = this.players.find( (player: Player) => {
-            return player.username === user.username;
-        });
-
-        if (foundPlayer !== undefined) {
-            foundPlayer.addPoints(1);
-            this.arena.sendMessage(foundPlayer.userSocketId, CCommon.ON_POINT_ADDED, foundPlayer.points);
-        }
+    private attributePoints(player: Player): void {
+        player.addPoints(1);
+        this.arena.sendMessage(player.userSocketId, CCommon.ON_POINT_ADDED, player.points);
     }
 
     private isAnUndiscoveredDifference(differenceIndex: number): boolean {
