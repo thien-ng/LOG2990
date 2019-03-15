@@ -18,7 +18,6 @@ export class Arena2D extends Arena<IPlayerInput<IPosition2D>, IArenaResponse<IOr
         @inject(Types.GameManagerService) public gameManagerService: GameManagerService) {
             super(arenaInfos, gameManagerService);
             this.ARENA_TYPE = GameMode.simple;
-            this.DEFAULT_DIFF_TO_UPDATE = Constants.ON_ERROR_PIXEL_CLUSTER;
         }
 
     public sendMessage(playerSocketId: string, event: string, message: number): void {
