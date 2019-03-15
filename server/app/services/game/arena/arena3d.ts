@@ -6,6 +6,13 @@ import { IHitConfirmation } from "./interfaces";
 // tslint:disable:no-any
 export class Arena3D extends Arena<any, any, any, any> {
 
+    public constructor (
+        protected arenaInfos: IArenaInfos<I3DInfos>,
+        @inject(Types.GameManagerService) public gameManagerService: GameManagerService) {
+            super(arenaInfos, gameManagerService);
+            this.ARENA_TYPE = GameMode.free;
+    }
+
     public sendMessage(playerSocketId: string, event: string, message: number): void {
         this.gameManagerService.sendMessage(playerSocketId, event, message);
     }
