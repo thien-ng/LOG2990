@@ -101,6 +101,16 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit {
             this.openSnackBar(error, Constants.SNACK_ACTION);
           });
           break;
+        case CCommon.ON_WAITING:
+          this.arenaID = parseInt(data.body, Constants.DECIMAL_BASE);
+          this.socketService.sendMsg(CCommon.GAME_CONNECTION, CCommon.ON_WAITING);
+          break;
+        case CCommon.ON_ERROR:
+          this.openSnackBar(data.body, Constants.SNACK_ACTION);
+          break;
+        default:
+          break;
+      }
     });
   }
 
