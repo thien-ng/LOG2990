@@ -126,9 +126,8 @@ export class GameManagerService {
         this.initArena(arena).catch(() => Constants.INIT_ARENA_ERROR);
         this.arenas.set(arenaInfo.arenaId, arena);
 
-    private create3DArena(request: IGameRequest): Message {
         const paths: string = JSON.stringify([
-            CCommon.BASE_URL + "/scene/" + request.gameId + Constants.SCENES_FILE,
+            CCommon.BASE_URL + "/scene/" + gameId + Constants.SCENES_FILE,
         ]);
 
         return {
