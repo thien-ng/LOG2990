@@ -2,7 +2,12 @@ import * as http from "http";
 import { inject, injectable } from "inversify";
 import * as SocketIO from "socket.io";
 import { IChatSender } from "../../../common/communication/iChat";
-import { IArenaResponse, IClickMessage2D, IClickMessage3D, IOriginalPixelCluster, IPosition2D } from "../../../common/communication/iGameplay";
+import {
+    IArenaResponse,
+    IClickMessage2D,
+    IClickMessage3D,
+    IOriginalPixelCluster,
+    IPosition2D } from "../../../common/communication/iGameplay";
 import { IUser } from "../../../common/communication/iUser";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { Constants } from "../constants";
@@ -51,8 +56,10 @@ export class WebsocketManager {
             this.gameManagerService.unsubscribeSocketID(socketID, username);
         });
         socket.on(CCommon.POSITION_VALIDATION, (data: IClickMessage2D | IClickMessage3D) => {
+
             const user: IUser | string = this.userManagerService.getUserByUsername(data.username);
             const userList: IUser[] = this.gameManagerService.getUsersInArena(data.arenaID);
+
             if (typeof user !== "string") {
                 const playerInput: IPlayerInput<IPosition2D | IClickMessage3D | number> = this.buildPlayerInput(data, user);
                 this.gameManagerService.onPlayerInput(playerInput)
@@ -98,11 +105,11 @@ export class WebsocketManager {
     }
 
     private buildPlayerInput(data: IClickMessage2D | IClickMessage3D, user: IUser): IPlayerInput<IPosition2D | IClickMessage3D | number> {
-        
+
         const data2D: IClickMessage2D = (data) as IClickMessage2D;
         const data3D: IClickMessage3D = (data) as IClickMessage3D;
         const eventInfo: IPosition2D | number = (this.instanceOf3D(data3D)) ? data3D.objectId : data2D.position;
-        
+
         return {
             event:      Constants.CLICK_EVENT,
             arenaId:    data.arenaID,

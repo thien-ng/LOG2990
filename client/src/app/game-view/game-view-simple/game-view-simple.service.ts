@@ -1,7 +1,7 @@
 import { ElementRef, Injectable } from "@angular/core";
 import {
   IArenaResponse,
-  IClickMessage,
+  IClickMessage2D,
   IOriginalPixelCluster,
   IPosition2D,
   IReplacementPixel
@@ -91,7 +91,7 @@ export class GameViewSimpleService {
     this.failSound    = fail;
   }
 
-  public onCanvasClick(pos: IPosition2D, id: number, username: string): IClickMessage {
+  public onCanvasClick(pos: IPosition2D, id: number, username: string): IClickMessage2D {
     this.position = pos;
 
     return {

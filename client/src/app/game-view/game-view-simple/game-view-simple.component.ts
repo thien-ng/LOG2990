@@ -5,7 +5,7 @@ import { first } from "rxjs/operators";
 import { GameConnectionService } from "src/app/game-connection.service";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../../common/communication/iGameRequest";
-import { IClickMessage, IPosition2D } from "../../../../../common/communication/iGameplay";
+import { IClickMessage2D, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { Message } from "../../../../../common/communication/message";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { Constants } from "../../constants";
@@ -152,7 +152,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     };
 
     if (this.username !== null) {
-      const canvasPosition: IClickMessage = this.gameViewService.onCanvasClick(pos, this.arenaID, this.username);
+      const canvasPosition: IClickMessage2D = this.gameViewService.onCanvasClick(pos, this.arenaID, this.username);
       this.socketService.sendMsg(CCommon.POSITION_VALIDATION, canvasPosition);
     }
   }

@@ -1,10 +1,8 @@
-import { Inject, Injectable } from "@angular/core";
+import { Injectable } from "@angular/core";
 import * as THREE from "three";
-import { CCommon } from "../../../../../../common/constantes/cCommon";
 import { ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Constants } from "../../../constants";
-import { SocketService } from "../../../websocket/socket.service";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 
 @Injectable()
@@ -22,7 +20,7 @@ export class ThreejsViewService {
   private mapOriginColor:         Map<number, string>;
   private modifiedMapIntersect:   Map<number, number>;
 
-  public constructor(@Inject(SocketService) private socketService: SocketService) {
+  public constructor() {
     this.init();
   }
 
@@ -34,11 +32,12 @@ export class ThreejsViewService {
       Constants.MIN_VIEW_DISTANCE,
       Constants.MAX_VIEW_DISTANCE,
     );
-    this.ambLight       = new THREE.AmbientLight(Constants.AMBIENT_LIGHT_COLOR, Constants.AMBIENT_LIGHT_INTENSITY);
-    this.modifiedMap    = new Map<number, number>();
-    this.mapOriginColor = new Map<number, string>();
-    this.mouse          = new THREE.Vector3();
-    this.raycaster      = new THREE.Raycaster();
+    this.ambLight             = new THREE.AmbientLight(Constants.AMBIENT_LIGHT_COLOR, Constants.AMBIENT_LIGHT_INTENSITY);
+    this.modifiedMap          = new Map<number, number>();
+    this.mapOriginColor       = new Map<number, string>();
+    this.modifiedMapIntersect = new Map<number, number>();
+    this.mouse                = new THREE.Vector3();
+    this.raycaster            = new THREE.Raycaster();
   }
 
   public animate(): void {
@@ -92,7 +91,7 @@ export class ThreejsViewService {
     return undefined;
   }
 
-  public detectObject(mouseEvent: MouseEvent): void {
+  public detectObject(mouseEvent: MouseEvent): number {
     mouseEvent.preventDefault();
 
     this.mouse.x = ( mouseEvent.offsetX / this.renderer.domElement.clientWidth ) * 2 - 1;
@@ -102,15 +101,14 @@ export class ThreejsViewService {
     this.raycaster.setFromCamera(this.mouse, this.camera);
 
     const objectsIntersected: THREE.Intersection[] = this.raycaster.intersectObjects(this.scene.children);
+    if (objectsIntersected.length > 0) {
 
-    if(objectsIntersected.length > 0) {
       const firstIntersectedId: number = objectsIntersected[0].object.id;
-      const mappedId:           number = (this.modifiedMapIntersect.get(firstIntersectedId)) as number;
 
-      if (mappedId) {
-        // this.socketService.sendMsg(CCommon.POSITION_VALIDATION, );
-      }
+      return (this.modifiedMapIntersect.get(firstIntersectedId)) as number;
     }
+
+    return -1;
   }
 
   private createLighting(): void {
@@ -141,5 +139,4 @@ export class ThreejsViewService {
     });
   }
 
-  // private generateMessage(): 
 }

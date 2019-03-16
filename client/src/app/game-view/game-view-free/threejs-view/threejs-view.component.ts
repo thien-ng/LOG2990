@@ -1,13 +1,25 @@
 import { HttpClient } from "@angular/common/http";
-import { AfterContentInit, Component, ElementRef, EventEmitter, HostListener, Inject, Input, OnChanges, Output, ViewChild } from "@angular/core";
+import {
+  AfterContentInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Inject,
+  Input,
+  OnChanges,
+  Output,
+  ViewChild } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import * as THREE from "three";
+import { IClickMessage3D } from "../../../../../../common/communication/iGameplay";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
 import { ISceneData, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../../common/communication/message";
 import { CCommon } from "../../../../../../common/constantes/cCommon";
 import { CardManagerService } from "../../../card/card-manager.service";
 import { Constants } from "../../../constants";
+import { SocketService } from "../../../websocket/socket.service";
 import { ChatViewService } from "../../chat-view/chat-view.service";
 import { ThreejsViewService } from "./threejs-view.service";
 
@@ -19,10 +31,11 @@ import { ThreejsViewService } from "./threejs-view.service";
 })
 export class TheejsViewComponent implements AfterContentInit, OnChanges {
 
-  private readonly CHEAT_URL:     string = "cheat/";
+  private readonly CHEAT_URL:           string = "cheat/";
+  private readonly CHEAT_KEY_CODE:      string = "t";
+  private readonly CHEAT_INTERVAL_TIME: number = 125;
+  private readonly UNUSED_ID:           number = -1;
 
-  private CHEAT_KEY_CODE:         string = "t";
-  private CHEAT_INTERVAL_TIME:    number = 125;
   private renderer:               THREE.WebGLRenderer;
   private scene:                  THREE.Scene;
   private isCheating:             boolean;
@@ -57,6 +70,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   public constructor(
     @Inject(ThreejsViewService) private threejsViewService: ThreejsViewService,
     @Inject(ChatViewService)    private chatViewService:    ChatViewService,
+    @Inject(SocketService)      private socketService:      SocketService,
     private httpClient:         HttpClient,
     private snackBar:           MatSnackBar,
     private cardManagerService: CardManagerService,
@@ -71,9 +85,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   }
 
   public ngAfterContentInit(): void {
-    this.originalScene.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
-      this.threejsViewService.detectObject(mouseEvent);
-    });
+    this.initListener();
   }
 
   public ngOnChanges(): void {
@@ -119,6 +131,18 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
     }
   }
 
+  private initListener(): void {
+    this.originalScene.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
+
+      const idValue: number = this.threejsViewService.detectObject(mouseEvent);
+      if (idValue !== this.UNUSED_ID) {
+
+        const message: IClickMessage3D = this.createHitValidationMessage(idValue);
+        this.socketService.sendMsg(CCommon.POSITION_VALIDATION, message);
+      }
+    });
+  }
+
   private takeSnapShot(): void {
 
     if (this.isSnapshotNeeded) {
@@ -126,6 +150,14 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
       const message:  ISceneMessage = this.createMessage(snapshot);
       this.sendSnapshot(message);
     }
+  }
+
+  private createHitValidationMessage(id: number): IClickMessage3D {
+    return {
+      objectId: id,
+      arenaID:  this.arenaID,
+      username: "test",
+    };
   }
 
   private createMessage(image: string): ISceneMessage {
