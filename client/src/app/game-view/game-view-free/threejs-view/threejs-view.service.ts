@@ -8,8 +8,6 @@ import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 @Injectable()
 export class ThreejsViewService {
 
-  private CHEAT_COLOR:            string = "#FF0000";
-
   private scene:                  THREE.Scene;
   private camera:                 THREE.PerspectiveCamera;
   private renderer:               THREE.WebGLRenderer;
