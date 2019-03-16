@@ -16,7 +16,7 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
   public  readonly CHAT_DESCRIPTION:      string = "Message sur serveur et des joueurs";
   public  readonly MESSAGE_PATTERN_REGEX: string = ".+";
   private readonly CHAT_EVENT:            string = "onChatEvent";
-  private readonly SCROLL_DURATION_MS:    number = 250;
+  private readonly SCROLL_DURATION_MS:    number = 200;
 
   public conversations:                   IChat[];
   public initialValue:                    string;
@@ -57,10 +57,10 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
       this.chatHeight = chatBoxDiv.scrollHeight;
       this.conversationIsEmpty = false;
     }
-    const distanceToScroll:       number          = chatBoxDiv.scrollHeight - this.chatHeight - chatBoxDiv.scrollTop;
-    const distanceDivider:        number          = 25;
-    const increment:              number          = distanceToScroll / distanceDivider;
-    const pauseBetweenIncrement:  number          = (this.SCROLL_DURATION_MS * increment) / distanceToScroll;
+    const distanceToScroll:       number  = chatBoxDiv.scrollHeight - this.chatHeight - chatBoxDiv.scrollTop;
+    const distanceDivider:        number  = 25;
+    const increment:              number  = distanceToScroll / distanceDivider >= 1 ? distanceToScroll / distanceDivider : 1;
+    const pauseBetweenIncrement:  number  = (this.SCROLL_DURATION_MS * increment) / distanceToScroll;
 
     const interval: NodeJS.Timeout  = setInterval(
       () => {
