@@ -61,7 +61,7 @@ export class WebsocketManager {
             const userList: IUser[] = this.gameManagerService.getUsersInArena(data.arenaID);
 
             if (typeof user !== "string") {
-                const playerInput: IPlayerInput<IPosition2D | IClickMessage3D | number> = this.buildPlayerInput(data, user);
+                const playerInput: IPlayerInput<IPosition2D | number> = this.buildPlayerInput(data, user);
                 this.gameManagerService.onPlayerInput(playerInput)
                 // tslint:disable-next-line:no-any _TODO
                 .then((response: IArenaResponse<IOriginalPixelCluster | any>) => {    // _TODO: type de RES_T pour scene 3d
@@ -104,7 +104,7 @@ export class WebsocketManager {
         });
     }
 
-    private buildPlayerInput(data: IClickMessage2D | IClickMessage3D, user: IUser): IPlayerInput<IPosition2D | IClickMessage3D | number> {
+    private buildPlayerInput(data: IClickMessage2D | IClickMessage3D, user: IUser): IPlayerInput<IPosition2D | number> {
 
         const data2D: IClickMessage2D = (data) as IClickMessage2D;
         const data3D: IClickMessage3D = (data) as IClickMessage3D;

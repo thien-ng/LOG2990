@@ -11,6 +11,7 @@ import { GameType, IGameRequest } from "../../../../../common/communication/iGam
 import { ISceneData, ISceneVariables } from "../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../common/communication/message";
 import { CCommon } from "../../../../../common/constantes/cCommon";
+import { GameViewFreeService } from "./game-view-free.service";
 
 const GAMEMODE_KEY: string = "gamemode";
 
@@ -37,6 +38,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
   private gameType:          GameType;
 
   public constructor(
+    @Inject(GameViewFreeService)    private gameViewFreeService: GameViewFreeService,
     @Inject(SocketService)          private socketService:    SocketService,
     private gameConnectionService:  GameConnectionService,
     private httpClient:             HttpClient,
@@ -162,6 +164,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
       sceneObjects:           variables.modifiedScene.sceneObjects,
       sceneObjectsQuantity:   variables.modifiedScene.sceneObjectsQuantity,
     };
+    this.gameViewFreeService.setScenesVarialbles(this.modifiedVariables);
   }
 
   private openSnackBar(msg: string, action: string): void {

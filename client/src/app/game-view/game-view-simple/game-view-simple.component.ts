@@ -42,7 +42,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   private modifiedPath:   string;
 
   public constructor(
-    @Inject(GameViewSimpleService)  public   gameViewService:  GameViewSimpleService,
+    @Inject(GameViewSimpleService)  public  gameViewService:  GameViewSimpleService,
     @Inject(SocketService)          private socketService:    SocketService,
     private gameConnectionService:  GameConnectionService,
     private route:                  ActivatedRoute,

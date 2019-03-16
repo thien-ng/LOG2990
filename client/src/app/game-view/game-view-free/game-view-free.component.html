@@ -16,8 +16,16 @@
     [colspan]="7"
     [rowspan]="3">
     <app-spinner *ngIf="isLoading"></app-spinner>
-    <app-threejs-view id="originalScene" [arenaID]="arenaID" [iSceneVariables]="originalVariables" [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
-    <app-threejs-view id="modifiedScene" [arenaID]="arenaID" [iSceneVariables]="modifiedVariables" [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
+    <app-threejs-view id="originalScene"
+                      [arenaID]="arenaID"
+                      [username]="username"
+                      [iSceneVariables]="originalVariables"
+                      [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
+    <app-threejs-view id="modifiedScene"
+                      [arenaID]="arenaID"
+                      [username]="username"
+                      [iSceneVariables]="modifiedVariables"
+                      [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
     </mat-grid-tile>
     <mat-grid-tile
       [colspan]="4"

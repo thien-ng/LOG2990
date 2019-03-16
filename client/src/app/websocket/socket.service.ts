@@ -11,6 +11,7 @@ import { ChatViewService } from "../game-view/chat-view/chat-view.service";
 import { DifferenceCounterService } from "../game-view/difference-counter/difference-counter.service";
 import { GameViewSimpleService } from "../game-view/game-view-simple/game-view-simple.service";
 import { TimerService } from "../game-view/timer/timer.service";
+import { GameViewFreeService } from "../game-view/game-view-free/game-view-free.service";
 
 @Injectable({
   providedIn: "root",
@@ -22,6 +23,7 @@ export class SocketService {
   public constructor(
     private chatViewService:          ChatViewService,
     private gameViewSimpleService:    GameViewSimpleService,
+    private gameViewFreeService:      GameViewFreeService,
     private timerService:             TimerService,
     private differenceCounterService: DifferenceCounterService,
     private gameConnectionService:    GameConnectionService,
@@ -33,7 +35,7 @@ export class SocketService {
 
     this.socket.addEventListener(Constants.ON_CONNECT, () => {
 
-      this.initGameViewListeners();
+      this.checkOnGameViewEmit();
 
       this.socket.on(CCommon.CHAT_EVENT, (data: IChat) => {
         this.chatViewService.updateConversation(data);
@@ -52,32 +54,49 @@ export class SocketService {
       }));
     });
   }
-  private initGameViewListeners(): void {
+  private checkOnGameViewEmit(): void {
     // tslint:disable-next-line:no-any _TODO
     this.socket.on(CCommon.ON_ARENA_RESPONSE, (data: IArenaResponse<any>) => {
       this.emitOnArenaResponse(data);
     });
     // tslint:disable-next-line:no-any _TODO
     this.socket.on(CCommon.ON_PENALTY_ON, (data: IArenaResponse<any>) => {
-      this.gameViewSimpleService.wrongClickRoutine();
+      this.emitOnPenaltyOn(data);
     });
     // tslint:disable-next-line:no-any _TODO
     this.socket.on(CCommon.ON_PENALTY_OFF, (data: IArenaResponse<any>) => {
-      this.gameViewSimpleService.enableClickRoutine();
+      this.emitOnPenaltyOff(data);
     });
   }
 
   // tslint:disable-next-line:no-any _TODO
   private emitOnArenaResponse(arenaResponse: IArenaResponse<any>): void {
-    switch (arenaResponse.arenaType) {
-      case GameMode.simple:
-        this.gameViewSimpleService.onArenaResponse(arenaResponse);
-        break;
-      case GameMode.free:
-        break;
-      default:
-        break;
+
+    if (arenaResponse.arenaType === GameMode.simple) {
+      this.gameViewSimpleService.onArenaResponse(arenaResponse);
+    } else {
+      this.gameViewFreeService.onArenaResponse(arenaResponse);
     }
+  }
+
+  private emitOnPenaltyOn(arenaResponse: IArenaResponse<any>): void {
+
+    this.gameViewSimpleService.wrongClickRoutine();
+    // if (arenaResponse.arenaType === GameMode.simple) {
+    //   this.gameViewSimpleService.wrongClickRoutine();
+    // } else {
+    //   this.gameViewFreeService.wrongClickRoutine();
+    // }
+  }
+
+  private emitOnPenaltyOff(arenaResponse: IArenaResponse<any>): void {
+
+    this.gameViewSimpleService.enableClickRoutine();
+    // if (arenaResponse.arenaType === GameMode.simple) {
+    //   this.gameViewSimpleService.enableClickRoutine();
+    // } else {
+    //   this.gameViewFreeService.enableClickRoutine();
+    // }
   }
 
   public sendMsg<T>(type: string, msg: T): void {

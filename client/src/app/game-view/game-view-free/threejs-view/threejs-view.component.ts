@@ -34,7 +34,6 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   private readonly CHEAT_URL:           string = "cheat/";
   private readonly CHEAT_KEY_CODE:      string = "t";
   private readonly CHEAT_INTERVAL_TIME: number = 125;
-  private readonly UNUSED_ID:           number = -1;
 
   private renderer:               THREE.WebGLRenderer;
   private scene:                  THREE.Scene;
@@ -53,6 +52,9 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
 
   @Input()
   private isSnapshotNeeded:       boolean;
+
+  @Input()
+  private username:               string;
 
   @Output()
   public sceneGenerated:          EventEmitter<string>;
@@ -135,11 +137,9 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
     this.originalScene.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
 
       const idValue: number = this.threejsViewService.detectObject(mouseEvent);
-      if (idValue !== this.UNUSED_ID) {
+      const message: IClickMessage3D = this.createHitValidationMessage(idValue);
 
-        const message: IClickMessage3D = this.createHitValidationMessage(idValue);
-        this.socketService.sendMsg(CCommon.POSITION_VALIDATION, message);
-      }
+      this.socketService.sendMsg(CCommon.POSITION_VALIDATION, message);
     });
   }
 
@@ -156,7 +156,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
     return {
       objectId: id,
       arenaID:  this.arenaID,
-      username: "test",
+      username: this.username,
     };
   }
 
