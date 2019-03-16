@@ -1,8 +1,10 @@
-import { Injectable } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
 import * as THREE from "three";
+import { CCommon } from "../../../../../../common/constantes/cCommon";
 import { ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Constants } from "../../../constants";
+import { SocketService } from "../../../websocket/socket.service";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 
 @Injectable()
@@ -18,8 +20,9 @@ export class ThreejsViewService {
   private threejsGenerator:       ThreejsGenerator;
   private modifiedMap:            Map<number, number>;
   private mapOriginColor:         Map<number, string>;
+  private modifiedMapIntersect:   Map<number, number>;
 
-  public constructor() {
+  public constructor(@Inject(SocketService) private socketService: SocketService) {
     this.init();
   }
 
@@ -38,6 +41,11 @@ export class ThreejsViewService {
     this.raycaster      = new THREE.Raycaster();
   }
 
+  public animate(): void {
+    requestAnimationFrame(this.animate.bind(this));
+    this.renderObject();
+  }
+
   public createScene(scene: THREE.Scene, iSceneVariables: ISceneVariables, renderer: THREE.WebGLRenderer): void {
     this.renderer         = renderer;
     this.scene            = scene;
@@ -46,6 +54,7 @@ export class ThreejsViewService {
       this.scene,
       this.modifiedMap,
       this.mapOriginColor,
+      this.modifiedMapIntersect,
     );
 
     this.renderer.setSize(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
@@ -92,9 +101,15 @@ export class ThreejsViewService {
 
     this.raycaster.setFromCamera(this.mouse, this.camera);
 
-    var test = this.raycaster.intersectObjects(this.scene.children);
-    if(test.length > 0) {
-      console.log(test[0].object);
+    const objectsIntersected: THREE.Intersection[] = this.raycaster.intersectObjects(this.scene.children);
+
+    if(objectsIntersected.length > 0) {
+      const firstIntersectedId: number = objectsIntersected[0].object.id;
+      const mappedId:           number = (this.modifiedMapIntersect.get(firstIntersectedId)) as number;
+
+      if (mappedId) {
+        // this.socketService.sendMsg(CCommon.POSITION_VALIDATION, );
+      }
     }
   }
 
@@ -111,11 +126,6 @@ export class ThreejsViewService {
     this.scene.add(this.ambLight);
   }
 
-  public animate(): void {
-    requestAnimationFrame(this.animate.bind(this));
-    this.renderObject();
-  }
-
   private renderObject(): void {
     // const speed: number     = Date.now() * Constants.SPEED_FACTOR;
 
@@ -130,4 +140,6 @@ export class ThreejsViewService {
       this.threejsGenerator.initiateObject(element);
     });
   }
+
+  // private generateMessage(): 
 }

@@ -9,7 +9,8 @@ export class ThreejsGenerator {
   public constructor(
     private scene:          THREE.Scene,
     private modifiedMap:    Map<number, number>,
-    private mapOriginColor: Map<number, string>) {}
+    private mapOriginColor: Map<number, string>,
+    private modifiedMapIntersect:    Map<number, number>) {}
 
   public initiateObject(object3D: ISceneObject): void {
     switch (object3D.type) {
@@ -112,6 +113,7 @@ export class ThreejsGenerator {
 
   private addObjectIdToMap(objectId: number, generatedObjectId: number): void {
     this.modifiedMap.set(objectId, generatedObjectId);
+    this.modifiedMapIntersect.set(generatedObjectId, objectId);
   }
 
   private addColorToMap(objectId: number, objectColor: string): void {
