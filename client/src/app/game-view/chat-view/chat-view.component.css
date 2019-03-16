@@ -1,17 +1,27 @@
 mat-card {
     display: block;
     position: absolute;
-    background-color: grey;
-    color: white;
     top: 0px;
     left:0px;
     height: 100%;
     width: 92%;
+    padding: 0;
+    margin-right: 0;
+}
+
+mat-card-header {
+    padding: 25px 5px 10px 5px;
+    background-color: white;
+    border-bottom: 2px solid #3F51B5;
 }
 
 mat-card-content {
     scroll-behavior: smooth;
     height: 100%;
+}
+
+app-message-view {
+    align-self: end;   
 }
 
 .list .mat-list-item {
@@ -21,11 +31,18 @@ mat-card-content {
 
 mat-list {
     overflow-y: scroll;
-    height: 80%;
-    padding-bottom: 20px;
+    height: 79%;
+    border-bottom: 2px solid #3F51B5;
 }
 
 mat-form-field {
-    width: 100%;
+    width: 90%;
+    padding-left: 5%;
+    padding-top: 10px;
+}
+
+mat-form-field > input {
+    align-self: center;
+    padding: 10px 5px 10px 5px;
 }
 
