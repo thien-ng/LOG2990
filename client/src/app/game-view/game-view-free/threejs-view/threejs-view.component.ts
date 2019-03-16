@@ -25,7 +25,7 @@ export class TheejsViewComponent implements OnChanges {
   private CHEAT_INTERVAL_TIME:    number = 125;
   private renderer:               THREE.WebGLRenderer;
   private scene:                  THREE.Scene;
-  private isCheating:              boolean;
+  private isCheating:             boolean;
   private interval:               NodeJS.Timeout;
   private focusChat:              boolean;
 
