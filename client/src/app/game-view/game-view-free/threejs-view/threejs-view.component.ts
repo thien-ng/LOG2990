@@ -98,7 +98,7 @@ export class TheejsViewComponent implements OnChanges {
 
     if (this.isCheating) {
 
-      let flashValue: boolean = true;
+      let flashValue: boolean = false;
       this.interval = setInterval(
         () => {
           flashValue = !flashValue;
@@ -108,7 +108,7 @@ export class TheejsViewComponent implements OnChanges {
     } else {
 
       clearInterval(this.interval);
-      this.threejsViewService.changeObjectsColor(modifications, true);
+      this.threejsViewService.changeObjectsColor(modifications, false);
     }
   }
 
