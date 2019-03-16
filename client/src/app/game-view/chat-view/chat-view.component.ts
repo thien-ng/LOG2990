@@ -89,9 +89,9 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy, AfterView
   }
 
   public init(): void {
-    this.initialValue = "";
-    this.conversations = this.chatViewService.getConversation();
-    this.usernameFormControl = new FormControl("", [
+    this.initialValue         = "";
+    this.conversations        = this.chatViewService.getConversation();
+    this.usernameFormControl  = new FormControl("", [
       Validators.required,
       Validators.pattern(this.MESSAGE_PATTERN_REGEX),
     ]);
