@@ -12,10 +12,11 @@ import { ChatViewService } from "./chat-view.service";
 
 export class ChatViewComponent implements AfterViewChecked, OnDestroy {
 
-  public readonly CHAT_TITLE:             string = "Boîte de messagerie";
-  public readonly CHAT_DESCRIPTION:       string = "Message sur serveur et des joueurs";
-  public readonly MESSAGE_PATTERN_REGEX:  string = ".+";
+  public  readonly CHAT_TITLE:            string = "Boîte de messagerie";
+  public  readonly CHAT_DESCRIPTION:      string = "Message sur serveur et des joueurs";
+  public  readonly MESSAGE_PATTERN_REGEX: string = ".+";
   private readonly CHAT_EVENT:            string = "onChatEvent";
+  private readonly SCROLL_DURATION_MS:    number = 250;
 
   public conversations:                   IChat[];
   public initialValue:                    string;
