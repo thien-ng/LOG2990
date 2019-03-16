@@ -24,6 +24,12 @@ describe("ChatViewService", () => {
     expect(chatViewService.getConversation().length).toBe(0);
   });
 
+  it("should error message", () => {
+    mockIChat.message = "vient de se déconnecter.";
+    chatViewService.updateConversation(mockIChat);
+    expect(chatViewService.getConversation().length).toBe(0);
+  });
+
   it("should clear IChat data in array", () => {
     chatViewService.updateConversation(mockIChat);
     chatViewService.clearConversations();
