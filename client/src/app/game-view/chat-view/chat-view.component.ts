@@ -36,11 +36,11 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
   public chatBox:                         ElementRef;
 
   public constructor(
-    private chatViewService: ChatViewService,
-    private socketService: SocketService) {
-
+    private chatViewService:      ChatViewService,
+    private socketService:        SocketService) {
       this.init();
-      this.conversationLength = this.chatViewService.getConversationLength();
+      this.conversationLength   = this.chatViewService.getConversationLength();
+      this.conversationIsEmpty  = true;
   }
 
   public ngAfterViewInit(): void {
