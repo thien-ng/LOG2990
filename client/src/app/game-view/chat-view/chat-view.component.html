@@ -1,4 +1,4 @@
-<mat-card #notificationView  (click)="printDummyMessage()">
+<mat-card #notificationView>
   <mat-card-header>
     <mat-card-title>{{CHAT_TITLE}}</mat-card-title>
     <mat-card-subtitle>{{CHAT_DESCRIPTION}}</mat-card-subtitle>
@@ -12,7 +12,7 @@
       </div>
     </mat-list>
     <mat-form-field>
-      <input 
+      <input
         matInput
         placeholder="Entrer un message"
         autocomplete="off"
