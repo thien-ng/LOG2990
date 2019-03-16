@@ -29,6 +29,9 @@ export class TheejsViewComponent implements OnChanges {
   private focusChat:              boolean;
 
   @Input()
+  private arenaID:                 number;
+
+  @Input()
   private iSceneVariables:        ISceneVariables;
 
   @Input()
