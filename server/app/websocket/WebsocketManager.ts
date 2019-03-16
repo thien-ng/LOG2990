@@ -85,7 +85,7 @@ export class WebsocketManager {
             };
             this.userManagerService.updateSocketID(user);
             socket.emit(CCommon.USER_EVENT, user);
-            if (data !== "") {
+            if (data) {
                 this.chatManagerService.sendPlayerLogStatus(user.username, this.io, true);
             }
         });

@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, ElementRef, EventEmitter, HostListener, Inject, Input, OnChanges, Output, ViewChild } from "@angular/core";
+import { AfterContentInit, Component, ElementRef, EventEmitter, HostListener, Inject, Input, OnChanges, Output, ViewChild } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import * as THREE from "three";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
@@ -17,7 +17,7 @@ import { ThreejsViewService } from "./threejs-view.service";
   styleUrls:    ["./threejs-view.component.css"],
   providers:    [ThreejsViewService],
 })
-export class TheejsViewComponent implements OnChanges {
+export class TheejsViewComponent implements AfterContentInit, OnChanges {
 
   private readonly CHEAT_URL:     string = "cheat/";
 
@@ -67,6 +67,12 @@ export class TheejsViewComponent implements OnChanges {
     this.focusChat      = false;
     this.chatViewService.getChatFocusListener().subscribe((newValue: boolean) => {
       this.focusChat = newValue;
+    });
+  }
+
+  public ngAfterContentInit(): void {
+    this.originalScene.nativeElement.addEventListener("mousemove", (mouseEvent: MouseEvent) => {
+      this.threejsViewService.detectObject(mouseEvent);
     });
   }
 

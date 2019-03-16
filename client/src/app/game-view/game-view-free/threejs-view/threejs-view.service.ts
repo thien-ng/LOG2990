@@ -12,6 +12,8 @@ export class ThreejsViewService {
   private camera:                 THREE.PerspectiveCamera;
   private renderer:               THREE.WebGLRenderer;
   private ambLight:               THREE.AmbientLight;
+  private raycaster:              THREE.Raycaster;
+  private mouse:                  THREE.Vector3;
   private sceneVariable:          ISceneVariables;
   private threejsGenerator:       ThreejsGenerator;
   private modifiedMap:            Map<number, number>;
@@ -79,6 +81,23 @@ export class ThreejsViewService {
     return undefined;
   }
 
+  public detectObject(mouseEvent: MouseEvent): void {
+    mouseEvent.preventDefault();
+
+    this.mouse = new THREE.Vector3();
+    this.mouse.y = ( mouseEvent.clientX / window.innerWidth ) * 2 - 1;
+    this.mouse.x = - ( mouseEvent.clientY / window.innerHeight ) * 2 + 1;
+    // this.mouse.x = mouseEvent.offsetX;
+    // this.mouse.y = mouseEvent.offsetY;
+    this.mouse.z = -1;
+    this.mouse.unproject(this.camera);
+
+    this.raycaster = new THREE.Raycaster(this.camera.position, this.mouse.sub(this.camera.position).normalize());
+
+    console.log(this.raycaster.intersectObjects(this.scene.children));
+    // console.log(this.scene.children);
+  }
+
   private createLighting(): void {
 
     const firstLight:   THREE.DirectionalLight = new THREE.DirectionalLight(Constants.FIRST_LIGHT_COLOR, Constants.FIRST_LIGHT_INTENSITY);
@@ -98,9 +117,9 @@ export class ThreejsViewService {
   }
 
   private renderObject(): void {
-    const speed: number     = Date.now() * Constants.SPEED_FACTOR;
+    // const speed: number     = Date.now() * Constants.SPEED_FACTOR;
 
-    this.camera.position.x  = Math.cos(speed) * Constants.POSITION_FACTOR;
+    // this.camera.position.x  = Math.cos(speed) * Constants.POSITION_FACTOR;
 
     this.camera.lookAt(Constants.CAMERA_LOOK_AT_X, Constants.CAMERA_LOOK_AT_Y, Constants.CAMERA_LOOK_AT_Z);
     this.renderer.render(this.scene, this.camera);
