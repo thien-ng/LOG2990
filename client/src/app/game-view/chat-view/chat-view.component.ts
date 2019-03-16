@@ -79,8 +79,6 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
   }
 
   public printDummyMessage(): void {
-    // console.log("Scroll height au depart: " + this.chatBox.nativeElement.scrollHeight);
-    // const generatedMessage: IChatSender = this.generateMessage("Salut je m'appelle allo");
     const message: IChat = {
       username:   "pet",
       message:    "Salut je m'appelle allo",
