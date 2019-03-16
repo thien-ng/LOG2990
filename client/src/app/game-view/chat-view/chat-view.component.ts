@@ -57,17 +57,14 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
       this.chatHeight = chatBoxDiv.scrollHeight;
       this.conversationIsEmpty = false;
     }
-
     const distanceToScroll:       number          = chatBoxDiv.scrollHeight - this.chatHeight - chatBoxDiv.scrollTop;
     const distanceDivider:        number          = 25;
     const increment:              number          = distanceToScroll / distanceDivider;
-
     const pauseBetweenIncrement:  number          = (this.SCROLL_DURATION_MS * increment) / distanceToScroll;
-    const interval:               NodeJS.Timeout  = setInterval(
+
+    const interval: NodeJS.Timeout  = setInterval(
       () => {
       const scrollPosition: number = chatBoxDiv.scrollTop + this.chatHeight;
-      // const maxOffset: number = this.chatBox.nativeElement.scrollTop + this.chatHeight;
-      // si sT + cH + increment < sH, on incrémente, sinon on stoppe
       if (scrollPosition + increment <= chatBoxDiv.scrollHeight) {
         chatBoxDiv.scrollTop += increment;
       } else {
@@ -76,15 +73,6 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
       }
     },
       pauseBetweenIncrement);
-  }
-
-  public printDummyMessage(): void {
-    const message: IChat = {
-      username:   "pet",
-      message:    "Salut je m'appelle allo",
-      time:       "13:45",
-  };
-    this.chatViewService.updateConversation(message);
   }
 
   public init(): void {
@@ -102,7 +90,6 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
 
   public sendMessage(): void {
     if (this.usernameFormControl.errors === null) {
-
       const generatedMessage: IChatSender = this.generateMessage(this.usernameFormControl.value);
       this.socketService.sendMsg(this.CHAT_EVENT, generatedMessage);
       this.initialValue = "";
