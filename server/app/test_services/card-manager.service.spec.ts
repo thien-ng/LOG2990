@@ -147,7 +147,7 @@ describe("Card-manager tests", () => {
         };
         chai.expect(cardManagerService.freeCardCreationRoutine(sceneMessage)).to.deep.equal(message);
 
-        assetManagerService.deleteStoredImages(["./app/asset/scene/2000_scene", "./app/asset/image/2000_snapshot.jpeg"]);
+        assetManagerService.deleteStoredImages(["./app/asset/scene/2000_scene.json", "./app/asset/image/2000_snapshot.jpeg"]);
     });
 
     it("Should return an error because free card already exist", () => {
@@ -175,8 +175,8 @@ describe("Card-manager tests", () => {
         cardManagerService.freeCardCreationRoutine(sceneMessage);
         chai.expect(cardManagerService.freeCardCreationRoutine(sceneMessage))
         .to.deep.equal({title: "onError", body: "Le titre de la carte existe déjà"});
-        assetManagerService.deleteStoredImages(["./app/asset/scene/2000_scene", "./app/asset/image/2000_snapshot.jpeg"]);
-        assetManagerService.deleteStoredImages(["./app/asset/scene/2001_scene", "./app/asset/image/2001_snapshot.jpeg"]);
+        assetManagerService.deleteStoredImages(["./app/asset/scene/2000_scene.json", "./app/asset/image/2000_snapshot.jpeg"]);
+        assetManagerService.deleteStoredImages(["./app/asset/scene/2001_scene.json", "./app/asset/image/2001_snapshot.jpeg"]);
     });
 
     it("Should return false when the title already exists", () => {
