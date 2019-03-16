@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild } from "@angular/core";
+import { AfterViewChecked, Component, ElementRef, Input, OnDestroy, ViewChild } from "@angular/core";
 import { FormControl, Validators } from "@angular/forms";
 import { IChat, IChatSender } from "../../../../../common/communication/iChat";
 import { SocketService } from "../../websocket/socket.service";
@@ -10,7 +10,7 @@ import { ChatViewService } from "./chat-view.service";
   styleUrls:    ["./chat-view.component.css"],
 })
 
-export class ChatViewComponent implements AfterViewChecked, OnDestroy, AfterViewInit {
+export class ChatViewComponent implements AfterViewChecked, OnDestroy {
 
   public readonly CHAT_TITLE:             string = "Boîte de messagerie";
   public readonly CHAT_DESCRIPTION:       string = "Message sur serveur et des joueurs";
