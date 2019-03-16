@@ -19,9 +19,10 @@ import { ThreejsViewService } from "./threejs-view.service";
 })
 export class TheejsViewComponent implements OnChanges {
 
+  private readonly CHEAT_URL:     string = "cheat/";
+
   private CHEAT_KEY_CODE:         string = "t";
   private CHEAT_INTERVAL_TIME:    number = 125;
-
   private renderer:               THREE.WebGLRenderer;
   private scene:                  THREE.Scene;
   private isCheating:              boolean;
@@ -87,7 +88,7 @@ export class TheejsViewComponent implements OnChanges {
   private handleKeyboardEvent(keyboardEvent: KeyboardEvent): void {
 
     if (keyboardEvent.key === this.CHEAT_KEY_CODE) {
-      this.httpClient.get(Constants.GET_OBJECTS_ID_PATH + "cheat/" + this.arenaID).subscribe((modifications: number[]) => {
+      this.httpClient.get(Constants.GET_OBJECTS_ID_PATH + this.CHEAT_URL + this.arenaID).subscribe((modifications: number[]) => {
         this.changeColor(modifications);
       });
     }
