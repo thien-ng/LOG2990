@@ -56,12 +56,12 @@ export class ThreejsViewService {
   public changeObjectsColor(modifiedList: number[], cheatColorActivated: boolean): void {
 
     modifiedList.forEach((differenceId: number) => {
-      const meshObject:   THREE.Mesh  | undefined = this.recoverObjectFromScene(differenceId);
-      const objectColor:  string      | undefined = this.mapOriginColor.get(differenceId);
-      const op:           number                  = (cheatColorActivated) ? 0 : 1;
+      const meshObject:     THREE.Mesh | undefined = this.recoverObjectFromScene(differenceId);
+      const objectColor:    string     | undefined = this.mapOriginColor.get(differenceId);
+      const opacityNeeded:  number                 = (cheatColorActivated) ? 0 : 1;
 
       if (meshObject !== undefined) {
-        meshObject.material = new THREE.MeshPhongMaterial({color: objectColor, opacity: op, transparent: true});
+        meshObject.material = new THREE.MeshPhongMaterial({color: objectColor, opacity: opacityNeeded, transparent: true});
       }
     });
   }
