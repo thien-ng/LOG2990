@@ -29,7 +29,8 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
   @Input()
   private username:                       string;
 
-  private chatHeight: number;
+  private conversationIsEmpty:            boolean;
+  private chatHeight:                     number;
 
   @ViewChild("chatBox", {read: ElementRef})
   public chatBox:                         ElementRef;
