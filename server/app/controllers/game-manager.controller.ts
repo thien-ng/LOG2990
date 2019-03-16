@@ -24,7 +24,7 @@ export class GameManagerController {
         });
 
         router.get("/cheat/:arenaId", async (req: Request, res: Response, next: NextFunction) => {
-            res.json(this.gameManagerService.getDifferencesIndex(req.params.arenaId));
+            res.json(this.gameManagerService.getDifferencesIndex(Number(req.params.arenaId)));
         });
 
         router.get("/cancel-request/:id", async (req: Request, res: Response, next: NextFunction) => {

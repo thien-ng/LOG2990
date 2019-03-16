@@ -8,8 +8,6 @@ import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 @Injectable()
 export class ThreejsViewService {
 
-  private CHEAT_COLOR:            string = "#FF0000";
-
   private scene:                  THREE.Scene;
   private camera:                 THREE.PerspectiveCamera;
   private renderer:               THREE.WebGLRenderer;
@@ -55,16 +53,15 @@ export class ThreejsViewService {
     this.camera.lookAt(this.scene.position);
   }
 
-  public changeObjectsColor(modifiedList: number[], isCheating: boolean): void {
+  public changeObjectsColor(modifiedList: number[], cheatColorActivated: boolean): void {
 
     modifiedList.forEach((differenceId: number) => {
-      const meshObject: THREE.Mesh | undefined = this.recoverObjectFromScene(differenceId);
+      const meshObject:     THREE.Mesh | undefined = this.recoverObjectFromScene(differenceId);
+      const objectColor:    string     | undefined = this.mapOriginColor.get(differenceId);
+      const opacityNeeded:  number                 = (cheatColorActivated) ? 0 : 1;
 
       if (meshObject !== undefined) {
-        const objectColor: string | undefined = this.mapOriginColor.get(differenceId);
-        const chosenColor: string | undefined = (!isCheating) ? this.CHEAT_COLOR : objectColor;
-
-        meshObject.material = new THREE.MeshPhongMaterial({color: chosenColor});
+        meshObject.material = new THREE.MeshPhongMaterial({color: objectColor, opacity: opacityNeeded, transparent: true});
       }
     });
   }

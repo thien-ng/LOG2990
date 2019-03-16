@@ -19,14 +19,18 @@ import { ThreejsViewService } from "./threejs-view.service";
 })
 export class TheejsViewComponent implements OnChanges {
 
+  private readonly CHEAT_URL:     string = "cheat/";
+
   private CHEAT_KEY_CODE:         string = "t";
   private CHEAT_INTERVAL_TIME:    number = 125;
-
   private renderer:               THREE.WebGLRenderer;
   private scene:                  THREE.Scene;
-  private cheatFlag:              boolean;
+  private isCheating:             boolean;
   private interval:               NodeJS.Timeout;
   private focusChat:              boolean;
+
+  @Input()
+  private arenaID:                 number;
 
   @Input()
   private iSceneVariables:        ISceneVariables;
@@ -59,7 +63,7 @@ export class TheejsViewComponent implements OnChanges {
     ) {
     this.sceneGenerated = new EventEmitter();
     this.scene          = new THREE.Scene();
-    this.cheatFlag      = false;
+    this.isCheating     = false;
     this.focusChat      = false;
     this.chatViewService.getChatFocusListener().subscribe((newValue: boolean) => {
       this.focusChat = newValue;
@@ -84,19 +88,18 @@ export class TheejsViewComponent implements OnChanges {
   private handleKeyboardEvent(keyboardEvent: KeyboardEvent): void {
 
     if (keyboardEvent.key === this.CHEAT_KEY_CODE) {
-
-      // _TODO: Ajouter le :arenaId apres le cheat
-      this.httpClient.get(Constants.GET_OBJECTS_ID_PATH + "cheat/1000").subscribe((modifications: number[]) => {
+      this.httpClient.get(Constants.GET_OBJECTS_ID_PATH + this.CHEAT_URL + this.arenaID).subscribe((modifications: number[]) => {
         this.changeColor(modifications);
       });
     }
   }
 
   private changeColor(modifications: number[]): void {
-    this.cheatFlag = !this.cheatFlag;
-    if (this.cheatFlag) {
+    this.isCheating = !this.isCheating;
 
-      let flashValue: boolean = true;
+    if (this.isCheating) {
+
+      let flashValue: boolean = false;
       this.interval = setInterval(
         () => {
           flashValue = !flashValue;
@@ -106,7 +109,7 @@ export class TheejsViewComponent implements OnChanges {
     } else {
 
       clearInterval(this.interval);
-      this.threejsViewService.changeObjectsColor(modifications, true);
+      this.threejsViewService.changeObjectsColor(modifications, false);
     }
   }
 
