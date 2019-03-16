@@ -24,7 +24,7 @@ export class TheejsViewComponent implements OnChanges {
 
   private renderer:               THREE.WebGLRenderer;
   private scene:                  THREE.Scene;
-  private cheatFlag:              boolean;
+  private isCheating:              boolean;
   private interval:               NodeJS.Timeout;
   private focusChat:              boolean;
 
@@ -59,7 +59,7 @@ export class TheejsViewComponent implements OnChanges {
     ) {
     this.sceneGenerated = new EventEmitter();
     this.scene          = new THREE.Scene();
-    this.cheatFlag      = false;
+    this.isCheating     = false;
     this.focusChat      = false;
     this.chatViewService.getChatFocusListener().subscribe((newValue: boolean) => {
       this.focusChat = newValue;
@@ -93,8 +93,9 @@ export class TheejsViewComponent implements OnChanges {
   }
 
   private changeColor(modifications: number[]): void {
-    this.cheatFlag = !this.cheatFlag;
-    if (this.cheatFlag) {
+    this.isCheating = !this.isCheating;
+
+    if (this.isCheating) {
 
       let flashValue: boolean = true;
       this.interval = setInterval(
