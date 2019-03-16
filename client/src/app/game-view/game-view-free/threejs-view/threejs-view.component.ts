@@ -71,7 +71,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   }
 
   public ngAfterContentInit(): void {
-    this.originalScene.nativeElement.addEventListener("mousemove", (mouseEvent: MouseEvent) => {
+    this.originalScene.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
       this.threejsViewService.detectObject(mouseEvent);
     });
   }

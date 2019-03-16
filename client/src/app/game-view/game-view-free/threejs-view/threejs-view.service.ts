@@ -34,6 +34,8 @@ export class ThreejsViewService {
     this.ambLight       = new THREE.AmbientLight(Constants.AMBIENT_LIGHT_COLOR, Constants.AMBIENT_LIGHT_INTENSITY);
     this.modifiedMap    = new Map<number, number>();
     this.mapOriginColor = new Map<number, string>();
+    this.mouse          = new THREE.Vector3();
+    this.raycaster      = new THREE.Raycaster();
   }
 
   public createScene(scene: THREE.Scene, iSceneVariables: ISceneVariables, renderer: THREE.WebGLRenderer): void {
@@ -84,18 +86,17 @@ export class ThreejsViewService {
   public detectObject(mouseEvent: MouseEvent): void {
     mouseEvent.preventDefault();
 
-    this.mouse = new THREE.Vector3();
-    this.mouse.y = ( mouseEvent.clientX / window.innerWidth ) * 2 - 1;
-    this.mouse.x = - ( mouseEvent.clientY / window.innerHeight ) * 2 + 1;
-    // this.mouse.x = mouseEvent.offsetX;
-    // this.mouse.y = mouseEvent.offsetY;
-    this.mouse.z = -1;
-    this.mouse.unproject(this.camera);
+    this.mouse.x = ( mouseEvent.offsetX / this.renderer.domElement.clientWidth ) * 2 - 1;
+    this.mouse.y = - ( mouseEvent.offsetY / this.renderer.domElement.clientHeight ) * 2 + 1;
+    this.mouse.z = 0;
 
-    this.raycaster = new THREE.Raycaster(this.camera.position, this.mouse.sub(this.camera.position).normalize());
-
-    console.log(this.raycaster.intersectObjects(this.scene.children));
-    // console.log(this.scene.children);
+    this.raycaster.setFromCamera(this.mouse, this.camera);
+    // this.mouse.unproject(this.camera);
+    // this.raycaster = new THREE.Raycaster(this.camera.position, this.mouse.sub(this.camera.position).normalize());
+    var test = this.raycaster.intersectObjects(this.scene.children);
+    if(test.length > 0) {
+      console.log(test[0].object);
+    }
   }
 
   private createLighting(): void {

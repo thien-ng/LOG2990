@@ -7,7 +7,7 @@ import { IChat } from "../../../../../common/communication/iChat";
 })
 export class ChatViewService {
 
-  private readonly UNACCEPTED_CHAT_MESSAGE: string = "vient de se déconnecter.";
+  private readonly UNACCEPTED_CHAT_MESSAGE: string = "  vient de se déconnecter.";
 
   private conversation: IChat[];
   private chatFocus:    Subject<boolean>;
