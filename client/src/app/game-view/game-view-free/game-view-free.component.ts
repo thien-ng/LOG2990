@@ -1,58 +1,93 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, OnInit } from "@angular/core";
+import { AfterViewInit, Component, Inject, OnDestroy, OnInit } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
+import { first } from "rxjs/operators";
 import { Constants } from "src/app/constants";
+import { GameConnectionService } from "src/app/game-connection.service";
+import { SocketService } from "src/app/websocket/socket.service";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { GameType, IGameRequest } from "../../../../../common/communication/iGameRequest";
-import { ISceneVariables, ISceneVariablesMessage } from "../../../../../common/communication/iSceneVariables";
+import { ISceneData, ISceneVariables } from "../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../common/communication/message";
 import { CCommon } from "../../../../../common/constantes/cCommon";
+
+const GAMEMODE_KEY: string = "gamemode";
 
 @Component({
   selector:     "app-game-view-free",
   templateUrl:  "./game-view-free.component.html",
   styleUrls:    ["./game-view-free.component.css"],
 })
-export class GameViewFreeComponent implements OnInit {
+export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
 
   public readonly NEEDED_SNAPSHOT: boolean = false;
-  public originalVariables: ISceneVariables;
-  public modifiedVariables: ISceneVariables;
-  public activeCard:        ICard;
-  public gameRequest:       IGameRequest;
-
-  private gameType:         GameType;
+  public  originalVariables: ISceneVariables;
+  public  modifiedVariables: ISceneVariables;
+  public  activeCard:        ICard;
+  public  gameRequest:       IGameRequest;
+  public  isLoading:         boolean;
+  public  gameIsStarted:     boolean;
+  public  cardIsLoaded:      boolean;
+  public  arenaID:           number;
+  public  mode:              number;
+  public  gameID:            string | null;
+  public  username:          string | null;
+  private scenePath:         string;
+  private gameType:          GameType;
 
   public constructor(
-    private httpClient:     HttpClient,
-    private route:          ActivatedRoute,
-    private snackBar:       MatSnackBar,
-    ) {}
+    @Inject(SocketService)          private socketService:    SocketService,
+    private gameConnectionService:  GameConnectionService,
+    private httpClient:             HttpClient,
+    private route:                  ActivatedRoute,
+    private snackBar:               MatSnackBar,
+    ) {
+      this.cardIsLoaded   = false;
+      this.gameIsStarted  = false;
+      this.mode           = Number(this.route.snapshot.paramMap.get(GAMEMODE_KEY));
+      this.username       = sessionStorage.getItem(Constants.USERNAME_KEY);
+
+      this.gameConnectionService.getGameConnectedListener().pipe(first()).subscribe((arenaID: number) => {
+        this.arenaID        = arenaID;
+        this.gameIsStarted  = true;
+        this.socketService.sendMsg(CCommon.GAME_CONNECTION, arenaID);
+        this.fetchSceneFromServer(this.scenePath)
+          .catch((error) => {
+            this.openSnackBar(error, Constants.SNACK_ACTION);
+          });
+      });
+    }
 
   public ngOnInit(): void {
-      const gameID:   string | null = this.route.snapshot.paramMap.get("id");
+      this.gameID = this.route.snapshot.paramMap.get("id");
       const username: string | null = sessionStorage.getItem(Constants.USERNAME_KEY);
-      if (gameID !== null && username !== null) {
-        this.createGameRequest(gameID, username);
+      if (this.gameID !== null && username !== null) {
+        this.createGameRequest(this.gameID, username);
       }
+  }
+
+  public ngAfterViewInit(): void {
+    this.isLoading = true;
   }
 
   private createGameRequest(gameID: string, username: string): void {
      this.httpClient.get(Constants.PATH_TO_GET_CARD + gameID + "/" + GameMode.free).subscribe((response: ICard) => {
       this.activeCard = response;
+      this.scenePath  = CCommon.BASE_URL + "/temp/" + this.activeCard.gameID + CCommon.SCENE_FILE;
 
-      const type: string | null = this.route.snapshot.paramMap.get("gamemode");
+      const type: string | null = this.route.snapshot.paramMap.get(GAMEMODE_KEY);
       if (type !== null) {
         this.getSceneVariables(type, username);
       }
+      this.cardIsLoaded = true;
     });
 
   }
 
   private getSceneVariables(type: string, username: string): void {
-    this.gameType = JSON.parse(type);
-    this.gameRequest = {
+    this.gameType     = JSON.parse(type);
+    this.gameRequest  = {
         username:     username,
         gameId:       this.activeCard.gameID,
         type:         this.gameType,
@@ -63,16 +98,26 @@ export class GameViewFreeComponent implements OnInit {
 
   private handleGameRequest(): void {
     this.httpClient.post(Constants.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
-
-      if (data.title === CCommon.ON_ERROR) {
-        this.openSnackBar(data.body, Constants.SNACK_ACTION);
+      switch (data.title) {
+        case CCommon.ON_SUCCESS:
+          this.arenaID        = Number(data.body);
+          this.gameIsStarted  = true;
+          this.socketService.sendMsg(CCommon.GAME_CONNECTION, this.arenaID);
+          this.fetchSceneFromServer(this.scenePath)
+          .catch((error) => {
+            this.openSnackBar(error, Constants.SNACK_ACTION);
+          });
+          break;
+        case CCommon.ON_WAITING:
+          this.arenaID = parseInt(data.body, Constants.DECIMAL_BASE);
+          this.socketService.sendMsg(CCommon.GAME_CONNECTION, CCommon.ON_WAITING);
+          break;
+        case CCommon.ON_ERROR:
+          this.openSnackBar(data.body, Constants.SNACK_ACTION);
+          break;
+        default:
+          break;
       }
-      const path: string = JSON.parse(data.body);
-
-      this.fetchSceneFromServer(path)
-      .catch((error) => {
-        this.openSnackBar(error, Constants.SNACK_ACTION);
-      });
     });
   }
 
@@ -91,16 +136,18 @@ export class GameViewFreeComponent implements OnInit {
     if (response.status !== Constants.SUCCESS_STATUS) {
       this.openSnackBar(response.statusText, Constants.SNACK_ACTION);
     } else {
-      await response.json().then((variables: ISceneVariablesMessage) => {
+      await response.json().then((variables: ISceneData) => {
 
         this.assignSceneVariable(variables);
       }).catch((error) => {
         this.openSnackBar(error, Constants.SNACK_ACTION);
       });
+
+      this.isLoading = false;
     }
   }
 
-  private assignSceneVariable(variables: ISceneVariablesMessage): void {
+  private assignSceneVariable(variables: ISceneData): void {
     this.originalVariables = {
       theme:                  variables.originalScene.theme,
       gameName:               variables.originalScene.gameName,
@@ -122,5 +169,9 @@ export class GameViewFreeComponent implements OnInit {
       duration:           Constants.SNACKBAR_DURATION,
       verticalPosition:   "top",
     });
+  }
+
+  public ngOnDestroy(): void {
+    this.socketService.sendMsg(CCommon.GAME_DISCONNECT, this.username);
   }
 }

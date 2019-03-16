@@ -10,7 +10,7 @@ import {
   ValidatorFn
 } from "@angular/forms";
 import { MatDialogRef, MatSnackBar } from "@angular/material";
-import { ISceneVariablesMessage } from "../../../../common/communication/iSceneVariables";
+import { ISceneData } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../constants";
@@ -43,6 +43,7 @@ export class CreateFreeGameComponent {
   public addChecked:                    boolean;
   public delChecked:                    boolean;
   public colorChecked:                  boolean;
+  public isLoading:                     boolean;
 
   public readonly modifTypes: {name: string}[] = [
       { name:   this.EDIT_TYPE_ADD    },
@@ -52,7 +53,7 @@ export class CreateFreeGameComponent {
 
   public formControl:             FormGroup;
   public isSceneGenerated:        boolean;
-  public iSceneVariablesMessage:  ISceneVariablesMessage;
+  public iSceneVariablesMessage:  ISceneData;
 
   public constructor(
     public  dialogRef:    MatDialogRef<CreateFreeGameComponent>,
@@ -61,8 +62,8 @@ export class CreateFreeGameComponent {
     private snackBar:     MatSnackBar,
   ) {
 
-    this.isButtonEnabled  = true;
     this.sliderValue      = Constants.DEFAULT_SLIDER_VALUE;
+    this.isButtonEnabled  = true;
     this.addChecked       = false;
     this.delChecked       = false;
     this.colorChecked     = false;
@@ -135,10 +136,11 @@ export class CreateFreeGameComponent {
   }
 
   public submit(formData: NgForm): void {
+    this.isLoading = false;
     this.isButtonEnabled = false;
     const formValue: FormMessage = this.createFormMessage(formData);
 
-    this.httpClient.post(Constants.FREE_SCENE_GENERATOR_PATH, formValue).subscribe((response: ISceneVariablesMessage | string) => {
+    this.httpClient.post(Constants.FREE_SCENE_GENERATOR_PATH, formValue).subscribe((response: ISceneData | string) => {
       if (typeof response === "string") {
         this.openSnackBar(response, Constants.SNACK_ACTION);
       } else {
@@ -148,6 +150,7 @@ export class CreateFreeGameComponent {
 
     });
     this.isButtonEnabled = true;
+    this.isLoading = true;
   }
 
   private openSnackBar(msg: string, action: string): void {

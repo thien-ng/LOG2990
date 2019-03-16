@@ -1,33 +1,33 @@
-<mat-grid-list cols="9" rowHeight="19.9%">
-  <mat-grid-tile
+<app-waiting-room [gameID]="gameID" *ngIf="!gameIsStarted && mode !== 0"></app-waiting-room>
+
+<span [hidden]="!gameIsStarted">
+  <mat-grid-list cols="9" rowHeight="19.9%">
+    <mat-grid-tile
+      [colspan]="7"
+      [rowspan]="1">
+      <div class="gameName" *ngIf="gameIsStarted">{{activeCard.title}}</div>
+    </mat-grid-tile>
+    <mat-grid-tile
+      [colspan]="2"
+      [rowspan]="5">
+      <app-chat-view [arenaID]="arenaID" [username]="username"></app-chat-view>
+    </mat-grid-tile>
+    <mat-grid-tile
     [colspan]="7"
-    [rowspan]="1"
-    [style.background]='lightgreen'>
-    <div class="gameName" *ngIf="cardLoaded">{{activeCard.title}}</div>
-  </mat-grid-tile>
-  <mat-grid-tile
-    [colspan]="2"
-    [rowspan]="5"
-    [style.background]='lightgreen'>
-    <app-chat-view></app-chat-view>
-  </mat-grid-tile>
-  <mat-grid-tile
-  [colspan]="7"
-  [rowspan]="3"
-  [style.background]='lightblue'>
-  <app-threejs-view id="originalScene" [iSceneVariables]="originalVariables" [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
-  <app-threejs-view id="modifiedScene" [iSceneVariables]="modifiedVariables" [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
-  </mat-grid-tile>
-  <mat-grid-tile
-    [colspan]="4"
-    [rowspan]="1"
-    [style.background]='lightgreen'>
-    <app-timer></app-timer>
-  </mat-grid-tile>
-  <mat-grid-tile
-    [colspan]="3"
-    [rowspan]="1"
-    [style.background]='lightgreen'>
-    <app-difference-counter></app-difference-counter>
-  </mat-grid-tile>
-</mat-grid-list>
+    [rowspan]="3">
+    <app-spinner *ngIf="isLoading"></app-spinner>
+    <app-threejs-view id="originalScene" [arenaID]="arenaID" [iSceneVariables]="originalVariables" [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
+    <app-threejs-view id="modifiedScene" [arenaID]="arenaID" [iSceneVariables]="modifiedVariables" [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
+    </mat-grid-tile>
+    <mat-grid-tile
+      [colspan]="4"
+      [rowspan]="1">
+      <app-timer></app-timer>
+    </mat-grid-tile>
+    <mat-grid-tile
+      [colspan]="3"
+      [rowspan]="1">
+      <app-difference-counter></app-difference-counter>
+    </mat-grid-tile>
+  </mat-grid-list>
+</span>

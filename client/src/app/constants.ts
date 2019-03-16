@@ -63,6 +63,7 @@ export class Constants {
   // Constants for game view free component
   public static readonly DEFAULT_SLIDER_VALUE:      number = 100;
   public static readonly GAME_REQUEST_PATH:         string = CCommon.BASE_URL + "/api/game/request";
+  public static readonly CANCEL_REQUEST_PATH:       string = CCommon.BASE_URL + "/api/game/cancel-request/";
   public static readonly SUCCESS_STATUS:            number = 200;
 
   // Constants for card.component.ts
@@ -89,21 +90,21 @@ export class Constants {
   public static readonly MAX_VIEW_DISTANCE:         number = 1000;
   public static readonly MIN_VIEW_DISTANCE:         number = 0.1;
 
-  public static readonly AMBIENT_LIGHT_COLOR:       string = "0xFFFFFF";
+  public static readonly AMBIENT_LIGHT_COLOR:       string = "#FFFFFF";
   public static readonly AMBIENT_LIGHT_INTENSITY:   number = 0.4;
 
   public static readonly SCENE_WIDTH:               number = 640;
   public static readonly SCENE_HEIGHT:              number = 480;
 
-  public static readonly FIRST_LIGHT_COLOR:         string = "0xFFFFFF";
+  public static readonly FIRST_LIGHT_COLOR:         string = "#FFFFFF";
   public static readonly FIRST_LIGHT_INTENSITY:     number = 1;
   public static readonly FIRST_LIGHT_POSITION_X:    number = 100;
   public static readonly FIRST_LIGHT_POSITION_Y:    number = 100;
   public static readonly FIRST_LIGHT_POSITION_Z:    number = 50;
-  public static readonly SECOND_LIGHT_COLOR:        string = "0xFFFFFF";
+  public static readonly SECOND_LIGHT_COLOR:        string = "#FFFFFF";
   public static readonly SECOND_LIGHT_INTENSITY:    number = 0.2;
-  public static readonly SECOND_LIGHT_POSITION_Y:   number = -10;
   public static readonly SECOND_LIGHT_POSITION_X:   number = -10;
+  public static readonly SECOND_LIGHT_POSITION_Y:   number = -10;
   public static readonly SECOND_LIGHT_POSITION_Z:   number = -10;
 
   public static readonly SPEED_FACTOR:              number = 0.001;
@@ -112,6 +113,8 @@ export class Constants {
   public static readonly CAMERA_LOOK_AT_X:          number = 50;
   public static readonly CAMERA_LOOK_AT_Y:          number = 50;
   public static readonly CAMERA_LOOK_AT_Z:          number = 50;
+
+  public static readonly GET_OBJECTS_ID_PATH:       string = CCommon.BASE_URL + "/api/game/";
 
   // Constants for chat view
   public static readonly ON_FAILED_CLICK:           string = "onFailedClick";

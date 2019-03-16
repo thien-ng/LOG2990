@@ -90,10 +90,10 @@ export class SceneBuilder {
 
     private forceTwoDigitsColor(hex: string): string {
 
-        return (hex.length < SceneConstants.TWO) ? "0" + hex : hex;
+        return (hex.length < SceneConstants.LENGTH_OF_TWO) ? "0" + hex : hex;
    }
 
-    public rgbToHex(r: number, g: number, b: number): string {
+    private rgbToHex(r: number, g: number, b: number): string {
 
        let red: string = r.toString( SceneConstants.HEX_TYPE );
        red = this.forceTwoDigitsColor(red);

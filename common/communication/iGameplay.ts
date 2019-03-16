@@ -1,3 +1,6 @@
+import { GameMode } from "./iCard";
+import { ISceneObject } from "./iSceneObject";
+
 export interface IPosition2D {
     x:  number;
     y:  number;
@@ -25,7 +28,20 @@ export interface IOriginalPixelCluster {
     cluster:        IReplacementPixel[];
 }
 
-export interface IPlayerInputResponse {
+export interface ISceneObjectUpdate {
+    actionToApply:  ActionType;
+    sceneObject?:   ISceneObject;
+}
+
+export interface IArenaResponse<RES_T> {
     status:         string;
-    response:       IOriginalPixelCluster;
+    response?:      RES_T;
+    arenaType?:     GameMode;
+}
+
+export enum ActionType {
+    ADD,
+    CHANGE_COLOR,
+    DELETE,
+    NO_ACTION_REQUIRED,
 }

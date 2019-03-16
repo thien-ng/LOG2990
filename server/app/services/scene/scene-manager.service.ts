@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
 import { ISceneOptions, SceneType } from "../../../../common/communication/iSceneOptions";
-import { ISceneVariables, ISceneVariablesMessage } from "../../../../common/communication/iSceneVariables";
+import { IModification, ISceneData, ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../../constants";
@@ -21,20 +21,24 @@ export class SceneManager {
         this.sceneModifier = new SceneModifier(this.sceneBuilder);
     }
 
-    public createScene(formMessage: FormMessage): ISceneVariablesMessage | string {
+    public createScene(formMessage: FormMessage): ISceneData | string {
 
         const isFormValid: boolean = this.validateForm(formMessage);
 
         if (this.cardManagerService.isSceneNameNew(formMessage.gameName)) {
             if (isFormValid) {
+                const modifiedList: IModification[] = [];
                 const iSceneOptions: ISceneOptions = this.sceneOptionsMapper(formMessage);
                 const generatedOriginalScene: ISceneVariables = this.sceneBuilder.generateScene(iSceneOptions);
-                const generatedModifiedScene: ISceneVariables = this.sceneModifier.modifyScene(iSceneOptions, generatedOriginalScene);
+                const generatedModifiedScene: ISceneVariables = this.sceneModifier.modifyScene(iSceneOptions,
+                                                                                               generatedOriginalScene,
+                                                                                               modifiedList);
 
                 return {
                     originalScene: generatedOriginalScene,
                     modifiedScene: generatedModifiedScene,
-                } as ISceneVariablesMessage;
+                    modifications: modifiedList,
+                } as ISceneData;
             } else {
                 return Constants.CARD_CREATION_ERROR;
             }

@@ -1,22 +1,20 @@
-import { IPosition2D } from "../../../../common/communication/iGameplay";
-
-export interface IImageToCache {
-    imageUrl:               string;
-    buffer:                 Buffer;
+export interface IDataToCache<T> {
+    dataUrl:                string;
+    data:                   T;
 }
 
-export interface ICacheElement {
-    imageToCache:           IImageToCache;
+export interface ICacheElement<T> {
+    dataToCache:            IDataToCache<T>;
     obsolescenceDegree:     number;
 }
 
-export interface IHitToValidate {
-    position:               IPosition2D;
-    imageUrl:               string;
-    colorToIgnore:          number[];
+export interface IHitToValidate<EVT_T> {
+    eventInfo:              EVT_T;
+    differenceDataURL:      string;
+    colorToIgnore?:         number;
 }
 
 export interface IHitConfirmation {
     isAHit:                 Boolean;
-    hitPixelColor:          number[];
+    differenceIndex:        number;
 }

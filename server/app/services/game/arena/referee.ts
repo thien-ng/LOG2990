@@ -1,77 +1,91 @@
 import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import { IArenaResponse } from "../../../../../common/communication/iGameplay";
+import { IUser } from "../../../../../common/communication/iUser";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { Constants } from "../../../constants";
-
 import { Arena } from "./arena";
+import { IHitConfirmation, IHitToValidate } from "./interfaces";
 import { Player } from "./player";
 import { Timer } from "./timer";
 
-import { IOriginalPixelCluster, IPlayerInputResponse, IPosition2D } from "../../../../../common/communication/iGameplay";
-import { IUser } from "../../../../../common/communication/iUser";
-import { IArenaInfos, IHitConfirmation, IHitToValidate } from "./interfaces";
-
 const axios: AxiosInstance = require("axios");
 
-export class Referee {
+export class Referee<EVT_T, DIFF_T> {
 
     private readonly ERROR_HIT_VALIDATION:  string = "Problem during Hit Validation process.";
     private readonly ON_FAILED_CLICK:       string = "onFailedClick";
     private readonly POINTS_TO_WIN_SINGLE:  number = 7;
     private readonly POINTS_TO_WIN_MULTI:   number = 4;
+    private readonly PENALTY_TIMEOUT_MS:    number = 1000;
 
     private differencesFound:   number[];
     private pointsNeededToWin:  number;
 
-    public constructor(public  arena:               Arena,
+    // _TODO: Enlever les any après les avoir remplacés
+    // tslint:disable-next-line:no-any
+    public constructor(public  arena:               Arena<any, any, any, any>,
                        private players:             Player[],
-                       private originalElements:    Map<number, IOriginalPixelCluster>,
+                       private originalElements:    Map<number, DIFF_T>,
                        public  timer:               Timer,
-                       public  arenaInfos:          IArenaInfos,
+                       public  differenceDataUrl:   string,
     ) {
 
         this.timer = new Timer();
+        // _TODO: sortir ca de la (ca devrait aller dans le GameManager)
         this.pointsNeededToWin = players.length === 1 ? this.POINTS_TO_WIN_SINGLE : this.POINTS_TO_WIN_MULTI;
 
         this.differencesFound = [];
         this.initTimer();
     }
 
-    public async onPlayerClick(position: IPosition2D, user: IUser): Promise<IPlayerInputResponse> {
+    public async onPlayerClick(eventInfos: EVT_T, user: IUser): Promise<IArenaResponse<DIFF_T>> {
 
-        let inputResponse: IPlayerInputResponse = this.buildPlayerInputResponse(
-            this.ON_FAILED_CLICK,
-            Constants.ON_ERROR_PIXEL_CLUSTER,
-        );
+        const player: Player | undefined = this.getPlayerFromUsername(user);
 
-        return this.validateHit(position)
+        if (player === undefined) {
+            return this.buildArenaResponse(this.ON_FAILED_CLICK) as IArenaResponse<DIFF_T>;
+        }
+
+        if (player.penaltyState) {
+            return this.buildArenaResponse(Constants.ON_PENALTY) as IArenaResponse<DIFF_T>;
+        }
+
+        return this.validateHit(eventInfos)
         .then((hitConfirmation: IHitConfirmation) => {
-            const isAnUndiscoveredDifference: boolean = this.isAnUndiscoveredDifference(hitConfirmation.hitPixelColor[0]);
-
-            if (hitConfirmation.isAHit && isAnUndiscoveredDifference) {
-                this.onHitConfirmation(user, hitConfirmation);
-                const pixelCluster: IOriginalPixelCluster | undefined = this.originalElements.get(hitConfirmation.hitPixelColor[0]);
-
-                if (pixelCluster !== undefined) {
-                    inputResponse = this.buildPlayerInputResponse(CCommon.ON_SUCCESS, pixelCluster);
-                }
-                if (this.gameIsFinished()) {
-                    this.endOfGameRoutine();
-                }
-            }
-
-            return inputResponse;
+            return this.hitConfirmationRoutine(hitConfirmation, player);
         })
         .catch ((error: Error) => {
-            return this.buildPlayerInputResponse(CCommon.ON_ERROR, Constants.ON_ERROR_PIXEL_CLUSTER);
+            return this.buildArenaResponse(CCommon.ON_ERROR);
         });
     }
 
-    public async validateHit(position: IPosition2D): Promise<IHitConfirmation> {
+    private hitConfirmationRoutine(hitConfirmation: IHitConfirmation, player: Player): IArenaResponse<DIFF_T> {
+        const isAnUndiscoveredDifference: boolean = this.isAnUndiscoveredDifference(hitConfirmation.differenceIndex);
+        let arenaResponse: IArenaResponse<DIFF_T> = this.buildArenaResponse(this.ON_FAILED_CLICK) as IArenaResponse<DIFF_T>;
 
-        const postData:     IHitToValidate      = this.buildPostData(position);
-        const postConfig:   AxiosRequestConfig  = this.buildPostConfig();
+        if (hitConfirmation.isAHit && isAnUndiscoveredDifference) {
+            this.onHitConfirmation(player, hitConfirmation.differenceIndex);
+            const differenceToUpdate: DIFF_T | undefined = this.originalElements.get(hitConfirmation.differenceIndex);
 
-        return axios.post(Constants.URL_HIT_VALIDATOR, postData, postConfig)
+            if (differenceToUpdate !== undefined) {
+                arenaResponse = this.buildArenaResponse(CCommon.ON_SUCCESS, differenceToUpdate);
+            }
+            if (this.gameIsFinished()) {
+                this.endOfGameRoutine();
+            }
+        } else {
+            this.attributePenalty(player);
+        }
+
+        return arenaResponse;
+    }
+
+    public async validateHit(eventInfos: EVT_T): Promise<IHitConfirmation> {
+
+        const postData:     IHitToValidate<EVT_T>   = this.buildPostData(eventInfos);
+        const postConfig:   AxiosRequestConfig      = this.buildPostConfig();
+
+        return axios.post(Constants.URL_HIT_VALIDATOR + "/" + this.arena.ARENA_TYPE, postData, postConfig)
             .then((res: AxiosResponse) => {
                 return res.data;
             })
@@ -80,24 +94,34 @@ export class Referee {
             });
     }
 
-    private onHitConfirmation(user: IUser, hitConfirmation: IHitConfirmation): void {
-        this.attributePoints(user);
-        this.addToDifferencesFound(hitConfirmation.hitPixelColor[0]);
+    private attributePenalty(player: Player): void {
+        player.setPenaltyState(true);
+        this.arena.sendMessage(player.userSocketId, CCommon.ON_PENALTY_ON, 1);
+
+        setTimeout(() => {
+                   this.arena.sendMessage(player.userSocketId, CCommon.ON_PENALTY_OFF, 0);
+                   player.setPenaltyState(false);
+        },         this.PENALTY_TIMEOUT_MS);
+    }
+
+    private getPlayerFromUsername(user: IUser): Player | undefined {
+        return this.players.find( (player: Player) => {
+            return player.username === user.username;
+        });
+    }
+
+    private onHitConfirmation(player: Player, differenceIndex: number): void {
+        this.attributePoints(player);
+        this.addToDifferencesFound(differenceIndex);
     }
 
     private addToDifferencesFound(differenceIndex: number): void {
         this.differencesFound.push(differenceIndex);
     }
 
-    private attributePoints(user: IUser): void {
-        const foundPlayer: Player | undefined = this.players.find( (player: Player) => {
-            return player.username === user.username;
-        });
-
-        if (foundPlayer !== undefined) {
-            foundPlayer.addPoints(1);
-            this.arena.sendMessage(foundPlayer.userSocketId, CCommon.ON_POINT_ADDED, foundPlayer.points);
-        }
+    private attributePoints(player: Player): void {
+        player.addPoints(1);
+        this.arena.sendMessage(player.userSocketId, CCommon.ON_POINT_ADDED, player.points);
     }
 
     private isAnUndiscoveredDifference(differenceIndex: number): boolean {
@@ -125,19 +149,19 @@ export class Referee {
         this.timer.stopTimer();
     }
 
-    private buildPlayerInputResponse(status: string, response: IOriginalPixelCluster): IPlayerInputResponse {
+    private buildArenaResponse(status: string, response?: DIFF_T): IArenaResponse<DIFF_T> {
         return {
             status:     status,
             response:   response,
-        };
+        } as IArenaResponse<DIFF_T>;
     }
 
-    private buildPostData(position: IPosition2D): IHitToValidate {
+    private buildPostData(eventInfos: EVT_T): IHitToValidate<EVT_T> {
         return {
-            position:       position,
-            imageUrl:       this.arenaInfos.differenceGameUrl,
-            colorToIgnore:  Constants.WHITE,
-        };
+            eventInfo:          eventInfos,
+            differenceDataURL:  this.differenceDataUrl,
+            colorToIgnore:      Constants.FF,
+        } as IHitToValidate<EVT_T>;
     }
 
     private buildPostConfig(): AxiosRequestConfig {

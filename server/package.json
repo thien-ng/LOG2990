@@ -13,6 +13,11 @@
     "clean": "rimraf out node_modules",
     "postinstall": "rimraf false"
   },
+  "nodemonConfig": {
+    "ignore": [
+      "app/asset"
+    ]
+  },
   "nyc": {
     "check-coverage": true,
     "per-file": true,

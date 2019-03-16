@@ -1,7 +1,7 @@
 import { inject, injectable } from "inversify";
 import { String } from "typescript-string-operations";
 import { IChat, IChatSender } from "../../../common/communication/iChat";
-import { IPlayerInputResponse } from "../../../common/communication/iGameplay";
+import { IArenaResponse } from "../../../common/communication/iGameplay";
 import { IUser } from "../../../common/communication/iUser";
 import { CCommon } from "../../../common/constantes/cCommon";
 import Types from "../types";
@@ -66,7 +66,8 @@ export class ChatManagerService {
         this.server.emit(CCommon.CHAT_EVENT, iChatMessage);
     }
 
-    public sendPositionValidationMessage(username: string, userList: IUser[], data: IPlayerInputResponse, socket: SocketIO.Server): void {
+    // tslint:disable-next-line:no-any
+    public sendPositionValidationMessage(username: string, userList: IUser[], data: IArenaResponse<any>, socket: SocketIO.Server): void {
 
         this.server = socket;
 

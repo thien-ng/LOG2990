@@ -110,6 +110,14 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy, AfterView
     }
   }
 
+  public onFocus(): void {
+    this.chatViewService.updateChatFocus(true);
+  }
+
+  public onBlur(): void {
+    this.chatViewService.updateChatFocus(false);
+  }
+
   private generateMessage(data: string): IChatSender {
     return {
       arenaID:  this.arenaID,
@@ -117,5 +125,4 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy, AfterView
       message:  data,
     } as IChatSender;
   }
-
 }
