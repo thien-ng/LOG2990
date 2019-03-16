@@ -51,27 +51,31 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
   }
 
   private scrollToBottom(): void {
-    const increment: number = 5;
-    const pauseBetweenIncrement: number = 7;
+    const chatBoxDiv: HTMLDivElement = this.chatBox.nativeElement;
 
-    const interval: NodeJS.Timeout = setInterval(() => {
+    if (this.conversationIsEmpty) {
+      this.chatHeight = chatBoxDiv.scrollHeight;
+      this.conversationIsEmpty = false;
+    }
 
-      const scrollPosition: number = this.chatBox.nativeElement.scrollTop + this.chatHeight;
+    const distanceToScroll:       number          = chatBoxDiv.scrollHeight - this.chatHeight - chatBoxDiv.scrollTop;
+    const distanceDivider:        number          = 25;
+    const increment:              number          = distanceToScroll / distanceDivider;
+
+    const pauseBetweenIncrement:  number          = (this.SCROLL_DURATION_MS * increment) / distanceToScroll;
+    const interval:               NodeJS.Timeout  = setInterval(
+      () => {
+      const scrollPosition: number = chatBoxDiv.scrollTop + this.chatHeight;
       // const maxOffset: number = this.chatBox.nativeElement.scrollTop + this.chatHeight;
       // si sT + cH + increment < sH, on incrémente, sinon on stoppe
-
-      if (scrollPosition + increment <= this.chatBox.nativeElement.scrollHeight) {
-        // console.log("Scroll height : " + this.chatBox.nativeElement.scrollHeight);
-        // console.log("Scroll Top : " + this.chatBox.nativeElement.scrollTop);
-
-        this.chatBox.nativeElement.scrollTop += increment;
-        console.log("scroll!");
+      if (scrollPosition + increment <= chatBoxDiv.scrollHeight) {
+        chatBoxDiv.scrollTop += increment;
       } else {
+        chatBoxDiv.scrollTop = chatBoxDiv.scrollHeight;
         clearInterval(interval);
-        console.log("Stopped scrolling.");
       }
-
-    }, pauseBetweenIncrement);
+    },
+      pauseBetweenIncrement);
   }
 
   public printDummyMessage(): void {
