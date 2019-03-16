@@ -84,9 +84,7 @@ export class TheejsViewComponent implements OnChanges {
   private handleKeyboardEvent(keyboardEvent: KeyboardEvent): void {
 
     if (keyboardEvent.key === this.CHEAT_KEY_CODE) {
-
-      // _TODO: Ajouter le :arenaId apres le cheat
-      this.httpClient.get(Constants.GET_OBJECTS_ID_PATH + "cheat/1000").subscribe((modifications: number[]) => {
+      this.httpClient.get(Constants.GET_OBJECTS_ID_PATH + "cheat/" + this.arenaID).subscribe((modifications: number[]) => {
         this.changeColor(modifications);
       });
     }
