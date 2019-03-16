@@ -43,12 +43,7 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
       this.conversationIsEmpty  = true;
   }
 
-  public ngAfterViewInit(): void {
-    this.chatHeight = this.chatBox.nativeElement.scrollHeight;
-    // console.log("ChatHeight : " + this.chatHeight);
-  }
   public ngAfterViewChecked(): void {
-
     if (this.conversationLength < this.chatViewService.getConversationLength()) {
       this.conversationLength = this.chatViewService.getConversationLength();
       this.scrollToBottom();
