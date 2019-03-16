@@ -6,7 +6,6 @@ export class Constants {
   public static readonly SOCKET_IO:                 string = "socket.io";
   public static readonly CONNECTION:                string = "connection";
   public static readonly DISCONNECT_EVENT:          string = "disconnect";
-  public static readonly POSITION_VALIDATION_EVENT: string = "onPositionValidation";
   public static readonly WEBSOCKET_PORT_NUMBER:     number = 3333;
   public static readonly CLICK_EVENT:               string = "onClick";
   public static readonly ON_ARENA_RESPONSE:         string = "onArenaResponse";

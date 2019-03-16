@@ -50,7 +50,7 @@ export class WebsocketManager {
         socket.on(CCommon.GAME_DISCONNECT, (username: string) => {
             this.gameManagerService.unsubscribeSocketID(socketID, username);
         });
-        socket.on(Constants.POSITION_VALIDATION_EVENT, (data: IClickMessage) => {
+        socket.on(CCommon.POSITION_VALIDATION, (data: IClickMessage) => {
             const user: IUser | string = this.userManagerService.getUserByUsername(data.username);
             const userList: IUser[] = this.gameManagerService.getUsersInArena(data.arenaID);
             if (typeof user !== "string") {

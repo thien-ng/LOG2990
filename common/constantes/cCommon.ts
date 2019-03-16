@@ -26,6 +26,7 @@ export class CCommon {
     public static readonly ON_SUCCESS:                string = "onSuccess";
     public static readonly ON_TIMER_UPDATE:           string = "onTimerUpdate";
     public static readonly ON_WAITING:                string = "onWaiting";
+    public static readonly POSITION_VALIDATION:       string = "onPositionValidation"
     public static readonly GAME_CONNECTION:           string = "onGameConnection";
     public static readonly GAME_DISCONNECT:           string = "onGameDisconnect";
     public static readonly LOGIN_EVENT:               string = "onLogin";

@@ -91,8 +91,7 @@ export class ThreejsViewService {
     this.mouse.z = 0;
 
     this.raycaster.setFromCamera(this.mouse, this.camera);
-    // this.mouse.unproject(this.camera);
-    // this.raycaster = new THREE.Raycaster(this.camera.position, this.mouse.sub(this.camera.position).normalize());
+
     var test = this.raycaster.intersectObjects(this.scene.children);
     if(test.length > 0) {
       console.log(test[0].object);

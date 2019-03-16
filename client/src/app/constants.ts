@@ -56,7 +56,6 @@ export class Constants {
   public static readonly ON_TIMER_UPDATE:           string = "onTimerUpdate";
 
   // Constants for game-view-simple.service.ts
-  public static readonly ON_POSITION_VALIDATION:    string = "onPositionValidation";
   public static readonly DECIMAL_BASE:              number = 10;
   public static readonly ID_BY_URL:                 string = "id";
 

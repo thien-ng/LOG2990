@@ -71,6 +71,10 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     this.initListener();
   }
 
+  public ngOnDestroy(): void {
+    this.socketService.sendMsg(CCommon.GAME_DISCONNECT, this.username);
+  }
+
   private getActiveCard(username: string): void {
     if (this.gameID !== null) {
       this.httpClient.get(Constants.PATH_TO_GET_CARD + this.gameID + "/" + GameMode.simple).subscribe((response: ICard) => {
@@ -133,30 +137,24 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
 
   public initListener(): void {
     this.canvasOriginal.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
-      const pos: IPosition2D = {
-        x:    mouseEvent.offsetX,
-        y:    mouseEvent.offsetY,
-      };
-
-      if (this.username !== null) {
-        const canvasPosition: IClickMessage = this.gameViewService.onCanvasClick(pos, this.arenaID, this.username);
-        this.socketService.sendMsg(Constants.ON_POSITION_VALIDATION, canvasPosition);
-      }
+      this.sendClickEvent(mouseEvent);
     });
     this.canvasModified.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
-      const pos: IPosition2D = {
-        x:    mouseEvent.offsetX,
-        y:    mouseEvent.offsetY,
-      };
-
-      if (this.username !== null) {
-        const canvasPosition: IClickMessage = this.gameViewService.onCanvasClick(pos, this.arenaID, this.username);
-        this.socketService.sendMsg(Constants.ON_POSITION_VALIDATION, canvasPosition);
-      }
+      this.sendClickEvent(mouseEvent);
     });
   }
 
-  public ngOnDestroy(): void {
-    this.socketService.sendMsg(CCommon.GAME_DISCONNECT, this.username);
+  private sendClickEvent(mouseEvent: MouseEvent): void {
+
+    const pos: IPosition2D = {
+      x:    mouseEvent.offsetX,
+      y:    mouseEvent.offsetY,
+    };
+
+    if (this.username !== null) {
+      const canvasPosition: IClickMessage = this.gameViewService.onCanvasClick(pos, this.arenaID, this.username);
+      this.socketService.sendMsg(CCommon.POSITION_VALIDATION, canvasPosition);
+    }
   }
+
 }
