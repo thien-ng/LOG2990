@@ -94,6 +94,10 @@ export class Referee<EVT_T, DIFF_T> {
             });
     }
 
+    public getFoundDifferences(): number[] {
+        return this.differencesFound;
+    }
+
     private attributePenalty(player: Player): void {
         player.setPenaltyState(true);
         this.arena.sendMessage(player.userSocketId, CCommon.ON_PENALTY_ON, 1);
