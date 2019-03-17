@@ -69,9 +69,9 @@ export class CardManagerController {
         });
 
         router.delete("/remove/simple/:id", async (req: Request, res: Response, next: NextFunction) => {
-            const cardId: number = parseInt(req.params.id, DECIMAL);
+            const gameID: number = parseInt(req.params.id, DECIMAL);
             try {
-                const message: string = this.cardOperations.removeCard2D(cardId);
+                const message: string = this.cardOperations.removeCard2D(gameID);
                 res.json(message);
             } catch (error) {
                 const isTypeError:  boolean = error instanceof TypeError;
@@ -81,8 +81,8 @@ export class CardManagerController {
         });
 
         router.delete("/remove/free/:id", async (req: Request, res: Response, next: NextFunction) => {
-            const cardId:   number = parseInt(req.params.id, DECIMAL);
-            const message:  string = this.cardOperations.removeCard3D(cardId);
+            const gameID:   number = parseInt(req.params.id, DECIMAL);
+            const message:  string = this.cardOperations.removeCard3D(gameID);
             res.json(message);
         });
 
