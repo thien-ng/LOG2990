@@ -12,7 +12,7 @@ import {
   ViewChild } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import * as THREE from "three";
-import { IClickMessage3D } from "../../../../../../common/communication/iGameplay";
+import { IClickMessage3D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
 import { ISceneData, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../../common/communication/message";
@@ -22,6 +22,7 @@ import { Constants } from "../../../constants";
 import { SocketService } from "../../../websocket/socket.service";
 import { ChatViewService } from "../../chat-view/chat-view.service";
 import { ThreejsViewService } from "./threejs-view.service";
+import { GameConnectionService } from "src/app/game-connection.service";
 
 @Component({
   selector:     "app-threejs-view",
@@ -54,6 +55,9 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   private isSnapshotNeeded:       boolean;
 
   @Input()
+  private isNotOriginal:             boolean;
+
+  @Input()
   private username:               string;
 
   @Output()
@@ -76,6 +80,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
     private httpClient:         HttpClient,
     private snackBar:           MatSnackBar,
     private cardManagerService: CardManagerService,
+    private gameConnectionService: GameConnectionService,
     ) {
     this.sceneGenerated = new EventEmitter();
     this.scene          = new THREE.Scene();
@@ -83,6 +88,12 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
     this.focusChat      = false;
     this.chatViewService.getChatFocusListener().subscribe((newValue: boolean) => {
       this.focusChat = newValue;
+    });
+    this.gameConnectionService.getObjectToUpdate().subscribe((object: ISceneObjectUpdate) => {
+      if (this.isNotOriginal) {
+        console.log(object);
+        this.threejsViewService.updateSceneWithNewObject(object);
+      }
     });
   }
 

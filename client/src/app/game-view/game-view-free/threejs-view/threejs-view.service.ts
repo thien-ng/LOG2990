@@ -4,8 +4,11 @@ import { ISceneObject } from "../../../../../../common/communication/iSceneObjec
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Constants } from "../../../constants";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
+import { ActionType, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 
-@Injectable()
+@Injectable(
+  {providedIn: "root"},
+)
 export class ThreejsViewService {
 
   private scene:                  THREE.Scene;
@@ -109,6 +112,32 @@ export class ThreejsViewService {
     }
 
     return -1;
+  }
+
+  public updateSceneWithNewObject(object: ISceneObjectUpdate): void {
+  
+    if (!object.sceneObject) {
+      return;
+    }
+    console.log(object.actionToApply);
+    console.log(object.sceneObject);
+
+    switch (object.actionToApply) {
+
+      case ActionType.ADD:
+        console.log("add this");
+        this.threejsGenerator.initiateObject(object.sceneObject);
+        break;
+      
+      case ActionType.DELETE:
+        this.threejsGenerator.deleteObject(object.sceneObject.id);
+        break;
+
+      case ActionType.CHANGE_COLOR:
+        this.threejsGenerator.deleteObject(object.sceneObject.id);
+        this.threejsGenerator.initiateObject(object.sceneObject);
+        break;
+    }
   }
 
   private createLighting(): void {

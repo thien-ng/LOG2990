@@ -93,7 +93,7 @@ export class SceneModifier {
         } while (this.containsInModifedList(generatedIndex) || this.idNotExist(generatedIndex));
 
         this.sceneObjects = this.sceneObjects.filter((object: ISceneObject) => object.id !== generatedIndex);
-        const modificationMap: IModification = {id: generatedIndex, type: ModificationType.added};
+        const modificationMap: IModification = {id: generatedIndex, type: ModificationType.removed};
 
         this.modifiedIndex.push(modificationMap);
     }

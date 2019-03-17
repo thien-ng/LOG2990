@@ -81,7 +81,7 @@ export class SocketService {
 
   private emitOnPenaltyOn(arenaResponse: IArenaResponse<any>): void {
 
-    this.gameViewSimpleService.wrongClickRoutine();
+    // this.gameViewSimpleService.wrongClickRoutine();
     // if (arenaResponse.arenaType === GameMode.simple) {
     //   this.gameViewSimpleService.wrongClickRoutine();
     // } else {
@@ -91,7 +91,7 @@ export class SocketService {
 
   private emitOnPenaltyOff(arenaResponse: IArenaResponse<any>): void {
 
-    this.gameViewSimpleService.enableClickRoutine();
+    // this.gameViewSimpleService.enableClickRoutine();
     // if (arenaResponse.arenaType === GameMode.simple) {
     //   this.gameViewSimpleService.enableClickRoutine();
     // } else {

@@ -11,7 +11,7 @@ import { GameType, IGameRequest } from "../../../../../common/communication/iGam
 import { ISceneData, ISceneVariables } from "../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../common/communication/message";
 import { CCommon } from "../../../../../common/constantes/cCommon";
-import { GameViewFreeService } from "./game-view-free.service";
+import { ISceneObject } from "../../../../../common/communication/iSceneObject";
 
 const GAMEMODE_KEY: string = "gamemode";
 
@@ -27,6 +27,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
   public  modifiedVariables: ISceneVariables;
   public  activeCard:        ICard;
   public  gameRequest:       IGameRequest;
+  public  objectToUpdate:    ISceneObject[];
   public  isLoading:         boolean;
   public  gameIsStarted:     boolean;
   public  cardIsLoaded:      boolean;
@@ -38,7 +39,6 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
   private gameType:          GameType;
 
   public constructor(
-    @Inject(GameViewFreeService)    private gameViewFreeService: GameViewFreeService,
     @Inject(SocketService)          private socketService:    SocketService,
     private gameConnectionService:  GameConnectionService,
     private httpClient:             HttpClient,
@@ -65,7 +65,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
       this.gameID = this.route.snapshot.paramMap.get("id");
       const username: string | null = sessionStorage.getItem(Constants.USERNAME_KEY);
       if (this.gameID !== null && username !== null) {
-        this.createGameRequest(this.gameID, username);
+        this.createGameRequest(this.gameID, username);  
       }
   }
 
@@ -164,7 +164,6 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
       sceneObjects:           variables.modifiedScene.sceneObjects,
       sceneObjectsQuantity:   variables.modifiedScene.sceneObjectsQuantity,
     };
-    this.gameViewFreeService.setScenesVarialbles(this.modifiedVariables);
   }
 
   private openSnackBar(msg: string, action: string): void {

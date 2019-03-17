@@ -13,6 +13,7 @@ export class ThreejsGenerator {
     private modifiedMapIntersect:    Map<number, number>) {}
 
   public initiateObject(object3D: ISceneObject): void {
+
     switch (object3D.type) {
       case SceneObjectType.Cube:
         this.generateCube(object3D);
@@ -30,6 +31,14 @@ export class ThreejsGenerator {
         this.generateSphere(object3D);
         break;
     }
+  }
+
+  public deleteObject(id: number): void {
+    console.log(this.modifiedMap);
+    const objectId: number = this.modifiedMap.get(id) as number;
+    const objectToRemove: THREE.Object3D = this.scene.getObjectById(objectId) as THREE.Object3D;
+
+    this.scene.remove(objectToRemove);
   }
 
   private generateSphere(object3D: ISceneObject): void {
@@ -108,16 +117,22 @@ export class ThreejsGenerator {
   }
 
   private createObjectColor(colorHex: string): THREE.MeshBasicMaterial {
+    
     return new THREE.MeshPhongMaterial( {color: colorHex} );
   }
 
   private addObjectIdToMap(objectId: number, generatedObjectId: number): void {
-    this.modifiedMap.set(objectId, generatedObjectId);
-    this.modifiedMapIntersect.set(generatedObjectId, objectId);
+
+    if (this.modifiedMap && this.modifiedMapIntersect) {
+      this.modifiedMap.set(objectId, generatedObjectId);
+      this.modifiedMapIntersect.set(generatedObjectId, objectId);
+    }
   }
 
   private addColorToMap(objectId: number, objectColor: string): void {
-    this.mapOriginColor.set(objectId, objectColor);
+    if (this.mapOriginColor) {
+      this.mapOriginColor.set(objectId, objectColor);
+    }
   }
 
   private addObjectToScene(object3D: THREE.Mesh, position: IAxisValues, orientation: IAxisValues): void {
