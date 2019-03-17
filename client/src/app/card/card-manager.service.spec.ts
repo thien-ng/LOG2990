@@ -20,12 +20,12 @@ describe("CardManager.ServiceService", () => {
 describe("Card-manager tests", () => {
   let cardManagerService: CardManagerService;
   let http:               HttpClient;
-  let cardId:             number;
+  let gameID:             number;
   let gameMode:           GameMode;
 
   beforeEach(() => {
     http                = mock(HttpClient);
-    cardId              = 1;
+    gameID              = 1;
     gameMode            = GameMode.simple;
     cardManagerService  = new CardManagerService(http);
   });
@@ -38,7 +38,7 @@ describe("Card-manager tests", () => {
 
   it("should call http.delete when calling removeCard()", () => {
     http.delete = jasmine.createSpy("delete spy");
-    cardManagerService.removeCard(cardId, gameMode);
+    cardManagerService.removeCard(gameID, gameMode);
     expect(http.delete).toHaveBeenCalled();
   });
 });
