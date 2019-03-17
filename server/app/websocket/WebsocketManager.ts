@@ -44,7 +44,7 @@ export class WebsocketManager {
 
         socket.on(CCommon.GAME_CONNECTION, () => {
             socketID = socket.id;
-            this.gameManagerService.subscribeSocketID(socketID, socket);
+            this.gameManagerService.subscribeSocketID(socketID, socket, this.io);
         });
 
         socket.on(CCommon.GAME_DISCONNECT, (username: string) => {
