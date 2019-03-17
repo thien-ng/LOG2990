@@ -18,6 +18,9 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
   private readonly CHAT_EVENT:            string = "onChatEvent";
   private readonly SCROLL_DURATION_MS:    number = 200;
 
+  private conversationIsEmpty:            boolean;
+  private chatHeight:                     number;
+
   public conversations:                   IChat[];
   public initialValue:                    string;
   public usernameFormControl:             FormControl;
@@ -28,9 +31,6 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
 
   @Input()
   private username:                       string;
-
-  private conversationIsEmpty:            boolean;
-  private chatHeight:                     number;
 
   @ViewChild("chatBox", {read: ElementRef})
   public chatBox:                         ElementRef;
@@ -57,9 +57,9 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
       this.chatHeight = chatBoxDiv.scrollHeight;
       this.conversationIsEmpty = false;
     }
+    const DISTANCE_DIVIDER:       number  = 25;
     const distanceToScroll:       number  = chatBoxDiv.scrollHeight - this.chatHeight - chatBoxDiv.scrollTop;
-    const distanceDivider:        number  = 25;
-    const increment:              number  = distanceToScroll / distanceDivider >= 1 ? distanceToScroll / distanceDivider : 1;
+    const increment:              number  = distanceToScroll / DISTANCE_DIVIDER >= 1 ? distanceToScroll / DISTANCE_DIVIDER : 1;
     const pauseBetweenIncrement:  number  = (this.SCROLL_DURATION_MS * increment) / distanceToScroll;
 
     const interval: NodeJS.Timeout  = setInterval(
