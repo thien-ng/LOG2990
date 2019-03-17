@@ -64,11 +64,12 @@ export class Arena3D extends Arena<IPlayerInput<number>, IArenaResponse<ISceneOb
     private async extractModifiedSceneObjects(): Promise<void> {
         const sceneData:        Buffer      = await this.getDifferenceDataFromURL(this.arenaInfos.dataUrl.sceneData);
         const sceneDataObject:  ISceneData  = JSON.parse(sceneData.toString()) as ISceneData;
-
+        
         sceneDataObject.modifications.forEach((modification: IModification) => {
             const sceneObjectUpdate: ISceneObjectUpdate = this.findObjectToUpdate(modification, sceneDataObject);
             this.originalElements.set(modification.id, sceneObjectUpdate);
         });
+        
     }
 
     private findObjectToUpdate(modification: IModification, sceneVariableMessage: ISceneData): ISceneObjectUpdate {
@@ -80,7 +81,7 @@ export class Arena3D extends Arena<IPlayerInput<number>, IArenaResponse<ISceneOb
 
         switch (modification.type) {
             case ModificationType.added:
-                sceneObjectUpdate = this.buildSceneObjectUpdate(ActionType.DELETE, modifiedSceneObjects[modification.id]);
+                sceneObjectUpdate = this.buildSceneObjectUpdate(ActionType.DELETE, this.findObjectById(modification.id, modifiedSceneObjects));
                 break;
             case ModificationType.removed:
                 sceneObjectUpdate = this.buildSceneObjectUpdate(ActionType.ADD, originalSceneObjects[modification.id]);
@@ -94,6 +95,19 @@ export class Arena3D extends Arena<IPlayerInput<number>, IArenaResponse<ISceneOb
         }
 
         return sceneObjectUpdate;
+    }
+
+    private findObjectById(id :number, objectList: ISceneObject[]): ISceneObject | undefined {
+
+        let foundObject: ISceneObject | undefined = undefined;
+
+        objectList.forEach((object: ISceneObject) => {
+            if (id === object.id) {
+                foundObject = object;
+            }
+        });
+
+        return foundObject;
     }
 
     private buildSceneObjectUpdate(actionType: ActionType, sceneObject?: ISceneObject): ISceneObjectUpdate {

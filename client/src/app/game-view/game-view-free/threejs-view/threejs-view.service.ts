@@ -71,6 +71,7 @@ export class ThreejsViewService {
   public changeObjectsColor(modifiedList: number[], cheatColorActivated: boolean): void {
 
     modifiedList.forEach((differenceId: number) => {
+
       const meshObject:     THREE.Mesh | undefined = this.recoverObjectFromScene(differenceId);
       const objectColor:    string     | undefined = this.mapOriginColor.get(differenceId);
       const opacityNeeded:  number                 = (cheatColorActivated) ? 0 : 1;
@@ -119,13 +120,10 @@ export class ThreejsViewService {
     if (!object.sceneObject) {
       return;
     }
-    console.log(object.actionToApply);
-    console.log(object.sceneObject);
 
     switch (object.actionToApply) {
 
       case ActionType.ADD:
-        console.log("add this");
         this.threejsGenerator.initiateObject(object.sceneObject);
         break;
       
@@ -134,8 +132,7 @@ export class ThreejsViewService {
         break;
 
       case ActionType.CHANGE_COLOR:
-        this.threejsGenerator.deleteObject(object.sceneObject.id);
-        this.threejsGenerator.initiateObject(object.sceneObject);
+        this.threejsGenerator.changeObjectColor(object.sceneObject.id, object.sceneObject.color);
         break;
     }
   }

@@ -106,7 +106,7 @@ export class SceneModifier {
             generatedIndex = this.generateRandomIndex();
         } while (this.containsInModifedList(generatedIndex) || this.idNotExist(generatedIndex));
 
-        const modificationMap: IModification = {id: generatedIndex, type: ModificationType.added};
+        const modificationMap: IModification = {id: generatedIndex, type: ModificationType.changedColor};
         this.modifiedIndex.push(modificationMap);
 
         this.sceneObjects.forEach((object: ISceneObject) => {

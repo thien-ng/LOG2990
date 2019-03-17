@@ -34,11 +34,20 @@ export class ThreejsGenerator {
   }
 
   public deleteObject(id: number): void {
-    console.log(this.modifiedMap);
     const objectId: number = this.modifiedMap.get(id) as number;
     const objectToRemove: THREE.Object3D = this.scene.getObjectById(objectId) as THREE.Object3D;
 
     this.scene.remove(objectToRemove);
+  }
+
+  public changeObjectColor(id: number, color: string): void {
+    const objectId: number = this.modifiedMap.get(id) as number;
+    const objectToChange: THREE.Object3D = this.scene.getObjectById(objectId) as THREE.Object3D;
+    const objectMesh: THREE.Mesh = objectToChange as THREE.Mesh;
+
+    this.mapOriginColor.set(id, color);
+
+    objectMesh.material = new THREE.MeshPhongMaterial({color: color});
   }
 
   private generateSphere(object3D: ISceneObject): void {

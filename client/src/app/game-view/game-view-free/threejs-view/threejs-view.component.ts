@@ -91,7 +91,6 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
     });
     this.gameConnectionService.getObjectToUpdate().subscribe((object: ISceneObjectUpdate) => {
       if (this.isNotOriginal) {
-        console.log(object);
         this.threejsViewService.updateSceneWithNewObject(object);
       }
     });
@@ -149,7 +148,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
 
       const idValue: number = this.threejsViewService.detectObject(mouseEvent);
       const message: IClickMessage3D = this.createHitValidationMessage(idValue);
-
+      
       this.socketService.sendMsg(CCommon.POSITION_VALIDATION, message);
     });
   }
