@@ -17,6 +17,7 @@ import { Constants } from "../../constants";
 import { Arena2D } from "../../services/game/arena/arena2d";
 import { I2DInfos, IArenaInfos, IPlayerInput } from "../../services/game/arena/interfaces";
 import { GameManagerService } from "../../services/game/game-manager.service";
+import { Mode } from "../../services/highscore/utilities/interfaces";
 import { UserManagerService } from "../../services/user-manager.service";
 // import sinon = require("sinon");
 
@@ -31,35 +32,35 @@ let mockAxios:      any;
 const request2DSimple: IGameRequest = {
     username:   "Frank",
     gameId:     1,
-    type:       GameType.singlePlayer,
+    type:       Mode.Singleplayer,
     mode:       GameMode.simple,
 };
 
 const request3DSimple: IGameRequest = {
     username:   "Franky",
     gameId:     2,
-    type:       GameType.singlePlayer,
+    type:       Mode.Singleplayer,
     mode:       GameMode.free,
 };
 
 const request2DMulti: IGameRequest = {
     username:   "Frank",
     gameId:     1,
-    type:       GameType.multiPlayer,
+    type:       Mode.Multiplayer,
     mode:       GameMode.simple,
 };
 
 const request3DMulti: IGameRequest = {
     username:   "Franky",
     gameId:     2,
-    type:       GameType.multiPlayer,
+    type:       Mode.Multiplayer,
     mode:       GameMode.free,
 };
 
 const invalidRequest: IGameRequest = {
     username:   "Frankette",
     gameId:     103,
-    type:       GameType.singlePlayer,
+    type:       Mode.Singleplayer,
     mode:       GameMode.invalid,
 };
 
@@ -313,8 +314,8 @@ describe("GameManagerService tests", () => {
     // });
 
     it("Should send message with socket", async () => {
-        gameManagerService = new GameManagerService(userManagerService);
-        gameManagerService.subscribeSocketID("socketID", socket);
+        gameManagerService = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations);
+        gameManagerService.subscribeSocketID("socketID", socket, socket.server);
         gameManagerService.sendMessage("socketID", "onEvent", 1);
         verify(socket.emit("onEvent", 1)).atLeast(0);
     });
@@ -332,7 +333,7 @@ describe("GameManagerService tests", () => {
         const request: IGameRequest = {
             username:   "Franky",
             gameId:     1,
-            type:       GameType.multiPlayer,
+            type:       Mode.Multiplayer,
             mode:       GameMode.simple,
         };
         chai.spy.on(gameManagerService, ["tempRoutine2d"], () => {return; });
@@ -349,7 +350,7 @@ describe("GameManagerService tests", () => {
         const request: IGameRequest = {
             username:   "Frank",
             gameId:     2,
-            type:       GameType.multiPlayer,
+            type:       Mode.Multiplayer,
             mode:       GameMode.free,
         };
         chai.spy.on(gameManagerService, ["tempRoutine3d"], () => {return; });
