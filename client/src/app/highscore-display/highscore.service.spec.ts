@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import "rxjs/add/observable/of";
 import { mock } from "ts-mockito";
 import { HighscoreMessage } from "../../../../common/communication/highscore";
+import { CardManagerService } from "../card/card-manager.service";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { HighscoreService } from "./highscore.service";
 
@@ -26,14 +27,16 @@ describe("HighscoreService", () => {
 });
 
 describe("HighscoreService tests", () => {
-  let   highscoreService: HighscoreService;
-  let   httpMock:         HttpClient;
-  let   dataMock:         HighscoreMessage;
-  const idMock:           number = 2;
+  let   cardManagerService: CardManagerService;
+  let   highscoreService:   HighscoreService;
+  let   httpMock:           HttpClient;
+  let   dataMock:           HighscoreMessage;
+  const idMock:             number = 2;
 
   beforeEach(() => {
-    httpMock = mock(HttpClient);
-    highscoreService = new HighscoreService(httpMock);
+    httpMock            = mock(HttpClient);
+    cardManagerService  = new CardManagerService(httpMock);
+    highscoreService    = new HighscoreService(cardManagerService, httpMock);
   });
 
   it("should call highscoreUpdated.next() with right data value", () => {
@@ -156,5 +159,12 @@ describe("HighscoreService tests", () => {
     const returnValueMethod: Observable<HighscoreMessage> = highscoreService.getHighscoreUpdateListener();
 
     expect(returnValueMethod).not.toBeUndefined();
+  });
+
+  it("should call getHighscore when the highscore have been reloaded", () => {
+    const spy: jasmine.Spy = spyOn(highscoreService, "getHighscore");
+    cardManagerService.reloadHighscore(1);
+
+    expect(spy).toHaveBeenCalledWith(1);
   });
 });
