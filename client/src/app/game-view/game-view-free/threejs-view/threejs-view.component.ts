@@ -41,6 +41,9 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   private isCheating:             boolean;
   private interval:               NodeJS.Timeout;
   private focusChat:              boolean;
+  private modifications:          number[];
+  private previousModifications:  number[];
+  private isFirstGet:             boolean;
 
   @Input()
   private arenaID:                 number;
@@ -86,6 +89,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
     this.scene          = new THREE.Scene();
     this.isCheating     = false;
     this.focusChat      = false;
+    this.isFirstGet     = true;
     this.chatViewService.getChatFocusListener().subscribe((newValue: boolean) => {
       this.focusChat = newValue;
     });
@@ -119,12 +123,19 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
 
     if (keyboardEvent.key === this.CHEAT_KEY_CODE) {
       this.httpClient.get(Constants.GET_OBJECTS_ID_PATH + this.CHEAT_URL + this.arenaID).subscribe((modifications: number[]) => {
+
+        if (this.isFirstGet) {
+          this.previousModifications = modifications;
+          this.isFirstGet = false
+        }
         this.changeColor(modifications);
       });
     }
   }
 
   private changeColor(modifications: number[]): void {
+
+    this.modifications = modifications;
     this.isCheating = !this.isCheating;
 
     if (this.isCheating) {
@@ -133,13 +144,15 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
       this.interval = setInterval(
         () => {
           flashValue = !flashValue;
-          this.threejsViewService.changeObjectsColor(modifications, flashValue);
+          this.threejsViewService.changeObjectsColor(this.modifications, flashValue);
         },
         this.CHEAT_INTERVAL_TIME);
     } else {
 
       clearInterval(this.interval);
-      this.threejsViewService.changeObjectsColor(modifications, false);
+      this.threejsViewService.changeObjectsColor(this.previousModifications, false);
+      this.previousModifications = this.modifications;
+      this.modifications = [];
     }
   }
 
