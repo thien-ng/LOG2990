@@ -49,6 +49,15 @@ export class SocketService {
         this.cardManagerService.reloadHighscore(gameID);
       });
 
+
+      this.socket.on(CCommon.ON_CANCEL_REQUEST, () => {
+        this.openSnackbar(Constants.CARD_DELETED_MESSAGE, Constants.SNACKBAR_ACKNOWLEDGE);
+        this.router.navigate([Constants.GAMELIST_REDIRECT])
+        .catch((error: TypeError) => this.openSnackbar(error.message, Constants.SNACK_ACTION));
+      });
+    });
+  }
+
       this.socket.on(CCommon.ON_TIMER_UPDATE, (data: number) => {
         this.timerService.timeFormat(data);
       });
