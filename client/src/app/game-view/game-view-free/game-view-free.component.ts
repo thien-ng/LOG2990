@@ -6,8 +6,9 @@ import { first } from "rxjs/operators";
 import { Constants } from "src/app/constants";
 import { GameConnectionService } from "src/app/game-connection.service";
 import { SocketService } from "src/app/websocket/socket.service";
+import { Mode } from "../../../../../common/communication/highscore";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
-import { GameType, IGameRequest } from "../../../../../common/communication/iGameRequest";
+import { IGameRequest } from "../../../../../common/communication/iGameRequest";
 import { ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { ISceneData, ISceneVariables } from "../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../common/communication/message";
@@ -43,7 +44,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
   public  gameID:            string | null;
   public  username:          string | null;
   private scenePath:         string;
-  private gameType:          GameType;
+  private gameMode:          Mode;
 
   public constructor(
     @Inject(GameViewFreeService)    private gameViewService:  GameViewFreeService,
@@ -98,11 +99,11 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   private getSceneVariables(type: string, username: string): void {
-    this.gameType     = JSON.parse(type);
+    this.gameMode     = JSON.parse(type);
     this.gameRequest  = {
         username:     username,
         gameId:       this.activeCard.gameID,
-        type:         this.gameType,
+        type:         this.gameMode,
         mode:         GameMode.free,
     };
     this.handleGameRequest();

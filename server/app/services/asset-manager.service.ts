@@ -8,12 +8,12 @@ const FILE_SAVING_ERROR:        string = "error while saving file";
 
 export class AssetManagerService {
 
-    public createBMP(buffer: Buffer, cardId: number): number {
+    public createBMP(buffer: Buffer, gameID: number): number {
 
-        const path: string = IMAGES_PATH + "/" + cardId + Constants.GENERATED_FILE;
+        const path: string = IMAGES_PATH + "/" + gameID + Constants.GENERATED_FILE;
         this.stockImage(path, buffer);
 
-        return cardId;
+        return gameID;
     }
 
     public stockImage(path: string, buffer: Buffer): void {

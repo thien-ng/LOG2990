@@ -49,7 +49,7 @@ export class WebsocketManager {
 
         socket.on(CCommon.GAME_CONNECTION, () => {
             socketID = socket.id;
-            this.gameManagerService.subscribeSocketID(socketID, socket);
+            this.gameManagerService.subscribeSocketID(socketID, socket, this.io);
         });
 
         socket.on(CCommon.GAME_DISCONNECT, (username: string) => {
@@ -65,7 +65,6 @@ export class WebsocketManager {
                 this.gameManagerService.onPlayerInput(playerInput)
                 // tslint:disable-next-line:no-any _TODO
                 .then((response: IArenaResponse<IOriginalPixelCluster | any>) => {    // _TODO: type de RES_T pour scene 3d
-                    socket.emit(CCommon.ON_ARENA_RESPONSE, response);
                     if (response.status !== Constants.ON_PENALTY) {
                         this.chatManagerService.sendPositionValidationMessage(data.username, userList, response, this.io);
                     }

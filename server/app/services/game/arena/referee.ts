@@ -71,7 +71,7 @@ export class Referee<EVT_T, DIFF_T> {
                 arenaResponse = this.buildArenaResponse(CCommon.ON_SUCCESS, differenceToUpdate);
             }
             if (this.gameIsFinished()) {
-                this.endOfGameRoutine();
+                this.endOfGameRoutine(player);
             }
         } else {
             this.attributePenalty(player);
@@ -149,8 +149,9 @@ export class Referee<EVT_T, DIFF_T> {
         return playerHasReachPointsNeeded || differenceAreAllFound;
     }
 
-    private endOfGameRoutine(): void {
-        this.timer.stopTimer();
+    private endOfGameRoutine(winner: Player): void {
+        const secondsSinceStart: number = this.timer.stopTimer();
+        this.arena.endOfGameRoutine(secondsSinceStart, winner);
     }
 
     private buildArenaResponse(status: string, response?: DIFF_T): IArenaResponse<DIFF_T> {

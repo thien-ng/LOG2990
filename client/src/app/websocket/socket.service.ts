@@ -5,6 +5,7 @@ import { GameMode } from "../../../../common/communication/iCard";
 import { IChat } from "../../../../common/communication/iChat";
 import { IArenaResponse, IOriginalPixelCluster, ISceneObjectUpdate } from "../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../common/constantes/cCommon";
+import { CardManagerService } from "../card/card-manager.service";
 import { Constants } from "../constants";
 import { GameConnectionService } from "../game-connection.service";
 import { ChatViewService } from "../game-view/chat-view/chat-view.service";
@@ -21,6 +22,7 @@ export class SocketService {
   private socket: SocketIOClient.Socket;
 
   public constructor(
+    private cardManagerService:       CardManagerService,
     private chatViewService:          ChatViewService,
     private gameViewSimpleService:    GameViewSimpleService,
     private gameViewFreeService:      GameViewFreeService,
@@ -52,6 +54,10 @@ export class SocketService {
       this.socket.on(CCommon.ON_ARENA_CONNECT, ((arenaID: number) => {
         this.gameConnectionService.updateGameConnected(arenaID);
       }));
+
+      this.socket.on(CCommon.ON_NEW_SCORE, (gameID: number) => {
+        this.cardManagerService.reloadHighscore(gameID);
+      });
     });
   }
   private checkOnGameViewEmit(): void {
