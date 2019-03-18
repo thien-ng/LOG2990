@@ -100,4 +100,12 @@ export class SocketService {
       });
     });
   }
+
+  private openSnackbar(message: string, action: string): void {
+    this.snackBar.open( message, action, {
+      duration:           Constants.SNACKBAR_DURATION,
+      verticalPosition:   "top",
+      panelClass:         ["snackbar"],
+    });
+  }
 }
