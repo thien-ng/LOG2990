@@ -4,17 +4,6 @@
     <mat-card-title>{{card.title}}</mat-card-title>
     <mat-card-subtitle>{{card.subtitle}}</mat-card-subtitle>
     <div class="spacer"></div>
-    <button *ngIf="this.router.url == ADMIN_PATH" type="button" class="button" mat-icon-button [matMenuTriggerFor]="settingsMenu"><mat-icon>more_vert</mat-icon></button>
-    <mat-menu #settingsMenu="matMenu">
-      <button mat-menu-item (click)="onResetButtonClick()">
-        <mat-icon>restore</mat-icon>
-        <span>{{TEXT_RESET_TIMERS}}</span>
-      </button>
-      <button mat-menu-item (click)="onDeleteButtonClick()">
-        <mat-icon>delete</mat-icon>
-        <span>{{TEXT_DELETE}}</span>
-      </button>
-    </mat-menu>
   </mat-card-header>
 
   <app-highscore-display class="highscorePanel" [(isExpanded)]="hsButtonIsClicked"></app-highscore-display>
@@ -23,7 +12,18 @@
 
   <div  class="optionBar">
       <mat-card-actions>
-          <button *ngIf="this.router.url != ADMIN_PATH" class="playButton" mat-button [matMenuTriggerFor]="menu">{{TEXT_PLAY}}</button>
+          <button *ngIf="this.router.url != ADMIN_PATH" class="playButton" mat-button [matMenuTriggerFor]="menu">
+            <mat-icon class="playIcon">play_arrow</mat-icon>
+            <span>{{TEXT_PLAY}}</span>
+          </button>
+          <button *ngIf="this.router.url == ADMIN_PATH" class="playButton" mat-button (click)="onDeleteButtonClick()">
+            <mat-icon >delete</mat-icon>
+            <span>{{TEXT_DELETE}}</span>
+          </button>
+          <button *ngIf="this.router.url == ADMIN_PATH" class="resetButton" mat-button (click)="onResetButtonClick()">
+            <mat-icon class="resetIcon">restore</mat-icon>
+              <span>{{TEXT_RESET_TIMERS}}</span>
+            </button>
 
           <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="onStartGameClick(0)">{{TEXT_PLAY_SINGLE}}</button>
