@@ -152,6 +152,13 @@ export class GameManagerService {
         };
     }
 
+    private generateILobbyEvent(gameID: number, displayText: string): ILobbyEvent {
+        return {
+            gameID: gameID,
+            displayText: displayText,
+        };
+    }
+
     private async create2DArena(users: IUser[], gameId: number): Promise<Message> {
         const arenaInfo: IArenaInfos<I2DInfos> = this.buildArena2DInfos(users, gameId);
         const arena: Arena2D = new Arena2D(arenaInfo, this);
