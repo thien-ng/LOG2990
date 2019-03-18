@@ -19,12 +19,13 @@ import { ThreejsViewService } from "./threejs-view.service";
 })
 export class TheejsViewComponent implements OnChanges {
 
+  public scene:                   THREE.Scene;
+
   private readonly CHEAT_URL:     string = "cheat/";
 
   private CHEAT_KEY_CODE:         string = "t";
   private CHEAT_INTERVAL_TIME:    number = 125;
   private renderer:               THREE.WebGLRenderer;
-  private scene:                  THREE.Scene;
   private isCheating:             boolean;
   private interval:               NodeJS.Timeout;
   private focusChat:              boolean;
