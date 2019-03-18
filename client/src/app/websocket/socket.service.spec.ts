@@ -1,4 +1,3 @@
-import { HttpClient } from "@angular/common/http";
 import { TestBed } from "@angular/core/testing";
 import { Observable } from "rxjs";
 import "rxjs/add/observable/of";
@@ -30,16 +29,12 @@ describe("SocketService", () => {
 
 describe("SocketService tests", () => {
   let socketService:          SocketService;
-  let cardManagerService:     CardManagerService;
   let gameConnectionService:  GameConnectionService;
-  let httpMock:               HttpClient;
 
   beforeEach(() => {
-    httpMock              = mock(HttpClient);
-    cardManagerService    = new CardManagerService(httpMock);
     gameConnectionService = new GameConnectionService();
     socketService         = new SocketService(
-      cardManagerService,
+      mock(CardManagerService),
       mock(ChatViewService),
       mock(GameViewSimpleService),
       mock(TimerService),
