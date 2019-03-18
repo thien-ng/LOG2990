@@ -12,10 +12,15 @@
 
   <div  class="optionBar">
       <mat-card-actions>
-          <button *ngIf="this.router.url != ADMIN_PATH" class="playButton" mat-button [matMenuTriggerFor]="menu">
+          <button *ngIf="this.router.url != ADMIN_PATH" class="playButton" mat-button (click)="onStartGameClick(0)">
             <mat-icon class="playIcon">play_arrow</mat-icon>
             <span>{{TEXT_PLAY}}</span>
           </button>
+          <button *ngIf="this.router.url != ADMIN_PATH" class="playButton" (click)="onStartGameClick(1)" mat-button>
+              <mat-icon class="playIcon">play_arrow</mat-icon>
+              <span>{{TEXT_CREATE}}</span>
+              <!-- <span>{{TEXT_JOIN}}</span> -->
+            </button>
           <button *ngIf="this.router.url == ADMIN_PATH" class="playButton" mat-button (click)="onDeleteButtonClick()">
             <mat-icon >delete</mat-icon>
             <span>{{TEXT_DELETE}}</span>
@@ -24,11 +29,6 @@
             <mat-icon class="resetIcon">restore</mat-icon>
               <span>{{TEXT_RESET_TIMERS}}</span>
             </button>
-
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="onStartGameClick(0)">{{TEXT_PLAY_SINGLE}}</button>
-            <button mat-menu-item (click)="onStartGameClick(1)">{{TEXT_PLAY_MULTI}}</button>
-          </mat-menu>
 
         <button mat-button class="highscoreButton" [ngClass]="hsButtonIsClicked ? 'clicked' : 'unclicked'" (click)="onHSButtonClick()">
           <img class="highscoreIcon"  [src]="TROPHY_IMAGE_URL">
