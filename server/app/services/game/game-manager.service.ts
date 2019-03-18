@@ -62,13 +62,13 @@ export class GameManagerService {
         } else {
             switch (request.mode) {
                 case GameMode.simple:
-                    if (request.type === GameType.multiPlayer) {
+                    if (request.type === Mode.Multiplayer) {
                         return this.verifyLobby(request, user);
                     }
 
                     return this.create2DArena([user], request.gameId);
                 case GameMode.free:
-                    if (request.type === GameType.multiPlayer) {
+                    if (request.type === Mode.Multiplayer) {
                         return this.verifyLobby(request, user);
                     }
 
