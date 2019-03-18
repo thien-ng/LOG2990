@@ -29,12 +29,17 @@ describe("SocketService", () => {
 });
 
 describe("SocketService tests", () => {
-  let socketService: SocketService;
-  let gameConnectionService: GameConnectionService;
+  let socketService:          SocketService;
+  let cardManagerService:     CardManagerService;
+  let gameConnectionService:  GameConnectionService;
+  let httpMock:               HttpClient;
 
   beforeEach(() => {
+    httpMock              = mock(HttpClient);
+    cardManagerService    = new CardManagerService(httpMock);
     gameConnectionService = new GameConnectionService();
-    socketService = new SocketService(
+    socketService         = new SocketService(
+      cardManagerService,
       mock(ChatViewService),
       mock(GameViewSimpleService),
       mock(TimerService),
