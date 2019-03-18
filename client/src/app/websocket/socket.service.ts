@@ -53,7 +53,7 @@ export class SocketService {
         this.gameConnectionService.updateGameConnected(arenaID);
       }));
 
-      this. socket.on(CCommon.ON_NEW_SCORE, (gameID: number) => {
+      this.socket.on(CCommon.ON_NEW_SCORE, (gameID: number) => {
         this.cardManagerService.reloadHighscore(gameID);
       });
     });
