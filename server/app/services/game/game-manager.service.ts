@@ -19,8 +19,8 @@ import { Arena3D } from "./arena/arena3d";
 import { I2DInfos, I3DInfos, IArenaInfos, IPlayerInput } from "./arena/interfaces";
 import { Player } from "./arena/player";
 
-const JOIN_TEXT: string = "JOINDRE";
-const CREATE_TEXT: string = "CRÉER";
+const JOIN_TEXT:                        string = "JOINDRE";
+const CREATE_TEXT:                      string = "CRÉER";
 const REQUEST_ERROR_MESSAGE:            string = "Game mode invalide";
 const TEMP_ROUTINE_ERROR:               string = "error while copying to temp";
 const HIGHSCORE_VALIDATION_ERROR:       string = "Erreur lors de la validation du highscore";
