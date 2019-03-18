@@ -261,9 +261,12 @@ export class GameManagerService {
         return this.arenaID++;
     }
 
-    public subscribeSocketID(socketID: string, socket: SocketIO.Socket, server: SocketIO.Server): void {
-        this.server = server;
+    public subscribeSocketID(socketID: string, socket: SocketIO.Socket): void {
         this.playerList.set(socketID, socket);
+    }
+
+    public setServer(server: SocketIO.Server): void {
+        this.server = server;
     }
 
     public unsubscribeSocketID(socketID: string, username: string): void {
