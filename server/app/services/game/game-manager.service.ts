@@ -88,9 +88,18 @@ export class GameManagerService {
         };
     }
 
-    public cancelRequest(gameID: number): Message {
+    public cancelRequest(gameID: number, isCardDeleted: boolean): Message {
         const successMessage:   Message = this.generateMessage(CCommon.ON_SUCCESS, gameID.toString());
         const errorMessage:     Message = this.generateMessage(CCommon.ON_ERROR, gameID.toString());
+        const lobbyEvent: ILobbyEvent = this.generateILobbyEvent(gameID, CREATE_TEXT);
+        this.server.emit(CCommon.ON_LOBBY, lobbyEvent);
+
+        const lobby: IUser[] | undefined = this.lobby.get(gameID);
+        if (isCardDeleted && lobby !== undefined) {
+            lobby.forEach((user: IUser) => {
+                this.sendMessage(user.socketID, CCommon.ON_CANCEL_REQUEST);
+            });
+        }
 
         return (this.lobby.delete(gameID)) ? successMessage : errorMessage;
     }
