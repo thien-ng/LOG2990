@@ -101,7 +101,12 @@ const modified: Buffer = fs.readFileSync(path.resolve(__dirname, "../../asset/im
 beforeEach(() => {
     socket              = mock(SocketIO);
     userManagerService  = new UserManagerService();
-    gameManagerService  = new GameManagerService(userManagerService);
+    highscoreService    = new HighscoreService();
+    timeManagerService  = new TimeManagerService();
+    chatManagerService  = new ChatManagerService(timeManagerService);
+    cardOperations      = new CardOperations(highscoreService);
+
+    gameManagerService  = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations);
     mockAxios           = new mockAdapter.default(axios);
 });
 
@@ -110,7 +115,7 @@ describe("GameManagerService tests", () => {
 
     it("should add socketID in playerList", () => {
 
-        gameManagerService.subscribeSocketID("dylan", socket);
+        gameManagerService.subscribeSocketID("dylan", socket, socket.server);
         const result: SocketIO.Socket | undefined = gameManagerService.userList.get("dylan");
         chai.expect(result).to.be.equal(socket);
     });
@@ -130,8 +135,8 @@ describe("GameManagerService tests", () => {
 
     it("should remove socketID in playerList", () => {
 
-        gameManagerService.subscribeSocketID("dylan", socket);
-        gameManagerService.subscribeSocketID("michelGagnon", socket);
+        gameManagerService.subscribeSocketID("dylan", socket, socket.server);
+        gameManagerService.subscribeSocketID("michelGagnon", socket, socket.server);
         gameManagerService.unsubscribeSocketID("dylan", "");
         const result: SocketIO.Socket | undefined = gameManagerService.userList.get("michelGagnon");
         chai.expect(result).to.be.equal(socket);
