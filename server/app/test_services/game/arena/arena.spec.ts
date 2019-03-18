@@ -76,6 +76,12 @@ const arenaInfo: IArenaInfos<I2DInfos> = {
 const axios: AxiosInstance = require("axios");
 
 let gameManager:            GameManagerService;
+let userManagerService:     UserManagerService;
+let highscoreService:       HighscoreService;
+let chatManagerService:     ChatManagerService;
+let timeManagerService:     TimeManagerService;
+let cardOperations:         CardOperations;
+
 const testImageOriginale:   Buffer = fs.readFileSync(path.resolve(__dirname, "../../../asset/image/1_original.bmp"));
 
 let mockAxios: any;
@@ -83,9 +89,14 @@ let mockAxios: any;
 describe("Arena tests", () => {
 
     beforeEach(async () => {
-        gameManager = new GameManagerService(new UserManagerService());
-        arena       = new Arena2D(arenaInfo, gameManager);
-        mockAxios   = new MockAdapter.default(axios);
+        userManagerService  = new UserManagerService();
+        highscoreService    = new HighscoreService();
+        timeManagerService  = new TimeManagerService();
+        chatManagerService  = new ChatManagerService(timeManagerService);
+        cardOperations      = new CardOperations(highscoreService);
+        gameManager         = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations);
+        arena               = new Arena2D(arenaInfo, gameManager);
+        mockAxios           = new MockAdapter.default(axios);
         chai.use(spies);
 
         // build arena with images bufferOriginal & bufferDifferences
