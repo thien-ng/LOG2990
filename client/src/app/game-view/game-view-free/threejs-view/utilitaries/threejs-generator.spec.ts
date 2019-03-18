@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { mock } from "ts-mockito";
+import { mock, when } from "ts-mockito";
 import { IAxisValues, ISceneObject, SceneObjectType } from "../../../../../../../common/communication/iSceneObject";
 import { ThreejsGenerator } from "./threejs-generator";
 
@@ -10,12 +10,14 @@ let scene:              THREE.Scene;
 let sceneObject:        ISceneObject;
 let iAxisValues:        IAxisValues;
 let modifiedIdBySceneId:        Map<number, number>;
+let modifiedIntersect:        Map<number, number>;
 let mapColorByOriginalId:     Map<number, string>;
 beforeEach(() => {
     modifiedIdBySceneId     = new Map<number, number>();
+    modifiedIntersect       = new Map<number, number>();
     mapColorByOriginalId    = new Map<number, string>();
     scene                   = mock(THREE.Scene);
-    threejsGenerator        = new ThreejsGenerator(scene, modifiedIdBySceneId, mapColorByOriginalId);
+    threejsGenerator        = new ThreejsGenerator(scene, modifiedIdBySceneId, mapColorByOriginalId, modifiedIntersect);
     iAxisValues             = { x: 1, y: 1, z: 1 };
     sceneObject             = {
         id:         1,
@@ -116,4 +118,30 @@ describe("Tests on ThreejsGenerator", () => {
 
         expect(spiedScene).toHaveBeenCalled();
     });
+
+    it("should remove an object from scene", () => {
+        modifiedIdBySceneId.set(1, 1);
+        const spiedScene: any   = spyOn<any>(scene, "remove");
+        const objectFound: any = new THREE.Object3D();
+
+        when(scene.getObjectById(1)).thenReturn(objectFound);
+
+        threejsGenerator.deleteObject(1);
+
+        expect(spiedScene).toHaveBeenCalled();
+    });
+
+    it("should change color of an object from scene", () => {
+        mapColorByOriginalId.set(1, "#FFFFFF");
+        modifiedIdBySceneId.set(1, 1);
+        const spiedMap: any   = spyOn<any>(mapColorByOriginalId, "set");
+        const objectFound: any = new THREE.Object3D();
+
+        when(scene.getObjectById(1)).thenReturn(objectFound);
+
+        threejsGenerator.changeObjectColor(1, "#FFFFFF");
+
+        expect(spiedMap).toHaveBeenCalled();
+    });
+
 });

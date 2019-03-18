@@ -8,6 +8,7 @@ import { DifferenceCounterService } from "../game-view/difference-counter/differ
 import { GameViewSimpleService } from "../game-view/game-view-simple/game-view-simple.service";
 import { TimerService } from "../game-view/timer/timer.service";
 import { SocketService } from "./socket.service";
+import { GameViewFreeService } from "../game-view/game-view-free/game-view-free.service";
 
 describe("SocketService", () => {
   beforeEach(() => TestBed.configureTestingModule({}));
@@ -27,6 +28,7 @@ describe("SocketService tests", () => {
     socketService = new SocketService(
       mock(ChatViewService),
       mock(GameViewSimpleService),
+      mock(GameViewFreeService),
       mock(TimerService),
       mock(DifferenceCounterService),
       gameConnectionService,

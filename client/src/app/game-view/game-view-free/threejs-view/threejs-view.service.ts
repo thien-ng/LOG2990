@@ -134,6 +134,9 @@ export class ThreejsViewService {
       case ActionType.CHANGE_COLOR:
         this.threejsGenerator.changeObjectColor(object.sceneObject.id, object.sceneObject.color);
         break;
+      
+      default:
+        break;
     }
   }
 
