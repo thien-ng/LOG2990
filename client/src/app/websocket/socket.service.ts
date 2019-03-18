@@ -49,6 +49,9 @@ export class SocketService {
         this.cardManagerService.reloadHighscore(gameID);
       });
 
+      this.socket.on(CCommon.ON_LOBBY, (lobbyEvent: ILobbyEvent) => {
+        this.cardManagerService.reloadButton(lobbyEvent);
+      });
 
       this.socket.on(CCommon.ON_CANCEL_REQUEST, () => {
         this.openSnackbar(Constants.CARD_DELETED_MESSAGE, Constants.SNACKBAR_ACKNOWLEDGE);
@@ -58,27 +61,20 @@ export class SocketService {
     });
   }
 
-      this.socket.on(CCommon.ON_TIMER_UPDATE, (data: number) => {
-        this.timerService.timeFormat(data);
-      });
-
-      this.socket.on(CCommon.ON_POINT_ADDED, ((newPoints: number) => {
-        this.differenceCounterService.updateCounter(newPoints);
-      }));
-
-      this.socket.on(CCommon.ON_ARENA_CONNECT, ((arenaID: number) => {
-        this.gameConnectionService.updateGameConnected(arenaID);
-      }));
-
-      this.socket.on(CCommon.ON_NEW_SCORE, (gameID: number) => {
-        this.cardManagerService.reloadHighscore(gameID);
-      });
-
-      this.socket.on(CCommon.ON_LOBBY, (lobbyEvent: ILobbyEvent) => {
-        
-      })
+  private initArenaListeners(): void {
+    this.socket.on(CCommon.ON_TIMER_UPDATE, (data: number) => {
+      this.timerService.timeFormat(data);
     });
+
+    this.socket.on(CCommon.ON_POINT_ADDED, ((newPoints: number) => {
+      this.differenceCounterService.updateCounter(newPoints);
+    }));
+
+    this.socket.on(CCommon.ON_ARENA_CONNECT, ((arenaID: number) => {
+      this.gameConnectionService.updateGameConnected(arenaID);
+    }));
   }
+
   private initGameViewListeners(): void {
     // tslint:disable-next-line:no-any _TODO
     this.socket.on(CCommon.ON_ARENA_RESPONSE, (data: IArenaResponse<any>) => {
