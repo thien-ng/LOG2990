@@ -8,23 +8,31 @@ import * as path from "path";
 import SocketIO = require("socket.io");
 import { mock, verify } from "ts-mockito";
 import { GameMode } from "../../../../common/communication/iCard";
-import { GameType, IGameRequest } from "../../../../common/communication/iGameRequest";
+import { IGameRequest } from "../../../../common/communication/iGameRequest";
 import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../common/communication/iGameplay";
 import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../../constants";
+import { CardOperations } from "../../services/card-operations.service";
+import { ChatManagerService } from "../../services/chat-manager.service";
 import { Arena2D } from "../../services/game/arena/arena2d";
 import { I2DInfos, IArenaInfos, IPlayerInput } from "../../services/game/arena/interfaces";
 import { GameManagerService } from "../../services/game/game-manager.service";
+import { HighscoreService } from "../../services/highscore.service";
 import { Mode } from "../../services/highscore/utilities/interfaces";
+import { TimeManagerService } from "../../services/time-manager.service";
 import { UserManagerService } from "../../services/user-manager.service";
-// import sinon = require("sinon");
 
 // tslint:disable no-magic-numbers no-any await-promise no-floating-promises max-file-line-count
 
 let gameManagerService: GameManagerService;
 let userManagerService: UserManagerService;
+let highscoreService:   HighscoreService;
+let chatManagerService: ChatManagerService;
+let timeManagerService: TimeManagerService;
+let cardOperations:     CardOperations;
+
 const mockAdapter:  any = require("axios-mock-adapter");
 const axios:        any = require("axios");
 let mockAxios:      any;
