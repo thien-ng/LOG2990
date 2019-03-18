@@ -8,22 +8,31 @@ import * as path from "path";
 import SocketIO = require("socket.io");
 import { mock, verify } from "ts-mockito";
 import { GameMode } from "../../../../common/communication/iCard";
-import { GameType, IGameRequest } from "../../../../common/communication/iGameRequest";
+import { IGameRequest } from "../../../../common/communication/iGameRequest";
 import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../common/communication/iGameplay";
 import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../../constants";
+import { CardOperations } from "../../services/card-operations.service";
+import { ChatManagerService } from "../../services/chat-manager.service";
 import { Arena2D } from "../../services/game/arena/arena2d";
 import { I2DInfos, IArenaInfos, IPlayerInput } from "../../services/game/arena/interfaces";
 import { GameManagerService } from "../../services/game/game-manager.service";
+import { HighscoreService } from "../../services/highscore.service";
+import { Mode } from "../../services/highscore/utilities/interfaces";
+import { TimeManagerService } from "../../services/time-manager.service";
 import { UserManagerService } from "../../services/user-manager.service";
-// import sinon = require("sinon");
 
 // tslint:disable no-magic-numbers no-any await-promise no-floating-promises max-file-line-count
 
 let gameManagerService: GameManagerService;
 let userManagerService: UserManagerService;
+let highscoreService:   HighscoreService;
+let chatManagerService: ChatManagerService;
+let timeManagerService: TimeManagerService;
+let cardOperations:     CardOperations;
+
 const mockAdapter:  any = require("axios-mock-adapter");
 const axios:        any = require("axios");
 let mockAxios:      any;
@@ -31,35 +40,35 @@ let mockAxios:      any;
 const request2DSimple: IGameRequest = {
     username:   "Frank",
     gameId:     1,
-    type:       GameType.singlePlayer,
+    type:       Mode.Singleplayer,
     mode:       GameMode.simple,
 };
 
 const request3DSimple: IGameRequest = {
     username:   "Franky",
     gameId:     2,
-    type:       GameType.singlePlayer,
+    type:       Mode.Singleplayer,
     mode:       GameMode.free,
 };
 
 const request2DMulti: IGameRequest = {
     username:   "Frank",
     gameId:     1,
-    type:       GameType.multiPlayer,
+    type:       Mode.Multiplayer,
     mode:       GameMode.simple,
 };
 
 const request3DMulti: IGameRequest = {
     username:   "Franky",
     gameId:     2,
-    type:       GameType.multiPlayer,
+    type:       Mode.Multiplayer,
     mode:       GameMode.free,
 };
 
 const invalidRequest: IGameRequest = {
     username:   "Frankette",
     gameId:     103,
-    type:       GameType.singlePlayer,
+    type:       Mode.Singleplayer,
     mode:       GameMode.invalid,
 };
 
@@ -92,7 +101,12 @@ const modified: Buffer = fs.readFileSync(path.resolve(__dirname, "../../asset/im
 beforeEach(() => {
     socket              = mock(SocketIO);
     userManagerService  = new UserManagerService();
-    gameManagerService  = new GameManagerService(userManagerService);
+    highscoreService    = new HighscoreService();
+    timeManagerService  = new TimeManagerService();
+    chatManagerService  = new ChatManagerService(timeManagerService);
+    cardOperations      = new CardOperations(highscoreService);
+
+    gameManagerService  = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations);
     mockAxios           = new mockAdapter.default(axios);
 });
 
@@ -101,7 +115,7 @@ describe("GameManagerService tests", () => {
 
     it("should add socketID in playerList", () => {
 
-        gameManagerService.subscribeSocketID("dylan", socket);
+        gameManagerService.subscribeSocketID("dylan", socket, socket.server);
         const result: SocketIO.Socket | undefined = gameManagerService.userList.get("dylan");
         chai.expect(result).to.be.equal(socket);
     });
@@ -121,8 +135,8 @@ describe("GameManagerService tests", () => {
 
     it("should remove socketID in playerList", () => {
 
-        gameManagerService.subscribeSocketID("dylan", socket);
-        gameManagerService.subscribeSocketID("michelGagnon", socket);
+        gameManagerService.subscribeSocketID("dylan", socket, socket.server);
+        gameManagerService.subscribeSocketID("michelGagnon", socket, socket.server);
         gameManagerService.unsubscribeSocketID("dylan", "");
         const result: SocketIO.Socket | undefined = gameManagerService.userList.get("michelGagnon");
         chai.expect(result).to.be.equal(socket);
@@ -313,8 +327,8 @@ describe("GameManagerService tests", () => {
     // });
 
     it("Should send message with socket", async () => {
-        gameManagerService = new GameManagerService(userManagerService);
-        gameManagerService.subscribeSocketID("socketID", socket);
+        gameManagerService = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations);
+        gameManagerService.subscribeSocketID("socketID", socket, socket.server);
         gameManagerService.sendMessage("socketID", "onEvent", 1);
         verify(socket.emit("onEvent", 1)).atLeast(0);
     });
@@ -332,7 +346,7 @@ describe("GameManagerService tests", () => {
         const request: IGameRequest = {
             username:   "Franky",
             gameId:     1,
-            type:       GameType.multiPlayer,
+            type:       Mode.Multiplayer,
             mode:       GameMode.simple,
         };
         chai.spy.on(gameManagerService, ["tempRoutine2d"], () => {return; });
@@ -349,7 +363,7 @@ describe("GameManagerService tests", () => {
         const request: IGameRequest = {
             username:   "Frank",
             gameId:     2,
-            type:       GameType.multiPlayer,
+            type:       Mode.Multiplayer,
             mode:       GameMode.free,
         };
         chai.spy.on(gameManagerService, ["tempRoutine3d"], () => {return; });

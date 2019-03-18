@@ -20,12 +20,12 @@ describe("CardManager.ServiceService", () => {
 describe("Card-manager tests", () => {
   let cardManagerService: CardManagerService;
   let http:               HttpClient;
-  let cardId:             number;
+  let gameID:             number;
   let gameMode:           GameMode;
 
   beforeEach(() => {
     http                = mock(HttpClient);
-    cardId              = 1;
+    gameID              = 1;
     gameMode            = GameMode.simple;
     cardManagerService  = new CardManagerService(http);
   });
@@ -38,7 +38,27 @@ describe("Card-manager tests", () => {
 
   it("should call http.delete when calling removeCard()", () => {
     http.delete = jasmine.createSpy("delete spy");
-    cardManagerService.removeCard(cardId, gameMode);
+    cardManagerService.removeCard(gameID, gameMode);
     expect(http.delete).toHaveBeenCalled();
+  });
+
+  it("should get the gameID when a new highscore is made", () => {
+    cardManagerService.getHighscoreListener().subscribe((id: number) => {
+      expect(id).toBe(1);
+    });
+
+    cardManagerService.reloadHighscore(1);
+  });
+
+  it("should be notified when a card is created", () => {
+    let counter: number = 0;
+    cardManagerService.cardCreatedObservable.subscribe((value: boolean) => {
+      if (counter !== 0) {
+        expect(value).toBe(true);
+      }
+      counter++;
+    });
+
+    cardManagerService.updateCards(true);
   });
 });

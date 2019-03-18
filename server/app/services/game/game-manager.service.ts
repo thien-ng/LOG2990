@@ -1,6 +1,7 @@
 import { inject, injectable } from "inversify";
+import { HighscoreValidationResponse, Mode, Time } from "../../../../common/communication/highscore";
 import { GameMode } from "../../../../common/communication/iCard";
-import { GameType, IGameRequest } from "../../../../common/communication/iGameRequest";
+import { IGameRequest } from "../../../../common/communication/iGameRequest";
 import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../common/communication/iGameplay";
 import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
@@ -8,6 +9,9 @@ import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../../constants";
 import Types from "../../types";
 import { AssetManagerService } from "../asset-manager.service";
+import { CardOperations } from "../card-operations.service";
+import { ChatManagerService } from "../chat-manager.service";
+import { HighscoreService } from "../highscore.service";
 import { UserManagerService } from "../user-manager.service";
 import { Arena } from "./arena/arena";
 import { Arena2D } from "./arena/arena2d";
@@ -17,6 +21,7 @@ import { Player } from "./arena/player";
 
 const REQUEST_ERROR_MESSAGE:            string = "Game mode invalide";
 const TEMP_ROUTINE_ERROR:               string = "error while copying to temp";
+const HIGHSCORE_VALIDATION_ERROR:       string = "Erreur lors de la validation du highscore";
 const ARENA_START_ID:                   number = 1000;
 const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
 
@@ -26,6 +31,7 @@ const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey:
 export class GameManagerService {
 
     private arenaID:            number;
+    private server:             SocketIO.Server;
     private assetManager:       AssetManagerService;
     private playerList:         Map<string, SocketIO.Socket>;
     private arenas:             Map<number, Arena<any, any, any, any>>;
@@ -33,7 +39,12 @@ export class GameManagerService {
     private countByGameId:      Map<number, number>;
     private lobby:              Map<number, IUser[]>;
 
-    public constructor(@inject(Types.UserManagerService) private userManagerService: UserManagerService) {
+    public constructor(
+        @inject(Types.UserManagerService)   private userManagerService: UserManagerService,
+        @inject(Types.HighscoreService)     private highscoreService:   HighscoreService,
+        @inject(Types.ChatManagerService)   private chatManagerService: ChatManagerService,
+        @inject(Types.CardOperations)       private cardOperations:     CardOperations,
+        ) {
         this.arenaID            = ARENA_START_ID;
         this.assetManager       = new AssetManagerService();
         this.playerList         = new Map<string, SocketIO.Socket>();
@@ -51,13 +62,13 @@ export class GameManagerService {
         } else {
             switch (request.mode) {
                 case GameMode.simple:
-                    if (request.type === GameType.multiPlayer) {
+                    if (request.type === Mode.Multiplayer) {
                         return this.verifyLobby(request, user);
                     }
 
                     return this.create2DArena([user], request.gameId);
                 case GameMode.free:
-                    if (request.type === GameType.multiPlayer) {
+                    if (request.type === Mode.Multiplayer) {
                         return this.verifyLobby(request, user);
                     }
 
@@ -76,11 +87,10 @@ export class GameManagerService {
     }
 
     public cancelRequest(gameID: number): Message {
-        if (this.lobby.delete(gameID)) {
-            return this.generateMessage(CCommon.ON_SUCCESS, gameID.toString());
-        }
+        const successMessage:   Message = this.generateMessage(CCommon.ON_SUCCESS, gameID.toString());
+        const errorMessage:     Message = this.generateMessage(CCommon.ON_ERROR, gameID.toString());
 
-        return this.generateMessage(CCommon.ON_ERROR, gameID.toString());
+        return (this.lobby.delete(gameID)) ? successMessage : errorMessage;
     }
 
     private async verifyLobby(request: IGameRequest, user: IUser): Promise<Message> {
@@ -210,7 +220,8 @@ export class GameManagerService {
         return this.arenaID++;
     }
 
-    public subscribeSocketID(socketID: string, socket: SocketIO.Socket): void {
+    public subscribeSocketID(socketID: string, socket: SocketIO.Socket, server: SocketIO.Server): void {
+        this.server = server;
         this.playerList.set(socketID, socket);
     }
 
@@ -256,7 +267,7 @@ export class GameManagerService {
         return this.playerList;
     }
 
-    public sendMessage(socketID: string, messageType: string, message: number): void {
+    public sendMessage(socketID: string, messageType: string, message: number | IArenaResponse<IOriginalPixelCluster>): void {
         const playerSocket: SocketIO.Socket | undefined = this.playerList.get(socketID);
         if (playerSocket !== undefined) {
             playerSocket.emit(messageType, message);
@@ -295,6 +306,26 @@ export class GameManagerService {
         }
 
         return users;
+    }
+
+    public endOfGameRoutine(newTime: Time, mode: Mode, arenaInfo: IArenaInfos<I2DInfos | I3DInfos>, arenaType: GameMode): void {
+        const gameID: number | undefined = this.gameIdByArenaId.get(arenaInfo.arenaId);
+        if (gameID === undefined) {
+            return;
+        }
+
+        const title: string = this.cardOperations.getCardById(gameID.toString(), arenaType).title;
+
+        this.highscoreService.updateHighscore(newTime, mode, gameID)
+        .then((answer: HighscoreValidationResponse) => {
+            if (answer.status === CCommon.ON_SUCCESS && answer.isNewHighscore) {
+                this.chatManagerService.sendNewHighScoreMessage(newTime.username, answer.index, title, mode, this.server);
+                this.server.emit(CCommon.ON_NEW_SCORE, gameID);
+                this.deleteArena(arenaInfo);
+            }
+        }).catch(() => {
+            this.server.emit(CCommon.ON_ERROR, HIGHSCORE_VALIDATION_ERROR);
+        });
     }
     // _TODO: OTER CA APRES REFACTOR
 // tslint:disable-next-line:max-file-line-count

@@ -62,15 +62,15 @@ export class CardManagerService {
     }
 
     public freeCardCreationRoutine(body: ISceneMessage): Message {
-        const cardId:       number = this.generateSceneId();
-        const sceneImage:   string = "/" + cardId + Constants.SCENE_SNAPSHOT;
-        const scenesPath:   string = Constants.SCENE_PATH + "/" + cardId + CCommon.SCENE_FILE;
+        const gameID:       number = this.generateSceneId();
+        const sceneImage:   string = "/" + gameID + Constants.SCENE_SNAPSHOT;
+        const scenesPath:   string = Constants.SCENE_PATH + "/" + gameID + CCommon.SCENE_FILE;
 
         this.imageManagerService.saveImage(Constants.IMAGES_PATH + sceneImage, body.image);
         this.saveSceneJson(body.iSceneVariablesMessage, scenesPath);
 
         const cardReceived: ICard = {
-            gameID:         cardId,
+            gameID:         gameID,
             gamemode:       GameMode.free,
             title:          body.iSceneVariablesMessage.originalScene.gameName,
             subtitle:       body.iSceneVariablesMessage.originalScene.gameName,
@@ -105,15 +105,15 @@ export class CardManagerService {
         if (this.isMessage(result)) {
             return result;
         } else {
-            const cardId:               number = this.generateId();
-            const originalImagePath:    string = "/" + cardId + CCommon.ORIGINAL_FILE;
-            const modifiedImagePath:    string = "/" + cardId + CCommon.MODIFIED_FILE;
+            const gameID:               number = this.generateId();
+            const originalImagePath:    string = "/" + gameID + CCommon.ORIGINAL_FILE;
+            const modifiedImagePath:    string = "/" + gameID + CCommon.MODIFIED_FILE;
             this.imageManagerService.stockImage(Constants.IMAGES_PATH + originalImagePath, this.originalImageRequest);
             this.imageManagerService.stockImage(Constants.IMAGES_PATH + modifiedImagePath, this.modifiedImageRequest);
-            this.imageManagerService.createBMP(result, cardId);
+            this.imageManagerService.createBMP(result, gameID);
 
             const cardReceived: ICard = {
-                    gameID:         cardId,
+                    gameID:         gameID,
                     title:          cardTitle,
                     subtitle:       cardTitle,
                     avatarImageUrl: CCommon.BASE_URL + "/image" + originalImagePath,

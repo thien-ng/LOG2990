@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { DialogPosition, MatDialog, MatDialogConfig, MatDialogRef, MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
+import { Mode } from "../../../../common/communication/highscore";
 import { ICard } from "../../../../common/communication/iCard";
-import { GameType } from "../../../../common/communication/iGameRequest";
 import { Constants } from "../constants";
 import { GameModeService } from "../game-list-container/game-mode.service";
 import { HighscoreService } from "../highscore-display/highscore.service";
@@ -84,7 +84,7 @@ export class CardComponent {
     this.highscoreService.getHighscore(this.card.gameID);
   }
 
-  public onStartGameClick(type: GameType): void {
+  public onStartGameClick(type: Mode): void {
     const gameModeComparison: boolean = this.card.gamemode === Constants.GAMEMODE_SIMPLE;
     const gameModePath:       string  = gameModeComparison ? Constants.GAME_VIEW_SIMPLE_PATH : Constants.GAME_VIEW_FREE_PATH;
 

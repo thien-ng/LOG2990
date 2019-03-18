@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { GameMode } from "../../../../common/communication/iCard";
 import { ICardLists } from "../../../../common/communication/iCardLists";
 import { Constants } from "../constants";
@@ -11,10 +11,12 @@ import { Constants } from "../constants";
 })
 export class CardManagerService {
 
-  private cardCreated:          BehaviorSubject<boolean>;
-  public cardCreatedObservable: Observable<boolean>;
+  private highscoreUpdated:       Subject<number>;
+  private cardCreated:            BehaviorSubject<boolean>;
+  public  cardCreatedObservable:  Observable<boolean>;
 
   public constructor(private httpClient: HttpClient) {
+    this.highscoreUpdated = new Subject<number>();
     this.cardCreated = new BehaviorSubject<boolean>(false);
     this.cardCreatedObservable = this.cardCreated.asObservable();
     }
@@ -23,8 +25,16 @@ export class CardManagerService {
     return this.httpClient.get<ICardLists>(Constants.CARDS_PATH);
   }
 
-  public removeCard(cardId: number, mode: GameMode): Observable<string> {
-    return this.httpClient.delete<string>(Constants.REMOVE_CARD_PATH + "/" + mode + "/" + cardId);
+  public removeCard(gameID: number, mode: GameMode): Observable<string> {
+    return this.httpClient.delete<string>(Constants.REMOVE_CARD_PATH + "/" + mode + "/" + gameID);
+  }
+
+  public getHighscoreListener(): Observable<number> {
+    return this.highscoreUpdated.asObservable();
+  }
+
+  public reloadHighscore(gameID: number): void {
+    this.highscoreUpdated.next(gameID);
   }
 
   public updateCards(value: boolean): void {

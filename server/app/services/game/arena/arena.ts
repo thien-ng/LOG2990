@@ -1,9 +1,11 @@
 import { AxiosInstance, AxiosResponse } from "axios";
 import { inject } from "inversify";
+import { Time } from "../../../../../common/communication/highscore";
 import { GameMode } from "../../../../../common/communication/iCard";
 import { IArenaResponse } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
 import Types from "../../../types";
+import { Mode } from "../../highscore/utilities/interfaces";
 import { GameManagerService } from "../game-manager.service";
 import { I2DInfos, I3DInfos, IArenaInfos, IHitConfirmation } from "./interfaces";
 import { Player } from "./player";
@@ -21,6 +23,7 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
     protected readonly ERROR_ON_HTTPGET:  string = "Didn't succeed to get image buffer from URL given. File: arena.ts.";
     protected readonly ON_FAILED_CLICK:   string = "onFailedClick";
     protected readonly ON_CLICK:          string = "onClick";
+    protected readonly ONE_PLAYER:        number = 1;
     protected players:                    Player[];
     protected referee:                    Referee<any, any>;
     protected originalElements:           Map<number, DIFF_T>; // _TODO: A BOUGER DANS LES ARENA 2D et 3D
@@ -68,6 +71,15 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
             this.referee.timer.stopTimer();
             this.gameManagerService.deleteArena(this.arenaInfos);
         }
+    }
+
+    public endOfGameRoutine(time: number, winner: Player): void {
+        const mode: Mode = (this.players.length === this.ONE_PLAYER) ? Mode.Singleplayer : Mode.Multiplayer;
+        const newTime: Time = {
+            username: winner.username,
+            time: time,
+        };
+        this.gameManagerService.endOfGameRoutine(newTime, mode, this.arenaInfos, this.ARENA_TYPE);
     }
 
     protected async getDifferenceDataFromURL(differenceDataURL: string): Promise<Buffer> {

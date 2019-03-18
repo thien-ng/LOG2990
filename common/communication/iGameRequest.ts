@@ -1,13 +1,10 @@
 import { GameMode } from "./iCard";
+import { Mode } from "./highscore";
 
 export interface IGameRequest {
     username:   string;
     gameId:     number;
-    type:       GameType;
+    type:       Mode;
     mode:       GameMode;
 }
 
-export enum GameType {
-    singlePlayer,
-    multiPlayer,
-}
