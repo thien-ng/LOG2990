@@ -1,15 +1,17 @@
 import { Injectable } from "@angular/core";
 import * as THREE from "three";
+import { ActionType, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Constants } from "../../../constants";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
-import { ActionType, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 
 @Injectable(
   {providedIn: "root"},
 )
 export class ThreejsViewService {
+
+  private MULTIPLICATOR:          number = 2;
 
   private scene:                  THREE.Scene;
   private camera:                 THREE.PerspectiveCamera;
@@ -98,8 +100,8 @@ export class ThreejsViewService {
   public detectObject(mouseEvent: MouseEvent): number {
     mouseEvent.preventDefault();
 
-    this.mouse.x = ( mouseEvent.offsetX / this.renderer.domElement.clientWidth ) * 2 - 1;
-    this.mouse.y = - ( mouseEvent.offsetY / this.renderer.domElement.clientHeight ) * 2 + 1;
+    this.mouse.x = ( mouseEvent.offsetX / this.renderer.domElement.clientWidth ) * this.MULTIPLICATOR - 1;
+    this.mouse.y = - ( mouseEvent.offsetY / this.renderer.domElement.clientHeight ) * this.MULTIPLICATOR + 1;
     this.mouse.z = 0;
 
     this.raycaster.setFromCamera(this.mouse, this.camera);
@@ -116,7 +118,7 @@ export class ThreejsViewService {
   }
 
   public updateSceneWithNewObject(object: ISceneObjectUpdate): void {
-  
+
     if (!object.sceneObject) {
       return;
     }
@@ -126,7 +128,7 @@ export class ThreejsViewService {
       case ActionType.ADD:
         this.threejsGenerator.initiateObject(object.sceneObject);
         break;
-      
+
       case ActionType.DELETE:
         this.threejsGenerator.deleteObject(object.sceneObject.id);
         break;
@@ -134,7 +136,7 @@ export class ThreejsViewService {
       case ActionType.CHANGE_COLOR:
         this.threejsGenerator.changeObjectColor(object.sceneObject.id, object.sceneObject.color);
         break;
-      
+
       default:
         break;
     }

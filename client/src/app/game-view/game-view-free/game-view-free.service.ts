@@ -1,7 +1,7 @@
-import { Injectable, ElementRef } from "@angular/core";
+import { ElementRef, Injectable } from "@angular/core";
+import { GameConnectionService } from "src/app/game-connection.service";
 import { IArenaResponse, ISceneObjectUpdate } from "../../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../../common/constantes/cCommon";
-import { GameConnectionService } from "src/app/game-connection.service";
 
 @Injectable({
   providedIn: "root",
@@ -16,7 +16,7 @@ export class GameViewFreeService {
   public onArenaResponse(data: IArenaResponse<ISceneObjectUpdate>): void {
 
     if (data.status === CCommon.ON_SUCCESS) {
-      
+
       this.playSuccessSound();
       if (data.response) {
         this.gameConnectionService.updateObjectToUpdate(data.response);

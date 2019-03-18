@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
 import { first } from "rxjs/operators";
@@ -8,10 +8,10 @@ import { GameConnectionService } from "src/app/game-connection.service";
 import { SocketService } from "src/app/websocket/socket.service";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { GameType, IGameRequest } from "../../../../../common/communication/iGameRequest";
+import { ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { ISceneData, ISceneVariables } from "../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../common/communication/message";
 import { CCommon } from "../../../../../common/constantes/cCommon";
-import { ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { GameViewFreeService } from "./game-view-free.service";
 
 const GAMEMODE_KEY: string = "gamemode";
@@ -68,24 +68,25 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
         });
       });
     }
-    
-    public ngOnInit(): void {
-      this.gameID = this.route.snapshot.paramMap.get("id");
-      const username: string | null = sessionStorage.getItem(Constants.USERNAME_KEY);
-      if (this.gameID !== null && username !== null) {
-        this.createGameRequest(this.gameID, username);  
-      }
+
+  public ngOnInit(): void {
+    this.gameID = this.route.snapshot.paramMap.get("id");
+    const username: string | null = sessionStorage.getItem(Constants.USERNAME_KEY);
+    if (this.gameID !== null && username !== null) {
+      this.createGameRequest(this.gameID, username);
     }
-    
-    public ngAfterViewInit(): void {
-      this.isLoading = true;
-    }
-    
-    private createGameRequest(gameID: string, username: string): void {
-      this.httpClient.get(Constants.PATH_TO_GET_CARD + gameID + "/" + GameMode.free).subscribe((response: ICard) => {
-        this.activeCard = response;
-        this.scenePath  = CCommon.BASE_URL + "/temp/" + this.activeCard.gameID + CCommon.SCENE_FILE;
-        this.canvasRoutine();
+  }
+
+  public ngAfterViewInit(): void {
+    this.isLoading = true;
+  }
+
+  private createGameRequest(gameID: string, username: string): void {
+
+    this.httpClient.get(Constants.PATH_TO_GET_CARD + gameID + "/" + GameMode.free).subscribe((response: ICard) => {
+      this.activeCard = response;
+      this.scenePath  = CCommon.BASE_URL + "/temp/" + this.activeCard.gameID + CCommon.SCENE_FILE;
+      this.canvasRoutine();
 
       const type: string | null = this.route.snapshot.paramMap.get(GAMEMODE_KEY);
       if (type !== null) {

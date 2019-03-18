@@ -1,7 +1,7 @@
 import { TestBed } from "@angular/core/testing";
 
+import { ActionType, ISceneObjectUpdate } from "../../../common/communication/iGameplay";
 import { GameConnectionService } from "./game-connection.service";
-import { ISceneObjectUpdate, ActionType } from "../../../common/communication/iGameplay";
 
 describe("GameConnectionService", () => {
   beforeEach(() => TestBed.configureTestingModule({}));

@@ -5,10 +5,10 @@ import { mock } from "ts-mockito";
 import { GameConnectionService } from "../game-connection.service";
 import { ChatViewService } from "../game-view/chat-view/chat-view.service";
 import { DifferenceCounterService } from "../game-view/difference-counter/difference-counter.service";
+import { GameViewFreeService } from "../game-view/game-view-free/game-view-free.service";
 import { GameViewSimpleService } from "../game-view/game-view-simple/game-view-simple.service";
 import { TimerService } from "../game-view/timer/timer.service";
 import { SocketService } from "./socket.service";
-import { GameViewFreeService } from "../game-view/game-view-free/game-view-free.service";
 
 describe("SocketService", () => {
   beforeEach(() => TestBed.configureTestingModule({}));

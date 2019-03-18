@@ -126,7 +126,7 @@ export class ThreejsGenerator {
   }
 
   private createObjectColor(colorHex: string): THREE.MeshBasicMaterial {
-    
+
     return new THREE.MeshPhongMaterial( {color: colorHex} );
   }
 

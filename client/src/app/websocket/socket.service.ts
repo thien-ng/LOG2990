@@ -3,15 +3,15 @@ import { Observable } from "rxjs";
 import * as io from "socket.io-client";
 import { GameMode } from "../../../../common/communication/iCard";
 import { IChat } from "../../../../common/communication/iChat";
-import { IArenaResponse } from "../../../../common/communication/iGameplay";
+import { IArenaResponse, IOriginalPixelCluster, ISceneObjectUpdate } from "../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../constants";
 import { GameConnectionService } from "../game-connection.service";
 import { ChatViewService } from "../game-view/chat-view/chat-view.service";
 import { DifferenceCounterService } from "../game-view/difference-counter/difference-counter.service";
+import { GameViewFreeService } from "../game-view/game-view-free/game-view-free.service";
 import { GameViewSimpleService } from "../game-view/game-view-simple/game-view-simple.service";
 import { TimerService } from "../game-view/timer/timer.service";
-import { GameViewFreeService } from "../game-view/game-view-free/game-view-free.service";
 
 @Injectable({
   providedIn: "root",
@@ -56,29 +56,29 @@ export class SocketService {
   }
   private checkOnGameViewEmit(): void {
     // tslint:disable-next-line:no-any _TODO
-    this.socket.on(CCommon.ON_ARENA_RESPONSE, (data: IArenaResponse<any>) => {
+    this.socket.on(CCommon.ON_ARENA_RESPONSE, (data: IArenaResponse<IOriginalPixelCluster | ISceneObjectUpdate>) => {
       this.emitOnArenaResponse(data);
     });
     // tslint:disable-next-line:no-any _TODO
-    this.socket.on(CCommon.ON_PENALTY_ON, (data: IArenaResponse<any>) => {
+    this.socket.on(CCommon.ON_PENALTY_ON, (data: IArenaResponse<IOriginalPixelCluster | ISceneObjectUpdate>) => {
       this.emitOnPenaltyOn(data);
     });
     // tslint:disable-next-line:no-any _TODO
-    this.socket.on(CCommon.ON_PENALTY_OFF, (data: IArenaResponse<any>) => {
+    this.socket.on(CCommon.ON_PENALTY_OFF, (data: IArenaResponse<IOriginalPixelCluster | ISceneObjectUpdate>) => {
       this.emitOnPenaltyOff(data);
     });
   }
 
-  // tslint:disable-next-line:no-any _TODO
-  private emitOnArenaResponse(arenaResponse: IArenaResponse<any>): void {
+  private emitOnArenaResponse(arenaResponse: IArenaResponse<IOriginalPixelCluster | ISceneObjectUpdate>): void {
 
     if (arenaResponse.arenaType === GameMode.simple) {
-      this.gameViewSimpleService.onArenaResponse(arenaResponse);
+      this.gameViewSimpleService.onArenaResponse(arenaResponse as IArenaResponse<IOriginalPixelCluster>);
     } else {
-      this.gameViewFreeService.onArenaResponse(arenaResponse);
+      this.gameViewFreeService.onArenaResponse(arenaResponse as IArenaResponse<ISceneObjectUpdate>);
     }
   }
 
+  // tslint:disable-next-line:no-any _TODO
   private emitOnPenaltyOn(arenaResponse: IArenaResponse<any>): void {
 
     this.gameViewFreeService.wrongClickRoutine();
@@ -90,6 +90,7 @@ export class SocketService {
     // }
   }
 
+  // tslint:disable-next-line:no-any _TODO
   private emitOnPenaltyOff(arenaResponse: IArenaResponse<any>): void {
 
     // this.gameViewFreeService.enableClickRoutine();

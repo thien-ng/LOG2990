@@ -1,10 +1,10 @@
 import { inject, TestBed } from "@angular/core/testing";
 import * as THREE from "three";
 import { anyNumber, mock, when } from "ts-mockito";
+import { ActionType, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { SceneObjectType } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { ThreejsViewService } from "./threejs-view.service";
-import { ISceneObjectUpdate, ActionType } from "../../../../../../common/communication/iGameplay";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 
 // tslint:disable:no-any
@@ -88,7 +88,7 @@ describe("ThreejsViewService Tests", () => {
 
   it("should return -1 if no object is detected",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
-    
+
     threejsViewService["mouse"] = mock(THREE.Vector3);
     threejsViewService["camera"] = mock(THREE.PerspectiveCamera);
     const raycaster: any = mock(THREE.Raycaster);
@@ -98,7 +98,7 @@ describe("ThreejsViewService Tests", () => {
     const result: number = threejsViewService.detectObject(mock(MouseEvent));
 
     expect(result).toBe(-1);
-    
+
   }));
 
   it("should not do any update to scene because of undefined object",
@@ -111,7 +111,7 @@ describe("ThreejsViewService Tests", () => {
     const changeSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "changeObjectColor");
 
     const objectUpdate: ISceneObjectUpdate = {
-      actionToApply: ActionType.NO_ACTION_REQUIRED
+      actionToApply: ActionType.NO_ACTION_REQUIRED,
     };
 
     threejsViewService.createScene(scene, sceneVariables, renderer);
@@ -145,7 +145,7 @@ describe("ThreejsViewService Tests", () => {
   }));
 
   it("should call function initiate object from threejsGenerator",
-    inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
 
@@ -165,7 +165,7 @@ describe("ThreejsViewService Tests", () => {
   }));
 
   it("should call function delete object from threejsGenerator",
-    inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
 
@@ -180,13 +180,12 @@ describe("ThreejsViewService Tests", () => {
     threejsViewService.createScene(scene, sceneVariables, renderer);
     threejsViewService.updateSceneWithNewObject(objectUpdate);
 
-
     expect(initSpy).not.toHaveBeenCalled();
     expect(changeSpy).not.toHaveBeenCalled();
   }));
 
   it("should call function change color object from threejsGenerator",
-    inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
 

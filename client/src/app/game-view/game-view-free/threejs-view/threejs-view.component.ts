@@ -11,6 +11,7 @@ import {
   Output,
   ViewChild } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
+import { GameConnectionService } from "src/app/game-connection.service";
 import * as THREE from "three";
 import { IClickMessage3D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
@@ -22,7 +23,6 @@ import { Constants } from "../../../constants";
 import { SocketService } from "../../../websocket/socket.service";
 import { ChatViewService } from "../../chat-view/chat-view.service";
 import { ThreejsViewService } from "./threejs-view.service";
-import { GameConnectionService } from "src/app/game-connection.service";
 
 @Component({
   selector:     "app-threejs-view",
@@ -126,7 +126,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
 
         if (this.isFirstGet) {
           this.previousModifications = modifications;
-          this.isFirstGet = false
+          this.isFirstGet = false;
         }
         this.changeColor(modifications);
       });
@@ -161,7 +161,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
 
       const idValue: number = this.threejsViewService.detectObject(mouseEvent);
       const message: IClickMessage3D = this.createHitValidationMessage(idValue);
-      
+
       this.socketService.sendMsg(CCommon.POSITION_VALIDATION, message);
     });
   }
