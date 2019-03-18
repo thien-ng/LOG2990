@@ -24,8 +24,8 @@ export class CardManagerService {
     }
 
   public getCards(): Observable<[ICardLists, number[]]> {
-    const cardList:   Observable<ICardLists> = this.httpClient.get<ICardLists>(Constants.CARDS_PATH);
-    const lobbyList:  Observable<number[]> = this.httpClient.get<number[]>(Constants.ACTIVE_LOBBY_PATH);
+    const cardList:   Observable<ICardLists>  = this.httpClient.get<ICardLists>(Constants.CARDS_PATH);
+    const lobbyList:  Observable<number[]>    = this.httpClient.get<number[]>(Constants.ACTIVE_LOBBY_PATH);
 
     return forkJoin([cardList, lobbyList]);
   }
