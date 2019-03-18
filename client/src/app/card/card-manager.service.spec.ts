@@ -49,4 +49,16 @@ describe("Card-manager tests", () => {
 
     cardManagerService.reloadHighscore(1);
   });
+
+  it("should be notified when a card is created", () => {
+    let counter: number = 0;
+    cardManagerService.cardCreatedObservable.subscribe((value: boolean) => {
+      if (counter !== 0) {
+        expect(value).toBe(true);
+      }
+      counter++;
+    });
+
+    cardManagerService.updateCards(true);
+  });
 });
