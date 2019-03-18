@@ -87,9 +87,10 @@ export class GameManagerService {
     }
 
     public cancelRequest(gameID: number): Message {
-        return (this.lobby.delete(gameID)) ?
-            this.generateMessage(CCommon.ON_SUCCESS, gameID.toString()) :
-            this.generateMessage(CCommon.ON_ERROR, gameID.toString());
+        const successMessage:   Message = this.generateMessage(CCommon.ON_SUCCESS, gameID.toString());
+        const errorMessage:     Message = this.generateMessage(CCommon.ON_ERROR, gameID.toString());
+
+        return (this.lobby.delete(gameID)) ? successMessage : errorMessage;
     }
 
     private async verifyLobby(request: IGameRequest, user: IUser): Promise<Message> {
