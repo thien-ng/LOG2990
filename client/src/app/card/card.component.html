@@ -21,7 +21,7 @@
               <span>{{TEXT_CREATE}}</span>
             </button>
           <button *ngIf="this.router.url == ADMIN_PATH" class="playButton" mat-button (click)="onDeleteButtonClick()">
-            <mat-icon >delete</mat-icon>
+            <mat-icon class="resetIcon" >delete</mat-icon>
             <span>{{TEXT_DELETE}}</span>
           </button>
           <button *ngIf="this.router.url == ADMIN_PATH" class="resetButton" mat-button (click)="onResetButtonClick()">

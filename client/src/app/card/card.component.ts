@@ -22,8 +22,8 @@ export class CardComponent {
   public readonly TEXT_PLAY:          string = "JOUER";
   public readonly TEXT_PLAY_SINGLE:   string = "Jouer en simple";
   public readonly TEXT_PLAY_MULTI:    string = "Jouer en multijoueur";
-  public readonly TEXT_RESET_TIMERS:  string = "Réinitialiser";
-  public readonly TEXT_DELETE:        string = "Supprimer";
+  public readonly TEXT_RESET_TIMERS:  string = "RÉINITIALISER";
+  public readonly TEXT_DELETE:        string = "SUPPRIMER";
   public readonly ADMIN_PATH:         string = "/admin";
   public readonly TEXT_CREATE:        string = "CRÉER";
   public readonly TEXT_JOIN:          string = "JOINDRE";
