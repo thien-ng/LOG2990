@@ -306,6 +306,23 @@ export class GameManagerService {
 
         return users;
     }
+
+    public endOfGameRoutine(newTime: Time, mode: Mode, arenaInfo: IArenaInfos<I2DInfos | I3DInfos>, arenaType: GameMode): void {
+        const gameID: number | undefined = this.gameIdByArenaId.get(arenaInfo.arenaId);
+        if (gameID) {
+            const title: string = this.cardOperations.getCardById(gameID.toString(), arenaType).title;
+            this.highscoreService.updateHighscore(newTime, mode, gameID)
+            .then((answer: HighscoreValidationResponse) => {
+                if (answer.status === CCommon.ON_SUCCESS && answer.isNewHighscore) {
+                        this.chatManagerService.sendNewHighScoreMessage(newTime.username, answer.index, title, mode, this.server);
+                        this.server.emit(CCommon.ON_NEW_SCORE, gameID);
+                        this.deleteArena(arenaInfo);
+                }
+            }).catch(() => {
+                this.server.emit(CCommon.ON_ERROR, HIGHSCORE_VALIDATION_ERROR);
+            });
+        }
+    }
     // _TODO: OTER CA APRES REFACTOR
 // tslint:disable-next-line:max-file-line-count
 }
