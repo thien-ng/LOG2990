@@ -219,7 +219,8 @@ export class GameManagerService {
         return this.arenaID++;
     }
 
-    public subscribeSocketID(socketID: string, socket: SocketIO.Socket): void {
+    public subscribeSocketID(socketID: string, socket: SocketIO.Socket, server: SocketIO.Server): void {
+        this.server = server;
         this.playerList.set(socketID, socket);
     }
 
@@ -265,7 +266,7 @@ export class GameManagerService {
         return this.playerList;
     }
 
-    public sendMessage(socketID: string, messageType: string, message: number): void {
+    public sendMessage(socketID: string, messageType: string, message: number | IArenaResponse<IOriginalPixelCluster>): void {
         const playerSocket: SocketIO.Socket | undefined = this.playerList.get(socketID);
         if (playerSocket !== undefined) {
             playerSocket.emit(messageType, message);
