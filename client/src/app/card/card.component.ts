@@ -28,9 +28,8 @@ export class CardComponent implements AfterContentInit {
   public readonly TEXT_RESET_TIMERS:  string = "Réinitialiser";
   public readonly TEXT_DELETE:        string = "Supprimer";
   public readonly ADMIN_PATH:         string = "/admin";
-  public readonly TEXT_CREATE:        string = "CRÉER";
-  public readonly TEXT_JOIN:          string = "JOINDRE";
 
+  public multiplayerButton:           string = "CRÉER";
   public hsButtonIsClicked:           boolean;
   @Input()  public card:              ICard;
   @Output() public cardDeleted:       EventEmitter<string>;
@@ -42,12 +41,26 @@ export class CardComponent implements AfterContentInit {
     private snackBar:           MatSnackBar,
     private highscoreService:   HighscoreService,
     public  dialog:             MatDialog,
+    private httpClient:         HttpClient,
     ) {
       this.cardDeleted = new EventEmitter();
+  }
+
+  public ngAfterContentInit(): void {
+    if (this.card.lobbyExists) {
+      this.multiplayerButton = JOIN_TEXT;
     }
+
+    this.cardManagerService.getButtonListener().subscribe((lobbyEvent: ILobbyEvent) => {
+      if (this.card.gameID === lobbyEvent.gameID) {
+        this.multiplayerButton = lobbyEvent.displayText;
+      }
+    });
+  }
 
   public  onDeleteButtonClick(): void {
     const dialogConfig: MatDialogConfig = new MatDialogConfig();
+    const dialogPosition: DialogPosition = {bottom: "0%", top: "5%"};
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus    = true;
     dialogConfig.width = "450px";
