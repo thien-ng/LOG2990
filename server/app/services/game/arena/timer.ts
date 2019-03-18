@@ -29,8 +29,10 @@ export class Timer {
             Constants.ONE_SECOND);
     }
 
-    public stopTimer(): void {
+    public stopTimer(): number {
         clearInterval(this.timer);
+
+        return this.secondsSinceStart;
     }
 
     public updateTimeSinceStart(): void {
