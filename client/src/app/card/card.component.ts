@@ -25,6 +25,8 @@ export class CardComponent {
   public readonly TEXT_RESET_TIMERS:  string = "Réinitialiser";
   public readonly TEXT_DELETE:        string = "Supprimer";
   public readonly ADMIN_PATH:         string = "/admin";
+  public readonly TEXT_CREATE:        string = "CRÉER";
+  public readonly TEXT_JOIN:          string = "JOINDRE";
 
   public hsButtonIsClicked:           boolean;
   @Input()  public card:              ICard;
