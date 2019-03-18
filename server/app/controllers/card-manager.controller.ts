@@ -70,14 +70,8 @@ export class CardManagerController {
 
         router.delete("/remove/simple/:id", async (req: Request, res: Response, next: NextFunction) => {
             const gameID: number = parseInt(req.params.id, DECIMAL);
-            try {
-                const message: string = this.cardOperations.removeCard2D(gameID);
-                res.json(message);
-            } catch (error) {
-                const isTypeError:  boolean = error instanceof TypeError;
-                const errorMessage: string = isTypeError ? error.message : Constants.UNKNOWN_ERROR;
-                res.json(errorMessage);
-            }
+            const message: string = this.cardOperations.removeCard2D(gameID);
+            res.json(message);
         });
 
         router.delete("/remove/free/:id", async (req: Request, res: Response, next: NextFunction) => {
