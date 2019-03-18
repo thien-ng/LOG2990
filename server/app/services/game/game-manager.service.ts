@@ -39,7 +39,12 @@ export class GameManagerService {
     private countByGameId:      Map<number, number>;
     private lobby:              Map<number, IUser[]>;
 
-    public constructor(@inject(Types.UserManagerService) private userManagerService: UserManagerService) {
+    public constructor(
+        @inject(Types.UserManagerService) private userManagerService: UserManagerService,
+        @inject(Types.HighscoreService) private highscoreService: HighscoreService,
+        @inject(Types.ChatManagerService) private chatManagerService: ChatManagerService,
+        @inject(Types.CardOperations) private cardOperations: CardOperations,
+        ) {
         this.arenaID            = ARENA_START_ID;
         this.assetManager       = new AssetManagerService();
         this.playerList         = new Map<string, SocketIO.Socket>();
