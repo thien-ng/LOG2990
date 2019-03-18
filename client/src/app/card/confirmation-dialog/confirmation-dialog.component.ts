@@ -1,6 +1,5 @@
 import { Component, Inject} from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
-// import { CardComponent } from "../card/card.component";
 
 @Component({
   selector: "app-confirmation-dialog",
@@ -29,6 +28,5 @@ export class ConfirmationDialogComponent {
   public accept(): void {
     this.dialogRef.close(true);
   }
-
 
 }
