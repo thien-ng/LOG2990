@@ -32,6 +32,7 @@ export class WebsocketManager {
                 socketID:       "",
             };
 
+            this.gameManagerService.setServer(this.io);
             this.loginSocketChecker(user, socketID, socket);
             this.gameSocketChecker(socketID, socket);
             this.chatSocketChecker(socket);
@@ -44,7 +45,7 @@ export class WebsocketManager {
 
         socket.on(CCommon.GAME_CONNECTION, () => {
             socketID = socket.id;
-            this.gameManagerService.subscribeSocketID(socketID, socket, this.io);
+            this.gameManagerService.subscribeSocketID(socketID, socket);
         });
 
         socket.on(CCommon.GAME_DISCONNECT, (username: string) => {
@@ -91,7 +92,7 @@ export class WebsocketManager {
 
         socket.on(Constants.DISCONNECT_EVENT, () => {
             this.userManagerService.leaveBrowser(user);
-            this.gameManagerService.unsubscribeSocketID(socketID, user.username);
+            this.gameManagerService.unsubscribeSocketID(user.socketID, user.username);
             this.chatManagerService.sendPlayerLogStatus(user.username, this.io, false);
         });
     }
