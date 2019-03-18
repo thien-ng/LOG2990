@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { GameMode } from "../../../../common/communication/iCard";
 import { ICardLists } from "../../../../common/communication/iCardLists";
 import { Constants } from "../constants";
@@ -11,10 +11,12 @@ import { Constants } from "../constants";
 })
 export class CardManagerService {
 
-  private cardCreated:          BehaviorSubject<boolean>;
-  public cardCreatedObservable: Observable<boolean>;
+  private highscoreUpdated:       Subject<number>;
+  private cardCreated:            BehaviorSubject<boolean>;
+  public  cardCreatedObservable:  Observable<boolean>;
 
   public constructor(private httpClient: HttpClient) {
+    this.highscoreUpdated = new Subject<number>();
     this.cardCreated = new BehaviorSubject<boolean>(false);
     this.cardCreatedObservable = this.cardCreated.asObservable();
     }
