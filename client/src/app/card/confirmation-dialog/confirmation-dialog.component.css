@@ -1,22 +1,13 @@
 .title {
     text-align: center;
     color: red;
-    padding-bottom: 5%;
+    padding-bottom: 3.5%;
 }
 
 .body {
     text-align: center;
     padding-bottom: 5%;
-}
-
-.container {
-    text-align: center;
-    display: grid;
-}
-
-.buttonContainer {
-    display: inline;
-    vertical-align: center;
+    padding-top: 7%;
 }
 
 .cardName {
@@ -28,5 +19,21 @@ button:hover {
     color: white;
 }
 
+.titleGrid {
+    width: 100%;
+}
+
+button {
+    width: 100%;
+}
+.seperator {
+    width: 100%;
+    border-bottom: 2px solid #3F51B5;
+}
+
+.button-container {
+    position: relative;
+    padding-top: 31%;
+}
 
 
