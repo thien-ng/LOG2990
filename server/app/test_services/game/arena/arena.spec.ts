@@ -291,7 +291,7 @@ describe("Arena tests", () => {
 
     it("should set the right number of points to win depending on number of players", async () => {
 
-        gameManager = new GameManagerService(new UserManagerService());
+        gameManager = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations);
         arenaInfo.users = [activeUser, activeUser];
 
         arena       = new Arena2D(arenaInfo, gameManager);
@@ -314,5 +314,12 @@ describe("Arena tests", () => {
         const pointsNeededToWin: number = arena["referee"]["pointsNeededToWin"];
 
         chai.expect(pointsNeededToWin).to.equal(4);
+    });
+
+    it("Should call the end of game function of the game manager", async () => {
+        const spy: any  = chai.spy.on(gameManager, "endOfGameRoutine");
+        arena.endOfGameRoutine(1, new Player(activeUser));
+
+        chai.expect(spy).to.have.been.called();
     });
 });
