@@ -65,7 +65,6 @@ export class CardComponent implements AfterContentInit {
     dialogConfig.autoFocus    = true;
     dialogConfig.width = "450px";
     dialogConfig.height = "150px";
-    const dialogPosition: DialogPosition = {bottom: "0%", top: "5%"};
     dialogConfig.position = dialogPosition;
     dialogConfig.data = this.card.title;
     const dialogRef: MatDialogRef<ConfirmationDialogComponent> = this.dialog.open(ConfirmationDialogComponent, dialogConfig);
@@ -78,6 +77,7 @@ export class CardComponent implements AfterContentInit {
 
   public deleteCard(): void {
     this.cardManagerService.removeCard(this.card.gameID, this.card.gamemode).subscribe((response: string) => {
+      this.httpClient.get(Constants.CANCEL_REQUEST_PATH + this.card.gameID + "/" + CardDeleted.true).subscribe();
       this.openSnackbar(response);
       this.cardDeleted.emit();
     });
