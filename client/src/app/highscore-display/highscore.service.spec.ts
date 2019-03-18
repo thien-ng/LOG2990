@@ -160,4 +160,11 @@ describe("HighscoreService tests", () => {
 
     expect(returnValueMethod).not.toBeUndefined();
   });
+
+  it("should call getHighscore when the highscore have been reloaded", () => {
+    const spy: jasmine.Spy = spyOn(highscoreService, "getHighscore");
+    cardManagerService.reloadHighscore(1);
+
+    expect(spy).toHaveBeenCalledWith(1);
+  });
 });
