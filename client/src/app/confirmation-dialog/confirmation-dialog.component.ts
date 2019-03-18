@@ -13,3 +13,18 @@ export class ConfirmationDialogComponent {
   public MESSAGE:         string = "Voulez vous vraiment supprimer ce jeu";
   public YES_BUTTON_TEXT: string = "Oui";
   public NO_BUTTON_TEXT:  string = "Non";
+
+  public constructor(
+    public dialogRef: MatDialogRef<ConfirmationDialogComponent>) {
+  }
+
+  public decline(): void {
+    this.dialogRef.close(false);
+  }
+
+  public accept(): void {
+    this.dialogRef.close(true);
+  }
+
+
+}
