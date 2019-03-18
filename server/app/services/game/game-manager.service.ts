@@ -31,7 +31,6 @@ const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey:
 // tslint:disable:no-any
 @injectable()
 export class GameManagerService {
-
     private arenaID:            number;
     private server:             SocketIO.Server;
     private assetManager:       AssetManagerService;
@@ -272,6 +271,23 @@ export class GameManagerService {
     public unsubscribeSocketID(socketID: string, username: string): void {
         this.playerList.delete(socketID);
         this.removePlayerFromArena(username);
+        this.removePlayerFromLobby(username);
+    }
+
+    private removePlayerFromLobby(username: string): void {
+        let gameID: number = 0;
+
+        this.lobby.forEach((value: IUser[], key: number) => {
+            if (value.some((user: IUser) => user.username === username)) {
+                gameID = key;
+            }
+        });
+        this.lobby.delete(gameID);
+
+        if (gameID !== 0) {
+            const lobbyEvent: ILobbyEvent = this.generateILobbyEvent(gameID, CREATE_TEXT);
+            this.server.emit(CCommon.ON_LOBBY, lobbyEvent);
+        }
     }
 
     private removePlayerFromArena(username: string): void {
@@ -311,7 +327,7 @@ export class GameManagerService {
         return this.playerList;
     }
 
-    public sendMessage(socketID: string, messageType: string, message: number | IArenaResponse<IOriginalPixelCluster>): void {
+    public sendMessage(socketID: string, messageType: string, message?: number | IArenaResponse<IOriginalPixelCluster>): void {
         const playerSocket: SocketIO.Socket | undefined = this.playerList.get(socketID);
         if (playerSocket !== undefined) {
             playerSocket.emit(messageType, message);
