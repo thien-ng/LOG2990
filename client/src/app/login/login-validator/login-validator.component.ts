@@ -1,3 +1,5 @@
+// declare const THREEF: any;
+import * as THREEF from "three-full/builds/Three.umd";
 import { Component, Inject } from "@angular/core";
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import { ErrorStateMatcher, MatSnackBar } from "@angular/material";
@@ -31,13 +33,18 @@ export class LoginValidatorComponent {
   public readonly BUTTON_SUBMIT:  string = "Soumettre";
 
   public matcher: MyErrorStateMatcher;
+  // const THREEF = require("three-full");
+// tslint:disable-next-line:typedef
+// const THREE = require("node_modules/three-full/builds/Three.cjs.js");
+// tslint:disable-next-line:no-console
 
-  public constructor(
-    @Inject(LoginValidatorService)  public  loginValidatorService:  LoginValidatorService,
-    @Inject(SocketService)          private socketService:          SocketService,
-    private snackbar: MatSnackBar,
-    private router:   Router,
+public constructor(
+  @Inject(LoginValidatorService)  public  loginValidatorService:  LoginValidatorService,
+  @Inject(SocketService)          private socketService:          SocketService,
+  private snackbar: MatSnackBar,
+  private router:   Router,
   ) {
+    console.log(THREEF.PointerLockControls);
     this.matcher = new MyErrorStateMatcher();
   }
 

@@ -5,6 +5,12 @@ import { ISceneVariables } from "../../../../../../common/communication/iSceneVa
 import { Constants } from "../../../constants";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 
+// const THREEF = require("three-full");
+// import * as THREEF from "three-full/builds/Three";
+// tslint:disable-next-line:typedef
+// const THREE = require("node_modules/three-full/builds/Three.cjs.js");
+// tslint:disable-next-line:no-console
+// console.log(THREEF);
 @Injectable()
 export class ThreejsViewService {
 
