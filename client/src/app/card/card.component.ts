@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { MatDialog, MatDialogConfig, MatSnackBar, MatDialogRef, DialogPosition } from "@angular/material";
+import { DialogPosition, MatDialog, MatDialogConfig, MatDialogRef, MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import { ICard } from "../../../../common/communication/iCard";
 import { GameType } from "../../../../common/communication/iGameRequest";
-import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { Constants } from "../constants";
 import { GameModeService } from "../game-list-container/game-mode.service";
 import { HighscoreService } from "../highscore-display/highscore.service";
 import { CardManagerService } from "./card-manager.service";
+import { ConfirmationDialogComponent } from "./confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector:     "app-card",
@@ -46,12 +46,13 @@ export class CardComponent {
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus    = true;
     dialogConfig.width = "450px";
-    dialogConfig.height = "140px";
-    const dialogPosition: DialogPosition = {bottom: "0%", top: "5%", left: "44.1%", right: "45%"};
+    dialogConfig.height = "150px";
+    const dialogPosition: DialogPosition = {bottom: "0%", top: "5%"};
     dialogConfig.position = dialogPosition;
+    dialogConfig.data = this.card.title;
     const dialogRef: MatDialogRef<ConfirmationDialogComponent> = this.dialog.open(ConfirmationDialogComponent, dialogConfig);
     dialogRef.beforeClosed().subscribe((result: boolean) => {
-      if(result) {
+      if (result) {
         this.deleteCard();
       }
     });
