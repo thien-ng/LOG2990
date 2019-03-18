@@ -23,18 +23,20 @@
 }
 
 .optionBar {
-    display: block;
+    display: block inline;
     padding-bottom: 25px;
 }
 
-.playButton {
+.playButton, .resetButton {
     color: #3F51B5;
     font-size: larger;
     float: left;
 }
 
 .highscoreIcon {
-    padding: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
     width: 25px;
 }
 
@@ -62,4 +64,18 @@
     left:50%;
     margin-top: -150px;;
     margin-left: -200px;
+}
+
+/* .deleteIcon {
+    padding-top: 1%;
+    padding-right: 3%; 
+} */
+
+.resetIcon {
+    padding-top: 1%;
+    padding-right: 3%; 
+}
+
+.playIcon {
+    padding-bottom: 5%;
 }
