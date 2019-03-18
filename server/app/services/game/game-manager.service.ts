@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
 import { HighscoreValidationResponse, Mode, Time } from "../../../../common/communication/highscore";
-import { GameMode } from "../../../../common/communication/iCard";
+import { GameMode, ILobbyEvent } from "../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../common/communication/iGameRequest";
 import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../common/communication/iGameplay";
 import { IUser } from "../../../../common/communication/iUser";
@@ -19,6 +19,8 @@ import { Arena3D } from "./arena/arena3d";
 import { I2DInfos, I3DInfos, IArenaInfos, IPlayerInput } from "./arena/interfaces";
 import { Player } from "./arena/player";
 
+const JOIN_TEXT: string = "JOINDRE";
+const CREATE_TEXT: string = "CRÉER";
 const REQUEST_ERROR_MESSAGE:            string = "Game mode invalide";
 const TEMP_ROUTINE_ERROR:               string = "error while copying to temp";
 const HIGHSCORE_VALIDATION_ERROR:       string = "Erreur lors de la validation du highscore";
@@ -97,26 +99,24 @@ export class GameManagerService {
         const lobby: IUser[] | undefined = this.lobby.get(request.gameId);
 
         if (lobby === undefined) {
-            this.lobby.set(request.gameId.valueOf(), [user]);
-
-            return this.generateMessage(CCommon.ON_WAITING, CCommon.ON_WAITING);
+            return this.newLobby(request, user);
         } else {
-            let message: Message;
-            lobby.push(user);
-            switch (request.mode) {
-                case GameMode.simple:
-                    message = await this.create2DArena(lobby, request.gameId);
-                    break;
-                case GameMode.free:
-                    message = await this.create3DArena(lobby, request.gameId);
-                    break;
-                default:
-                    return this.generateMessage(CCommon.ON_MODE_INVALID, CCommon.ON_MODE_INVALID);
-            }
-            this.sendMessage(lobby[0].socketID, CCommon.ON_ARENA_CONNECT, Number(message.body));
-            this.lobby.delete(request.gameId);
+            return this.joinLobby(request, user, lobby);
+        }
+    }
 
-            return message;
+    private newLobby(request: IGameRequest, user: IUser): Message {
+        const lobbyEvent: ILobbyEvent = {
+            gameID: request.gameId,
+            displayText: JOIN_TEXT,
+        };
+
+        this.lobby.set(request.gameId.valueOf(), [user]);
+        this.server.emit(CCommon.ON_LOBBY, lobbyEvent);
+
+        return this.generateMessage(CCommon.ON_WAITING, CCommon.ON_WAITING);
+    }
+
         }
     }
 
