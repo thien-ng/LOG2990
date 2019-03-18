@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import * as io from "socket.io-client";
-import { GameMode } from "../../../../common/communication/iCard";
+import { GameMode, ILobbyEvent } from "../../../../common/communication/iCard";
 import { IChat } from "../../../../common/communication/iChat";
 import { IArenaResponse } from "../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../common/constantes/cCommon";
@@ -34,7 +34,6 @@ export class SocketService {
   public initWebsocketListener(): void {
 
     this.socket.addEventListener(Constants.ON_CONNECT, () => {
-
       this.initGameViewListeners();
 
       this.socket.on(CCommon.CHAT_EVENT, (data: IChat) => {
@@ -56,6 +55,10 @@ export class SocketService {
       this.socket.on(CCommon.ON_NEW_SCORE, (gameID: number) => {
         this.cardManagerService.reloadHighscore(gameID);
       });
+
+      this.socket.on(CCommon.ON_LOBBY, (lobbyEvent: ILobbyEvent) => {
+        
+      })
     });
   }
   private initGameViewListeners(): void {
