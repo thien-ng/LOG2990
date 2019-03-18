@@ -174,6 +174,15 @@ export class GameManagerService {
         };
     }
 
+    public getActiveLobby(): number[] {
+        const lobbyList: number[] = [];
+        this.lobby.forEach((value: IUser[], key: number) => {
+            lobbyList.push(key);
+        });
+
+        return lobbyList;
+    }
+
     private async initArena(arena: Arena<any, any, any, any>): Promise<void> {
         await arena.prepareArenaForGameplay();
     }
