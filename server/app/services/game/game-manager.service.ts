@@ -115,10 +115,7 @@ export class GameManagerService {
     }
 
     private newLobby(request: IGameRequest, user: IUser): Message {
-        const lobbyEvent: ILobbyEvent = {
-            gameID: request.gameId,
-            displayText: JOIN_TEXT,
-        };
+        const lobbyEvent: ILobbyEvent = this.generateILobbyEvent(request.gameId, JOIN_TEXT);
 
         this.lobby.set(request.gameId.valueOf(), [user]);
         this.server.emit(CCommon.ON_LOBBY, lobbyEvent);
@@ -127,10 +124,7 @@ export class GameManagerService {
     }
 
     private async joinLobby(request: IGameRequest, user: IUser, lobby: IUser[]): Promise<Message> {
-        const lobbyEvent: ILobbyEvent = {
-            gameID: request.gameId,
-            displayText: CREATE_TEXT,
-        };
+        const lobbyEvent: ILobbyEvent = this.generateILobbyEvent(request.gameId, CREATE_TEXT);
 
         let message: Message;
         lobby.push(user);
