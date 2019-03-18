@@ -25,8 +25,16 @@ export class CardManagerService {
     return this.httpClient.get<ICardLists>(Constants.CARDS_PATH);
   }
 
-  public removeCard(cardId: number, mode: GameMode): Observable<string> {
-    return this.httpClient.delete<string>(Constants.REMOVE_CARD_PATH + "/" + mode + "/" + cardId);
+  public removeCard(gameID: number, mode: GameMode): Observable<string> {
+    return this.httpClient.delete<string>(Constants.REMOVE_CARD_PATH + "/" + mode + "/" + gameID);
+  }
+
+  public getHighscoreListener(): Observable<number> {
+    return this.highscoreUpdated.asObservable();
+  }
+
+  public reloadHighscore(gameID: number): void {
+    this.highscoreUpdated.next(gameID);
   }
 
   public updateCards(value: boolean): void {
