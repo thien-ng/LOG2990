@@ -42,6 +42,14 @@ export class CardManagerService {
     this.highscoreUpdated.next(gameID);
   }
 
+  public getButtonListener(): Observable<ILobbyEvent> {
+    return this.buttonUpdated.asObservable();
+  }
+
+  public reloadButton(lobbyEvent: ILobbyEvent): void {
+    this.buttonUpdated.next(lobbyEvent);
+  }
+
   public updateCards(value: boolean): void {
     this.cardCreated.next(value);
   }
