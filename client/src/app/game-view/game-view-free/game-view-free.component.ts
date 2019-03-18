@@ -35,7 +35,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
   public  gameID:            string | null;
   public  username:          string | null;
   private scenePath:         string;
-  private gameType:          Mode;
+  private gameMode:          Mode;
 
   public constructor(
     @Inject(SocketService)          private socketService:    SocketService,
@@ -87,11 +87,11 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   private getSceneVariables(type: string, username: string): void {
-    this.gameType     = JSON.parse(type);
+    this.gameMode     = JSON.parse(type);
     this.gameRequest  = {
         username:     username,
         gameId:       this.activeCard.gameID,
-        type:         this.gameType,
+        type:         this.gameMode,
         mode:         GameMode.free,
     };
     this.handleGameRequest();
