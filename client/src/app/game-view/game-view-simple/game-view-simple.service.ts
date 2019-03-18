@@ -10,7 +10,6 @@ import { CCommon } from "../../../../../common/constantes/cCommon";
 
 const CENTERY:          number = 15;
 const CENTERX:          number = 50;
-const PADDING_CANVAS_2: number = 640;
 const ERROR_MESSAGE:    string = "⚠ ERREUR ⚠";
 
 @Injectable({
@@ -56,7 +55,7 @@ export class GameViewSimpleService {
       document.body.style.cursor = "not-allowed";
       const positionTop: number = this.position.y - CENTERY;
       const positionRight: number = this.position.x - CENTERX;
-      const positionRight2: number = this.position.x + PADDING_CANVAS_2 - CENTERX;
+      const positionRight2: number = this.position.x - CENTERX;
 
       this.textCanvasOriginal.style.top =  positionTop + "px";
       this.textCanvasOriginal.style.left = positionRight + "px";
