@@ -16,8 +16,12 @@ import { UserManagerService } from "../../../services/user-manager.service";
 
 import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
+import { CardOperations } from "../../../services/card-operations.service";
+import { ChatManagerService } from "../../../services/chat-manager.service";
 import { Arena2D } from "../../../services/game/arena/arena2d";
-import { I2DInfos, IArenaInfos, /*IHitConfirmation,*/ IPlayerInput } from "../../../services/game/arena/interfaces";
+import { I2DInfos, IArenaInfos, IPlayerInput } from "../../../services/game/arena/interfaces";
+import { HighscoreService } from "../../../services/highscore.service";
+import { TimeManagerService } from "../../../services/time-manager.service";
 
 // tslint:disable:no-magic-numbers no-any max-file-line-count no-empty
 
