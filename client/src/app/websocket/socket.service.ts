@@ -1,4 +1,6 @@
 import { Injectable } from "@angular/core";
+import { MatSnackBar } from "@angular/material";
+import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import * as io from "socket.io-client";
 import { GameMode, ILobbyEvent } from "../../../../common/communication/iCard";
@@ -21,6 +23,8 @@ export class SocketService {
   private socket: SocketIOClient.Socket;
 
   public constructor(
+    private router:                   Router,
+    private snackBar:                 MatSnackBar,
     private cardManagerService:       CardManagerService,
     private chatViewService:          ChatViewService,
     private gameViewSimpleService:    GameViewSimpleService,
@@ -35,6 +39,7 @@ export class SocketService {
 
     this.socket.addEventListener(Constants.ON_CONNECT, () => {
       this.initGameViewListeners();
+      this.initArenaListeners();
 
       this.socket.on(CCommon.CHAT_EVENT, (data: IChat) => {
         this.chatViewService.updateConversation(data);
