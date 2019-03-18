@@ -59,14 +59,16 @@ export class CardComponent implements AfterContentInit {
   }
 
   public  onDeleteButtonClick(): void {
-    const dialogConfig: MatDialogConfig = new MatDialogConfig();
-    const dialogPosition: DialogPosition = {bottom: "0%", top: "5%"};
+    const dialogConfig:   MatDialogConfig = new MatDialogConfig();
+    const dialogPosition: DialogPosition  = {bottom: "0%", top: "5%"};
+
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus    = true;
-    dialogConfig.width = "450px";
-    dialogConfig.height = "150px";
-    dialogConfig.position = dialogPosition;
-    dialogConfig.data = this.card.title;
+    dialogConfig.width        = "450px";
+    dialogConfig.height       = "150px";
+    dialogConfig.position     = dialogPosition;
+    dialogConfig.data         = this.card.title;
+
     const dialogRef: MatDialogRef<ConfirmationDialogComponent> = this.dialog.open(ConfirmationDialogComponent, dialogConfig);
     dialogRef.beforeClosed().subscribe((result: boolean) => {
       if (result) {
