@@ -1,5 +1,5 @@
-import { Component} from "@angular/core";
-import { MatDialogRef } from "@angular/material";
+import { Component, Inject} from "@angular/core";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 // import { CardComponent } from "../card/card.component";
 
 @Component({
@@ -10,12 +10,16 @@ import { MatDialogRef } from "@angular/material";
 export class ConfirmationDialogComponent {
 
   public TITLE:           string = "Avertissement";
-  public MESSAGE:         string = "Voulez vous vraiment supprimer ce jeu";
+  public cardTitle:       string;
+  public MESSAGE:         string;
   public YES_BUTTON_TEXT: string = "Oui";
   public NO_BUTTON_TEXT:  string = "Non";
 
   public constructor(
-    public dialogRef: MatDialogRef<ConfirmationDialogComponent>) {
+    public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: string) {
+      this.cardTitle = data;
+      this.MESSAGE = "Voulez vous vraiment supprimer le jeu";
   }
 
   public decline(): void {

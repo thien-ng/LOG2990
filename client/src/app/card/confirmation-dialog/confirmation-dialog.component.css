@@ -1,0 +1,32 @@
+.title {
+    text-align: center;
+    color: red;
+    padding-bottom: 5%;
+}
+
+.body {
+    text-align: center;
+    padding-bottom: 5%;
+}
+
+.container {
+    text-align: center;
+    display: grid;
+}
+
+.buttonContainer {
+    display: inline;
+    vertical-align: center;
+}
+
+.cardName {
+    font-weight: bold;
+}
+
+button:hover {
+    background: #3F51B5;
+    color: white;
+}
+
+
+

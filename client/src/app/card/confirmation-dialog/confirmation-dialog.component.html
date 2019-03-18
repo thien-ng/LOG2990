@@ -1,0 +1,18 @@
+<mat-grid-list class="grid-container" cols="2" rowHeight="10.2%">
+<mat-grid-tile [colspan]="2" [rowspan]="3">
+  <div class="title">{{ this.TITLE }}</div>
+</mat-grid-tile>
+<mat-grid-tile [colspan]="2" [rowspan]="3">
+  <div class="body">
+    {{ this.MESSAGE }}
+    <span class="cardName">{{cardTitle}}</span>
+    ?
+  </div>
+</mat-grid-tile>
+  <mat-grid-tile [colspan]="1" [rowspan]="3">
+    <button mat-button type="button" class="buttonNo" autofocus="false" (click)="decline()">{{ NO_BUTTON_TEXT }}</button>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="1" [rowspan]="3">
+    <button mat-button type="button" class="buttonYo" (click)="accept()">{{ YES_BUTTON_TEXT }}</button>
+  </mat-grid-tile>
+</mat-grid-list>

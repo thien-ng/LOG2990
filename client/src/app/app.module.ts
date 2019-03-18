@@ -6,7 +6,7 @@ import { RouterModule, RouterOutlet, Routes } from "@angular/router";
 
 import { AppComponent } from "./app.component";
 import { CardComponent } from "./card/card.component";
-import { ConfirmationDialogComponent } from "./confirmation-dialog/confirmation-dialog.component";
+import { ConfirmationDialogComponent } from "./card/confirmation-dialog/confirmation-dialog.component";
 import { Constants } from "./constants";
 import { CreateFreeGameComponent } from "./create-free-game/create-free-game.component";
 import { CreateSimpleGameComponent } from "./create-simple-game/create-simple-game.component";
