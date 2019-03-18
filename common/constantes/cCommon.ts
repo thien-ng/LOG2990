@@ -32,4 +32,5 @@ export class CCommon {
     public static readonly LOGIN_EVENT:               string = "onLogin";
     public static readonly USER_EVENT:                string = "onNewUser";
     public static readonly CHAT_EVENT:                string = "onChatEvent";
+    public static readonly ON_LOBBY:                  string = "onLobby";
 }
