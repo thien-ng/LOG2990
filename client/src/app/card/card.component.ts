@@ -1,13 +1,16 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { AfterContentInit, Component, EventEmitter, Input, Output } from "@angular/core";
 import { DialogPosition, MatDialog, MatDialogConfig, MatDialogRef, MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import { Mode } from "../../../../common/communication/highscore";
-import { ICard } from "../../../../common/communication/iCard";
+import { CardDeleted, ICard, ILobbyEvent } from "../../../../common/communication/iCard";
 import { Constants } from "../constants";
 import { GameModeService } from "../game-list-container/game-mode.service";
 import { HighscoreService } from "../highscore-display/highscore.service";
 import { CardManagerService } from "./card-manager.service";
 import { ConfirmationDialogComponent } from "./confirmation-dialog/confirmation-dialog.component";
+
+const JOIN_TEXT: string = "JOINDRE";
 
 @Component({
   selector:     "app-card",
@@ -16,7 +19,7 @@ import { ConfirmationDialogComponent } from "./confirmation-dialog/confirmation-
   providers:    [HighscoreService],
 })
 
-export class CardComponent {
+export class CardComponent implements AfterContentInit {
 
   public readonly TROPHY_IMAGE_URL:   string = "https://img.icons8.com/metro/1600/trophy.png";
   public readonly TEXT_PLAY:          string = "JOUER";
