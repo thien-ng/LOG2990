@@ -117,7 +117,29 @@ export class GameManagerService {
         return this.generateMessage(CCommon.ON_WAITING, CCommon.ON_WAITING);
     }
 
+    private async joinLobby(request: IGameRequest, user: IUser, lobby: IUser[]): Promise<Message> {
+        const lobbyEvent: ILobbyEvent = {
+            gameID: request.gameId,
+            displayText: CREATE_TEXT,
+        };
+
+        let message: Message;
+        lobby.push(user);
+        switch (request.mode) {
+            case GameMode.simple:
+                message = await this.create2DArena(lobby, request.gameId);
+                break;
+            case GameMode.free:
+                message = await this.create3DArena(lobby, request.gameId);
+                break;
+            default:
+                return this.generateMessage(CCommon.ON_MODE_INVALID, CCommon.ON_MODE_INVALID);
         }
+        this.sendMessage(lobby[0].socketID, CCommon.ON_ARENA_CONNECT, Number(message.body));
+        this.lobby.delete(request.gameId);
+        this.server.emit(CCommon.ON_LOBBY, lobbyEvent);
+
+        return message;
     }
 
     private generateMessage(title: string, body: string): Message {
