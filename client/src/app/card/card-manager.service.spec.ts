@@ -41,4 +41,12 @@ describe("Card-manager tests", () => {
     cardManagerService.removeCard(gameID, gameMode);
     expect(http.delete).toHaveBeenCalled();
   });
+
+  it("should get the gameID when a new highscore is made", () => {
+    cardManagerService.getHighscoreListener().subscribe((id: number) => {
+      expect(id).toBe(1);
+    });
+
+    cardManagerService.reloadHighscore(1);
+  });
 });
