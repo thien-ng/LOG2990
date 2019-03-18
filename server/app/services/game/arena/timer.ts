@@ -36,6 +36,6 @@ export class Timer {
     }
 
     public updateTimeSinceStart(): void {
-        this.timerUpdated.next(this.secondsSinceStart++);
+        this.timerUpdated.next(++this.secondsSinceStart);
     }
 }
