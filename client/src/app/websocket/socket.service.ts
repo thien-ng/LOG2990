@@ -45,6 +45,10 @@ export class SocketService {
         this.chatViewService.updateConversation(data);
       });
 
+      this.socket.on(CCommon.ON_NEW_SCORE, (gameID: number) => {
+        this.cardManagerService.reloadHighscore(gameID);
+      });
+
       this.socket.on(CCommon.ON_TIMER_UPDATE, (data: number) => {
         this.timerService.timeFormat(data);
       });
