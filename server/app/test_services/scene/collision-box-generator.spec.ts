@@ -22,6 +22,7 @@ describe("Collision box generator tests", () => {
             x: 10, y: 10, z: 10,
         },
         color: "#8cadbb",
+        hidden: false,
     };
 
     const cylinder: ISceneObject = {
@@ -37,6 +38,7 @@ describe("Collision box generator tests", () => {
             x: 10, y: 10, z: 10,
         },
         color: "#8cadbb",
+        hidden: false,
     };
 
     const pyramid: ISceneObject = {
@@ -52,6 +54,7 @@ describe("Collision box generator tests", () => {
             x: 10, y: 10, z: 10,
         },
         color: "#8cadbb",
+        hidden: false,
     };
 
     const cone: ISceneObject = {
@@ -67,6 +70,7 @@ describe("Collision box generator tests", () => {
             x: 10, y: 10, z: 10,
         },
         color: "#8cadbb",
+        hidden: false,
     };
 
     const sphere: ISceneObject = {
@@ -82,6 +86,7 @@ describe("Collision box generator tests", () => {
             x: 10, y: 10, z: 10,
         },
         color: "#8cadbb",
+        hidden: false,
     };
 
     const defaultObject: ISceneObject = {
@@ -97,6 +102,7 @@ describe("Collision box generator tests", () => {
             x: 10, y: 10, z: 10,
         },
         color: "#8cadbb",
+        hidden: false,
     };
 
     beforeEach(() => {

@@ -12,6 +12,7 @@ export class SceneModifier {
 
     private sceneBuilder:        SceneBuilder;
     private sceneObjects:        ISceneObject[];
+    private originalScene:       ISceneObject[];
     private modifiedIndex:       IModification[];
     private cloneSceneVariables: ISceneVariables;
 
@@ -20,7 +21,8 @@ export class SceneModifier {
     }
 
     public modifyScene(iSceneOptions: ISceneOptions, iSceneVariables: ISceneVariables, modifiedList: IModification[]): ISceneVariables {
-        this.cloneSceneVariables = this.clone(iSceneVariables);
+        this.originalScene = iSceneVariables.sceneObjects;
+        this.cloneSceneVariables = this.clone(iSceneVariables) as ISceneVariables;
         this.sceneObjects = this.cloneSceneVariables.sceneObjects;
         this.modifiedIndex = modifiedList;
 
@@ -79,10 +81,15 @@ export class SceneModifier {
         const lastObjectElement: ISceneObject = this.sceneObjects[this.sceneObjects.length - 1];
         const newIndex: number = lastObjectElement.id + 1;
         const generatedObject: ISceneObject = this.sceneBuilder.generateModifyObject(newIndex, this.cloneSceneVariables);
+
+        const generatedObjectForOriginal: ISceneObject = this.clone(generatedObject) as ISceneObject;
+        generatedObjectForOriginal.hidden = true;
+
         const modificationMap: IModification = {id: newIndex, type: ModificationType.added};
 
         this.modifiedIndex.push(modificationMap);
         this.sceneObjects.push(generatedObject);
+        this.originalScene.push(generatedObjectForOriginal);
     }
 
     private removeObject(): void {
@@ -149,8 +156,8 @@ export class SceneModifier {
         return idNotExist;
     }
 
-    private clone(sceneVariables: ISceneVariables): ISceneVariables {
-        return deepcopy<ISceneVariables>(sceneVariables);
+    private clone(sceneVariables: ISceneVariables | ISceneObject): ISceneVariables | ISceneObject {
+        return deepcopy<ISceneVariables | ISceneObject>(sceneVariables);
     }
 
 }

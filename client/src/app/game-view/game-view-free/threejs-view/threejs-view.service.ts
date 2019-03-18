@@ -24,6 +24,7 @@ export class ThreejsViewService {
   private modifiedMap:            Map<number, number>;
   private mapOriginColor:         Map<number, string>;
   private modifiedMapIntersect:   Map<number, number>;
+  private opacityMap:             Map<number, number>;
 
   public constructor() {
     this.init();
@@ -41,6 +42,7 @@ export class ThreejsViewService {
     this.modifiedMap          = new Map<number, number>();
     this.mapOriginColor       = new Map<number, string>();
     this.modifiedMapIntersect = new Map<number, number>();
+    this.opacityMap           = new Map<number, number>();
     this.mouse                = new THREE.Vector3();
     this.raycaster            = new THREE.Raycaster();
   }
@@ -59,6 +61,7 @@ export class ThreejsViewService {
       this.modifiedMap,
       this.mapOriginColor,
       this.modifiedMapIntersect,
+      this.opacityMap,
     );
 
     this.renderer.setSize(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
@@ -70,13 +73,20 @@ export class ThreejsViewService {
     this.camera.lookAt(this.scene.position);
   }
 
-  public changeObjectsColor(modifiedList: number[], cheatColorActivated: boolean): void {
+  public changeObjectsColor(modifiedList: number[], cheatColorActivated: boolean, isLastChange: boolean): void {
+    console.log(modifiedList);
+    console.log(this.opacityMap);
 
     modifiedList.forEach((differenceId: number) => {
 
-      const meshObject:     THREE.Mesh | undefined = this.recoverObjectFromScene(differenceId);
-      const objectColor:    string     | undefined = this.mapOriginColor.get(differenceId);
-      const opacityNeeded:  number                 = (cheatColorActivated) ? 0 : 1;
+      const meshObject:      THREE.Mesh | undefined = this.recoverObjectFromScene(differenceId);
+      const objectColor:     string     | undefined = this.mapOriginColor.get(differenceId);
+      let opacityNeeded:     number                 = (cheatColorActivated) ? 0 : 1;
+      
+      if (isLastChange) {
+        const originalOpacity: number = this.opacityMap.get(differenceId) as number;
+        opacityNeeded = originalOpacity;
+      }
 
       if (meshObject !== undefined) {
         meshObject.material = new THREE.MeshPhongMaterial({color: objectColor, opacity: opacityNeeded, transparent: true});
@@ -165,6 +175,7 @@ export class ThreejsViewService {
   }
 
   private generateSceneObjects(): void {
+    console.log(this.sceneVariable.sceneObjects);
     this.sceneVariable.sceneObjects.forEach((element: ISceneObject) => {
       this.threejsGenerator.initiateObject(element);
     });

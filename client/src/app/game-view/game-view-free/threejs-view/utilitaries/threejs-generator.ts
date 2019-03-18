@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { IAxisValues, ISceneObject, SceneObjectType} from "../../../../../../../common/communication/iSceneObject";
+import { MeshPhongMaterialParameters } from "three";
 
 export class ThreejsGenerator {
 
@@ -7,10 +8,11 @@ export class ThreejsGenerator {
   private readonly INFINITE_CORNERS:        number = 1000;
 
   public constructor(
-    private scene:          THREE.Scene,
-    private modifiedMap:    Map<number, number>,
-    private mapOriginColor: Map<number, string>,
-    private modifiedMapIntersect:    Map<number, number>) {}
+    private scene:                THREE.Scene,
+    private modifiedMap:          Map<number, number>,
+    private mapOriginColor:       Map<number, string>,
+    private modifiedMapIntersect: Map<number, number>,
+    private opacityMap:           Map<number, number>) {}
 
   public initiateObject(object3D: ISceneObject): void {
 
@@ -51,7 +53,7 @@ export class ThreejsGenerator {
   }
 
   private generateSphere(object3D: ISceneObject): void {
-    const generatedColor:   THREE.MeshBasicMaterial = this.createObjectColor(object3D.color);
+    const generatedColor:   THREE.MeshBasicMaterial = this.createObjectColor(object3D);
     const sphereGeometry:   THREE.Geometry          = new THREE.SphereGeometry(object3D.scale.x);
     const generatedObject:  THREE.Mesh              = new THREE.Mesh(sphereGeometry, generatedColor);
 
@@ -62,7 +64,7 @@ export class ThreejsGenerator {
 
   private generateCube(object3D: ISceneObject): void {
 
-    const generatedColor:   THREE.MeshBasicMaterial = this.createObjectColor(object3D.color);
+    const generatedColor:   THREE.MeshBasicMaterial = this.createObjectColor(object3D);
     const cubeGeometry:     THREE.Geometry          = new THREE.BoxGeometry(
       object3D.scale.x,
       object3D.scale.z,
@@ -78,7 +80,7 @@ export class ThreejsGenerator {
 
   private generateCone(object3D: ISceneObject): void {
 
-    const generatedColor:   THREE.MeshBasicMaterial = this.createObjectColor(object3D.color);
+    const generatedColor:   THREE.MeshBasicMaterial = this.createObjectColor(object3D);
     const coneGeometry:     THREE.Geometry          = new THREE.ConeGeometry(
       object3D.scale.x,
       object3D.scale.y,
@@ -94,7 +96,7 @@ export class ThreejsGenerator {
 
   private generateCylinder(object3D: ISceneObject): void {
 
-    const generatedColor:   THREE.MeshBasicMaterial = this.createObjectColor(object3D.color);
+    const generatedColor:   THREE.MeshBasicMaterial = this.createObjectColor(object3D);
     const cylinderGeometry: THREE.Geometry          = new THREE.CylinderGeometry(
       object3D.scale.x,
       object3D.scale.x,
@@ -111,7 +113,7 @@ export class ThreejsGenerator {
 
   private generateTriangularPyramid(object3D: ISceneObject): void {
 
-    const generatedColor:   THREE.MeshBasicMaterial = this.createObjectColor(object3D.color);
+    const generatedColor:   THREE.MeshBasicMaterial = this.createObjectColor(object3D);
     const pyramidGeometry:  THREE.Geometry          = new THREE.ConeGeometry(
       object3D.scale.x,
       object3D.scale.y,
@@ -125,9 +127,14 @@ export class ThreejsGenerator {
     this.addObjectToScene(generatedObject, object3D.position, object3D.rotation);
   }
 
-  private createObjectColor(colorHex: string): THREE.MeshBasicMaterial {
+  private createObjectColor(object3D: ISceneObject): THREE.MeshBasicMaterial {    
 
-    return new THREE.MeshPhongMaterial( {color: colorHex} );
+    const opacityUsed: number = (object3D.hidden) ? 0 : 1;
+    this.opacityMap.set(object3D.id, opacityUsed);
+
+    const materialParameter: MeshPhongMaterialParameters = {color: object3D.color, opacity: opacityUsed, transparent: true};
+
+    return new THREE.MeshPhongMaterial(materialParameter);
   }
 
   private addObjectIdToMap(objectId: number, generatedObjectId: number): void {

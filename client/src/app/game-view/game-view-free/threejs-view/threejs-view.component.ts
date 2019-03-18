@@ -144,13 +144,13 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
       this.interval = setInterval(
         () => {
           flashValue = !flashValue;
-          this.threejsViewService.changeObjectsColor(this.modifications, flashValue);
+          this.threejsViewService.changeObjectsColor(this.modifications, flashValue, false);
         },
         this.CHEAT_INTERVAL_TIME);
     } else {
 
       clearInterval(this.interval);
-      this.threejsViewService.changeObjectsColor(this.previousModifications, false);
+      this.threejsViewService.changeObjectsColor(this.previousModifications, false, true);
       this.previousModifications = this.modifications;
       this.modifications = [];
     }
