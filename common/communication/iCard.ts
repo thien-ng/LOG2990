@@ -12,6 +12,11 @@ export interface ICard {
     avatarImageUrl:   string;
     gameImageUrl:     string;
   }
+  
+export interface ILobbyEvent {
+  gameID:       number;
+  displayText:  string;
+}
 
 export const DefaultCard2D: ICard = {
   gameID:             1,
