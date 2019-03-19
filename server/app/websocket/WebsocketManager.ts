@@ -41,6 +41,12 @@ export class WebsocketManager {
             this.gameSocketChecker(socketID, socket);
             this.chatSocketChecker(socket);
 
+            socket.on(CCommon.ON_GET_MODIF_LIST,(arenaID: number) => {
+                const list: number[] = this.gameManagerService.getDifferencesIndex(arenaID);
+
+                socket.emit(CCommon.ON_RECIEVE_MODIF_LIST, list);
+            });
+
          });
         this.io.listen(Constants.WEBSOCKET_PORT_NUMBER);
     }

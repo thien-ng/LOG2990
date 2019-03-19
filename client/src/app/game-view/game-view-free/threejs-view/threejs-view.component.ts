@@ -94,6 +94,9 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
       this.focusChat = newValue;
     });
     this.gameConnectionService.getObjectToUpdate().subscribe((object: ISceneObjectUpdate) => {
+      this.getDifferencesList();
+
+      this.threejsViewService.changeObjectsColor(this.modifications, false, true);
       if (this.isNotOriginal) {
         this.threejsViewService.updateSceneWithNewObject(object);
       }
@@ -137,7 +140,6 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
 
     this.modifications = modifications;
     this.isCheating = !this.isCheating;
-
     if (this.isCheating) {
 
       let flashValue: boolean = false;
@@ -154,6 +156,13 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
       this.previousModifications = this.modifications;
       this.modifications = [];
     }
+  }
+
+  private getDifferencesList(): void {
+    this.socketService.sendMsg(CCommon.ON_GET_MODIF_LIST, this.arenaID);
+    this.socketService.onMsg(CCommon.ON_RECIEVE_MODIF_LIST).subscribe((list: number[]) => {
+      this.modifications = list;
+    });
   }
 
   private initListener(): void {

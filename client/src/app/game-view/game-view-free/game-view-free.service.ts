@@ -14,7 +14,7 @@ export class GameViewFreeService {
   public constructor (private gameConnectionService: GameConnectionService) {}
 
   public onArenaResponse(data: IArenaResponse<ISceneObjectUpdate>): void {
-
+    
     if (data.status === CCommon.ON_SUCCESS) {
 
       this.playSuccessSound();

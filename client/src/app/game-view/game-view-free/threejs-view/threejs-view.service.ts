@@ -22,9 +22,9 @@ export class ThreejsViewService {
   private sceneVariable:          ISceneVariables;
   private threejsGenerator:       ThreejsGenerator;
   private modifiedMap:            Map<number, number>;
-  private mapOriginColor:         Map<number, string>;
   private modifiedMapIntersect:   Map<number, number>;
   private opacityMap:             Map<number, number>;
+  private mapOriginColor:         Map<number, string>;
 
   public constructor() {
     this.init();
@@ -40,9 +40,9 @@ export class ThreejsViewService {
     );
     this.ambLight             = new THREE.AmbientLight(Constants.AMBIENT_LIGHT_COLOR, Constants.AMBIENT_LIGHT_INTENSITY);
     this.modifiedMap          = new Map<number, number>();
-    this.mapOriginColor       = new Map<number, string>();
     this.modifiedMapIntersect = new Map<number, number>();
     this.opacityMap           = new Map<number, number>();
+    this.mapOriginColor       = new Map<number, string>();
     this.mouse                = new THREE.Vector3();
     this.raycaster            = new THREE.Raycaster();
   }
@@ -74,9 +74,11 @@ export class ThreejsViewService {
   }
 
   public changeObjectsColor(modifiedList: number[], cheatColorActivated: boolean, isLastChange: boolean): void {
-    console.log(modifiedList);
-    console.log(this.opacityMap);
 
+    if (!modifiedList) {
+      return;
+    }
+  
     modifiedList.forEach((differenceId: number) => {
 
       const meshObject:      THREE.Mesh | undefined = this.recoverObjectFromScene(differenceId);
@@ -84,6 +86,7 @@ export class ThreejsViewService {
       let opacityNeeded:     number                 = (cheatColorActivated) ? 0 : 1;
       
       if (isLastChange) {
+
         const originalOpacity: number = this.opacityMap.get(differenceId) as number;
         opacityNeeded = originalOpacity;
       }
@@ -166,16 +169,15 @@ export class ThreejsViewService {
   }
 
   private renderObject(): void {
-    // const speed: number     = Date.now() * Constants.SPEED_FACTOR;
+    const speed: number     = Date.now() * Constants.SPEED_FACTOR;
 
-    // this.camera.position.x  = Math.cos(speed) * Constants.POSITION_FACTOR;
+    this.camera.position.x  = Math.cos(speed) * Constants.POSITION_FACTOR;
 
     this.camera.lookAt(Constants.CAMERA_LOOK_AT_X, Constants.CAMERA_LOOK_AT_Y, Constants.CAMERA_LOOK_AT_Z);
     this.renderer.render(this.scene, this.camera);
   }
 
   private generateSceneObjects(): void {
-    console.log(this.sceneVariable.sceneObjects);
     this.sceneVariable.sceneObjects.forEach((element: ISceneObject) => {
       this.threejsGenerator.initiateObject(element);
     });
