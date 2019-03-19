@@ -45,26 +45,13 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   private previousModifications:  number[];
   private isFirstGet:             boolean;
 
-  @Input()
-  private arenaID:                 number;
-
-  @Input()
-  private iSceneVariables:        ISceneVariables;
-
-  @Input()
-  private iSceneVariablesMessage: ISceneData;
-
-  @Input()
-  private isSnapshotNeeded:       boolean;
-
-  @Input()
-  private isNotOriginal:             boolean;
-
-  @Input()
-  private username:               string;
-
-  @Output()
-  public sceneGenerated:          EventEmitter<string>;
+  @Input() private arenaID:                 number;
+  @Input() private iSceneVariables:         ISceneVariables;
+  @Input() private iSceneVariablesMessage:  ISceneData;
+  @Input() private isSnapshotNeeded:        boolean;
+  @Input() private isNotOriginal:           boolean;
+  @Input() private username:                string;
+  @Output() public sceneGenerated:          EventEmitter<string>;
 
   @ViewChild("originalScene", {read: ElementRef})
   private originalScene:          ElementRef;
@@ -131,6 +118,9 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
           this.previousModifications = modifications;
           this.isFirstGet = false;
         }
+
+        this.modifications = modifications;
+        this.isCheating = !this.isCheating;
         this.changeColor(modifications);
       });
     }
@@ -138,29 +128,27 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
 
   private changeColor(modifications: number[]): void {
 
-    this.modifications = modifications;
-    this.isCheating = !this.isCheating;
     if (this.isCheating) {
 
       let flashValue: boolean = false;
       this.interval = setInterval(
         () => {
           flashValue = !flashValue;
-          this.threejsViewService.changeObjectsColor(this.modifications, flashValue, false);
+          this.threejsViewService.changeObjectsColor(modifications, flashValue, false);
         },
         this.CHEAT_INTERVAL_TIME);
     } else {
 
       clearInterval(this.interval);
       this.threejsViewService.changeObjectsColor(this.previousModifications, false, true);
-      this.previousModifications = this.modifications;
+      this.previousModifications = modifications;
       this.modifications = [];
     }
   }
 
   private getDifferencesList(): void {
     this.socketService.sendMsg(CCommon.ON_GET_MODIF_LIST, this.arenaID);
-    this.socketService.onMsg(CCommon.ON_RECIEVE_MODIF_LIST).subscribe((list: number[]) => {
+    this.socketService.onMsg(CCommon.ON_RECEIVE_MODIF_LIST).subscribe((list: number[]) => {
       this.modifications = list;
     });
   }
@@ -168,7 +156,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   private initListener(): void {
     this.originalScene.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
 
-      const idValue: number = this.threejsViewService.detectObject(mouseEvent);
+      const idValue: number          = this.threejsViewService.detectObject(mouseEvent);
       const message: IClickMessage3D = this.createHitValidationMessage(idValue);
 
       this.socketService.sendMsg(CCommon.POSITION_VALIDATION, message);

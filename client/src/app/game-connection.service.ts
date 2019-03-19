@@ -11,7 +11,7 @@ export class GameConnectionService {
   private objectToUpdate: Subject<ISceneObjectUpdate>;
 
   public constructor() {
-    this.gameConnected = new Subject<number>();
+    this.gameConnected  = new Subject<number>();
     this.objectToUpdate = new Subject<ISceneObjectUpdate>();
   }
 
@@ -27,7 +27,7 @@ export class GameConnectionService {
     return this.objectToUpdate;
   }
 
-  public updateObjectToUpdate(objectToUpdate: ISceneObjectUpdate): void {
+  public updateModifiedScene(objectToUpdate: ISceneObjectUpdate): void {
     this.objectToUpdate.next(objectToUpdate);
   }
 

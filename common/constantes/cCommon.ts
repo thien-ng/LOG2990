@@ -17,7 +17,7 @@ export class CCommon {
     public static readonly ON_ARENA_CONNECT:          string = "onArenaConnect";
     public static readonly ON_ARENA_RESPONSE:         string = "onArenaResponse";
     public static readonly ON_GET_MODIF_LIST:         string = "onGetModifList";
-    public static readonly ON_RECIEVE_MODIF_LIST:     string = "onReceiveModifList";
+    public static readonly ON_RECEIVE_MODIF_LIST:     string = "onReceiveModifList";
     public static readonly ON_CANCEL_REQUEST:         string = "onCancelRequest";
     public static readonly ON_CHAT_MESSAGE:           string = "onChatMessage";
     public static readonly ON_ERROR:                  string = "onError";

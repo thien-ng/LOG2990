@@ -107,10 +107,9 @@ describe("ThreejsViewService Tests", () => {
   it("should return -1 if no object is detected",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
-    threejsViewService["mouse"] = mock(THREE.Vector3);
-    threejsViewService["camera"] = mock(THREE.PerspectiveCamera);
-    const raycaster: any = mock(THREE.Raycaster);
-    threejsViewService["raycaster"] = raycaster;
+    threejsViewService["mouse"]     = mock(THREE.Vector3);
+    threejsViewService["camera"]    = mock(THREE.PerspectiveCamera); 
+    threejsViewService["raycaster"] = mock(THREE.Raycaster);
 
     threejsViewService.createScene(scene, sceneVariables, renderer);
     const result: number = threejsViewService.detectObject(mock(MouseEvent));
@@ -124,7 +123,7 @@ describe("ThreejsViewService Tests", () => {
 
     threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
 
-    const initSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "initiateObject");
+    const initSpy:   any = spyOn<any>(threejsViewService["threejsGenerator"], "initiateObject");
     const deleteSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "deleteObject");
     const changeSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "changeObjectColor");
 
@@ -145,13 +144,13 @@ describe("ThreejsViewService Tests", () => {
 
     threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
 
-    const initSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "initiateObject");
+    const initSpy:   any = spyOn<any>(threejsViewService["threejsGenerator"], "initiateObject");
     const deleteSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "deleteObject");
     const changeSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "changeObjectColor");
 
     const objectUpdate: ISceneObjectUpdate = {
       actionToApply: ActionType.NO_ACTION_REQUIRED,
-      sceneObject: sceneVariables.sceneObjects[0],
+      sceneObject:   sceneVariables.sceneObjects[0],
     };
 
     threejsViewService.createScene(scene, sceneVariables, renderer);
@@ -172,7 +171,7 @@ describe("ThreejsViewService Tests", () => {
 
     const objectUpdate: ISceneObjectUpdate = {
       actionToApply: ActionType.ADD,
-      sceneObject: sceneVariables.sceneObjects[0],
+      sceneObject:   sceneVariables.sceneObjects[0],
     };
 
     threejsViewService.createScene(scene, sceneVariables, renderer);
@@ -187,12 +186,12 @@ describe("ThreejsViewService Tests", () => {
 
     threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
 
-    const initSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "initiateObject");
+    const initSpy:   any = spyOn<any>(threejsViewService["threejsGenerator"], "initiateObject");
     const changeSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "changeObjectColor");
 
     const objectUpdate: ISceneObjectUpdate = {
     actionToApply: ActionType.DELETE,
-    sceneObject: sceneVariables.sceneObjects[0],
+    sceneObject:   sceneVariables.sceneObjects[0],
     };
 
     threejsViewService.createScene(scene, sceneVariables, renderer);
@@ -207,12 +206,12 @@ describe("ThreejsViewService Tests", () => {
 
     threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
 
-    const initSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "initiateObject");
+    const initSpy:   any = spyOn<any>(threejsViewService["threejsGenerator"], "initiateObject");
     const deleteSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "deleteObject");
 
     const objectUpdate: ISceneObjectUpdate = {
     actionToApply: ActionType.CHANGE_COLOR,
-    sceneObject: sceneVariables.sceneObjects[0],
+    sceneObject:   sceneVariables.sceneObjects[0],
     };
 
     threejsViewService.createScene(scene, sceneVariables, renderer);

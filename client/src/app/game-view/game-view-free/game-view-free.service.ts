@@ -8,8 +8,8 @@ import { CCommon } from "../../../../../common/constantes/cCommon";
 })
 export class GameViewFreeService {
 
-  private successSound:          ElementRef;
-  private failSound:             ElementRef;
+  private successSound: ElementRef;
+  private failSound:    ElementRef;
 
   public constructor (private gameConnectionService: GameConnectionService) {}
 
@@ -19,7 +19,7 @@ export class GameViewFreeService {
 
       this.playSuccessSound();
       if (data.response) {
-        this.gameConnectionService.updateObjectToUpdate(data.response);
+        this.gameConnectionService.updateModifiedScene(data.response);
       }
     }
 
