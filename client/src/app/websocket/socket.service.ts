@@ -3,7 +3,7 @@ import { Observable } from "rxjs";
 import * as io from "socket.io-client";
 import { GameMode } from "../../../../common/communication/iCard";
 import { IChat } from "../../../../common/communication/iChat";
-import { IArenaResponse, IOriginalPixelCluster, ISceneObjectUpdate } from "../../../../common/communication/iGameplay";
+import { IArenaResponse, IOriginalPixelCluster, ISceneObjectUpdate, IPenalty } from "../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { CardManagerService } from "../card/card-manager.service";
 import { Constants } from "../constants";
@@ -61,17 +61,13 @@ export class SocketService {
     });
   }
   private checkOnGameViewEmit(): void {
-    // tslint:disable-next-line:no-any _TODO
+
     this.socket.on(CCommon.ON_ARENA_RESPONSE, (data: IArenaResponse<IOriginalPixelCluster | ISceneObjectUpdate>) => {
       this.emitOnArenaResponse(data);
     });
-    // tslint:disable-next-line:no-any _TODO
-    this.socket.on(CCommon.ON_PENALTY_ON, (data: IArenaResponse<IOriginalPixelCluster | ISceneObjectUpdate>) => {
+
+    this.socket.on(CCommon.ON_PENALTY, (data: IPenalty) => {
       this.emitOnPenaltyOn(data);
-    });
-    // tslint:disable-next-line:no-any _TODO
-    this.socket.on(CCommon.ON_PENALTY_OFF, (data: IArenaResponse<IOriginalPixelCluster | ISceneObjectUpdate>) => {
-      this.emitOnPenaltyOff(data);
     });
   }
 
@@ -85,27 +81,29 @@ export class SocketService {
   }
 
   // tslint:disable-next-line:no-any _TODO
-  private emitOnPenaltyOn(arenaResponse: IArenaResponse<any>): void {
+  private emitOnPenaltyOn(arenaResponse: IPenalty): void {
 
-    this.gameViewFreeService.wrongClickRoutine();
-    // this.gameViewSimpleService.wrongClickRoutine();
-    // if (arenaResponse.arenaType === GameMode.simple) {
-    //   this.gameViewSimpleService.wrongClickRoutine();
-    // } else {
-    //   this.gameViewFreeService.wrongClickRoutine();
-    // }
+    if (arenaResponse.isOnPenalty) {
+      this.wrongClickRoutine(arenaResponse.arenaType);
+    } else {
+      this.enableClickRoutine(arenaResponse.arenaType);
+    }
   }
 
-  // tslint:disable-next-line:no-any _TODO
-  private emitOnPenaltyOff(arenaResponse: IArenaResponse<any>): void {
+  private wrongClickRoutine(arenaType: GameMode): void {
+    if (arenaType === GameMode.simple) {
+      this.gameViewSimpleService.wrongClickRoutine();
+    } else {
+      this.gameViewFreeService.wrongClickRoutine();
+    }
+  }
 
-    // this.gameViewFreeService.enableClickRoutine();
-    // this.gameViewSimpleService.enableClickRoutine();
-    // if (arenaResponse.arenaType === GameMode.simple) {
-    //   this.gameViewSimpleService.enableClickRoutine();
-    // } else {
-    //   this.gameViewFreeService.enableClickRoutine();
-    // }
+  private enableClickRoutine(arenaType: GameMode): void {
+    if (arenaType === GameMode.simple) {
+      this.gameViewSimpleService.enableClickRoutine();
+    } else {
+      // this.gameViewFreeService.enableClickRoutine();
+    }
   }
 
   public sendMsg<T>(type: string, msg: T): void {

@@ -22,10 +22,6 @@ export class Arena2D extends Arena<IPlayerInput<IPosition2D>, IArenaResponse<IOr
             this.ARENA_TYPE = GameMode.simple;
         }
 
-    public sendMessage(playerSocketId: string, event: string, message: number): void {
-        this.gameManagerService.sendMessage(playerSocketId, event, message);
-    }
-
     public async onPlayerClick(position: IPosition2D, user: IUser): Promise<IArenaResponse<IOriginalPixelCluster>> {
         const arenaResponse: IArenaResponse<IOriginalPixelCluster> = await this.referee.onPlayerClick(position, user);
         arenaResponse.arenaType = GameMode.simple;

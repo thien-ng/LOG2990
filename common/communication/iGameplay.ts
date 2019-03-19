@@ -45,6 +45,11 @@ export interface IArenaResponse<RES_T> {
     arenaType?:     GameMode;
 }
 
+export interface IPenalty {
+    isOnPenalty:    boolean;
+    arenaType:      GameMode;
+}
+
 export enum ActionType {
     ADD,
     CHANGE_COLOR,
