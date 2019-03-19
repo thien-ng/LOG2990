@@ -78,13 +78,13 @@ export class ThreejsViewService {
     if (!modifiedList) {
       return;
     }
-  
+
     modifiedList.forEach((differenceId: number) => {
 
       const meshObject:      THREE.Mesh | undefined = this.recoverObjectFromScene(differenceId);
       const objectColor:     string     | undefined = this.mapOriginColor.get(differenceId);
       let opacityNeeded:     number                 = (cheatColorActivated) ? 0 : 1;
-      
+
       if (isLastChange) {
 
         const originalOpacity: number = this.opacityMap.get(differenceId) as number;
