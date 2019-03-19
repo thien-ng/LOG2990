@@ -98,7 +98,17 @@ export class CardComponent implements AfterContentInit {
   }
 
   public onResetButtonClick(): void {
-    this.highscoreService.resetHighscore(this.card.gameID);
+    this.dialogConfig.data         = {  message: this.CONFIRMATION_RESET,
+                                        gameTitle: this.card.title,
+                                      };
+
+    const dialogRef: MatDialogRef<ConfirmationDialogComponent> = this.dialog.open(ConfirmationDialogComponent, this.dialogConfig);
+    dialogRef.beforeClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.highscoreService.resetHighscore(this.card.gameID);
+        this.openSnackbar("Temps réinitialisé");
+      }
+    });
   }
 
   private openSnackbar(response: string): void {
