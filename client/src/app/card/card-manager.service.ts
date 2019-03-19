@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
-import { BehaviorSubject, Observable, Subject, forkJoin } from "rxjs";
+import { forkJoin, BehaviorSubject, Observable, Subject } from "rxjs";
 import { GameMode, ILobbyEvent } from "../../../../common/communication/iCard";
 import { ICardLists } from "../../../../common/communication/iCardLists";
 import { Constants } from "../constants";
