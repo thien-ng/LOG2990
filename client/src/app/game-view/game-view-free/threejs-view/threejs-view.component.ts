@@ -121,12 +121,12 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
 
         this.modifications = modifications;
         this.isCheating = !this.isCheating;
-        this.changeColor(modifications);
+        this.changeColor();
       });
     }
   }
 
-  private changeColor(modifications: number[]): void {
+  private changeColor(): void {
 
     if (this.isCheating) {
 
@@ -134,14 +134,14 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
       this.interval = setInterval(
         () => {
           flashValue = !flashValue;
-          this.threejsViewService.changeObjectsColor(modifications, flashValue, false);
+          this.threejsViewService.changeObjectsColor(this.modifications, flashValue, false);
         },
         this.CHEAT_INTERVAL_TIME);
     } else {
 
       clearInterval(this.interval);
       this.threejsViewService.changeObjectsColor(this.previousModifications, false, true);
-      this.previousModifications = modifications;
+      this.previousModifications = this.modifications;
       this.modifications = [];
     }
   }
