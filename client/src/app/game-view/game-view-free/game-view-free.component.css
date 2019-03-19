@@ -32,6 +32,17 @@
   top: 0px;
   left: 0px;
 }
+app-spinner{
+  z-index: 1;
+}
+
+app-threejs-view {
+  padding-top: 3%;
+  height: 100%;
+  width: 100%;
+  padding-left: 0.4%;
+}
+
 app-difference-counter {
   -webkit-user-select: none; /* Safari */
    -khtml-user-select: none; /* Konqueror HTML */
