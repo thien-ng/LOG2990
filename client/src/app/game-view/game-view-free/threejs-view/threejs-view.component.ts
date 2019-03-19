@@ -83,7 +83,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
     this.gameConnectionService.getObjectToUpdate().subscribe((object: ISceneObjectUpdate) => {
       this.getDifferencesList();
 
-      this.threejsViewService.changeObjectsColor(this.modifications, false, true);
+      this.threejsViewService.changeObjectsColor(false, true, this.modifications);
       if (this.isNotOriginal) {
         this.threejsViewService.updateSceneWithNewObject(object);
       }
@@ -134,13 +134,13 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
       this.interval = setInterval(
         () => {
           flashValue = !flashValue;
-          this.threejsViewService.changeObjectsColor(this.modifications, flashValue, false);
+          this.threejsViewService.changeObjectsColor(flashValue, false, this.modifications);
         },
         this.CHEAT_INTERVAL_TIME);
     } else {
 
       clearInterval(this.interval);
-      this.threejsViewService.changeObjectsColor(this.previousModifications, false, true);
+      this.threejsViewService.changeObjectsColor(false, true, this.previousModifications);
       this.previousModifications = this.modifications;
       this.modifications = [];
     }

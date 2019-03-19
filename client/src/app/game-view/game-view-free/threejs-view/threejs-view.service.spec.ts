@@ -65,9 +65,19 @@ describe("ThreejsViewService Tests", () => {
 
     const modifiedList: number[] = [1];
     threejsViewService.createScene(scene, sceneVariables, renderer);
-    threejsViewService.changeObjectsColor(modifiedList, true, false);
+    threejsViewService.changeObjectsColor(true, false, modifiedList);
 
     expect(spy).toHaveBeenCalled();
+  }));
+
+  it("",
+    inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+    const spy: any = spyOn<any>(threejsViewService, "recoverObjectFromScene").and.callThrough();
+
+    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.changeObjectsColor(true, false, undefined);
+
+    expect(spy).not.toHaveBeenCalled();
   }));
 
   it("should change color of the mesh object to origin color",
@@ -82,7 +92,7 @@ describe("ThreejsViewService Tests", () => {
 
     const modifiedList: number[] = [1];
     threejsViewService.createScene(scene, sceneVariables, renderer);
-    threejsViewService.changeObjectsColor(modifiedList, false, false);
+    threejsViewService.changeObjectsColor(false, false, modifiedList);
 
     expect(spy).toHaveBeenCalled();
   }));
@@ -99,7 +109,7 @@ describe("ThreejsViewService Tests", () => {
 
     const modifiedList: number[] = [1];
     threejsViewService.createScene(scene, sceneVariables, renderer);
-    threejsViewService.changeObjectsColor(modifiedList, false, true);
+    threejsViewService.changeObjectsColor(false, true, modifiedList);
 
     expect(spy).toHaveBeenCalled();
   }));

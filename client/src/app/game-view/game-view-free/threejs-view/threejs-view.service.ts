@@ -73,7 +73,7 @@ export class ThreejsViewService {
     this.camera.lookAt(this.scene.position);
   }
 
-  public changeObjectsColor(modifiedList: number[], cheatColorActivated: boolean, isLastChange: boolean): void {
+  public changeObjectsColor(cheatColorActivated: boolean, isLastChange: boolean, modifiedList?: number[]): void {
 
     if (!modifiedList) {
       return;
