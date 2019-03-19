@@ -121,5 +121,5 @@ export class Constants {
   public static readonly FAILED_CLICK_MESSAGE:      string = "Wrong Hit";
   public static readonly GOOD_CLICK_MESSAGE:        string = "Good Hit";
   public static readonly ACTIVE_LOBBY_PATH:         string = CCommon.BASE_URL + "/api/game/active-lobby";
-  public static readonly CARD_DELETED_MESSAGE:      string = "Le jeu auquel vous étiez en attente a été supprimé";
+  public static readonly CARD_DELETED_MESSAGE:      string = "Le jeu pour lequel vous étiez en attente a été supprimé";
 }
