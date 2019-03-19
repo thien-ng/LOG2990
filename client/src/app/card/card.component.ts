@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { AfterContentInit, Component, EventEmitter, Input, Output } from "@angular/core";
-import { DialogPosition, MatDialog, MatDialogConfig, MatDialogRef, MatSnackBar } from "@angular/material";
+import { MatDialog, MatDialogConfig, MatDialogRef, MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import { Mode } from "../../../../common/communication/highscore";
 import { CardDeleted, ICard, ILobbyEvent, MultiplayerButtonText } from "../../../../common/communication/iCard";
@@ -20,19 +20,22 @@ import { ConfirmationDialogComponent } from "./confirmation-dialog/confirmation-
 
 export class CardComponent implements AfterContentInit {
 
-  public readonly TROPHY_IMAGE_URL:   string = "https://img.icons8.com/metro/1600/trophy.png";
-  public readonly TEXT_PLAY:          string = "JOUER";
-  public readonly TEXT_RESET_TIMERS:  string = "RÉINITIALISER";
-  public readonly TEXT_DELETE:        string = "SUPPRIMER";
-  public readonly ADMIN_PATH:         string = "/admin";
-  public readonly JOIN_ICON:          string = "arrow_forward";
-  public readonly CREATE_ICON:        string = "add";
+  public readonly TROPHY_IMAGE_URL:     string = "https://img.icons8.com/metro/1600/trophy.png";
+  public readonly TEXT_PLAY:            string = "JOUER";
+  public readonly TEXT_RESET_TIMERS:    string = "RÉINITIALISER";
+  public readonly TEXT_DELETE:          string = "SUPPRIMER";
+  public readonly CONFIRMATION_DELETE:  string = "Voulez-vous vraiment supprimer le jeu";
+  public readonly CONFIRMATION_RESET:   string = "Voulez-vous vraiment reinitialiser les meilleurs temps du jeu";
+  public readonly ADMIN_PATH:           string = "/admin";
+  public readonly JOIN_ICON:            string = "arrow_forward";
+  public readonly CREATE_ICON:          string = "add";
 
-  public multiplayerButton:           string;
-  public icon:                        string;
-  public hsButtonIsClicked:           boolean;
-  @Input()  public card:              ICard;
-  @Output() public cardDeleted:       EventEmitter<string>;
+  public multiplayerButton:             string;
+  public icon:                          string;
+  public hsButtonIsClicked:             boolean;
+  public dialogConfig:                  MatDialogConfig;
+  @Input()  public card:                ICard;
+  @Output() public cardDeleted:         EventEmitter<string>;
 
   public constructor(
     public  router:             Router,
@@ -46,6 +49,13 @@ export class CardComponent implements AfterContentInit {
       this.cardDeleted        = new EventEmitter();
       this.multiplayerButton  = "CRÉER";
       this.icon               = this.CREATE_ICON;
+      this.dialogConfig       = new MatDialogConfig();
+      this.dialogConfig.disableClose = false;
+      this.dialogConfig.autoFocus    = true;
+      this.dialogConfig.width        = "450px";
+      this.dialogConfig.height       = "170px";
+      this.dialogConfig.position     = {bottom: "0%", top: "5%"};
+      this.dialogConfig.autoFocus    = false;
   }
 
   public ngAfterContentInit(): void {
