@@ -26,7 +26,7 @@ describe("GameConnectionService", () => {
     service.getObjectToUpdate().subscribe((object: ISceneObjectUpdate) => {
       expect(object).toBe(objectToUpdate);
     });
-    service.updateObjectToUpdate(objectToUpdate);
+    service.updateModifiedScene(objectToUpdate);
   });
 
 });

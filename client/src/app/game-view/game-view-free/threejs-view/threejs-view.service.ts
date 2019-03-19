@@ -88,7 +88,7 @@ export class ThreejsViewService {
       if (isLastChange) {
 
         const originalOpacity: number = this.opacityById.get(differenceId) as number;
-  
+
         opacityNeeded = originalOpacity;
       }
 

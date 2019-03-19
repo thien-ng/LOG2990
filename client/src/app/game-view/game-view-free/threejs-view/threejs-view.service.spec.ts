@@ -108,7 +108,7 @@ describe("ThreejsViewService Tests", () => {
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     threejsViewService["mouse"]     = mock(THREE.Vector3);
-    threejsViewService["camera"]    = mock(THREE.PerspectiveCamera); 
+    threejsViewService["camera"]    = mock(THREE.PerspectiveCamera);
     threejsViewService["raycaster"] = mock(THREE.Raycaster);
 
     threejsViewService.createScene(scene, sceneVariables, renderer);
