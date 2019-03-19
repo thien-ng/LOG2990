@@ -57,10 +57,10 @@ export class GameViewSimpleService {
       const positionRight: number   = this.position.x - CENTERX;
       const positionRight2: number  = this.position.x - CENTERX;
 
-      this.textCanvasOriginal.style.top   = positionTop + "px";
-      this.textCanvasOriginal.style.left  = positionRight + "px";
-      this.textCanvasModified.style.top   = positionTop + "px";
-      this.textCanvasModified.style.left  = positionRight2 + "px";
+      this.textCanvasOriginal.style.top   = positionTop     + "px";
+      this.textCanvasOriginal.style.left  = positionRight   + "px";
+      this.textCanvasModified.style.top   = positionTop     + "px";
+      this.textCanvasModified.style.left  = positionRight2  + "px";
       this.textCanvasOriginal.textContent = ERROR_MESSAGE;
       this.textCanvasModified.textContent = ERROR_MESSAGE;
 }
