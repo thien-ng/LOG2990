@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { inject, injectable } from "inversify";
 
+import { CardDeleted } from "../../../common/communication/iCard";
 import { Message } from "../../../common/communication/message";
 import { GameManagerService } from "../services/game/game-manager.service";
 import Types from "../types";
@@ -27,9 +28,14 @@ export class GameManagerController {
             res.json(this.gameManagerService.getDifferencesIndex(Number(req.params.arenaId)));
         });
 
-        router.get("/cancel-request/:id", async (req: Request, res: Response, next: NextFunction) => {
+        router.get("/cancel-request/:id/:cardDeleted", async (req: Request, res: Response, next: NextFunction) => {
             const id: number = Number(req.params.id);
-            res.json(this.gameManagerService.cancelRequest(id));
+            const cardDeleted: boolean = (Number(req.params.cardDeleted) === CardDeleted.true);
+            res.json(this.gameManagerService.cancelRequest(id, cardDeleted));
+        });
+
+        router.get("/active-lobby", async (req: Request, res: Response, next: NextFunction) => {
+            res.json(this.gameManagerService.getActiveLobby());
         });
 
         return router;

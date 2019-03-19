@@ -19,8 +19,8 @@ import { Arena3D } from "./arena/arena3d";
 import { I2DInfos, I3DInfos, IArenaInfos, IPlayerInput } from "./arena/interfaces";
 import { Player } from "./arena/player";
 
-const JOIN_TEXT: string = "JOINDRE";
-const CREATE_TEXT: string = "CRÉER";
+const JOIN_TEXT:                        string = "JOINDRE";
+const CREATE_TEXT:                      string = "CRÉER";
 const REQUEST_ERROR_MESSAGE:            string = "Game mode invalide";
 const TEMP_ROUTINE_ERROR:               string = "error while copying to temp";
 const HIGHSCORE_VALIDATION_ERROR:       string = "Erreur lors de la validation du highscore";
@@ -31,7 +31,6 @@ const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey:
 // tslint:disable:no-any
 @injectable()
 export class GameManagerService {
-
     private arenaID:            number;
     private server:             SocketIO.Server;
     private assetManager:       AssetManagerService;
@@ -88,9 +87,18 @@ export class GameManagerService {
         };
     }
 
-    public cancelRequest(gameID: number): Message {
+    public cancelRequest(gameID: number, isCardDeleted: boolean): Message {
         const successMessage:   Message = this.generateMessage(CCommon.ON_SUCCESS, gameID.toString());
         const errorMessage:     Message = this.generateMessage(CCommon.ON_ERROR, gameID.toString());
+        const lobbyEvent: ILobbyEvent = this.generateILobbyEvent(gameID, CREATE_TEXT);
+        this.server.emit(CCommon.ON_LOBBY, lobbyEvent);
+
+        const lobby: IUser[] | undefined = this.lobby.get(gameID);
+        if (isCardDeleted && lobby !== undefined) {
+            lobby.forEach((user: IUser) => {
+                this.sendMessage(user.socketID, CCommon.ON_CANCEL_REQUEST);
+            });
+        }
 
         return (this.lobby.delete(gameID)) ? successMessage : errorMessage;
     }
@@ -106,10 +114,7 @@ export class GameManagerService {
     }
 
     private newLobby(request: IGameRequest, user: IUser): Message {
-        const lobbyEvent: ILobbyEvent = {
-            gameID: request.gameId,
-            displayText: JOIN_TEXT,
-        };
+        const lobbyEvent: ILobbyEvent = this.generateILobbyEvent(request.gameId, JOIN_TEXT);
 
         this.lobby.set(request.gameId.valueOf(), [user]);
         this.server.emit(CCommon.ON_LOBBY, lobbyEvent);
@@ -118,10 +123,7 @@ export class GameManagerService {
     }
 
     private async joinLobby(request: IGameRequest, user: IUser, lobby: IUser[]): Promise<Message> {
-        const lobbyEvent: ILobbyEvent = {
-            gameID: request.gameId,
-            displayText: CREATE_TEXT,
-        };
+        const lobbyEvent: ILobbyEvent = this.generateILobbyEvent(request.gameId, CREATE_TEXT);
 
         let message: Message;
         lobby.push(user);
@@ -149,6 +151,13 @@ export class GameManagerService {
         };
     }
 
+    private generateILobbyEvent(gameID: number, displayText: string): ILobbyEvent {
+        return {
+            gameID: gameID,
+            displayText: displayText,
+        };
+    }
+
     private async create2DArena(users: IUser[], gameId: number): Promise<Message> {
         const arenaInfo: IArenaInfos<I2DInfos> = this.buildArena2DInfos(users, gameId);
         const arena: Arena2D = new Arena2D(arenaInfo, this);
@@ -162,6 +171,15 @@ export class GameManagerService {
             title:  CCommon.ON_SUCCESS,
             body:   arenaInfo.arenaId.toString(),
         };
+    }
+
+    public getActiveLobby(): number[] {
+        const lobbyList: number[] = [];
+        this.lobby.forEach((value: IUser[], key: number) => {
+            lobbyList.push(key);
+        });
+
+        return lobbyList;
     }
 
     private async initArena(arena: Arena<any, any, any, any>): Promise<void> {
@@ -242,14 +260,34 @@ export class GameManagerService {
         return this.arenaID++;
     }
 
-    public subscribeSocketID(socketID: string, socket: SocketIO.Socket, server: SocketIO.Server): void {
-        this.server = server;
+    public subscribeSocketID(socketID: string, socket: SocketIO.Socket): void {
         this.playerList.set(socketID, socket);
+    }
+
+    public setServer(server: SocketIO.Server): void {
+        this.server = server;
     }
 
     public unsubscribeSocketID(socketID: string, username: string): void {
         this.playerList.delete(socketID);
         this.removePlayerFromArena(username);
+        this.removePlayerFromLobby(username);
+    }
+
+    private removePlayerFromLobby(username: string): void {
+        let gameID: number = 0;
+
+        this.lobby.forEach((value: IUser[], key: number) => {
+            if (value.some((user: IUser) => user.username === username)) {
+                gameID = key;
+            }
+        });
+        this.lobby.delete(gameID);
+
+        if (gameID !== 0) {
+            const lobbyEvent: ILobbyEvent = this.generateILobbyEvent(gameID, CREATE_TEXT);
+            this.server.emit(CCommon.ON_LOBBY, lobbyEvent);
+        }
     }
 
     private removePlayerFromArena(username: string): void {
@@ -289,7 +327,7 @@ export class GameManagerService {
         return this.playerList;
     }
 
-    public sendMessage(socketID: string, messageType: string, message: number | IArenaResponse<IOriginalPixelCluster>): void {
+    public sendMessage(socketID: string, messageType: string, message?: number | IArenaResponse<IOriginalPixelCluster>): void {
         const playerSocket: SocketIO.Socket | undefined = this.playerList.get(socketID);
         if (playerSocket !== undefined) {
             playerSocket.emit(messageType, message);

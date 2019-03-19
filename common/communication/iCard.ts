@@ -4,6 +4,11 @@ export enum GameMode {
   invalid = "invalid",
 }
 
+export enum CardDeleted {
+  true,
+  false,
+}
+
 export interface ICard {
     gameID:           number;
     gamemode:         GameMode;
@@ -11,6 +16,7 @@ export interface ICard {
     subtitle:         string;
     avatarImageUrl:   string;
     gameImageUrl:     string;
+    lobbyExists?:     boolean;
   }
   
 export interface ILobbyEvent {

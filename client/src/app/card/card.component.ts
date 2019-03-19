@@ -1,13 +1,16 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { AfterContentInit, Component, EventEmitter, Input, Output } from "@angular/core";
 import { DialogPosition, MatDialog, MatDialogConfig, MatDialogRef, MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import { Mode } from "../../../../common/communication/highscore";
-import { ICard } from "../../../../common/communication/iCard";
+import { CardDeleted, ICard, ILobbyEvent } from "../../../../common/communication/iCard";
 import { Constants } from "../constants";
 import { GameModeService } from "../game-list-container/game-mode.service";
 import { HighscoreService } from "../highscore-display/highscore.service";
 import { CardManagerService } from "./card-manager.service";
 import { ConfirmationDialogComponent } from "./confirmation-dialog/confirmation-dialog.component";
+
+const JOIN_TEXT: string = "JOINDRE";
 
 @Component({
   selector:     "app-card",
@@ -16,7 +19,7 @@ import { ConfirmationDialogComponent } from "./confirmation-dialog/confirmation-
   providers:    [HighscoreService],
 })
 
-export class CardComponent {
+export class CardComponent implements AfterContentInit {
 
   public readonly TROPHY_IMAGE_URL:   string = "https://img.icons8.com/metro/1600/trophy.png";
   public readonly TEXT_PLAY:          string = "JOUER";
@@ -25,9 +28,8 @@ export class CardComponent {
   public readonly TEXT_RESET_TIMERS:  string = "RÉINITIALISER";
   public readonly TEXT_DELETE:        string = "SUPPRIMER";
   public readonly ADMIN_PATH:         string = "/admin";
-  public readonly TEXT_CREATE:        string = "CRÉER";
-  public readonly TEXT_JOIN:          string = "JOINDRE";
 
+  public multiplayerButton:           string = "CRÉER";
   public hsButtonIsClicked:           boolean;
   @Input()  public card:              ICard;
   @Output() public cardDeleted:       EventEmitter<string>;
@@ -39,19 +41,34 @@ export class CardComponent {
     private snackBar:           MatSnackBar,
     private highscoreService:   HighscoreService,
     public  dialog:             MatDialog,
+    private httpClient:         HttpClient,
     ) {
       this.cardDeleted = new EventEmitter();
+  }
+
+  public ngAfterContentInit(): void {
+    if (this.card.lobbyExists) {
+      this.multiplayerButton = JOIN_TEXT;
     }
 
+    this.cardManagerService.getButtonListener().subscribe((lobbyEvent: ILobbyEvent) => {
+      if (this.card.gameID === lobbyEvent.gameID) {
+        this.multiplayerButton = lobbyEvent.displayText;
+      }
+    });
+  }
+
   public  onDeleteButtonClick(): void {
-    const dialogConfig: MatDialogConfig = new MatDialogConfig();
+    const dialogConfig:   MatDialogConfig = new MatDialogConfig();
+    const dialogPosition: DialogPosition  = {bottom: "0%", top: "5%"};
+
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus    = true;
-    dialogConfig.width = "450px";
-    dialogConfig.height = "150px";
-    const dialogPosition: DialogPosition = {bottom: "0%", top: "5%"};
-    dialogConfig.position = dialogPosition;
-    dialogConfig.data = this.card.title;
+    dialogConfig.width        = "450px";
+    dialogConfig.height       = "150px";
+    dialogConfig.position     = dialogPosition;
+    dialogConfig.data         = this.card.title;
+
     const dialogRef: MatDialogRef<ConfirmationDialogComponent> = this.dialog.open(ConfirmationDialogComponent, dialogConfig);
     dialogRef.beforeClosed().subscribe((result: boolean) => {
       if (result) {
@@ -62,6 +79,7 @@ export class CardComponent {
 
   public deleteCard(): void {
     this.cardManagerService.removeCard(this.card.gameID, this.card.gamemode).subscribe((response: string) => {
+      this.httpClient.get(Constants.CANCEL_REQUEST_PATH + this.card.gameID + "/" + CardDeleted.true).subscribe();
       this.openSnackbar(response);
       this.cardDeleted.emit();
     });

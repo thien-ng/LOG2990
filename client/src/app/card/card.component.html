@@ -17,11 +17,11 @@
             <span>{{TEXT_PLAY}}</span>
           </button>
           <button *ngIf="this.router.url != ADMIN_PATH" class="playButton" (click)="onStartGameClick(1)" mat-button>
-              <mat-icon class="playIcon">add</mat-icon>
-              <span>{{TEXT_CREATE}}</span>
+              <mat-icon class="playIcon">{{icon}}</mat-icon>
+              <span>{{multiplayerButton}}</span>
             </button>
           <button *ngIf="this.router.url == ADMIN_PATH" class="playButton" mat-button (click)="onDeleteButtonClick()">
-            <mat-icon class="resetIcon" >delete</mat-icon>
+            <mat-icon class="resetIcon">delete</mat-icon>
             <span>{{TEXT_DELETE}}</span>
           </button>
           <button *ngIf="this.router.url == ADMIN_PATH" class="resetButton" mat-button (click)="onResetButtonClick()">
