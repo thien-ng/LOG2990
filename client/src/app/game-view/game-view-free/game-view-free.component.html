@@ -1,22 +1,25 @@
 <app-waiting-room [gameID]="gameID" *ngIf="!gameIsStarted && mode !== 0"></app-waiting-room>
 
 <span [hidden]="!gameIsStarted">
-  <mat-grid-list cols="9" rowHeight="19.9%">
+  <mat-grid-list cols="9" rowHeight="1%">
     <mat-grid-tile
       [colspan]="7"
-      [rowspan]="1">
+      [rowspan]="12">
       <div class="gameName" *ngIf="gameIsStarted">{{activeCard.title}}</div>
     </mat-grid-tile>
     <mat-grid-tile
       [colspan]="2"
-      [rowspan]="5">
+      [rowspan]="89">
       <app-chat-view [arenaID]="arenaID" [username]="username"></app-chat-view>
     </mat-grid-tile>
     <mat-grid-tile
     [colspan]="7"
-    [rowspan]="3">
+    [rowspan]="57">
     <app-spinner *ngIf="isLoading"></app-spinner>
-    <app-threejs-view id="originalScene"
+      <mat-grid-list id="displayGame" cols="2" rowHeight="500px">
+          <mat-grid-tile [colspan]="1">
+              <div class="text" #textDiv>TEXT</div>
+              <app-threejs-view id="originalScene"
                       [arenaID]="arenaID"
                       [username]="username"
                       [isNotOriginal]="false"
