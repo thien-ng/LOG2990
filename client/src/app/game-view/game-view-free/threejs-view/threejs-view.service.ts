@@ -1,16 +1,10 @@
 import { Injectable } from "@angular/core";
-import * as THREE from "three";
+import * as THREE from "three-full";
 import { ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Constants } from "../../../constants";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 
-// const THREEF = require("three-full");
-// import * as THREEF from "three-full/builds/Three";
-// tslint:disable-next-line:typedef
-// const THREE = require("node_modules/three-full/builds/Three.cjs.js");
-// tslint:disable-next-line:no-console
-// console.log(THREEF);
 @Injectable()
 export class ThreejsViewService {
 
@@ -22,9 +16,26 @@ export class ThreejsViewService {
   private threejsGenerator:       ThreejsGenerator;
   private modifiedMap:            Map<number, number>;
   private mapOriginColor:         Map<number, string>;
+  // const PLC: any = require("pointer-lock-controls");
+  // private controls:               PLC.PointerLockControls;
+  private velocity:               THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+  private direction:              THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+  private front:                  THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+  private orthogonal:             THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+  public moveForward:             boolean = false;
+  public moveBackward:            boolean = false;
+  public moveLeft:                boolean = false;
+  public moveRight:               boolean = false;
+  public canJump:                 boolean = false;
 
   public constructor() {
     this.init();
+  }
+
+  public setupFront(orientation: number): void {
+    this.camera.getWorldDirection(this.front);
+    this.front.normalize(); // this ensures consistent movements in all directions
+    this.multiplyVector(this.front, orientation);
   }
 
   private init(): void {
@@ -35,6 +46,18 @@ export class ThreejsViewService {
       Constants.MIN_VIEW_DISTANCE,
       Constants.MAX_VIEW_DISTANCE,
     );
+
+    // this.controls = new THREE.FirstPersonControls( this.camera );
+    // this.controls.noFly = false;
+    // this.controls.lookSpeed = 0.4;
+    // this.controls.movementSpeed = 20;
+    // this.controls.lookVertical = true;
+    // this.controls.constrainVertical = true;
+    // this.controls.verticalMin = 1.0;
+    // this.controls.verticalMax = 2.0;
+    // this.controls.lon = -150;
+    // this.controls.lat = 120;
+
     this.ambLight       = new THREE.AmbientLight(Constants.AMBIENT_LIGHT_COLOR, Constants.AMBIENT_LIGHT_INTENSITY);
     this.modifiedMap    = new Map<number, number>();
     this.mapOriginColor = new Map<number, string>();
@@ -103,12 +126,43 @@ export class ThreejsViewService {
     this.renderObject();
   }
 
+  // tslint:disable-next-line:max-func-body-length
   private renderObject(): void {
-    const speed: number     = Date.now() * Constants.SPEED_FACTOR;
+    const speed: number = 1.0;
 
-    this.camera.position.x  = Math.cos(speed) * Constants.POSITION_FACTOR;
+    if ( this.moveLeft ) {
 
-    this.camera.lookAt(Constants.CAMERA_LOOK_AT_X, Constants.CAMERA_LOOK_AT_Y, Constants.CAMERA_LOOK_AT_Z);
+      const frontvec: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+      const yaxis: THREE.Vector3 = new THREE.Vector3(0, 1, 0);
+      this.camera.getWorldDirection(frontvec);
+
+      this.crossProduct(frontvec, yaxis, this.orthogonal);
+    } else if ( this.moveRight ) {
+      const frontvec: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+      const yaxis: THREE.Vector3 = new THREE.Vector3(0, -1, 0);
+      this.camera.getWorldDirection(frontvec);
+
+      this.crossProduct(frontvec, yaxis, this.orthogonal);
+    }
+
+    this.addVectors(this.front, this.orthogonal, this.direction);
+    this.direction.normalize();
+
+    if (this.moveForward || this.moveBackward || this.moveLeft || this.moveRight) {
+
+      this.direction.z = Number(this.moveBackward) - Number(this.moveForward);
+      this.direction.x = Number(this.moveRight) - Number(this.moveLeft);
+
+      this.velocity.x = this.direction.x * speed;
+      this.velocity.y = speed * Number( this.canJump );
+      this.velocity.z = this.direction.z * speed;
+    } else {
+        this.multiplyVector(this.velocity, 0);
+    }
+    this.camera.translateX( this.velocity.x );
+    this.camera.translateY( this.velocity.y );
+    this.camera.translateZ( this.velocity.z );
+
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -116,5 +170,25 @@ export class ThreejsViewService {
     this.sceneVariable.sceneObjects.forEach((element: ISceneObject) => {
       this.threejsGenerator.initiateObject(element);
     });
+  }
+
+  private multiplyVector (vector: THREE.Vector3, multiplier: number): void {
+    vector.x *= multiplier;
+    vector.y *= multiplier;
+    vector.z *= multiplier;
+}
+
+  private addVectors (v1: THREE.Vector3, v2: THREE.Vector3, toVector: THREE.Vector3): void {
+    toVector = new THREE.Vector3(0, 0, 0);
+    toVector.x = v1.x + v2.x;
+    toVector.y = v1.y + v2.y;
+    toVector.z = v1.z + v2.z;
+  }
+
+  private crossProduct (v1: THREE.Vector3, v2: THREE.Vector3, toVector: THREE.Vector3): void {
+    toVector = new THREE.Vector3(0, 0, 0);
+    toVector.x = (v1.y * v2.z) - (v1.z * v2.y);
+    toVector.y = (v1.x * v2.z) - (v1.z * v2.x);
+    toVector.z = (v1.x * v2.y) - (v1.y * v2.x);
   }
 }
