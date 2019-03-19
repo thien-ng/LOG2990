@@ -10,8 +10,8 @@ export class ConfirmationDialogComponent {
 
   public readonly YES_BUTTON_TEXT: string = "Oui";
   public readonly NO_BUTTON_TEXT:  string = "Non";
-  public readonly TITLE:           string = "Avertissement";
-  public readonly CONFIRMATION:    string = "Voulez vous vraiment supprimer le jeu";
+  public readonly WARNING_TITLE:           string = "Avertissement";
+  public readonly CONFIRMATION:    string = "Voulez-vous vraiment supprimer le jeu";
 
   public cardTitle:       string;
 
