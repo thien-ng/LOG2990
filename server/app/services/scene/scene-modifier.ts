@@ -78,11 +78,11 @@ export class SceneModifier {
 
     private addObject(): void {
 
-        const lastObjectElement: ISceneObject = this.sceneObjects[this.sceneObjects.length - 1];
-        const newIndex: number                = lastObjectElement.id + 1;
-        const generatedObject: ISceneObject   = this.sceneBuilder.generateModifyObject(newIndex, this.cloneSceneVariables);
+        const lastObjectElement:            ISceneObject = this.sceneObjects[this.sceneObjects.length - 1];
+        const newIndex:                     number       = lastObjectElement.id + 1;
+        const generatedObject:              ISceneObject = this.sceneBuilder.generateModifyObject(newIndex, this.cloneSceneVariables);
+        const generatedObjectForOriginal:   ISceneObject = this.clone(generatedObject) as ISceneObject;
 
-        const generatedObjectForOriginal: ISceneObject = this.clone(generatedObject) as ISceneObject;
         generatedObjectForOriginal.hidden = true;
 
         const modificationMap: IModification = {id: newIndex, type: ModificationType.added};

@@ -341,5 +341,5 @@ describe("ThreejsViewService Tests", () => {
     expect(deleteSpy).not.toHaveBeenCalled();
   }));
 
+  // tslint:disable-next-line:max-file-line-count
 });
-// tslint:disable-next-line:max-file-line-count
