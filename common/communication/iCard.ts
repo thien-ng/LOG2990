@@ -9,7 +9,7 @@ export enum CardDeleted {
   false,
 }
 
-export enum DisplayText {
+export enum MultiplayerButtonText {
   create = "CRÉER",
   join   = "JOINDRE",
 }
@@ -26,7 +26,7 @@ export interface ICard {
   
 export interface ILobbyEvent {
   gameID:       number;
-  displayText:  DisplayText;
+  buttonText:   MultiplayerButtonText;
 }
 
 export const DefaultCard2D: ICard = {
