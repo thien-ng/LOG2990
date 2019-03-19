@@ -10,6 +10,10 @@ import { GameModeService } from "../game-list-container/game-mode.service";
 import { HighscoreService } from "../highscore-display/highscore.service";
 import { CardManagerService } from "./card-manager.service";
 import { ConfirmationDialogComponent } from "./confirmation-dialog/confirmation-dialog.component";
+export interface Dialog {
+  message:    string;
+  gameTitle:  string;
+}
 
 @Component({
   selector:     "app-card",
@@ -73,17 +77,11 @@ export class CardComponent implements AfterContentInit {
   }
 
   public  onDeleteButtonClick(): void {
-    const dialogConfig:   MatDialogConfig = new MatDialogConfig();
-    const dialogPosition: DialogPosition  = {bottom: "0%", top: "5%"};
+    this.dialogConfig.data         = {  message: this.CONFIRMATION_DELETE,
+                                        gameTitle: this.card.title,
+                                    };
 
-    dialogConfig.disableClose = false;
-    dialogConfig.autoFocus    = true;
-    dialogConfig.width        = "450px";
-    dialogConfig.height       = "150px";
-    dialogConfig.position     = dialogPosition;
-    dialogConfig.data         = this.card.title;
-
-    const dialogRef: MatDialogRef<ConfirmationDialogComponent> = this.dialog.open(ConfirmationDialogComponent, dialogConfig);
+    const dialogRef: MatDialogRef<ConfirmationDialogComponent> = this.dialog.open(ConfirmationDialogComponent, this.dialogConfig);
     dialogRef.beforeClosed().subscribe((result: boolean) => {
       if (result) {
         this.deleteCard();
