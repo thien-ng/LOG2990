@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
 import { HighscoreValidationResponse, Mode, Time } from "../../../../common/communication/highscore";
-import { GameMode, ILobbyEvent, DisplayText } from "../../../../common/communication/iCard";
+import { DisplayText, GameMode, ILobbyEvent } from "../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../common/communication/iGameRequest";
 import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../common/communication/iGameplay";
 import { IUser } from "../../../../common/communication/iUser";
