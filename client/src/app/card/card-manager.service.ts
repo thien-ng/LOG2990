@@ -12,15 +12,15 @@ import { Constants } from "../constants";
 export class CardManagerService {
 
   private highscoreUpdated:       Subject<number>;
-  private cardCreated:            BehaviorSubject<boolean>;
   private buttonUpdated:          Subject<ILobbyEvent>;
+  private cardCreated:            BehaviorSubject<boolean>;
   public  cardCreatedObservable:  Observable<boolean>;
 
   public constructor(private httpClient: HttpClient) {
-    this.buttonUpdated    = new Subject<ILobbyEvent>();
-    this.highscoreUpdated = new Subject<number>();
-    this.cardCreated      = new BehaviorSubject<boolean>(false);
-    this.cardCreatedObservable = this.cardCreated.asObservable();
+    this.buttonUpdated          = new Subject<ILobbyEvent>();
+    this.highscoreUpdated       = new Subject<number>();
+    this.cardCreated            = new BehaviorSubject<boolean>(false);
+    this.cardCreatedObservable  = this.cardCreated.asObservable();
     }
 
   public getCards(): Observable<[ICardLists, number[]]> {
@@ -30,8 +30,8 @@ export class CardManagerService {
     return forkJoin([cardList, lobbyList]);
   }
 
-  public removeCard(gameID: number, mode: GameMode): Observable<string> {
-    return this.httpClient.delete<string>(Constants.REMOVE_CARD_PATH + "/" + mode + "/" + gameID);
+  public removeCard(gameID: number, gameMode: GameMode): Observable<string> {
+    return this.httpClient.delete<string>(Constants.REMOVE_CARD_PATH + "/" + gameMode + "/" + gameID);
   }
 
   public getHighscoreListener(): Observable<number> {
