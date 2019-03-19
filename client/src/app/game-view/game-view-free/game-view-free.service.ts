@@ -29,7 +29,9 @@ export class GameViewFreeService {
     this.playFailSound();
   }
 
-  public enableClickRoutine(): void {}
+  public enableClickRoutine(): void {
+    // _TODO
+  }
 
   private playFailSound(): void {
     this.failSound.nativeElement.currentTime = 0;

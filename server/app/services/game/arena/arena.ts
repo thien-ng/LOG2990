@@ -51,13 +51,6 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
 
     public getDifferencesIds(): number[] {
 
-        // const differencesIds: number[] = [];
-
-        // this.originalElements.forEach((value: DIFF_T, key: number) => {
-        //     differencesIds.push(key);
-        // });
-
-        // return differencesIds;
         const foundDifferences: number[] = this.referee.getFoundDifferences();
         const differencesIds:   number[] = [];
 

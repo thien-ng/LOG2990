@@ -5,19 +5,21 @@ import { ThreejsGenerator } from "./threejs-generator";
 
 // tslint:disable:no-any
 
-let threejsGenerator:   ThreejsGenerator;
-let scene:              THREE.Scene;
-let sceneObject:        ISceneObject;
-let iAxisValues:        IAxisValues;
-let modifiedIdBySceneId:        Map<number, number>;
+let threejsGenerator:         ThreejsGenerator;
+let scene:                    THREE.Scene;
+let sceneObject:              ISceneObject;
+let iAxisValues:              IAxisValues;
+let modifiedIdBySceneId:      Map<number, number>;
 let modifiedIntersect:        Map<number, number>;
 let mapColorByOriginalId:     Map<number, string>;
+let mapOpacity:               Map<number, number>;
 beforeEach(() => {
     modifiedIdBySceneId     = new Map<number, number>();
     modifiedIntersect       = new Map<number, number>();
     mapColorByOriginalId    = new Map<number, string>();
+    mapOpacity              = new Map<number, number>();
     scene                   = mock(THREE.Scene);
-    threejsGenerator        = new ThreejsGenerator(scene, modifiedIdBySceneId, mapColorByOriginalId, modifiedIntersect);
+    threejsGenerator        = new ThreejsGenerator(scene, modifiedIdBySceneId, mapColorByOriginalId, modifiedIntersect, mapOpacity);
     iAxisValues             = { x: 1, y: 1, z: 1 };
     sceneObject             = {
         id:         1,
@@ -26,6 +28,7 @@ beforeEach(() => {
         rotation:   iAxisValues,
         color:      "#ffffff",
         scale:      iAxisValues,
+        hidden:     true,
     };
 });
 
@@ -33,6 +36,14 @@ describe("Tests on ThreejsGenerator", () => {
 
     it("should generate sphere when initiateObject is called", () => {
         const spiedScene: any = spyOn<any>(threejsGenerator, "generateSphere");
+        threejsGenerator.initiateObject(sceneObject);
+
+        expect(spiedScene).toHaveBeenCalled();
+    });
+
+    it("should generate sphere with 0 opacity when initiateObject is called", () => {
+        const spiedScene: any = spyOn<any>(threejsGenerator, "generateSphere");
+        sceneObject.hidden = false;
         threejsGenerator.initiateObject(sceneObject);
 
         expect(spiedScene).toHaveBeenCalled();
