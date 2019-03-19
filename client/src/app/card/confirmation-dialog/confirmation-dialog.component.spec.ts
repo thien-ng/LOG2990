@@ -1,16 +1,27 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ConfirmationDialogComponent } from './confirmation-dialog.component';
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import { Constants } from "src/app/constants";
+import { TestingImportsModule } from "src/app/testing-imports/testing-imports.module";
+import { ConfirmationDialogComponent } from "./confirmation-dialog.component";
 
-describe('ConfirmationDialogComponent', () => {
+describe("ConfirmationDialogComponent", () => {
   let component: ConfirmationDialogComponent;
   let fixture: ComponentFixture<ConfirmationDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConfirmationDialogComponent ]
+      declarations: [ ConfirmationDialogComponent ],
+      imports: [ TestingImportsModule ],
+      providers:      [{
+        provide:  MatDialogRef,
+        useValue: {},
+      },
+                       {
+        provide: MAT_DIALOG_DATA,
+      }],
     })
-    .compileComponents();
+    .compileComponents().catch(() => Constants.OBLIGATORY_CATCH);
   }));
 
   beforeEach(() => {
@@ -19,7 +30,7 @@ describe('ConfirmationDialogComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
