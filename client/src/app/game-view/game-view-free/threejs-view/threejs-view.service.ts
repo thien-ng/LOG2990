@@ -114,7 +114,7 @@ export class ThreejsViewService {
   public detectObject(mouseEvent: MouseEvent): number {
     mouseEvent.preventDefault();
 
-    this.mouse.x = ( mouseEvent.offsetX / this.renderer.domElement.clientWidth ) * this.MULTIPLICATOR - 1;
+    this.mouse.x =   ( mouseEvent.offsetX / this.renderer.domElement.clientWidth ) * this.MULTIPLICATOR - 1;
     this.mouse.y = - ( mouseEvent.offsetY / this.renderer.domElement.clientHeight ) * this.MULTIPLICATOR + 1;
     this.mouse.z = 0;
 
