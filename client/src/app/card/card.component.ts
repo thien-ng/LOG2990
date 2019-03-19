@@ -77,9 +77,9 @@ export class CardComponent implements AfterContentInit {
   }
 
   public  onDeleteButtonClick(): void {
-    this.dialogConfig.data         = {  message: this.CONFIRMATION_DELETE,
-                                        gameTitle: this.card.title,
-                                    };
+    this.dialogConfig.data = {  message: this.CONFIRMATION_DELETE,
+                                gameTitle: this.card.title,
+                              };
 
     const dialogRef: MatDialogRef<ConfirmationDialogComponent> = this.dialog.open(ConfirmationDialogComponent, this.dialogConfig);
     dialogRef.beforeClosed().subscribe((result: boolean) => {
@@ -98,9 +98,9 @@ export class CardComponent implements AfterContentInit {
   }
 
   public onResetButtonClick(): void {
-    this.dialogConfig.data         = {  message: this.CONFIRMATION_RESET,
-                                        gameTitle: this.card.title,
-                                      };
+    this.dialogConfig.data = {  message: this.CONFIRMATION_RESET,
+                                gameTitle: this.card.title,
+                              };
 
     const dialogRef: MatDialogRef<ConfirmationDialogComponent> = this.dialog.open(ConfirmationDialogComponent, this.dialogConfig);
     dialogRef.beforeClosed().subscribe((result: boolean) => {
