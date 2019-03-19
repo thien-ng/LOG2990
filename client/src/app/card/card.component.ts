@@ -4,13 +4,12 @@ import { DialogPosition, MatDialog, MatDialogConfig, MatDialogRef, MatSnackBar }
 import { Router } from "@angular/router";
 import { Mode } from "../../../../common/communication/highscore";
 import { CardDeleted, ICard, ILobbyEvent } from "../../../../common/communication/iCard";
+import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../constants";
 import { GameModeService } from "../game-list-container/game-mode.service";
 import { HighscoreService } from "../highscore-display/highscore.service";
 import { CardManagerService } from "./card-manager.service";
 import { ConfirmationDialogComponent } from "./confirmation-dialog/confirmation-dialog.component";
-
-const JOIN_TEXT: string = "JOINDRE";
 
 @Component({
   selector:     "app-card",
@@ -28,8 +27,11 @@ export class CardComponent implements AfterContentInit {
   public readonly TEXT_RESET_TIMERS:  string = "RÉINITIALISER";
   public readonly TEXT_DELETE:        string = "SUPPRIMER";
   public readonly ADMIN_PATH:         string = "/admin";
+  public readonly JOIN_ICON:          string = "arrow_forward";
+  public readonly CREATE_ICON:        string = "add";
 
   public multiplayerButton:           string = "CRÉER";
+  public icon:                        string = this.CREATE_ICON;
   public hsButtonIsClicked:           boolean;
   @Input()  public card:              ICard;
   @Output() public cardDeleted:       EventEmitter<string>;
@@ -48,12 +50,14 @@ export class CardComponent implements AfterContentInit {
 
   public ngAfterContentInit(): void {
     if (this.card.lobbyExists) {
-      this.multiplayerButton = JOIN_TEXT;
+      this.multiplayerButton = CCommon.JOIN_TEXT;
+      this.icon = this.JOIN_ICON;
     }
 
     this.cardManagerService.getButtonListener().subscribe((lobbyEvent: ILobbyEvent) => {
       if (this.card.gameID === lobbyEvent.gameID) {
         this.multiplayerButton = lobbyEvent.displayText;
+        this.icon = (lobbyEvent.displayText === CCommon.JOIN_TEXT) ? this.JOIN_ICON : this.CREATE_ICON;
       }
     });
   }
