@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
 import { HighscoreValidationResponse, Mode, Time } from "../../../../common/communication/highscore";
-import { DisplayText, GameMode, ILobbyEvent } from "../../../../common/communication/iCard";
+import { GameMode, ILobbyEvent, MultiplayerButtonText } from "../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../common/communication/iGameRequest";
 import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../common/communication/iGameplay";
 import { IUser } from "../../../../common/communication/iUser";
@@ -88,7 +88,7 @@ export class GameManagerService {
     public cancelRequest(gameID: number, isCardDeleted: boolean): Message {
         const successMessage:   Message     = this.generateMessage(CCommon.ON_SUCCESS, gameID.toString());
         const errorMessage:     Message     = this.generateMessage(CCommon.ON_ERROR, gameID.toString());
-        const lobbyEvent:       ILobbyEvent = this.generateILobbyEvent(gameID, DisplayText.create);
+        const lobbyEvent:       ILobbyEvent = this.generateLobbyEvent(gameID, MultiplayerButtonText.create);
         this.server.emit(CCommon.ON_LOBBY, lobbyEvent);
 
         const lobby: IUser[] | undefined = this.lobby.get(gameID);
@@ -113,7 +113,7 @@ export class GameManagerService {
     }
 
     private newLobby(request: IGameRequest, user: IUser): Message {
-        const lobbyEvent: ILobbyEvent = this.generateILobbyEvent(request.gameId, DisplayText.join);
+        const lobbyEvent: ILobbyEvent = this.generateLobbyEvent(request.gameId, MultiplayerButtonText.join);
 
         this.lobby.set(request.gameId.valueOf(), [user]);
         this.server.emit(CCommon.ON_LOBBY, lobbyEvent);
@@ -122,7 +122,7 @@ export class GameManagerService {
     }
 
     private async joinLobby(request: IGameRequest, user: IUser, lobby: IUser[]): Promise<Message> {
-        const lobbyEvent: ILobbyEvent = this.generateILobbyEvent(request.gameId, DisplayText.create);
+        const lobbyEvent: ILobbyEvent = this.generateLobbyEvent(request.gameId, MultiplayerButtonText.create);
 
         let message: Message;
         lobby.push(user);
@@ -150,10 +150,10 @@ export class GameManagerService {
         };
     }
 
-    private generateILobbyEvent(gameID: number, displayText: DisplayText): ILobbyEvent {
+    private generateLobbyEvent(gameID: number, buttonText: MultiplayerButtonText): ILobbyEvent {
         return {
             gameID:      gameID,
-            displayText: displayText,
+            buttonText: buttonText,
         };
     }
 
@@ -284,7 +284,7 @@ export class GameManagerService {
         this.lobby.delete(gameID);
 
         if (gameID !== 0) {
-            const lobbyEvent: ILobbyEvent = this.generateILobbyEvent(gameID, DisplayText.create);
+            const lobbyEvent: ILobbyEvent = this.generateLobbyEvent(gameID, MultiplayerButtonText.create);
             this.server.emit(CCommon.ON_LOBBY, lobbyEvent);
         }
     }
