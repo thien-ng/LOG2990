@@ -1,4 +1,6 @@
 import { TestBed } from "@angular/core/testing";
+import { MatSnackBar } from "@angular/material";
+import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import "rxjs/add/observable/of";
 import { mock } from "ts-mockito";
@@ -10,8 +12,6 @@ import { GameViewSimpleService } from "../game-view/game-view-simple/game-view-s
 import { TimerService } from "../game-view/timer/timer.service";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { SocketService } from "./socket.service";
-import { Router } from "@angular/router";
-import { MatSnackBar } from "@angular/material";
 
 describe("SocketService", () => {
   beforeEach(() => TestBed.configureTestingModule({
