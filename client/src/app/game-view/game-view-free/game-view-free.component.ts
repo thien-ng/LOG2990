@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { AfterViewInit, Component, Inject, OnDestroy, OnInit } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
 import { first } from "rxjs/operators";
@@ -9,9 +9,11 @@ import { SocketService } from "src/app/websocket/socket.service";
 import { Mode } from "../../../../../common/communication/highscore";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../../common/communication/iGameRequest";
+import { ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { ISceneData, ISceneVariables } from "../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../common/communication/message";
 import { CCommon } from "../../../../../common/constantes/cCommon";
+import { GameViewFreeService } from "./game-view-free.service";
 
 const GAMEMODE_KEY: string = "gamemode";
 
@@ -22,11 +24,18 @@ const GAMEMODE_KEY: string = "gamemode";
 })
 export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
 
-  public readonly NEEDED_SNAPSHOT: boolean = false;
+  public readonly NEEDED_SNAPSHOT:  boolean = false;
+  public readonly SUCCESS_SOUND:    string  = "http://localhost:3000/audio/fail.wav";
+  public readonly FAIL_SOUND:       string  = "http://localhost:3000/audio/success.wav";
+
+  @ViewChild("successSound",  {read: ElementRef})  public successSound:    ElementRef;
+  @ViewChild("failSound",     {read: ElementRef})  public failSound:       ElementRef;
+
   public  originalVariables: ISceneVariables;
   public  modifiedVariables: ISceneVariables;
   public  activeCard:        ICard;
   public  gameRequest:       IGameRequest;
+  public  objectToUpdate:    ISceneObject[];
   public  isLoading:         boolean;
   public  gameIsStarted:     boolean;
   public  cardIsLoaded:      boolean;
@@ -38,6 +47,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
   private gameMode:          Mode;
 
   public constructor(
+    @Inject(GameViewFreeService)    private gameViewService:  GameViewFreeService,
     @Inject(SocketService)          private socketService:    SocketService,
     private gameConnectionService:  GameConnectionService,
     private httpClient:             HttpClient,
@@ -54,18 +64,18 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
         this.gameIsStarted  = true;
         this.socketService.sendMsg(CCommon.GAME_CONNECTION, arenaID);
         this.fetchSceneFromServer(this.scenePath)
-          .catch((error) => {
-            this.openSnackBar(error, Constants.SNACK_ACTION);
-          });
+        .catch((error) => {
+          this.openSnackBar(error, Constants.SNACK_ACTION);
+        });
       });
     }
 
   public ngOnInit(): void {
-      this.gameID = this.route.snapshot.paramMap.get("id");
-      const username: string | null = sessionStorage.getItem(Constants.USERNAME_KEY);
-      if (this.gameID !== null && username !== null) {
-        this.createGameRequest(this.gameID, username);
-      }
+    this.gameID = this.route.snapshot.paramMap.get("id");
+    const username: string | null = sessionStorage.getItem(Constants.USERNAME_KEY);
+    if (this.gameID !== null && username !== null) {
+      this.createGameRequest(this.gameID, username);
+    }
   }
 
   public ngAfterViewInit(): void {
@@ -73,9 +83,11 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   private createGameRequest(gameID: string, username: string): void {
-     this.httpClient.get(Constants.PATH_TO_GET_CARD + gameID + "/" + GameMode.free).subscribe((response: ICard) => {
+
+    this.httpClient.get(Constants.PATH_TO_GET_CARD + gameID + "/" + GameMode.free).subscribe((response: ICard) => {
       this.activeCard = response;
       this.scenePath  = CCommon.BASE_URL + "/temp/" + this.activeCard.gameID + CCommon.SCENE_FILE;
+      this.canvasRoutine();
 
       const type: string | null = this.route.snapshot.paramMap.get(GAMEMODE_KEY);
       if (type !== null) {
@@ -175,4 +187,9 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.socketService.sendMsg(CCommon.GAME_DISCONNECT, this.username);
   }
+
+  private canvasRoutine(): void {
+    this.gameViewService.setSounds(this.successSound, this.failSound);
+  }
+
 }

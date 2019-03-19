@@ -18,13 +18,13 @@ const ERROR_MESSAGE:    string = "⚠ ERREUR ⚠";
 
 export class GameViewSimpleService {
 
-  public canvasOriginal:        CanvasRenderingContext2D;
-  public canvasModified:        CanvasRenderingContext2D;
-  public successSound:          ElementRef;
-  public failSound:             ElementRef;
-  public textCanvasOriginal:    HTMLDivElement;
-  public textCanvasModified:    HTMLDivElement;
-  private position:             IPosition2D;
+  private canvasOriginal:        CanvasRenderingContext2D;
+  private canvasModified:        CanvasRenderingContext2D;
+  private successSound:          ElementRef;
+  private failSound:             ElementRef;
+  private textCanvasOriginal:    HTMLDivElement;
+  private textCanvasModified:    HTMLDivElement;
+  private position:              IPosition2D;
 
   public onArenaResponse(data: IArenaResponse<IOriginalPixelCluster>): void {
     if (data.status === CCommon.ON_SUCCESS) {
@@ -63,14 +63,14 @@ export class GameViewSimpleService {
       this.textCanvasModified.style.left  = positionRight2  + "px";
       this.textCanvasOriginal.textContent = ERROR_MESSAGE;
       this.textCanvasModified.textContent = ERROR_MESSAGE;
-}
+  }
 
-  public playFailSound(): void {
+  private playFailSound(): void {
     this.failSound.nativeElement.currentTime = 0;
     this.failSound.nativeElement.play();
   }
 
-  public playSuccessSound(): void {
+  private playSuccessSound(): void {
     this.successSound.nativeElement.currentTime = 0;
     this.successSound.nativeElement.play();
   }
@@ -90,11 +90,11 @@ export class GameViewSimpleService {
     this.failSound    = fail;
   }
 
-  public onCanvasClick(pos: IPosition2D, id: number, username: string): IClickMessage {
+  public onCanvasClick(pos: IPosition2D, id: number, username: string): IClickMessage<IPosition2D> {
     this.position = pos;
 
     return {
-      position:     pos,
+      value:        pos,
       arenaID:      id,
       username:     username,
     };

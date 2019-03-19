@@ -16,8 +16,18 @@
     [colspan]="7"
     [rowspan]="3">
     <app-spinner *ngIf="isLoading"></app-spinner>
-    <app-threejs-view id="originalScene" [arenaID]="arenaID" [iSceneVariables]="originalVariables" [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
-    <app-threejs-view id="modifiedScene" [arenaID]="arenaID" [iSceneVariables]="modifiedVariables" [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
+    <app-threejs-view id                ="originalScene"
+                      [arenaID]         ="arenaID"
+                      [username]        ="username"
+                      [isNotOriginal]   ="false"
+                      [iSceneVariables] ="originalVariables"
+                      [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
+    <app-threejs-view id                ="modifiedScene"
+                      [arenaID]         ="arenaID"
+                      [username]        ="username"
+                      [isNotOriginal]   ="true"
+                      [iSceneVariables] ="modifiedVariables"
+                      [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
     </mat-grid-tile>
     <mat-grid-tile
       [colspan]="4"
@@ -31,3 +41,9 @@
     </mat-grid-tile>
   </mat-grid-list>
 </span>
+<audio #failSound>
+  <source src={{SUCCESS_SOUND}} type="audio/wav">
+</audio>
+<audio #successSound>
+  <source src={{FAIL_SOUND}} type="audio/wav">
+</audio>

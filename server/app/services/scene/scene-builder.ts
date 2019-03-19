@@ -172,6 +172,7 @@ export class SceneBuilder {
             rotation:   this.generateRandomRotationValues(),
             scale:      this.generateRandomScaleValues(),
             color:      this.generateRandomColor(),
+            hidden:     false,
         };
     }
 }

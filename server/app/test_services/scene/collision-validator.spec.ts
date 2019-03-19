@@ -20,7 +20,8 @@ describe("Collision validator tests", () => {
         scale: {
             x: 10, y: 10, z: 10,
         },
-        color: "#8cadbb",
+        color:  "#8cadbb",
+        hidden: false,
     };
 
     const cube2: ISceneObject = {
@@ -35,7 +36,8 @@ describe("Collision validator tests", () => {
         scale: {
             x: 10,  y: 10,  z: 10,
         },
-        color: "#8cadbb",
+        color:  "#8cadbb",
+        hidden: false,
     };
 
     const cube3: ISceneObject = {
@@ -50,7 +52,8 @@ describe("Collision validator tests", () => {
         scale: {
             x: 10,  y: 10,  z: 10,
         },
-        color: "#8cadbb",
+        color:  "#8cadbb",
+        hidden: false,
     };
 
     const existingSceneObjects: ISceneObject[] = [cube1, cube2, cube3];
@@ -72,7 +75,8 @@ describe("Collision validator tests", () => {
             scale: {
                 x: 10,  y: 10,  z: 10,
             },
-            color: "#8cadbb",
+            color:  "#8cadbb",
+            hidden: false,
         };
 
         const isColliding: boolean = collisionValidator.hasCollidingPositions(newCube, existingSceneObjects);
@@ -93,7 +97,8 @@ describe("Collision validator tests", () => {
             scale: {
                 x: 10,  y: 10,  z: 10,
             },
-            color: "#8cadbb",
+            color:  "#8cadbb",
+            hidden: false,
         };
 
         const isColliding: boolean = collisionValidator.hasCollidingPositions(newCube, existingSceneObjects);
