@@ -3,7 +3,7 @@ import { AfterContentInit, Component, EventEmitter, Input, Output } from "@angul
 import { DialogPosition, MatDialog, MatDialogConfig, MatDialogRef, MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import { Mode } from "../../../../common/communication/highscore";
-import { CardDeleted, DisplayText, ICard, ILobbyEvent } from "../../../../common/communication/iCard";
+import { CardDeleted, ICard, ILobbyEvent, MultiplayerButtonText } from "../../../../common/communication/iCard";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../constants";
 import { GameModeService } from "../game-list-container/game-mode.service";
@@ -29,7 +29,7 @@ export class CardComponent implements AfterContentInit {
   public readonly CREATE_ICON:        string = "add";
 
   public multiplayerButton:           string;
-  public icon:                        string = this.CREATE_ICON;
+  public icon:                        string;
   public hsButtonIsClicked:           boolean;
   @Input()  public card:              ICard;
   @Output() public cardDeleted:       EventEmitter<string>;
@@ -56,8 +56,8 @@ export class CardComponent implements AfterContentInit {
 
     this.cardManagerService.getButtonListener().subscribe((lobbyEvent: ILobbyEvent) => {
       if (this.card.gameID === lobbyEvent.gameID) {
-        this.multiplayerButton = lobbyEvent.displayText;
-        this.icon              = (lobbyEvent.displayText === DisplayText.join) ? this.JOIN_ICON : this.CREATE_ICON;
+        this.multiplayerButton = lobbyEvent.buttonText;
+        this.icon              = (lobbyEvent.buttonText === MultiplayerButtonText.join) ? this.JOIN_ICON : this.CREATE_ICON;
       }
     });
   }
