@@ -11,7 +11,7 @@ import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 )
 export class ThreejsViewService {
 
-  private MULTIPLICATOR:          number = 2;
+  private readonly MULTIPLICATOR:          number = 2;
 
   private scene:                  THREE.Scene;
   private camera:                 THREE.PerspectiveCamera;
