@@ -66,13 +66,13 @@ export class SocketService {
       this.timerService.timeFormat(data);
     });
 
-    this.socket.on(CCommon.ON_POINT_ADDED, ((newPoints: number) => {
+    this.socket.on(CCommon.ON_POINT_ADDED, (newPoints: number) => {
       this.differenceCounterService.updateCounter(newPoints);
-    }));
+    });
 
-    this.socket.on(CCommon.ON_ARENA_CONNECT, ((arenaID: number) => {
+    this.socket.on(CCommon.ON_ARENA_CONNECT, (arenaID: number) => {
       this.gameConnectionService.updateGameConnected(arenaID);
-    }));
+    });
   }
 
   private initGameViewListeners(): void {
