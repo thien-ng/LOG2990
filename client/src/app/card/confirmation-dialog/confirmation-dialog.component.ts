@@ -1,5 +1,6 @@
 import { Component, Inject} from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import { Dialog } from "../card.component";
 
 @Component({
   selector:     "app-confirmation-dialog",
@@ -11,14 +12,10 @@ export class ConfirmationDialogComponent {
   public readonly YES_BUTTON_TEXT: string = "Oui";
   public readonly NO_BUTTON_TEXT:  string = "Non";
   public readonly WARNING_TITLE:   string = "Avertissement";
-  public readonly CONFIRMATION:    string = "Voulez-vous vraiment supprimer le jeu";
-
-  public cardTitle:       string;
 
   public constructor(
     public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: string) {
-      this.cardTitle = data;
+    @Inject(MAT_DIALOG_DATA) public data: Dialog) {
   }
 
   public decline(): void {
