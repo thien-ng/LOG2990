@@ -15,8 +15,23 @@
   margin-top: 5%;
 }
 
-#originalScene {
-  padding-right: 10px;
+
+.text, .text2 {
+  position: absolute;
+  z-index: 1;
+  font-size: 18px;
+  color: red;
+  font: Roboto, "Helvetica Neue", sans-serif;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  /* width: 100%; */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none;
+  top: 0px;
+  left: 0px;
+}
 app-difference-counter {
   -webkit-user-select: none; /* Safari */
    -khtml-user-select: none; /* Konqueror HTML */
