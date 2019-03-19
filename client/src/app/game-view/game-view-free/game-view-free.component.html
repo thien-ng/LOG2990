@@ -24,22 +24,29 @@
                       [username]="username"
                       [isNotOriginal]="false"
                       [iSceneVariables]="originalVariables"
-                      [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
-    <app-threejs-view id="modifiedScene"
+                      [isSnapshotNeeded]="NEEDED_SNAPSHOT">
+      </app-threejs-view>
+          </mat-grid-tile>  
+          <mat-grid-tile [colspan]="1" >
+              <app-threejs-view id="modifiedScene"
                       [arenaID]="arenaID"
                       [username]="username"
                       [isNotOriginal]="true"
                       [iSceneVariables]="modifiedVariables"
                       [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
+              <div class="text2" #textDiv2></div>
+          </mat-grid-tile>
+        </mat-grid-list>
+      
     </mat-grid-tile>
     <mat-grid-tile
       [colspan]="4"
-      [rowspan]="1">
+      [rowspan]="20">
       <app-timer></app-timer>
     </mat-grid-tile>
     <mat-grid-tile
-      [colspan]="3"
-      [rowspan]="1">
+      [colspan]="2"
+      [rowspan]="20">
       <app-difference-counter></app-difference-counter>
     </mat-grid-tile>
   </mat-grid-list>
