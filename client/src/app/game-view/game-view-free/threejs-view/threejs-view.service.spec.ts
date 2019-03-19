@@ -128,14 +128,12 @@ describe("ThreejsViewService Tests", () => {
 
   }));
 
-  it("should not do any update to scene because of undefined object",
+  it("should not do any update to scene because of undefined object (not call initiateObject)",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
 
     const initSpy:   any = spyOn<any>(threejsViewService["threejsGenerator"], "initiateObject");
-    const deleteSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "deleteObject");
-    const changeSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "changeObjectColor");
 
     const objectUpdate: ISceneObjectUpdate = {
       actionToApply: ActionType.NO_ACTION_REQUIRED,
@@ -145,18 +143,48 @@ describe("ThreejsViewService Tests", () => {
     threejsViewService.updateSceneWithNewObject(objectUpdate);
 
     expect(initSpy).not.toHaveBeenCalled();
+  }));
+
+  it("should not do any update to scene because of undefined object (not call deleteObject)",
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+
+    threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
+
+    const deleteSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "deleteObject");
+
+    const objectUpdate: ISceneObjectUpdate = {
+      actionToApply: ActionType.NO_ACTION_REQUIRED,
+    };
+
+    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.updateSceneWithNewObject(objectUpdate);
+
     expect(deleteSpy).not.toHaveBeenCalled();
+  }));
+
+  it("should not do any update to scene because of undefined object (not call changeObjectColor)",
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+
+    threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
+
+    const changeSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "changeObjectColor");
+
+    const objectUpdate: ISceneObjectUpdate = {
+      actionToApply: ActionType.NO_ACTION_REQUIRED,
+    };
+
+    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.updateSceneWithNewObject(objectUpdate);
+
     expect(changeSpy).not.toHaveBeenCalled();
   }));
 
-  it("should not do any update to scene because of no action required",
+  it("should not do any update to scene because of no action required (not call initiateObject)",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
 
     const initSpy:   any = spyOn<any>(threejsViewService["threejsGenerator"], "initiateObject");
-    const deleteSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "deleteObject");
-    const changeSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "changeObjectColor");
 
     const objectUpdate: ISceneObjectUpdate = {
       actionToApply: ActionType.NO_ACTION_REQUIRED,
@@ -167,17 +195,50 @@ describe("ThreejsViewService Tests", () => {
     threejsViewService.updateSceneWithNewObject(objectUpdate);
 
     expect(initSpy).not.toHaveBeenCalled();
-    expect(deleteSpy).not.toHaveBeenCalled();
-    expect(changeSpy).not.toHaveBeenCalled();
   }));
 
-  it("should call function initiate object from threejsGenerator",
+  it("should not do any update to scene because of no action required (not call deleteObject)",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
 
     const deleteSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "deleteObject");
+
+    const objectUpdate: ISceneObjectUpdate = {
+      actionToApply: ActionType.NO_ACTION_REQUIRED,
+      sceneObject:   sceneVariables.sceneObjects[0],
+    };
+
+    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.updateSceneWithNewObject(objectUpdate);
+
+    expect(deleteSpy).not.toHaveBeenCalled();
+  }));
+
+  it("should not do any update to scene because of no action required (not call changeObjectColor)",
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+
+    threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
+
     const changeSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "changeObjectColor");
+
+    const objectUpdate: ISceneObjectUpdate = {
+      actionToApply: ActionType.NO_ACTION_REQUIRED,
+      sceneObject:   sceneVariables.sceneObjects[0],
+    };
+
+    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.updateSceneWithNewObject(objectUpdate);
+
+    expect(changeSpy).not.toHaveBeenCalled();
+  }));
+
+  it("should call function initiate object from threejsGenerator (not call deleteObject)",
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+
+    threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
+
+    const deleteSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "deleteObject");
 
     const objectUpdate: ISceneObjectUpdate = {
       actionToApply: ActionType.ADD,
@@ -188,47 +249,97 @@ describe("ThreejsViewService Tests", () => {
     threejsViewService.updateSceneWithNewObject(objectUpdate);
 
     expect(deleteSpy).not.toHaveBeenCalled();
-    expect(changeSpy).not.toHaveBeenCalled();
   }));
 
-  it("should call function delete object from threejsGenerator",
+  it("should call function initiate object from threejsGenerator (not call changeObjectColor)",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
 
-    const initSpy:   any = spyOn<any>(threejsViewService["threejsGenerator"], "initiateObject");
     const changeSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "changeObjectColor");
 
     const objectUpdate: ISceneObjectUpdate = {
-    actionToApply: ActionType.DELETE,
-    sceneObject:   sceneVariables.sceneObjects[0],
+      actionToApply: ActionType.ADD,
+      sceneObject:   sceneVariables.sceneObjects[0],
     };
 
     threejsViewService.createScene(scene, sceneVariables, renderer);
     threejsViewService.updateSceneWithNewObject(objectUpdate);
 
-    expect(initSpy).not.toHaveBeenCalled();
     expect(changeSpy).not.toHaveBeenCalled();
   }));
 
-  it("should call function change color object from threejsGenerator",
+  it("should call function delete object from threejsGenerator (not call initiateObject)",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
 
     const initSpy:   any = spyOn<any>(threejsViewService["threejsGenerator"], "initiateObject");
-    const deleteSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "deleteObject");
 
     const objectUpdate: ISceneObjectUpdate = {
-    actionToApply: ActionType.CHANGE_COLOR,
-    sceneObject:   sceneVariables.sceneObjects[0],
+      actionToApply: ActionType.DELETE,
+      sceneObject:   sceneVariables.sceneObjects[0],
     };
 
     threejsViewService.createScene(scene, sceneVariables, renderer);
     threejsViewService.updateSceneWithNewObject(objectUpdate);
 
     expect(initSpy).not.toHaveBeenCalled();
+  }));
+
+  it("should call function delete object from threejsGenerator (not call changeObjectColor)",
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+
+    threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
+
+    const changeSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "changeObjectColor");
+
+    const objectUpdate: ISceneObjectUpdate = {
+      actionToApply: ActionType.DELETE,
+      sceneObject:   sceneVariables.sceneObjects[0],
+    };
+
+    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.updateSceneWithNewObject(objectUpdate);
+
+    expect(changeSpy).not.toHaveBeenCalled();
+  }));
+
+  it("should call function change color object from threejsGenerator (not call initiateObject)",
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+
+    threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
+
+    const initSpy:   any = spyOn<any>(threejsViewService["threejsGenerator"], "initiateObject");
+
+    const objectUpdate: ISceneObjectUpdate = {
+      actionToApply: ActionType.CHANGE_COLOR,
+      sceneObject:   sceneVariables.sceneObjects[0],
+    };
+
+    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.updateSceneWithNewObject(objectUpdate);
+
+    expect(initSpy).not.toHaveBeenCalled();
+  }));
+
+  it("should call function change color object from threejsGenerator (not call deleteObject)",
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+
+    threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
+
+    const deleteSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "deleteObject");
+
+    const objectUpdate: ISceneObjectUpdate = {
+      actionToApply: ActionType.CHANGE_COLOR,
+      sceneObject:   sceneVariables.sceneObjects[0],
+    };
+
+    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.updateSceneWithNewObject(objectUpdate);
+
     expect(deleteSpy).not.toHaveBeenCalled();
   }));
 
 });
+// tslint:disable-next-line:max-file-line-count

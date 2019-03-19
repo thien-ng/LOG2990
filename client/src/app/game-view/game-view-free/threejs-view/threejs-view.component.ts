@@ -116,11 +116,11 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
 
         if (this.isFirstGet) {
           this.previousModifications = modifications;
-          this.isFirstGet = false;
+          this.isFirstGet            = false;
         }
 
         this.modifications = modifications;
-        this.isCheating = !this.isCheating;
+        this.isCheating    = !this.isCheating;
         this.changeColor();
       });
     }
@@ -142,7 +142,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
       clearInterval(this.interval);
       this.threejsViewService.changeObjectsColor(false, true, this.previousModifications);
       this.previousModifications = this.modifications;
-      this.modifications = [];
+      this.modifications         = [];
     }
   }
 
@@ -156,7 +156,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   private initListener(): void {
     this.originalScene.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
 
-      const idValue: number          = this.threejsViewService.detectObject(mouseEvent);
+      const idValue: number                  = this.threejsViewService.detectObject(mouseEvent);
       const message: IClickMessage<number>   = this.createHitValidationMessage(idValue);
 
       this.socketService.sendMsg(CCommon.POSITION_VALIDATION, message);

@@ -41,7 +41,7 @@ export class ThreejsViewService {
     this.ambLight             = new THREE.AmbientLight(Constants.AMBIENT_LIGHT_COLOR, Constants.AMBIENT_LIGHT_INTENSITY);
     this.sceneIdById          = new Map<number, number>();
     this.idBySceneId          = new Map<number, number>();
-    this.opacityById           = new Map<number, number>();
+    this.opacityById          = new Map<number, number>();
     this.originalColorById    = new Map<number, string>();
     this.mouse                = new THREE.Vector3();
     this.raycaster            = new THREE.Raycaster();

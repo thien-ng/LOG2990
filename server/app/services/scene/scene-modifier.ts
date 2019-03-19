@@ -83,7 +83,7 @@ export class SceneModifier {
         const generatedObject: ISceneObject   = this.sceneBuilder.generateModifyObject(newIndex, this.cloneSceneVariables);
 
         const generatedObjectForOriginal: ISceneObject = this.clone(generatedObject) as ISceneObject;
-        generatedObjectForOriginal.hidden              = true;
+        generatedObjectForOriginal.hidden = true;
 
         const modificationMap: IModification = {id: newIndex, type: ModificationType.added};
 

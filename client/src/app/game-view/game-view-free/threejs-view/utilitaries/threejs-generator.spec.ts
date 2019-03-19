@@ -5,14 +5,14 @@ import { ThreejsGenerator } from "./threejs-generator";
 
 // tslint:disable:no-any
 
-let threejsGenerator:         ThreejsGenerator;
-let scene:                    THREE.Scene;
-let sceneObject:              ISceneObject;
-let iAxisValues:              IAxisValues;
-let sceneIdById:              Map<number, number>;
-let idBySceneId:              Map<number, number>;
-let originalColorById:        Map<number, string>;
-let opacityById:              Map<number, number>;
+let threejsGenerator:   ThreejsGenerator;
+let scene:              THREE.Scene;
+let sceneObject:        ISceneObject;
+let iAxisValues:        IAxisValues;
+let sceneIdById:        Map<number, number>;
+let idBySceneId:        Map<number, number>;
+let originalColorById:  Map<number, string>;
+let opacityById:        Map<number, number>;
 beforeEach(() => {
     sceneIdById             = new Map<number, number>();
     idBySceneId             = new Map<number, number>();

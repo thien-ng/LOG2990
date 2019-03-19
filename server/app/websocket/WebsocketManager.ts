@@ -64,7 +64,7 @@ export class WebsocketManager {
         socket.on(CCommon.POSITION_VALIDATION, (data: IClickMessage<IPosition2D | number>) => {
 
             const user: IUser | string = this.userManagerService.getUserByUsername(data.username);
-            const userList: IUser[] = this.gameManagerService.getUsersInArena(data.arenaID);
+            const userList: IUser[]    = this.gameManagerService.getUsersInArena(data.arenaID);
 
             if (typeof user !== "string") {
                 const playerInput: IPlayerInput<IPosition2D | number> = this.buildPlayerInput(data, user);

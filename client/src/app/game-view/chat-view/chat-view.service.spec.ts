@@ -5,10 +5,10 @@ import { ChatViewService } from "./chat-view.service";
 // tslint:disable:no-magic-numbers no-any
 
 let chatViewService:          ChatViewService       = new ChatViewService();
-const mockIChat:                IChat               = {
+const mockIChat:              IChat                 = {
   username: "SERVEUR",
-  message: "message",
-  time: "time",
+  message:  "message",
+  time:     "time",
 };
 
 describe("ChatViewService", () => {
