@@ -34,4 +34,7 @@ export class CCommon {
     public static readonly LOGIN_EVENT:               string = "onLogin";
     public static readonly USER_EVENT:                string = "onNewUser";
     public static readonly CHAT_EVENT:                string = "onChatEvent";
+
+    public static readonly JOIN_TEXT:                 string = "JOINDRE";
+    public static readonly CREATE_TEXT:               string = "CRÉER";
 }
