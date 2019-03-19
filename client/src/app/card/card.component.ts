@@ -3,7 +3,7 @@ import { AfterContentInit, Component, EventEmitter, Input, Output } from "@angul
 import { DialogPosition, MatDialog, MatDialogConfig, MatDialogRef, MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import { Mode } from "../../../../common/communication/highscore";
-import { CardDeleted, ICard, ILobbyEvent } from "../../../../common/communication/iCard";
+import { CardDeleted, DisplayText, ICard, ILobbyEvent } from "../../../../common/communication/iCard";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../constants";
 import { GameModeService } from "../game-list-container/game-mode.service";
@@ -22,15 +22,13 @@ export class CardComponent implements AfterContentInit {
 
   public readonly TROPHY_IMAGE_URL:   string = "https://img.icons8.com/metro/1600/trophy.png";
   public readonly TEXT_PLAY:          string = "JOUER";
-  public readonly TEXT_PLAY_SINGLE:   string = "Jouer en simple";
-  public readonly TEXT_PLAY_MULTI:    string = "Jouer en multijoueur";
   public readonly TEXT_RESET_TIMERS:  string = "RÉINITIALISER";
   public readonly TEXT_DELETE:        string = "SUPPRIMER";
   public readonly ADMIN_PATH:         string = "/admin";
   public readonly JOIN_ICON:          string = "arrow_forward";
   public readonly CREATE_ICON:        string = "add";
 
-  public multiplayerButton:           string = "CRÉER";
+  public multiplayerButton:           string;
   public icon:                        string = this.CREATE_ICON;
   public hsButtonIsClicked:           boolean;
   @Input()  public card:              ICard;
@@ -45,7 +43,9 @@ export class CardComponent implements AfterContentInit {
     public  dialog:             MatDialog,
     private httpClient:         HttpClient,
     ) {
-      this.cardDeleted = new EventEmitter();
+      this.cardDeleted        = new EventEmitter();
+      this.multiplayerButton  = "CRÉER";
+      this.icon               = this.CREATE_ICON;
   }
 
   public ngAfterContentInit(): void {
@@ -57,7 +57,7 @@ export class CardComponent implements AfterContentInit {
     this.cardManagerService.getButtonListener().subscribe((lobbyEvent: ILobbyEvent) => {
       if (this.card.gameID === lobbyEvent.gameID) {
         this.multiplayerButton = lobbyEvent.displayText;
-        this.icon = (lobbyEvent.displayText === CCommon.JOIN_TEXT) ? this.JOIN_ICON : this.CREATE_ICON;
+        this.icon              = (lobbyEvent.displayText === DisplayText.join) ? this.JOIN_ICON : this.CREATE_ICON;
       }
     });
   }
