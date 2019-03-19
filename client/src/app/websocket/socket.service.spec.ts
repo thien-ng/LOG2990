@@ -10,6 +10,8 @@ import { GameViewSimpleService } from "../game-view/game-view-simple/game-view-s
 import { TimerService } from "../game-view/timer/timer.service";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { SocketService } from "./socket.service";
+import { Router } from "@angular/router";
+import { MatSnackBar } from "@angular/material";
 
 describe("SocketService", () => {
   beforeEach(() => TestBed.configureTestingModule({
@@ -34,6 +36,8 @@ describe("SocketService tests", () => {
   beforeEach(() => {
     gameConnectionService = new GameConnectionService();
     socketService         = new SocketService(
+      mock(Router),
+      mock(MatSnackBar),
       mock(CardManagerService),
       mock(ChatViewService),
       mock(GameViewSimpleService),
