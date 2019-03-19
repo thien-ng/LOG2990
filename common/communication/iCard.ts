@@ -9,6 +9,11 @@ export enum CardDeleted {
   false,
 }
 
+export enum DisplayText {
+  create = "CRÉER",
+  join   = "JOINDRE",
+}
+
 export interface ICard {
     gameID:           number;
     gamemode:         GameMode;
@@ -21,7 +26,7 @@ export interface ICard {
   
 export interface ILobbyEvent {
   gameID:       number;
-  displayText:  string;
+  displayText:  DisplayText;
 }
 
 export const DefaultCard2D: ICard = {
