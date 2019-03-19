@@ -7,7 +7,7 @@ import { ISceneVariables } from "../../../../../../common/communication/iSceneVa
 import { ThreejsViewService } from "./threejs-view.service";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 
-// tslint:disable:no-any
+// tslint:disable:no-any max-file-line-count
 
 const sceneVariables: ISceneVariables = {
   theme:                  1,
@@ -341,5 +341,4 @@ describe("ThreejsViewService Tests", () => {
     expect(deleteSpy).not.toHaveBeenCalled();
   }));
 
-  // tslint:disable-next-line:max-file-line-count
 });
