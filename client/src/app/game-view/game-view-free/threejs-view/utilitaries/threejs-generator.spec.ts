@@ -9,17 +9,17 @@ let threejsGenerator:         ThreejsGenerator;
 let scene:                    THREE.Scene;
 let sceneObject:              ISceneObject;
 let iAxisValues:              IAxisValues;
-let modifiedIdBySceneId:      Map<number, number>;
-let modifiedIntersect:        Map<number, number>;
-let mapColorByOriginalId:     Map<number, string>;
-let mapOpacity:               Map<number, number>;
+let sceneIdById:              Map<number, number>;
+let idBySceneId:              Map<number, number>;
+let originalColorById:        Map<number, string>;
+let opacityById:              Map<number, number>;
 beforeEach(() => {
-    modifiedIdBySceneId     = new Map<number, number>();
-    modifiedIntersect       = new Map<number, number>();
-    mapColorByOriginalId    = new Map<number, string>();
-    mapOpacity              = new Map<number, number>();
+    sceneIdById             = new Map<number, number>();
+    idBySceneId             = new Map<number, number>();
+    originalColorById       = new Map<number, string>();
+    opacityById             = new Map<number, number>();
     scene                   = mock(THREE.Scene);
-    threejsGenerator        = new ThreejsGenerator(scene, modifiedIdBySceneId, mapColorByOriginalId, modifiedIntersect, mapOpacity);
+    threejsGenerator        = new ThreejsGenerator(scene, sceneIdById, originalColorById, idBySceneId, opacityById);
     iAxisValues             = { x: 1, y: 1, z: 1 };
     sceneObject             = {
         id:         1,
@@ -131,8 +131,8 @@ describe("Tests on ThreejsGenerator", () => {
     });
 
     it("should remove an object from scene", () => {
-        modifiedIdBySceneId.set(1, 1);
-        const spiedScene: any   = spyOn<any>(scene, "remove");
+        sceneIdById.set(1, 1);
+        const spiedScene:  any = spyOn<any>(scene, "remove");
         const objectFound: any = new THREE.Object3D();
 
         when(scene.getObjectById(1)).thenReturn(objectFound);
@@ -143,9 +143,9 @@ describe("Tests on ThreejsGenerator", () => {
     });
 
     it("should change color of an object from scene", () => {
-        mapColorByOriginalId.set(1, "#FFFFFF");
-        modifiedIdBySceneId.set(1, 1);
-        const spiedMap: any   = spyOn<any>(mapColorByOriginalId, "set");
+        originalColorById.set(1, "#FFFFFF");
+        sceneIdById.set(1, 1);
+        const spiedMap:    any = spyOn<any>(originalColorById, "set");
         const objectFound: any = new THREE.Object3D();
 
         when(scene.getObjectById(1)).thenReturn(objectFound);

@@ -13,7 +13,7 @@ import {
 import { MatSnackBar } from "@angular/material";
 import { GameConnectionService } from "src/app/game-connection.service";
 import * as THREE from "three";
-import { IClickMessage3D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
+import { IClickMessage, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
 import { ISceneData, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../../common/communication/message";
@@ -157,7 +157,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
     this.originalScene.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
 
       const idValue: number          = this.threejsViewService.detectObject(mouseEvent);
-      const message: IClickMessage3D = this.createHitValidationMessage(idValue);
+      const message: IClickMessage<number>   = this.createHitValidationMessage(idValue);
 
       this.socketService.sendMsg(CCommon.POSITION_VALIDATION, message);
     });
@@ -172,9 +172,9 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
     }
   }
 
-  private createHitValidationMessage(id: number): IClickMessage3D {
+  private createHitValidationMessage(id: number): IClickMessage<number> {
     return {
-      objectId: id,
+      value:    id,
       arenaID:  this.arenaID,
       username: this.username,
     };

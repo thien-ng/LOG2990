@@ -103,7 +103,7 @@ export class Referee<EVT_T, DIFF_T> {
 
         const penalty: IPenalty = {
             isOnPenalty: true,
-            arenaType: this.arena.ARENA_TYPE,
+            arenaType:   this.arena.ARENA_TYPE,
         } as IPenalty;
 
         this.arena.sendMessage<IPenalty>(player.userSocketId, CCommon.ON_PENALTY, penalty);
