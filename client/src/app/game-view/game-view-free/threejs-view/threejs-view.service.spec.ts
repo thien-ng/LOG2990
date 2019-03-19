@@ -70,7 +70,7 @@ describe("ThreejsViewService Tests", () => {
     expect(spy).toHaveBeenCalled();
   }));
 
-  it("",
+  it("should not change any color",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
     const spy: any = spyOn<any>(threejsViewService, "recoverObjectFromScene").and.callThrough();
 
