@@ -16,8 +16,10 @@ export class CCommon {
 
     public static readonly ON_ARENA_CONNECT:          string = "onArenaConnect";
     public static readonly ON_ARENA_RESPONSE:         string = "onArenaResponse";
+    public static readonly ON_CANCEL_REQUEST:         string = "onCancelRequest";
     public static readonly ON_CHAT_MESSAGE:           string = "onChatMessage";
     public static readonly ON_ERROR:                  string = "onError";
+    public static readonly ON_LOBBY:                  string = "onLobby";
     public static readonly ON_MODE_INVALID:           string = "onModeInvalid"
     public static readonly ON_NEW_SCORE:              string = "onNewScore";
     public static readonly ON_PENALTY_ON:             string = "onPenaltyON";
@@ -32,4 +34,7 @@ export class CCommon {
     public static readonly LOGIN_EVENT:               string = "onLogin";
     public static readonly USER_EVENT:                string = "onNewUser";
     public static readonly CHAT_EVENT:                string = "onChatEvent";
+
+    public static readonly JOIN_TEXT:                 string = "JOINDRE";
+    public static readonly CREATE_TEXT:               string = "CRÉER";
 }

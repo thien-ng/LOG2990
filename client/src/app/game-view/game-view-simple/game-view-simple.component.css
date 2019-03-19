@@ -4,12 +4,7 @@
     box-shadow:0px 1px 2px #333333;
     border-radius: 5px;
     position: relative;
-    width: 1292px;
-}
-
-.canvas {
-    margin-left: 4px;
-    margin-top: 4px;
+    width: 90%;
 }
 
 .gameName {
@@ -27,7 +22,7 @@ app-difference-counter {
             user-select: none;
 }
 
-div div {
+.text, .text2 {
     position: absolute;
     z-index: 1;
     font-size: 18px;

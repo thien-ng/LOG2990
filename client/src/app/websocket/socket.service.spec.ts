@@ -1,4 +1,6 @@
 import { TestBed } from "@angular/core/testing";
+import { MatSnackBar } from "@angular/material";
+import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import "rxjs/add/observable/of";
 import { mock } from "ts-mockito";
@@ -34,6 +36,8 @@ describe("SocketService tests", () => {
   beforeEach(() => {
     gameConnectionService = new GameConnectionService();
     socketService         = new SocketService(
+      mock(Router),
+      mock(MatSnackBar),
       mock(CardManagerService),
       mock(ChatViewService),
       mock(GameViewSimpleService),
