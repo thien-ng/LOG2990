@@ -6,8 +6,8 @@ import { TestingImportsModule } from "src/app/testing-imports/testing-imports.mo
 import { ConfirmationDialogComponent } from "./confirmation-dialog.component";
 
 describe("ConfirmationDialogComponent", () => {
-  let component: ConfirmationDialogComponent;
-  let fixture: ComponentFixture<ConfirmationDialogComponent>;
+  let component:  ConfirmationDialogComponent;
+  let fixture:    ComponentFixture<ConfirmationDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -25,7 +25,7 @@ describe("ConfirmationDialogComponent", () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfirmationDialogComponent);
+    fixture   = TestBed.createComponent(ConfirmationDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
