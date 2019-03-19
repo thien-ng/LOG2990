@@ -1,5 +1,5 @@
 import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import { IArenaResponse } from "../../../../../common/communication/iGameplay";
+import { IArenaResponse, IPenalty } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { Constants } from "../../../constants";
@@ -7,6 +7,7 @@ import { Arena } from "./arena";
 import { IHitConfirmation, IHitToValidate } from "./interfaces";
 import { Player } from "./player";
 import { Timer } from "./timer";
+import { GameMode } from "../../../../../common/communication/iCard";
 
 const axios: AxiosInstance = require("axios");
 
@@ -100,11 +101,18 @@ export class Referee<EVT_T, DIFF_T> {
 
     private attributePenalty(player: Player): void {
         player.setPenaltyState(true);
-        this.arena.sendMessage(player.userSocketId, CCommon.ON_PENALTY_ON, 1);
+    
+        const penalty: IPenalty = {
+            isOnPenalty: true,
+            arenaType: this.arena.ARENA_TYPE,
+        } as IPenalty;
+
+        this.arena.sendMessage<IPenalty>(player.userSocketId, CCommon.ON_PENALTY, penalty);
 
         setTimeout(() => {
-                   this.arena.sendMessage(player.userSocketId, CCommon.ON_PENALTY_OFF, 0);
-                   player.setPenaltyState(false);
+            penalty.isOnPenalty = false;
+           this.arena.sendMessage<IPenalty>(player.userSocketId, CCommon.ON_PENALTY, penalty);
+           player.setPenaltyState(false);
         },         this.PENALTY_TIMEOUT_MS);
     }
 

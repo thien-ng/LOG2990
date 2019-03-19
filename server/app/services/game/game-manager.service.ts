@@ -267,10 +267,10 @@ export class GameManagerService {
         return this.playerList;
     }
 
-    public sendMessage(socketID: string, messageType: string, message: number | IArenaResponse<IOriginalPixelCluster>): void {
+    public sendMessage<DATA_T>(socketID: string, event: string, data?: DATA_T): void {
         const playerSocket: SocketIO.Socket | undefined = this.playerList.get(socketID);
         if (playerSocket !== undefined) {
-            playerSocket.emit(messageType, message);
+            playerSocket.emit(event, data);
         }
     }
 
