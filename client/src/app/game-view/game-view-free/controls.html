@@ -295,14 +295,6 @@
 			function animate() {
 				requestAnimationFrame( animate );
 
-                var reduceNumber = function (vector) {
-                    vector.x = vector.x.toFixed(2);
-                    vector.y = vector.y.toFixed(2);
-                    vector.z = vector.z.toFixed(2);
-
-                    return vector;
-                }
-
 				if ( controls.isLocked === true ) {
 					raycaster.ray.origin.copy( controls.getObject().position );
 					raycaster.ray.origin.y -= 10;
