@@ -49,7 +49,14 @@ export class TheejsViewComponent implements OnChanges {
   private originalScene:          ElementRef;
 
   @HostListener("body:keyup", ["$event"])
-  public async keyboardEventListener(keyboardEvent: KeyboardEvent): Promise<void> {
+  public async keyboardEventListenerUp(keyboardEvent: KeyboardEvent): Promise<void> {
+    if (!this.focusChat) {
+      this.handleKeyboardEvent(keyboardEvent);
+    }
+  }
+
+  @HostListener("body:keydown", ["$event"])
+  public async keyboardEventListenerDown(keyboardEvent: KeyboardEvent): Promise<void> {
     if (!this.focusChat) {
       this.handleKeyboardEvent(keyboardEvent);
     }
@@ -86,12 +93,48 @@ export class TheejsViewComponent implements OnChanges {
     this.takeSnapShot();
   }
 
+  // tslint:disable-next-line:max-func-body-length
   private handleKeyboardEvent(keyboardEvent: KeyboardEvent): void {
 
     if (keyboardEvent.key === this.CHEAT_KEY_CODE) {
       this.httpClient.get(Constants.GET_OBJECTS_ID_PATH + this.CHEAT_URL + this.arenaID).subscribe((modifications: number[]) => {
         this.changeColor(modifications);
       });
+    }
+
+    switch ( keyboardEvent.keyCode ) {
+
+      case 38: // up
+      case 87: // w
+        this.threejsViewService.setupFront(-1);
+        this.threejsViewService.moveForward = !this.threejsViewService.moveForward;
+        break;
+
+      case 37: // left
+      case 65: // a
+        this.threejsViewService.setupFront(1);
+        this.threejsViewService.moveLeft = !this.threejsViewService.moveLeft;
+        break;
+
+      case 40: // down
+      case 83: // s
+        this.threejsViewService.setupFront(1);
+        this.threejsViewService.moveBackward = !this.threejsViewService.moveBackward;
+        break;
+
+      case 39: // right
+      case 68: // d
+        this.threejsViewService.setupFront(1);
+        this.threejsViewService.moveRight = !this.threejsViewService.moveRight;
+        break;
+
+      case 32: // space
+        this.threejsViewService.setupFront(1);
+        this.threejsViewService.canJump = !this.threejsViewService.canJump;
+        break;
+
+      default:
+        break;
     }
   }
 
