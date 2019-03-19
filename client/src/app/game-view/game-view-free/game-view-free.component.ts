@@ -25,8 +25,8 @@ const GAMEMODE_KEY: string = "gamemode";
 export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
 
   public readonly NEEDED_SNAPSHOT:  boolean = false;
-  public readonly SUCCESS_SOUND:    string = "http://localhost:3000/audio/fail.wav";
-  public readonly FAIL_SOUND:       string = "http://localhost:3000/audio/success.wav";
+  public readonly SUCCESS_SOUND:    string  = "http://localhost:3000/audio/fail.wav";
+  public readonly FAIL_SOUND:       string  = "http://localhost:3000/audio/success.wav";
 
   @ViewChild("successSound",  {read: ElementRef})  public successSound:    ElementRef;
   @ViewChild("failSound",     {read: ElementRef})  public failSound:       ElementRef;
