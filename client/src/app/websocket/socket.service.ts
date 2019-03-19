@@ -1,7 +1,9 @@
 import { Injectable } from "@angular/core";
+import { MatSnackBar } from "@angular/material";
+import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import * as io from "socket.io-client";
-import { GameMode } from "../../../../common/communication/iCard";
+import { GameMode, ILobbyEvent } from "../../../../common/communication/iCard";
 import { IChat } from "../../../../common/communication/iChat";
 import { IArenaResponse, IOriginalPixelCluster, ISceneObjectUpdate, IPenalty } from "../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../common/constantes/cCommon";
@@ -22,6 +24,8 @@ export class SocketService {
   private socket: SocketIOClient.Socket;
 
   public constructor(
+    private router:                   Router,
+    private snackBar:                 MatSnackBar,
     private cardManagerService:       CardManagerService,
     private chatViewService:          ChatViewService,
     private gameViewSimpleService:    GameViewSimpleService,
@@ -36,33 +40,46 @@ export class SocketService {
   public initWebsocketListener(): void {
 
     this.socket.addEventListener(Constants.ON_CONNECT, () => {
-
-      this.checkOnGameViewEmit();
+      this.initGameViewListeners();
+      this.initArenaListeners();
 
       this.socket.on(CCommon.CHAT_EVENT, (data: IChat) => {
         this.chatViewService.updateConversation(data);
       });
 
-      this.socket.on(CCommon.ON_TIMER_UPDATE, (data: number) => {
-        this.timerService.timeFormat(data);
-      });
-
-      this.socket.on(CCommon.ON_POINT_ADDED, ((newPoints: number) => {
-        this.differenceCounterService.updateCounter(newPoints);
-      }));
-
-      this.socket.on(CCommon.ON_ARENA_CONNECT, ((arenaID: number) => {
-        this.gameConnectionService.updateGameConnected(arenaID);
-      }));
-
       this.socket.on(CCommon.ON_NEW_SCORE, (gameID: number) => {
         this.cardManagerService.reloadHighscore(gameID);
       });
+
+      this.socket.on(CCommon.ON_LOBBY, (lobbyEvent: ILobbyEvent) => {
+        this.cardManagerService.reloadButton(lobbyEvent);
+      });
+
+      this.socket.on(CCommon.ON_CANCEL_REQUEST, () => {
+        this.openSnackbar(Constants.CARD_DELETED_MESSAGE, Constants.SNACKBAR_ACKNOWLEDGE);
+        this.router.navigate([Constants.GAMELIST_REDIRECT])
+        .catch((error: TypeError) => this.openSnackbar(error.message, Constants.SNACK_ACTION));
+      });
     });
   }
-  private checkOnGameViewEmit(): void {
 
-    this.socket.on(CCommon.ON_ARENA_RESPONSE, (data: IArenaResponse<IOriginalPixelCluster | ISceneObjectUpdate>) => {
+  private initArenaListeners(): void {
+    this.socket.on(CCommon.ON_TIMER_UPDATE, (data: number) => {
+      this.timerService.timeFormat(data);
+    });
+
+    this.socket.on(CCommon.ON_POINT_ADDED, (newPoints: number) => {
+      this.differenceCounterService.updateCounter(newPoints);
+    });
+
+    this.socket.on(CCommon.ON_ARENA_CONNECT, (arenaID: number) => {
+      this.gameConnectionService.updateGameConnected(arenaID);
+    });
+  }
+
+  private initGameViewListeners(): void {
+    // tslint:disable-next-line:no-any _TODO
+    this.socket.on(CCommon.ON_ARENA_RESPONSE, (data: IArenaResponse<any>) => {
       this.emitOnArenaResponse(data);
     });
 
@@ -115,6 +132,14 @@ export class SocketService {
       this.socket.on(msgType, (data: T) => {
         observer.next(data);
       });
+    });
+  }
+
+  private openSnackbar(message: string, action: string): void {
+    this.snackBar.open( message, action, {
+      duration:           Constants.SNACKBAR_DURATION,
+      verticalPosition:   "top",
+      panelClass:         ["snackbar"],
     });
   }
 }
