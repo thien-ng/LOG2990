@@ -19,8 +19,6 @@ import { Arena3D } from "./arena/arena3d";
 import { I2DInfos, I3DInfos, IArenaInfos, IPlayerInput } from "./arena/interfaces";
 import { Player } from "./arena/player";
 
-const JOIN_TEXT:                        string = "JOINDRE";
-const CREATE_TEXT:                      string = "CRÉER";
 const REQUEST_ERROR_MESSAGE:            string = "Game mode invalide";
 const TEMP_ROUTINE_ERROR:               string = "error while copying to temp";
 const HIGHSCORE_VALIDATION_ERROR:       string = "Erreur lors de la validation du highscore";
@@ -90,7 +88,7 @@ export class GameManagerService {
     public cancelRequest(gameID: number, isCardDeleted: boolean): Message {
         const successMessage:   Message = this.generateMessage(CCommon.ON_SUCCESS, gameID.toString());
         const errorMessage:     Message = this.generateMessage(CCommon.ON_ERROR, gameID.toString());
-        const lobbyEvent: ILobbyEvent = this.generateILobbyEvent(gameID, CREATE_TEXT);
+        const lobbyEvent: ILobbyEvent = this.generateILobbyEvent(gameID, CCommon.CREATE_TEXT);
         this.server.emit(CCommon.ON_LOBBY, lobbyEvent);
 
         const lobby: IUser[] | undefined = this.lobby.get(gameID);
@@ -114,7 +112,7 @@ export class GameManagerService {
     }
 
     private newLobby(request: IGameRequest, user: IUser): Message {
-        const lobbyEvent: ILobbyEvent = this.generateILobbyEvent(request.gameId, JOIN_TEXT);
+        const lobbyEvent: ILobbyEvent = this.generateILobbyEvent(request.gameId, CCommon.JOIN_TEXT);
 
         this.lobby.set(request.gameId.valueOf(), [user]);
         this.server.emit(CCommon.ON_LOBBY, lobbyEvent);
@@ -123,7 +121,7 @@ export class GameManagerService {
     }
 
     private async joinLobby(request: IGameRequest, user: IUser, lobby: IUser[]): Promise<Message> {
-        const lobbyEvent: ILobbyEvent = this.generateILobbyEvent(request.gameId, CREATE_TEXT);
+        const lobbyEvent: ILobbyEvent = this.generateILobbyEvent(request.gameId, CCommon.CREATE_TEXT);
 
         let message: Message;
         lobby.push(user);
@@ -285,7 +283,7 @@ export class GameManagerService {
         this.lobby.delete(gameID);
 
         if (gameID !== 0) {
-            const lobbyEvent: ILobbyEvent = this.generateILobbyEvent(gameID, CREATE_TEXT);
+            const lobbyEvent: ILobbyEvent = this.generateILobbyEvent(gameID, CCommon.CREATE_TEXT);
             this.server.emit(CCommon.ON_LOBBY, lobbyEvent);
         }
     }
