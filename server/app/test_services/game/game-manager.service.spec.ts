@@ -340,7 +340,7 @@ describe("GameManagerService tests", () => {
         chai.spy.on(gameManagerService, ["tempRoutine2d"], () => {return; });
         userManagerService["users"].push({username: "Frank", socketID: "Frank"});
         const response: Message = await gameManagerService.analyseRequest(request2DMulti);
-        chai.expect(response.body).to.deep.equal(CCommon.ON_WAITING);
+        chai.expect(response.title).to.deep.equal(CCommon.ON_WAITING);
         chai.spy.restore();
     });
 
