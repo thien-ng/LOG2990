@@ -71,7 +71,7 @@ describe("ThreejsViewService Tests", () => {
   }));
 
   it("",
-    inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
     const spy: any = spyOn<any>(threejsViewService, "recoverObjectFromScene").and.callThrough();
 
     threejsViewService.createScene(scene, sceneVariables, renderer);
