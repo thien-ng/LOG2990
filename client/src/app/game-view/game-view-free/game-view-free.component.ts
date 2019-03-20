@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
 import { first } from "rxjs/operators";
@@ -9,13 +9,16 @@ import { SocketService } from "src/app/websocket/socket.service";
 import { Mode } from "../../../../../common/communication/highscore";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../../common/communication/iGameRequest";
+import { IPosition2D } from "../../../../../common/communication/iGameplay";
 import { ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { ISceneData, ISceneVariables } from "../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../common/communication/message";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { GameViewFreeService } from "./game-view-free.service";
+import { TheejsViewComponent } from "./threejs-view/threejs-view.component";
 
 const GAMEMODE_KEY: string = "gamemode";
+const RIGHT_CLICK:  number = 2;
 
 @Component({
   selector:     "app-game-view-free",
@@ -28,6 +31,8 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
   public readonly SUCCESS_SOUND:    string  = "http://localhost:3000/audio/fail.wav";
   public readonly FAIL_SOUND:       string  = "http://localhost:3000/audio/success.wav";
 
+  @ViewChild("original")      private original:    TheejsViewComponent;
+  @ViewChild("modified")      private modified:    TheejsViewComponent;
   @ViewChild("successSound",  {read: ElementRef})  public successSound:    ElementRef;
   @ViewChild("failSound",     {read: ElementRef})  public failSound:       ElementRef;
 
@@ -37,6 +42,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
   public  gameRequest:       IGameRequest;
   public  objectToUpdate:    ISceneObject[];
   public  isLoading:         boolean;
+  public  rightClick:        boolean;
   public  gameIsStarted:     boolean;
   public  cardIsLoaded:      boolean;
   public  arenaID:           number;
