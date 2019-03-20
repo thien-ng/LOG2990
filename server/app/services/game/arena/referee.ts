@@ -9,6 +9,9 @@ import { Player } from "./player";
 import { Timer } from "./timer";
 
 const axios: AxiosInstance = require("axios");
+const COUNT_START:           number = 3;
+const ONE_SECOND_INTERVAL:   number = 1000;
+const COUNTDOWN_DONE:        number = -1;
 
 export class Referee<EVT_T, DIFF_T> {
 
