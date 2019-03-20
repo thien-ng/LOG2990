@@ -16,9 +16,15 @@ export class CCommon {
 
     public static readonly ON_ARENA_CONNECT:          string = "onArenaConnect";
     public static readonly ON_ARENA_RESPONSE:         string = "onArenaResponse";
+    public static readonly ON_CANCEL_GAME:            string = "onCancelGame";
     public static readonly ON_CANCEL_REQUEST:         string = "onCancelRequest";
+    public static readonly ON_CARD_CREATED:           string = "onCardCreated";
+    public static readonly ON_CARD_DELETED:           string = "onCardDeleted";
     public static readonly ON_CHAT_MESSAGE:           string = "onChatMessage";
+    public static readonly ON_COUNTDOWN:              string = "onCountdown";
     public static readonly ON_ERROR:                  string = "onError";
+    public static readonly ON_GAME_LOADED:            string = "onGameLoaded";
+    public static readonly ON_GAME_STARTED:           string = "onGameStarted";
     public static readonly ON_GET_MODIF_LIST:         string = "onGetModifList";
     public static readonly ON_LOBBY:                  string = "onLobby";
     public static readonly ON_MODE_INVALID:           string = "onModeInvalid"
