@@ -386,6 +386,15 @@ export class GameManagerService {
             this.server.emit(CCommon.ON_ERROR, HIGHSCORE_VALIDATION_ERROR);
         });
     }
+
+    public onGameLoaded(socketID: string, arenaID: number): void {
+        const arena: Arena<any, any, any, any> | undefined = this.arenas.get(arenaID);
+        if (!arena) {
+            return;
+        }
+
+        arena.onPlayerReady(socketID);
+    }
     // _TODO: OTER CA APRES REFACTOR
 // tslint:disable-next-line:max-file-line-count
 }
