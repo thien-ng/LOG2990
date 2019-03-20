@@ -13,7 +13,7 @@ import {
 import { MatSnackBar } from "@angular/material";
 import { GameConnectionService } from "src/app/game-connection.service";
 import * as THREE from "three";
-import { IClickMessage, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
+import { IClickMessage, IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
 import { ISceneData, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../../common/communication/message";
@@ -22,7 +22,18 @@ import { CardManagerService } from "../../../card/card-manager.service";
 import { Constants } from "../../../constants";
 import { SocketService } from "../../../websocket/socket.service";
 import { ChatViewService } from "../../chat-view/chat-view.service";
+import { GameViewFreeService } from "../game-view-free.service";
 import { ThreejsViewService } from "./threejs-view.service";
+
+enum KEYS {
+  w     = 87,
+  a     = 65,
+  s     = 83,
+  d     = 68,
+  t     = 84,
+  c     = 67,
+  space = 32,
+}
 
 @Component({
   selector:     "app-threejs-view",
