@@ -4,6 +4,8 @@ import { IArenaResponse, IPosition2D, ISceneObjectUpdate } from "../../../../../
 import { CCommon } from "../../../../../common/constantes/cCommon";
 
 const ERROR_MESSAGE:    string = "⚠ ERREUR ⚠";
+const CENTERY:          number = 15;
+const CENTERX:          number = 50;
 
 @Injectable({
   providedIn: "root",
@@ -31,8 +33,6 @@ export class GameViewFreeService {
       if (data.response) {
         this.gameConnectionService.updateModifiedScene(data.response);
       }
-    } else {
-      this.wrongClickRoutine();
     }
 
   }
@@ -49,9 +49,8 @@ export class GameViewFreeService {
 
   private disableClickRoutine(): void {
       document.body.style.cursor = "not-allowed";
-      const positionTop: number = this.position.y;
-      const positionRight: number = this.position.x;
-      // const positionRight2: number = this.position.x;
+      const positionTop: number = this.position.y - CENTERY;
+      const positionRight: number = this.position.x - CENTERX;
 
       this.textCanvasOriginal.style.top =  positionTop + "px";
       this.textCanvasOriginal.style.left = positionRight + "px";
