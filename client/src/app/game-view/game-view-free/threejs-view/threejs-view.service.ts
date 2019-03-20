@@ -1,9 +1,10 @@
-import { Injectable } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
 import * as THREE from "three";
 import { ActionType, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Constants } from "../../../constants";
+import { GameViewFreeService } from "../game-view-free.service";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 
 @Injectable(
@@ -26,7 +27,7 @@ export class ThreejsViewService {
   private opacityById:            Map<number, number>;
   private originalColorById:      Map<number, string>;
 
-  public constructor() {
+  public constructor(@Inject(GameViewFreeService) public gameViewFreeService: GameViewFreeService) {
     this.init();
   }
 
@@ -117,6 +118,8 @@ export class ThreejsViewService {
     this.mouse.x =   ( mouseEvent.offsetX / this.renderer.domElement.clientWidth ) * this.MULTIPLICATOR - 1;
     this.mouse.y = - ( mouseEvent.offsetY / this.renderer.domElement.clientHeight ) * this.MULTIPLICATOR + 1;
     this.mouse.z = 0;
+    this.gameViewFreeService.position.x = mouseEvent.offsetX;
+    this.gameViewFreeService.position.y = mouseEvent.offsetY;
 
     this.raycaster.setFromCamera(this.mouse, this.camera);
 
