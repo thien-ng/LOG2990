@@ -51,7 +51,7 @@ export class TheejsViewComponent implements OnChanges {
   @HostListener("body:keyup", ["$event"])
   public async keyboardEventListenerUp(keyboardEvent: KeyboardEvent): Promise<void> {
     if (!this.focusChat) {
-      this.handleKeyboardEvent(keyboardEvent);
+      this.onKeyUp(keyboardEvent);
     }
   }
 
@@ -107,32 +107,75 @@ export class TheejsViewComponent implements OnChanges {
       case 38: // up
       case 87: // w
         this.threejsViewService.setupFront(-1);
-        this.threejsViewService.moveForward = !this.threejsViewService.moveForward;
+        this.threejsViewService.moveForward = true;
+        console.log("DOWN: " + keyboardEvent.key);
         break;
 
       case 37: // left
       case 65: // a
-        this.threejsViewService.setupFront(1);
-        this.threejsViewService.moveLeft = !this.threejsViewService.moveLeft;
+        // this.threejsViewService.setupFront(-1);
+        this.threejsViewService.moveLeft = true;
+        console.log("DOWN: " + keyboardEvent.key);
         break;
 
       case 40: // down
       case 83: // s
         this.threejsViewService.setupFront(1);
-        this.threejsViewService.moveBackward = !this.threejsViewService.moveBackward;
+        this.threejsViewService.moveBackward = true;
+        console.log("DOWN: " + keyboardEvent.key);
         break;
 
       case 39: // right
       case 68: // d
-        this.threejsViewService.setupFront(1);
-        this.threejsViewService.moveRight = !this.threejsViewService.moveRight;
+        // this.threejsViewService.setupFront(-1);
+        this.threejsViewService.moveRight = true;
+        console.log("DOWN: " + keyboardEvent.key);
         break;
 
       case 32: // space
-        this.threejsViewService.setupFront(1);
-        this.threejsViewService.canJump = !this.threejsViewService.canJump;
+        // this.threejsViewService.setupFront(1);
+        this.threejsViewService.canJump = true;
+        console.log("DOWN: " + keyboardEvent.key);
+        break;
+      case 67: // c
+        this.threejsViewService.goLow = true;
         break;
 
+      default:
+        break;
+    }
+  }
+
+  // tslint:disable-next-line:max-func-body-length
+  private onKeyUp(keyboardEvent: KeyboardEvent): void {
+    switch ( keyboardEvent.keyCode ) {
+      case 38: // up
+      case 87: // w
+        this.threejsViewService.moveForward = false;
+        console.log("UP: " + keyboardEvent.key);
+        break;
+      case 37: // left
+      case 65: // a
+        this.threejsViewService.moveLeft = false;
+        console.log("UP: " + keyboardEvent.key);
+        break;
+      case 40: // down
+      case 83: // s
+        this.threejsViewService.moveBackward = false;
+        console.log("UP: " + keyboardEvent.key);
+        break;
+      case 39: // right
+      case 68: // d
+        this.threejsViewService.moveRight = false;
+        console.log("UP: " + keyboardEvent.key);
+        break;
+      case 32: // space
+        this.threejsViewService.canJump = false;
+        console.log("UP: " + keyboardEvent.key);
+        break;
+      case 67: // c
+        this.threejsViewService.goLow = false;
+        break;
       default:
         break;
     }

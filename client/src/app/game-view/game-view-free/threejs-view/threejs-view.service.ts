@@ -27,6 +27,7 @@ export class ThreejsViewService {
   public moveLeft:                boolean       = false;
   public moveRight:               boolean       = false;
   public canJump:                 boolean       = false;
+  public goLow:                   boolean       = false;
 
   public constructor() {
     this.init();
@@ -121,7 +122,7 @@ export class ThreejsViewService {
 
     if ( this.moveLeft ) {
       const frontvec: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-      const yaxis: THREE.Vector3 = new THREE.Vector3(0, 1, 0);
+      const yaxis: THREE.Vector3 = new THREE.Vector3(0, -1, 0);
       this.camera.getWorldDirection(frontvec);
       this.crossProduct(frontvec, yaxis, this.orthogonal);
 
@@ -135,16 +136,14 @@ export class ThreejsViewService {
     this.addVectors(this.front, this.orthogonal, this.direction);
     this.direction.normalize();
 
-    if (this.moveForward || this.moveBackward || this.moveLeft || this.moveRight || this.canJump) {
+    if (this.moveForward || this.moveBackward || this.moveLeft || this.moveRight || this.canJump || this.goLow) {
 
-      // this.direction.z = Number(this.moveBackward) - Number(this.moveForward);
-      // this.direction.x = Number(this.moveRight) - Number(this.moveLeft);
-
-      this.direction.z = Number(this.moveForward) - Number(this.moveBackward);
-      this.direction.x = Number(this.moveLeft) - Number(this.moveRight);
+      this.direction.z = Number(this.moveBackward) - Number(this.moveForward);
+      this.direction.x = Number(this.moveRight) - Number(this.moveLeft);
+      this.direction.y = Number(this.canJump) - Number(this.goLow);
 
       this.velocity.x = this.direction.x * speed;
-      this.velocity.y = speed * Number( this.canJump );
+      this.velocity.y = this.direction.y * speed;
       this.velocity.z = this.direction.z * speed;
 
       this.velocity.normalize();
