@@ -1,4 +1,4 @@
-<app-waiting-room [gameID]="gameID" *ngIf="!gameIsStarted && mode !== 0"></app-waiting-room>
+<app-waiting-room [isMultiplayer]="mode === 1" [gameID]="gameID" *ngIf="!gameIsStarted"></app-waiting-room>
 <span [hidden]="!gameIsStarted">
   <mat-grid-list id="game" cols="9" rowHeight="1%">
     <mat-grid-tile
@@ -18,7 +18,7 @@
         <mat-grid-tile [colspan]="1">
             <div class="text" #textDiv></div>
             <canvas #originalImage width="640" height="480"></canvas>
-        </mat-grid-tile>  
+        </mat-grid-tile>
         <mat-grid-tile [colspan]="1" >
             <canvas #modifiedImage width="640" height="480"></canvas>
             <div class="text2" #textDiv2></div>
