@@ -8,6 +8,7 @@ import { anything, mock, when } from "ts-mockito";
 import { GameMode } from "../../../../../common/communication/iCard";
 import { ActionType, IArenaResponse, ISceneObjectUpdate } from "../../../../../common/communication/iGameplay";
 import { ISceneObject } from "../../../../../common/communication/iSceneObject";
+import { IModification, ISceneData, ISceneVariables } from "../../../../../common/communication/iSceneVariables";
 import { IUser } from "../../../../../common/communication/iUser";
 import { Arena3D } from "../../../services/game/arena/arena3d";
 import { I3DInfos, IArenaInfos, IPlayerInput } from "../../../services/game/arena/interfaces";
@@ -42,6 +43,20 @@ const sceneObject: ISceneObject = {
     color:      "#FFFFFF",
     scale:      {x: 1, y: 2, z: 3},
     hidden:     true,
+};
+
+const sceneVariables: ISceneVariables = {
+    theme:                  1,
+    gameName:               "fokoffMichael",
+    sceneObjectsQuantity:   5,
+    sceneObjects:           [sceneObject],
+    sceneBackgroundColor:   "#FFFFFF",
+};
+
+const sceneData: ISceneData = {
+    originalScene: sceneVariables,
+    modifiedScene: sceneVariables,
+    modifications: [{id: 1, type: 6}],
 };
 
 const refereeResponse: IArenaResponse<ISceneObjectUpdate> = {
@@ -154,6 +169,18 @@ describe("Arena3D tests", () => {
         });
 
         chai.expect(spy).called();
+    });
+
+    it("should return scene object to update with no action required", async () => {
+
+        const modification: IModification = {
+            id: 1,
+            type: 6,
+        };
+
+        const result: any = arena["findObjectToUpdate"](modification, sceneData);
+
+        chai.expect(result).to.deep.equal({ actionToApply: 3, sceneObject: undefined });
     });
 
 });
