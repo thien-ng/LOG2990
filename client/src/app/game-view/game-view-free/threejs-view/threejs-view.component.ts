@@ -228,6 +228,25 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
     });
   }
 
+  private initSubscriptions(): void {
+    this.gameViewFreeService.getRightClickListener().subscribe((newValue: boolean) => {
+      this.rightClick = newValue;
+    });
+
+    this.chatViewService.getChatFocusListener().subscribe((newValue: boolean) => {
+      this.focusChat = newValue;
+    });
+
+    this.gameConnectionService.getObjectToUpdate().subscribe((object: ISceneObjectUpdate) => {
+      this.getDifferencesList();
+
+      this.threejsViewService.changeObjectsColor(false, true, this.modifications);
+      if (this.isNotOriginal) {
+        this.threejsViewService.updateSceneWithNewObject(object);
+      }
+    });
+  }
+
   private initListener(): void {
     this.originalScene.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
 
