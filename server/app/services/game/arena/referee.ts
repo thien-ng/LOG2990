@@ -38,7 +38,30 @@ export class Referee<EVT_T, DIFF_T> {
         this.pointsNeededToWin = players.length === 1 ? this.POINTS_TO_WIN_SINGLE : this.POINTS_TO_WIN_MULTI;
 
         this.differencesFound = [];
-        this.initTimer();
+    }
+
+    public onPlayersReady(): void {
+        this.sendCountDown();
+    }
+
+    private sendCountDown(): void {
+        let count: number = COUNT_START;
+        const countDown: NodeJS.Timeout = setInterval(
+            () => {
+                if (count > COUNTDOWN_DONE) {
+                    this.players.forEach((player: Player) => {
+                        this.arena.sendMessage(player.userSocketId, CCommon.ON_COUNTDOWN, count);
+                    });
+                    count--;
+                } else if (count === COUNTDOWN_DONE) {
+                    this.players.forEach((player: Player) => {
+                        this.arena.sendMessage(player.userSocketId, CCommon.ON_GAME_STARTED);
+                    });
+                    clearInterval(countDown);
+                    this.initTimer();
+                }
+            },
+            ONE_SECOND_INTERVAL);
     }
 
     public async onPlayerClick(eventInfos: EVT_T, user: IUser): Promise<IArenaResponse<DIFF_T>> {
