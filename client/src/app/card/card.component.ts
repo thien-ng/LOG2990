@@ -50,16 +50,16 @@ export class CardComponent implements AfterContentInit {
     public  dialog:             MatDialog,
     private httpClient:         HttpClient,
     ) {
-      this.cardDeleted        = new EventEmitter();
-      this.multiplayerButton  = "CRÉER";
-      this.icon               = this.CREATE_ICON;
-      this.dialogConfig       = new MatDialogConfig();
-      this.dialogConfig.disableClose = false;
-      this.dialogConfig.autoFocus    = true;
-      this.dialogConfig.width        = "450px";
-      this.dialogConfig.height       = "170px";
-      this.dialogConfig.position     = {bottom: "0%", top: "5%"};
-      this.dialogConfig.autoFocus    = false;
+      this.cardDeleted                = new EventEmitter();
+      this.multiplayerButton          = "CRÉER";
+      this.icon                       = this.CREATE_ICON;
+      this.dialogConfig               = new MatDialogConfig();
+      this.dialogConfig.disableClose  = false;
+      this.dialogConfig.autoFocus     = true;
+      this.dialogConfig.width         = "450px";
+      this.dialogConfig.height        = "170px";
+      this.dialogConfig.position      = {bottom: "0%", top: "5%"};
+      this.dialogConfig.autoFocus     = false;
   }
 
   public ngAfterContentInit(): void {
