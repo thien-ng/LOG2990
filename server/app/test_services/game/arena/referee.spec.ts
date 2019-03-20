@@ -15,6 +15,8 @@ import { ChatManagerService } from "../../../services/chat-manager.service";
 import { CardOperations } from "../../../services/card-operations.service";
 import { Arena3D } from "../../../services/game/arena/arena3d";
 
+// tslint:disable no-magic-numbers no-any await-promise no-floating-promises max-file-line-count max-line-length
+
 let   mockAxios:            any;
 const axios:                any = require("axios");
 const mockAdapter:          any = require("axios-mock-adapter");
@@ -297,8 +299,6 @@ describe("Referee tests", () => {
         }).catch();
     });
 
-    /////////@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
     it("should return a failed click arena response (3D arena)", async () => {
         const playerList: Player[] = [new Player(activeUser2)];
         const referee: Referee<number, ISceneObjectUpdate> = new Referee<number, ISceneObjectUpdate>(arena3D, playerList, originalElements3D, timer, "url");
@@ -319,7 +319,7 @@ describe("Referee tests", () => {
         const referee: Referee<number, ISceneObjectUpdate> = new Referee<number, ISceneObjectUpdate>(arena3D, playerList, originalElements3D, timer, "url");
         
         const responseArena: IArenaResponse<ISceneObjectUpdate> = {
-            status:     "onFailedClick",
+            status:     "onPenalty",
             response:   undefined,
         };
 
@@ -327,5 +327,21 @@ describe("Referee tests", () => {
             chai.expect(response).to.deep.equal(responseArena);
         }).catch();
     });
+
+    it("should throw an error when onPlayerClick (3D arena)", async () => {
+        const playerList: Player[] = [new Player(activeUser1)];
+        const referee: Referee<number, ISceneObjectUpdate> = new Referee<number, ISceneObjectUpdate>(arena3D, playerList, originalElements3D, timer, "url");
+        
+        const responseArena: IArenaResponse<ISceneObjectUpdate> = {
+            status:     "onError",
+            response:   undefined,
+        };
+
+        referee.onPlayerClick(1, activeUser1).then((response: IArenaResponse<ISceneObjectUpdate>) => {
+            chai.expect(response).to.deep.equal(responseArena);
+        }).catch();
+    });
+
+
 
 });
