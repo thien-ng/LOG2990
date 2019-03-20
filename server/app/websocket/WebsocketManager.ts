@@ -67,7 +67,15 @@ export class WebsocketManager {
         socket.on(CCommon.GAME_DISCONNECT, (username: string) => {
             this.gameManagerService.unsubscribeSocketID(socketID, username);
         });
+
+        socket.on(CCommon.ON_GAME_LOADED, (arenaID: number) => {
+            this.gameManagerService.onGameLoaded(socket.id, arenaID);
+        });
+
         socket.on(CCommon.POSITION_VALIDATION, (data: IClickMessage<IPosition2D | number>) => {
+            this.validatePosition(data, socket);
+        });
+    }
 
             const user: IUser | string = this.userManagerService.getUserByUsername(data.username);
             const userList: IUser[]    = this.gameManagerService.getUsersInArena(data.arenaID);
