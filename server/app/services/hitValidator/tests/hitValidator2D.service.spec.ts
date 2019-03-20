@@ -41,7 +41,7 @@ describe("Hit Validator 2D micro-service tests", () => {
         .reply(200, imageBuffer);
 
         hitValidatorService.confirmHit(iHitToValidate2D).then((response: any) => {
-            chai.expect(response).to.deep.equal({ isAHit: true, hitPixelColor: [ 255, 255, 255 ] });
+            chai.expect(response).to.deep.equal({ isAHit: true, differenceIndex: 255 });
         }).catch();
     });
 
@@ -53,7 +53,7 @@ describe("Hit Validator 2D micro-service tests", () => {
         .reply(200, imageBuffer);
 
         hitValidatorService.confirmHit(iHitToValidate2D).then((response: any) => {
-            chai.expect(response).to.deep.equal({ isAHit: true, hitPixelColor: [ 255, 255, 255 ] });
+            chai.expect(response).to.deep.equal({ isAHit: true, differenceIndex: 255 });
         }).catch();
     });
 
