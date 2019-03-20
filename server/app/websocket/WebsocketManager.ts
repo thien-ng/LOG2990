@@ -15,6 +15,8 @@ import { IPlayerInput } from "../services/game/arena/interfaces";
 import { GameManagerService } from "../services/game/game-manager.service";
 import { UserManagerService } from "../services/user-manager.service";
 import Types from "../types";
+import { CardOperations } from "../services/card-operations.service";
+import { HighscoreService } from "../services/highscore.service";
 
 @injectable()
 export class WebsocketManager {
@@ -24,7 +26,9 @@ export class WebsocketManager {
     public constructor(
         @inject(Types.UserManagerService) private userManagerService: UserManagerService,
         @inject(Types.GameManagerService) private gameManagerService: GameManagerService,
-        @inject(Types.ChatManagerService) private chatManagerService: ChatManagerService) {}
+        @inject(Types.ChatManagerService) private chatManagerService: ChatManagerService,
+        @inject(Types.HighscoreService)   private highscoreService:   HighscoreService,
+        @inject(Types.CardOperations)     private cardOperations:     CardOperations) {}
 
     public createWebsocket(server: http.Server): void {
         this.io = SocketIO(server);
@@ -37,6 +41,8 @@ export class WebsocketManager {
             };
 
             this.gameManagerService.setServer(this.io);
+            this.cardOperations.setServer(this.io);
+            this.highscoreService.setServer(this.io);
             this.loginSocketChecker(user, socketID, socket);
             this.gameSocketChecker(socketID, socket);
             this.chatSocketChecker(socket);
