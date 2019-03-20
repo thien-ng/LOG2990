@@ -7,7 +7,7 @@ import { IHitToValidate } from "../interfaces";
 
 // tslint:disable:no-magic-numbers no-any
 
-const iHitToValidate: IHitToValidate<IPosition2D> = {
+const iHitToValidate2D: IHitToValidate<IPosition2D> = {
     eventInfo: {
         x: 1,
         y: 1,
@@ -23,7 +23,7 @@ const imageBuffer:          Buffer  = fs.readFileSync(path.resolve(__dirname, ".
 
 let   hitValidatorService:    HitValidatorService2D = new HitValidatorService2D();
 
-describe("Hit Validator micro-service tests", () => {
+describe("Hit Validator 2D micro-service tests", () => {
 
     beforeEach(() => {
         mockAxios = new mockAdapter.default(axios);
@@ -35,37 +35,37 @@ describe("Hit Validator micro-service tests", () => {
 
     it("should return hit with color from pixel and insert image in cache", async () => {
 
-        mockAxios.onGet(iHitToValidate.differenceDataURL, {
+        mockAxios.onGet(iHitToValidate2D.differenceDataURL, {
             responseType: "arraybuffer",
         })
         .reply(200, imageBuffer);
 
-        hitValidatorService.confirmHit(iHitToValidate).then((response: any) => {
+        hitValidatorService.confirmHit(iHitToValidate2D).then((response: any) => {
             chai.expect(response).to.deep.equal({ isAHit: true, hitPixelColor: [ 255, 255, 255 ] });
         }).catch();
     });
 
     it("should return hit with color from pixel and get image from cache", async () => {
 
-        mockAxios.onGet(iHitToValidate.differenceDataURL, {
+        mockAxios.onGet(iHitToValidate2D.differenceDataURL, {
             responseType: "arraybuffer",
         })
         .reply(200, imageBuffer);
 
-        hitValidatorService.confirmHit(iHitToValidate).then((response: any) => {
+        hitValidatorService.confirmHit(iHitToValidate2D).then((response: any) => {
             chai.expect(response).to.deep.equal({ isAHit: true, hitPixelColor: [ 255, 255, 255 ] });
         }).catch();
     });
 
     it("should return and error of not getting image buffer from url", async () => {
 
-        mockAxios.onGet(iHitToValidate.differenceDataURL, {
+        mockAxios.onGet(iHitToValidate2D.differenceDataURL, {
             responseType: "arraybuffer",
         })
         .reply(400);
 
         hitValidatorService = new HitValidatorService2D();
-        hitValidatorService.confirmHit(iHitToValidate).then().catch((error: any) => {
+        hitValidatorService.confirmHit(iHitToValidate2D).then().catch((error: any) => {
             chai.expect(error.message).to
             .equal("Didn't succeed to get image buffer from URL given. File: hitValidator.service.ts. Line: 64.");
         });
@@ -79,7 +79,7 @@ describe("Hit Validator micro-service tests", () => {
         .reply(400);
 
         hitValidatorService = new HitValidatorService2D();
-        hitValidatorService.confirmHit(iHitToValidate).then().catch((error: any) => {
+        hitValidatorService.confirmHit(iHitToValidate2D).then().catch((error: any) => {
             chai.expect(error.message).to
             .equal("Didn't succeed to get image buffer from URL given. File: hitValidator.service.ts. Line: 64.");
         });
