@@ -45,12 +45,12 @@ const sceneObject: ISceneObject = {
 };
 
 const refereeResponse: IArenaResponse<ISceneObjectUpdate> = {
-    status: "onSuccess",
+    status:             "onSuccess",
     response: {
         actionToApply:  ActionType.ADD,
         sceneObject:    sceneObject,
     },
-    arenaType: GameMode.free,
+    arenaType:          GameMode.free,
 };
 
 const playerInput: IPlayerInput<number> = {
@@ -76,9 +76,9 @@ describe("Arena3D tests", () => {
     });
 
     it("should call referee onPlayerClick method", async () => {
-        const referee: any = mock(Referee);
-        arena["referee"] = referee;
-        const spy: any  = chai.spy.on(arena["referee"], "onPlayerClick");
+        const referee: any  = mock(Referee);
+        arena["referee"]    = referee;
+        const spy: any      = chai.spy.on(arena["referee"], "onPlayerClick");
 
         when(referee.onPlayerClick(anything(), anything())).thenReturn(refereeResponse);
 
@@ -88,9 +88,9 @@ describe("Arena3D tests", () => {
     });
 
     it("should call referee validateHit method", async () => {
-        const referee: any = mock(Referee);
-        arena["referee"] = referee;
-        const spy: any  = chai.spy.on(arena["referee"], "validateHit");
+        const referee: any  = mock(Referee);
+        arena["referee"]    = referee;
+        const spy: any      = chai.spy.on(arena["referee"], "validateHit");
 
         when(referee.onPlayerClick(anything(), anything())).thenReturn(refereeResponse);
 
@@ -115,9 +115,9 @@ describe("Arena3D tests", () => {
     });
 
     it("should call referee validateHit method when onPlayerInput", async () => {
-        const referee: any = mock(Referee);
-        arena["referee"] = referee;
-        const spy: any  = chai.spy.on(arena["referee"], "onPlayerClick");
+        const referee: any  = mock(Referee);
+        arena["referee"]    = referee;
+        const spy: any      = chai.spy.on(arena["referee"], "onPlayerClick");
 
         when(referee.onPlayerClick(anything(), anything())).thenReturn(refereeResponse);
 

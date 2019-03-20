@@ -34,6 +34,7 @@ const activeUser2: IUser = {
 const event2D: IPosition2D = {x: 1, y: 1};
 const originalElements2D: Map<number, IOriginalPixelCluster> = new Map<number, IOriginalPixelCluster>();
 const originalElements3D: Map<number, ISceneObjectUpdate>    = new Map<number, ISceneObjectUpdate>();
+
 const hitConfirmation2D: IHitConfirmation = {
     isAHit:             true,
     differenceIndex:    1,
@@ -52,7 +53,7 @@ const arenaInfo3D: IArenaInfos<I3DInfos> = {
     arenaId:            1,
     users:              [activeUser1],
     dataUrl:            {
-        sceneData: "url",
+        sceneData:      "url",
     },
 };
 
@@ -96,7 +97,6 @@ let arena3D: Arena3D;
 let timer: Timer;
 
 originalElements2D.set(1, replacement);
-// originalElements3D.set()
 
 describe("Referee tests", () => {
 
@@ -143,9 +143,9 @@ describe("Referee tests", () => {
     });
 
     it("should return a onPenalty state (2D arena)", async () => {
-        const playerList: Player[] = [new Player(activeUser1)];
+        const playerList:   Player[] = [new Player(activeUser1)];
+        const referee:      Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
         playerList[0].setPenaltyState(true);
-        const referee: Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
 
         const responseArenaPenalty: IArenaResponse<IOriginalPixelCluster> = {
             status:     "onPenalty",
@@ -158,8 +158,8 @@ describe("Referee tests", () => {
     });
 
     it("should validate a good hit (2D arena single)", async () => {
-        const playerList: Player[] = [new Player(activeUser1)];
-        const referee: Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
+        const playerList:   Player[] = [new Player(activeUser1)];
+        const referee:      Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
 
         const url: string = "http://localhost:3000/api/hitvalidator/simple";
 
@@ -171,8 +171,8 @@ describe("Referee tests", () => {
     });
 
     it("should validate a good hit (2D arena multi)", async () => {
-        const playerList: Player[] = [new Player(activeUser1), new Player(activeUser2)];
-        const referee: Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
+        const playerList:   Player[] = [new Player(activeUser1), new Player(activeUser2)];
+        const referee:      Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
 
         const url: string = "http://localhost:3000/api/hitvalidator/simple";
 
@@ -184,8 +184,8 @@ describe("Referee tests", () => {
     });
 
     it("should return error when validateHit (2D arena single)", async () => {
-        const playerList: Player[] = [new Player(activeUser1)];
-        const referee: Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
+        const playerList:   Player[] = [new Player(activeUser1)];
+        const referee:      Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
 
         const url: string = "http://localhost:3000/api/hitvalidator/simple";
 
@@ -197,8 +197,8 @@ describe("Referee tests", () => {
     });
 
     it("should return error when validateHit (3D arena single)", async () => {
-        const playerList: Player[] = [new Player(activeUser1), new Player(activeUser2)];
-        const referee: Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
+        const playerList:   Player[] = [new Player(activeUser1), new Player(activeUser2)];
+        const referee:      Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
 
         const url: string = "http://localhost:3000/api/hitvalidator/simple";
 
@@ -210,8 +210,8 @@ describe("Referee tests", () => {
     });
 
     it("should validate a good hit when onPlayerClick (2D arena single)", async () => {
-        const playerList: Player[] = [new Player(activeUser1)];
-        const referee: Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
+        const playerList:   Player[] = [new Player(activeUser1)];
+        const referee:      Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
 
         const url: string = "http://localhost:3000/api/hitvalidator/simple";
 
@@ -225,8 +225,8 @@ describe("Referee tests", () => {
     });
 
     it("should validate a good hit when onPlayerClick (2D arena multi)", async () => {
-        const playerList: Player[] = [new Player(activeUser1), new Player(activeUser2)];
-        const referee: Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
+        const playerList:   Player[] = [new Player(activeUser1), new Player(activeUser2)];
+        const referee:      Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
 
         const url: string = "http://localhost:3000/api/hitvalidator/simple";
 
@@ -240,8 +240,8 @@ describe("Referee tests", () => {
     });
 
     it("should validate a wrong hit when onPlayerClick (2D arena single)", async () => {
-        const playerList: Player[] = [new Player(activeUser1)];
-        const referee: Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
+        const playerList:   Player[] = [new Player(activeUser1)];
+        const referee:      Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
 
         const url: string = "http://localhost:3000/api/hitvalidator/simple";
 
@@ -265,8 +265,8 @@ describe("Referee tests", () => {
     });
 
     it("should validate a wrong hit when onPlayerClick (2D arena multi)", async () => {
-        const playerList: Player[] = [new Player(activeUser1), new Player(activeUser2)];
-        const referee: Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
+        const playerList:   Player[] = [new Player(activeUser1), new Player(activeUser2)];
+        const referee:      Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
 
         const url: string = "http://localhost:3000/api/hitvalidator/simple";
 
@@ -290,8 +290,8 @@ describe("Referee tests", () => {
     });
 
     it("should return a failed click arena response (3D arena)", async () => {
-        const playerList: Player[] = [new Player(activeUser2)];
-        const referee: Referee<number, ISceneObjectUpdate> = new Referee<number, ISceneObjectUpdate>(arena3D, playerList, originalElements3D, timer, "url");
+        const playerList:   Player[] = [new Player(activeUser2)];
+        const referee:      Referee<number, ISceneObjectUpdate> = new Referee<number, ISceneObjectUpdate>(arena3D, playerList, originalElements3D, timer, "url");
 
         const responseArenaError: IArenaResponse<ISceneObjectUpdate> = {
             status:     "onFailedClick",
@@ -304,9 +304,9 @@ describe("Referee tests", () => {
     });
 
     it("should return a onPenalty state (3D arena)", async () => {
-        const playerList: Player[] = [new Player(activeUser1)];
+        const playerList:   Player[] = [new Player(activeUser1)];
+        const referee:      Referee<number, ISceneObjectUpdate> = new Referee<number, ISceneObjectUpdate>(arena3D, playerList, originalElements3D, timer, "url");
         playerList[0].setPenaltyState(true);
-        const referee: Referee<number, ISceneObjectUpdate> = new Referee<number, ISceneObjectUpdate>(arena3D, playerList, originalElements3D, timer, "url");
 
         const responseArenaPenalty: IArenaResponse<ISceneObjectUpdate> = {
             status:     "onPenalty",
@@ -319,8 +319,8 @@ describe("Referee tests", () => {
     });
 
     it("should throw an error when onPlayerClick (3D arena)", async () => {
-        const playerList: Player[] = [new Player(activeUser1)];
-        const referee: Referee<number, ISceneObjectUpdate> = new Referee<number, ISceneObjectUpdate>(arena3D, playerList, originalElements3D, timer, "url");
+        const playerList:   Player[] = [new Player(activeUser1)];
+        const referee:      Referee<number, ISceneObjectUpdate> = new Referee<number, ISceneObjectUpdate>(arena3D, playerList, originalElements3D, timer, "url");
 
         const responseArenaError: IArenaResponse<ISceneObjectUpdate> = {
             status:     "onError",

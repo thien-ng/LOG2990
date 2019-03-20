@@ -12,8 +12,8 @@ const mockAdapter:          any         = require("axios-mock-adapter");
 const sceneDataBuffer:      any         = fs.readFileSync(path.resolve(__dirname, "../../../asset/scene/2_scene.json"));
 
 const iHitToValidate3D: IHitToValidate<number> = {
-    eventInfo: 1,
-    differenceDataURL: path.resolve(__dirname, "../../../asset/scene/2_scene.json"),
+    eventInfo:          1,
+    differenceDataURL:  path.resolve(__dirname, "../../../asset/scene/2_scene.json"),
 };
 
 let hitValidatorService3D: HitValidatorService3D = new HitValidatorService3D();
