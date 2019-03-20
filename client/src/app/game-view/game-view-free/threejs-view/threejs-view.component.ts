@@ -56,6 +56,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   private previousModifications:  number[];
   private isFirstGet:             boolean;
 
+  @Input() private rightClick:              boolean;
   @Input() private arenaID:                 number;
   @Input() private iSceneVariables:         ISceneVariables;
   @Input() private iSceneVariablesMessage:  ISceneData;
@@ -82,30 +83,28 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   }
 
   public constructor(
-    @Inject(ThreejsViewService) private threejsViewService: ThreejsViewService,
-    @Inject(ChatViewService)    private chatViewService:    ChatViewService,
-    @Inject(SocketService)      private socketService:      SocketService,
+    @Inject(ThreejsViewService)   private threejsViewService:   ThreejsViewService,
+    @Inject(ChatViewService)      private chatViewService:      ChatViewService,
+    @Inject(SocketService)        private socketService:        SocketService,
+    @Inject(GameViewFreeService)  private gameViewFreeService:  GameViewFreeService,
     private httpClient:         HttpClient,
     private snackBar:           MatSnackBar,
     private cardManagerService: CardManagerService,
     private gameConnectionService: GameConnectionService,
     ) {
+    this.rightClick     = false;
     this.sceneGenerated = new EventEmitter();
     this.scene          = new THREE.Scene();
     this.isCheating     = false;
     this.focusChat      = false;
     this.isFirstGet     = true;
-    this.chatViewService.getChatFocusListener().subscribe((newValue: boolean) => {
-      this.focusChat = newValue;
-    });
-    this.gameConnectionService.getObjectToUpdate().subscribe((object: ISceneObjectUpdate) => {
-      this.getDifferencesList();
+    this.initSubscriptions();
+  }
 
-      this.threejsViewService.changeObjectsColor(false, true, this.modifications);
-      if (this.isNotOriginal) {
-        this.threejsViewService.updateSceneWithNewObject(object);
-      }
-    });
+  public onMouseMove(point: IPosition2D): void {
+    if (this.rightClick) {
+      this.threejsViewService.moveCamera(point);
+    }
   }
 
   public ngAfterContentInit(): void {
