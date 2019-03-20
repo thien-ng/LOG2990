@@ -52,6 +52,20 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
   private scenePath:         string;
   private gameMode:          Mode;
 
+  @HostListener("mousedown", ["$event"])
+  public onMouseDown(mouseEvent: MouseEvent): void {
+    if (mouseEvent.button === RIGHT_CLICK) {
+      this.gameViewService.updateRightClick(true);
+    }
+  }
+
+  @HostListener("mouseup", ["$event"])
+  public onMouseUp(mouseEvent: MouseEvent): void {
+    if (mouseEvent.button === RIGHT_CLICK) {
+      this.gameViewService.updateRightClick(false);
+    }
+  }
+
   public constructor(
     @Inject(GameViewFreeService)    private gameViewService:  GameViewFreeService,
     @Inject(SocketService)          private socketService:    SocketService,
