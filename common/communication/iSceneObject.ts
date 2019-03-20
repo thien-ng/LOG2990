@@ -5,6 +5,7 @@ export interface ISceneObject {
     rotation:       IAxisValues;
     color:          string;
     scale:          IAxisValues;
+    hidden:         boolean;
 }
 
 export enum SceneObjectType {

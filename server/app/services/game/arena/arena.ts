@@ -37,7 +37,10 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
             this.timer              = new Timer();
         }
 
-    public abstract sendMessage(playerSocketId: string, event: string, message: number): void;
+    public sendMessage<DATA_T>(playerSocketId: string, event: string, data?: DATA_T): void {
+        this.gameManagerService.sendMessage(playerSocketId, event, data);
+    }
+
     public abstract async onPlayerClick(eventInfos: EVT_T, user: IUser): Promise<IArenaResponse<DIFF_T>>;
     public abstract async onPlayerInput(playerInput: IN_T):              Promise<IArenaResponse<DIFF_T>>;
     public abstract async validateHit(eventInfos: EVT_T):                Promise<IHitConfirmation>; // _TODO: Pour fin de tests (a enlever)
@@ -48,10 +51,13 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
 
     public getDifferencesIds(): number[] {
 
-        const differencesIds: number[] = [];
+        const foundDifferences: number[] = this.referee.getFoundDifferences();
+        const differencesIds:   number[] = [];
 
         this.originalElements.forEach((value: DIFF_T, key: number) => {
-            differencesIds.push(key);
+            if (foundDifferences.indexOf(key) < 0) {
+                differencesIds.push(key);
+            }
         });
 
         return differencesIds;

@@ -5,13 +5,14 @@ import { Observable } from "rxjs";
 import * as io from "socket.io-client";
 import { GameMode, ILobbyEvent } from "../../../../common/communication/iCard";
 import { IChat } from "../../../../common/communication/iChat";
-import { IArenaResponse } from "../../../../common/communication/iGameplay";
+import { IArenaResponse, IOriginalPixelCluster, IPenalty, ISceneObjectUpdate } from "../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { CardManagerService } from "../card/card-manager.service";
 import { Constants } from "../constants";
 import { GameConnectionService } from "../game-connection.service";
 import { ChatViewService } from "../game-view/chat-view/chat-view.service";
 import { DifferenceCounterService } from "../game-view/difference-counter/difference-counter.service";
+import { GameViewFreeService } from "../game-view/game-view-free/game-view-free.service";
 import { GameViewSimpleService } from "../game-view/game-view-simple/game-view-simple.service";
 import { TimerService } from "../game-view/timer/timer.service";
 
@@ -28,6 +29,7 @@ export class SocketService {
     private cardManagerService:       CardManagerService,
     private chatViewService:          ChatViewService,
     private gameViewSimpleService:    GameViewSimpleService,
+    private gameViewFreeService:      GameViewFreeService,
     private timerService:             TimerService,
     private differenceCounterService: DifferenceCounterService,
     private gameConnectionService:    GameConnectionService,
@@ -38,8 +40,8 @@ export class SocketService {
   public initWebsocketListener(): void {
 
     this.socket.addEventListener(Constants.ON_CONNECT, () => {
-      this.initGameViewListeners();
       this.initArenaListeners();
+      this.initGameViewListeners();
 
       this.socket.on(CCommon.CHAT_EVENT, (data: IChat) => {
         this.chatViewService.updateConversation(data);
@@ -76,30 +78,47 @@ export class SocketService {
   }
 
   private initGameViewListeners(): void {
-    // tslint:disable-next-line:no-any _TODO
-    this.socket.on(CCommon.ON_ARENA_RESPONSE, (data: IArenaResponse<any>) => {
+
+    this.socket.on(CCommon.ON_ARENA_RESPONSE, (data: IArenaResponse<IOriginalPixelCluster | ISceneObjectUpdate>) => {
       this.emitOnArenaResponse(data);
     });
-    // tslint:disable-next-line:no-any _TODO
-    this.socket.on(CCommon.ON_PENALTY_ON, (data: IArenaResponse<any>) => {
-      this.gameViewSimpleService.wrongClickRoutine();
-    });
-    // tslint:disable-next-line:no-any _TODO
-    this.socket.on(CCommon.ON_PENALTY_OFF, (data: IArenaResponse<any>) => {
-      this.gameViewSimpleService.enableClickRoutine();
+
+    this.socket.on(CCommon.ON_PENALTY, (data: IPenalty) => {
+      this.emitOnPenaltyOn(data);
     });
   }
 
-  // tslint:disable-next-line:no-any _TODO
-  private emitOnArenaResponse(arenaResponse: IArenaResponse<any>): void {
-    switch (arenaResponse.arenaType) {
-      case GameMode.simple:
-        this.gameViewSimpleService.onArenaResponse(arenaResponse);
-        break;
-      case GameMode.free:
-        break;
-      default:
-        break;
+  private emitOnArenaResponse(arenaResponse: IArenaResponse<IOriginalPixelCluster | ISceneObjectUpdate>): void {
+
+    if (arenaResponse.arenaType === GameMode.simple) {
+      this.gameViewSimpleService.onArenaResponse(arenaResponse as IArenaResponse<IOriginalPixelCluster>);
+    } else {
+      this.gameViewFreeService.onArenaResponse(arenaResponse as IArenaResponse<ISceneObjectUpdate>);
+    }
+  }
+
+  private emitOnPenaltyOn(arenaResponse: IPenalty): void {
+
+    if (arenaResponse.isOnPenalty) {
+      this.wrongClickRoutine(arenaResponse.arenaType);
+    } else {
+      this.enableClickRoutine(arenaResponse.arenaType);
+    }
+  }
+
+  private wrongClickRoutine(arenaType: GameMode): void {
+    if (arenaType === GameMode.simple) {
+      this.gameViewSimpleService.wrongClickRoutine();
+    } else {
+      this.gameViewFreeService.wrongClickRoutine();
+    }
+  }
+
+  private enableClickRoutine(arenaType: GameMode): void {
+    if (arenaType === GameMode.simple) {
+      this.gameViewSimpleService.enableClickRoutine();
+    } else {
+      this.gameViewFreeService.enableClickRoutine();
     }
   }
 
