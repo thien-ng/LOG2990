@@ -1,10 +1,14 @@
-import { Injectable } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
+import { SocketService } from "src/app/websocket/socket.service";
 import * as THREE from "three";
 import { ActionType, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
+import { CCommon } from "../../../../../../common/constantes/cCommon";
 import { Constants } from "../../../constants";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
+
+const EVERY_SCENE_LOADED: number = 2;
 
 @Injectable(
   {providedIn: "root"},
@@ -13,6 +17,7 @@ export class ThreejsViewService {
 
   private readonly MULTIPLICATOR: number = 2;
 
+  private nbOfSceneLoaded:        number;
   private scene:                  THREE.Scene;
   private camera:                 THREE.PerspectiveCamera;
   private renderer:               THREE.WebGLRenderer;
@@ -26,7 +31,8 @@ export class ThreejsViewService {
   private opacityById:            Map<number, number>;
   private originalColorById:      Map<number, string>;
 
-  public constructor() {
+  public constructor(@Inject(SocketService) private socketService: SocketService) {
+    this.nbOfSceneLoaded = 0;
     this.init();
   }
 
@@ -52,7 +58,12 @@ export class ThreejsViewService {
     this.renderObject();
   }
 
-  public createScene(scene: THREE.Scene, iSceneVariables: ISceneVariables, renderer: THREE.WebGLRenderer): void {
+  public createScene(
+    scene: THREE.Scene,
+    iSceneVariables: ISceneVariables,
+    renderer: THREE.WebGLRenderer,
+    isSnapshotNeeded: boolean,
+    arenaID: number): void {
     this.renderer         = renderer;
     this.scene            = scene;
     this.sceneVariables   = iSceneVariables;
@@ -68,7 +79,7 @@ export class ThreejsViewService {
     this.renderer.setClearColor(this.sceneVariables.sceneBackgroundColor);
 
     this.createLighting();
-    this.generateSceneObjects();
+    this.generateSceneObjects(isSnapshotNeeded, arenaID);
 
     this.camera.lookAt(this.scene.position);
   }
