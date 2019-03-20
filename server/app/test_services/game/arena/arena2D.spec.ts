@@ -125,6 +125,11 @@ describe("Arena 2D tests", () => {
 
     });
 
+    it("should get empty difference ids list ", async () => {
+        const result: number[] = arena.getDifferencesIds();
+        chai.expect(result.length).to.equal(0);
+    });
+
     it("should be able to extract original pixel clusters from buffers ", async () => {
 
         const spy: any  = chai.spy.on(arena, "extractOriginalPixelClusters");
@@ -192,59 +197,6 @@ describe("Arena 2D tests", () => {
         chai.expect(responseToInput).to.deep.equal(expectedResponse);
         sandbox.restore();
     });
-
-    // it("should return a correct IArenaResponse", async () => {
-    //     const playerInputResponseExpected: IArenaResponse<IOriginalPixelCluster> = {
-    //         status:     CCommon.ON_SUCCESS,
-    //         response:   expectedPixelClusters,
-    //     };
-
-    //     const hitConfirmationExpected: IHitConfirmation = {
-    //         isAHit:             true,
-    //         differenceIndex:    1,
-    //     };
-
-    //     mockAxios.onPost(Constants.URL_HIT_VALIDATOR + "/2d").reply(200, hitConfirmationExpected);
-
-    //     let responseToPlayerInput: IArenaResponse<IOriginalPixelCluster> | void;
-    //     arena["originalElements"].set(1, expectedPixelClusters);
-
-    //     responseToPlayerInput = await arena.onPlayerClick(hitPosition, activeUser);
-
-    //     chai.expect(responseToPlayerInput).to.deep.equal(playerInputResponseExpected);
-    //     mockAxios.restore();
-    // });
-
-    // it("should return an error on problematic HitConfirmation", async () => {
-    //     const playerInputResponseExpected: IArenaResponse<IOriginalPixelCluster> = {
-    //         status:     CCommon.ON_ERROR,
-    //         response:   Constants.ON_ERROR_PIXEL_CLUSTER,
-    //     };
-
-    //     mockAxios.onPost(Constants.URL_HIT_VALIDATOR).reply(200, {});
-
-    //     let responseToPlayerInput: IArenaResponse<IOriginalPixelCluster> | void;
-    //     arena["originalElements"].set(1, expectedPixelClusters);
-
-    //     responseToPlayerInput = await arena.onPlayerClick(hitPosition, activeUser);
-
-    //     chai.expect(responseToPlayerInput).to.deep.equal(playerInputResponseExpected);
-    //     mockAxios.restore();
-    // });
-
-    // it("should be able to return a hit validation response", async () => {
-
-    //     const hitConfirmationExpected: IHitConfirmation = {
-    //         isAHit:             true,
-    //         differenceIndex:    1,
-    //     };
-
-    //     mockAxios.onPost(Constants.URL_HIT_VALIDATOR + "/2d").reply(200, hitConfirmationExpected);
-
-    //     const responseToValidation: IHitConfirmation = await arena.validateHit(hitPosition);
-
-    //     chai.expect(responseToValidation).to.deep.equal(hitConfirmationExpected);
-    // });
 
     it("should be able to catch an error during the hitValidation process", async () => {
 
