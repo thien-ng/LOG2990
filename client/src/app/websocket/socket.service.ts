@@ -42,13 +42,10 @@ export class SocketService {
     this.socket.addEventListener(Constants.ON_CONNECT, () => {
       this.initArenaListeners();
       this.initGameViewListeners();
+      this.initCardListeners();
 
       this.socket.on(CCommon.CHAT_EVENT, (data: IChat) => {
         this.chatViewService.updateConversation(data);
-      });
-
-      this.socket.on(CCommon.ON_NEW_SCORE, (gameID: number) => {
-        this.cardManagerService.reloadHighscore(gameID);
       });
 
       this.socket.on(CCommon.ON_LOBBY, (lobbyEvent: ILobbyEvent) => {
@@ -60,6 +57,20 @@ export class SocketService {
         this.router.navigate([Constants.GAMELIST_REDIRECT])
         .catch((error: TypeError) => this.openSnackbar(error.message, Constants.SNACK_ACTION));
       });
+    });
+  }
+
+  private initCardListeners(): void {
+    this.socket.on(CCommon.ON_CARD_CREATED, () => {
+      this.cardManagerService.updateCards(true);
+    });
+
+    this.socket.on(CCommon.ON_CARD_DELETED, () => {
+      this.cardManagerService.updateCards(true);
+    });
+
+    this.socket.on(CCommon.ON_NEW_SCORE, (gameID: number) => {
+      this.cardManagerService.reloadHighscore(gameID);
     });
   }
 
@@ -122,7 +133,7 @@ export class SocketService {
     }
   }
 
-  public sendMsg<T>(type: string, msg: T): void {
+  public sendMsg<T>(type: string, msg?: T): void {
     this.socket.emit(type, msg);
   }
 
