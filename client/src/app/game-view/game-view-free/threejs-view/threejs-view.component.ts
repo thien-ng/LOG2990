@@ -129,32 +129,32 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   // tslint:disable-next-line:max-func-body-length
   private handleKeyboardEvent(keyboardEvent: KeyboardEvent): void {
     switch ( keyboardEvent.keyCode ) {
-      case 87: // w
+      case KEYS.w:
         this.threejsViewService.setupFront(-1);
         this.threejsViewService.moveForward = true;
         break;
 
-      case 65: // a
+      case KEYS.a:
         this.threejsViewService.moveLeft = true;
         break;
 
-      case 83: // s
+      case KEYS.s:
         this.threejsViewService.setupFront(1);
         this.threejsViewService.moveBackward = true;
         break;
 
-      case 68: // d
+      case KEYS.d:
         this.threejsViewService.moveRight = true;
         break;
 
-      case 84: // t
+      case KEYS.t:
         this.cheatRoutine();
         break;
 
-      case 32: // space
+      case KEYS.space:
         this.threejsViewService.goUp = true;
         break;
-      case 67: // c
+      case KEYS.c:
         this.threejsViewService.goLow = true;
         break;
 
@@ -176,25 +176,24 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
     });
   }
 
-  // tslint:disable-next-line:max-func-body-length
   private onKeyUp(keyboardEvent: KeyboardEvent): void {
     switch ( keyboardEvent.keyCode ) {
-      case 87: // w
+      case KEYS.w:
         this.threejsViewService.moveForward = false;
         break;
-      case 65: // a
+      case KEYS.a:
         this.threejsViewService.moveLeft = false;
         break;
-      case 83: // s
+      case KEYS.s:
         this.threejsViewService.moveBackward = false;
         break;
-      case 68: // d
+      case KEYS.d:
         this.threejsViewService.moveRight = false;
         break;
-      case 32: // space
+      case KEYS.space:
         this.threejsViewService.goUp = false;
         break;
-      case 67: // c
+      case KEYS.c:
         this.threejsViewService.goLow = false;
         break;
       default:
