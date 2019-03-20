@@ -12,7 +12,7 @@ import { HighscoreService } from "./highscore.service";
 })
 export class HighscoreDisplayComponent implements OnInit , OnDestroy {
 
-  @Input() public isExpanded: boolean = false;
+  @Input() public isExpanded: boolean;
 
   public IMAGE_MEDAL_URL: string[] = [
     Constants.PATH_TO_ICONS + "/gold.png",    // gold medal image
@@ -28,14 +28,17 @@ export class HighscoreDisplayComponent implements OnInit , OnDestroy {
   private highscoreSubscription:  Subscription;
 
   public constructor(private highscoreService: HighscoreService) {
-    this.isLoaded = false;
+    this.isExpanded = false;
+    this.isLoaded   = false;
   }
 
   public ngOnInit(): void {
     this.highscoreSubscription = this.highscoreService.getHighscoreUpdateListener()
       .subscribe((highscoreValue: HighscoreMessage) => {
-        this.highscore  = highscoreValue;
-        this.isLoaded   = true;
+        if (this.highscore === undefined || highscoreValue.id === this.highscore.id) {
+          this.highscore  = highscoreValue;
+          this.isLoaded   = true;
+        }
       });
   }
 

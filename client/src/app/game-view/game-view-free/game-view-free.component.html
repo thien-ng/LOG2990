@@ -18,7 +18,7 @@
     <app-spinner *ngIf="isLoading"></app-spinner>
       <mat-grid-list id="displayGame" cols="2" rowHeight="500px">
           <mat-grid-tile [colspan]="1">
-              <div class="text" #textDiv>TEXT</div>
+              <div class="text" #textDiv></div>
               <app-threejs-view id="originalScene"
                       [arenaID]="arenaID"
                       [username]="username"
@@ -28,7 +28,7 @@
       </app-threejs-view>
           </mat-grid-tile>  
           <mat-grid-tile [colspan]="1" >
-            <div class="text2" #textDiv2>TEXT</div>
+            <div class="text2" #textDiv2></div>
               <app-threejs-view id="modifiedScene"
                       [arenaID]="arenaID"
                       [username]="username"

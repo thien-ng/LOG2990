@@ -1,6 +1,6 @@
 import { ElementRef, Injectable } from "@angular/core";
 import { GameConnectionService } from "src/app/game-connection.service";
-import { IArenaResponse, ISceneObjectUpdate } from "../../../../../common/communication/iGameplay";
+import { IArenaResponse, IPosition2D, ISceneObjectUpdate } from "../../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 
 const ERROR_MESSAGE:    string = "⚠ ERREUR ⚠";
@@ -14,8 +14,14 @@ export class GameViewFreeService {
   private failSound:             ElementRef;
   private textCanvasOriginal:    HTMLDivElement;
   private textCanvasModified:    HTMLDivElement;
+  public position:               IPosition2D;
 
-  public constructor (private gameConnectionService: GameConnectionService) {}
+  public constructor (private gameConnectionService: GameConnectionService) {
+    this.position = {
+      x: 0,
+      y: 0,
+    };
+  }
 
   public onArenaResponse(data: IArenaResponse<ISceneObjectUpdate>): void {
 
@@ -23,8 +29,10 @@ export class GameViewFreeService {
 
       this.playSuccessSound();
       if (data.response) {
-        this.gameConnectionService.updateObjectToUpdate(data.response);
+        this.gameConnectionService.updateModifiedScene(data.response);
       }
+    } else {
+      this.wrongClickRoutine();
     }
 
   }
@@ -41,14 +49,14 @@ export class GameViewFreeService {
 
   private disableClickRoutine(): void {
       document.body.style.cursor = "not-allowed";
-      // const positionTop: number = this.position.y - CENTERY;
-      // const positionRight: number = this.position.x - CENTERX;
-      // const positionRight2: number = this.position.x + PADDING_CANVAS_2 - CENTERX;
+      const positionTop: number = this.position.y;
+      const positionRight: number = this.position.x;
+      // const positionRight2: number = this.position.x;
 
-      // this.textCanvasOriginal.style.top =  positionTop + "px";
-      // this.textCanvasOriginal.style.left = positionRight + "px";
-      // this.textCanvasModified.style.top = positionTop + "px";
-      // this.textCanvasModified.style.left = positionRight2 + "px";
+      this.textCanvasOriginal.style.top =  positionTop + "px";
+      this.textCanvasOriginal.style.left = positionRight + "px";
+      this.textCanvasModified.style.top = positionTop + "px";
+      this.textCanvasModified.style.left = positionRight + "px";
       this.textCanvasOriginal.textContent = ERROR_MESSAGE;
       this.textCanvasModified.textContent = ERROR_MESSAGE;
   }

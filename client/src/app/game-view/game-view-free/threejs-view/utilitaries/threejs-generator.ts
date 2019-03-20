@@ -7,11 +7,11 @@ export class ThreejsGenerator {
   private readonly INFINITE_CORNERS:        number = 1000;
 
   public constructor(
-    private scene:                THREE.Scene,
-    private modifiedMap:          Map<number, number>,
-    private mapOriginColor:       Map<number, string>,
-    private modifiedMapIntersect: Map<number, number>,
-    private opacityMap:           Map<number, number>) {}
+    private scene:                 THREE.Scene,
+    private sceneIdById:           Map<number, number>,
+    private originalColorById:     Map<number, string>,
+    private idBySceneId:           Map<number, number>,
+    private opacityById:           Map<number, number>) {}
 
   public initiateObject(object3D: ISceneObject): void {
 
@@ -35,18 +35,18 @@ export class ThreejsGenerator {
   }
 
   public deleteObject(id: number): void {
-    const objectId: number = this.modifiedMap.get(id) as number;
+    const objectId:       number         = this.sceneIdById.get(id) as number;
     const objectToRemove: THREE.Object3D = this.scene.getObjectById(objectId) as THREE.Object3D;
 
     this.scene.remove(objectToRemove);
   }
 
   public changeObjectColor(id: number, color: string): void {
-    const objectId: number = this.modifiedMap.get(id) as number;
+    const objectId:       number         = this.sceneIdById.get(id) as number;
     const objectToChange: THREE.Object3D = this.scene.getObjectById(objectId) as THREE.Object3D;
-    const objectMesh: THREE.Mesh = objectToChange as THREE.Mesh;
+    const objectMesh:     THREE.Mesh     = objectToChange as THREE.Mesh;
 
-    this.mapOriginColor.set(id, color);
+    this.originalColorById.set(id, color);
 
     objectMesh.material = new THREE.MeshPhongMaterial({color: color});
   }
@@ -129,24 +129,28 @@ export class ThreejsGenerator {
   private createObjectColor(object3D: ISceneObject): THREE.MeshBasicMaterial {
 
     const opacityUsed: number = (object3D.hidden) ? 0 : 1;
-    this.opacityMap.set(object3D.id, opacityUsed);
+    this.opacityById.set(object3D.id, opacityUsed);
 
-    const materialParameter: THREE.MeshPhongMaterialParameters = {color: object3D.color, opacity: opacityUsed, transparent: true};
+    const materialParameter: THREE.MeshPhongMaterialParameters = {
+      color:       object3D.color,
+      opacity:     opacityUsed,
+      transparent: true,
+    };
 
     return new THREE.MeshPhongMaterial(materialParameter);
   }
 
   private addObjectIdToMap(objectId: number, generatedObjectId: number): void {
 
-    if (this.modifiedMap && this.modifiedMapIntersect) {
-      this.modifiedMap.set(objectId, generatedObjectId);
-      this.modifiedMapIntersect.set(generatedObjectId, objectId);
+    if (this.sceneIdById && this.idBySceneId) {
+      this.sceneIdById.set(objectId, generatedObjectId);
+      this.idBySceneId.set(generatedObjectId, objectId);
     }
   }
 
   private addColorToMap(objectId: number, objectColor: string): void {
-    if (this.mapOriginColor) {
-      this.mapOriginColor.set(objectId, objectColor);
+    if (this.originalColorById) {
+      this.originalColorById.set(objectId, objectColor);
     }
   }
 

@@ -7,7 +7,6 @@ import { Arena } from "./arena";
 import { IHitConfirmation, IHitToValidate } from "./interfaces";
 import { Player } from "./player";
 import { Timer } from "./timer";
-import { GameMode } from "../../../../../common/communication/iCard";
 
 const axios: AxiosInstance = require("axios");
 
@@ -101,18 +100,18 @@ export class Referee<EVT_T, DIFF_T> {
 
     private attributePenalty(player: Player): void {
         player.setPenaltyState(true);
-    
+
         const penalty: IPenalty = {
             isOnPenalty: true,
-            arenaType: this.arena.ARENA_TYPE,
+            arenaType:   this.arena.ARENA_TYPE,
         } as IPenalty;
 
         this.arena.sendMessage<IPenalty>(player.userSocketId, CCommon.ON_PENALTY, penalty);
 
         setTimeout(() => {
             penalty.isOnPenalty = false;
-           this.arena.sendMessage<IPenalty>(player.userSocketId, CCommon.ON_PENALTY, penalty);
-           player.setPenaltyState(false);
+            this.arena.sendMessage<IPenalty>(player.userSocketId, CCommon.ON_PENALTY, penalty);
+            player.setPenaltyState(false);
         },         this.PENALTY_TIMEOUT_MS);
     }
 

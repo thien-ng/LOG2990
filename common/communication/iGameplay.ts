@@ -12,14 +12,8 @@ export interface IColorRGB {
     B:  number;
 }
 
-export interface IClickMessage3D {
-    objectId:       number;
-    arenaID:        number;
-    username:       string;
-}
-
-export interface IClickMessage2D {
-    position:       IPosition2D;
+export interface IClickMessage<T> {
+    value:          T;
     arenaID:        number;
     username:       string;
 }

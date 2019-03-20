@@ -1,8 +1,8 @@
 import { inject, injectable } from "inversify";
 import { HighscoreValidationResponse, Mode, Time } from "../../../../common/communication/highscore";
-import { GameMode } from "../../../../common/communication/iCard";
+import { GameMode, ILobbyEvent, MultiplayerButtonText } from "../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../common/communication/iGameRequest";
-import { IArenaResponse, IClickMessage3D, IOriginalPixelCluster, IPosition2D } from "../../../../common/communication/iGameplay";
+import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../common/communication/iGameplay";
 import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
@@ -29,7 +29,6 @@ const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey:
 // tslint:disable:no-any
 @injectable()
 export class GameManagerService {
-
     private arenaID:            number;
     private server:             SocketIO.Server;
     private assetManager:       AssetManagerService;
@@ -86,38 +85,62 @@ export class GameManagerService {
         };
     }
 
-    public cancelRequest(gameID: number): Message {
-        const successMessage:   Message = this.generateMessage(CCommon.ON_SUCCESS, gameID.toString());
-        const errorMessage:     Message = this.generateMessage(CCommon.ON_ERROR, gameID.toString());
+    public cancelRequest(gameID: number, isCardDeleted: boolean): Message {
+        const successMessage:   Message     = this.generateMessage(CCommon.ON_SUCCESS, gameID.toString());
+        const errorMessage:     Message     = this.generateMessage(CCommon.ON_ERROR, gameID.toString());
+        const lobbyEvent:       ILobbyEvent = this.generateLobbyEvent(gameID, MultiplayerButtonText.create);
+        this.server.emit(CCommon.ON_LOBBY, lobbyEvent);
 
-        return (this.lobby.delete(gameID)) ? successMessage : errorMessage;
+        const lobby: IUser[] | undefined = this.lobby.get(gameID);
+        if (isCardDeleted && lobby !== undefined) {
+            lobby.forEach((user: IUser) => {
+                this.sendMessage(user.socketID, CCommon.ON_CANCEL_REQUEST);
+            });
+        }
+        const cardIsDeleted: boolean = this.lobby.delete(gameID);
+
+        return cardIsDeleted ? successMessage : errorMessage;
     }
 
     private async verifyLobby(request: IGameRequest, user: IUser): Promise<Message> {
         const lobby: IUser[] | undefined = this.lobby.get(request.gameId);
 
         if (lobby === undefined) {
-            this.lobby.set(request.gameId.valueOf(), [user]);
-
-            return this.generateMessage(CCommon.ON_WAITING, CCommon.ON_WAITING);
+            return this.newLobby(request, user);
         } else {
-            let message: Message;
-            lobby.push(user);
-            switch (request.mode) {
-                case GameMode.simple:
-                    message = await this.create2DArena(lobby, request.gameId);
-                    break;
-                case GameMode.free:
-                    message = await this.create3DArena(lobby, request.gameId);
-                    break;
-                default:
-                    return this.generateMessage(CCommon.ON_MODE_INVALID, CCommon.ON_MODE_INVALID);
-            }
-            this.sendMessage(lobby[0].socketID, CCommon.ON_ARENA_CONNECT, Number(message.body));
-            this.lobby.delete(request.gameId);
-
-            return message;
+            return this.joinLobby(request, user, lobby);
         }
+    }
+
+    private newLobby(request: IGameRequest, user: IUser): Message {
+        const lobbyEvent: ILobbyEvent = this.generateLobbyEvent(request.gameId, MultiplayerButtonText.join);
+
+        this.lobby.set(request.gameId.valueOf(), [user]);
+        this.server.emit(CCommon.ON_LOBBY, lobbyEvent);
+
+        return this.generateMessage(CCommon.ON_WAITING, request.gameId.toString());
+    }
+
+    private async joinLobby(request: IGameRequest, user: IUser, lobby: IUser[]): Promise<Message> {
+        const lobbyEvent: ILobbyEvent = this.generateLobbyEvent(request.gameId, MultiplayerButtonText.create);
+
+        let message: Message;
+        lobby.push(user);
+        switch (request.mode) {
+            case GameMode.simple:
+                message = await this.create2DArena(lobby, request.gameId);
+                break;
+            case GameMode.free:
+                message = await this.create3DArena(lobby, request.gameId);
+                break;
+            default:
+                return this.generateMessage(CCommon.ON_MODE_INVALID, request.mode);
+        }
+        this.sendMessage(lobby[0].socketID, CCommon.ON_ARENA_CONNECT, Number(message.body));
+        this.lobby.delete(request.gameId);
+        this.server.emit(CCommon.ON_LOBBY, lobbyEvent);
+
+        return message;
     }
 
     private generateMessage(title: string, body: string): Message {
@@ -127,9 +150,16 @@ export class GameManagerService {
         };
     }
 
+    private generateLobbyEvent(gameID: number, buttonText: MultiplayerButtonText): ILobbyEvent {
+        return {
+            gameID:      gameID,
+            buttonText: buttonText,
+        };
+    }
+
     private async create2DArena(users: IUser[], gameId: number): Promise<Message> {
-        const arenaInfo: IArenaInfos<I2DInfos> = this.buildArena2DInfos(users, gameId);
-        const arena: Arena2D = new Arena2D(arenaInfo, this);
+        const arenaInfo: IArenaInfos<I2DInfos>  = this.buildArena2DInfos(users, gameId);
+        const arena: Arena2D                    = new Arena2D(arenaInfo, this);
         this.tempRoutine2d(gameId);
         this.manageCounter(gameId);
         this.gameIdByArenaId.set(arenaInfo.arenaId, gameId);
@@ -140,6 +170,15 @@ export class GameManagerService {
             title:  CCommon.ON_SUCCESS,
             body:   arenaInfo.arenaId.toString(),
         };
+    }
+
+    public getActiveLobby(): number[] {
+        const lobbyList: number[] = [];
+        this.lobby.forEach((value: IUser[], key: number) => {
+            lobbyList.push(key);
+        });
+
+        return lobbyList;
     }
 
     private async initArena(arena: Arena<any, any, any, any>): Promise<void> {
@@ -220,14 +259,34 @@ export class GameManagerService {
         return this.arenaID++;
     }
 
-    public subscribeSocketID(socketID: string, socket: SocketIO.Socket, server: SocketIO.Server): void {
-        this.server = server;
+    public subscribeSocketID(socketID: string, socket: SocketIO.Socket): void {
         this.playerList.set(socketID, socket);
+    }
+
+    public setServer(server: SocketIO.Server): void {
+        this.server = server;
     }
 
     public unsubscribeSocketID(socketID: string, username: string): void {
         this.playerList.delete(socketID);
         this.removePlayerFromArena(username);
+        this.removePlayerFromLobby(username);
+    }
+
+    private removePlayerFromLobby(username: string): void {
+        let gameID: number = 0;
+
+        this.lobby.forEach((value: IUser[], key: number) => {
+            if (value.some((user: IUser) => user.username === username)) {
+                gameID = key;
+            }
+        });
+        this.lobby.delete(gameID);
+
+        if (gameID !== 0) {
+            const lobbyEvent: ILobbyEvent = this.generateLobbyEvent(gameID, MultiplayerButtonText.create);
+            this.server.emit(CCommon.ON_LOBBY, lobbyEvent);
+        }
     }
 
     private removePlayerFromArena(username: string): void {
@@ -274,7 +333,7 @@ export class GameManagerService {
         }
     }
 
-    public async onPlayerInput(playerInput: IPlayerInput<IPosition2D | IClickMessage3D | number>):
+    public async onPlayerInput(playerInput: IPlayerInput<IPosition2D | number>):
         Promise<IArenaResponse<IOriginalPixelCluster | any>>  {
         const arena: Arena<any, any, any, any> | undefined = this.arenas.get(playerInput.arenaId);
         if (arena !== undefined) {

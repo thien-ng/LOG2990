@@ -1,7 +1,7 @@
 import { ElementRef, Injectable } from "@angular/core";
 import {
   IArenaResponse,
-  IClickMessage2D,
+  IClickMessage,
   IOriginalPixelCluster,
   IPosition2D,
   IReplacementPixel
@@ -10,7 +10,6 @@ import { CCommon } from "../../../../../common/constantes/cCommon";
 
 const CENTERY:          number = 15;
 const CENTERX:          number = 50;
-const PADDING_CANVAS_2: number = 640;
 const ERROR_MESSAGE:    string = "⚠ ERREUR ⚠";
 
 @Injectable({
@@ -53,15 +52,15 @@ export class GameViewSimpleService {
   }
 
   private disableClickRoutine(): void {
-      document.body.style.cursor = "not-allowed";
-      const positionTop: number = this.position.y - CENTERY;
-      const positionRight: number = this.position.x - CENTERX;
-      const positionRight2: number = this.position.x + PADDING_CANVAS_2 - CENTERX;
+      document.body.style.cursor    = "not-allowed";
+      const positionTop: number     = this.position.y - CENTERY;
+      const positionRight: number   = this.position.x - CENTERX;
+      const positionRight2: number  = this.position.x - CENTERX;
 
-      this.textCanvasOriginal.style.top =  positionTop + "px";
-      this.textCanvasOriginal.style.left = positionRight + "px";
-      this.textCanvasModified.style.top = positionTop + "px";
-      this.textCanvasModified.style.left = positionRight2 + "px";
+      this.textCanvasOriginal.style.top   = positionTop     + "px";
+      this.textCanvasOriginal.style.left  = positionRight   + "px";
+      this.textCanvasModified.style.top   = positionTop     + "px";
+      this.textCanvasModified.style.left  = positionRight2  + "px";
       this.textCanvasOriginal.textContent = ERROR_MESSAGE;
       this.textCanvasModified.textContent = ERROR_MESSAGE;
   }
@@ -91,11 +90,11 @@ export class GameViewSimpleService {
     this.failSound    = fail;
   }
 
-  public onCanvasClick(pos: IPosition2D, id: number, username: string): IClickMessage2D {
+  public onCanvasClick(pos: IPosition2D, id: number, username: string): IClickMessage<IPosition2D> {
     this.position = pos;
 
     return {
-      position:     pos,
+      value:        pos,
       arenaID:      id,
       username:     username,
     };

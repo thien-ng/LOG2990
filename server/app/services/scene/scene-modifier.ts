@@ -21,10 +21,10 @@ export class SceneModifier {
     }
 
     public modifyScene(iSceneOptions: ISceneOptions, iSceneVariables: ISceneVariables, modifiedList: IModification[]): ISceneVariables {
-        this.originalScene = iSceneVariables.sceneObjects;
+        this.originalScene       = iSceneVariables.sceneObjects;
         this.cloneSceneVariables = this.clone(iSceneVariables) as ISceneVariables;
-        this.sceneObjects = this.cloneSceneVariables.sceneObjects;
-        this.modifiedIndex = modifiedList;
+        this.sceneObjects        = this.cloneSceneVariables.sceneObjects;
+        this.modifiedIndex       = modifiedList;
 
         for (let i: number = 0; i < this.NUMBER_ITERATION; i++) {
             const selectedOpstion: string = this.generateSelectedIndex(iSceneOptions.selectedOptions);
@@ -78,11 +78,11 @@ export class SceneModifier {
 
     private addObject(): void {
 
-        const lastObjectElement: ISceneObject = this.sceneObjects[this.sceneObjects.length - 1];
-        const newIndex: number = lastObjectElement.id + 1;
-        const generatedObject: ISceneObject = this.sceneBuilder.generateModifyObject(newIndex, this.cloneSceneVariables);
+        const lastObjectElement:            ISceneObject = this.sceneObjects[this.sceneObjects.length - 1];
+        const newIndex:                     number       = lastObjectElement.id + 1;
+        const generatedObject:              ISceneObject = this.sceneBuilder.generateModifyObject(newIndex, this.cloneSceneVariables);
+        const generatedObjectForOriginal:   ISceneObject = this.clone(generatedObject) as ISceneObject;
 
-        const generatedObjectForOriginal: ISceneObject = this.clone(generatedObject) as ISceneObject;
         generatedObjectForOriginal.hidden = true;
 
         const modificationMap: IModification = {id: newIndex, type: ModificationType.added};
