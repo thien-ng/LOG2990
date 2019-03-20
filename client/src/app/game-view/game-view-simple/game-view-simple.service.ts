@@ -9,7 +9,7 @@ import {
 import { CCommon } from "../../../../../common/constantes/cCommon";
 
 const CENTERY:          number = 15;
-const CENTERX:          number = 75;
+const CENTERX:          number = 50;
 const ERROR_MESSAGE:    string = "⚠ ERREUR ⚠";
 
 @Injectable({
