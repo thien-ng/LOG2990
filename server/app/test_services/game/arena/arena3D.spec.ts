@@ -12,6 +12,7 @@ import { IUser } from "../../../../../common/communication/iUser";
 import { IArenaResponse, ISceneObjectUpdate, ActionType } from "../../../../../common/communication/iGameplay";
 import { Referee } from "../../../services/game/arena/referee";
 import { GameMode } from "../../../../../common/communication/iCard";
+import { ISceneObject } from "../../../../../common/communication/iSceneObject";
 
 // tslint:disable:no-any
 
@@ -33,19 +34,21 @@ const arenaInfo: IArenaInfos<I3DInfos> = {
     },
 };
 
+const sceneObject: ISceneObject = {
+    id:         1,
+    type:       1,
+    position:   {x: 1, y: 2, z: 3},
+    rotation:   {x: 1, y: 2, z: 3},
+    color:      "#FFFFFF",
+    scale:      {x: 1, y: 2, z: 3},
+    hidden:     true,
+}
+
 const refereeResponse: IArenaResponse<ISceneObjectUpdate> = {
     status: "onSuccess",
     response: {
         actionToApply:  ActionType.ADD,
-        sceneObject:    {
-            id:         1,
-            type:       1,
-            position:   {x: 1, y: 2, z: 3},
-            rotation:   {x: 1, y: 2, z: 3},
-            color:      "#FFFFFF",
-            scale:      {x: 1, y: 2, z: 3},
-            hidden:     true,
-        },
+        sceneObject:    sceneObject,
     },
     arenaType: GameMode.free,
 }
