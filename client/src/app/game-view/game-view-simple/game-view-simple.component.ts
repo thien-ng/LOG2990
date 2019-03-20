@@ -55,8 +55,8 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       this.gameConnectionService.getGameConnectedListener().pipe(first()).subscribe((arenaID: number) => {
         this.arenaID = arenaID;
         this.socketService.sendMsg(CCommon.GAME_CONNECTION, arenaID);
-        this.gameIsStarted = true;
         this.canvasRoutine();
+        this.socketService.sendMsg(CCommon.ON_GAME_LOADED, this.arenaID);
       });
     }
 
@@ -65,6 +65,9 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     if (this.gameID !== null && this.username !== null) {
       this.getActiveCard(this.username);
     }
+    this.socketService.onMsg(CCommon.ON_GAME_STARTED).subscribe(() => {
+      this.gameIsStarted = true;
+    });
   }
 
   public ngAfterContentInit(): void {
@@ -104,8 +107,8 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       if (data.title === CCommon.ON_SUCCESS) {
         this.arenaID = parseInt(data.body, Constants.DECIMAL_BASE);
         this.socketService.sendMsg(CCommon.GAME_CONNECTION, this.arenaID);
-        this.gameIsStarted = true;
         this.canvasRoutine();
+        this.socketService.sendMsg(CCommon.ON_GAME_LOADED, this.arenaID);
       } else if (data.title === CCommon.ON_WAITING) {
         this.arenaID = parseInt(data.body, Constants.DECIMAL_BASE);
         this.socketService.sendMsg(CCommon.GAME_CONNECTION, CCommon.ON_WAITING);
