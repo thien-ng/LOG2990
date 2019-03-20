@@ -9,7 +9,7 @@ import {
 import { CCommon } from "../../../../../common/constantes/cCommon";
 
 const CENTERY:          number = 15;
-const CENTERX:          number = 50;
+const CENTERX:          number = 75;
 const ERROR_MESSAGE:    string = "⚠ ERREUR ⚠";
 
 @Injectable({
@@ -45,22 +45,23 @@ export class GameViewSimpleService {
 
   public enableClickRoutine(): void {
     document.body.style.cursor = "auto";
-    this.canvasModified.canvas.style.pointerEvents = "auto";
-    this.canvasOriginal.canvas.style.pointerEvents = "auto";
+    this.canvasModified.canvas.style.cursor = "auto";
+    this.canvasOriginal.canvas.style.cursor = "auto";
     this.textCanvasOriginal.textContent = null;
     this.textCanvasModified.textContent = null;
   }
 
   private disableClickRoutine(): void {
       document.body.style.cursor    = "not-allowed";
+      this.canvasModified.canvas.style.cursor = "not-allowed";
+      this.canvasOriginal.canvas.style.cursor = "not-allowed";
       const positionTop: number     = this.position.y - CENTERY;
       const positionRight: number   = this.position.x - CENTERX;
-      const positionRight2: number  = this.position.x - CENTERX;
 
       this.textCanvasOriginal.style.top   = positionTop     + "px";
       this.textCanvasOriginal.style.left  = positionRight   + "px";
       this.textCanvasModified.style.top   = positionTop     + "px";
-      this.textCanvasModified.style.left  = positionRight2  + "px";
+      this.textCanvasModified.style.left  = positionRight  + "px";
       this.textCanvasOriginal.textContent = ERROR_MESSAGE;
       this.textCanvasModified.textContent = ERROR_MESSAGE;
   }
