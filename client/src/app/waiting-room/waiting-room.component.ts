@@ -37,6 +37,15 @@ export class WaitingRoomComponent {
     this.initCounterListener();
   }
 
+  private initCounterListener(): void {
+    this.socketService.onMsg(CCommon.ON_COUNTDOWN).subscribe((message: number) => {
+      if (message === 0) {
+        this.counter = GO_MESSAGE;
+      } else {
+        this.counter = message.toString();
+      }
+    });
+  }
 
   public cancelRequest(): void {
     this.httpClient.get(Constants.CANCEL_REQUEST_PATH + this.gameID + "/" + CardDeleted.false).subscribe((response: Message) => {
