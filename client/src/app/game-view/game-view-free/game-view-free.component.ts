@@ -66,6 +66,18 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
     }
   }
 
+  @HostListener("mousemove", ["$event"])
+  public onMouseMove(mouseEvent: MouseEvent): void {
+    if (this.rightClick) {
+      const point: IPosition2D = {
+        x: mouseEvent.movementX,
+        y: mouseEvent.movementY,
+      };
+      this.original.onMouseMove(point);
+      this.modified.onMouseMove(point);
+    }
+  }
+
   public constructor(
     @Inject(GameViewFreeService)    private gameViewService:  GameViewFreeService,
     @Inject(SocketService)          private socketService:    SocketService,
@@ -74,6 +86,10 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
     private route:                  ActivatedRoute,
     private snackBar:               MatSnackBar,
     ) {
+      document.oncontextmenu = () => {
+        return false;
+      };
+      this.rightClick     = true;
       this.cardIsLoaded   = false;
       this.gameIsStarted  = false;
       this.mode           = Number(this.route.snapshot.paramMap.get(GAMEMODE_KEY));
