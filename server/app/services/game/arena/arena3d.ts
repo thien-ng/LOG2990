@@ -4,10 +4,12 @@ import { ActionType, IArenaResponse, ISceneObjectUpdate } from "../../../../../c
 import { ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { IModification, ISceneData, ModificationType } from "../../../../../common/communication/iSceneVariables";
 import { IUser } from "../../../../../common/communication/iUser";
+import { CCommon } from "../../../../../common/constantes/cCommon";
 import Types from "../../../types";
 import { GameManagerService } from "../game-manager.service";
 import { Arena } from "./arena";
 import { I3DInfos, IArenaInfos, IHitConfirmation, IPlayerInput } from "./interfaces";
+import { Player } from "./player";
 import { Referee } from "./referee";
 
 // _TODO: Remove this line after replacing all the anys
@@ -26,6 +28,9 @@ export class Arena3D extends Arena<IPlayerInput<number>, IArenaResponse<ISceneOb
     public async onPlayerClick(objectId: number, user: IUser): Promise<IArenaResponse<ISceneObjectUpdate>> {
         const arenaResponse: IArenaResponse<ISceneObjectUpdate> = await this.referee.onPlayerClick(objectId, user);
         arenaResponse.arenaType = GameMode.free;
+        this.players.forEach((player: Player) => {
+            this.gameManagerService.sendMessage(player.userSocketId, CCommon.ON_ARENA_RESPONSE, arenaResponse);
+        });
 
         return arenaResponse;
     }
