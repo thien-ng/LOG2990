@@ -7,6 +7,12 @@
   width: 98.3%;
 }
 
+@media screen and (min-width: 1800px) {
+  #displayGame {
+      width: 78%;
+  }
+}
+
 
 .gameName {
   font-size: 40px;
