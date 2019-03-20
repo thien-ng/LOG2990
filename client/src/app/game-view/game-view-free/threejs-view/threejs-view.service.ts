@@ -186,10 +186,19 @@ export class ThreejsViewService {
     this.renderer.render(this.scene, this.camera);
   }
 
-  private generateSceneObjects(): void {
+  private generateSceneObjects(isSnapshotNeeded: boolean, arenaID: number): void {
     this.sceneVariables.sceneObjects.forEach((element: ISceneObject) => {
       this.threejsGenerator.initiateObject(element);
     });
+
+    if (!isSnapshotNeeded) {
+      this.nbOfSceneLoaded++;
+    }
+
+    if (this.nbOfSceneLoaded === EVERY_SCENE_LOADED) {
+      this.socketService.sendMsg(CCommon.ON_GAME_LOADED, arenaID);
+      this.nbOfSceneLoaded = 0;
+    }
   }
 
 }
