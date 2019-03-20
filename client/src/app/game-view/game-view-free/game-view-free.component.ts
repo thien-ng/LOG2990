@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
 import { first } from "rxjs/operators";
@@ -22,7 +22,7 @@ const GAMEMODE_KEY: string = "gamemode";
   templateUrl:  "./game-view-free.component.html",
   styleUrls:    ["./game-view-free.component.css"],
 })
-export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
+export class GameViewFreeComponent implements OnInit, OnDestroy {
 
   public readonly NEEDED_SNAPSHOT:  boolean = false;
   public readonly SUCCESS_SOUND:    string  = "http://localhost:3000/audio/fail.wav";
@@ -37,7 +37,6 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
   public  gameRequest:       IGameRequest;
   public  objectToUpdate:    ISceneObject[];
   public  isLoading:         boolean;
-  public  gameIsStarted:     boolean;
   public  cardIsLoaded:      boolean;
   public  arenaID:           number;
   public  mode:              number;
@@ -55,13 +54,12 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
     private snackBar:               MatSnackBar,
     ) {
       this.cardIsLoaded   = false;
-      this.gameIsStarted  = false;
+      this.isLoading      = true;
       this.mode           = Number(this.route.snapshot.paramMap.get(GAMEMODE_KEY));
       this.username       = sessionStorage.getItem(Constants.USERNAME_KEY);
 
       this.gameConnectionService.getGameConnectedListener().pipe(first()).subscribe((arenaID: number) => {
         this.arenaID        = arenaID;
-        this.gameIsStarted  = true;
         this.socketService.sendMsg(CCommon.GAME_CONNECTION, arenaID);
         this.fetchSceneFromServer(this.scenePath)
         .catch((error) => {
@@ -76,10 +74,9 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
     if (this.gameID !== null && username !== null) {
       this.createGameRequest(this.gameID, username);
     }
-  }
-
-  public ngAfterViewInit(): void {
-    this.isLoading = true;
+    this.socketService.onMsg(CCommon.ON_GAME_STARTED).subscribe(() => {
+      this.isLoading = false;
+    });
   }
 
   private createGameRequest(gameID: string, username: string): void {
@@ -114,7 +111,6 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
       switch (data.title) {
         case CCommon.ON_SUCCESS:
           this.arenaID        = Number(data.body);
-          this.gameIsStarted  = true;
           this.socketService.sendMsg(CCommon.GAME_CONNECTION, this.arenaID);
           this.fetchSceneFromServer(this.scenePath)
           .catch((error) => {
@@ -155,8 +151,6 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
       }).catch((error) => {
         this.openSnackBar(error, Constants.SNACK_ACTION);
       });
-
-      this.isLoading = false;
     }
   }
 
