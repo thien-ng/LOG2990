@@ -23,10 +23,6 @@ export class Arena3D extends Arena<IPlayerInput<number>, IArenaResponse<ISceneOb
             this.ARENA_TYPE = GameMode.free;
     }
 
-    public sendMessage(playerSocketId: string, event: string, message: number): void {
-        this.gameManagerService.sendMessage(playerSocketId, event, message);
-    }
-
     public async onPlayerClick(objectId: number, user: IUser): Promise<IArenaResponse<ISceneObjectUpdate>> {
         const arenaResponse: IArenaResponse<ISceneObjectUpdate> = await this.referee.onPlayerClick(objectId, user);
         arenaResponse.arenaType = GameMode.free;
@@ -69,6 +65,7 @@ export class Arena3D extends Arena<IPlayerInput<number>, IArenaResponse<ISceneOb
             const sceneObjectUpdate: ISceneObjectUpdate = this.findObjectToUpdate(modification, sceneDataObject);
             this.originalElements.set(modification.id, sceneObjectUpdate);
         });
+
     }
 
     private findObjectToUpdate(modification: IModification, sceneVariableMessage: ISceneData): ISceneObjectUpdate {
@@ -80,7 +77,9 @@ export class Arena3D extends Arena<IPlayerInput<number>, IArenaResponse<ISceneOb
 
         switch (modification.type) {
             case ModificationType.added:
-                sceneObjectUpdate = this.buildSceneObjectUpdate(ActionType.DELETE, modifiedSceneObjects[modification.id]);
+                sceneObjectUpdate = this.buildSceneObjectUpdate(
+                    ActionType.DELETE,
+                    this.findObjectById(modification.id, modifiedSceneObjects));
                 break;
             case ModificationType.removed:
                 sceneObjectUpdate = this.buildSceneObjectUpdate(ActionType.ADD, originalSceneObjects[modification.id]);
@@ -94,6 +93,13 @@ export class Arena3D extends Arena<IPlayerInput<number>, IArenaResponse<ISceneOb
         }
 
         return sceneObjectUpdate;
+    }
+
+    private findObjectById(id: number, objectList: ISceneObject[]): ISceneObject | undefined {
+
+        return objectList.find((object: ISceneObject) => {
+            return id === object.id;
+        });
     }
 
     private buildSceneObjectUpdate(actionType: ActionType, sceneObject?: ISceneObject): ISceneObjectUpdate {

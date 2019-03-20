@@ -140,11 +140,11 @@ describe("HighscoreService tests", () => {
     });
 
     it("Should return the highscore message coresponding to the id", () => {
-        const cardId: number = 1;
-        expect(highscoreService.convertToString(cardId).id).to.be.equal(cardId);
+        const gameID: number = 1;
+        expect(highscoreService.convertToString(gameID).id).to.be.equal(gameID);
     });
 
-    it("Should not change the mock highscores if cardId is undefined", () => {
+    it("Should not change the mock highscores if gameID is undefined", () => {
         highscoreService.updateHighscore({username: "cpu", time: 1}, Mode.Singleplayer, UNDEFINED);
         expect(highscoreService["highscores"]).to.deep.equal(mockHighscore);
     });

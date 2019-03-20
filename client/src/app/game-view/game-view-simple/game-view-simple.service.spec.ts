@@ -14,13 +14,13 @@ describe("GameViewService", () => {
   it("should set success sounds", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
     gameViewService.setSounds(new ElementRef<any>("url/success"), new ElementRef<any>("url/fail"));
 
-    expect(gameViewService.successSound).toEqual(new ElementRef<any>("url/success"));
+    expect(gameViewService["successSound"]).toEqual(new ElementRef<any>("url/success"));
   }));
 
   it("should set fail sounds", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
     gameViewService.setSounds(new ElementRef<any>("url/success"), new ElementRef<any>("url/fail"));
 
-    expect(gameViewService.failSound).toEqual(new ElementRef<any>("url/fail"));
+    expect(gameViewService["failSound"]).toEqual(new ElementRef<any>("url/fail"));
   }));
 
   it("should return an IClickMessage", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
@@ -32,8 +32,8 @@ describe("GameViewService", () => {
     const arenaId:  number = 1;
     const username: string = "myname";
 
-    const clickMessage: IClickMessage = {
-      position:   {
+    const clickMessage: IClickMessage<IPosition2D> = {
+      value:   {
         x: 10,
         y: 15,
       },
@@ -41,7 +41,7 @@ describe("GameViewService", () => {
       username:   "myname",
     };
 
-    const generatedClickMessage: IClickMessage = gameViewService.onCanvasClick(position, arenaId, username);
+    const generatedClickMessage: IClickMessage<IPosition2D> = gameViewService.onCanvasClick(position, arenaId, username);
 
     expect(generatedClickMessage).toEqual(clickMessage);
   }));

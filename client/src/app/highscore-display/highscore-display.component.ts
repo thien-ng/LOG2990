@@ -34,8 +34,10 @@ export class HighscoreDisplayComponent implements OnInit , OnDestroy {
   public ngOnInit(): void {
     this.highscoreSubscription = this.highscoreService.getHighscoreUpdateListener()
       .subscribe((highscoreValue: HighscoreMessage) => {
-        this.highscore  = highscoreValue;
-        this.isLoaded   = true;
+        if (this.highscore === undefined || highscoreValue.id === this.highscore.id) {
+          this.highscore  = highscoreValue;
+          this.isLoaded   = true;
+        }
       });
   }
 

@@ -1,0 +1,23 @@
+<mat-grid-list class="grid-container" cols="2" rowHeight="8.2%">
+<mat-grid-tile class="titleGrid" [colspan]="2" [rowspan]="3">
+  <div class="title">{{ WARNING_TITLE }}</div>
+</mat-grid-tile>
+<mat-grid-tile [colspan]="2" [rowspan]="1">
+  <div class="seperator"></div>
+</mat-grid-tile>
+<mat-grid-tile [colspan]="2" [rowspan]="3">
+  <div class="body">
+    {{ CONFIRMATION }}
+    <span class="cardName">{{cardTitle}}</span>
+    ?
+  </div>
+</mat-grid-tile>
+<div class="button-container">
+  <mat-grid-tile [colspan]="1" [rowspan]="3">
+    <button mat-button type="button" (click)="decline()">{{ NO_BUTTON_TEXT }}</button>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="1" [rowspan]="3">
+    <button mat-button type="button" (click)="accept()">{{ YES_BUTTON_TEXT }}</button>
+  </mat-grid-tile>
+</div>
+</mat-grid-list>

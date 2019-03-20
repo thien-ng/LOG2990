@@ -1,5 +1,5 @@
 import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import { IArenaResponse } from "../../../../../common/communication/iGameplay";
+import { IArenaResponse, IPenalty } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { Constants } from "../../../constants";
@@ -71,7 +71,7 @@ export class Referee<EVT_T, DIFF_T> {
                 arenaResponse = this.buildArenaResponse(CCommon.ON_SUCCESS, differenceToUpdate);
             }
             if (this.gameIsFinished()) {
-                this.endOfGameRoutine();
+                this.endOfGameRoutine(player);
             }
         } else {
             this.attributePenalty(player);
@@ -94,13 +94,24 @@ export class Referee<EVT_T, DIFF_T> {
             });
     }
 
+    public getFoundDifferences(): number[] {
+        return this.differencesFound;
+    }
+
     private attributePenalty(player: Player): void {
         player.setPenaltyState(true);
-        this.arena.sendMessage(player.userSocketId, CCommon.ON_PENALTY_ON, 1);
+
+        const penalty: IPenalty = {
+            isOnPenalty: true,
+            arenaType:   this.arena.ARENA_TYPE,
+        } as IPenalty;
+
+        this.arena.sendMessage<IPenalty>(player.userSocketId, CCommon.ON_PENALTY, penalty);
 
         setTimeout(() => {
-                   this.arena.sendMessage(player.userSocketId, CCommon.ON_PENALTY_OFF, 0);
-                   player.setPenaltyState(false);
+            penalty.isOnPenalty = false;
+            this.arena.sendMessage<IPenalty>(player.userSocketId, CCommon.ON_PENALTY, penalty);
+            player.setPenaltyState(false);
         },         this.PENALTY_TIMEOUT_MS);
     }
 
@@ -145,8 +156,9 @@ export class Referee<EVT_T, DIFF_T> {
         return playerHasReachPointsNeeded || differenceAreAllFound;
     }
 
-    private endOfGameRoutine(): void {
-        this.timer.stopTimer();
+    private endOfGameRoutine(winner: Player): void {
+        const secondsSinceStart: number = this.timer.stopTimer();
+        this.arena.endOfGameRoutine(secondsSinceStart, winner);
     }
 
     private buildArenaResponse(status: string, response?: DIFF_T): IArenaResponse<DIFF_T> {

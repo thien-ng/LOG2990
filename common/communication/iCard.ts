@@ -4,6 +4,16 @@ export enum GameMode {
   invalid = "invalid",
 }
 
+export enum CardDeleted {
+  true,
+  false,
+}
+
+export enum MultiplayerButtonText {
+  create = "CRÉER",
+  join   = "JOINDRE",
+}
+
 export interface ICard {
     gameID:           number;
     gamemode:         GameMode;
@@ -11,7 +21,13 @@ export interface ICard {
     subtitle:         string;
     avatarImageUrl:   string;
     gameImageUrl:     string;
+    lobbyExists?:     boolean;
   }
+  
+export interface ILobbyEvent {
+  gameID:       number;
+  buttonText:   MultiplayerButtonText;
+}
 
 export const DefaultCard2D: ICard = {
   gameID:             1,

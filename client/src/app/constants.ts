@@ -56,7 +56,6 @@ export class Constants {
   public static readonly ON_TIMER_UPDATE:           string = "onTimerUpdate";
 
   // Constants for game-view-simple.service.ts
-  public static readonly ON_POSITION_VALIDATION:    string = "onPositionValidation";
   public static readonly DECIMAL_BASE:              number = 10;
   public static readonly ID_BY_URL:                 string = "id";
 
@@ -120,4 +119,6 @@ export class Constants {
   public static readonly ON_FAILED_CLICK:           string = "onFailedClick";
   public static readonly FAILED_CLICK_MESSAGE:      string = "Wrong Hit";
   public static readonly GOOD_CLICK_MESSAGE:        string = "Good Hit";
+  public static readonly ACTIVE_LOBBY_PATH:         string = CCommon.BASE_URL + "/api/game/active-lobby";
+  public static readonly CARD_DELETED_MESSAGE:      string = "Le jeu pour lequel vous étiez en attente a été supprimé";
 }

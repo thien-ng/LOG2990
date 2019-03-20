@@ -86,8 +86,8 @@ export class HighscoreService {
         return score;
     }
 
-    public async updateHighscore(value: Time, mode: Mode, cardID: number): Promise<HighscoreValidationResponse> {
-        const index: number = this.findHighScoreByID(cardID);
+    public async updateHighscore(value: Time, mode: Mode, gameID: number): Promise<HighscoreValidationResponse> {
+        const index: number = this.findHighScoreByID(gameID);
 
         if (this.highscores[index] !== undefined) {
             switch (mode) {

@@ -16,8 +16,12 @@ import { UserManagerService } from "../../../services/user-manager.service";
 
 import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
+import { CardOperations } from "../../../services/card-operations.service";
+import { ChatManagerService } from "../../../services/chat-manager.service";
 import { Arena2D } from "../../../services/game/arena/arena2d";
-import { I2DInfos, IArenaInfos, /*IHitConfirmation,*/ IPlayerInput } from "../../../services/game/arena/interfaces";
+import { I2DInfos, IArenaInfos, IPlayerInput } from "../../../services/game/arena/interfaces";
+import { HighscoreService } from "../../../services/highscore.service";
+import { TimeManagerService } from "../../../services/time-manager.service";
 
 // tslint:disable:no-magic-numbers no-any max-file-line-count no-empty
 
@@ -72,6 +76,12 @@ const arenaInfo: IArenaInfos<I2DInfos> = {
 const axios: AxiosInstance = require("axios");
 
 let gameManager:            GameManagerService;
+let userManagerService:     UserManagerService;
+let highscoreService:       HighscoreService;
+let chatManagerService:     ChatManagerService;
+let timeManagerService:     TimeManagerService;
+let cardOperations:         CardOperations;
+
 const testImageOriginale:   Buffer = fs.readFileSync(path.resolve(__dirname, "../../../asset/image/1_original.bmp"));
 
 let mockAxios: any;
@@ -79,9 +89,14 @@ let mockAxios: any;
 describe("Arena tests", () => {
 
     beforeEach(async () => {
-        gameManager = new GameManagerService(new UserManagerService());
-        arena       = new Arena2D(arenaInfo, gameManager);
-        mockAxios   = new MockAdapter.default(axios);
+        userManagerService  = new UserManagerService();
+        highscoreService    = new HighscoreService();
+        timeManagerService  = new TimeManagerService();
+        chatManagerService  = new ChatManagerService(timeManagerService);
+        cardOperations      = new CardOperations(highscoreService);
+        gameManager         = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations);
+        arena               = new Arena2D(arenaInfo, gameManager);
+        mockAxios           = new MockAdapter.default(axios);
         chai.use(spies);
 
         // build arena with images bufferOriginal & bufferDifferences
@@ -276,7 +291,7 @@ describe("Arena tests", () => {
 
     it("should set the right number of points to win depending on number of players", async () => {
 
-        gameManager = new GameManagerService(new UserManagerService());
+        gameManager = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations);
         arenaInfo.users = [activeUser, activeUser];
 
         arena       = new Arena2D(arenaInfo, gameManager);
@@ -299,5 +314,12 @@ describe("Arena tests", () => {
         const pointsNeededToWin: number = arena["referee"]["pointsNeededToWin"];
 
         chai.expect(pointsNeededToWin).to.equal(4);
+    });
+
+    it("Should call the end of game function of the game manager", async () => {
+        const spy: any  = chai.spy.on(gameManager, "endOfGameRoutine");
+        arena.endOfGameRoutine(1, new Player(activeUser));
+
+        chai.expect(spy).to.have.been.called();
     });
 });

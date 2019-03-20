@@ -1,16 +1,28 @@
 import { TestBed } from "@angular/core/testing";
+import { MatSnackBar } from "@angular/material";
+import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import "rxjs/add/observable/of";
 import { mock } from "ts-mockito";
+import { CardManagerService } from "../card/card-manager.service";
 import { GameConnectionService } from "../game-connection.service";
 import { ChatViewService } from "../game-view/chat-view/chat-view.service";
 import { DifferenceCounterService } from "../game-view/difference-counter/difference-counter.service";
+import { GameViewFreeService } from "../game-view/game-view-free/game-view-free.service";
 import { GameViewSimpleService } from "../game-view/game-view-simple/game-view-simple.service";
 import { TimerService } from "../game-view/timer/timer.service";
+import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { SocketService } from "./socket.service";
 
 describe("SocketService", () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  beforeEach(() => TestBed.configureTestingModule({
+    imports: [
+      TestingImportsModule,
+    ],
+    providers: [
+      SocketService,
+    ],
+  }));
 
   it("should be created", () => {
     const service: SocketService = TestBed.get(SocketService);
@@ -19,14 +31,18 @@ describe("SocketService", () => {
 });
 
 describe("SocketService tests", () => {
-  let socketService: SocketService;
-  let gameConnectionService: GameConnectionService;
+  let socketService:          SocketService;
+  let gameConnectionService:  GameConnectionService;
 
   beforeEach(() => {
     gameConnectionService = new GameConnectionService();
-    socketService = new SocketService(
+    socketService         = new SocketService(
+      mock(Router),
+      mock(MatSnackBar),
+      mock(CardManagerService),
       mock(ChatViewService),
       mock(GameViewSimpleService),
+      mock(GameViewFreeService),
       mock(TimerService),
       mock(DifferenceCounterService),
       gameConnectionService,

@@ -7,6 +7,8 @@ import { IChat } from "../../../../../common/communication/iChat";
 })
 export class ChatViewService {
 
+  private readonly INVALID_CHAT_MESSAGE: string = "  vient de se déconnecter.";
+
   private conversation: IChat[];
   private chatFocus:    Subject<boolean>;
 
@@ -16,7 +18,9 @@ export class ChatViewService {
   }
 
   public updateConversation(data: IChat): void {
-    this.conversation.push(data);
+    if (data.message !== this.INVALID_CHAT_MESSAGE) {
+      this.conversation.push(data);
+    }
   }
 
   public getConversation(): IChat[] {
