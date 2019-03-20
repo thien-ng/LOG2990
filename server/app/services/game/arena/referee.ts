@@ -1,4 +1,4 @@
-import { AxiosError, AxiosInstance, AxiosResponse, AxiosRequestConfig } from "axios";
+import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { IArenaResponse, IPenalty } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
 import { CCommon } from "../../../../../common/constantes/cCommon";
