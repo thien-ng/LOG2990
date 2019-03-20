@@ -92,9 +92,9 @@ let highscoreService:       HighscoreService;
 let chatManagerService:     ChatManagerService;
 let timeManagerService:     TimeManagerService;
 let cardOperations:         CardOperations;
-let arena2D: Arena2D;
-let arena3D: Arena3D;
-let timer: Timer;
+let arena2D:                Arena2D;
+let arena3D:                Arena3D;
+let timer:                  Timer;
 
 originalElements2D.set(1, replacement);
 
@@ -102,8 +102,8 @@ describe("Referee tests", () => {
 
     beforeEach(async () => {
         chai.use(spies);
-        mockAxios = new mockAdapter.default(axios);
-        timer = new Timer();
+        mockAxios           = new mockAdapter.default(axios);
+        timer               = new Timer();
         userManagerService  = new UserManagerService();
         highscoreService    = new HighscoreService();
         timeManagerService  = new TimeManagerService();
