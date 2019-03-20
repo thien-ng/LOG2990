@@ -97,15 +97,9 @@ export class Arena3D extends Arena<IPlayerInput<number>, IArenaResponse<ISceneOb
 
     private findObjectById(id: number, objectList: ISceneObject[]): ISceneObject | undefined {
 
-        let foundObject: ISceneObject | undefined;
-
-        objectList.forEach((object: ISceneObject) => {
-            if (id === object.id) {
-                foundObject = object;
-            }
+        return objectList.find((object: ISceneObject) => {
+            return id === object.id;
         });
-
-        return foundObject;
     }
 
     private buildSceneObjectUpdate(actionType: ActionType, sceneObject?: ISceneObject): ISceneObjectUpdate {

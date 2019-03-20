@@ -13,7 +13,7 @@ import {
 import { MatSnackBar } from "@angular/material";
 import { GameConnectionService } from "src/app/game-connection.service";
 import * as THREE from "three";
-import { IClickMessage3D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
+import { IClickMessage, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
 import { ISceneData, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../../common/communication/message";
@@ -45,26 +45,13 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   private previousModifications:  number[];
   private isFirstGet:             boolean;
 
-  @Input()
-  private arenaID:                 number;
-
-  @Input()
-  private iSceneVariables:        ISceneVariables;
-
-  @Input()
-  private iSceneVariablesMessage: ISceneData;
-
-  @Input()
-  private isSnapshotNeeded:       boolean;
-
-  @Input()
-  private isNotOriginal:             boolean;
-
-  @Input()
-  private username:               string;
-
-  @Output()
-  public sceneGenerated:          EventEmitter<string>;
+  @Input() private arenaID:                 number;
+  @Input() private iSceneVariables:         ISceneVariables;
+  @Input() private iSceneVariablesMessage:  ISceneData;
+  @Input() private isSnapshotNeeded:        boolean;
+  @Input() private isNotOriginal:           boolean;
+  @Input() private username:                string;
+  @Output() public sceneGenerated:          EventEmitter<string>;
 
   @ViewChild("originalScene", {read: ElementRef})
   private originalScene:          ElementRef;
@@ -96,7 +83,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
     this.gameConnectionService.getObjectToUpdate().subscribe((object: ISceneObjectUpdate) => {
       this.getDifferencesList();
 
-      this.threejsViewService.changeObjectsColor(this.modifications, false, true);
+      this.threejsViewService.changeObjectsColor(false, true, this.modifications);
       if (this.isNotOriginal) {
         this.threejsViewService.updateSceneWithNewObject(object);
       }
@@ -129,38 +116,39 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
 
         if (this.isFirstGet) {
           this.previousModifications = modifications;
-          this.isFirstGet = false;
+          this.isFirstGet            = false;
         }
-        this.changeColor(modifications);
+
+        this.modifications = modifications;
+        this.isCheating    = !this.isCheating;
+        this.changeColor();
       });
     }
   }
 
-  private changeColor(modifications: number[]): void {
+  private changeColor(): void {
 
-    this.modifications = modifications;
-    this.isCheating = !this.isCheating;
     if (this.isCheating) {
 
       let flashValue: boolean = false;
       this.interval = setInterval(
         () => {
           flashValue = !flashValue;
-          this.threejsViewService.changeObjectsColor(this.modifications, flashValue, false);
+          this.threejsViewService.changeObjectsColor(flashValue, false, this.modifications);
         },
         this.CHEAT_INTERVAL_TIME);
     } else {
 
       clearInterval(this.interval);
-      this.threejsViewService.changeObjectsColor(this.previousModifications, false, true);
+      this.threejsViewService.changeObjectsColor(false, true, this.previousModifications);
       this.previousModifications = this.modifications;
-      this.modifications = [];
+      this.modifications         = [];
     }
   }
 
   private getDifferencesList(): void {
     this.socketService.sendMsg(CCommon.ON_GET_MODIF_LIST, this.arenaID);
-    this.socketService.onMsg(CCommon.ON_RECIEVE_MODIF_LIST).subscribe((list: number[]) => {
+    this.socketService.onMsg(CCommon.ON_RECEIVE_MODIF_LIST).subscribe((list: number[]) => {
       this.modifications = list;
     });
   }
@@ -168,8 +156,8 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   private initListener(): void {
     this.originalScene.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
 
-      const idValue: number = this.threejsViewService.detectObject(mouseEvent);
-      const message: IClickMessage3D = this.createHitValidationMessage(idValue);
+      const idValue: number                  = this.threejsViewService.detectObject(mouseEvent);
+      const message: IClickMessage<number>   = this.createHitValidationMessage(idValue);
 
       this.socketService.sendMsg(CCommon.POSITION_VALIDATION, message);
     });
@@ -184,9 +172,9 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
     }
   }
 
-  private createHitValidationMessage(id: number): IClickMessage3D {
+  private createHitValidationMessage(id: number): IClickMessage<number> {
     return {
-      objectId: id,
+      value:    id,
       arenaID:  this.arenaID,
       username: this.username,
     };

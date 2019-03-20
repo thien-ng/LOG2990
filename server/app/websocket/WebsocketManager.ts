@@ -4,8 +4,7 @@ import * as SocketIO from "socket.io";
 import { IChatSender } from "../../../common/communication/iChat";
 import {
     IArenaResponse,
-    IClickMessage2D,
-    IClickMessage3D,
+    IClickMessage,
     IOriginalPixelCluster,
     IPosition2D } from "../../../common/communication/iGameplay";
 import { IUser } from "../../../common/communication/iUser";
@@ -45,7 +44,7 @@ export class WebsocketManager {
             socket.on(CCommon.ON_GET_MODIF_LIST, (arenaID: number) => {
                 const list: number[] = this.gameManagerService.getDifferencesIndex(arenaID);
 
-                socket.emit(CCommon.ON_RECIEVE_MODIF_LIST, list);
+                socket.emit(CCommon.ON_RECEIVE_MODIF_LIST, list);
             });
 
          });
@@ -62,10 +61,10 @@ export class WebsocketManager {
         socket.on(CCommon.GAME_DISCONNECT, (username: string) => {
             this.gameManagerService.unsubscribeSocketID(socketID, username);
         });
-        socket.on(CCommon.POSITION_VALIDATION, (data: IClickMessage2D | IClickMessage3D) => {
+        socket.on(CCommon.POSITION_VALIDATION, (data: IClickMessage<IPosition2D | number>) => {
 
             const user: IUser | string = this.userManagerService.getUserByUsername(data.username);
-            const userList: IUser[] = this.gameManagerService.getUsersInArena(data.arenaID);
+            const userList: IUser[]    = this.gameManagerService.getUsersInArena(data.arenaID);
 
             if (typeof user !== "string") {
                 const playerInput: IPlayerInput<IPosition2D | number> = this.buildPlayerInput(data, user);
@@ -112,11 +111,8 @@ export class WebsocketManager {
         });
     }
 
-    private buildPlayerInput(data: IClickMessage2D | IClickMessage3D, user: IUser): IPlayerInput<IPosition2D | number> {
-
-        const data2D: IClickMessage2D = (data) as IClickMessage2D;
-        const data3D: IClickMessage3D = (data) as IClickMessage3D;
-        const eventInfo: IPosition2D | number = (this.instanceOf3D(data3D)) ? data3D.objectId : data2D.position;
+    private buildPlayerInput<T>(data: IClickMessage<T>, user: IUser): IPlayerInput<T> {
+        const eventInfo: T = data.value;
 
         return {
             event:      Constants.CLICK_EVENT,
@@ -124,9 +120,5 @@ export class WebsocketManager {
             user:       user,
             eventInfo:  eventInfo,
         };
-    }
-
-    private instanceOf3D(object: IClickMessage2D | IClickMessage3D): object is IClickMessage3D {
-        return "objectId" in object;
     }
 }

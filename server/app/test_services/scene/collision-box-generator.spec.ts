@@ -21,7 +21,7 @@ describe("Collision box generator tests", () => {
         scale: {
             x: 10, y: 10, z: 10,
         },
-        color: "#8cadbb",
+        color:  "#8cadbb",
         hidden: false,
     };
 
@@ -37,7 +37,7 @@ describe("Collision box generator tests", () => {
         scale: {
             x: 10, y: 10, z: 10,
         },
-        color: "#8cadbb",
+        color:  "#8cadbb",
         hidden: false,
     };
 
@@ -53,7 +53,7 @@ describe("Collision box generator tests", () => {
         scale: {
             x: 10, y: 10, z: 10,
         },
-        color: "#8cadbb",
+        color:  "#8cadbb",
         hidden: false,
     };
 
@@ -69,7 +69,7 @@ describe("Collision box generator tests", () => {
         scale: {
             x: 10, y: 10, z: 10,
         },
-        color: "#8cadbb",
+        color:  "#8cadbb",
         hidden: false,
     };
 
@@ -85,7 +85,7 @@ describe("Collision box generator tests", () => {
         scale: {
             x: 10, y: 10, z: 10,
         },
-        color: "#8cadbb",
+        color:  "#8cadbb",
         hidden: false,
     };
 
@@ -101,7 +101,7 @@ describe("Collision box generator tests", () => {
         scale: {
             x: 10, y: 10, z: 10,
         },
-        color: "#8cadbb",
+        color:  "#8cadbb",
         hidden: false,
     };
 

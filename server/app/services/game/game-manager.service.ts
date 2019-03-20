@@ -2,7 +2,7 @@ import { inject, injectable } from "inversify";
 import { HighscoreValidationResponse, Mode, Time } from "../../../../common/communication/highscore";
 import { GameMode, ILobbyEvent, MultiplayerButtonText } from "../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../common/communication/iGameRequest";
-import { IArenaResponse, IClickMessage3D, IOriginalPixelCluster, IPosition2D } from "../../../../common/communication/iGameplay";
+import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../common/communication/iGameplay";
 import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
@@ -333,7 +333,7 @@ export class GameManagerService {
         }
     }
 
-    public async onPlayerInput(playerInput: IPlayerInput<IPosition2D | IClickMessage3D | number>):
+    public async onPlayerInput(playerInput: IPlayerInput<IPosition2D | number>):
         Promise<IArenaResponse<IOriginalPixelCluster | any>>  {
         const arena: Arena<any, any, any, any> | undefined = this.arenas.get(playerInput.arenaId);
         if (arena !== undefined) {

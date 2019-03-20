@@ -16,16 +16,16 @@ export class CCommon {
 
     public static readonly ON_ARENA_CONNECT:          string = "onArenaConnect";
     public static readonly ON_ARENA_RESPONSE:         string = "onArenaResponse";
-    public static readonly ON_GET_MODIF_LIST:         string = "onGetModifList";
-    public static readonly ON_RECIEVE_MODIF_LIST:     string = "onReceiveModifList";
     public static readonly ON_CANCEL_REQUEST:         string = "onCancelRequest";
     public static readonly ON_CHAT_MESSAGE:           string = "onChatMessage";
     public static readonly ON_ERROR:                  string = "onError";
+    public static readonly ON_GET_MODIF_LIST:         string = "onGetModifList";
     public static readonly ON_LOBBY:                  string = "onLobby";
     public static readonly ON_MODE_INVALID:           string = "onModeInvalid"
     public static readonly ON_NEW_SCORE:              string = "onNewScore";
     public static readonly ON_PENALTY:                string = "onPenalty";
     public static readonly ON_POINT_ADDED:            string = "onPointAdded";
+    public static readonly ON_RECEIVE_MODIF_LIST:     string = "onReceiveModifList";
     public static readonly ON_RETRIEVE_USER:          string = "onRetrieveUser";
     public static readonly ON_SUCCESS:                string = "onSuccess";
     public static readonly ON_TIMER_UPDATE:           string = "onTimerUpdate";
