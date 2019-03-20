@@ -1,4 +1,4 @@
-import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 import { IArenaResponse, IPenalty } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
 import { CCommon } from "../../../../../common/constantes/cCommon";
@@ -82,10 +82,9 @@ export class Referee<EVT_T, DIFF_T> {
 
     public async validateHit(eventInfos: EVT_T): Promise<IHitConfirmation> {
 
-        const postData:     IHitToValidate<EVT_T>   = this.buildPostData(eventInfos);
-        const postConfig:   AxiosRequestConfig      = this.buildPostConfig();
+        const postData: IHitToValidate<EVT_T>   = this.buildPostData(eventInfos);
 
-        return axios.post(Constants.URL_HIT_VALIDATOR + "/" + this.arena.ARENA_TYPE, postData, postConfig)
+        return axios.post(Constants.URL_HIT_VALIDATOR + "/" + this.arena.ARENA_TYPE, postData)
             .then((res: AxiosResponse) => {
                 return res.data;
             })
@@ -176,12 +175,4 @@ export class Referee<EVT_T, DIFF_T> {
         } as IHitToValidate<EVT_T>;
     }
 
-    private buildPostConfig(): AxiosRequestConfig {
-        return {
-            headers: {
-                "Content-Type":                 "application/json;charset=UTF-8",
-                "Access-Control-Allow-Origin":  "*",
-            },
-        };
-    }
 }
