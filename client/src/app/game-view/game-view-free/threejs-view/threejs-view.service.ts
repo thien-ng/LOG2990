@@ -1,14 +1,12 @@
 import { Injectable } from "@angular/core";
 import * as THREE from "three";
-import { ActionType, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
+import { ActionType, ISceneObjectUpdate, IPosition2D } from "../../../../../../common/communication/iGameplay";
 import { ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Constants } from "../../../constants";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 
-@Injectable(
-  {providedIn: "root"},
-)
+@Injectable()
 export class ThreejsViewService {
 
   private readonly MULTIPLICATOR: number = 2;
@@ -120,6 +118,11 @@ export class ThreejsViewService {
         meshObject.material = new THREE.MeshPhongMaterial({color: objectColor, opacity: opacityNeeded, transparent: true});
       }
     });
+  }
+
+  public moveCamera(point: IPosition2D): void {
+    this.camera.rotateX(-point.y * 0.01);
+    this.camera.rotateY(-point.x * 0.01);
   }
 
   private recoverObjectFromScene(index: number): THREE.Mesh | undefined {
