@@ -3,10 +3,12 @@ import { IUser } from "../../../../../common/communication/iUser";
 export class Player {
 
     private _points:        number;
+    private isReady:        boolean;
     private isInPenalty:    boolean;
 
     public constructor(private user: IUser) {
-        this._points = 0;
+        this._points     = 0;
+        this.isReady     = false;
         this.isInPenalty = false;
     }
 
@@ -16,8 +18,16 @@ export class Player {
         }
     }
 
+    public setPlayerState(state: boolean): void {
+        this.isReady = state;
+    }
+
     public setPenaltyState(state: boolean): void {
         this.isInPenalty = state;
+    }
+
+    public get playerIsReady(): boolean {
+        return this.isReady;
     }
 
     public get penaltyState(): boolean {
