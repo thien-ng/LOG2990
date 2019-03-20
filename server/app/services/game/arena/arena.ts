@@ -88,6 +88,27 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
         this.gameManagerService.endOfGameRoutine(newTime, mode, this.arenaInfos, this.ARENA_TYPE);
     }
 
+    public onPlayerReady(socketID: string): void {
+        let nbPlayersReady: number = 0;
+
+        this.players.forEach((player: Player) => {
+            if (player.userSocketId === socketID) {
+                player.setPlayerState(true);
+            }
+
+            if (player.playerIsReady) {
+                nbPlayersReady++;
+            }
+        });
+
+        if (nbPlayersReady === this.players.length) {
+            if (this.referee === undefined) {
+                this.waitForReferee();
+            } else {
+                this.referee.onPlayersReady();
+            }
+        }
+    }
     protected async getDifferenceDataFromURL(differenceDataURL: string): Promise<Buffer> {
 
         return axios
