@@ -22,11 +22,11 @@ export class ThreejsViewService {
   private direction:              THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   private front:                  THREE.Vector3 = new THREE.Vector3(0, 0, 0);
   private orthogonal:             THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-  public moveForward:             boolean = false;
-  public moveBackward:            boolean = false;
-  public moveLeft:                boolean = false;
-  public moveRight:               boolean = false;
-  public canJump:                 boolean = false;
+  public moveForward:             boolean       = false;
+  public moveBackward:            boolean       = false;
+  public moveLeft:                boolean       = false;
+  public moveRight:               boolean       = false;
+  public canJump:                 boolean       = false;
 
   public constructor() {
     this.init();
@@ -46,17 +46,6 @@ export class ThreejsViewService {
       Constants.MIN_VIEW_DISTANCE,
       Constants.MAX_VIEW_DISTANCE,
     );
-
-    // this.controls = new THREE.FirstPersonControls( this.camera );
-    // this.controls.noFly = false;
-    // this.controls.lookSpeed = 0.4;
-    // this.controls.movementSpeed = 20;
-    // this.controls.lookVertical = true;
-    // this.controls.constrainVertical = true;
-    // this.controls.verticalMin = 1.0;
-    // this.controls.verticalMax = 2.0;
-    // this.controls.lon = -150;
-    // this.controls.lat = 120;
 
     this.ambLight       = new THREE.AmbientLight(Constants.AMBIENT_LIGHT_COLOR, Constants.AMBIENT_LIGHT_INTENSITY);
     this.modifiedMap    = new Map<number, number>();
@@ -131,31 +120,34 @@ export class ThreejsViewService {
     const speed: number = 1.0;
 
     if ( this.moveLeft ) {
-
       const frontvec: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
       const yaxis: THREE.Vector3 = new THREE.Vector3(0, 1, 0);
       this.camera.getWorldDirection(frontvec);
-
       this.crossProduct(frontvec, yaxis, this.orthogonal);
+
     } else if ( this.moveRight ) {
       const frontvec: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-      const yaxis: THREE.Vector3 = new THREE.Vector3(0, -1, 0);
+      const yaxis: THREE.Vector3 = new THREE.Vector3(0, 1, 0);
       this.camera.getWorldDirection(frontvec);
-
       this.crossProduct(frontvec, yaxis, this.orthogonal);
     }
 
     this.addVectors(this.front, this.orthogonal, this.direction);
     this.direction.normalize();
 
-    if (this.moveForward || this.moveBackward || this.moveLeft || this.moveRight) {
+    if (this.moveForward || this.moveBackward || this.moveLeft || this.moveRight || this.canJump) {
 
-      this.direction.z = Number(this.moveBackward) - Number(this.moveForward);
-      this.direction.x = Number(this.moveRight) - Number(this.moveLeft);
+      // this.direction.z = Number(this.moveBackward) - Number(this.moveForward);
+      // this.direction.x = Number(this.moveRight) - Number(this.moveLeft);
+
+      this.direction.z = Number(this.moveForward) - Number(this.moveBackward);
+      this.direction.x = Number(this.moveLeft) - Number(this.moveRight);
 
       this.velocity.x = this.direction.x * speed;
       this.velocity.y = speed * Number( this.canJump );
       this.velocity.z = this.direction.z * speed;
+
+      this.velocity.normalize();
     } else {
         this.multiplyVector(this.velocity, 0);
     }
