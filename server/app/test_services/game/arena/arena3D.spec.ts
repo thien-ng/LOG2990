@@ -4,17 +4,17 @@ import * as chai from "chai";
 import * as spies from "chai-spies";
 import * as fs from "fs";
 import * as path from "path";
-import { Arena3D } from "../../../services/game/arena/arena3d";
-import { mock, when, anything } from "ts-mockito";
-import { GameManagerService } from "../../../services/game/game-manager.service";
-import { IArenaInfos, I3DInfos, IPlayerInput } from "../../../services/game/arena/interfaces";
-import { IUser } from "../../../../../common/communication/iUser";
-import { IArenaResponse, ISceneObjectUpdate, ActionType } from "../../../../../common/communication/iGameplay";
-import { Referee } from "../../../services/game/arena/referee";
+import { anything, mock, when } from "ts-mockito";
 import { GameMode } from "../../../../../common/communication/iCard";
+import { ActionType, IArenaResponse, ISceneObjectUpdate } from "../../../../../common/communication/iGameplay";
 import { ISceneObject } from "../../../../../common/communication/iSceneObject";
+import { IUser } from "../../../../../common/communication/iUser";
+import { Arena3D } from "../../../services/game/arena/arena3d";
+import { I3DInfos, IArenaInfos, IPlayerInput } from "../../../services/game/arena/interfaces";
+import { Referee } from "../../../services/game/arena/referee";
+import { GameManagerService } from "../../../services/game/game-manager.service";
 
-// tslint:disable:no-any
+// tslint:disable:no-any no-magic-numbers no-floating-promises
 
 const axios: AxiosInstance = require("axios");
 let mockAxios: any;
@@ -30,7 +30,7 @@ const arenaInfo: IArenaInfos<I3DInfos> = {
     arenaId:    1,
     users:      [activeUser],
     dataUrl:    {
-        sceneData:"http://localhost:3000/scene/2_scene.json"
+        sceneData: "http://localhost:3000/scene/2_scene.json",
     },
 };
 
@@ -42,7 +42,7 @@ const sceneObject: ISceneObject = {
     color:      "#FFFFFF",
     scale:      {x: 1, y: 2, z: 3},
     hidden:     true,
-}
+};
 
 const refereeResponse: IArenaResponse<ISceneObjectUpdate> = {
     status: "onSuccess",
@@ -51,14 +51,14 @@ const refereeResponse: IArenaResponse<ISceneObjectUpdate> = {
         sceneObject:    sceneObject,
     },
     arenaType: GameMode.free,
-}
+};
 
 const playerInput: IPlayerInput<number> = {
     event:      "onClick",
     arenaId:    1,
     user:       activeUser,
     eventInfo:  1,
-}
+};
 
 const testSceneBuffer: Buffer = fs.readFileSync(path.resolve(__dirname, "../../../asset/scene/2_scene.json"));
 
@@ -100,7 +100,7 @@ describe("Arena3D tests", () => {
     });
 
     it("should call return failed click response", async () => {
-        
+
         playerInput.event = "notAClickMyBoi";
 
         const arenaResponse: IArenaResponse<ISceneObjectUpdate> = {
