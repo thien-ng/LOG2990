@@ -21,7 +21,7 @@ export default  {
         HitValidatorService3D:          Symbol("HitValidatorService3D"),
         HitValidatorController:         Symbol("HitValidatorController"),
 
-        GameManager:                    Symbol("GameManager"), // _TODO: WADAFUCK
+        GameManager:                    Symbol("GameManager"), // _TODO
         GameManagerController:          Symbol("GameManagerController"),
         GameManagerService:             Symbol("GameManagerService"),
 
