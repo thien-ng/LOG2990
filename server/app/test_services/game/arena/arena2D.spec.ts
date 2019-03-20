@@ -86,7 +86,7 @@ const testImageOriginale:   Buffer = fs.readFileSync(path.resolve(__dirname, "..
 
 let mockAxios: any;
 
-describe("Arena tests", () => {
+describe("Arena 2D tests", () => {
 
     beforeEach(async () => {
         userManagerService  = new UserManagerService();
@@ -316,10 +316,21 @@ describe("Arena tests", () => {
         chai.expect(pointsNeededToWin).to.equal(4);
     });
 
-    it("Should call the end of game function of the game manager", async () => {
+    it("Should call the end of game function of the game manager single player mode", async () => {
+        const spy: any  = chai.spy.on(gameManager, "endOfGameRoutine");
+        arena = new Arena2D(arenaInfo, gameManager);
+        arena["players"] = [];
+        arena.getPlayers().push(new Player({username: "username1", socketID: "socket1"}));
+        arena.endOfGameRoutine(1, new Player(activeUser));
+
+        chai.expect(spy).to.have.been.called();
+    });
+
+    it("Should call the end of game function of the game manager multi player mode", async () => {
         const spy: any  = chai.spy.on(gameManager, "endOfGameRoutine");
         arena.endOfGameRoutine(1, new Player(activeUser));
 
         chai.expect(spy).to.have.been.called();
     });
+
 });
