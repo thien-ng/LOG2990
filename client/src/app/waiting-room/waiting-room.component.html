@@ -1,7 +1,4 @@
-<!-- _TODO change le design -->
+<div class="counter">{{counter}}</div>
 
-<p>
-  waiting-room works!
-</p>
-<button (click)="cancelRequest()">nvm im good</button>
+<button *ngIf="isMultiplayer && counter === ''" (click)="cancelRequest()">nvm im good</button>
 <app-spinner></app-spinner>
