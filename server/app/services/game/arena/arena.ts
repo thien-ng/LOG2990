@@ -11,9 +11,12 @@ import { I2DInfos, I3DInfos, IArenaInfos, IHitConfirmation } from "./interfaces"
 import { Player } from "./player";
 import { Referee } from "./referee";
 import { Timer } from "./timer";
+import { CCommon } from "../../../../../common/constantes/cCommon";
 
 // tslint:disable:no-any
-const axios: AxiosInstance = require("axios");
+const axios:     AxiosInstance = require("axios");
+const WAIT_TIME: number = 500;
+const MAX_TRIES: number = 6;
 
 export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
 
@@ -109,6 +112,26 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
             }
         }
     }
+
+    protected waitForReferee(): void {
+        let nbOfTries: number = 0;
+        const interval: NodeJS.Timeout = setInterval(
+        () => {
+            if (this.referee !== undefined) {
+                this.referee.onPlayersReady();
+            }
+            if (++nbOfTries === MAX_TRIES || this.referee) {
+                clearInterval(interval);
+            }
+        },
+        WAIT_TIME);
+        if (this.referee === undefined) {
+            this.players.forEach((player: Player) => {
+                this.sendMessage(player.userSocketId, CCommon.ON_CANCEL_GAME);
+            });
+        }
+    }
+
     protected async getDifferenceDataFromURL(differenceDataURL: string): Promise<Buffer> {
 
         return axios
@@ -139,4 +162,5 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
 
         return arenaResponse;
     }
+
 }
