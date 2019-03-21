@@ -1,9 +1,10 @@
-import { Injectable } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
 import * as THREE from "three";
 import { IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Constants } from "../../../constants";
+import { GameViewFreeService } from "../game-view-free.service";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 import { ThreejsMovement } from "./utilitaries/threejs-movement";
 import { ThreejsRaycast } from "./utilitaries/threejs-raycast";
@@ -40,7 +41,8 @@ export class ThreejsViewService {
   private moveLeft:                boolean;
   private moveRight:               boolean;
 
-  public constructor() {
+  public constructor(@Inject(GameViewFreeService) public gameViewFreeService: GameViewFreeService) {
+
     this.init();
   }
 
@@ -140,6 +142,9 @@ export class ThreejsViewService {
   }
 
   public detectObject(mouseEvent: MouseEvent): number {
+
+    this.gameViewFreeService.setPosition(mouseEvent);
+
     return this.threejsRaycast.detectObject(mouseEvent);
   }
 
