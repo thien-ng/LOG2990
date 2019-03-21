@@ -37,6 +37,7 @@ enum KEYS {
   selector:     "app-threejs-view",
   templateUrl:  "./threejs-view.component.html",
   styleUrls:    ["./threejs-view.component.css"],
+  providers:    [ThreejsViewService],
 })
 export class TheejsViewComponent implements AfterContentInit, OnChanges {
 
