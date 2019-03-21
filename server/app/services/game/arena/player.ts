@@ -2,19 +2,19 @@ import { IUser } from "../../../../../common/communication/iUser";
 
 export class Player {
 
-    private _points:        number;
+    private points:         number;
     private isReady:        boolean;
     private isInPenalty:    boolean;
 
     public constructor(private user: IUser) {
-        this._points     = 0;
+        this.points      = 0;
         this.isReady     = false;
         this.isInPenalty = false;
     }
 
     public addPoints(pointsEarned: number): void {
         if (pointsEarned > 0) {
-            this._points += pointsEarned;
+            this.points += pointsEarned;
         }
     }
 
@@ -26,23 +26,23 @@ export class Player {
         this.isInPenalty = state;
     }
 
-    public get playerIsReady(): boolean {
+    public getPlayerIsReady(): boolean {
         return this.isReady;
     }
 
-    public get penaltyState(): boolean {
+    public getPenaltyState(): boolean {
         return this.isInPenalty;
     }
 
-    public get userSocketId(): string {
+    public getUserSocketId(): string {
         return this.user.socketID;
     }
 
-    public get username(): string {
+    public getUsername(): string {
         return this.user.username;
     }
 
-    public get points(): number {
-        return this._points;
+    public getPoints(): number {
+        return this.points;
     }
 }
