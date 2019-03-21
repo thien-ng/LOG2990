@@ -39,7 +39,6 @@ export class GameViewFreeService {
         this.gameConnectionService.updateModifiedScene(data.response);
       }
     }
-
   }
 
   public setPosition(mouseEvent: MouseEvent): void {
@@ -63,9 +62,9 @@ export class GameViewFreeService {
       const positionTop: number   = this.position.y - Constants.CENTERY;
       const positionRight: number = this.position.x - Constants.CENTERX;
 
-      this.textCanvasOriginal.style.top   =  positionTop + "px";
+      this.textCanvasOriginal.style.top   = positionTop   + "px";
       this.textCanvasOriginal.style.left  = positionRight + "px";
-      this.textCanvasModified.style.top   = positionTop + "px";
+      this.textCanvasModified.style.top   = positionTop   + "px";
       this.textCanvasModified.style.left  = positionRight + "px";
       this.textCanvasOriginal.textContent = Constants.ERROR_MESSAGE;
       this.textCanvasModified.textContent = Constants.ERROR_MESSAGE;
