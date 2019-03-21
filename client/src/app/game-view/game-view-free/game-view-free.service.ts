@@ -1,7 +1,5 @@
 import { ElementRef, Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
-import * as io from "socket.io-client";
-import { Constants } from "src/app/constants";
 import { GameConnectionService } from "src/app/game-connection.service";
 import { IArenaResponse, ISceneObjectUpdate } from "../../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../../common/constantes/cCommon";
@@ -23,17 +21,20 @@ export class GameViewFreeService {
     this.nbOfSceneLoaded      = 0;
     this.rightClickActive     = new Subject<boolean>();
     this.nbSceneLoadedUpdated = new Subject<number>();
-    this.socket               = io(Constants.WEBSOCKET_URL);
     this.initSceneLoadedListener();
   }
 
   private initSceneLoadedListener(): void {
     this.nbSceneLoadedUpdated.subscribe((arenaID: number) => {
-      if (++this.nbOfSceneLoaded === EVERY_SCENE_LOADED) {
+      if (++this.nbOfSceneLoaded === EVERY_SCENE_LOADED && this.socket) {
         this.socket.emit(CCommon.ON_GAME_LOADED, arenaID);
         this.nbOfSceneLoaded = 0;
       }
     });
+  }
+
+  public gamesetSocket(socket: SocketIOClient.Socket): void {
+    this.socket = socket;
   }
 
   public updateSceneLoaded(arenaID: number): void {
