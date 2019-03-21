@@ -51,13 +51,13 @@ describe("SocketService tests", () => {
 
   it("should call socket.emit() when calling sendMsg()", () => {
     spyOn(socketService["socket"], "emit");
-    socketService.sendMsg<string>("message", "message body");
+    socketService.sendMessage<string>("message", "message body");
     expect(socketService["socket"].emit).toHaveBeenCalled();
   });
 
   it("should return an Observable when calling onMsg()", () => {
     spyOn(socketService["socket"], "on").and.callThrough().and.returnValue(Observable.of(["message"]));
-    socketService.onMsg<string>("message").subscribe( (value) => {
+    socketService.onMessage<string>("message").subscribe( (value) => {
       expect(value).toBe("message");
     });
   });
