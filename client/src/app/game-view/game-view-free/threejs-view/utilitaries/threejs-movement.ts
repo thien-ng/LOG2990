@@ -1,0 +1,102 @@
+import * as THREE from "three";
+import { IPosition2D } from "../../../../../../../common/communication/iGameplay";
+
+export class ThreejsMovement {
+
+    private readonly CAMERA_MOVEMENT_SPEED:  number = 1;
+    private readonly CAMERA_ROTATION_SPEED:  number = 0.01;
+
+    private camera:                 THREE.PerspectiveCamera;
+    private velocity:               THREE.Vector3;
+    private direction:              THREE.Vector3;
+    private front:                  THREE.Vector3;
+    private orthogonal:             THREE.Vector3;
+
+    public constructor(camera: THREE.PerspectiveCamera) {
+        this.camera = camera;
+
+        this.velocity             = new THREE.Vector3(0, 0, 0);
+        this.direction            = new THREE.Vector3(0, 0, 0);
+        this.front                = new THREE.Vector3(0, 0, 0);
+        this.orthogonal           = new THREE.Vector3(0, 0, 0);
+    }
+
+    public setupFront(orientation: number): void {
+        this.camera.getWorldDirection(this.front);
+        this.front.normalize(); // this ensures consistent movements in all directions
+        this.multiplyVector(this.front, orientation);
+    }
+
+    public rotateCamera(point: IPosition2D): void {
+        this.camera.rotateX(-point.y * this.CAMERA_ROTATION_SPEED);
+        this.camera.rotateY(-point.x * this.CAMERA_ROTATION_SPEED);
+    }
+
+    public movementCamera(moveForward: boolean, moveBackward: boolean, moveLeft: boolean, moveRight: boolean): void {
+
+        if ( moveLeft ) {
+          this.moveToSide(1);
+
+        } else if ( moveRight ) {
+          this.moveToSide(-1);
+        }
+
+        this.addVectors(this.front, this.orthogonal, this.direction);
+        this.direction.normalize();
+
+        if ( moveForward || moveBackward || moveLeft || moveRight) {
+
+            this.direction.z = Number(moveBackward) - Number(moveForward);
+            this.direction.x = Number(moveRight) - Number(moveLeft);
+
+            this.setCameratVelocity();
+        } else {
+            this.multiplyVector(this.velocity, 0);
+        }
+
+        this.translateCamera();
+    }
+
+    private moveToSide(orientation: number): void {
+        const frontvec: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+        const yaxis: THREE.Vector3 = new THREE.Vector3(0, orientation, 0);
+        this.camera.getWorldDirection(frontvec);
+        this.crossProduct(frontvec, yaxis, this.orthogonal);
+    }
+
+    private setCameratVelocity(): void {
+
+        this.velocity.x = this.direction.x * this.CAMERA_MOVEMENT_SPEED;
+        this.velocity.y = this.direction.y * this.CAMERA_MOVEMENT_SPEED;
+        this.velocity.z = this.direction.z * this.CAMERA_MOVEMENT_SPEED;
+
+        this.velocity.normalize();
+    }
+
+    private translateCamera(): void {
+        this.camera.translateX( this.velocity.x );
+        this.camera.translateY( this.velocity.y );
+        this.camera.translateZ( this.velocity.z );
+    }
+
+    private multiplyVector (vector: THREE.Vector3, multiplier: number): void {
+        vector.x *= multiplier;
+        vector.y *= multiplier;
+        vector.z *= multiplier;
+    }
+
+    private addVectors (v1: THREE.Vector3, v2: THREE.Vector3, toVector: THREE.Vector3): void {
+        toVector = new THREE.Vector3(0, 0, 0);
+        toVector.x = v1.x + v2.x;
+        toVector.y = v1.y + v2.y;
+        toVector.z = v1.z + v2.z;
+    }
+
+    private crossProduct (v1: THREE.Vector3, v2: THREE.Vector3, toVector: THREE.Vector3): void {
+        toVector = new THREE.Vector3(0, 0, 0);
+        toVector.x = (v1.y * v2.z) - (v1.z * v2.y);
+        toVector.y = (v1.x * v2.z) - (v1.z * v2.x);
+        toVector.z = (v1.x * v2.y) - (v1.y * v2.x);
+    }
+
+}

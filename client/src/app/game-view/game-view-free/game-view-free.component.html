@@ -21,7 +21,8 @@
                       [isNotOriginal]   ="false"
                       [iSceneVariables] ="originalVariables"
                       [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
-    <app-threejs-view id                ="modifiedScene"
+    <app-threejs-view #modified
+                      id                ="modifiedScene"
                       [arenaID]         ="arenaID"
                       [username]        ="username"
                       [isNotOriginal]   ="true"

@@ -1,23 +1,19 @@
 import { Inject, Injectable } from "@angular/core";
-import { SocketService } from "src/app/websocket/socket.service";
 import * as THREE from "three";
-import { ActionType, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
+import { ActionType, IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
-import { CCommon } from "../../../../../../common/constantes/cCommon";
 import { Constants } from "../../../constants";
+import { GameViewFreeService } from "../game-view-free.service";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
+import { ThreejsMovement } from "./utilitaries/threejs-movement";
 
-const EVERY_SCENE_LOADED: number = 2;
-
-@Injectable(
-  {providedIn: "root"},
-)
+@Injectable()
 export class ThreejsViewService {
 
-  private readonly MULTIPLICATOR: number = 2;
+  private readonly MULTIPLICATOR:         number = 2;
+  private readonly CAMERA_START_POSITION: number = 50;
 
-  private nbOfSceneLoaded:        number;
   private scene:                  THREE.Scene;
   private camera:                 THREE.PerspectiveCamera;
   private renderer:               THREE.WebGLRenderer;
@@ -26,14 +22,24 @@ export class ThreejsViewService {
   private mouse:                  THREE.Vector3;
   private sceneVariables:         ISceneVariables;
   private threejsGenerator:       ThreejsGenerator;
+  private threejsMovement:        ThreejsMovement;
+
   private sceneIdById:            Map<number, number>;
   private idBySceneId:            Map<number, number>;
   private opacityById:            Map<number, number>;
   private originalColorById:      Map<number, string>;
 
-  public constructor(@Inject(SocketService) private socketService: SocketService) {
-    this.nbOfSceneLoaded = 0;
+  public moveForward:             boolean;
+  public moveBackward:            boolean;
+  public moveLeft:                boolean;
+  public moveRight:               boolean;
+
+  public constructor(@Inject(GameViewFreeService) private gameViewFreeService: GameViewFreeService) {
     this.init();
+  }
+
+  public setupFront(orientation: number): void {
+    this.threejsMovement.setupFront(orientation);
   }
 
   private init(): void {
@@ -44,6 +50,7 @@ export class ThreejsViewService {
       Constants.MIN_VIEW_DISTANCE,
       Constants.MAX_VIEW_DISTANCE,
     );
+
     this.ambLight             = new THREE.AmbientLight(Constants.AMBIENT_LIGHT_COLOR, Constants.AMBIENT_LIGHT_INTENSITY);
     this.sceneIdById          = new Map<number, number>();
     this.idBySceneId          = new Map<number, number>();
@@ -51,6 +58,9 @@ export class ThreejsViewService {
     this.originalColorById    = new Map<number, string>();
     this.mouse                = new THREE.Vector3();
     this.raycaster            = new THREE.Raycaster();
+    this.threejsMovement      = new ThreejsMovement(this.camera);
+
+    this.moveForward  = this.moveBackward = this.moveRight = this.moveLeft = false;
   }
 
   public animate(): void {
@@ -81,7 +91,7 @@ export class ThreejsViewService {
     this.createLighting();
     this.generateSceneObjects(isSnapshotNeeded, arenaID);
 
-    this.camera.lookAt(this.scene.position);
+    this.camera.lookAt(new THREE.Vector3(this.CAMERA_START_POSITION, this.CAMERA_START_POSITION, this.CAMERA_START_POSITION));
   }
 
   public changeObjectsColor(cheatColorActivated: boolean, isLastChange: boolean, modifiedList?: number[]): void {
@@ -107,6 +117,10 @@ export class ThreejsViewService {
         meshObject.material = new THREE.MeshPhongMaterial({color: objectColor, opacity: opacityNeeded, transparent: true});
       }
     });
+  }
+
+  public rotateCamera(point: IPosition2D): void {
+    this.threejsMovement.rotateCamera(point);
   }
 
   private recoverObjectFromScene(index: number): THREE.Mesh | undefined {
@@ -182,7 +196,8 @@ export class ThreejsViewService {
 
   private renderObject(): void {
 
-    this.camera.lookAt(Constants.CAMERA_LOOK_AT_X, Constants.CAMERA_LOOK_AT_Y, Constants.CAMERA_LOOK_AT_Z);
+    this.threejsMovement.movementCamera(this.moveForward, this.moveBackward, this.moveLeft, this.moveRight);
+
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -191,14 +206,8 @@ export class ThreejsViewService {
       this.threejsGenerator.initiateObject(element);
     });
 
-    if (!isSnapshotNeeded) {
-      this.nbOfSceneLoaded++;
-    }
-
-    if (this.nbOfSceneLoaded === EVERY_SCENE_LOADED) {
-      this.socketService.sendMsg(CCommon.ON_GAME_LOADED, arenaID);
-      this.nbOfSceneLoaded = 0;
+    if (isSnapshotNeeded) {
+      this.gameViewFreeService.updateSceneLoaded(arenaID);
     }
   }
-
 }

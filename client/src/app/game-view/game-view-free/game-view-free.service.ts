@@ -1,4 +1,5 @@
 import { ElementRef, Injectable } from "@angular/core";
+import { Observable, Subject } from "rxjs";
 import { GameConnectionService } from "src/app/game-connection.service";
 import { IArenaResponse, ISceneObjectUpdate } from "../../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../../common/constantes/cCommon";
@@ -8,10 +9,21 @@ import { CCommon } from "../../../../../common/constantes/cCommon";
 })
 export class GameViewFreeService {
 
-  private successSound: ElementRef;
-  private failSound:    ElementRef;
+  private rightClickActive: Subject<boolean>;
+  private successSound:     ElementRef;
+  private failSound:        ElementRef;
 
-  public constructor (private gameConnectionService: GameConnectionService) {}
+  public constructor (private gameConnectionService: GameConnectionService) {
+    this.rightClickActive = new Subject<boolean>();
+  }
+
+  public updateRightClick(newValue: boolean): void {
+    this.rightClickActive.next(newValue);
+  }
+
+  public getRightClickListener(): Observable<boolean> {
+    return this.rightClickActive.asObservable();
+  }
 
   public onArenaResponse(data: IArenaResponse<ISceneObjectUpdate>): void {
 
