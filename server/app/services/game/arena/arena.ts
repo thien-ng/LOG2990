@@ -123,13 +123,14 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
             if (++nbOfTries === MAX_TRIES || this.referee) {
                 clearInterval(interval);
             }
+
+            if (nbOfTries < MAX_TRIES && !this.referee) {
+                this.players.forEach((player: Player) => {
+                    this.sendMessage(player.userSocketId, CCommon.ON_CANCEL_GAME);
+                });
+            }
         },
         WAIT_TIME);
-        if (this.referee === undefined) {
-            this.players.forEach((player: Player) => {
-                this.sendMessage(player.userSocketId, CCommon.ON_CANCEL_GAME);
-            });
-        }
     }
 
     protected async getDifferenceDataFromURL(differenceDataURL: string): Promise<Buffer> {

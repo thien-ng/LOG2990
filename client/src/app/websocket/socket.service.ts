@@ -16,6 +16,8 @@ import { GameViewFreeService } from "../game-view/game-view-free/game-view-free.
 import { GameViewSimpleService } from "../game-view/game-view-simple/game-view-simple.service";
 import { TimerService } from "../game-view/timer/timer.service";
 
+const GAME_LOAD_ERROR: string = "Erreur lors du chargement du jeu";
+
 @Injectable({
   providedIn: "root",
 })
@@ -44,6 +46,12 @@ export class SocketService {
       this.initArenaListeners();
       this.initGameViewListeners();
       this.initCardListeners();
+
+      this.socket.on(CCommon.ON_CANCEL_GAME, () => {
+        this.router.navigate([Constants.GAMELIST_REDIRECT])
+        .catch((error: TypeError) => this.openSnackbar(error.message, Constants.SNACK_ACTION));
+        this.openSnackbar(GAME_LOAD_ERROR, Constants.SNACK_ACTION);
+      });
 
       this.socket.on(CCommon.CHAT_EVENT, (data: IChat) => {
         this.chatViewService.updateConversation(data);
