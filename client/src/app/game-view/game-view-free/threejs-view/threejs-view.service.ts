@@ -1,27 +1,26 @@
 import { Injectable } from "@angular/core";
 import * as THREE from "three";
-import { ActionType, IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
+import { IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Constants } from "../../../constants";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 import { ThreejsMovement } from "./utilitaries/threejs-movement";
+import { ThreejsRaycast } from "./utilitaries/threejs-raycast";
 
 @Injectable()
 export class ThreejsViewService {
 
-  private readonly MULTIPLICATOR:         number = 2;
   private readonly CAMERA_START_POSITION: number = 50;
 
   private scene:                  THREE.Scene;
   private camera:                 THREE.PerspectiveCamera;
   private renderer:               THREE.WebGLRenderer;
   private ambLight:               THREE.AmbientLight;
-  private raycaster:              THREE.Raycaster;
-  private mouse:                  THREE.Vector3;
   private sceneVariables:         ISceneVariables;
   private threejsGenerator:       ThreejsGenerator;
   private threejsMovement:        ThreejsMovement;
+  private threejsRaycast:         ThreejsRaycast;
 
   private sceneIdById:            Map<number, number>;
   private idBySceneId:            Map<number, number>;
@@ -55,8 +54,6 @@ export class ThreejsViewService {
     this.idBySceneId          = new Map<number, number>();
     this.opacityById          = new Map<number, number>();
     this.originalColorById    = new Map<number, string>();
-    this.mouse                = new THREE.Vector3();
-    this.raycaster            = new THREE.Raycaster();
     this.threejsMovement      = new ThreejsMovement(this.camera);
 
     this.moveForward  = this.moveBackward = this.moveRight = this.moveLeft = false;
@@ -81,6 +78,10 @@ export class ThreejsViewService {
 
     this.renderer.setSize(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
     this.renderer.setClearColor(this.sceneVariables.sceneBackgroundColor);
+
+    this.threejsRaycast = new ThreejsRaycast(this.camera, this.renderer, this.scene);
+    this.threejsRaycast.setMaps(this.idBySceneId);
+    this.threejsRaycast.setThreeGenerator(this.threejsGenerator);
 
     this.createLighting();
     this.generateSceneObjects();
@@ -131,48 +132,11 @@ export class ThreejsViewService {
   }
 
   public detectObject(mouseEvent: MouseEvent): number {
-    mouseEvent.preventDefault();
-
-    this.mouse.x =   ( mouseEvent.offsetX / this.renderer.domElement.clientWidth ) * this.MULTIPLICATOR - 1;
-    this.mouse.y = - ( mouseEvent.offsetY / this.renderer.domElement.clientHeight ) * this.MULTIPLICATOR + 1;
-    this.mouse.z = 0;
-
-    this.raycaster.setFromCamera(this.mouse, this.camera);
-
-    const objectsIntersected: THREE.Intersection[] = this.raycaster.intersectObjects(this.scene.children);
-
-    if (objectsIntersected.length > 0) {
-      const firstIntersectedId: number = objectsIntersected[0].object.id;
-
-      return (this.idBySceneId.get(firstIntersectedId)) as number;
-    }
-
-    return -1;
+    return this.threejsRaycast.detectObject(mouseEvent);
   }
 
   public updateSceneWithNewObject(object: ISceneObjectUpdate): void {
-
-    if (!object.sceneObject) {
-      return;
-    }
-
-    switch (object.actionToApply) {
-
-      case ActionType.ADD:
-        this.threejsGenerator.initiateObject(object.sceneObject);
-        break;
-
-      case ActionType.DELETE:
-        this.threejsGenerator.deleteObject(object.sceneObject.id);
-        break;
-
-      case ActionType.CHANGE_COLOR:
-        this.threejsGenerator.changeObjectColor(object.sceneObject.id, object.sceneObject.color);
-        break;
-
-      default:
-        break;
-    }
+    this.threejsRaycast.updateSceneWithNewObject(object);
   }
 
   private createLighting(): void {
