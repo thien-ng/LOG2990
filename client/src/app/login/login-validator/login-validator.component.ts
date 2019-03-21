@@ -33,10 +33,10 @@ export class LoginValidatorComponent {
   public matcher: MyErrorStateMatcher;
 
   public constructor(
-    @Inject(LoginValidatorService)  public  loginValidatorService:  LoginValidatorService,
-    @Inject(SocketService)          private socketService:          SocketService,
-    private snackbar: MatSnackBar,
-    private router:   Router,
+  @Inject(LoginValidatorService)  public  loginValidatorService:  LoginValidatorService,
+  @Inject(SocketService)          private socketService:          SocketService,
+  private snackbar: MatSnackBar,
+  private router:   Router,
   ) {
     this.matcher = new MyErrorStateMatcher();
   }

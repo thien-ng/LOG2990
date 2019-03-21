@@ -155,4 +155,15 @@ describe("Tests on ThreejsGenerator", () => {
         expect(spiedMap).toHaveBeenCalled();
     });
 
+    it("should have opacity value of 0 if hidden flag is true", () => {
+        sceneObject.hidden = false;
+        const spy: any = spyOn<any>(opacityById, "set");
+
+        threejsGenerator["createObjectColor"](sceneObject);
+
+        expect(spy).toHaveBeenCalled();
+
+        sceneObject.hidden = true;
+    });
+
 });

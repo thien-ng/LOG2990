@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
 import { first } from "rxjs/operators";
@@ -9,13 +9,16 @@ import { SocketService } from "src/app/websocket/socket.service";
 import { Mode } from "../../../../../common/communication/highscore";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../../common/communication/iGameRequest";
+import { IPosition2D } from "../../../../../common/communication/iGameplay";
 import { ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { ISceneData, ISceneVariables } from "../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../common/communication/message";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { GameViewFreeService } from "./game-view-free.service";
+import { TheejsViewComponent } from "./threejs-view/threejs-view.component";
 
 const GAMEMODE_KEY: string = "gamemode";
+const RIGHT_CLICK:  number = 2;
 
 @Component({
   selector:     "app-game-view-free",
@@ -28,6 +31,8 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
   public readonly SUCCESS_SOUND:    string  = "http://localhost:3000/audio/fail.wav";
   public readonly FAIL_SOUND:       string  = "http://localhost:3000/audio/success.wav";
 
+  @ViewChild("original")      private original:    TheejsViewComponent;
+  @ViewChild("modified")      private modified:    TheejsViewComponent;
   @ViewChild("successSound",  {read: ElementRef})  public successSound:    ElementRef;
   @ViewChild("failSound",     {read: ElementRef})  public failSound:       ElementRef;
   @ViewChild("erreurText",    {read: ElementRef})  public erreurText:      ElementRef;
@@ -39,6 +44,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
   public  gameRequest:       IGameRequest;
   public  objectToUpdate:    ISceneObject[];
   public  isLoading:         boolean;
+  public  rightClick:        boolean;
   public  gameIsStarted:     boolean;
   public  cardIsLoaded:      boolean;
   public  arenaID:           number;
@@ -48,6 +54,32 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
   private scenePath:         string;
   private gameMode:          Mode;
 
+  @HostListener("mousedown", ["$event"])
+  public onMouseDown(mouseEvent: MouseEvent): void {
+    if (mouseEvent.button === RIGHT_CLICK) {
+      this.gameViewService.updateRightClick(true);
+    }
+  }
+
+  @HostListener("mouseup", ["$event"])
+  public onMouseUp(mouseEvent: MouseEvent): void {
+    if (mouseEvent.button === RIGHT_CLICK) {
+      this.gameViewService.updateRightClick(false);
+    }
+  }
+
+  @HostListener("mousemove", ["$event"])
+  public onMouseMove(mouseEvent: MouseEvent): void {
+    if (this.rightClick) {
+      const point: IPosition2D = {
+        x: mouseEvent.movementX,
+        y: mouseEvent.movementY,
+      };
+      this.original.onMouseMove(point);
+      this.modified.onMouseMove(point);
+    }
+  }
+
   public constructor(
     @Inject(GameViewFreeService)    private gameViewService:  GameViewFreeService,
     @Inject(SocketService)          private socketService:    SocketService,
@@ -56,6 +88,10 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
     private route:                  ActivatedRoute,
     private snackBar:               MatSnackBar,
     ) {
+      document.oncontextmenu = () => {
+        return false;
+      };
+      this.rightClick     = true;
       this.cardIsLoaded   = false;
       this.gameIsStarted  = false;
       this.mode           = Number(this.route.snapshot.paramMap.get(GAMEMODE_KEY));
@@ -127,6 +163,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
         case CCommon.ON_WAITING:
           this.arenaID = parseInt(data.body, Constants.DECIMAL_BASE);
           this.socketService.sendMsg(CCommon.GAME_CONNECTION, CCommon.ON_WAITING);
+          this.gameViewService.setText(this.erreurText, this.erreurText2);
           break;
         case CCommon.ON_ERROR:
           this.openSnackBar(data.body, Constants.SNACK_ACTION);
