@@ -117,20 +117,26 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
         let nbOfTries: number = 0;
         const interval: NodeJS.Timeout = setInterval(
         () => {
-            if (this.referee !== undefined) {
-                this.referee.onPlayersReady();
+            nbOfTries++;
+            if (nbOfTries === MAX_TRIES && !this.referee) {
+                this.cancelGame();
             }
-            if (++nbOfTries === MAX_TRIES || this.referee) {
+            if (nbOfTries === MAX_TRIES || this.referee) {
                 clearInterval(interval);
             }
-
-            if (nbOfTries < MAX_TRIES && !this.referee) {
-                this.players.forEach((player: Player) => {
-                    this.sendMessage(player.userSocketId, CCommon.ON_CANCEL_GAME);
-                });
+            if (this.referee) {
+                this.referee.onPlayersReady();
             }
+
         },
         WAIT_TIME);
+    }
+
+    protected cancelGame(): void {
+        this.players.forEach((player: Player) => {
+            this.sendMessage(player.userSocketId, CCommon.ON_CANCEL_GAME);
+            this.gameManagerService.deleteArena(this.arenaInfos);
+        });
     }
 
     protected async getDifferenceDataFromURL(differenceDataURL: string): Promise<Buffer> {
