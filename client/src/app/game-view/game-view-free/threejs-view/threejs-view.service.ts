@@ -174,7 +174,10 @@ export class ThreejsViewService {
   }
 
   public onKeyUp(keyboardEvent: KeyboardEvent): void {
-    switch ( keyboardEvent.key ) {
+
+    const keyValue: string = keyboardEvent.key.toLocaleLowerCase();
+
+    switch ( keyValue ) {
       case KEYS.w:
         this.moveForward = false;
         break;
@@ -194,7 +197,10 @@ export class ThreejsViewService {
   }
 
   public onKeyDown(keyboardEvent: KeyboardEvent): void {
-    switch ( keyboardEvent.key ) {
+
+    const keyValue: string = keyboardEvent.key.toLocaleLowerCase();
+
+    switch ( keyValue ) {
       case KEYS.w:
         this.setupFront(-1);
         this.moveForward = true;

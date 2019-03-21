@@ -114,6 +114,7 @@ describe("ThreejsViewService Tests", () => {
     expect(spy).toHaveBeenCalled();
   }));
 
+  // _TODO
   // it("should return -1 if no object is detected",
   //    inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 

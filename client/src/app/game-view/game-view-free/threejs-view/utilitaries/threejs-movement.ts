@@ -23,7 +23,7 @@ export class ThreejsMovement {
 
     public setupFront(orientation: number): void {
         this.camera.getWorldDirection(this.front);
-        this.front.normalize(); // this ensures consistent movements in all directions
+        this.front.normalize();
         this.multiplyVector(this.front, orientation);
     }
 
@@ -58,10 +58,10 @@ export class ThreejsMovement {
     }
 
     private moveToSide(orientation: number): void {
-        const frontvec: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-        const yaxis: THREE.Vector3 = new THREE.Vector3(0, orientation, 0);
-        this.camera.getWorldDirection(frontvec);
-        this.crossProduct(frontvec, yaxis, this.orthogonal);
+        const frontvector: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+        const yAxis: THREE.Vector3 = new THREE.Vector3(0, orientation, 0);
+        this.camera.getWorldDirection(frontvector);
+        this.crossProduct(frontvector, yAxis, this.orthogonal);
     }
 
     private setCameratVelocity(): void {
@@ -85,18 +85,18 @@ export class ThreejsMovement {
         vector.z *= multiplier;
     }
 
-    private addVectors (v1: THREE.Vector3, v2: THREE.Vector3, toVector: THREE.Vector3): void {
+    private addVectors (vector1: THREE.Vector3, vector2: THREE.Vector3, toVector: THREE.Vector3): void {
         toVector = new THREE.Vector3(0, 0, 0);
-        toVector.x = v1.x + v2.x;
-        toVector.y = v1.y + v2.y;
-        toVector.z = v1.z + v2.z;
+        toVector.x = vector1.x + vector2.x;
+        toVector.y = vector1.y + vector2.y;
+        toVector.z = vector1.z + vector2.z;
     }
 
-    private crossProduct (v1: THREE.Vector3, v2: THREE.Vector3, toVector: THREE.Vector3): void {
+    private crossProduct (vector1: THREE.Vector3, vector2: THREE.Vector3, toVector: THREE.Vector3): void {
         toVector = new THREE.Vector3(0, 0, 0);
-        toVector.x = (v1.y * v2.z) - (v1.z * v2.y);
-        toVector.y = (v1.x * v2.z) - (v1.z * v2.x);
-        toVector.z = (v1.x * v2.y) - (v1.y * v2.x);
+        toVector.x = (vector1.y * vector2.z) - (vector1.z * vector2.y);
+        toVector.y = (vector1.x * vector2.z) - (vector1.z * vector2.x);
+        toVector.z = (vector1.x * vector2.y) - (vector1.y * vector2.x);
     }
 
 }

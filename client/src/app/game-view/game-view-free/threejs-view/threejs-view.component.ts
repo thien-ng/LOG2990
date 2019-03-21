@@ -33,12 +33,13 @@ import { ThreejsViewService } from "./threejs-view.service";
 })
 export class TheejsViewComponent implements AfterContentInit, OnChanges {
 
-  public scene:                         THREE.Scene;
-
+  
   private readonly CHEAT_URL:           string = "cheat/";
+  private readonly CHEAT_KEYBOARD_KEY:  string = "t";
   private readonly CHEAT_INTERVAL_TIME: number = 125;
-
+  
   private renderer:               THREE.WebGLRenderer;
+  private scene:                   THREE.Scene;
   private isCheating:             boolean;
   private interval:               NodeJS.Timeout;
   private focusChat:              boolean;
@@ -118,7 +119,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   }
 
   private onKeyDown(keyboardEvent: KeyboardEvent): void {
-    if (keyboardEvent.key === "t") {
+    if (keyboardEvent.key === this.CHEAT_KEYBOARD_KEY) {
       this.cheatRoutine();
     }
   }

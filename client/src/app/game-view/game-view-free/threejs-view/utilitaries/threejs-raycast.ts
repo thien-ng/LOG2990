@@ -16,9 +16,9 @@ export class ThreejsRaycast {
         camera: THREE.PerspectiveCamera,
         renderer: THREE.WebGLRenderer,
         scene: THREE.Scene) {
-        this.camera = camera;
+        this.camera   = camera;
         this.renderer = renderer;
-        this.scene = scene;
+        this.scene    = scene;
     }
 
     public setMaps(idBySceneId: Map<number, number>): void {
@@ -46,7 +46,7 @@ export class ThreejsRaycast {
         if (objectsIntersected.length > 0) {
           const firstIntersectedId: number = objectsIntersected[0].object.id;
 
-          return (this.idBySceneId.get(firstIntersectedId)) as number;
+          return this.idBySceneId.get(firstIntersectedId) as number;
         }
 
         return -1;
@@ -56,7 +56,7 @@ export class ThreejsRaycast {
 
         if (!object.sceneObject) {
             return;
-          }
+        }
 
         switch (object.actionToApply) {
 
