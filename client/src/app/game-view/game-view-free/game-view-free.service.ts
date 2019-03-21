@@ -1,11 +1,8 @@
 import { ElementRef, Injectable } from "@angular/core";
+import { Constants } from "src/app/constants";
 import { GameConnectionService } from "src/app/game-connection.service";
 import { IArenaResponse, IPosition2D, ISceneObjectUpdate } from "../../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../../common/constantes/cCommon";
-
-const ERROR_MESSAGE:    string = "⚠ ERREUR ⚠";
-const CENTERY:          number = 15;
-const CENTERX:          number = 50;
 
 @Injectable({
   providedIn: "root",
@@ -19,10 +16,7 @@ export class GameViewFreeService {
   public position:               IPosition2D;
 
   public constructor (private gameConnectionService: GameConnectionService) {
-    this.position = {
-      x: 0,
-      y: 0,
-    };
+    this.position = {x: 0, y: 0};
   }
 
   public onArenaResponse(data: IArenaResponse<ISceneObjectUpdate>): void {
@@ -41,6 +35,7 @@ export class GameViewFreeService {
     this.playFailSound();
     this.disableClickRoutine();
   }
+
   public enableClickRoutine(): void {
     document.body.style.cursor = "auto";
     this.textCanvasOriginal.textContent = null;
@@ -49,15 +44,15 @@ export class GameViewFreeService {
 
   private disableClickRoutine(): void {
       document.body.style.cursor = "not-allowed";
-      const positionTop: number = this.position.y - CENTERY;
-      const positionRight: number = this.position.x - CENTERX;
+      const positionTop: number = this.position.y - Constants.CENTERY;
+      const positionRight: number = this.position.x - Constants.CENTERX;
 
       this.textCanvasOriginal.style.top =  positionTop + "px";
       this.textCanvasOriginal.style.left = positionRight + "px";
       this.textCanvasModified.style.top = positionTop + "px";
       this.textCanvasModified.style.left = positionRight + "px";
-      this.textCanvasOriginal.textContent = ERROR_MESSAGE;
-      this.textCanvasModified.textContent = ERROR_MESSAGE;
+      this.textCanvasOriginal.textContent = Constants.ERROR_MESSAGE;
+      this.textCanvasModified.textContent = Constants.ERROR_MESSAGE;
   }
 
   private playFailSound(): void {
