@@ -18,26 +18,27 @@
     <app-spinner *ngIf="isLoading"></app-spinner>
       <mat-grid-list id="displayGame" cols="2" rowHeight="500px">
           <mat-grid-tile [colspan]="1">
-              <div class="text" #textDiv></div>
+            <div class="text" #erreurText></div>
               <app-threejs-view id="originalScene"
-                      [arenaID]="arenaID"
-                      [username]="username"
-                      [isNotOriginal]="false"
-                      [iSceneVariables]="originalVariables"
-                      [isSnapshotNeeded]="NEEDED_SNAPSHOT">
-      </app-threejs-view>
-          </mat-grid-tile>  
+                                [arenaID]="arenaID"
+                                [username]="username"
+                                [isNotOriginal]="false"
+                                [iSceneVariables]="originalVariables"
+                                [isSnapshotNeeded]="NEEDED_SNAPSHOT">
+              </app-threejs-view>
+        </mat-grid-tile>  
           <mat-grid-tile [colspan]="1" >
-            <div class="text2" #textDiv2></div>
+            <div class="text2" #erreurText2></div>
               <app-threejs-view id="modifiedScene"
-                      [arenaID]="arenaID"
-                      [username]="username"
-                      [isNotOriginal]="true"
-                      [iSceneVariables]="modifiedVariables"
-                      [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
-              <div class="text2" #textDiv2></div>
+                                [arenaID]="arenaID"
+                                [username]="username"
+                                [isNotOriginal]="true"
+                                [iSceneVariables]="modifiedVariables"
+                                [isSnapshotNeeded]="NEEDED_SNAPSHOT">
+              </app-threejs-view>
+            <div class="text2" #textDiv2></div>
           </mat-grid-tile>
-        </mat-grid-list>
+      </mat-grid-list>
       
     </mat-grid-tile>
     <mat-grid-tile
