@@ -23,6 +23,7 @@ export class HitValidatorService3D {
         if (this.isStoredInCache(hitToValidate.differenceDataURL)) {
             data = this.cache.get(hitToValidate.differenceDataURL);
         } else {
+
             data = await this.getSceneDataFromUrl(hitToValidate.differenceDataURL);
             this.insertElementInCache(hitToValidate.differenceDataURL, data);
         }

@@ -184,4 +184,5 @@ export class Referee<EVT_T, DIFF_T> {
             },
         };
     }
+
 }

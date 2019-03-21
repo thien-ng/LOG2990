@@ -86,7 +86,7 @@ const testImageOriginale:   Buffer = fs.readFileSync(path.resolve(__dirname, "..
 
 let mockAxios: any;
 
-describe("Arena tests", () => {
+describe("Arena 2D tests", () => {
 
     beforeEach(async () => {
         userManagerService  = new UserManagerService();
@@ -123,6 +123,11 @@ describe("Arena tests", () => {
     afterEach(() => {
         mockAxios.restore();
 
+    });
+
+    it("should get empty difference ids list ", async () => {
+        const result: number[] = arena.getDifferencesIds();
+        chai.expect(result.length).to.equal(0);
     });
 
     it("should be able to extract original pixel clusters from buffers ", async () => {
@@ -192,59 +197,6 @@ describe("Arena tests", () => {
         chai.expect(responseToInput).to.deep.equal(expectedResponse);
         sandbox.restore();
     });
-
-    // it("should return a correct IArenaResponse", async () => {
-    //     const playerInputResponseExpected: IArenaResponse<IOriginalPixelCluster> = {
-    //         status:     CCommon.ON_SUCCESS,
-    //         response:   expectedPixelClusters,
-    //     };
-
-    //     const hitConfirmationExpected: IHitConfirmation = {
-    //         isAHit:             true,
-    //         differenceIndex:    1,
-    //     };
-
-    //     mockAxios.onPost(Constants.URL_HIT_VALIDATOR + "/2d").reply(200, hitConfirmationExpected);
-
-    //     let responseToPlayerInput: IArenaResponse<IOriginalPixelCluster> | void;
-    //     arena["originalElements"].set(1, expectedPixelClusters);
-
-    //     responseToPlayerInput = await arena.onPlayerClick(hitPosition, activeUser);
-
-    //     chai.expect(responseToPlayerInput).to.deep.equal(playerInputResponseExpected);
-    //     mockAxios.restore();
-    // });
-
-    // it("should return an error on problematic HitConfirmation", async () => {
-    //     const playerInputResponseExpected: IArenaResponse<IOriginalPixelCluster> = {
-    //         status:     CCommon.ON_ERROR,
-    //         response:   Constants.ON_ERROR_PIXEL_CLUSTER,
-    //     };
-
-    //     mockAxios.onPost(Constants.URL_HIT_VALIDATOR).reply(200, {});
-
-    //     let responseToPlayerInput: IArenaResponse<IOriginalPixelCluster> | void;
-    //     arena["originalElements"].set(1, expectedPixelClusters);
-
-    //     responseToPlayerInput = await arena.onPlayerClick(hitPosition, activeUser);
-
-    //     chai.expect(responseToPlayerInput).to.deep.equal(playerInputResponseExpected);
-    //     mockAxios.restore();
-    // });
-
-    // it("should be able to return a hit validation response", async () => {
-
-    //     const hitConfirmationExpected: IHitConfirmation = {
-    //         isAHit:             true,
-    //         differenceIndex:    1,
-    //     };
-
-    //     mockAxios.onPost(Constants.URL_HIT_VALIDATOR + "/2d").reply(200, hitConfirmationExpected);
-
-    //     const responseToValidation: IHitConfirmation = await arena.validateHit(hitPosition);
-
-    //     chai.expect(responseToValidation).to.deep.equal(hitConfirmationExpected);
-    // });
 
     it("should be able to catch an error during the hitValidation process", async () => {
 
@@ -316,10 +268,21 @@ describe("Arena tests", () => {
         chai.expect(pointsNeededToWin).to.equal(4);
     });
 
-    it("Should call the end of game function of the game manager", async () => {
+    it("Should call the end of game function of the game manager single player mode", async () => {
+        const spy: any  = chai.spy.on(gameManager, "endOfGameRoutine");
+        arena = new Arena2D(arenaInfo, gameManager);
+        arena["players"] = [];
+        arena.getPlayers().push(new Player({username: "username1", socketID: "socket1"}));
+        arena.endOfGameRoutine(1, new Player(activeUser));
+
+        chai.expect(spy).to.have.been.called();
+    });
+
+    it("Should call the end of game function of the game manager multi player mode", async () => {
         const spy: any  = chai.spy.on(gameManager, "endOfGameRoutine");
         arena.endOfGameRoutine(1, new Player(activeUser));
 
         chai.expect(spy).to.have.been.called();
     });
+
 });

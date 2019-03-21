@@ -38,4 +38,15 @@ describe("Player tests", () => {
     it("should return the player's username", () => {
         expect(player.username).to.equal("Ettore Merlo");
     });
+
+    it("should set to false value of penalty", () => {
+        player.setPenaltyState(false);
+        expect(player.penaltyState).to.equal(false);
+    });
+
+    it("should set to true value of penalty", () => {
+        player.setPenaltyState(true);
+        expect(player.penaltyState).to.equal(true);
+    });
+
 });
