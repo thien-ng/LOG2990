@@ -10,13 +10,13 @@ import {
 import { IUser } from "../../../common/communication/iUser";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { Constants } from "../constants";
+import { CardOperations } from "../services/card-operations.service";
 import { ChatManagerService } from "../services/chat-manager.service";
 import { IPlayerInput } from "../services/game/arena/interfaces";
 import { GameManagerService } from "../services/game/game-manager.service";
+import { HighscoreService } from "../services/highscore.service";
 import { UserManagerService } from "../services/user-manager.service";
 import Types from "../types";
-import { CardOperations } from "../services/card-operations.service";
-import { HighscoreService } from "../services/highscore.service";
 
 @injectable()
 export class WebsocketManager {
