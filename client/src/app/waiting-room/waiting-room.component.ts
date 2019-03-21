@@ -19,6 +19,8 @@ const GO_MESSAGE:       string = "GO!";
 })
 export class WaitingRoomComponent {
 
+  public  readonly CANCEL_BUTTON_TEXT:  string = "Retourner à la liste de jeu";
+
   public counter: string;
 
   @Input()
