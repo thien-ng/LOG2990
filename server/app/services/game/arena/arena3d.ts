@@ -29,7 +29,7 @@ export class Arena3D extends Arena<IPlayerInput<number>, IArenaResponse<ISceneOb
         const arenaResponse: IArenaResponse<ISceneObjectUpdate> = await this.referee.onPlayerClick(objectId, user);
         arenaResponse.arenaType = GameMode.free;
         this.players.forEach((player: Player) => {
-            this.gameManagerService.sendMessage(player.userSocketId, CCommon.ON_ARENA_RESPONSE, arenaResponse);
+            this.gameManagerService.sendMessage(player.getUserSocketId(), CCommon.ON_ARENA_RESPONSE, arenaResponse);
         });
 
         return arenaResponse;
