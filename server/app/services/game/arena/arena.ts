@@ -4,6 +4,7 @@ import { Time } from "../../../../../common/communication/highscore";
 import { GameMode } from "../../../../../common/communication/iCard";
 import { IArenaResponse } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
+import { CCommon } from "../../../../../common/constantes/cCommon";
 import Types from "../../../types";
 import { Mode } from "../../highscore/utilities/interfaces";
 import { GameManagerService } from "../game-manager.service";
@@ -11,7 +12,6 @@ import { I2DInfos, I3DInfos, IArenaInfos, IHitConfirmation } from "./interfaces"
 import { Player } from "./player";
 import { Referee } from "./referee";
 import { Timer } from "./timer";
-import { CCommon } from "../../../../../common/constantes/cCommon";
 
 // tslint:disable:no-any
 const axios:     AxiosInstance = require("axios");
