@@ -1,4 +1,3 @@
-
 import { Component, Inject } from "@angular/core";
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import { ErrorStateMatcher, MatSnackBar } from "@angular/material";
@@ -32,10 +31,6 @@ export class LoginValidatorComponent {
   public readonly BUTTON_SUBMIT:  string = "Soumettre";
 
   public matcher: MyErrorStateMatcher;
-  // const THREEF = require("three-full");
-// tslint:disable-next-line:typedef
-// const THREE = require("node_modules/three-full/builds/Three.cjs.js");
-// tslint:disable-next-line:no-console
 
   public constructor(
   @Inject(LoginValidatorService)  public  loginValidatorService:  LoginValidatorService,

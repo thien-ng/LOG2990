@@ -1,45 +1,49 @@
 import { Inject, Injectable } from "@angular/core";
 import * as THREE from "three";
-import { ActionType, IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
+import { IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Constants } from "../../../constants";
 import { GameViewFreeService } from "../game-view-free.service";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 import { ThreejsMovement } from "./utilitaries/threejs-movement";
+import { ThreejsRaycast } from "./utilitaries/threejs-raycast";
+
+enum KEYS {
+  W     = "w",
+  A     = "a",
+  S     = "s",
+  D     = "d",
+  T     = "t",
+}
 
 @Injectable()
 export class ThreejsViewService {
 
-  private readonly MULTIPLICATOR:         number = 2;
   private readonly CAMERA_START_POSITION: number = 50;
 
-  private scene:                  THREE.Scene;
-  private camera:                 THREE.PerspectiveCamera;
-  private renderer:               THREE.WebGLRenderer;
-  private ambLight:               THREE.AmbientLight;
-  private raycaster:              THREE.Raycaster;
-  private mouse:                  THREE.Vector3;
-  private sceneVariables:         ISceneVariables;
-  private threejsGenerator:       ThreejsGenerator;
-  private threejsMovement:        ThreejsMovement;
+  private scene:              THREE.Scene;
+  private camera:             THREE.PerspectiveCamera;
+  private renderer:           THREE.WebGLRenderer;
+  private ambLight:           THREE.AmbientLight;
+  private sceneVariables:     ISceneVariables;
+  private threejsGenerator:   ThreejsGenerator;
+  private threejsMovement:    ThreejsMovement;
+  private threejsRaycast:     ThreejsRaycast;
 
-  private sceneIdById:            Map<number, number>;
-  private idBySceneId:            Map<number, number>;
-  private opacityById:            Map<number, number>;
-  private originalColorById:      Map<number, string>;
+  private sceneIdById:        Map<number, number>;
+  private idBySceneId:        Map<number, number>;
+  private opacityById:        Map<number, number>;
+  private originalColorById:  Map<number, string>;
 
-  public moveForward:             boolean;
-  public moveBackward:            boolean;
-  public moveLeft:                boolean;
-  public moveRight:               boolean;
+  private moveForward:        boolean;
+  private moveBackward:       boolean;
+  private moveLeft:           boolean;
+  private moveRight:          boolean;
 
-  public constructor(@Inject(GameViewFreeService) private gameViewFreeService: GameViewFreeService) {
+  public constructor(@Inject(GameViewFreeService) public gameViewFreeService: GameViewFreeService) {
+
     this.init();
-  }
-
-  public setupFront(orientation: number): void {
-    this.threejsMovement.setupFront(orientation);
   }
 
   private init(): void {
@@ -56,11 +60,12 @@ export class ThreejsViewService {
     this.idBySceneId          = new Map<number, number>();
     this.opacityById          = new Map<number, number>();
     this.originalColorById    = new Map<number, string>();
-    this.mouse                = new THREE.Vector3();
-    this.raycaster            = new THREE.Raycaster();
     this.threejsMovement      = new ThreejsMovement(this.camera);
 
-    this.moveForward  = this.moveBackward = this.moveRight = this.moveLeft = false;
+    this.moveForward          = false;
+    this.moveBackward         = false;
+    this.moveRight            = false;
+    this.moveLeft             = false;
   }
 
   public animate(): void {
@@ -87,6 +92,10 @@ export class ThreejsViewService {
 
     this.renderer.setSize(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
     this.renderer.setClearColor(this.sceneVariables.sceneBackgroundColor);
+
+    this.threejsRaycast = new ThreejsRaycast(this.camera, this.renderer, this.scene);
+    this.threejsRaycast.setMaps(this.idBySceneId);
+    this.threejsRaycast.setThreeGenerator(this.threejsGenerator);
 
     this.createLighting();
     this.generateSceneObjects(isSnapshotNeeded, arenaID);
@@ -119,6 +128,10 @@ export class ThreejsViewService {
     });
   }
 
+  public setupFront(orientation: number): void {
+    this.threejsMovement.setupFront(orientation);
+  }
+
   public rotateCamera(point: IPosition2D): void {
     this.threejsMovement.rotateCamera(point);
   }
@@ -137,48 +150,14 @@ export class ThreejsViewService {
   }
 
   public detectObject(mouseEvent: MouseEvent): number {
-    mouseEvent.preventDefault();
 
-    this.mouse.x =   ( mouseEvent.offsetX / this.renderer.domElement.clientWidth ) * this.MULTIPLICATOR - 1;
-    this.mouse.y = - ( mouseEvent.offsetY / this.renderer.domElement.clientHeight ) * this.MULTIPLICATOR + 1;
-    this.mouse.z = 0;
+    this.gameViewFreeService.setPosition(mouseEvent);
 
-    this.raycaster.setFromCamera(this.mouse, this.camera);
-
-    const objectsIntersected: THREE.Intersection[] = this.raycaster.intersectObjects(this.scene.children);
-
-    if (objectsIntersected.length > 0) {
-      const firstIntersectedId: number = objectsIntersected[0].object.id;
-
-      return (this.idBySceneId.get(firstIntersectedId)) as number;
-    }
-
-    return -1;
+    return this.threejsRaycast.detectObject(mouseEvent);
   }
 
   public updateSceneWithNewObject(object: ISceneObjectUpdate): void {
-
-    if (!object.sceneObject) {
-      return;
-    }
-
-    switch (object.actionToApply) {
-
-      case ActionType.ADD:
-        this.threejsGenerator.initiateObject(object.sceneObject);
-        break;
-
-      case ActionType.DELETE:
-        this.threejsGenerator.deleteObject(object.sceneObject.id);
-        break;
-
-      case ActionType.CHANGE_COLOR:
-        this.threejsGenerator.changeObjectColor(object.sceneObject.id, object.sceneObject.color);
-        break;
-
-      default:
-        break;
-    }
+    this.threejsRaycast.updateSceneWithNewObject(object);
   }
 
   private createLighting(): void {
@@ -210,4 +189,56 @@ export class ThreejsViewService {
       this.gameViewFreeService.updateSceneLoaded(arenaID);
     }
   }
+
+  public onKeyUp(keyboardEvent: KeyboardEvent): void {
+
+    const keyValue: string = keyboardEvent.key.toLowerCase();
+
+    switch ( keyValue ) {
+      case KEYS.W:
+        this.moveForward  = false;
+        break;
+      case KEYS.A:
+        this.moveLeft     = false;
+        break;
+      case KEYS.S:
+        this.moveBackward = false;
+        break;
+      case KEYS.D:
+        this.moveRight    = false;
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  public onKeyDown(keyboardEvent: KeyboardEvent): void {
+
+    const keyValue: string = keyboardEvent.key.toLowerCase();
+
+    switch ( keyValue ) {
+      case KEYS.W:
+        this.setupFront(-1);
+        this.moveForward  = true;
+        break;
+
+      case KEYS.A:
+        this.moveLeft     = true;
+        break;
+
+      case KEYS.S:
+        this.setupFront(1);
+        this.moveBackward = true;
+        break;
+
+      case KEYS.D:
+        this.moveRight    = true;
+        break;
+
+      default:
+        break;
+    }
+  }
+
 }

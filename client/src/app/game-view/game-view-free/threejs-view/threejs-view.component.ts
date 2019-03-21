@@ -25,14 +25,6 @@ import { ChatViewService } from "../../chat-view/chat-view.service";
 import { GameViewFreeService } from "../game-view-free.service";
 import { ThreejsViewService } from "./threejs-view.service";
 
-enum KEYS {
-  w     = "w",
-  a     = "a",
-  s     = "s",
-  d     = "d",
-  t     = "t",
-}
-
 @Component({
   selector:     "app-threejs-view",
   templateUrl:  "./threejs-view.component.html",
@@ -41,26 +33,26 @@ enum KEYS {
 })
 export class TheejsViewComponent implements AfterContentInit, OnChanges {
 
-  public scene:                         THREE.Scene;
-
   private readonly CHEAT_URL:           string = "cheat/";
+  private readonly CHEAT_KEYBOARD_KEY:  string = "t";
   private readonly CHEAT_INTERVAL_TIME: number = 125;
 
   private renderer:               THREE.WebGLRenderer;
-  private isCheating:             boolean;
+  private scene:                  THREE.Scene;
   private interval:               NodeJS.Timeout;
+  private isCheating:             boolean;
   private focusChat:              boolean;
+  private isFirstGet:             boolean;
   private modifications:          number[];
   private previousModifications:  number[];
-  private isFirstGet:             boolean;
 
-  @Input() private rightClick:              boolean;
-  @Input() private arenaID:                 number;
   @Input() private iSceneVariables:         ISceneVariables;
   @Input() private iSceneVariablesMessage:  ISceneData;
+  @Input() private rightClick:              boolean;
   @Input() private isSnapshotNeeded:        boolean;
   @Input() private isNotOriginal:           boolean;
   @Input() private username:                string;
+  @Input() private arenaID:                 number;
   @Output() public sceneGenerated:          EventEmitter<string>;
 
   @ViewChild("originalScene", {read: ElementRef})
@@ -69,14 +61,15 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   @HostListener("body:keyup", ["$event"])
   public async keyboardEventListenerUp(keyboardEvent: KeyboardEvent): Promise<void> {
     if (!this.focusChat) {
-      this.onKeyUp(keyboardEvent);
+      this.threejsViewService.onKeyUp(keyboardEvent);
     }
   }
 
   @HostListener("body:keydown", ["$event"])
   public async keyboardEventListenerDown(keyboardEvent: KeyboardEvent): Promise<void> {
     if (!this.focusChat) {
-      this.handleKeyboardEvent(keyboardEvent);
+      this.onKeyDown(keyboardEvent);
+      this.threejsViewService.onKeyDown(keyboardEvent);
     }
   }
 
@@ -85,17 +78,17 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
     @Inject(ChatViewService)      private chatViewService:      ChatViewService,
     @Inject(SocketService)        private socketService:        SocketService,
     @Inject(GameViewFreeService)  private gameViewFreeService:  GameViewFreeService,
-    private httpClient:         HttpClient,
-    private snackBar:           MatSnackBar,
-    private cardManagerService: CardManagerService,
-    private gameConnectionService: GameConnectionService,
+    private httpClient:             HttpClient,
+    private snackBar:               MatSnackBar,
+    private cardManagerService:     CardManagerService,
+    private gameConnectionService:  GameConnectionService,
     ) {
     this.rightClick     = false;
-    this.sceneGenerated = new EventEmitter();
-    this.scene          = new THREE.Scene();
     this.isCheating     = false;
     this.focusChat      = false;
     this.isFirstGet     = true;
+    this.sceneGenerated = new EventEmitter();
+    this.scene          = new THREE.Scene();
     this.initSubscriptions();
   }
 
@@ -124,32 +117,9 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
     this.takeSnapShot();
   }
 
-  private handleKeyboardEvent(keyboardEvent: KeyboardEvent): void {
-    switch ( keyboardEvent.key ) {
-      case KEYS.w:
-        this.threejsViewService.setupFront(-1);
-        this.threejsViewService.moveForward = true;
-        break;
-
-      case KEYS.a:
-        this.threejsViewService.moveLeft = true;
-        break;
-
-      case KEYS.s:
-        this.threejsViewService.setupFront(1);
-        this.threejsViewService.moveBackward = true;
-        break;
-
-      case KEYS.d:
-        this.threejsViewService.moveRight = true;
-        break;
-
-      case KEYS.t:
-        this.cheatRoutine();
-        break;
-
-      default:
-        break;
+  private onKeyDown(keyboardEvent: KeyboardEvent): void {
+    if (keyboardEvent.key === this.CHEAT_KEYBOARD_KEY) {
+      this.cheatRoutine();
     }
   }
 
@@ -164,26 +134,6 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
       this.isCheating    = !this.isCheating;
       this.changeColor();
     });
-  }
-
-  private onKeyUp(keyboardEvent: KeyboardEvent): void {
-    switch ( keyboardEvent.key ) {
-      case KEYS.w:
-        this.threejsViewService.moveForward = false;
-        break;
-      case KEYS.a:
-        this.threejsViewService.moveLeft = false;
-        break;
-      case KEYS.s:
-        this.threejsViewService.moveBackward = false;
-        break;
-      case KEYS.d:
-        this.threejsViewService.moveRight = false;
-        break;
-
-      default:
-        break;
-    }
   }
 
   private changeColor(): void {
