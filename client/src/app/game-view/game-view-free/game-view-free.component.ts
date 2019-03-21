@@ -30,8 +30,8 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
 
   @ViewChild("successSound",  {read: ElementRef})  public successSound:    ElementRef;
   @ViewChild("failSound",     {read: ElementRef})  public failSound:       ElementRef;
-  @ViewChild("erreurText",    {read: ElementRef})  public textDiv:         ElementRef;
-  @ViewChild("erreurText2",   {read: ElementRef})  public textDiv2:        ElementRef;
+  @ViewChild("erreurText",    {read: ElementRef})  public erreurText:      ElementRef;
+  @ViewChild("erreurText2",   {read: ElementRef})  public erreurText2:     ElementRef;
 
   public  originalVariables: ISceneVariables;
   public  modifiedVariables: ISceneVariables;
@@ -122,7 +122,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
           .catch((error) => {
             this.openSnackBar(error, Constants.SNACK_ACTION);
           });
-          this.gameViewService.setText(this.textDiv, this.textDiv2);
+          this.gameViewService.setText(this.erreurText, this.erreurText2);
           break;
         case CCommon.ON_WAITING:
           this.arenaID = parseInt(data.body, Constants.DECIMAL_BASE);

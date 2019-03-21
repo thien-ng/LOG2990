@@ -41,19 +41,19 @@ export class GameViewSimpleService {
   }
 
   public enableClickRoutine(): void {
-    document.body.style.cursor = "auto";
+    document.body.style.cursor              = "auto";
     this.canvasModified.canvas.style.cursor = "auto";
     this.canvasOriginal.canvas.style.cursor = "auto";
-    this.textCanvasOriginal.textContent = null;
-    this.textCanvasModified.textContent = null;
+    this.textCanvasOriginal.textContent     = null;
+    this.textCanvasModified.textContent     = null;
   }
 
   private disableClickRoutine(): void {
-    document.body.style.cursor    = "not-allowed";
+    document.body.style.cursor              = "not-allowed";
     this.canvasModified.canvas.style.cursor = "not-allowed";
     this.canvasOriginal.canvas.style.cursor = "not-allowed";
-    const positionTop: number     = this.position.y - Constants.CENTERY;
-    const positionRight: number   = this.position.x - Constants.CENTERX;
+    const positionTop: number               = this.position.y - Constants.CENTERY;
+    const positionRight: number             = this.position.x - Constants.CENTERX;
 
     this.textCanvasOriginal.style.top   = positionTop     + "px";
     this.textCanvasOriginal.style.left  = positionRight   + "px";
