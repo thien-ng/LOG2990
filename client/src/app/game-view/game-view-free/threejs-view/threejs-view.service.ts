@@ -206,7 +206,7 @@ export class ThreejsViewService {
       this.threejsGenerator.initiateObject(element);
     });
 
-    if (isSnapshotNeeded) {
+    if (!isSnapshotNeeded) {
       this.gameViewFreeService.updateSceneLoaded(arenaID);
     }
   }
