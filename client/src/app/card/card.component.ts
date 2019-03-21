@@ -11,11 +11,6 @@ import { HighscoreService } from "../highscore-display/highscore.service";
 import { CardManagerService } from "./card-manager.service";
 import { ConfirmationDialogComponent } from "./confirmation-dialog/confirmation-dialog.component";
 
-export interface Dialog {
-  message:    string;
-  gameTitle:  string;
-}
-
 @Component({
   selector:     "app-card",
   templateUrl:  "./card.component.html",
@@ -30,7 +25,7 @@ export class CardComponent implements AfterContentInit {
   public readonly TEXT_RESET_TIMERS:    string = "RÉINITIALISER";
   public readonly TEXT_DELETE:          string = "SUPPRIMER";
   public readonly CONFIRMATION_DELETE:  string = "Voulez-vous vraiment supprimer le jeu";
-  public readonly CONFIRMATION_RESET:   string = "Voulez-vous vraiment reinitialiser les meilleurs temps du jeu";
+  public readonly CONFIRMATION_RESET:   string = "Voulez-vous vraiment réinitialiser les meilleurs temps du jeu";
   public readonly RESET_SNACKBAR:       string = "Temps réinitialisé";
   public readonly ADMIN_PATH:           string = "/admin";
   public readonly JOIN_ICON:            string = "arrow_forward";

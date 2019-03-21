@@ -4,6 +4,11 @@ export enum GameMode {
   invalid = "invalid",
 }
 
+export interface Dialog {
+  message:    string;
+  gameTitle:  string;
+}
+
 export enum CardDeleted {
   true,
   false,
