@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { Constants } from "src/app/constants";
 import { TestingImportsModule } from "src/app/testing-imports/testing-imports.module";
-import { Dialog } from "../card.component";
+import { Dialog } from "../../../../../common/communication/iCard";
 import { ConfirmationDialogComponent } from "./confirmation-dialog.component";
 
 describe("ConfirmationDialogComponent", () => {
