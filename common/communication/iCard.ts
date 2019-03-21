@@ -1,7 +1,12 @@
 export enum GameMode {
-  simple =  "simple",
-  free =    "free",
+  simple  = "simple",
+  free    = "free",
   invalid = "invalid",
+}
+
+export interface Dialog {
+  message:    string;
+  gameTitle:  string;
 }
 
 export enum CardDeleted {
