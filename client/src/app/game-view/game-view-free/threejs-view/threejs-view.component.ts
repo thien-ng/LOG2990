@@ -33,11 +33,10 @@ import { ThreejsViewService } from "./threejs-view.service";
 })
 export class TheejsViewComponent implements AfterContentInit, OnChanges {
 
-  
   private readonly CHEAT_URL:           string = "cheat/";
   private readonly CHEAT_KEYBOARD_KEY:  string = "t";
   private readonly CHEAT_INTERVAL_TIME: number = 125;
-  
+
   private renderer:               THREE.WebGLRenderer;
   private scene:                   THREE.Scene;
   private isCheating:             boolean;
