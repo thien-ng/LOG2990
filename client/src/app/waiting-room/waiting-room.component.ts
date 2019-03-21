@@ -40,7 +40,7 @@ export class WaitingRoomComponent {
   }
 
   private initCounterListener(): void {
-    this.socketService.onMsg(CCommon.ON_COUNTDOWN).subscribe((message: number) => {
+    this.socketService.onMessage(CCommon.ON_COUNTDOWN).subscribe((message: number) => {
 
       this.counter = (message === 0) ? GO_MESSAGE : message.toString();
     });
