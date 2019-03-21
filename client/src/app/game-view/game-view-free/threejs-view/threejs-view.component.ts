@@ -26,13 +26,11 @@ import { GameViewFreeService } from "../game-view-free.service";
 import { ThreejsViewService } from "./threejs-view.service";
 
 enum KEYS {
-  w     = 87,
-  a     = 65,
-  s     = 83,
-  d     = 68,
-  t     = 84,
-  c     = 67,
-  space = 32,
+  w     = "w",
+  a     = "a",
+  s     = "s",
+  d     = "d",
+  t     = "t",
 }
 
 @Component({
@@ -103,7 +101,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
 
   public onMouseMove(point: IPosition2D): void {
     if (this.rightClick) {
-      this.threejsViewService.moveCamera(point);
+      this.threejsViewService.rotateCamera(point);
     }
   }
 
@@ -126,9 +124,8 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
     this.takeSnapShot();
   }
 
-  // tslint:disable-next-line:max-func-body-length
   private handleKeyboardEvent(keyboardEvent: KeyboardEvent): void {
-    switch ( keyboardEvent.keyCode ) {
+    switch ( keyboardEvent.key ) {
       case KEYS.w:
         this.threejsViewService.setupFront(-1);
         this.threejsViewService.moveForward = true;
@@ -151,13 +148,6 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
         this.cheatRoutine();
         break;
 
-      case KEYS.space:
-        this.threejsViewService.goUp = true;
-        break;
-      case KEYS.c:
-        this.threejsViewService.goLow = true;
-        break;
-
       default:
         break;
     }
@@ -177,7 +167,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   }
 
   private onKeyUp(keyboardEvent: KeyboardEvent): void {
-    switch ( keyboardEvent.keyCode ) {
+    switch ( keyboardEvent.key ) {
       case KEYS.w:
         this.threejsViewService.moveForward = false;
         break;
@@ -190,12 +180,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
       case KEYS.d:
         this.threejsViewService.moveRight = false;
         break;
-      case KEYS.space:
-        this.threejsViewService.goUp = false;
-        break;
-      case KEYS.c:
-        this.threejsViewService.goLow = false;
-        break;
+
       default:
         break;
     }

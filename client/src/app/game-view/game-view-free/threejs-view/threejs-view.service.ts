@@ -1,15 +1,17 @@
 import { Injectable } from "@angular/core";
 import * as THREE from "three";
-import { ActionType, ISceneObjectUpdate, IPosition2D } from "../../../../../../common/communication/iGameplay";
+import { ActionType, IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Constants } from "../../../constants";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
+import { ThreejsMovement } from "./utilitaries/threejs-movement";
 
 @Injectable()
 export class ThreejsViewService {
 
-  private readonly MULTIPLICATOR: number = 2;
+  private readonly MULTIPLICATOR:         number = 2;
+  private readonly CAMERA_START_POSITION: number = 50;
 
   private scene:                  THREE.Scene;
   private camera:                 THREE.PerspectiveCamera;
@@ -19,29 +21,24 @@ export class ThreejsViewService {
   private mouse:                  THREE.Vector3;
   private sceneVariables:         ISceneVariables;
   private threejsGenerator:       ThreejsGenerator;
-  private velocity:               THREE.Vector3;
-  private direction:              THREE.Vector3;
-  private front:                  THREE.Vector3;
-  private orthogonal:             THREE.Vector3;
-  public moveForward:             boolean;
-  public moveBackward:            boolean;
-  public moveLeft:                boolean;
-  public moveRight:               boolean;
-  public goUp:                    boolean;
-  public goLow:                   boolean;
+  private threejsMovement:        ThreejsMovement;
+
   private sceneIdById:            Map<number, number>;
   private idBySceneId:            Map<number, number>;
   private opacityById:            Map<number, number>;
   private originalColorById:      Map<number, string>;
+
+  public moveForward:             boolean;
+  public moveBackward:            boolean;
+  public moveLeft:                boolean;
+  public moveRight:               boolean;
 
   public constructor() {
     this.init();
   }
 
   public setupFront(orientation: number): void {
-    this.camera.getWorldDirection(this.front);
-    this.front.normalize(); // this ensures consistent movements in all directions
-    this.multiplyVector(this.front, orientation);
+    this.threejsMovement.setupFront(orientation);
   }
 
   private init(): void {
@@ -60,13 +57,9 @@ export class ThreejsViewService {
     this.originalColorById    = new Map<number, string>();
     this.mouse                = new THREE.Vector3();
     this.raycaster            = new THREE.Raycaster();
+    this.threejsMovement      = new ThreejsMovement(this.camera);
 
-    this.velocity             = new THREE.Vector3(0, 0, 0);
-    this.direction            = new THREE.Vector3(0, 0, 0);
-    this.front                = new THREE.Vector3(0, 0, 0);
-    this.orthogonal           = new THREE.Vector3(0, 0, 0);
-
-    this.moveForward  = this.moveBackward = this.moveRight = this.moveLeft = this.goLow = this.goUp = false;
+    this.moveForward  = this.moveBackward = this.moveRight = this.moveLeft = false;
   }
 
   public animate(): void {
@@ -92,7 +85,7 @@ export class ThreejsViewService {
     this.createLighting();
     this.generateSceneObjects();
 
-    this.camera.lookAt(this.scene.position);
+    this.camera.lookAt(new THREE.Vector3(this.CAMERA_START_POSITION, this.CAMERA_START_POSITION, this.CAMERA_START_POSITION));
   }
 
   public changeObjectsColor(cheatColorActivated: boolean, isLastChange: boolean, modifiedList?: number[]): void {
@@ -120,9 +113,8 @@ export class ThreejsViewService {
     });
   }
 
-  public moveCamera(point: IPosition2D): void {
-    this.camera.rotateX(-point.y * 0.01);
-    this.camera.rotateY(-point.x * 0.01);
+  public rotateCamera(point: IPosition2D): void {
+    this.threejsMovement.rotateCamera(point);
   }
 
   private recoverObjectFromScene(index: number): THREE.Mesh | undefined {
@@ -196,43 +188,9 @@ export class ThreejsViewService {
     this.scene.add(this.ambLight);
   }
 
-  // tslint:disable-next-line:max-func-body-length
   private renderObject(): void {
-    const speed: number = 1.0;
 
-    if ( this.moveLeft ) {
-      const frontvec: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-      const yaxis: THREE.Vector3 = new THREE.Vector3(0, -1, 0);
-      this.camera.getWorldDirection(frontvec);
-      this.crossProduct(frontvec, yaxis, this.orthogonal);
-
-    } else if ( this.moveRight ) {
-      const frontvec: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-      const yaxis: THREE.Vector3 = new THREE.Vector3(0, 1, 0);
-      this.camera.getWorldDirection(frontvec);
-      this.crossProduct(frontvec, yaxis, this.orthogonal);
-    }
-
-    this.addVectors(this.front, this.orthogonal, this.direction);
-    this.direction.normalize();
-
-    if (this.moveForward || this.moveBackward || this.moveLeft || this.moveRight || this.goUp || this.goLow) {
-
-      this.direction.z = Number(this.moveBackward) - Number(this.moveForward);
-      this.direction.x = Number(this.moveRight) - Number(this.moveLeft);
-      this.direction.y = Number(this.goUp) - Number(this.goLow);
-
-      this.velocity.x = this.direction.x * speed;
-      this.velocity.y = this.direction.y * speed;
-      this.velocity.z = this.direction.z * speed;
-
-      this.velocity.normalize();
-    } else {
-        this.multiplyVector(this.velocity, 0);
-    }
-    this.camera.translateX( this.velocity.x );
-    this.camera.translateY( this.velocity.y );
-    this.camera.translateZ( this.velocity.z );
+    this.threejsMovement.movementCamera(this.moveForward, this.moveBackward, this.moveLeft, this.moveRight);
 
     this.renderer.render(this.scene, this.camera);
   }
@@ -241,25 +199,5 @@ export class ThreejsViewService {
     this.sceneVariables.sceneObjects.forEach((element: ISceneObject) => {
       this.threejsGenerator.initiateObject(element);
     });
-  }
-
-  private multiplyVector (vector: THREE.Vector3, multiplier: number): void {
-    vector.x *= multiplier;
-    vector.y *= multiplier;
-    vector.z *= multiplier;
-}
-
-  private addVectors (v1: THREE.Vector3, v2: THREE.Vector3, toVector: THREE.Vector3): void {
-    toVector = new THREE.Vector3(0, 0, 0);
-    toVector.x = v1.x + v2.x;
-    toVector.y = v1.y + v2.y;
-    toVector.z = v1.z + v2.z;
-  }
-
-  private crossProduct (v1: THREE.Vector3, v2: THREE.Vector3, toVector: THREE.Vector3): void {
-    toVector = new THREE.Vector3(0, 0, 0);
-    toVector.x = (v1.y * v2.z) - (v1.z * v2.y);
-    toVector.y = (v1.x * v2.z) - (v1.z * v2.x);
-    toVector.z = (v1.x * v2.y) - (v1.y * v2.x);
   }
 }
