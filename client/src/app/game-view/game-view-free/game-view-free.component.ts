@@ -30,8 +30,8 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
 
   @ViewChild("successSound",  {read: ElementRef})  public successSound:    ElementRef;
   @ViewChild("failSound",     {read: ElementRef})  public failSound:       ElementRef;
-  @ViewChild("textDiv",       {read: ElementRef})  public textDiv:         ElementRef;
-  @ViewChild("textDiv2",      {read: ElementRef})  public textDiv2:        ElementRef;
+  @ViewChild("erreurText",    {read: ElementRef})  public textDiv:         ElementRef;
+  @ViewChild("erreurText2",   {read: ElementRef})  public textDiv2:        ElementRef;
 
   public  originalVariables: ISceneVariables;
   public  modifiedVariables: ISceneVariables;
