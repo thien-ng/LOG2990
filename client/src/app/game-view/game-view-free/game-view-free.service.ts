@@ -19,9 +19,14 @@ export class GameViewFreeService {
   private successSound:         ElementRef;
   private failSound:            ElementRef;
 
-  private rightClickActive: Subject<boolean>;
-  private successSound:     ElementRef;
-  private failSound:        ElementRef;
+  public constructor (private gameConnectionService: GameConnectionService) {
+    this.nbOfSceneLoaded      = 0;
+    this.rightClickActive     = new Subject<boolean>();
+    this.nbSceneLoadedUpdated = new Subject<number>();
+    this.socket               = io(Constants.WEBSOCKET_URL);
+    this.initSceneLoadedListener();
+  }
+
 
   public constructor (private gameConnectionService: GameConnectionService) {
     this.rightClickActive = new Subject<boolean>();
