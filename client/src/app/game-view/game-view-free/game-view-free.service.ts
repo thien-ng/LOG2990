@@ -33,7 +33,7 @@ export class GameViewFreeService {
     });
   }
 
-  public gamesetSocket(socket: SocketIOClient.Socket): void {
+  public setGameSocket(socket: SocketIOClient.Socket): void {
     this.socket = socket;
   }
 
