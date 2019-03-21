@@ -14,9 +14,9 @@ import { Referee } from "./referee";
 import { Timer } from "./timer";
 
 // tslint:disable:no-any
-const axios:     AxiosInstance = require("axios");
-const WAIT_TIME: number = 500;
-const MAX_TRIES: number = 6;
+const axios:          AxiosInstance = require("axios");
+const CHECK_INTERVAL: number        = 500;
+const MAX_TRIES:      number        = 6;
 
 export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
 
@@ -68,13 +68,13 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
 
     public contains(user: IUser): boolean {
         return this.players.some((player: Player) => {
-            return player.username === user.username;
+            return player.getUsername() === user.username;
         });
     }
 
     public removePlayer(username: string): void {
         this.players = this.players.filter( (player: Player) => {
-            return player.username !== username;
+            return player.getUsername() !== username;
         });
         if (this.players.length === 0) {
             this.referee.timer.stopTimer();
@@ -85,7 +85,7 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
     public endOfGameRoutine(time: number, winner: Player): void {
         const mode: Mode = (this.players.length === this.ONE_PLAYER) ? Mode.Singleplayer : Mode.Multiplayer;
         const newTime: Time = {
-            username: winner.username,
+            username: winner.getUsername(),
             time: time,
         };
         this.gameManagerService.endOfGameRoutine(newTime, mode, this.arenaInfos, this.ARENA_TYPE);
@@ -95,11 +95,11 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
         let nbPlayersReady: number = 0;
 
         this.players.forEach((player: Player) => {
-            if (player.userSocketId === socketID) {
+            if (player.getUserSocketId() === socketID) {
                 player.setPlayerState(true);
             }
 
-            if (player.playerIsReady) {
+            if (player.getPlayerIsReady()) {
                 nbPlayersReady++;
             }
         });
@@ -129,12 +129,12 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
             }
 
         },
-        WAIT_TIME);
+        CHECK_INTERVAL);
     }
 
     protected cancelGame(): void {
         this.players.forEach((player: Player) => {
-            this.sendMessage(player.userSocketId, CCommon.ON_CANCEL_GAME);
+            this.sendMessage(player.getUserSocketId(), CCommon.ON_CANCEL_GAME);
             this.gameManagerService.deleteArena(this.arenaInfos);
         });
     }
