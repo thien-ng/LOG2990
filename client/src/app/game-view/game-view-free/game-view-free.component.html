@@ -16,20 +16,6 @@
     [colspan]="7"
     [rowspan]="57">
     <app-spinner *ngIf="isLoading"></app-spinner>
-    <!-- <app-threejs-view #original
-                      id                ="originalScene"
-                      [arenaID]         ="arenaID"
-                      [username]        ="username"
-                      [isNotOriginal]   ="false"
-                      [iSceneVariables] ="originalVariables"
-                      [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view>
-    <app-threejs-view #modified
-                      id                ="modifiedScene"
-                      [arenaID]         ="arenaID"
-                      [username]        ="username"
-                      [isNotOriginal]   ="true"
-                      [iSceneVariables] ="modifiedVariables"
-                      [isSnapshotNeeded]="NEEDED_SNAPSHOT"></app-threejs-view> -->
       <mat-grid-list id="displayGame" cols="2" rowHeight="500px">
           <mat-grid-tile [colspan]="1">
             <div class="text" #erreurText></div>

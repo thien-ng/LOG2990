@@ -6,19 +6,18 @@ export class ThreejsMovement {
     private readonly CAMERA_MOVEMENT_SPEED:  number = 1;
     private readonly CAMERA_ROTATION_SPEED:  number = 0.01;
 
-    private camera:                 THREE.PerspectiveCamera;
-    private velocity:               THREE.Vector3;
-    private direction:              THREE.Vector3;
-    private front:                  THREE.Vector3;
-    private orthogonal:             THREE.Vector3;
+    private camera:     THREE.PerspectiveCamera;
+    private velocity:   THREE.Vector3;
+    private direction:  THREE.Vector3;
+    private front:      THREE.Vector3;
+    private orthogonal: THREE.Vector3;
 
     public constructor(camera: THREE.PerspectiveCamera) {
-        this.camera = camera;
-
-        this.velocity             = new THREE.Vector3(0, 0, 0);
-        this.direction            = new THREE.Vector3(0, 0, 0);
-        this.front                = new THREE.Vector3(0, 0, 0);
-        this.orthogonal           = new THREE.Vector3(0, 0, 0);
+        this.camera     = camera;
+        this.velocity   = new THREE.Vector3(0, 0, 0);
+        this.direction  = new THREE.Vector3(0, 0, 0);
+        this.front      = new THREE.Vector3(0, 0, 0);
+        this.orthogonal = new THREE.Vector3(0, 0, 0);
     }
 
     public setupFront(orientation: number): void {
@@ -27,9 +26,9 @@ export class ThreejsMovement {
         this.multiplyVector(this.front, orientation);
     }
 
-    public rotateCamera(point: IPosition2D): void {
-        this.camera.rotateX(-point.y * this.CAMERA_ROTATION_SPEED);
-        this.camera.rotateY(-point.x * this.CAMERA_ROTATION_SPEED);
+    public rotateCamera(position: IPosition2D): void {
+        this.camera.rotateX(-position.y * this.CAMERA_ROTATION_SPEED);
+        this.camera.rotateY(-position.x * this.CAMERA_ROTATION_SPEED);
     }
 
     public movementCamera(moveForward: boolean, moveBackward: boolean, moveLeft: boolean, moveRight: boolean): void {
@@ -47,7 +46,7 @@ export class ThreejsMovement {
         if ( moveForward || moveBackward || moveLeft || moveRight) {
 
             this.direction.z = Number(moveBackward) - Number(moveForward);
-            this.direction.x = Number(moveRight) - Number(moveLeft);
+            this.direction.x = Number(moveRight)    - Number(moveLeft);
 
             this.setCameratVelocity();
         } else {
@@ -58,8 +57,8 @@ export class ThreejsMovement {
     }
 
     private moveToSide(orientation: number): void {
-        const frontvector: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-        const yAxis: THREE.Vector3 = new THREE.Vector3(0, orientation, 0);
+        const frontvector:  THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+        const yAxis:        THREE.Vector3 = new THREE.Vector3(0, orientation, 0);
         this.camera.getWorldDirection(frontvector);
         this.crossProduct(frontvector, yAxis, this.orthogonal);
     }

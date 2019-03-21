@@ -4,7 +4,7 @@ import { ThreejsGenerator } from "./threejs-generator";
 
 export class ThreejsRaycast {
 
-    private readonly MULTIPLICATOR: number = 2;
+    private readonly NORMALIZE_FACTOR: number = 2;
 
     private renderer:           THREE.WebGLRenderer;
     private camera:             THREE.PerspectiveCamera;
@@ -13,9 +13,9 @@ export class ThreejsRaycast {
     private threejsGenerator:   ThreejsGenerator;
 
     public constructor(
-        camera: THREE.PerspectiveCamera,
+        camera:   THREE.PerspectiveCamera,
         renderer: THREE.WebGLRenderer,
-        scene: THREE.Scene) {
+        scene:    THREE.Scene) {
         this.camera   = camera;
         this.renderer = renderer;
         this.scene    = scene;
@@ -32,11 +32,11 @@ export class ThreejsRaycast {
     public detectObject(mouseEvent: MouseEvent): number {
         mouseEvent.preventDefault();
 
-        const mouse: THREE.Vector3 = new THREE.Vector3();
-        const raycaster: THREE.Raycaster = new THREE.Raycaster();
+        const mouse:      THREE.Vector3   = new THREE.Vector3();
+        const raycaster:  THREE.Raycaster = new THREE.Raycaster();
 
-        mouse.x =   ( mouseEvent.offsetX / this.renderer.domElement.clientWidth ) * this.MULTIPLICATOR - 1;
-        mouse.y = - ( mouseEvent.offsetY / this.renderer.domElement.clientHeight ) * this.MULTIPLICATOR + 1;
+        mouse.x =   ( mouseEvent.offsetX / this.renderer.domElement.clientWidth ) * this.NORMALIZE_FACTOR - 1;
+        mouse.y = - ( mouseEvent.offsetY / this.renderer.domElement.clientHeight ) * this.NORMALIZE_FACTOR + 1;
         mouse.z = 0;
 
         raycaster.setFromCamera(mouse, this.camera);

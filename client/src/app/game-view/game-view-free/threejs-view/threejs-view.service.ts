@@ -10,11 +10,11 @@ import { ThreejsMovement } from "./utilitaries/threejs-movement";
 import { ThreejsRaycast } from "./utilitaries/threejs-raycast";
 
 enum KEYS {
-  w     = "w",
-  a     = "a",
-  s     = "s",
-  d     = "d",
-  t     = "t",
+  W     = "w",
+  A     = "a",
+  S     = "s",
+  D     = "d",
+  T     = "t",
 }
 
 @Injectable()
@@ -22,24 +22,24 @@ export class ThreejsViewService {
 
   private readonly CAMERA_START_POSITION: number = 50;
 
-  private scene:                  THREE.Scene;
-  private camera:                 THREE.PerspectiveCamera;
-  private renderer:               THREE.WebGLRenderer;
-  private ambLight:               THREE.AmbientLight;
-  private sceneVariables:         ISceneVariables;
-  private threejsGenerator:       ThreejsGenerator;
-  private threejsMovement:        ThreejsMovement;
-  private threejsRaycast:         ThreejsRaycast;
+  private scene:              THREE.Scene;
+  private camera:             THREE.PerspectiveCamera;
+  private renderer:           THREE.WebGLRenderer;
+  private ambLight:           THREE.AmbientLight;
+  private sceneVariables:     ISceneVariables;
+  private threejsGenerator:   ThreejsGenerator;
+  private threejsMovement:    ThreejsMovement;
+  private threejsRaycast:     ThreejsRaycast;
 
-  private sceneIdById:            Map<number, number>;
-  private idBySceneId:            Map<number, number>;
-  private opacityById:            Map<number, number>;
-  private originalColorById:      Map<number, string>;
+  private sceneIdById:        Map<number, number>;
+  private idBySceneId:        Map<number, number>;
+  private opacityById:        Map<number, number>;
+  private originalColorById:  Map<number, string>;
 
-  private moveForward:             boolean;
-  private moveBackward:            boolean;
-  private moveLeft:                boolean;
-  private moveRight:               boolean;
+  private moveForward:        boolean;
+  private moveBackward:       boolean;
+  private moveLeft:           boolean;
+  private moveRight:          boolean;
 
   public constructor(@Inject(GameViewFreeService) public gameViewFreeService: GameViewFreeService) {
 
@@ -62,7 +62,10 @@ export class ThreejsViewService {
     this.originalColorById    = new Map<number, string>();
     this.threejsMovement      = new ThreejsMovement(this.camera);
 
-    this.moveForward  = this.moveBackward = this.moveRight = this.moveLeft = false;
+    this.moveForward          = false;
+    this.moveBackward         = false;
+    this.moveRight            = false;
+    this.moveLeft             = false;
   }
 
   public animate(): void {
@@ -180,20 +183,20 @@ export class ThreejsViewService {
 
   public onKeyUp(keyboardEvent: KeyboardEvent): void {
 
-    const keyValue: string = keyboardEvent.key.toLocaleLowerCase();
+    const keyValue: string = keyboardEvent.key.toLowerCase();
 
     switch ( keyValue ) {
-      case KEYS.w:
-        this.moveForward = false;
+      case KEYS.W:
+        this.moveForward  = false;
         break;
-      case KEYS.a:
-        this.moveLeft = false;
+      case KEYS.A:
+        this.moveLeft     = false;
         break;
-      case KEYS.s:
+      case KEYS.S:
         this.moveBackward = false;
         break;
-      case KEYS.d:
-        this.moveRight = false;
+      case KEYS.D:
+        this.moveRight    = false;
         break;
 
       default:
@@ -203,25 +206,25 @@ export class ThreejsViewService {
 
   public onKeyDown(keyboardEvent: KeyboardEvent): void {
 
-    const keyValue: string = keyboardEvent.key.toLocaleLowerCase();
+    const keyValue: string = keyboardEvent.key.toLowerCase();
 
     switch ( keyValue ) {
-      case KEYS.w:
+      case KEYS.W:
         this.setupFront(-1);
-        this.moveForward = true;
+        this.moveForward  = true;
         break;
 
-      case KEYS.a:
-        this.moveLeft = true;
+      case KEYS.A:
+        this.moveLeft     = true;
         break;
 
-      case KEYS.s:
+      case KEYS.S:
         this.setupFront(1);
         this.moveBackward = true;
         break;
 
-      case KEYS.d:
-        this.moveRight = true;
+      case KEYS.D:
+        this.moveRight    = true;
         break;
 
       default:

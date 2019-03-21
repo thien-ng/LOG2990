@@ -38,21 +38,21 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   private readonly CHEAT_INTERVAL_TIME: number = 125;
 
   private renderer:               THREE.WebGLRenderer;
-  private scene:                   THREE.Scene;
-  private isCheating:             boolean;
+  private scene:                  THREE.Scene;
   private interval:               NodeJS.Timeout;
+  private isCheating:             boolean;
   private focusChat:              boolean;
+  private isFirstGet:             boolean;
   private modifications:          number[];
   private previousModifications:  number[];
-  private isFirstGet:             boolean;
 
-  @Input() private rightClick:              boolean;
-  @Input() private arenaID:                 number;
   @Input() private iSceneVariables:         ISceneVariables;
   @Input() private iSceneVariablesMessage:  ISceneData;
+  @Input() private rightClick:              boolean;
   @Input() private isSnapshotNeeded:        boolean;
   @Input() private isNotOriginal:           boolean;
   @Input() private username:                string;
+  @Input() private arenaID:                 number;
   @Output() public sceneGenerated:          EventEmitter<string>;
 
   @ViewChild("originalScene", {read: ElementRef})
@@ -78,17 +78,17 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
     @Inject(ChatViewService)      private chatViewService:      ChatViewService,
     @Inject(SocketService)        private socketService:        SocketService,
     @Inject(GameViewFreeService)  private gameViewFreeService:  GameViewFreeService,
-    private httpClient:         HttpClient,
-    private snackBar:           MatSnackBar,
-    private cardManagerService: CardManagerService,
-    private gameConnectionService: GameConnectionService,
+    private httpClient:             HttpClient,
+    private snackBar:               MatSnackBar,
+    private cardManagerService:     CardManagerService,
+    private gameConnectionService:  GameConnectionService,
     ) {
     this.rightClick     = false;
-    this.sceneGenerated = new EventEmitter();
-    this.scene          = new THREE.Scene();
     this.isCheating     = false;
     this.focusChat      = false;
     this.isFirstGet     = true;
+    this.sceneGenerated = new EventEmitter();
+    this.scene          = new THREE.Scene();
     this.initSubscriptions();
   }
 
