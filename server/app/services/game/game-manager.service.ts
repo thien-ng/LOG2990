@@ -292,7 +292,7 @@ export class GameManagerService {
     private removePlayerFromArena(username: string): void {
         this.arenas.forEach((arena: Arena<any, any, any, any>) => {
             arena.getPlayers().forEach((player: Player) => {
-                if (player.username === username) {
+                if (player.getUsername() === username) {
                     arena.removePlayer(username);
                 }
             });
@@ -357,8 +357,8 @@ export class GameManagerService {
 
             players.forEach(( player: Player) => {
                 const user: IUser = {
-                    username: player.username,
-                    socketID: player.userSocketId,
+                    username: player.getUsername(),
+                    socketID: player.getUserSocketId(),
                 };
                 users.push(user);
             });
