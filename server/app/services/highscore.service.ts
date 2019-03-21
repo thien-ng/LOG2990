@@ -75,7 +75,7 @@ export class HighscoreService {
 
         for (let j: number = 0; j < randomMultiTimes.length; j++) {
             this.highscores[index].timesSingle[j].time = randomSingleTimes[j];
-            this.highscores[index].timesMulti[j].time = randomMultiTimes[j];
+            this.highscores[index].timesMulti[j].time  = randomMultiTimes[j];
         }
 
         if (this.socketServer) {
