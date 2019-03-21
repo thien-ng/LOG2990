@@ -74,9 +74,9 @@ export class ThreejsViewService {
   }
 
   public createScene(
-    scene: THREE.Scene,
-    iSceneVariables: ISceneVariables,
-    renderer: THREE.WebGLRenderer,
+    scene:            THREE.Scene,
+    iSceneVariables:  ISceneVariables,
+    renderer:         THREE.WebGLRenderer,
     isSnapshotNeeded: boolean,
     arenaID: number): void {
     this.renderer         = renderer;
