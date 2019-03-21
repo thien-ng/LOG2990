@@ -135,8 +135,8 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
     protected cancelGame(): void {
         this.players.forEach((player: Player) => {
             this.sendMessage(player.getUserSocketId(), CCommon.ON_CANCEL_GAME);
-            this.gameManagerService.deleteArena(this.arenaInfos);
         });
+        this.gameManagerService.deleteArena(this.arenaInfos);
     }
 
     protected async getDifferenceDataFromURL(differenceDataURL: string): Promise<Buffer> {
