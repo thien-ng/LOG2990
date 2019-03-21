@@ -35,6 +35,7 @@ export class SocketService {
     private gameConnectionService:    GameConnectionService,
     ) {
       this.socket = io(Constants.WEBSOCKET_URL);
+      this.gameViewFreeService.setGameSocket(this.socket);
     }
 
   public initWebsocketListener(): void {
