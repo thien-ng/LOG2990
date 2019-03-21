@@ -174,8 +174,8 @@ describe("Arena3D tests", () => {
     it("should return scene object to update with no action required", async () => {
 
         const modification: IModification = {
-            id: 1,
-            type: 6,
+            id:     1,
+            type:   6,
         };
 
         const result: any = arena["findObjectToUpdate"](modification, sceneData);

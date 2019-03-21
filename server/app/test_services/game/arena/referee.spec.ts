@@ -86,6 +86,8 @@ const postData: IHitToValidate<IPosition2D> = {
     colorToIgnore:      255,
 };
 
+const url2D: string = "http://localhost:3000/api/hitvalidator/simple";
+
 let gameManagerService:     GameManagerService;
 let userManagerService:     UserManagerService;
 let highscoreService:       HighscoreService;
@@ -161,9 +163,7 @@ describe("Referee tests", () => {
         const playerList:   Player[] = [new Player(activeUser1)];
         const referee:      Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
 
-        const url: string = "http://localhost:3000/api/hitvalidator/simple";
-
-        mockAxios.onPost(url, postData).reply(200, hitConfirmation2D);
+        mockAxios.onPost(url2D, postData).reply(200, hitConfirmation2D);
 
         referee.validateHit(event2D).then((response: IHitConfirmation) => {
             chai.expect(response).to.deep.equal(hitConfirmation2D);
@@ -174,9 +174,7 @@ describe("Referee tests", () => {
         const playerList:   Player[] = [new Player(activeUser1), new Player(activeUser2)];
         const referee:      Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
 
-        const url: string = "http://localhost:3000/api/hitvalidator/simple";
-
-        mockAxios.onPost(url, postData).reply(200, hitConfirmation2D);
+        mockAxios.onPost(url2D, postData).reply(200, hitConfirmation2D);
 
         referee.validateHit(event2D).then((response: IHitConfirmation) => {
             chai.expect(response).to.deep.equal(hitConfirmation2D);
@@ -187,9 +185,7 @@ describe("Referee tests", () => {
         const playerList:   Player[] = [new Player(activeUser1)];
         const referee:      Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
 
-        const url: string = "http://localhost:3000/api/hitvalidator/simple";
-
-        mockAxios.onPost(url, postData).reply(400);
+        mockAxios.onPost(url2D, postData).reply(400);
 
         referee.validateHit(event2D).then().catch((error: any) => {
             chai.expect(error.message).to.equal("Problem during Hit Validation process.");
@@ -200,9 +196,7 @@ describe("Referee tests", () => {
         const playerList:   Player[] = [new Player(activeUser1), new Player(activeUser2)];
         const referee:      Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
 
-        const url: string = "http://localhost:3000/api/hitvalidator/simple";
-
-        mockAxios.onPost(url, postData).reply(400);
+        mockAxios.onPost(url2D, postData).reply(400);
 
         referee.validateHit(event2D).then().catch((error: any) => {
             chai.expect(error.message).to.equal("Problem during Hit Validation process.");
@@ -213,11 +207,9 @@ describe("Referee tests", () => {
         const playerList:   Player[] = [new Player(activeUser1)];
         const referee:      Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
 
-        const url: string = "http://localhost:3000/api/hitvalidator/simple";
-
         referee["differencesFound"] = [];
 
-        mockAxios.onPost(url, postData).reply(200, hitConfirmation2D);
+        mockAxios.onPost(url2D, postData).reply(200, hitConfirmation2D);
 
         referee.onPlayerClick(event2D, activeUser1).then((response: IArenaResponse<IOriginalPixelCluster>) => {
             chai.expect(response).to.deep.equal(responseArena);
@@ -228,11 +220,9 @@ describe("Referee tests", () => {
         const playerList:   Player[] = [new Player(activeUser1), new Player(activeUser2)];
         const referee:      Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
 
-        const url: string = "http://localhost:3000/api/hitvalidator/simple";
-
         referee["differencesFound"] = [];
 
-        mockAxios.onPost(url, postData).reply(200, hitConfirmation2D);
+        mockAxios.onPost(url2D, postData).reply(200, hitConfirmation2D);
 
         referee.onPlayerClick(event2D, activeUser1).then((response: IArenaResponse<IOriginalPixelCluster>) => {
             chai.expect(response).to.deep.equal(responseArena);
@@ -243,8 +233,6 @@ describe("Referee tests", () => {
         const playerList:   Player[] = [new Player(activeUser1)];
         const referee:      Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
 
-        const url: string = "http://localhost:3000/api/hitvalidator/simple";
-
         const notHitConfirmation2D: IHitConfirmation = {
             isAHit:             false,
             differenceIndex:    1,
@@ -257,7 +245,7 @@ describe("Referee tests", () => {
 
         referee["differencesFound"] = [];
 
-        mockAxios.onPost(url, postData).reply(200, notHitConfirmation2D);
+        mockAxios.onPost(url2D, postData).reply(200, notHitConfirmation2D);
 
         referee.onPlayerClick(event2D, activeUser1).then((response: IArenaResponse<IOriginalPixelCluster>) => {
             chai.expect(response).to.deep.equal(wrongResponse);
@@ -268,8 +256,6 @@ describe("Referee tests", () => {
         const playerList:   Player[] = [new Player(activeUser1), new Player(activeUser2)];
         const referee:      Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
 
-        const url: string = "http://localhost:3000/api/hitvalidator/simple";
-
         const notHitConfirmation2D: IHitConfirmation = {
             isAHit:             false,
             differenceIndex:    1,
@@ -282,7 +268,7 @@ describe("Referee tests", () => {
 
         referee["differencesFound"] = [];
 
-        mockAxios.onPost(url, postData).reply(200, notHitConfirmation2D);
+        mockAxios.onPost(url2D, postData).reply(200, notHitConfirmation2D);
 
         referee.onPlayerClick(event2D, activeUser1).then((response: IArenaResponse<IOriginalPixelCluster>) => {
             chai.expect(response).to.deep.equal(wrongResponse);
