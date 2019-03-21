@@ -121,6 +121,19 @@ describe("Scene-modifier tests", () => {
         chai.expect(counterDifference).to.be.equal(17);
     });
 
+    it("should have 7 removals", () => {
+        iSceneOptions = {
+            sceneName:              "game",
+            sceneType:              SceneType.Thematic,
+            sceneObjectsQuantity:   10,
+            selectedOptions:        [false, true, false],
+        };
+
+        const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+
+        chai.expect(resultScene.sceneObjects.length).to.be.equal(10);
+    });
+
     it("should have 7 color changes", () => {
         iSceneOptions = {
             sceneName:              "game",
@@ -150,19 +163,6 @@ describe("Scene-modifier tests", () => {
         });
 
         chai.expect(counterDifference).to.be.equal(7);
-    });
-
-    it("should have 7 removals", () => {
-        iSceneOptions = {
-            sceneName:              "game",
-            sceneType:              SceneType.Thematic,
-            sceneObjectsQuantity:   10,
-            selectedOptions:        [false, true, false],
-        };
-
-        const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
-
-        chai.expect(resultScene.sceneObjects.length).to.be.equal(10);
     });
 
     it("should have 7 modification (removals and colors)", () => {
