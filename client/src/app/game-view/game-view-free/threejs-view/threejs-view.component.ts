@@ -157,8 +157,8 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   }
 
   private getDifferencesList(): void {
-    this.socketService.sendMsg(CCommon.ON_GET_MODIF_LIST, this.arenaID);
-    this.socketService.onMsg(CCommon.ON_RECEIVE_MODIF_LIST).subscribe((list: number[]) => {
+    this.socketService.sendMessage(CCommon.ON_GET_MODIF_LIST, this.arenaID);
+    this.socketService.onMessage(CCommon.ON_RECEIVE_MODIF_LIST).subscribe((list: number[]) => {
       this.modifications = list;
     });
   }
@@ -188,7 +188,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
       const idValue: number                  = this.threejsViewService.detectObject(mouseEvent);
       const message: IClickMessage<number>   = this.createHitValidationMessage(idValue);
 
-      this.socketService.sendMsg(CCommon.POSITION_VALIDATION, message);
+      this.socketService.sendMessage(CCommon.POSITION_VALIDATION, message);
     });
   }
 
