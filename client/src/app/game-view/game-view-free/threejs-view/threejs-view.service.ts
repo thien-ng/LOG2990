@@ -8,6 +8,14 @@ import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 import { ThreejsMovement } from "./utilitaries/threejs-movement";
 import { ThreejsRaycast } from "./utilitaries/threejs-raycast";
 
+enum KEYS {
+  w     = "w",
+  a     = "a",
+  s     = "s",
+  d     = "d",
+  t     = "t",
+}
+
 @Injectable()
 export class ThreejsViewService {
 
@@ -27,17 +35,13 @@ export class ThreejsViewService {
   private opacityById:            Map<number, number>;
   private originalColorById:      Map<number, string>;
 
-  public moveForward:             boolean;
-  public moveBackward:            boolean;
-  public moveLeft:                boolean;
-  public moveRight:               boolean;
+  private moveForward:             boolean;
+  private moveBackward:            boolean;
+  private moveLeft:                boolean;
+  private moveRight:               boolean;
 
   public constructor() {
     this.init();
-  }
-
-  public setupFront(orientation: number): void {
-    this.threejsMovement.setupFront(orientation);
   }
 
   private init(): void {
@@ -114,6 +118,10 @@ export class ThreejsViewService {
     });
   }
 
+  public setupFront(orientation: number): void {
+    this.threejsMovement.setupFront(orientation);
+  }
+
   public rotateCamera(point: IPosition2D): void {
     this.threejsMovement.rotateCamera(point);
   }
@@ -164,4 +172,50 @@ export class ThreejsViewService {
       this.threejsGenerator.initiateObject(element);
     });
   }
+
+  public onKeyUp(keyboardEvent: KeyboardEvent): void {
+    switch ( keyboardEvent.key ) {
+      case KEYS.w:
+        this.moveForward = false;
+        break;
+      case KEYS.a:
+        this.moveLeft = false;
+        break;
+      case KEYS.s:
+        this.moveBackward = false;
+        break;
+      case KEYS.d:
+        this.moveRight = false;
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  public onKeyDown(keyboardEvent: KeyboardEvent): void {
+    switch ( keyboardEvent.key ) {
+      case KEYS.w:
+        this.setupFront(-1);
+        this.moveForward = true;
+        break;
+
+      case KEYS.a:
+        this.moveLeft = true;
+        break;
+
+      case KEYS.s:
+        this.setupFront(1);
+        this.moveBackward = true;
+        break;
+
+      case KEYS.d:
+        this.moveRight = true;
+        break;
+
+      default:
+        break;
+    }
+  }
+
 }
