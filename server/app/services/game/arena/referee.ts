@@ -8,7 +8,7 @@ import { IHitConfirmation, IHitToValidate } from "./interfaces";
 import { Player } from "./player";
 import { Timer } from "./timer";
 
-const axios: AxiosInstance = require("axios");
+const axios:                 AxiosInstance = require("axios");
 const COUNT_START:           number = 3;
 const ONE_SECOND_INTERVAL:   number = 1000;
 const COUNTDOWN_DONE:        number = -1;
@@ -41,27 +41,29 @@ export class Referee<EVT_T, DIFF_T> {
     }
 
     public onPlayersReady(): void {
-        this.sendCountDown();
+        this.startCountDown();
     }
 
-    private sendCountDown(): void {
+    private startCountDown(): void {
         let count: number = COUNT_START;
         const countDown: NodeJS.Timeout = setInterval(
             () => {
                 if (count > COUNTDOWN_DONE) {
-                    this.players.forEach((player: Player) => {
-                        this.arena.sendMessage(player.userSocketId, CCommon.ON_COUNTDOWN, count);
-                    });
+                    this.sendMessageToAllPlayers(CCommon.ON_COUNTDOWN, count);
                     count--;
                 } else if (count === COUNTDOWN_DONE) {
-                    this.players.forEach((player: Player) => {
-                        this.arena.sendMessage(player.userSocketId, CCommon.ON_GAME_STARTED);
-                    });
+                    this.sendMessageToAllPlayers(CCommon.ON_GAME_STARTED);
                     clearInterval(countDown);
                     this.initTimer();
                 }
             },
             ONE_SECOND_INTERVAL);
+    }
+
+    private sendMessageToAllPlayers(messageType: string, message?: number): void {
+        this.players.forEach((player: Player) => {
+            this.arena.sendMessage(player.getUserSocketId(), messageType, message);
+        });
     }
 
     public async onPlayerClick(eventInfos: EVT_T, user: IUser): Promise<IArenaResponse<DIFF_T>> {
@@ -72,7 +74,7 @@ export class Referee<EVT_T, DIFF_T> {
             return this.buildArenaResponse(this.ON_FAILED_CLICK) as IArenaResponse<DIFF_T>;
         }
 
-        if (player.penaltyState) {
+        if (player.getPenaltyState()) {
             return this.buildArenaResponse(Constants.ON_PENALTY) as IArenaResponse<DIFF_T>;
         }
 
@@ -132,18 +134,18 @@ export class Referee<EVT_T, DIFF_T> {
             arenaType:   this.arena.ARENA_TYPE,
         } as IPenalty;
 
-        this.arena.sendMessage<IPenalty>(player.userSocketId, CCommon.ON_PENALTY, penalty);
+        this.arena.sendMessage<IPenalty>(player.getUserSocketId(), CCommon.ON_PENALTY, penalty);
 
         setTimeout(() => {
             penalty.isOnPenalty = false;
-            this.arena.sendMessage<IPenalty>(player.userSocketId, CCommon.ON_PENALTY, penalty);
+            this.arena.sendMessage<IPenalty>(player.getUserSocketId(), CCommon.ON_PENALTY, penalty);
             player.setPenaltyState(false);
         },         this.PENALTY_TIMEOUT_MS);
     }
 
     private getPlayerFromUsername(user: IUser): Player | undefined {
         return this.players.find( (player: Player) => {
-            return player.username === user.username;
+            return player.getUsername() === user.username;
         });
     }
 
@@ -158,7 +160,7 @@ export class Referee<EVT_T, DIFF_T> {
 
     private attributePoints(player: Player): void {
         player.addPoints(1);
-        this.arena.sendMessage(player.userSocketId, CCommon.ON_POINT_ADDED, player.points);
+        this.arena.sendMessage(player.getUserSocketId(), CCommon.ON_POINT_ADDED, player.getPoints());
     }
 
     private isAnUndiscoveredDifference(differenceIndex: number): boolean {
@@ -169,14 +171,14 @@ export class Referee<EVT_T, DIFF_T> {
         this.timer.startTimer();
         this.timer.getTimer().subscribe((newTime: number) => {
             this.players.forEach((player: Player) => {
-                this.arena.sendMessage(player.userSocketId, CCommon.ON_TIMER_UPDATE, newTime);
+                this.arena.sendMessage(player.getUserSocketId(), CCommon.ON_TIMER_UPDATE, newTime);
             });
         });
     }
 
     private gameIsFinished(): boolean {
 
-        const playerHasReachPointsNeeded:   boolean = this.players.some((player: Player) => player.points >= this.pointsNeededToWin );
+        const playerHasReachPointsNeeded:   boolean = this.players.some((player: Player) => player.getPoints() >= this.pointsNeededToWin );
         const differenceAreAllFound:        boolean = this.differencesFound.length >= this.originalElements.size;
 
         return playerHasReachPointsNeeded || differenceAreAllFound;
