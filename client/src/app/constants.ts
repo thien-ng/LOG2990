@@ -58,6 +58,9 @@ export class Constants {
   // Constants for game-view-simple.service.ts
   public static readonly DECIMAL_BASE:              number = 10;
   public static readonly ID_BY_URL:                 string = "id";
+  public static readonly ERROR_MESSAGE:             string = "⚠ ERREUR ⚠";
+  public static readonly CENTERY:                   number = 15;
+  public static readonly CENTERX:                   number = 50;
 
   // Constants for game view free component
   public static readonly DEFAULT_SLIDER_VALUE:      number = 100;
