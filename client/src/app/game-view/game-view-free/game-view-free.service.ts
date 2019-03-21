@@ -1,13 +1,23 @@
 import { ElementRef, Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
+import * as io from "socket.io-client";
+import { Constants } from "src/app/constants";
 import { GameConnectionService } from "src/app/game-connection.service";
 import { IArenaResponse, ISceneObjectUpdate } from "../../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../../common/constantes/cCommon";
+
+const EVERY_SCENE_LOADED: number = 2;
 
 @Injectable({
   providedIn: "root",
 })
 export class GameViewFreeService {
+  private socket:               SocketIOClient.Socket;
+  private nbOfSceneLoaded:      number;
+  private nbSceneLoadedUpdated: Subject<number>;
+  private rightClickActive:     Subject<boolean>;
+  private successSound:         ElementRef;
+  private failSound:            ElementRef;
 
   private rightClickActive: Subject<boolean>;
   private successSound:     ElementRef;
