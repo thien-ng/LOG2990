@@ -15,7 +15,8 @@
     <mat-grid-tile
     [colspan]="7"
     [rowspan]="3">
-    <app-threejs-view id                ="originalScene"
+    <app-threejs-view #original
+                      id                ="originalScene"
                       [arenaID]         ="arenaID"
                       [username]        ="username"
                       [isNotOriginal]   ="false"
