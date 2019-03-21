@@ -5,10 +5,10 @@
 <mat-grid-tile [colspan]="2" [rowspan]="1">
   <div class="seperator"></div>
 </mat-grid-tile>
-<mat-grid-tile [colspan]="2" [rowspan]="3">
+<mat-grid-tile class="containerMessage" [colspan]="2" [rowspan]="3">
   <div class="body">
-    {{ CONFIRMATION }}
-    <span class="cardName">{{cardTitle}}</span>
+    {{ data.message }}
+    <span class="cardName">{{ data.gameTitle}}</span>
     ?
   </div>
 </mat-grid-tile>
