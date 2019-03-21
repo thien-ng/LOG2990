@@ -98,8 +98,8 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
       this.username       = sessionStorage.getItem(Constants.USERNAME_KEY);
 
       this.gameConnectionService.getGameConnectedListener().pipe(first()).subscribe((arenaID: number) => {
-        this.arenaID        = arenaID;
-        this.socketService.sendMsg(CCommon.GAME_CONNECTION, arenaID);
+        this.arenaID = arenaID;
+        this.socketService.sendMessage(CCommon.GAME_CONNECTION, arenaID);
         this.fetchSceneFromServer(this.scenePath)
         .catch((error) => {
           this.openSnackBar(error, Constants.SNACK_ACTION);
@@ -113,7 +113,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
     if (this.gameID !== null && username !== null) {
       this.createGameRequest(this.gameID, username);
     }
-    this.socketService.onMsg(CCommon.ON_GAME_STARTED).subscribe(() => {
+    this.socketService.onMessage(CCommon.ON_GAME_STARTED).subscribe(() => {
       this.isLoading = false;
     });
   }
@@ -149,8 +149,8 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
     this.httpClient.post(Constants.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
       switch (data.title) {
         case CCommon.ON_SUCCESS:
-          this.arenaID        = Number(data.body);
-          this.socketService.sendMsg(CCommon.GAME_CONNECTION, this.arenaID);
+          this.arenaID = Number(data.body);
+          this.socketService.sendMessage(CCommon.GAME_CONNECTION, this.arenaID);
           this.fetchSceneFromServer(this.scenePath)
           .catch((error) => {
             this.openSnackBar(error, Constants.SNACK_ACTION);
@@ -159,7 +159,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
           break;
         case CCommon.ON_WAITING:
           this.arenaID = parseInt(data.body, Constants.DECIMAL_BASE);
-          this.socketService.sendMsg(CCommon.GAME_CONNECTION, CCommon.ON_WAITING);
+          this.socketService.sendMessage(CCommon.GAME_CONNECTION, CCommon.ON_WAITING);
           this.gameViewService.setText(this.erreurText, this.erreurText2);
           break;
         case CCommon.ON_ERROR:
@@ -220,7 +220,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.socketService.sendMsg(CCommon.GAME_DISCONNECT, this.username);
+    this.socketService.sendMessage(CCommon.GAME_DISCONNECT, this.username);
   }
 
   private canvasRoutine(): void {
