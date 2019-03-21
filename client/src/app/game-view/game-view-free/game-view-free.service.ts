@@ -27,9 +27,17 @@ export class GameViewFreeService {
     this.initSceneLoadedListener();
   }
 
+  private initSceneLoadedListener(): void {
+    this.nbSceneLoadedUpdated.subscribe((arenaID: number) => {
+      if (++this.nbOfSceneLoaded === EVERY_SCENE_LOADED) {
+        this.socket.emit(CCommon.ON_GAME_LOADED, arenaID);
+        this.nbOfSceneLoaded = 0;
+      }
+    });
+  }
 
-  public constructor (private gameConnectionService: GameConnectionService) {
-    this.rightClickActive = new Subject<boolean>();
+  public updateSceneLoaded(arenaID: number): void {
+    this.nbSceneLoadedUpdated.next(arenaID);
   }
 
   public updateRightClick(newValue: boolean): void {
