@@ -142,11 +142,11 @@ export class SocketService {
     }
   }
 
-  public sendMsg<T>(type: string, msg?: T): void {
+  public sendMessage<T>(type: string, msg?: T): void {
     this.socket.emit(type, msg);
   }
 
-  public onMsg<T>(msgType: string): Observable<T> {
+  public onMessage<T>(msgType: string): Observable<T> {
     return new Observable<T> ((observer) => {
       this.socket.on(msgType, (data: T) => {
         observer.next(data);
