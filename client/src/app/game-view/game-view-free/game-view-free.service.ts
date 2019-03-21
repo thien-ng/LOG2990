@@ -10,12 +10,12 @@ import { CCommon } from "../../../../../common/constantes/cCommon";
 })
 export class GameViewFreeService {
 
-  private rightClickActive: Subject<boolean>;
-  private successSound:     ElementRef;
-  private failSound:        ElementRef;
+  private rightClickActive:      Subject<boolean>;
+  private successSound:          ElementRef;
+  private failSound:             ElementRef;
   private textCanvasOriginal:    HTMLDivElement;
   private textCanvasModified:    HTMLDivElement;
-  public  position:               IPosition2D;
+  public  position:              IPosition2D;
 
   public constructor (private gameConnectionService: GameConnectionService) {
     this.rightClickActive = new Subject<boolean>();
@@ -59,7 +59,7 @@ export class GameViewFreeService {
 
   private disableClickRoutine(): void {
       document.body.style.cursor  = "not-allowed";
-      const positionTop: number   = this.position.y - Constants.CENTERY;
+      const positionTop:   number = this.position.y - Constants.CENTERY;
       const positionRight: number = this.position.x - Constants.CENTERX;
 
       this.textCanvasOriginal.style.top   = positionTop   + "px";

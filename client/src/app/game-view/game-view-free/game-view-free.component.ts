@@ -163,6 +163,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
         case CCommon.ON_WAITING:
           this.arenaID = parseInt(data.body, Constants.DECIMAL_BASE);
           this.socketService.sendMsg(CCommon.GAME_CONNECTION, CCommon.ON_WAITING);
+          this.gameViewService.setText(this.erreurText, this.erreurText2);
           break;
         case CCommon.ON_ERROR:
           this.openSnackBar(data.body, Constants.SNACK_ACTION);
