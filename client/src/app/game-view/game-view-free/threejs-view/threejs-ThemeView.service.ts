@@ -102,6 +102,10 @@ export class ThreejsThemeViewService {
 
     this.camera.lookAt(new THREE.Vector3(this.CAMERA_START_POSITION, this.CAMERA_START_POSITION, this.CAMERA_START_POSITION));
   }
+
+  public changeObjectsColor(cheatColorActivated: boolean, isLastChange: boolean, modifiedList?: number[]): void {
+  }
+
   public setupFront(orientation: number): void {
     this.threejsMovement.setupFront(orientation);
   }
