@@ -264,8 +264,8 @@ export class GameManagerService {
             if (answer.status === CCommon.ON_SUCCESS && answer.isNewHighscore) {
                 this.chatManagerService.sendNewHighScoreMessage(newTime.username, answer.index, title, mode, this.server);
                 this.server.emit(CCommon.ON_NEW_SCORE, gameID);
-                this.deleteArena(arenaInfo);
             }
+            this.deleteArena(arenaInfo);
         }).catch(() => {
             this.server.emit(CCommon.ON_ERROR, HIGHSCORE_VALIDATION_ERROR);
         });
