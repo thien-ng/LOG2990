@@ -114,4 +114,31 @@ describe("GameViewFreeService Test", () => {
     gameViewService.updateRightClick(expectedRes);
   }));
 
+  it("should update number of sceneLoaded ", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
+    const arenaID: number = 20;
+    gameViewService.updateSceneLoaded(arenaID);
+    expect(gameViewService["nbOfSceneLoaded"]).toEqual(1);
+  }));
+
+  it("should reset the number of sceneLoaded ", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
+    const arenaID: number = 20;
+    const gameConnectionService: GameConnectionService = new GameConnectionService();
+    const websocket: SocketService = new SocketService(
+    mock(Router),
+    mock(MatSnackBar),
+    mock(CardManagerService),
+    mock(ChatViewService),
+    mock(GameViewSimpleService),
+    mock(GameViewFreeService),
+    mock(TimerService),
+    mock(DifferenceCounterService),
+    gameConnectionService,
+  );
+    gameViewService["socket"] = websocket["socket"];
+    spyOn(gameViewService["socket"], "emit").and.returnValue(() => {});
+    gameViewService.updateSceneLoaded(arenaID);
+    gameViewService.updateSceneLoaded(arenaID);
+    expect(gameViewService["nbOfSceneLoaded"]).toEqual(0);
+  }));
+
 });
