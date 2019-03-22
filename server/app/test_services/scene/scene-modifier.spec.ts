@@ -209,4 +209,17 @@ describe("Scene-modifier tests", () => {
         chai.expect(spy).to.not.have.been.called();
         chai.expect(modifiedList.length).to.be.equal(7);
     });
+
+    it("should have 0 modification", () => {
+        iSceneOptions = {
+            sceneName:              "game",
+            sceneType:              SceneType.Thematic,
+            sceneObjectsQuantity:   10,
+            selectedOptions:        [false, false, false],
+        };
+
+        sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+
+        chai.expect(modifiedList.length).to.be.equal(0);
+    });
 });
