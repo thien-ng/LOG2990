@@ -46,7 +46,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   private modifications:          number[];
   private previousModifications:  number[];
 
-  @Input() private iSceneVariables:         ISceneVariables;
+  @Input() private iSceneVariables:         ISceneVariables<ISceneObject | IMesh>;
   @Input() private sceneData:               ISceneData<ISceneObject | IMesh>;
   @Input() private rightClick:              boolean;
   @Input() private isSnapshotNeeded:        boolean;
