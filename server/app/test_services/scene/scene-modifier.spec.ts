@@ -205,19 +205,18 @@ describe("Scene-modifier tests (2 changes)", () => {
 
         const sceneModified: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
 
-        modifiedList.forEach((element: any) => {
-            sceneModified.sceneObjects.forEach((obj: any) => {
-                if (element.id === obj.id && element.type === ModificationType.added) {
+        modifiedList.forEach((modifiedListElt: any) => {
+            sceneModified.sceneObjects.forEach((sceneObjElt: any) => {
+                if (modifiedListElt.id === sceneObjElt.id && modifiedListElt.type === ModificationType.added) {
                     counterDifference++;
                 }
             });
         });
 
-        modifiedList.forEach((element: any) => {
-            iSceneVariables.sceneObjects.forEach((obj: any) => {
-                if (element.id === obj.id && element.type === ModificationType.removed) {
+        modifiedList.forEach((modifiedListElt: any) => {
+            iSceneVariables.sceneObjects.forEach((sceneObjElt: any) => {
+                if (modifiedListElt.id === sceneObjElt.id && modifiedListElt.type === ModificationType.removed) {
                     counterDifference++;
-
                 }
             });
         });
