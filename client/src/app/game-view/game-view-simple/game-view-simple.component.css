@@ -13,6 +13,12 @@
     }
 }
 
+@media screen and (min-width: 1440px) and (max-width: 1799px) {
+    #displayGame {
+      width: 99%;
+    }
+  }
+
 .gameName {
     font-size: 40px;
     font-weight: bold;
