@@ -246,7 +246,6 @@ describe("Scene-modifier tests", () => {
         };
 
         sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
-
         chai.expect(modifiedList.length).to.be.equal(0);
     });
 
@@ -259,7 +258,6 @@ describe("Scene-modifier tests", () => {
         };
 
         sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
-
         chai.expect(modifiedList.length).to.be.equal(7);
     });
 });
