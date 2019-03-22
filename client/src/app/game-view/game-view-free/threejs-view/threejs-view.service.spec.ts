@@ -9,7 +9,7 @@ import { ThreejsViewService } from "./threejs-view.service";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 import { ThreejsRaycast } from "./utilitaries/threejs-raycast";
 
-// tslint:disable:no-any max-file-line-count
+// tslint:disable:no-any max-file-line-count max-line-length
 
 const sceneVariables: ISceneVariables<ISceneObject> = {
   theme:                  1,

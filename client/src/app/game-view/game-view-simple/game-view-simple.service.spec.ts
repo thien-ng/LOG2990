@@ -6,7 +6,7 @@ import { IArenaResponse, IClickMessage, IOriginalPixelCluster, IPosition2D } fro
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { GameViewSimpleService } from "./game-view-simple.service";
 
-// tslint:disable: no-any no-magic-numbers no-empty
+// tslint:disable: no-any no-magic-numbers no-empty max-line-length
 const hitPosition: IPosition2D = {
   x: 1,
   y: 1,
