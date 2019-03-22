@@ -87,4 +87,13 @@ describe("GameViewSimpleService", () => {
     gameViewService.onArenaResponse(expectedResponse);
     expect(spy).toHaveBeenCalled();
   }));
+  it("should not play success sound when getting a bad click", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
+    const spy: any = spyOn<any>(gameViewService, "playSuccessSound");
+    const expectedResponse: IArenaResponse<IOriginalPixelCluster> = {
+      status:     CCommon.ON_ERROR,
+      response:   undefined,
+  };
+    gameViewService.onArenaResponse(expectedResponse);
+    expect(spy).not.toHaveBeenCalled();
+  }));
 });
