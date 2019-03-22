@@ -15,6 +15,8 @@ import { GameConnectionService } from "src/app/game-connection.service";
 import * as THREE from "three";
 import { IClickMessage, IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
+import { IMesh, ISceneObject } from "../../../../../../common/communication/iSceneObject";
+import { SceneType } from "../../../../../../common/communication/iSceneOptions";
 import { ISceneData, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../../common/communication/message";
 import { CCommon } from "../../../../../../common/constantes/cCommon";
@@ -23,6 +25,7 @@ import { Constants } from "../../../constants";
 import { SocketService } from "../../../websocket/socket.service";
 import { ChatViewService } from "../../chat-view/chat-view.service";
 import { GameViewFreeService } from "../game-view-free.service";
+import { ThreejsThemeViewService } from "./threejs-ThemeView.service";
 import { ThreejsViewService } from "./threejs-view.service";
 
 @Component({
