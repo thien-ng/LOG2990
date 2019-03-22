@@ -30,12 +30,10 @@ export class ThreejsViewService {
   private threejsGenerator:   ThreejsGenerator;
   private threejsMovement:    ThreejsMovement;
   private threejsRaycast:     ThreejsRaycast;
-
   private sceneIdById:        Map<number, number>;
   private idBySceneId:        Map<number, number>;
   private opacityById:        Map<number, number>;
   private originalColorById:  Map<number, string>;
-
   private moveForward:        boolean;
   private moveBackward:       boolean;
   private moveLeft:           boolean;
@@ -123,10 +121,6 @@ export class ThreejsViewService {
     });
   }
 
-  public setupFront(orientation: number): void {
-    this.threejsMovement.setupFront(orientation);
-  }
-
   public rotateCamera(point: IPosition2D): void {
     this.threejsMovement.rotateCamera(point);
   }
@@ -181,50 +175,30 @@ export class ThreejsViewService {
     });
   }
 
-  public onKeyUp(keyboardEvent: KeyboardEvent): void {
-
+  public onKeyMovement(keyboardEvent: KeyboardEvent, buttonStatus: boolean): void {
     const keyValue: string = keyboardEvent.key.toLowerCase();
 
     switch ( keyValue ) {
       case KEYS.W:
-        this.moveForward  = false;
-        break;
-      case KEYS.A:
-        this.moveLeft     = false;
-        break;
-      case KEYS.S:
-        this.moveBackward = false;
-        break;
-      case KEYS.D:
-        this.moveRight    = false;
-        break;
-
-      default:
-        break;
-    }
-  }
-
-  public onKeyDown(keyboardEvent: KeyboardEvent): void {
-
-    const keyValue: string = keyboardEvent.key.toLowerCase();
-
-    switch ( keyValue ) {
-      case KEYS.W:
-        this.setupFront(-1);
-        this.moveForward  = true;
+        if (buttonStatus) {
+          this.threejsMovement.setupFront(-1);
+        }
+        this.moveForward  = buttonStatus;
         break;
 
       case KEYS.A:
-        this.moveLeft     = true;
+        this.moveLeft     = buttonStatus;
         break;
 
       case KEYS.S:
-        this.setupFront(1);
-        this.moveBackward = true;
+        if (buttonStatus) {
+          this.threejsMovement.setupFront(1);
+        }
+        this.moveBackward = buttonStatus;
         break;
 
       case KEYS.D:
-        this.moveRight    = true;
+        this.moveRight    = buttonStatus;
         break;
 
       default:

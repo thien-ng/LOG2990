@@ -1,11 +1,13 @@
 import { inject, TestBed } from "@angular/core/testing";
 import * as THREE from "three";
 import { anyNumber, mock, when } from "ts-mockito";
-import { ActionType, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
+import { ActionType, ISceneObjectUpdate, IPosition2D } from "../../../../../../common/communication/iGameplay";
 import { SceneObjectType } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { ThreejsViewService } from "./threejs-view.service";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
+import { GameViewFreeService } from "../game-view-free.service";
+import { ThreejsRaycast } from "./utilitaries/threejs-raycast";
 
 // tslint:disable:no-any max-file-line-count
 
@@ -29,7 +31,7 @@ const sceneVariables: ISceneVariables = {
 const renderer: THREE.WebGLRenderer = mock(THREE.WebGLRenderer);
 const scene:    THREE.Scene         = mock(THREE.Scene);
 
-describe("ThreejsViewService Tests", () => {
+fdescribe("ThreejsViewService Tests", () => {
   beforeEach(() => TestBed.configureTestingModule({
     providers: [ThreejsViewService],
   }));
@@ -326,5 +328,49 @@ describe("ThreejsViewService Tests", () => {
 
     expect(deleteSpy).not.toHaveBeenCalled();
   }));
+
+  it("should call setupFront from threejsMovement",
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+
+    const spy: any = spyOn<any>(threejsViewService["threejsMovement"], "setupFront");
+    threejsViewService.setupFront(1);
+    expect(spy).toHaveBeenCalled();
+  }));
+
+  it("should call rotateCamera from threejsMovement",
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+
+      const position: IPosition2D = {x: 1, y: 1};
+
+      const spy: any = spyOn<any>(threejsViewService["threejsMovement"], "rotateCamera");
+      threejsViewService.rotateCamera(position);
+      expect(spy).toHaveBeenCalled();
+  }));
+
+  it("should call detectObject from threejsRayCast",
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+
+       threejsViewService["gameViewFreeService"] = mock(GameViewFreeService);
+       threejsViewService["threejsRaycast"] = mock(ThreejsRaycast);
+       const spy: any = spyOn<any>(threejsViewService["threejsRaycast"], "detectObject");
+      const mockedMouseEvent: any = mock(MouseEvent);
+
+      threejsViewService.detectObject(mockedMouseEvent);
+
+      expect(spy).toHaveBeenCalled();
+  }));
+
+  it("should call detectObject from threejsRayCast",
+  inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+
+    threejsViewService["gameViewFreeService"] = mock(GameViewFreeService);
+    threejsViewService["threejsRaycast"] = mock(ThreejsRaycast);
+    const spy: any = spyOn<any>(threejsViewService["threejsRaycast"], "detectObject");
+   const mockedMouseEvent: any = mock(MouseEvent);
+
+   threejsViewService.detectObject(mockedMouseEvent);
+
+   expect(spy).toHaveBeenCalled();
+}));
 
 });
