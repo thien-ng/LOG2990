@@ -62,7 +62,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   @HostListener("body:keyup", ["$event"])
   public async keyboardEventListenerUp(keyboardEvent: KeyboardEvent): Promise<void> {
     if (!this.focusChat) {
-      this.threejsViewService.onKeyUp(keyboardEvent);
+      this.sceneBuilderService.onKeyUp(keyboardEvent);
     }
   }
 
@@ -70,7 +70,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   public async keyboardEventListenerDown(keyboardEvent: KeyboardEvent): Promise<void> {
     if (!this.focusChat) {
       this.onKeyDown(keyboardEvent);
-      this.threejsViewService.onKeyDown(keyboardEvent);
+      this.sceneBuilderService.onKeyDown(keyboardEvent);
     }
   }
 
@@ -95,7 +95,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
 
   public onMouseMove(point: IPosition2D): void {
     if (this.rightClick) {
-      this.threejsViewService.rotateCamera(point);
+      this.sceneBuilderService.rotateCamera(point);
     }
   }
 
@@ -145,13 +145,13 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
       this.interval = setInterval(
         () => {
           flashValue = !flashValue;
-          this.threejsViewService.changeObjectsColor(flashValue, false, this.modifications);
+          this.sceneBuilderService.changeObjectsColor(flashValue, false, this.modifications);
         },
         this.CHEAT_INTERVAL_TIME);
     } else {
 
       clearInterval(this.interval);
-      this.threejsViewService.changeObjectsColor(false, true, this.previousModifications);
+      this.sceneBuilderService.changeObjectsColor(false, true, this.previousModifications);
       this.previousModifications = this.modifications;
       this.modifications         = [];
     }
@@ -176,9 +176,9 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
     this.gameConnectionService.getObjectToUpdate().subscribe((object: ISceneObjectUpdate) => {
       this.getDifferencesList();
 
-      this.threejsViewService.changeObjectsColor(false, true, this.modifications);
+      this.sceneBuilderService.changeObjectsColor(false, true, this.modifications);
       if (this.isNotOriginal) {
-        this.threejsViewService.updateSceneWithNewObject(object);
+        this.sceneBuilderService.updateSceneWithNewObject(object);
       }
     });
   }
@@ -186,7 +186,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   private initListener(): void {
     this.originalScene.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
 
-      const idValue: number                  = this.threejsViewService.detectObject(mouseEvent);
+      const idValue: number                  = this.sceneBuilderService.detectObject(mouseEvent);
       const message: IClickMessage<number>   = this.createHitValidationMessage(idValue);
 
       this.socketService.sendMessage(CCommon.POSITION_VALIDATION, message);
