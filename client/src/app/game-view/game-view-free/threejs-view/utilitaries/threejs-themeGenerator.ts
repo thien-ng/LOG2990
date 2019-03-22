@@ -3,6 +3,15 @@ import { IAxisValues, ISceneObject, SceneObjectType} from "../../../../../../../
 
 export class ThreejsThemeGenerator {
 
+  private readonly NUMBER_CORNERS_PYRAMID:  number = 3;
+  private readonly INFINITE_CORNERS:        number = 1000;
+
+  public constructor(
+    private scene:                 THREE.Scene,
+    private sceneIdById:           Map<number, number>,
+    private originalColorById:     Map<number, string>,
+    private idBySceneId:           Map<number, number>,
+    private opacityById:           Map<number, number>) {}
   private addObjectIdToMap(objectId: number, generatedObjectId: number): void {
 
     if (this.sceneIdById && this.idBySceneId) {
