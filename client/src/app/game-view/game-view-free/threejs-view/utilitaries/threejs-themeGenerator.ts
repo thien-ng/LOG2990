@@ -22,6 +22,16 @@ export class ThreejsThemeGenerator {
     this.scene.remove(objectToRemove);
   }
 
+  public changeObjectColor(id: number, color: string): void {
+    const objectId:       number         = this.sceneIdById.get(id) as number;
+    const objectToChange: THREE.Object3D = this.scene.getObjectById(objectId) as THREE.Object3D;
+    const objectMesh:     THREE.Mesh     = objectToChange as THREE.Mesh;
+
+    this.originalColorById.set(id, color);
+
+    objectMesh.material = new THREE.MeshPhongMaterial({color: color});
+  }
+
   }
 
   private addObjectIdToMap(objectId: number, generatedObjectId: number): void {
