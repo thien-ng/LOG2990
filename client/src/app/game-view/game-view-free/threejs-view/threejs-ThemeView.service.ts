@@ -106,6 +106,10 @@ export class ThreejsThemeViewService {
     this.threejsMovement.setupFront(orientation);
   }
 
+  public rotateCamera(point: IPosition2D): void {
+    this.threejsMovement.rotateCamera(point);
+  }
+
   public detectObject(mouseEvent: MouseEvent): number {
 
     this.gameViewFreeService.setPosition(mouseEvent);
