@@ -96,4 +96,23 @@ describe("GameViewSimpleService", () => {
     gameViewService.onArenaResponse(expectedResponse);
     expect(spy).not.toHaveBeenCalled();
   }));
+
+  it("should change pixel", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
+    const canvas: HTMLCanvasElement = document.createElement("canvas");
+    const expectedResponse: IArenaResponse<IOriginalPixelCluster> = {
+      status:     CCommon.ON_SUCCESS,
+      response:   expectedPixelClusters,
+    };
+    spyOn<any>(gameViewService, "playSuccessSound").and.returnValue(() => {});
+    gameViewService.setSounds(mock(ElementRef), mock(ElementRef));
+    canvas.width  = 5;
+    canvas.height = 5;
+    const ctx: CanvasRenderingContext2D | null = canvas.getContext("2d");
+    if (ctx) {
+      gameViewService.setCanvas(ctx);
+      const spy: any = spyOn<any>(gameViewService["canvasModified"], "fillRect");
+      gameViewService.onArenaResponse(expectedResponse);
+      expect(spy).toHaveBeenCalled();
+    }
+  }));
 });
