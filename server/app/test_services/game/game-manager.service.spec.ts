@@ -19,19 +19,23 @@ import { ChatManagerService } from "../../services/chat-manager.service";
 import { Arena2D } from "../../services/game/arena/arena2d";
 import { I2DInfos, IArenaInfos, IPlayerInput } from "../../services/game/arena/interfaces";
 import { GameManagerService } from "../../services/game/game-manager.service";
+import { LobbyManagerService } from "../../services/game/lobby-manager.service";
 import { HighscoreService } from "../../services/highscore.service";
 import { Mode } from "../../services/highscore/utilities/interfaces";
+import { InterfaceBuilder } from "../../services/interface-generator";
 import { TimeManagerService } from "../../services/time-manager.service";
 import { UserManagerService } from "../../services/user-manager.service";
 
-// tslint:disable no-magic-numbers no-any await-promise no-floating-promises max-file-line-count
+// tslint:disable no-magic-numbers no-any await-promise no-floating-promises max-file-line-count max-line-length
 
-let gameManagerService: GameManagerService;
-let userManagerService: UserManagerService;
-let highscoreService:   HighscoreService;
-let chatManagerService: ChatManagerService;
-let timeManagerService: TimeManagerService;
-let cardOperations:     CardOperations;
+let interfaceBuilder:       InterfaceBuilder;
+let lobbyManagerService:    LobbyManagerService;
+let gameManagerService:     GameManagerService;
+let userManagerService:     UserManagerService;
+let highscoreService:       HighscoreService;
+let chatManagerService:     ChatManagerService;
+let timeManagerService:     TimeManagerService;
+let cardOperations:         CardOperations;
 
 const mockAdapter:  any = require("axios-mock-adapter");
 const axios:        any = require("axios");
@@ -102,13 +106,15 @@ const modified: Buffer = fs.readFileSync(path.resolve(__dirname, "../../asset/im
 beforeEach(() => {
     socket              = mock(SocketIO);
     server              = mock(SocketIO);
+    interfaceBuilder    = new InterfaceBuilder();
+    lobbyManagerService = new LobbyManagerService();
     userManagerService  = new UserManagerService();
     highscoreService    = new HighscoreService();
     timeManagerService  = new TimeManagerService();
     chatManagerService  = new ChatManagerService(timeManagerService);
     cardOperations      = new CardOperations(highscoreService);
 
-    gameManagerService  = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations);
+    gameManagerService  = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations, lobbyManagerService, interfaceBuilder);
     mockAxios           = new mockAdapter.default(axios);
 });
 
@@ -329,7 +335,7 @@ describe("GameManagerService tests", () => {
     // });
 
     it("Should send message with socket", async () => {
-        gameManagerService = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations);
+        gameManagerService = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations, lobbyManagerService, interfaceBuilder);
         gameManagerService.subscribeSocketID("socketID", socket);
         gameManagerService.sendMessage("socketID", "onEvent", 1);
         verify(socket.emit("onEvent", 1)).atLeast(0);
