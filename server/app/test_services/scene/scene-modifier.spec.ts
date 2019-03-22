@@ -49,7 +49,7 @@ beforeEach(() => {
 
 describe("Scene-modifier tests (only 1 change)", () => {
 
-    it("should have called addObject()", () => {
+    it("should have called addObject() when modifying the scene", () => {
         iSceneOptions = {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
@@ -62,7 +62,7 @@ describe("Scene-modifier tests (only 1 change)", () => {
         chai.expect(spy).to.have.been.called();
     });
 
-    it("should have called removeObject", () => {
+    it("should have called removeObject() when modifying the scene", () => {
         iSceneOptions = {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
@@ -76,7 +76,7 @@ describe("Scene-modifier tests (only 1 change)", () => {
         chai.expect(spy).to.have.been.called();
     });
 
-    it("should have called changeObjectColor()", () => {
+    it("should have called changeObjectColor() when modifying the scene", () => {
         iSceneOptions = {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
