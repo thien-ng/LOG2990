@@ -106,6 +106,19 @@ export class ThreejsThemeGenerator {
     this.addObjectIdToMap(object3D.id, generatedObject.id);
     this.addObjectToScene(generatedObject, object3D.position, object3D.rotation);
   }
+
+  private createObjectColor(object3D: ISceneObject): THREE.MeshBasicMaterial {
+
+    const opacityUsed: number = (object3D.hidden) ? 0 : 1;
+    this.opacityById.set(object3D.id, opacityUsed);
+
+    const materialParameter: THREE.MeshPhongMaterialParameters = {
+      color:       object3D.color,
+      opacity:     opacityUsed,
+      transparent: true,
+    };
+
+    return new THREE.MeshPhongMaterial(materialParameter);
   }
 
   private addObjectIdToMap(objectId: number, generatedObjectId: number): void {
