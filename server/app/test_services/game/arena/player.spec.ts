@@ -49,4 +49,9 @@ describe("Player tests", () => {
         expect(player.getPenaltyState()).to.equal(true);
     });
 
+    it("should set to true value of status", () => {
+        player.setPlayerState(true);
+        expect(player.getPlayerIsReady()).to.equal(true);
+    });
+
 });
