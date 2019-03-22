@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@angular/core";
 import * as THREE from "three";
 import { IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
-import { ISceneObject } from "../../../../../../common/communication/iSceneObject";
+import { IMesh, ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Constants } from "../../../constants";
 import { GameViewFreeService } from "../game-view-free.service";
