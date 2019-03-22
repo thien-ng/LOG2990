@@ -1,6 +1,12 @@
 import * as chai from "chai";
 import * as spies from "chai-spies";
-import { IArenaResponse, IOriginalPixelCluster, IPosition2D, ISceneObjectUpdate, ActionType } from "../../../../../common/communication/iGameplay";
+import * as sinon from "sinon";
+import {
+    ActionType,
+    IArenaResponse,
+    IOriginalPixelCluster,
+    IPosition2D,
+    ISceneObjectUpdate } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
 import { CardOperations } from "../../../services/card-operations.service";
 import { ChatManagerService } from "../../../services/chat-manager.service";
@@ -17,6 +23,7 @@ import { UserManagerService } from "../../../services/user-manager.service";
 
 // tslint:disable no-magic-numbers no-any await-promise no-floating-promises max-file-line-count max-line-length
 
+let   clock:                any;
 let   mockAxios:            any;
 const axios:                any = require("axios");
 const mockAdapter:          any = require("axios-mock-adapter");
@@ -108,7 +115,7 @@ const postData3D: IHitToValidate<number> = {
     colorToIgnore:      255,
 };
 
-const url2D: string = "http://localhost:3000/api/hitvalidator/simple"
+const url2D: string = "http://localhost:3000/api/hitvalidator/simple";
 const url3D: string = "http://localhost:3000/api/hitvalidator/free";
 
 let gameManagerService:     GameManagerService;
@@ -141,6 +148,20 @@ describe("Referee tests for 2D", () => {
 
     afterEach(() => {
         mockAxios.restore();
+    });
+
+    it("should make a countdown before starting arena", async () => {
+        clock = sinon.useFakeTimers();
+
+        const playerList:   Player[] = [new Player(activeUser2)];
+        const referee:      Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
+        const spy: any = chai.spy.on(referee, "sendMessageToAllPlayers");
+
+        referee.onPlayersReady();
+        clock.tick(5000);
+        clock.restore();
+
+        chai.expect(spy).called();
     });
 
     it("should return the array of foundDifferences", async () => {
@@ -259,7 +280,8 @@ describe("Referee tests for 2D", () => {
 
         mockAxios.onPost(url2D, postData2D).reply(200, notHitConfirmation2D);
 
-        referee.onPlayerClick(event2D, activeUser1).then((response: IArenaResponse<IOriginalPixelCluster>) => {
+        referee.onPlayerClick(event2D, activeUser1)
+        .then((response: IArenaResponse<IOriginalPixelCluster>) => {
             chai.expect(response).to.deep.equal(wrongResponse);
         }).catch();
     });
@@ -308,10 +330,17 @@ describe("Referee tests for 3D", () => {
     });
 
     it("should make a countdown before starting arena", async () => {
+        clock = sinon.useFakeTimers();
+
         const playerList:   Player[] = [new Player(activeUser2)];
         const referee:      Referee<number, ISceneObjectUpdate> = new Referee<number, ISceneObjectUpdate>(arena3D, playerList, originalElements3D, timer, "url");
+        const spy: any = chai.spy.on(referee, "sendMessageToAllPlayers");
 
         referee.onPlayersReady();
+        clock.tick(5000);
+        clock.restore();
+
+        chai.expect(spy).called();
     });
 
     it("should return a failed click arena response (3D arena)", async () => {
