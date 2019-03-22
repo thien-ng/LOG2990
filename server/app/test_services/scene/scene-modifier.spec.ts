@@ -195,7 +195,7 @@ describe("Scene-modifier tests (2 changes)", () => {
         chai.expect(spy).to.not.have.been.called();
     });
 
-    it("should have additions or removals modifications", () => {
+    it("should have additions and/or removals modifications", () => {
         iSceneOptions = {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
@@ -248,6 +248,38 @@ describe("Scene-modifier tests (2 changes)", () => {
         sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
 
         chai.expect(spy).to.not.have.been.called();
+    });
+
+    it("should have removals and/or color modifications", () => {
+        iSceneOptions = {
+            sceneName:              "game",
+            sceneType:              SceneType.Thematic,
+            sceneObjectsQuantity:   10,
+            selectedOptions:        [true, true, false],
+        };
+
+        const sceneModified: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+
+        modifiedList.forEach((modifiedListElt: any) => {
+            iSceneVariables.sceneObjects.forEach((sceneObjElt: any) => {
+                if (modifiedListElt.id === sceneObjElt.id && modifiedListElt.type === ModificationType.removed) {
+                    counterDifference++;
+                }
+            });
+        });
+
+        sceneModified.sceneObjects.forEach((sceneModifiedElt: any) => {
+            iSceneVariables.sceneObjects.forEach((sceneObjElt: any) => {
+                if (sceneModifiedElt.id === sceneObjElt.id && sceneModifiedElt.color !== sceneObjElt.color) {
+                    counterDifference++;
+                    console.log("1 " , sceneModifiedElt.color);
+                    console.log("2 " , sceneObjElt.color);
+                }
+            });
+        });
+        console.log(counterDifference);
+
+        // chai.expect(counterDifference).to.be.equal(7);
     });
 
     it("should have 7 modifications (additions and colors)", () => {
