@@ -66,4 +66,20 @@ describe("GameViewFreeService", () => {
   }));
 
   it("should not play success sound when getting a bad click", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
+
+    const spy: any = spyOn<any>(gameViewService, "playSuccessSound");
+    const expectedFalseResponse: IArenaResponse<ISceneObjectUpdate> = {
+      status:     CCommon.ON_ERROR,
+      response:   undefined,
+    };
+    gameViewService.onArenaResponse(expectedFalseResponse);
+    expect(spy).not.toHaveBeenCalled();
+  }));
+
+  it("should set position", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
+    gameViewService.setPosition(2, 3);
+    const isSameX: boolean = gameViewService.position.x === 2;
+    const isSameY: boolean = gameViewService.position.y === 3;
+    expect(isSameX && isSameY).toEqual(true);
+  }));
 });
