@@ -3,6 +3,14 @@ import { IAxisValues, ISceneObject, SceneObjectType} from "../../../../../../../
 
 export class ThreejsThemeGenerator {
 
+  private addObjectIdToMap(objectId: number, generatedObjectId: number): void {
+
+    if (this.sceneIdById && this.idBySceneId) {
+      this.sceneIdById.set(objectId, generatedObjectId);
+      this.idBySceneId.set(generatedObjectId, objectId);
+    }
+  }
+
   private addObjectToScene(object3D: THREE.Mesh, position: IAxisValues, orientation: IAxisValues): void {
     this.setObjectPosition(object3D, position);
     this.setObjectRotation(object3D, orientation);
