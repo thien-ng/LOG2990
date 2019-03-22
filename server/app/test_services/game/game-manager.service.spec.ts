@@ -394,7 +394,7 @@ describe("GameManagerService tests", () => {
         gameManagerService.analyseRequest(request2DSimple).then(() => {
             chai.expect(spy).to.throw();
         });
-        // chai.spy.restore();
+        chai.spy.restore();
 
     });
     // it("should delete the temp images if we delete the last arena alive", () => {
