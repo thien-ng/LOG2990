@@ -53,7 +53,7 @@ export class CreateFreeGameComponent {
 
   public formControl:             FormGroup;
   public isSceneGenerated:        boolean;
-  public iSceneVariablesMessage:  ISceneData;
+  public sceneData:               ISceneData<ISceneObject | IMesh>;
 
   public constructor(
     public  dialogRef:    MatDialogRef<CreateFreeGameComponent>,
