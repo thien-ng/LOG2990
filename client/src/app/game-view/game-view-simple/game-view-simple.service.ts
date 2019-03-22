@@ -15,8 +15,8 @@ import { CCommon } from "../../../../../common/constantes/cCommon";
 export class GameViewSimpleService {
 
   private canvasModified:        CanvasRenderingContext2D;
-  private successSound:          HTMLAudioElement;
-  private failSound:             HTMLAudioElement;
+  private successSound:          ElementRef;
+  private failSound:             ElementRef;
 
   public onArenaResponse(data: IArenaResponse<IOriginalPixelCluster>): void {
     if (data.status === CCommon.ON_SUCCESS) {
@@ -31,13 +31,13 @@ export class GameViewSimpleService {
   }
 
   public playFailSound(): void {
-    this.failSound.currentTime = 0;
-    this.failSound.play();
+    this.failSound.nativeElement.currentTime = 0;
+    this.failSound.nativeElement.play();
   }
 
   private playSuccessSound(): void {
-    this.successSound.currentTime = 0;
-    this.successSound.play();
+    this.successSound.nativeElement.currentTime = 0;
+    this.successSound.nativeElement.play();
   }
 
   public setCanvas(modified: CanvasRenderingContext2D): void {
@@ -45,8 +45,8 @@ export class GameViewSimpleService {
   }
 
   public setSounds(success: ElementRef, fail: ElementRef): void {
-    this.successSound = success.nativeElement;
-    this.failSound    = fail.nativeElement;
+    this.successSound = success;
+    this.failSound    = fail;
   }
 
   public onCanvasClick(pos: IPosition2D, id: number, username: string): IClickMessage<IPosition2D> {
