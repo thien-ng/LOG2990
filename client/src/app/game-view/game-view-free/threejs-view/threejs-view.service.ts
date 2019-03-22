@@ -146,7 +146,7 @@ export class ThreejsViewService {
 
   public detectObject(mouseEvent: MouseEvent): number {
 
-    this.gameViewFreeService.setPosition(mouseEvent);
+    this.gameViewFreeService.setPosition(mouseEvent.offsetX, mouseEvent.offsetY);
 
     return this.threejsRaycast.detectObject(mouseEvent);
   }
