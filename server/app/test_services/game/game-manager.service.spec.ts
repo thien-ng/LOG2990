@@ -312,11 +312,10 @@ describe("GameManagerService tests", () => {
         }).reply(200, modified);
 
         chai.spy.on(gameManagerService["interfaceBuilder"], "buildArenaInfos", (returns: any) => iArenaInfos);
-        chai.spy.on(gameManagerService["assetManager"], "tempRoutine2d", () => {return; });
+        chai.spy.on(gameManagerService["assetManager"], "copyFileToTemp", () => {return; });
         chai.spy.on(gameManagerService, "init2DArena", () => {});
-        chai.spy.on(gameManagerService, "deleteTempFiles", () => {});
+        chai.spy.on(gameManagerService, ["deleteTempFiles"], () => {});
         chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
-
         const spy: any = chai.spy.on(gameManagerService["arenas"], "delete");
 
         gameManagerService.analyseRequest(request2DSimple).catch();
@@ -382,7 +381,7 @@ describe("GameManagerService tests", () => {
         chai.expect(gameManagerService.cancelRequest(1, false).title).to.deep.equal(CCommon.ON_SUCCESS);
     });
 
-    it("Should throw an error if cannot copy the gameImages", () => {
+    it("Should throw an error if cannot copy the gameImages", async () => {
         userManagerService.validateName(request2DSimple.username);
 
         mockAxios.onGet(iArenaInfos.dataUrl.original, {
@@ -393,15 +392,14 @@ describe("GameManagerService tests", () => {
             responseType: "arraybuffer",
         }).reply(200, modified);
 
-        chai.spy.on(gameManagerService["interfaceBuilder"], "buildArenaInfos", (returns: any) => iArenaInfos);
+        chai.spy.on(gameManagerService["interfaceBuilder"], "buildArenaInfos", (returns: any) => invalidRequestCreation);
         chai.spy.on(gameManagerService, "init2DArena", () => {
             gameManagerService["arenas[0]"].timer.stopTimer();
         });
         const spy: any = chai.spy.on(gameManagerService["assetManager"], "copyFileToTemp");
 
-        gameManagerService.analyseRequest(request2DSimple).then(() => {
-            chai.expect(spy).to.throw();
-        });
+        await gameManagerService.analyseRequest(invalidRequestCreation);
+        chai.expect(spy).to.throw();
         chai.spy.restore();
 
     });
