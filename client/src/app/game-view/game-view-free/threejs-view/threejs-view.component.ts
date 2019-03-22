@@ -45,6 +45,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   private isFirstGet:             boolean;
   private modifications:          number[];
   private previousModifications:  number[];
+  private sceneBuilderService:    ThreejsThemeViewService | ThreejsViewService; // _TODO: renommer mieux
 
   @Input() private iSceneVariables:         ISceneVariables<ISceneObject | IMesh>;
   @Input() private sceneData:               ISceneData<ISceneObject | IMesh>;
