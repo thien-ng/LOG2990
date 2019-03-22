@@ -194,4 +194,19 @@ describe("Scene-modifier tests", () => {
         chai.expect(spy).to.not.have.been.called();
         chai.expect(modifiedList.length).to.be.equal(7);
     });
+
+    it("should have 7 modifications (additions and colors)", () => {
+        iSceneOptions = {
+            sceneName:              "game",
+            sceneType:              SceneType.Thematic,
+            sceneObjectsQuantity:   10,
+            selectedOptions:        [true, false, true],
+        };
+
+        const spy: any = chai.spy.on(sceneModifier, "removeObject");
+        sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+
+        chai.expect(spy).to.not.have.been.called();
+        chai.expect(modifiedList.length).to.be.equal(7);
+    });
 });
