@@ -10,7 +10,7 @@ import { Mode } from "../../../../../common/communication/highscore";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../../common/communication/iGameRequest";
 import { IPosition2D } from "../../../../../common/communication/iGameplay";
-import { ISceneObject } from "../../../../../common/communication/iSceneObject";
+import { IMesh, ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { ISceneData, ISceneVariables } from "../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../common/communication/message";
 import { CCommon } from "../../../../../common/constantes/cCommon";
