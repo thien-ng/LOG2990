@@ -75,10 +75,11 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   }
 
   public constructor(
-    @Inject(ThreejsViewService)   private threejsViewService:   ThreejsViewService,
-    @Inject(ChatViewService)      private chatViewService:      ChatViewService,
-    @Inject(SocketService)        private socketService:        SocketService,
-    @Inject(GameViewFreeService)  private gameViewFreeService:  GameViewFreeService,
+    @Inject(ThreejsViewService)         private threejsViewService:       ThreejsViewService,
+    @Inject(ThreejsThemeViewService)    private threejsThemeViewService:  ThreejsThemeViewService,
+    @Inject(ChatViewService)            private chatViewService:          ChatViewService,
+    @Inject(SocketService)              private socketService:            SocketService,
+    @Inject(GameViewFreeService)        private gameViewFreeService:      GameViewFreeService,
     private httpClient:             HttpClient,
     private snackBar:               MatSnackBar,
     private cardManagerService:     CardManagerService,
