@@ -304,6 +304,35 @@ describe("Scene-modifier tests (2 changes)", () => {
 
         chai.expect(spy).to.not.have.been.called();
     });
+
+    it("should have additon and/or color modifications", () => {
+        iSceneOptions = {
+            sceneName:              "game",
+            sceneType:              SceneType.Thematic,
+            sceneObjectsQuantity:   10,
+            selectedOptions:        [true, false, true],
+        };
+
+        const sceneModified: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+
+        modifiedList.forEach((modifiedListElt: any) => {
+            sceneModified.sceneObjects.forEach((sceneObjElt: any) => {
+                if (modifiedListElt.id === sceneObjElt.id && modifiedListElt.type === ModificationType.added) {
+                    counterDifference++;
+                }
+            });
+        });
+
+        sceneModified.sceneObjects.forEach((sceneModifiedElt: any) => {
+            iSceneVariables.sceneObjects.forEach((sceneObjElt: any) => {
+                if (sceneModifiedElt.id === sceneObjElt.id && sceneModifiedElt.color !== sceneObjElt.color) {
+                    counterDifference++;
+                }
+            });
+        });
+
+        chai.expect(counterDifference).to.be.equal(7);
+    });
 });
 
 describe("Scene-modifier tests (3 changes or no change)", () => {
