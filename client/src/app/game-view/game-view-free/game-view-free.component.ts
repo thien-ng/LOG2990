@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild, AfterViewInit } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
 import { first } from "rxjs/operators";
