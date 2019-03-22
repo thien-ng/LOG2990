@@ -68,7 +68,7 @@ export class ThreejsViewService {
 
   public animate(): void {
     requestAnimationFrame(this.animate.bind(this));
-    this.renderObject();
+    this.renderScene();
   }
 
   public createScene(
@@ -167,7 +167,7 @@ export class ThreejsViewService {
     this.scene.add(this.ambLight);
   }
 
-  private renderObject(): void {
+  private renderScene(): void {
 
     this.threejsMovement.movementCamera(this.moveForward, this.moveBackward, this.moveLeft, this.moveRight);
 
