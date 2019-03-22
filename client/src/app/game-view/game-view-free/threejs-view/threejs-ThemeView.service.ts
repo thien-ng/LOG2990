@@ -100,6 +100,13 @@ export class ThreejsThemeViewService {
     this.createLighting();
     this.generateSceneObjects(isSnapshotNeeded, arenaID);
 
+  public detectObject(mouseEvent: MouseEvent): number {
+
+    this.gameViewFreeService.setPosition(mouseEvent);
+
+    return this.threejsRaycast.detectObject(mouseEvent);
+  }
+
   private createLighting(): void {
 
     const firstLight:   THREE.DirectionalLight = new THREE.DirectionalLight(Constants.FIRST_LIGHT_COLOR, Constants.FIRST_LIGHT_INTENSITY);
