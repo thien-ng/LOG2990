@@ -97,7 +97,7 @@ describe("GameViewSimpleService", () => {
     expect(spy).not.toHaveBeenCalled();
   }));
 
-  it("should change pixel", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
+  it("should change pixel on goodClick", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
     const canvas: HTMLCanvasElement = document.createElement("canvas");
     const expectedResponse: IArenaResponse<IOriginalPixelCluster> = {
       status:     CCommon.ON_SUCCESS,
