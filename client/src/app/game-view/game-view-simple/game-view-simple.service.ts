@@ -14,9 +14,9 @@ import { CCommon } from "../../../../../common/constantes/cCommon";
 
 export class GameViewSimpleService {
 
-  public canvasModified:  CanvasRenderingContext2D;
-  public successSound:    ElementRef;
-  public failSound:       ElementRef;
+  private canvasModified:        CanvasRenderingContext2D;
+  private successSound:          ElementRef;
+  private failSound:             ElementRef;
 
   public onArenaResponse(data: IArenaResponse<IOriginalPixelCluster>): void {
     if (data.status === CCommon.ON_SUCCESS) {
@@ -27,9 +27,6 @@ export class GameViewSimpleService {
           this.canvasModified.fillRect(pixel.position.x, pixel.position.y, 1, 1);
         });
       }
-
-    } else {
-      this.playFailSound();
     }
   }
 
@@ -38,7 +35,7 @@ export class GameViewSimpleService {
     this.failSound.nativeElement.play();
   }
 
-  public playSuccessSound(): void {
+  private playSuccessSound(): void {
     this.successSound.nativeElement.currentTime = 0;
     this.successSound.nativeElement.play();
   }
@@ -52,9 +49,10 @@ export class GameViewSimpleService {
     this.failSound    = fail;
   }
 
-  public onCanvasClick(pos: IPosition2D, id: number, username: string): IClickMessage {
+  public onCanvasClick(pos: IPosition2D, id: number, username: string): IClickMessage<IPosition2D> {
+
     return {
-      position:     pos,
+      value:        pos,
       arenaID:      id,
       username:     username,
     };

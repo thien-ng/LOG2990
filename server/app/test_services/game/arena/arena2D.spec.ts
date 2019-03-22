@@ -16,8 +16,12 @@ import { UserManagerService } from "../../../services/user-manager.service";
 
 import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
+import { CardOperations } from "../../../services/card-operations.service";
+import { ChatManagerService } from "../../../services/chat-manager.service";
 import { Arena2D } from "../../../services/game/arena/arena2d";
-import { I2DInfos, IArenaInfos, /*IHitConfirmation,*/ IPlayerInput } from "../../../services/game/arena/interfaces";
+import { I2DInfos, IArenaInfos, IPlayerInput } from "../../../services/game/arena/interfaces";
+import { HighscoreService } from "../../../services/highscore.service";
+import { TimeManagerService } from "../../../services/time-manager.service";
 
 // tslint:disable:no-magic-numbers no-any max-file-line-count no-empty
 
@@ -72,16 +76,27 @@ const arenaInfo: IArenaInfos<I2DInfos> = {
 const axios: AxiosInstance = require("axios");
 
 let gameManager:            GameManagerService;
+let userManagerService:     UserManagerService;
+let highscoreService:       HighscoreService;
+let chatManagerService:     ChatManagerService;
+let timeManagerService:     TimeManagerService;
+let cardOperations:         CardOperations;
+
 const testImageOriginale:   Buffer = fs.readFileSync(path.resolve(__dirname, "../../../asset/image/1_original.bmp"));
 
 let mockAxios: any;
 
-describe("Arena tests", () => {
+describe("Arena 2D tests", () => {
 
     beforeEach(async () => {
-        gameManager = new GameManagerService(new UserManagerService());
-        arena       = new Arena2D(arenaInfo, gameManager);
-        mockAxios   = new MockAdapter.default(axios);
+        userManagerService  = new UserManagerService();
+        highscoreService    = new HighscoreService();
+        timeManagerService  = new TimeManagerService();
+        chatManagerService  = new ChatManagerService(timeManagerService);
+        cardOperations      = new CardOperations(highscoreService);
+        gameManager         = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations);
+        arena               = new Arena2D(arenaInfo, gameManager);
+        mockAxios           = new MockAdapter.default(axios);
         chai.use(spies);
 
         // build arena with images bufferOriginal & bufferDifferences
@@ -108,6 +123,11 @@ describe("Arena tests", () => {
     afterEach(() => {
         mockAxios.restore();
 
+    });
+
+    it("should get empty difference ids list ", async () => {
+        const result: number[] = arena.getDifferencesIds();
+        chai.expect(result.length).to.equal(0);
     });
 
     it("should be able to extract original pixel clusters from buffers ", async () => {
@@ -178,59 +198,6 @@ describe("Arena tests", () => {
         sandbox.restore();
     });
 
-    // it("should return a correct IArenaResponse", async () => {
-    //     const playerInputResponseExpected: IArenaResponse<IOriginalPixelCluster> = {
-    //         status:     CCommon.ON_SUCCESS,
-    //         response:   expectedPixelClusters,
-    //     };
-
-    //     const hitConfirmationExpected: IHitConfirmation = {
-    //         isAHit:             true,
-    //         differenceIndex:    1,
-    //     };
-
-    //     mockAxios.onPost(Constants.URL_HIT_VALIDATOR + "/2d").reply(200, hitConfirmationExpected);
-
-    //     let responseToPlayerInput: IArenaResponse<IOriginalPixelCluster> | void;
-    //     arena["originalElements"].set(1, expectedPixelClusters);
-
-    //     responseToPlayerInput = await arena.onPlayerClick(hitPosition, activeUser);
-
-    //     chai.expect(responseToPlayerInput).to.deep.equal(playerInputResponseExpected);
-    //     mockAxios.restore();
-    // });
-
-    // it("should return an error on problematic HitConfirmation", async () => {
-    //     const playerInputResponseExpected: IArenaResponse<IOriginalPixelCluster> = {
-    //         status:     CCommon.ON_ERROR,
-    //         response:   Constants.ON_ERROR_PIXEL_CLUSTER,
-    //     };
-
-    //     mockAxios.onPost(Constants.URL_HIT_VALIDATOR).reply(200, {});
-
-    //     let responseToPlayerInput: IArenaResponse<IOriginalPixelCluster> | void;
-    //     arena["originalElements"].set(1, expectedPixelClusters);
-
-    //     responseToPlayerInput = await arena.onPlayerClick(hitPosition, activeUser);
-
-    //     chai.expect(responseToPlayerInput).to.deep.equal(playerInputResponseExpected);
-    //     mockAxios.restore();
-    // });
-
-    // it("should be able to return a hit validation response", async () => {
-
-    //     const hitConfirmationExpected: IHitConfirmation = {
-    //         isAHit:             true,
-    //         differenceIndex:    1,
-    //     };
-
-    //     mockAxios.onPost(Constants.URL_HIT_VALIDATOR + "/2d").reply(200, hitConfirmationExpected);
-
-    //     const responseToValidation: IHitConfirmation = await arena.validateHit(hitPosition);
-
-    //     chai.expect(responseToValidation).to.deep.equal(hitConfirmationExpected);
-    // });
-
     it("should be able to catch an error during the hitValidation process", async () => {
 
         mockAxios.onPost(Constants.URL_HIT_VALIDATOR, hitPosition).reply(200, { response: "nope"});
@@ -276,7 +243,7 @@ describe("Arena tests", () => {
 
     it("should set the right number of points to win depending on number of players", async () => {
 
-        gameManager = new GameManagerService(new UserManagerService());
+        gameManager = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations);
         arenaInfo.users = [activeUser, activeUser];
 
         arena       = new Arena2D(arenaInfo, gameManager);
@@ -300,4 +267,22 @@ describe("Arena tests", () => {
 
         chai.expect(pointsNeededToWin).to.equal(4);
     });
+
+    it("Should call the end of game function of the game manager single player mode", async () => {
+        const spy: any  = chai.spy.on(gameManager, "endOfGameRoutine");
+        arena = new Arena2D(arenaInfo, gameManager);
+        arena["players"] = [];
+        arena.getPlayers().push(new Player({username: "username1", socketID: "socket1"}));
+        arena.endOfGameRoutine(1, new Player(activeUser));
+
+        chai.expect(spy).to.have.been.called();
+    });
+
+    it("Should call the end of game function of the game manager multi player mode", async () => {
+        const spy: any  = chai.spy.on(gameManager, "endOfGameRoutine");
+        arena.endOfGameRoutine(1, new Player(activeUser));
+
+        chai.expect(spy).to.have.been.called();
+    });
+
 });

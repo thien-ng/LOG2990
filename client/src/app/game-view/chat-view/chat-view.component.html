@@ -12,13 +12,15 @@
       </div>
     </mat-list>
     <mat-form-field>
-      <input 
+      <input
         matInput
         placeholder="Entrer un message"
         autocomplete="off"
         (keyup.enter)="sendMessage()"
         [formControl]="this.usernameFormControl"
-        [(ngModel)]="initialValue">
+        [(ngModel)]="initialValue"
+        (focus)="onFocus()"
+        (blur)="onBlur()">
     </mat-form-field>
   </mat-card-content>
 </mat-card>

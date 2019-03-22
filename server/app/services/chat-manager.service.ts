@@ -9,7 +9,7 @@ import { TimeManagerService } from "./time-manager.service";
 
 const LOGIN_MESSAGE:            string = " vient de se connecter.";
 const LOGOUT_MESSAGE:           string = " vient de se déconnecter.";
-const NEW_HIGHSCORE_MESSAGE:    string = "{0} obtient la {1} place dans les meilleurs temps dujeu {2} en {3}";
+const NEW_HIGHSCORE_MESSAGE:    string = "{0} obtient la {1} place dans les meilleurs temps du jeu {2} en {3}";
 const SERVER_NAME:              string = "Serveur";
 const FIRST_POSITION:           string = "première";
 const SECOND_POSITION:          string = "deuxième";

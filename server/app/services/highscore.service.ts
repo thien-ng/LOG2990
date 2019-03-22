@@ -23,7 +23,16 @@ const axios:                AxiosInstance = require("axios");
 
 @injectable()
 export class HighscoreService {
-    private highscores: Highscore[] = [];
+    private highscores:   Highscore[];
+    private socketServer: SocketIO.Server;
+
+    public constructor() {
+        this.highscores = [];
+    }
+
+    public setServer(server: SocketIO.Server): void {
+        this.socketServer = server;
+    }
 
     public createHighscore(id: number): void {
         const highscore: Highscore = {
@@ -66,7 +75,11 @@ export class HighscoreService {
 
         for (let j: number = 0; j < randomMultiTimes.length; j++) {
             this.highscores[index].timesSingle[j].time = randomSingleTimes[j];
-            this.highscores[index].timesMulti[j].time = randomMultiTimes[j];
+            this.highscores[index].timesMulti[j].time  = randomMultiTimes[j];
+        }
+
+        if (this.socketServer) {
+            this.socketServer.emit(CCommon.ON_NEW_SCORE, id);
         }
     }
 
@@ -86,8 +99,8 @@ export class HighscoreService {
         return score;
     }
 
-    public async updateHighscore(value: Time, mode: Mode, cardID: number): Promise<HighscoreValidationResponse> {
-        const index: number = this.findHighScoreByID(cardID);
+    public async updateHighscore(value: Time, mode: Mode, gameID: number): Promise<HighscoreValidationResponse> {
+        const index: number = this.findHighScoreByID(gameID);
 
         if (this.highscores[index] !== undefined) {
             switch (mode) {

@@ -1,28 +1,31 @@
 import deepcopy from "ts-deepcopy";
 import { ISceneObject } from "../../../../common/communication/iSceneObject";
 import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
-import { ISceneVariables } from "../../../../common/communication/iSceneVariables";
+import { IModification, ISceneVariables, ModificationType } from "../../../../common/communication/iSceneVariables";
 import { SceneBuilder } from "./scene-builder";
 import { SceneConstants } from "./sceneConstants";
 
 export class SceneModifier {
 
     private readonly LIST_SELECTION_OPTIONS: string[] = ["add", "remove", "changeColor"];
-    private readonly NUMBER_ITERATION: number = 7;
+    private readonly NUMBER_ITERATION:       number = 7;
 
-    private sceneBuilder: SceneBuilder;
-    private modifiedIndex: number[];
-    private sceneObjects: ISceneObject[];
+    private sceneBuilder:        SceneBuilder;
+    private sceneObjects:        ISceneObject[];
+    private originalScene:       ISceneObject[];
+    private modifiedIndex:       IModification[];
     private cloneSceneVariables: ISceneVariables;
 
     public constructor(sceneBuilder: SceneBuilder) {
         this.sceneBuilder = sceneBuilder;
-        this.modifiedIndex = [];
     }
 
-    public modifyScene(iSceneOptions: ISceneOptions, iSceneVariables: ISceneVariables): ISceneVariables {
-        this.cloneSceneVariables = this.clone(iSceneVariables);
-        this.sceneObjects = this.cloneSceneVariables.sceneObjects;
+    public modifyScene(iSceneOptions: ISceneOptions, iSceneVariables: ISceneVariables, modifiedList: IModification[]): ISceneVariables {
+        this.originalScene       = iSceneVariables.sceneObjects;
+        this.cloneSceneVariables = this.clone(iSceneVariables) as ISceneVariables;
+        this.sceneObjects        = this.cloneSceneVariables.sceneObjects;
+        this.modifiedIndex       = modifiedList;
+
         for (let i: number = 0; i < this.NUMBER_ITERATION; i++) {
             const selectedOpstion: string = this.generateSelectedIndex(iSceneOptions.selectedOptions);
 
@@ -75,11 +78,18 @@ export class SceneModifier {
 
     private addObject(): void {
 
-        const lastObjectElement: ISceneObject = this.sceneObjects[this.sceneObjects.length - 1];
-        const newIndex: number = lastObjectElement.id + 1;
-        const generatedObject: ISceneObject = this.sceneBuilder.generateModifyObject(newIndex, this.cloneSceneVariables);
-        this.modifiedIndex.push(newIndex);
+        const lastObjectElement:            ISceneObject = this.sceneObjects[this.sceneObjects.length - 1];
+        const newIndex:                     number       = lastObjectElement.id + 1;
+        const generatedObject:              ISceneObject = this.sceneBuilder.generateModifyObject(newIndex, this.cloneSceneVariables);
+        const generatedObjectForOriginal:   ISceneObject = this.clone(generatedObject) as ISceneObject;
+
+        generatedObjectForOriginal.hidden = true;
+
+        const modificationMap: IModification = {id: newIndex, type: ModificationType.added};
+
+        this.modifiedIndex.push(modificationMap);
         this.sceneObjects.push(generatedObject);
+        this.originalScene.push(generatedObjectForOriginal);
     }
 
     private removeObject(): void {
@@ -89,8 +99,12 @@ export class SceneModifier {
             generatedIndex = this.generateRandomIndex();
         } while (this.containsInModifedList(generatedIndex) || this.idNotExist(generatedIndex));
 
-        this.sceneObjects = this.sceneObjects.filter((object: ISceneObject) => object.id !== generatedIndex);
+        const objectArray: ISceneObject[] = this.sceneObjects.filter((object: ISceneObject) => object.id === generatedIndex);
+        objectArray[0].hidden = true;
 
+        const modificationMap: IModification = {id: generatedIndex, type: ModificationType.removed};
+
+        this.modifiedIndex.push(modificationMap);
     }
 
     private changeObjectColor(): void {
@@ -101,7 +115,8 @@ export class SceneModifier {
             generatedIndex = this.generateRandomIndex();
         } while (this.containsInModifedList(generatedIndex) || this.idNotExist(generatedIndex));
 
-        this.modifiedIndex.push(generatedIndex);
+        const modificationMap: IModification = {id: generatedIndex, type: ModificationType.changedColor};
+        this.modifiedIndex.push(modificationMap);
 
         this.sceneObjects.forEach((object: ISceneObject) => {
             if (object.id === generatedIndex) {
@@ -119,10 +134,9 @@ export class SceneModifier {
     }
 
     private containsInModifedList(generatedIndex: number): boolean {
-
         let indexContains: boolean = false;
-        this.modifiedIndex.forEach((index: number) => {
-            if (index === generatedIndex) {
+        this.modifiedIndex.forEach((elementMap: IModification) => {
+            if (elementMap.id === generatedIndex) {
                 indexContains = true;
             }
         });
@@ -142,8 +156,8 @@ export class SceneModifier {
         return idNotExist;
     }
 
-    private clone(sceneVariables: ISceneVariables): ISceneVariables {
-        return deepcopy<ISceneVariables>(sceneVariables);
+    private clone(sceneVariables: ISceneVariables | ISceneObject): ISceneVariables | ISceneObject {
+        return deepcopy<ISceneVariables | ISceneObject>(sceneVariables);
     }
 
 }

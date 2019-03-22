@@ -1,12 +1,15 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { MatSnackBar } from "@angular/material";
+import { HttpClient } from "@angular/common/http";
+import { AfterContentInit, Component, EventEmitter, Input, Output } from "@angular/core";
+import { MatDialog, MatDialogConfig, MatDialogRef, MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
-import { ICard } from "../../../../common/communication/iCard";
-import { GameType } from "../../../../common/communication/iGameRequest";
+import { Mode } from "../../../../common/communication/highscore";
+import { CardDeleted, ICard, ILobbyEvent, MultiplayerButtonText } from "../../../../common/communication/iCard";
+import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../constants";
 import { GameModeService } from "../game-list-container/game-mode.service";
 import { HighscoreService } from "../highscore-display/highscore.service";
 import { CardManagerService } from "./card-manager.service";
+import { ConfirmationDialogComponent } from "./confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector:     "app-card",
@@ -15,19 +18,26 @@ import { CardManagerService } from "./card-manager.service";
   providers:    [HighscoreService],
 })
 
-export class CardComponent {
+export class CardComponent implements AfterContentInit {
 
-  public readonly TROPHY_IMAGE_URL:   string = "https://img.icons8.com/metro/1600/trophy.png";
-  public readonly TEXT_PLAY:          string = "JOUER";
-  public readonly TEXT_PLAY_SINGLE:   string = "Jouer en simple";
-  public readonly TEXT_PLAY_MULTI:    string = "Jouer en multijoueur";
-  public readonly TEXT_RESET_TIMERS:  string = "Réinitialiser les temps";
-  public readonly TEXT_DELETE:        string = "Supprimer la carte";
-  public readonly ADMIN_PATH:         string = "/admin";
+  public readonly TROPHY_IMAGE_URL:     string = "https://img.icons8.com/metro/1600/trophy.png";
+  public readonly TEXT_PLAY:            string = "JOUER";
+  public readonly TEXT_RESET_TIMERS:    string = "RÉINITIALISER";
+  public readonly TEXT_DELETE:          string = "SUPPRIMER";
+  public readonly CONFIRMATION_DELETE:  string = "Voulez-vous vraiment supprimer le jeu";
+  public readonly CONFIRMATION_RESET:   string = "Voulez-vous vraiment réinitialiser les meilleurs temps du jeu";
+  public readonly RESET_SNACKBAR:       string = "Temps réinitialisé";
+  public readonly ADMIN_PATH:           string = "/admin";
+  public readonly JOIN_ICON:            string = "arrow_forward";
+  public readonly CREATE_ICON:          string = "add";
 
-  public hsButtonIsClicked:           boolean;
-  @Input()  public card:              ICard;
-  @Output() public cardDeleted:       EventEmitter<string>;
+  public multiplayerButton:             string;
+  public icon:                          string;
+  public hsButtonIsClicked:             boolean;
+  public dialogConfig:                  MatDialogConfig;
+
+  @Input()  public card:                ICard;
+  @Output() public cardDeleted:         EventEmitter<string>;
 
   public constructor(
     public  router:             Router,
@@ -35,19 +45,70 @@ export class CardComponent {
     public  cardManagerService: CardManagerService,
     private snackBar:           MatSnackBar,
     private highscoreService:   HighscoreService,
+    public  dialog:             MatDialog,
+    private httpClient:         HttpClient,
     ) {
-      this.cardDeleted = new EventEmitter();
+      this.cardDeleted                = new EventEmitter();
+      this.multiplayerButton          = "CRÉER";
+      this.icon                       = this.CREATE_ICON;
+      this.dialogConfig               = new MatDialogConfig();
+      this.dialogConfig.disableClose  = false;
+      this.dialogConfig.autoFocus     = true;
+      this.dialogConfig.width         = "450px";
+      this.dialogConfig.height        = "170px";
+      this.dialogConfig.position      = {bottom: "0%", top: "5%"};
+      this.dialogConfig.autoFocus     = false;
+  }
+
+  public ngAfterContentInit(): void {
+    if (this.card.lobbyExists) {
+      this.multiplayerButton = CCommon.JOIN_TEXT;
+      this.icon = this.JOIN_ICON;
     }
 
-  public onDeleteButtonClick(): void {
+    this.cardManagerService.getButtonListener().subscribe((lobbyEvent: ILobbyEvent) => {
+      if (this.card.gameID === lobbyEvent.gameID) {
+        this.multiplayerButton = lobbyEvent.buttonText;
+        this.icon              = (lobbyEvent.buttonText === MultiplayerButtonText.join) ? this.JOIN_ICON : this.CREATE_ICON;
+      }
+    });
+  }
+
+  public  onDeleteButtonClick(): void {
+    this.dialogConfig.data = {
+      message: this.CONFIRMATION_DELETE,
+      gameTitle: this.card.title,
+    };
+
+    const dialogRef: MatDialogRef<ConfirmationDialogComponent> = this.dialog.open(ConfirmationDialogComponent, this.dialogConfig);
+    dialogRef.beforeClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.deleteCard();
+      }
+    });
+  }
+
+  public deleteCard(): void {
     this.cardManagerService.removeCard(this.card.gameID, this.card.gamemode).subscribe((response: string) => {
+      this.httpClient.get(Constants.CANCEL_REQUEST_PATH + this.card.gameID + "/" + CardDeleted.true).subscribe();
       this.openSnackbar(response);
       this.cardDeleted.emit();
     });
   }
 
   public onResetButtonClick(): void {
-    this.highscoreService.resetHighscore(this.card.gameID);
+    this.dialogConfig.data = {
+      message: this.CONFIRMATION_RESET,
+      gameTitle: this.card.title,
+    };
+
+    const dialogRef: MatDialogRef<ConfirmationDialogComponent> = this.dialog.open(ConfirmationDialogComponent, this.dialogConfig);
+    dialogRef.beforeClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.highscoreService.resetHighscore(this.card.gameID);
+        this.openSnackbar(this.RESET_SNACKBAR);
+      }
+    });
   }
 
   private openSnackbar(response: string): void {
@@ -63,7 +124,7 @@ export class CardComponent {
     this.highscoreService.getHighscore(this.card.gameID);
   }
 
-  public onStartGameClick(type: GameType): void {
+  public onStartGameClick(type: Mode): void {
     const gameModeComparison: boolean = this.card.gamemode === Constants.GAMEMODE_SIMPLE;
     const gameModePath:       string  = gameModeComparison ? Constants.GAME_VIEW_SIMPLE_PATH : Constants.GAME_VIEW_FREE_PATH;
 

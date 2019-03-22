@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { HighscoreMessage, StringFormatedTime } from "../../../../common/communication/highscore";
+import { CardManagerService } from "../card/card-manager.service";
 import { Constants } from "../constants";
 
 @Injectable()
@@ -12,8 +13,14 @@ export class HighscoreService {
 
   private highscoreUpdated:   Subject<HighscoreMessage>;
 
-  public constructor(private httpClient: HttpClient) {
+  public constructor(
+    private cardManagerService: CardManagerService,
+    private httpClient:         HttpClient,
+    ) {
     this.highscoreUpdated = new Subject<HighscoreMessage>();
+    this.cardManagerService.getHighscoreListener().subscribe((gameID: number) => {
+      this.getHighscore(gameID);
+    });
   }
 
   public getHighscoreUpdateListener(): Observable<HighscoreMessage> {

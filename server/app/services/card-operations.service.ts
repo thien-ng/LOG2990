@@ -13,6 +13,7 @@ export class CardOperations {
 
     private imageManagerService:    AssetManagerService;
     private cards:                  ICardLists;
+    private socketServer:           SocketIO.Server;
 
     public constructor(@inject(Types.HighscoreService) private highscoreService: HighscoreService) {
         this.imageManagerService = new AssetManagerService();
@@ -20,6 +21,10 @@ export class CardOperations {
             list2D: [],
             list3D: [],
         };
+    }
+
+    public setServer(server: SocketIO.Server): void {
+        this.socketServer = server;
     }
 
     public getCardList(): ICardLists {
@@ -36,6 +41,9 @@ export class CardOperations {
         if (!isExisting) {
             this.cards.list2D.unshift(card);
             this.highscoreService.createHighscore(card.gameID);
+            if (this.socketServer) {
+                this.socketServer.emit(CCommon.ON_CARD_CREATED);
+            }
         }
 
         return !isExisting;
@@ -51,6 +59,9 @@ export class CardOperations {
         if (!isExisting) {
             this.cards.list3D.unshift(card);
             this.highscoreService.createHighscore(card.gameID);
+            if (this.socketServer) {
+                this.socketServer.emit(CCommon.ON_CARD_CREATED);
+            }
         }
 
         return !isExisting;
@@ -76,6 +87,9 @@ export class CardOperations {
         } catch (error) {
             return this.generateErrorMessage(error).body;
         }
+        if (this.socketServer) {
+            this.socketServer.emit(CCommon.ON_CARD_DELETED);
+        }
 
         return Constants.CARD_DELETED;
     }
@@ -91,7 +105,7 @@ export class CardOperations {
 
         const paths: string[] = [
             Constants.IMAGES_PATH   + "/" + id + Constants.GENERATED_SNAPSHOT,
-            Constants.SCENE_PATH    + "/" + id + Constants.SCENES_FILE,
+            Constants.SCENE_PATH    + "/" + id + CCommon.SCENE_FILE,
         ];
         try {
             this.imageManagerService.deleteStoredImages(paths);
@@ -99,13 +113,16 @@ export class CardOperations {
         } catch (error) {
             return this.generateErrorMessage(error).body;
         }
+        if (this.socketServer) {
+            this.socketServer.emit(CCommon.ON_CARD_DELETED);
+        }
 
         return Constants.CARD_DELETED;
     }
 
     public getCardById(id: string, gamemode: GameMode): ICard {
-        const cardID:   number = parseInt(id, Constants.DECIMAL);
-        const index:    number = (gamemode === GameMode.simple) ? this.findCard2D(cardID) : this.findCard3D(cardID);
+        const gameID:   number = parseInt(id, Constants.DECIMAL);
+        const index:    number = (gamemode === GameMode.simple) ? this.findCard2D(gameID) : this.findCard3D(gameID);
 
         return (gamemode === GameMode.simple) ? this.cards.list2D[index] : this.cards.list3D[index];
     }

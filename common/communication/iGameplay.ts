@@ -12,8 +12,8 @@ export interface IColorRGB {
     B:  number;
 }
 
-export interface IClickMessage {
-    position:       IPosition2D;
+export interface IClickMessage<T> {
+    value:          T;
     arenaID:        number;
     username:       string;
 }
@@ -37,6 +37,11 @@ export interface IArenaResponse<RES_T> {
     status:         string;
     response?:      RES_T;
     arenaType?:     GameMode;
+}
+
+export interface IPenalty {
+    isOnPenalty:    boolean;
+    arenaType:      GameMode;
 }
 
 export enum ActionType {

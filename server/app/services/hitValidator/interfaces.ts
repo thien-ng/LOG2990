@@ -1,10 +1,10 @@
 export interface IDataToCache<T> {
-    dataUrl:               string;
-    data:                 T;
+    dataUrl:                string;
+    data:                   T;
 }
 
 export interface ICacheElement<T> {
-    dataToCache:           IDataToCache<T>;
+    dataToCache:            IDataToCache<T>;
     obsolescenceDegree:     number;
 }
 

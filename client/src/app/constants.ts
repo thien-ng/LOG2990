@@ -56,9 +56,11 @@ export class Constants {
   public static readonly ON_TIMER_UPDATE:           string = "onTimerUpdate";
 
   // Constants for game-view-simple.service.ts
-  public static readonly ON_POSITION_VALIDATION:    string = "onPositionValidation";
   public static readonly DECIMAL_BASE:              number = 10;
   public static readonly ID_BY_URL:                 string = "id";
+  public static readonly ERROR_MESSAGE:             string = "⚠ ERREUR ⚠";
+  public static readonly CENTERY:                   number = 15;
+  public static readonly CENTERX:                   number = 50;
 
   // Constants for game view free component
   public static readonly DEFAULT_SLIDER_VALUE:      number = 100;
@@ -90,21 +92,21 @@ export class Constants {
   public static readonly MAX_VIEW_DISTANCE:         number = 1000;
   public static readonly MIN_VIEW_DISTANCE:         number = 0.1;
 
-  public static readonly AMBIENT_LIGHT_COLOR:       string = "0xFFFFFF";
+  public static readonly AMBIENT_LIGHT_COLOR:       string = "#FFFFFF";
   public static readonly AMBIENT_LIGHT_INTENSITY:   number = 0.4;
 
   public static readonly SCENE_WIDTH:               number = 640;
   public static readonly SCENE_HEIGHT:              number = 480;
 
-  public static readonly FIRST_LIGHT_COLOR:         string = "0xFFFFFF";
+  public static readonly FIRST_LIGHT_COLOR:         string = "#FFFFFF";
   public static readonly FIRST_LIGHT_INTENSITY:     number = 1;
   public static readonly FIRST_LIGHT_POSITION_X:    number = 100;
   public static readonly FIRST_LIGHT_POSITION_Y:    number = 100;
   public static readonly FIRST_LIGHT_POSITION_Z:    number = 50;
-  public static readonly SECOND_LIGHT_COLOR:        string = "0xFFFFFF";
+  public static readonly SECOND_LIGHT_COLOR:        string = "#FFFFFF";
   public static readonly SECOND_LIGHT_INTENSITY:    number = 0.2;
-  public static readonly SECOND_LIGHT_POSITION_Y:   number = -10;
   public static readonly SECOND_LIGHT_POSITION_X:   number = -10;
+  public static readonly SECOND_LIGHT_POSITION_Y:   number = -10;
   public static readonly SECOND_LIGHT_POSITION_Z:   number = -10;
 
   public static readonly SPEED_FACTOR:              number = 0.001;
@@ -114,8 +116,12 @@ export class Constants {
   public static readonly CAMERA_LOOK_AT_Y:          number = 50;
   public static readonly CAMERA_LOOK_AT_Z:          number = 50;
 
+  public static readonly GET_OBJECTS_ID_PATH:       string = CCommon.BASE_URL + "/api/game/";
+
   // Constants for chat view
   public static readonly ON_FAILED_CLICK:           string = "onFailedClick";
   public static readonly FAILED_CLICK_MESSAGE:      string = "Wrong Hit";
   public static readonly GOOD_CLICK_MESSAGE:        string = "Good Hit";
+  public static readonly ACTIVE_LOBBY_PATH:         string = CCommon.BASE_URL + "/api/game/active-lobby";
+  public static readonly CARD_DELETED_MESSAGE:      string = "Le jeu pour lequel vous étiez en attente a été supprimé";
 }

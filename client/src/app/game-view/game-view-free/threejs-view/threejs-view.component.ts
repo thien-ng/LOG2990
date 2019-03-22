@@ -1,13 +1,28 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, ElementRef, EventEmitter, Inject, Input, OnChanges, Output, ViewChild } from "@angular/core";
+import {
+  AfterContentInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Inject,
+  Input,
+  OnChanges,
+  Output,
+  ViewChild } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
+import { GameConnectionService } from "src/app/game-connection.service";
 import * as THREE from "three";
+import { IClickMessage, IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
 import { ISceneData, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../../common/communication/message";
 import { CCommon } from "../../../../../../common/constantes/cCommon";
 import { CardManagerService } from "../../../card/card-manager.service";
 import { Constants } from "../../../constants";
+import { SocketService } from "../../../websocket/socket.service";
+import { ChatViewService } from "../../chat-view/chat-view.service";
+import { GameViewFreeService } from "../game-view-free.service";
 import { ThreejsViewService } from "./threejs-view.service";
 
 @Component({
@@ -16,34 +31,75 @@ import { ThreejsViewService } from "./threejs-view.service";
   styleUrls:    ["./threejs-view.component.css"],
   providers:    [ThreejsViewService],
 })
-export class TheejsViewComponent implements OnChanges {
+export class TheejsViewComponent implements AfterContentInit, OnChanges {
+
+  private readonly CHEAT_URL:           string = "cheat/";
+  private readonly CHEAT_KEYBOARD_KEY:  string = "t";
+  private readonly CHEAT_INTERVAL_TIME: number = 125;
 
   private renderer:               THREE.WebGLRenderer;
   private scene:                  THREE.Scene;
+  private interval:               NodeJS.Timeout;
+  private isCheating:             boolean;
+  private focusChat:              boolean;
+  private isFirstGet:             boolean;
+  private modifications:          number[];
+  private previousModifications:  number[];
 
-  @Input()
-  private iSceneVariables:        ISceneVariables;
-
-  @Input()
-  private iSceneVariablesMessage: ISceneData;
-
-  @Input()
-  private isSnapshotNeeded:       boolean;
-
-  @Output()
-  public sceneGenerated:          EventEmitter<string>;
+  @Input() private iSceneVariables:         ISceneVariables;
+  @Input() private iSceneVariablesMessage:  ISceneData;
+  @Input() private rightClick:              boolean;
+  @Input() private isSnapshotNeeded:        boolean;
+  @Input() private isNotOriginal:           boolean;
+  @Input() private username:                string;
+  @Input() private arenaID:                 number;
+  @Output() public sceneGenerated:          EventEmitter<string>;
 
   @ViewChild("originalScene", {read: ElementRef})
   private originalScene:          ElementRef;
 
+  @HostListener("body:keyup", ["$event"])
+  public async keyboardEventListenerUp(keyboardEvent: KeyboardEvent): Promise<void> {
+    if (!this.focusChat) {
+      this.threejsViewService.onKeyMovement(keyboardEvent, false);
+    }
+  }
+
+  @HostListener("body:keydown", ["$event"])
+  public async keyboardEventListenerDown(keyboardEvent: KeyboardEvent): Promise<void> {
+    if (!this.focusChat) {
+      this.onKeyDown(keyboardEvent);
+      this.threejsViewService.onKeyMovement(keyboardEvent, true);
+    }
+  }
+
   public constructor(
-    @Inject(ThreejsViewService) private threejsViewService: ThreejsViewService,
-    private httpClient:         HttpClient,
-    private snackBar:           MatSnackBar,
-    private cardManagerService: CardManagerService,
+    @Inject(ThreejsViewService)   private threejsViewService:   ThreejsViewService,
+    @Inject(ChatViewService)      private chatViewService:      ChatViewService,
+    @Inject(SocketService)        private socketService:        SocketService,
+    @Inject(GameViewFreeService)  private gameViewFreeService:  GameViewFreeService,
+    private httpClient:             HttpClient,
+    private snackBar:               MatSnackBar,
+    private cardManagerService:     CardManagerService,
+    private gameConnectionService:  GameConnectionService,
     ) {
+    this.rightClick     = false;
+    this.isCheating     = false;
+    this.focusChat      = false;
+    this.isFirstGet     = true;
     this.sceneGenerated = new EventEmitter();
     this.scene          = new THREE.Scene();
+    this.initSubscriptions();
+  }
+
+  public onMouseMove(point: IPosition2D): void {
+    if (this.rightClick) {
+      this.threejsViewService.rotateCamera(point);
+    }
+  }
+
+  public ngAfterContentInit(): void {
+    this.initListener();
   }
 
   public ngOnChanges(): void {
@@ -56,9 +112,84 @@ export class TheejsViewComponent implements OnChanges {
 
     this.renderer = new THREE.WebGLRenderer();
     this.originalScene.nativeElement.appendChild(this.renderer.domElement);
-    this.threejsViewService.createScene(this.scene, this.iSceneVariables, this.renderer);
+    this.threejsViewService.createScene(this.scene, this.iSceneVariables, this.renderer, this.isSnapshotNeeded, this.arenaID);
     this.threejsViewService.animate();
     this.takeSnapShot();
+  }
+
+  private onKeyDown(keyboardEvent: KeyboardEvent): void {
+    if (keyboardEvent.key === this.CHEAT_KEYBOARD_KEY) {
+      this.cheatRoutine();
+    }
+  }
+
+  private cheatRoutine (): void {
+    this.httpClient.get(Constants.GET_OBJECTS_ID_PATH + this.CHEAT_URL + this.arenaID).subscribe((modifications: number[]) => {
+      if (this.isFirstGet) {
+        this.previousModifications = modifications;
+        this.isFirstGet            = false;
+      }
+
+      this.modifications = modifications;
+      this.isCheating    = !this.isCheating;
+      this.changeColor();
+    });
+  }
+
+  private changeColor(): void {
+
+    if (this.isCheating) {
+
+      let flashValue: boolean = false;
+      this.interval = setInterval(
+        () => {
+          flashValue = !flashValue;
+          this.threejsViewService.changeObjectsColor(flashValue, false, this.modifications);
+        },
+        this.CHEAT_INTERVAL_TIME);
+    } else {
+
+      clearInterval(this.interval);
+      this.threejsViewService.changeObjectsColor(false, true, this.previousModifications);
+      this.previousModifications = this.modifications;
+      this.modifications         = [];
+    }
+  }
+
+  private getDifferencesList(): void {
+    this.socketService.sendMessage(CCommon.ON_GET_MODIF_LIST, this.arenaID);
+    this.socketService.onMessage(CCommon.ON_RECEIVE_MODIF_LIST).subscribe((list: number[]) => {
+      this.modifications = list;
+    });
+  }
+
+  private initSubscriptions(): void {
+    this.gameViewFreeService.getRightClickListener().subscribe((newValue: boolean) => {
+      this.rightClick = newValue;
+    });
+
+    this.chatViewService.getChatFocusListener().subscribe((newValue: boolean) => {
+      this.focusChat = newValue;
+    });
+
+    this.gameConnectionService.getObjectToUpdate().subscribe((object: ISceneObjectUpdate) => {
+      this.getDifferencesList();
+
+      this.threejsViewService.changeObjectsColor(false, true, this.modifications);
+      if (this.isNotOriginal) {
+        this.threejsViewService.updateSceneWithNewObject(object);
+      }
+    });
+  }
+
+  private initListener(): void {
+    this.originalScene.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
+
+      const idValue: number                  = this.threejsViewService.detectObject(mouseEvent);
+      const message: IClickMessage<number>   = this.createHitValidationMessage(idValue);
+
+      this.socketService.sendMessage(CCommon.POSITION_VALIDATION, message);
+    });
   }
 
   private takeSnapShot(): void {
@@ -68,6 +199,14 @@ export class TheejsViewComponent implements OnChanges {
       const message:  ISceneMessage = this.createMessage(snapshot);
       this.sendSnapshot(message);
     }
+  }
+
+  private createHitValidationMessage(id: number): IClickMessage<number> {
+    return {
+      value:    id,
+      arenaID:  this.arenaID,
+      username: this.username,
+    };
   }
 
   private createMessage(image: string): ISceneMessage {

@@ -23,19 +23,30 @@ describe("Player tests", () => {
     });
 
     it("should return 0 when getting point before adding them", () => {
-        expect(player.points).to.equal(0);
+        expect(player.getPoints()).to.equal(0);
     });
 
     it("should return 1 point after adding 1 point", () => {
         player.addPoints(1);
-        expect(player.points).to.equal(1);
+        expect(player.getPoints()).to.equal(1);
     });
 
     it("should return the player's socket ID", () => {
-        expect(player.userSocketId).to.equal("666");
+        expect(player.getUserSocketId()).to.equal("666");
     });
 
     it("should return the player's username", () => {
-        expect(player.username).to.equal("Ettore Merlo");
+        expect(player.getUsername()).to.equal("Ettore Merlo");
     });
+
+    it("should set to false value of penalty", () => {
+        player.setPenaltyState(false);
+        expect(player.getPenaltyState()).to.equal(false);
+    });
+
+    it("should set to true value of penalty", () => {
+        player.setPenaltyState(true);
+        expect(player.getPenaltyState()).to.equal(true);
+    });
+
 });

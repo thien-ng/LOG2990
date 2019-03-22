@@ -4,12 +4,15 @@ import { ActionType, IArenaResponse, ISceneObjectUpdate } from "../../../../../c
 import { ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { IModification, ISceneData, ModificationType } from "../../../../../common/communication/iSceneVariables";
 import { IUser } from "../../../../../common/communication/iUser";
+import { CCommon } from "../../../../../common/constantes/cCommon";
 import Types from "../../../types";
 import { GameManagerService } from "../game-manager.service";
 import { Arena } from "./arena";
 import { I3DInfos, IArenaInfos, IHitConfirmation, IPlayerInput } from "./interfaces";
+import { Player } from "./player";
 import { Referee } from "./referee";
 
+// _TODO: Remove this line after replacing all the anys
 // tslint:disable:no-any
 export class Arena3D extends Arena<IPlayerInput<number>, IArenaResponse<ISceneObjectUpdate>, ISceneObjectUpdate, number> {
 
@@ -22,13 +25,12 @@ export class Arena3D extends Arena<IPlayerInput<number>, IArenaResponse<ISceneOb
             this.ARENA_TYPE = GameMode.free;
     }
 
-    public sendMessage(playerSocketId: string, event: string, message: number): void {
-        this.gameManagerService.sendMessage(playerSocketId, event, message);
-    }
-
     public async onPlayerClick(objectId: number, user: IUser): Promise<IArenaResponse<ISceneObjectUpdate>> {
         const arenaResponse: IArenaResponse<ISceneObjectUpdate> = await this.referee.onPlayerClick(objectId, user);
         arenaResponse.arenaType = GameMode.free;
+        this.players.forEach((player: Player) => {
+            this.gameManagerService.sendMessage(player.getUserSocketId(), CCommon.ON_ARENA_RESPONSE, arenaResponse);
+        });
 
         return arenaResponse;
     }
@@ -61,13 +63,14 @@ export class Arena3D extends Arena<IPlayerInput<number>, IArenaResponse<ISceneOb
     }
 
     private async extractModifiedSceneObjects(): Promise<void> {
-        const sceneData:        Buffer                  = await this.getDifferenceDataFromURL(this.arenaInfos.dataUrl.sceneData);
-        const sceneDataJson:    ISceneData  = JSON.parse(sceneData.toString()) as ISceneData;
+        const sceneData:        Buffer      = await this.getDifferenceDataFromURL(this.arenaInfos.dataUrl.sceneData);
+        const sceneDataObject:  ISceneData  = JSON.parse(sceneData.toString()) as ISceneData;
 
-        sceneDataJson.modifications.forEach((modification: IModification) => {
-            const sceneObjectUpdate: ISceneObjectUpdate = this.findObjectToUpdate(modification, sceneDataJson);
+        sceneDataObject.modifications.forEach((modification: IModification) => {
+            const sceneObjectUpdate: ISceneObjectUpdate = this.findObjectToUpdate(modification, sceneDataObject);
             this.originalElements.set(modification.id, sceneObjectUpdate);
         });
+
     }
 
     private findObjectToUpdate(modification: IModification, sceneVariableMessage: ISceneData): ISceneObjectUpdate {
@@ -79,7 +82,9 @@ export class Arena3D extends Arena<IPlayerInput<number>, IArenaResponse<ISceneOb
 
         switch (modification.type) {
             case ModificationType.added:
-                sceneObjectUpdate = this.buildSceneObjectUpdate(ActionType.DELETE, modifiedSceneObjects[modification.id]);
+                sceneObjectUpdate = this.buildSceneObjectUpdate(
+                    ActionType.DELETE,
+                    this.findObjectById(modification.id, modifiedSceneObjects));
                 break;
             case ModificationType.removed:
                 sceneObjectUpdate = this.buildSceneObjectUpdate(ActionType.ADD, originalSceneObjects[modification.id]);
@@ -93,6 +98,13 @@ export class Arena3D extends Arena<IPlayerInput<number>, IArenaResponse<ISceneOb
         }
 
         return sceneObjectUpdate;
+    }
+
+    private findObjectById(id: number, objectList: ISceneObject[]): ISceneObject | undefined {
+
+        return objectList.find((object: ISceneObject) => {
+            return id === object.id;
+        });
     }
 
     private buildSceneObjectUpdate(actionType: ActionType, sceneObject?: ISceneObject): ISceneObjectUpdate {

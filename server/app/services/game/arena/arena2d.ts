@@ -2,11 +2,13 @@ import { inject } from "inversify";
 import { GameMode } from "../../../../../common/communication/iCard";
 import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
+import { CCommon } from "../../../../../common/constantes/cCommon";
 import Types from "../../../types";
 import { GameManagerService } from "../game-manager.service";
 import { Arena } from "./arena";
 import { DifferencesExtractor } from "./differencesExtractor";
 import { I2DInfos, IArenaInfos, IHitConfirmation, IPlayerInput } from "./interfaces";
+import { Player } from "./player";
 import { Referee } from "./referee";
 
 export class Arena2D extends Arena<IPlayerInput<IPosition2D>, IArenaResponse<IOriginalPixelCluster>, IOriginalPixelCluster, IPosition2D> {
@@ -20,13 +22,12 @@ export class Arena2D extends Arena<IPlayerInput<IPosition2D>, IArenaResponse<IOr
             this.ARENA_TYPE = GameMode.simple;
         }
 
-    public sendMessage(playerSocketId: string, event: string, message: number): void {
-        this.gameManagerService.sendMessage(playerSocketId, event, message);
-    }
-
     public async onPlayerClick(position: IPosition2D, user: IUser): Promise<IArenaResponse<IOriginalPixelCluster>> {
         const arenaResponse: IArenaResponse<IOriginalPixelCluster> = await this.referee.onPlayerClick(position, user);
         arenaResponse.arenaType = GameMode.simple;
+        this.players.forEach((player: Player) => {
+            this.gameManagerService.sendMessage(player.getUserSocketId(), CCommon.ON_ARENA_RESPONSE, arenaResponse);
+        });
 
         return arenaResponse;
     }
@@ -42,7 +43,6 @@ export class Arena2D extends Arena<IPlayerInput<IPosition2D>, IArenaResponse<IOr
     }
 
     public async onPlayerInput(playerInput: IPlayerInput<IPosition2D>): Promise<IArenaResponse<IOriginalPixelCluster>> {
-
         let response: IArenaResponse<IOriginalPixelCluster>;
 
         switch (playerInput.event) {

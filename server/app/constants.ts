@@ -6,10 +6,10 @@ export class Constants {
   public static readonly SOCKET_IO:                 string = "socket.io";
   public static readonly CONNECTION:                string = "connection";
   public static readonly DISCONNECT_EVENT:          string = "disconnect";
-  public static readonly POSITION_VALIDATION_EVENT: string = "onPositionValidation";
   public static readonly WEBSOCKET_PORT_NUMBER:     number = 3333;
   public static readonly CLICK_EVENT:               string = "onClick";
   public static readonly ON_ARENA_RESPONSE:         string = "onArenaResponse";
+  public static readonly ON_PENALTY:                string = "onPenalty";
   public static readonly ON_TIMER_UPDATE:           string = "onTimerUpdate";
   public static readonly ON_POINT_ADDED:            string = "onPointAdded";
   public static readonly ON_CHAT_EVENT:             string = "onChatEvent";
@@ -21,7 +21,6 @@ export class Constants {
   public static readonly VALIDATION_FAILED:         string = "Validation services failed";
   public static readonly UNKNOWN_ERROR:             string = "Erreur inconnue";
   public static readonly GENERATED_SNAPSHOT:        string = "_snapshot.jpeg";
-  public static readonly SCENES_FILE:               string = "_scene";
   public static readonly ORIGINAL_SCENE_FILE:       string = "_sceneOriginal.txt";
   public static readonly MODIFIED_SCENE_FILE:       string = "_sceneModified.txt";
   public static readonly DECIMAL:                   number = 10;

@@ -33,10 +33,10 @@ export class LoginValidatorComponent {
   public matcher: MyErrorStateMatcher;
 
   public constructor(
-    @Inject(LoginValidatorService)  public  loginValidatorService:  LoginValidatorService,
-    @Inject(SocketService)          private socketService:          SocketService,
-    private snackbar: MatSnackBar,
-    private router:   Router,
+  @Inject(LoginValidatorService)  public  loginValidatorService:  LoginValidatorService,
+  @Inject(SocketService)          private socketService:          SocketService,
+  private snackbar: MatSnackBar,
+  private router:   Router,
   ) {
     this.matcher = new MyErrorStateMatcher();
   }
@@ -60,7 +60,7 @@ export class LoginValidatorComponent {
 
         if (response.body === CCommon.IS_UNIQUE) {
           this.displayNameIsUnique();
-          this.socketService.sendMsg(CCommon.LOGIN_EVENT, this.usernameFormControl.value);
+          this.socketService.sendMessage(CCommon.LOGIN_EVENT, this.usernameFormControl.value);
           await this.router.navigate([Constants.ROUTER_LOGIN]);
         } else {
           this.displayNameNotUnique();

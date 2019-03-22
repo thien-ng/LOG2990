@@ -2,13 +2,19 @@ import * as http from "http";
 import { inject, injectable } from "inversify";
 import * as SocketIO from "socket.io";
 import { IChatSender } from "../../../common/communication/iChat";
-import { IArenaResponse, IClickMessage, IOriginalPixelCluster, IPosition2D } from "../../../common/communication/iGameplay";
+import {
+    IArenaResponse,
+    IClickMessage,
+    IOriginalPixelCluster,
+    IPosition2D } from "../../../common/communication/iGameplay";
 import { IUser } from "../../../common/communication/iUser";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { Constants } from "../constants";
+import { CardOperations } from "../services/card-operations.service";
 import { ChatManagerService } from "../services/chat-manager.service";
 import { IPlayerInput } from "../services/game/arena/interfaces";
 import { GameManagerService } from "../services/game/game-manager.service";
+import { HighscoreService } from "../services/highscore.service";
 import { UserManagerService } from "../services/user-manager.service";
 import Types from "../types";
 
@@ -20,7 +26,9 @@ export class WebsocketManager {
     public constructor(
         @inject(Types.UserManagerService) private userManagerService: UserManagerService,
         @inject(Types.GameManagerService) private gameManagerService: GameManagerService,
-        @inject(Types.ChatManagerService) private chatManagerService: ChatManagerService) {}
+        @inject(Types.ChatManagerService) private chatManagerService: ChatManagerService,
+        @inject(Types.HighscoreService)   private highscoreService:   HighscoreService,
+        @inject(Types.CardOperations)     private cardOperations:     CardOperations) {}
 
     public createWebsocket(server: http.Server): void {
         this.io = SocketIO(server);
@@ -32,9 +40,18 @@ export class WebsocketManager {
                 socketID:       "",
             };
 
+            this.gameManagerService.setServer(this.io);
+            this.cardOperations.setServer(this.io);
+            this.highscoreService.setServer(this.io);
             this.loginSocketChecker(user, socketID, socket);
             this.gameSocketChecker(socketID, socket);
             this.chatSocketChecker(socket);
+
+            socket.on(CCommon.ON_GET_MODIF_LIST, (arenaID: number) => {
+                const list: number[] = this.gameManagerService.getDifferencesIndex(arenaID);
+
+                socket.emit(CCommon.ON_RECEIVE_MODIF_LIST, list);
+            });
 
          });
         this.io.listen(Constants.WEBSOCKET_PORT_NUMBER);
@@ -51,27 +68,37 @@ export class WebsocketManager {
             this.gameManagerService.unsubscribeSocketID(socketID, username);
         });
 
-        socket.on(Constants.POSITION_VALIDATION_EVENT, (data: IClickMessage) => {
-            const user: IUser | string = this.userManagerService.getUserByUsername(data.username);
-            const userList: IUser[] = this.gameManagerService.getUsersInArena(data.arenaID);
-
-            if (typeof user !== "string") {
-                const playerInput: IPlayerInput<IPosition2D | number> = this.buildPlayerInput(data, user);
-                this.gameManagerService.onPlayerInput(playerInput)
-                // tslint:disable-next-line:no-any
-                .then((response: IArenaResponse<IOriginalPixelCluster | any>) => {    // _TODO: type de RES_T pour scene 3d
-                    socket.emit(CCommon.ON_ARENA_RESPONSE, response);
-                    this.chatManagerService.sendPositionValidationMessage(data.username, userList, response, this.io);
-                }).catch((error: Error) => {
-                    socket.emit(CCommon.ON_ERROR, error);
-                });
-            }
+        socket.on(CCommon.ON_GAME_LOADED, (arenaID: number) => {
+            this.gameManagerService.onGameLoaded(socket.id, arenaID);
         });
+
+        socket.on(CCommon.POSITION_VALIDATION, (data: IClickMessage<IPosition2D | number>) => {
+            this.validatePosition(data, socket);
+        });
+    }
+
+    private validatePosition(data: IClickMessage<IPosition2D | number>, socket: SocketIO.Socket): void {
+        const user: IUser | string = this.userManagerService.getUserByUsername(data.username);
+        const userList: IUser[]    = this.gameManagerService.getUsersInArena(data.arenaID);
+
+        if (typeof user !== "string") {
+            const playerInput: IPlayerInput<IPosition2D | number> = this.buildPlayerInput(data, user);
+            this.gameManagerService.onPlayerInput(playerInput)
+            // tslint:disable-next-line:no-any _TODO
+            .then((response: IArenaResponse<IOriginalPixelCluster | any>) => {    // _TODO: type de RES_T pour scene 3d
+
+                socket.emit(CCommon.ON_ARENA_RESPONSE, response);
+                if (response.status !== Constants.ON_PENALTY) {
+                    this.chatManagerService.sendPositionValidationMessage(data.username, userList, response, this.io);
+                }
+            }).catch((error: Error) => {
+                socket.emit(CCommon.ON_ERROR, error);
+            });
+        }
     }
 
     private chatSocketChecker(socket: SocketIO.Socket): void {
         socket.on(Constants.ON_CHAT_EVENT, (messageRecieved: IChatSender) => {
-
             const userList: IUser[] = this.gameManagerService.getUsersInArena(messageRecieved.arenaID);
             this.chatManagerService.sendChatMessage(userList, messageRecieved, this.io);
         });
@@ -86,25 +113,26 @@ export class WebsocketManager {
             };
             this.userManagerService.updateSocketID(user);
             socket.emit(CCommon.USER_EVENT, user);
-            this.chatManagerService.sendPlayerLogStatus(user.username, this.io, true);
+            if (data) {
+                this.chatManagerService.sendPlayerLogStatus(user.username, this.io, true);
+            }
         });
 
         socket.on(Constants.DISCONNECT_EVENT, () => {
             this.userManagerService.leaveBrowser(user);
-            this.gameManagerService.unsubscribeSocketID(socketID, user.username);
+            this.gameManagerService.unsubscribeSocketID(user.socketID, user.username);
             this.chatManagerService.sendPlayerLogStatus(user.username, this.io, false);
         });
     }
 
-    private buildPlayerInput(data: IClickMessage, user: IUser): IPlayerInput<IPosition2D | number> {
+    private buildPlayerInput<T>(data: IClickMessage<T>, user: IUser): IPlayerInput<T> {
+        const eventInfo: T = data.value;
+
         return {
             event:      Constants.CLICK_EVENT,
             arenaId:    data.arenaID,
             user:       user,
-            eventInfo:   {
-                x:  data.position.x,
-                y:  data.position.y,
-            },
+            eventInfo:  eventInfo,
         };
     }
 }

@@ -5,10 +5,10 @@ import { ChatViewService } from "./chat-view.service";
 // tslint:disable:no-magic-numbers no-any
 
 let chatViewService:          ChatViewService       = new ChatViewService();
-const mockIChat:                IChat                 = {
+const mockIChat:              IChat                 = {
   username: "SERVEUR",
-  message: "message",
-  time: "time",
+  message:  "message",
+  time:     "time",
 };
 
 describe("ChatViewService", () => {
@@ -24,6 +24,17 @@ describe("ChatViewService", () => {
     expect(chatViewService.getConversation().length).toBe(0);
   });
 
+  it("should error message", () => {
+    const mockIChatInvalid: IChat = {
+      username: "SERVEUR",
+      message:  "message",
+      time:     "time",
+    };
+    mockIChatInvalid.message = "  vient de se déconnecter.";
+    chatViewService.updateConversation(mockIChatInvalid);
+    expect(chatViewService.getConversation().length).toBe(0);
+  });
+
   it("should clear IChat data in array", () => {
     chatViewService.updateConversation(mockIChat);
     chatViewService.clearConversations();
@@ -31,6 +42,7 @@ describe("ChatViewService", () => {
   });
 
   it("should return 1 for lenght of chat", () => {
+    chatViewService = new ChatViewService();
     chatViewService.updateConversation(mockIChat);
     expect(chatViewService.getConversationLength()).toBe(1);
   });
@@ -42,6 +54,14 @@ describe("ChatViewService", () => {
     chatViewService.updateConversation(mockIChat);
     chatViewService.updateConversation(mockIChat);
     expect(chatViewService.getConversationLength()).toBe(4);
+  });
+
+  it("should return an boolean observable", () => {
+    chatViewService.getChatFocusListener().subscribe((newValue: boolean) => {
+      expect(newValue).toBe(true);
+    });
+
+    chatViewService.updateChatFocus(true);
   });
 
 });

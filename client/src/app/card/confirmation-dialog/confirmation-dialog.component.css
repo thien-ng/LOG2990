@@ -1,0 +1,42 @@
+.title {
+    text-align: center;
+    color: red;
+    padding-bottom: 2%;
+}
+
+.body {
+    text-align: center;
+}
+
+.cardName {
+    font-weight: bold;
+}
+
+button:hover {
+    background: #3F51B5;
+    color: white;
+}
+
+.titleGrid {
+    width: 100%;
+}
+.containerMessage {
+    height: 100%;
+    padding-bottom: 5%;
+} 
+
+button {
+    width: 100%;
+    background-color: #f4f4f4;
+}
+.seperator {
+    width: 100%;
+    border-bottom: 2px solid #3F51B5;
+}
+
+.button-container {
+    position: relative;
+    padding-top: 36%;
+}
+
+

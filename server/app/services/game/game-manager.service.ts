@@ -1,6 +1,7 @@
 import { inject, injectable } from "inversify";
-import { GameMode } from "../../../../common/communication/iCard";
-import { GameType, IGameRequest } from "../../../../common/communication/iGameRequest";
+import { HighscoreValidationResponse, Mode, Time } from "../../../../common/communication/highscore";
+import { GameMode, ILobbyEvent, MultiplayerButtonText } from "../../../../common/communication/iCard";
+import { IGameRequest } from "../../../../common/communication/iGameRequest";
 import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../common/communication/iGameplay";
 import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
@@ -8,6 +9,9 @@ import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../../constants";
 import Types from "../../types";
 import { AssetManagerService } from "../asset-manager.service";
+import { CardOperations } from "../card-operations.service";
+import { ChatManagerService } from "../chat-manager.service";
+import { HighscoreService } from "../highscore.service";
 import { UserManagerService } from "../user-manager.service";
 import { Arena } from "./arena/arena";
 import { Arena2D } from "./arena/arena2d";
@@ -17,36 +21,36 @@ import { Player } from "./arena/player";
 
 const REQUEST_ERROR_MESSAGE:            string = "Game mode invalide";
 const TEMP_ROUTINE_ERROR:               string = "error while copying to temp";
+const HIGHSCORE_VALIDATION_ERROR:       string = "Erreur lors de la validation du highscore";
 const ARENA_START_ID:                   number = 1000;
 const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
 
+// _TODO: Enlever les any après les avoir remplacés
 // tslint:disable:no-any
 @injectable()
 export class GameManagerService {
-
     private arenaID:            number;
+    private server:             SocketIO.Server;
+    private assetManager:       AssetManagerService;
     private playerList:         Map<string, SocketIO.Socket>;
     private arenas:             Map<number, Arena<any, any, any, any>>;
     private gameIdByArenaId:    Map<number, number>;
-    private assetManager:       AssetManagerService;
     private countByGameId:      Map<number, number>;
     private lobby:              Map<number, IUser[]>;
 
-    public constructor(@inject(Types.UserManagerService) private userManagerService: UserManagerService) {
-        this.playerList         = new Map<string, SocketIO.Socket>();
-        this.arenas             = new Map<number, Arena<any, any, any, any>>();
+    public constructor(
+        @inject(Types.UserManagerService)   private userManagerService: UserManagerService,
+        @inject(Types.HighscoreService)     private highscoreService:   HighscoreService,
+        @inject(Types.ChatManagerService)   private chatManagerService: ChatManagerService,
+        @inject(Types.CardOperations)       private cardOperations:     CardOperations,
+        ) {
         this.arenaID            = ARENA_START_ID;
         this.assetManager       = new AssetManagerService();
+        this.playerList         = new Map<string, SocketIO.Socket>();
+        this.arenas             = new Map<number, Arena<any, any, any, any>>();
         this.countByGameId      = new Map<number, number>();
         this.gameIdByArenaId    = new Map<number, number>();
         this.lobby              = new Map<number, IUser[]>();
-    }
-
-    private returnError(errorMessage: string): Message {
-        return {
-            title:  CCommon.ON_ERROR,
-            body:   errorMessage,
-        };
     }
 
     public async analyseRequest(request: IGameRequest): Promise<Message> {
@@ -57,13 +61,13 @@ export class GameManagerService {
         } else {
             switch (request.mode) {
                 case GameMode.simple:
-                    if (request.type === GameType.multiPlayer) {
+                    if (request.type === Mode.Multiplayer) {
                         return this.verifyLobby(request, user);
                     }
 
                     return this.create2DArena([user], request.gameId);
                 case GameMode.free:
-                    if (request.type === GameType.multiPlayer) {
+                    if (request.type === Mode.Multiplayer) {
                         return this.verifyLobby(request, user);
                     }
 
@@ -74,40 +78,69 @@ export class GameManagerService {
         }
     }
 
-    public cancelRequest(gameID: number): Message {
-        if (this.lobby.delete(gameID)) {
-            return this.generateMessage(CCommon.ON_SUCCESS, gameID.toString());
-        }
+    private returnError(errorMessage: string): Message {
+        return {
+            title:  CCommon.ON_ERROR,
+            body:   errorMessage,
+        };
+    }
 
-        return this.generateMessage(CCommon.ON_ERROR, gameID.toString());
+    public cancelRequest(gameID: number, isCardDeleted: boolean): Message {
+        const successMessage:   Message     = this.generateMessage(CCommon.ON_SUCCESS, gameID.toString());
+        const errorMessage:     Message     = this.generateMessage(CCommon.ON_ERROR, gameID.toString());
+        const lobbyEvent:       ILobbyEvent = this.generateLobbyEvent(gameID, MultiplayerButtonText.create);
+        this.server.emit(CCommon.ON_LOBBY, lobbyEvent);
+
+        const lobby: IUser[] | undefined = this.lobby.get(gameID);
+        if (isCardDeleted && lobby !== undefined) {
+            lobby.forEach((user: IUser) => {
+                this.sendMessage(user.socketID, CCommon.ON_CANCEL_REQUEST);
+            });
+        }
+        const cardIsDeleted: boolean = this.lobby.delete(gameID);
+
+        return cardIsDeleted ? successMessage : errorMessage;
     }
 
     private async verifyLobby(request: IGameRequest, user: IUser): Promise<Message> {
         const lobby: IUser[] | undefined = this.lobby.get(request.gameId);
 
         if (lobby === undefined) {
-            this.lobby.set(request.gameId.valueOf(), [user]);
-
-            return this.generateMessage(CCommon.ON_WAITING, CCommon.ON_WAITING);
+            return this.newLobby(request, user);
         } else {
-            let message: Message;
-            lobby.push(user);
-            switch (request.mode) {
-                case GameMode.simple:
-                    message = await this.create2DArena(lobby, request.gameId);
-                    this.sendMessage(lobby[0].socketID, CCommon.ON_ARENA_CONNECT, Number(message.body));
-                    this.lobby.delete(request.gameId);
-
-                    return message;
-                case GameMode.free:
-                    message = await this.create3DArena(lobby, request.gameId);
-                    this.lobby.delete(request.gameId);
-
-                    return message;
-                default:
-                    return this.generateMessage(CCommon.ON_MODE_INVALID, CCommon.ON_MODE_INVALID);
-            }
+            return this.joinLobby(request, user, lobby);
         }
+    }
+
+    private newLobby(request: IGameRequest, user: IUser): Message {
+        const lobbyEvent: ILobbyEvent = this.generateLobbyEvent(request.gameId, MultiplayerButtonText.join);
+
+        this.lobby.set(request.gameId.valueOf(), [user]);
+        this.server.emit(CCommon.ON_LOBBY, lobbyEvent);
+
+        return this.generateMessage(CCommon.ON_WAITING, request.gameId.toString());
+    }
+
+    private async joinLobby(request: IGameRequest, user: IUser, lobby: IUser[]): Promise<Message> {
+        const lobbyEvent: ILobbyEvent = this.generateLobbyEvent(request.gameId, MultiplayerButtonText.create);
+
+        let message: Message;
+        lobby.push(user);
+        switch (request.mode) {
+            case GameMode.simple:
+                message = await this.create2DArena(lobby, request.gameId);
+                break;
+            case GameMode.free:
+                message = await this.create3DArena(lobby, request.gameId);
+                break;
+            default:
+                return this.generateMessage(CCommon.ON_MODE_INVALID, request.mode);
+        }
+        this.sendMessage(lobby[0].socketID, CCommon.ON_ARENA_CONNECT, Number(message.body));
+        this.lobby.delete(request.gameId);
+        this.server.emit(CCommon.ON_LOBBY, lobbyEvent);
+
+        return message;
     }
 
     private generateMessage(title: string, body: string): Message {
@@ -117,9 +150,16 @@ export class GameManagerService {
         };
     }
 
+    private generateLobbyEvent(gameID: number, buttonText: MultiplayerButtonText): ILobbyEvent {
+        return {
+            gameID:      gameID,
+            buttonText: buttonText,
+        };
+    }
+
     private async create2DArena(users: IUser[], gameId: number): Promise<Message> {
-        const arenaInfo: IArenaInfos<I2DInfos> = this.buildArena2DInfos(users, gameId);
-        const arena: Arena2D = new Arena2D(arenaInfo, this);
+        const arenaInfo: IArenaInfos<I2DInfos>  = this.buildArena2DInfos(users, gameId);
+        const arena: Arena2D                    = new Arena2D(arenaInfo, this);
         this.tempRoutine2d(gameId);
         this.manageCounter(gameId);
         this.gameIdByArenaId.set(arenaInfo.arenaId, gameId);
@@ -132,8 +172,23 @@ export class GameManagerService {
         };
     }
 
+    public getActiveLobby(): number[] {
+        const lobbyList: number[] = [];
+        this.lobby.forEach((value: IUser[], key: number) => {
+            lobbyList.push(key);
+        });
+
+        return lobbyList;
+    }
+
     private async initArena(arena: Arena<any, any, any, any>): Promise<void> {
         await arena.prepareArenaForGameplay();
+    }
+
+    public getDifferencesIndex(arenaId: number): number[] {
+        const arena: Arena<any, any, any, any> | undefined = this.arenas.get(arenaId);
+
+        return arena ? arena.getDifferencesIds() : [];
     }
 
     private tempRoutine2d(gameId: number): void {
@@ -148,9 +203,9 @@ export class GameManagerService {
     }
 
     private tempRoutine3d(gameId: number): void {
-        const path: string = Constants.SCENE_PATH + "/" + gameId + Constants.SCENES_FILE;
+        const path: string = Constants.SCENE_PATH + "/" + gameId + CCommon.SCENE_FILE;
         try {
-            this.assetManager.copyFileToTemp(path, gameId, Constants.SCENES_FILE);
+            this.assetManager.copyFileToTemp(path, gameId, CCommon.SCENE_FILE);
         } catch (error) {
             throw new TypeError(TEMP_ROUTINE_ERROR);
         }
@@ -168,9 +223,9 @@ export class GameManagerService {
         return {
             arenaId:            this.generateArenaID(),
             users:              users,
-            dataUrl:             {
-                original:       Constants.PATH_SERVER_TEMP + gameId + CCommon.ORIGINAL_FILE,
-                difference:     Constants.PATH_SERVER_TEMP + gameId + Constants.GENERATED_FILE,
+            dataUrl: {
+                original:   Constants.PATH_SERVER_TEMP + gameId + CCommon.ORIGINAL_FILE,
+                difference: Constants.PATH_SERVER_TEMP + gameId + Constants.GENERATED_FILE,
             },
         };
     }
@@ -179,8 +234,8 @@ export class GameManagerService {
         return {
             arenaId:            this.generateArenaID(),
             users:              users,
-            dataUrl:            {
-            sceneData:         "http://localhost:3000/scene/2_scene",
+            dataUrl:  {
+                sceneData:  Constants.PATH_SERVER_TEMP + gameId + CCommon.SCENE_FILE,
             },
         };
     }
@@ -194,13 +249,9 @@ export class GameManagerService {
         this.initArena(arena).catch(() => Constants.INIT_ARENA_ERROR);
         this.arenas.set(arenaInfo.arenaId, arena);
 
-        const paths: string = JSON.stringify([
-            CCommon.BASE_URL + "/temp/" + gameId + Constants.SCENES_FILE,
-        ]);
-
         return {
             title:  CCommon.ON_SUCCESS,
-            body:   paths,
+            body:   arenaInfo.arenaId.toString(),
         };
     }
 
@@ -212,56 +263,73 @@ export class GameManagerService {
         this.playerList.set(socketID, socket);
     }
 
+    public setServer(server: SocketIO.Server): void {
+        this.server = server;
+    }
+
     public unsubscribeSocketID(socketID: string, username: string): void {
         this.playerList.delete(socketID);
         this.removePlayerFromArena(username);
+        this.removePlayerFromLobby(username);
+    }
+
+    private removePlayerFromLobby(username: string): void {
+        let gameID: number = 0;
+
+        this.lobby.forEach((value: IUser[], key: number) => {
+            if (value.some((user: IUser) => user.username === username)) {
+                gameID = key;
+            }
+        });
+        this.lobby.delete(gameID);
+
+        if (gameID !== 0) {
+            const lobbyEvent: ILobbyEvent = this.generateLobbyEvent(gameID, MultiplayerButtonText.create);
+            this.server.emit(CCommon.ON_LOBBY, lobbyEvent);
+        }
     }
 
     private removePlayerFromArena(username: string): void {
         this.arenas.forEach((arena: Arena<any, any, any, any>) => {
             arena.getPlayers().forEach((player: Player) => {
-                if (player.username === username) {
+                if (player.getUsername() === username) {
                     arena.removePlayer(username);
                 }
             });
         });
     }
 
-    public deleteArena(arenaInfos: IArenaInfos<I2DInfos | I3DInfos>): void {
-        const arenaId: number = arenaInfos.arenaId;
-        const gameId: number | undefined = this.gameIdByArenaId.get(arenaId);
+    public deleteArena(arenaInfo: IArenaInfos<I2DInfos | I3DInfos>): void {
+        const arenaId:  number              = arenaInfo.arenaId;
+        const gameId:   number | undefined  = this.gameIdByArenaId.get(arenaId);
         if (gameId === undefined) {
             return;
         }
         const aliveArenaCount: number | undefined = this.countByGameId.get(gameId);
+
         if (aliveArenaCount === undefined) {
             return;
         }
-        if (aliveArenaCount !== 1) {
-            this.countByGameId.set(gameId, aliveArenaCount - 1);
-        } else {
-            this.deleteTempFiles(arenaInfos, gameId);
+        if (aliveArenaCount === 1) {
+            if ("original" in arenaInfo.dataUrl) {
+                this.assetManager.deleteFileInTemp(gameId, Constants.GENERATED_FILE);
+                this.assetManager.deleteFileInTemp(gameId, CCommon.ORIGINAL_FILE);
+            } else {
+                this.assetManager.deleteFileInTemp(gameId, CCommon.SCENE_FILE);
+            }
         }
-        this.arenas.delete(arenaInfos.arenaId);
-    }
-
-    private deleteTempFiles(arenaInfos: IArenaInfos<I2DInfos | I3DInfos>, gameId: number): void {
-        if ("original" in arenaInfos.dataUrl) {
-            this.assetManager.deleteFileInTemp(gameId, Constants.GENERATED_FILE);
-            this.assetManager.deleteFileInTemp(gameId, CCommon.ORIGINAL_FILE);
-        } else {
-            this.assetManager.deleteFileInTemp(gameId, Constants.SCENES_FILE);
-        }
+        this.countByGameId.set(gameId, aliveArenaCount - 1);
+        this.arenas.delete(arenaInfo.arenaId);
     }
 
     public get userList(): Map<string, SocketIO.Socket> {
         return this.playerList;
     }
 
-    public sendMessage(socketID: string, messageType: string, message: number): void {
+    public sendMessage<DATA_T>(socketID: string, event: string, data?: DATA_T): void {
         const playerSocket: SocketIO.Socket | undefined = this.playerList.get(socketID);
         if (playerSocket !== undefined) {
-            playerSocket.emit(messageType, message);
+            playerSocket.emit(event, data);
         }
     }
 
@@ -289,8 +357,8 @@ export class GameManagerService {
 
             players.forEach(( player: Player) => {
                 const user: IUser = {
-                    username: player.username,
-                    socketID: player.userSocketId,
+                    username: player.getUsername(),
+                    socketID: player.getUserSocketId(),
                 };
                 users.push(user);
             });
@@ -298,4 +366,35 @@ export class GameManagerService {
 
         return users;
     }
+
+    public endOfGameRoutine(newTime: Time, mode: Mode, arenaInfo: IArenaInfos<I2DInfos | I3DInfos>, arenaType: GameMode): void {
+        const gameID: number | undefined = this.gameIdByArenaId.get(arenaInfo.arenaId);
+        if (gameID === undefined) {
+            return;
+        }
+
+        const title: string = this.cardOperations.getCardById(gameID.toString(), arenaType).title;
+
+        this.highscoreService.updateHighscore(newTime, mode, gameID)
+        .then((answer: HighscoreValidationResponse) => {
+            if (answer.status === CCommon.ON_SUCCESS && answer.isNewHighscore) {
+                this.chatManagerService.sendNewHighScoreMessage(newTime.username, answer.index, title, mode, this.server);
+                this.server.emit(CCommon.ON_NEW_SCORE, gameID);
+                this.deleteArena(arenaInfo);
+            }
+        }).catch(() => {
+            this.server.emit(CCommon.ON_ERROR, HIGHSCORE_VALIDATION_ERROR);
+        });
+    }
+
+    public onGameLoaded(socketID: string, arenaID: number): void {
+        const arena: Arena<any, any, any, any> | undefined = this.arenas.get(arenaID);
+        if (!arena) {
+            return;
+        }
+
+        arena.onPlayerReady(socketID);
+    }
+    // _TODO: OTER CA APRES REFACTOR
+// tslint:disable-next-line:max-file-line-count
 }
