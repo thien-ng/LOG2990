@@ -43,56 +43,153 @@ describe("Threejs-movement", () => {
         expect(spy).toHaveBeenCalled();
     });
 
-    it("should set canera velocity when camera keyboard isn't pressed", () => {
-        const spy: any = spyOn<any>(threejsMovement, "multiplyVector");
+    it("should set canera velocity when camera keyboard isn't pressed (check movement)", () => {
+
+        threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
+        threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
+        threejsMovement["direction"]    = new THREE.Vector3(1, 2, 3);
+        threejsMovement["velocity"]     = new THREE.Vector3(3, 3, 3);
+
         threejsMovement.movementCamera(false, false, false, false);
-        expect(spy).toHaveBeenCalled();
+
+        const isNewPosition: any =  threejsMovement["camera"].position.x === 0 ||
+                                    threejsMovement["camera"].position.y === 0 ||
+                                    threejsMovement["camera"].position.z === 0;
+
+        expect(isNewPosition).toBe(true);
     });
 
-    it("should move camera forward", () => {
+    it("should set canera velocity when camera keyboard isn't pressed (check call)", () => {
         const spy: any = spyOn<any>(threejsMovement, "setCameratVelocity");
+
+        threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
+        threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
+        threejsMovement["direction"]    = new THREE.Vector3(1, 2, 3);
+        threejsMovement["velocity"]     = new THREE.Vector3(3, 3, 3);
+
+        threejsMovement.movementCamera(false, false, false, false);
+
+        expect(spy).not.toHaveBeenCalled();
+    });
+
+    it("should move camera forward (check value)", () => {
+        const camera: any = threejsMovement["camera"];
+
+        threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
+        threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
+        threejsMovement["direction"]    = new THREE.Vector3(1, 2, 3);
+        threejsMovement["velocity"]     = new THREE.Vector3(3, 3, 3);
+
         threejsMovement.movementCamera(true, false, false, false);
-        expect(spy).toHaveBeenCalled();
+
+        const isNewPosition: any =  threejsMovement["camera"].position.x !== camera.position.x &&
+                                    threejsMovement["camera"].position.y !== camera.position.y &&
+                                    threejsMovement["camera"].position.z !== camera.position.z;
+
+        expect(isNewPosition).toBe(false);
     });
 
-    it("should move camera backward", () => {
+    it("should move camera forward (check call)", () => {
         const spy: any = spyOn<any>(threejsMovement, "setCameratVelocity");
+
+        threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
+        threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
+        threejsMovement["direction"]    = new THREE.Vector3(1, 2, 3);
+        threejsMovement["velocity"]     = new THREE.Vector3(3, 3, 3);
+
+        threejsMovement.movementCamera(true, false, false, false);
+
+        expect(spy).toHaveBeenCalled();
+    });
+
+    it("should move camera backward (check value)", () => {
+        const camera: any = threejsMovement["camera"];
+
+        threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
+        threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
+        threejsMovement["direction"]    = new THREE.Vector3(1, 2, 3);
+        threejsMovement["velocity"]     = new THREE.Vector3(3, 3, 3);
+
         threejsMovement.movementCamera(false, true, false, false);
+
+        const isNewPosition: any =  threejsMovement["camera"].position.x !== camera.position.x &&
+                                    threejsMovement["camera"].position.y !== camera.position.y &&
+                                    threejsMovement["camera"].position.z !== camera.position.z;
+
+        expect(isNewPosition).toBe(false);
+    });
+
+    it("should move camera backward (check call)", () => {
+        const spy: any = spyOn<any>(threejsMovement, "setCameratVelocity");
+
+        threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
+        threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
+        threejsMovement["direction"]    = new THREE.Vector3(1, 2, 3);
+        threejsMovement["velocity"]     = new THREE.Vector3(3, 3, 3);
+
+        threejsMovement.movementCamera(false, true, false, false);
+
         expect(spy).toHaveBeenCalled();
     });
 
-    it("should move camera left", () => {
-        const spy: any = spyOn<any>(threejsMovement, "moveToSide");
+    it("should move camera left (check value)", () => {
+        const camera: any = threejsMovement["camera"];
+
+        threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
+        threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
+        threejsMovement["direction"]    = new THREE.Vector3(1, 2, 3);
+        threejsMovement["velocity"]     = new THREE.Vector3(3, 3, 3);
+
         threejsMovement.movementCamera(false, false, true, false);
+
+        const isNewPosition: any =  threejsMovement["camera"].position.x !== camera.position.x &&
+                                    threejsMovement["camera"].position.y !== camera.position.y &&
+                                    threejsMovement["camera"].position.z !== camera.position.z;
+
+        expect(isNewPosition).toBe(false);
+    });
+
+    it("should move camera left (check call)", () => {
+        const spy: any = spyOn<any>(threejsMovement, "setCameratVelocity");
+
+        threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
+        threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
+        threejsMovement["direction"]    = new THREE.Vector3(1, 2, 3);
+        threejsMovement["velocity"]     = new THREE.Vector3(3, 3, 3);
+
+        threejsMovement.movementCamera(false, false, true, false);
+
         expect(spy).toHaveBeenCalled();
     });
 
-    it("should move camera right", () => {
-        const spy: any = spyOn<any>(threejsMovement, "moveToSide");
+    it("should move camera right (check value)", () => {
+        const camera: any = threejsMovement["camera"];
+
+        threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
+        threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
+        threejsMovement["direction"]    = new THREE.Vector3(1, 2, 3);
+        threejsMovement["velocity"]     = new THREE.Vector3(3, 3, 3);
+
         threejsMovement.movementCamera(false, false, false, true);
-        expect(spy).toHaveBeenCalled();
+
+        const isNewPosition: any =  threejsMovement["camera"].position.x !== camera.position.x &&
+                                    threejsMovement["camera"].position.y !== camera.position.y &&
+                                    threejsMovement["camera"].position.z !== camera.position.z;
+
+        expect(isNewPosition).toBe(false);
     });
 
-    it("should move to side with to the left side", () => {
-        const spy: any = spyOn<any>(threejsMovement, "crossProduct");
-        threejsMovement["moveToSide"](1);
+    it("should move camera right (check call)", () => {
+        const spy: any = spyOn<any>(threejsMovement, "setCameratVelocity");
+
+        threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
+        threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
+        threejsMovement["direction"]    = new THREE.Vector3(1, 2, 3);
+        threejsMovement["velocity"]     = new THREE.Vector3(3, 3, 3);
+
+        threejsMovement.movementCamera(false, false, false, true);
+
         expect(spy).toHaveBeenCalled();
-    });
-
-    it("should move to side with to the right side", () => {
-        const spy: any = spyOn<any>(threejsMovement, "crossProduct");
-        threejsMovement["moveToSide"](-1);
-        expect(spy).toHaveBeenCalled();
-    });
-
-    it("should do a cross product of vectors", () => {
-        const vector1: THREE.Vector3 = new THREE.Vector3(1, 2, 3);
-        const vector2: THREE.Vector3 = new THREE.Vector3(4, 7, 1);
-        const vector3: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-
-        threejsMovement["crossProduct"](vector1, vector2, vector3);
-
-        expect(vector3.x).toBe(0);
     });
 
 });
