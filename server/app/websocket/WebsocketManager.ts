@@ -14,6 +14,7 @@ import { CardOperations } from "../services/card-operations.service";
 import { ChatManagerService } from "../services/chat-manager.service";
 import { IPlayerInput } from "../services/game/arena/interfaces";
 import { GameManagerService } from "../services/game/game-manager.service";
+import { LobbyManagerService } from "../services/game/lobby-manager.service";
 import { HighscoreService } from "../services/highscore.service";
 import { UserManagerService } from "../services/user-manager.service";
 import Types from "../types";
@@ -24,11 +25,12 @@ export class WebsocketManager {
     private io: SocketIO.Server;
 
     public constructor(
-        @inject(Types.UserManagerService) private userManagerService: UserManagerService,
-        @inject(Types.GameManagerService) private gameManagerService: GameManagerService,
-        @inject(Types.ChatManagerService) private chatManagerService: ChatManagerService,
-        @inject(Types.HighscoreService)   private highscoreService:   HighscoreService,
-        @inject(Types.CardOperations)     private cardOperations:     CardOperations) {}
+        @inject(Types.UserManagerService)   private userManagerService:     UserManagerService,
+        @inject(Types.GameManagerService)   private gameManagerService:     GameManagerService,
+        @inject(Types.ChatManagerService)   private chatManagerService:     ChatManagerService,
+        @inject(Types.HighscoreService)     private highscoreService:       HighscoreService,
+        @inject(Types.LobbyManagerService)  private lobbyManagerService:    LobbyManagerService,
+        @inject(Types.CardOperations)       private cardOperations:         CardOperations) {}
 
     public createWebsocket(server: http.Server): void {
         this.io = SocketIO(server);
@@ -43,6 +45,7 @@ export class WebsocketManager {
             this.gameManagerService.setServer(this.io);
             this.cardOperations.setServer(this.io);
             this.highscoreService.setServer(this.io);
+            this.lobbyManagerService.setServer(this.io);
             this.loginSocketChecker(user, socketID, socket);
             this.gameSocketChecker(socketID, socket);
             this.chatSocketChecker(socket);

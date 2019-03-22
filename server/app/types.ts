@@ -23,6 +23,7 @@ export default  {
 
         GameManagerController:          Symbol("GameManagerController"),
         GameManagerService:             Symbol("GameManagerService"),
+        LobbyManagerService:            Symbol("LobbyManagerService"),
 
         SceneManagerController:         Symbol("SceneManagerController"),
         SceneManager:                   Symbol("SceneManager"),
@@ -33,4 +34,6 @@ export default  {
         TimeManagerService:             Symbol("TimeManagerService"),
 
         ChatManagerService:             Symbol("ChatManagerService"),
+
+        AssetManagerService:            Symbol("AssetManagerService"),
 };
