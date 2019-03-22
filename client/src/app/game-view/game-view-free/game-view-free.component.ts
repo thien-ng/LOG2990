@@ -134,9 +134,9 @@ export class GameViewFreeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public enableClickRoutine(): void {
-    document.body.style.cursor          = "auto";
-    this.erreurText.nativeElement.textContent = null;
-    this.erreurText2.nativeElement.textContent = null;
+    document.body.style.cursor                  = "auto";
+    this.erreurText.nativeElement.textContent   = null;
+    this.erreurText2.nativeElement.textContent  = null;
   }
 
   private disableClickRoutine(): void {

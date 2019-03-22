@@ -35,13 +35,13 @@ describe("GameViewFreeService Test", () => {
   });
 });
 
-  it("should set success sounds", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
+  it("should set success sound", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
     gameViewService.setSounds(new ElementRef<any>("url/success"), new ElementRef<any>("url/fail"));
 
     expect(gameViewService["successSound"]).toEqual(new ElementRef<any>("url/success"));
   }));
 
-  it("should set fail sounds", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
+  it("should set fail sound", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
     gameViewService.setSounds(new ElementRef<any>("url/success"), new ElementRef<any>("url/fail"));
 
     expect(gameViewService["failSound"]).toEqual(new ElementRef<any>("url/fail"));
@@ -62,7 +62,7 @@ describe("GameViewFreeService Test", () => {
     const audio1: HTMLAudioElement = document.createElement("audio");
     const audio2: HTMLAudioElement = document.createElement("audio");
     const successSound: ElementRef = new ElementRef<HTMLAudioElement>(audio1);
-    const failsound: ElementRef = new ElementRef<HTMLAudioElement>(audio2);
+    const failsound: ElementRef    = new ElementRef<HTMLAudioElement>(audio2);
     gameViewService.setSounds(successSound, failsound);
     gameViewService.onArenaResponse(expectedResponse);
     expect(spy).toHaveBeenCalled();
@@ -90,7 +90,7 @@ describe("GameViewFreeService Test", () => {
     const audio1: HTMLAudioElement = document.createElement("audio");
     const audio2: HTMLAudioElement = document.createElement("audio");
     const successSound: ElementRef = new ElementRef<HTMLAudioElement>(audio1);
-    const failsound: ElementRef = new ElementRef<HTMLAudioElement>(audio2);
+    const failsound: ElementRef    = new ElementRef<HTMLAudioElement>(audio2);
     gameViewService.setSounds(successSound, failsound);
     const spy: any = spyOn(gameViewService["successSound"].nativeElement, "play");
     gameViewService.onArenaResponse(expectedResponse);

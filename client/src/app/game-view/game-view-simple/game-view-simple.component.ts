@@ -53,7 +53,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       this.cardLoaded     = false;
       this.gameIsStarted  = false;
       this.username       = sessionStorage.getItem(Constants.USERNAME_KEY);
-      this.position = {x: 0, y: 0};
+      this.position       = {x: 0, y: 0};
       this.gameConnectionService.getGameConnectedListener().pipe(first()).subscribe((arenaID: number) => {
         this.arenaID = arenaID;
         this.socketService.sendMessage(CCommon.GAME_CONNECTION, arenaID);
@@ -157,14 +157,14 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
 
   private sendClickEvent(mouseEvent: MouseEvent): void {
 
-    const pos: IPosition2D = {
+    const position2d: IPosition2D = {
       x:    mouseEvent.offsetX,
       y:    mouseEvent.offsetY,
     };
 
-    this.position = pos;
+    this.position = position2d;
     if (this.username !== null) {
-      const canvasPosition: IClickMessage<IPosition2D> = this.gameViewService.onCanvasClick(pos, this.arenaID, this.username);
+      const canvasPosition: IClickMessage<IPosition2D> = this.gameViewService.onCanvasClick(position2d, this.arenaID, this.username);
       this.socketService.sendMessage(CCommon.POSITION_VALIDATION, canvasPosition);
     }
   }

@@ -6,7 +6,7 @@ import { IArenaResponse, IClickMessage, IOriginalPixelCluster, IPosition2D } fro
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { GameViewSimpleService } from "./game-view-simple.service";
 
-// tslint:disable:no-any no-magic-numbers no-empty
+// tslint:disable: no-any no-magic-numbers no-empty
 const hitPosition: IPosition2D = {
   x: 1,
   y: 1,
@@ -83,7 +83,7 @@ describe("GameViewSimpleService Test", () => {
     const expectedResponse: IArenaResponse<IOriginalPixelCluster> = {
       status:     CCommon.ON_SUCCESS,
       response:   undefined,
-  };
+    };
     gameViewService.onArenaResponse(expectedResponse);
     expect(spy).toHaveBeenCalled();
   }));
@@ -93,7 +93,7 @@ describe("GameViewSimpleService Test", () => {
     const expectedResponse: IArenaResponse<IOriginalPixelCluster> = {
       status:     CCommon.ON_ERROR,
       response:   undefined,
-  };
+    };
     gameViewService.onArenaResponse(expectedResponse);
     expect(spy).not.toHaveBeenCalled();
   }));
@@ -125,7 +125,7 @@ describe("GameViewSimpleService Test", () => {
     const audio1: HTMLAudioElement = document.createElement("audio");
     const audio2: HTMLAudioElement = document.createElement("audio");
     const successSound: ElementRef = new ElementRef<HTMLAudioElement>(audio1);
-    const failsound: ElementRef = new ElementRef<HTMLAudioElement>(audio2);
+    const failsound:    ElementRef = new ElementRef<HTMLAudioElement>(audio2);
     gameViewService.setSounds(successSound, failsound);
     const spy: any = spyOn(gameViewService["successSound"].nativeElement, "play");
     gameViewService.onArenaResponse(expectedResponse);
@@ -136,7 +136,7 @@ describe("GameViewSimpleService Test", () => {
     const audio1: HTMLAudioElement = document.createElement("audio");
     const audio2: HTMLAudioElement = document.createElement("audio");
     const successSound: ElementRef = new ElementRef<HTMLAudioElement>(audio1);
-    const failsound: ElementRef = new ElementRef<HTMLAudioElement>(audio2);
+    const failsound:    ElementRef = new ElementRef<HTMLAudioElement>(audio2);
     gameViewService.setSounds(successSound, failsound);
     const spy: any = spyOn(gameViewService["failSound"].nativeElement, "play");
     gameViewService.playFailSound();
