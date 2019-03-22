@@ -74,4 +74,17 @@ describe("GameViewSimpleService", () => {
 
     expect(generatedClickMessage).toEqual(clickMessage);
   }));
+
+  it("should play success sound when getting a success click", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
+    const canvas: CanvasRenderingContext2D = mock(CanvasRenderingContext2D);
+    gameViewService.setCanvas(canvas);
+    gameViewService.setSounds(mock(ElementRef), mock(ElementRef));
+    const spy: any = spyOn<any>(gameViewService, "playSuccessSound");
+    const expectedResponse: IArenaResponse<IOriginalPixelCluster> = {
+      status:     CCommon.ON_SUCCESS,
+      response:   undefined,
+  };
+    gameViewService.onArenaResponse(expectedResponse);
+    expect(spy).toHaveBeenCalled();
+  }));
 });
