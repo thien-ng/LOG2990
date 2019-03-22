@@ -1,10 +1,20 @@
 import { inject, TestBed } from "@angular/core/testing";
 
 import { ElementRef } from "@angular/core";
+import { MatSnackBar } from "@angular/material";
+import { Router } from "@angular/router";
+import { CardManagerService } from "src/app/card/card-manager.service";
+import { GameConnectionService } from "src/app/game-connection.service";
+import { mock } from "ts-mockito";
 import { GameMode } from "../../../../../common/communication/iCard";
 import { ActionType, IArenaResponse, ISceneObjectUpdate } from "../../../../../common/communication/iGameplay";
 import { ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { CCommon } from "../../../../../common/constantes/cCommon";
+import { ChatViewService } from "../chat-view/chat-view.service";
+import { DifferenceCounterService } from "../difference-counter/difference-counter.service";
+import { GameViewSimpleService } from "../game-view-simple/game-view-simple.service";
+import { TimerService } from "../timer/timer.service";
+import { SocketService } from "./../../websocket/socket.service";
 import { GameViewFreeService } from "./game-view-free.service";
 
 // tslint:disable:no-any no-magic-numbers no-empty
