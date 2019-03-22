@@ -165,7 +165,7 @@ describe("Scene-modifier tests", () => {
         chai.expect(counterDifference).to.be.equal(7);
     });
 
-    it("should have 7 modifications (adding and removals)", () => {
+    it("should have 7 modifications (additions and removals)", () => {
         iSceneOptions = {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
