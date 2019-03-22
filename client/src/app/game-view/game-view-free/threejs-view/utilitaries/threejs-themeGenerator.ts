@@ -32,6 +32,16 @@ export class ThreejsThemeGenerator {
     objectMesh.material = new THREE.MeshPhongMaterial({color: color});
   }
 
+  private generateSphere(object3D: ISceneObject): void {
+    const generatedColor:   THREE.MeshBasicMaterial = this.createObjectColor(object3D);
+    const sphereGeometry:   THREE.Geometry          = new THREE.SphereGeometry(object3D.scale.x);
+    const generatedObject:  THREE.Mesh              = new THREE.Mesh(sphereGeometry, generatedColor);
+
+    this.addColorToMap(object3D.id, object3D.color);
+    this.addObjectIdToMap(object3D.id, generatedObject.id);
+    this.addObjectToScene(generatedObject, object3D.position, object3D.rotation);
+  }
+
   }
 
   private addObjectIdToMap(objectId: number, generatedObjectId: number): void {
