@@ -97,6 +97,20 @@ export class ThreejsThemeViewService {
     this.threejsRaycast.setMaps(this.idBySceneId);
     this.threejsRaycast.setThreeGenerator(this.threejsGenerator);
 
+    this.createLighting();
+
+  private createLighting(): void {
+
+    const firstLight:   THREE.DirectionalLight = new THREE.DirectionalLight(Constants.FIRST_LIGHT_COLOR, Constants.FIRST_LIGHT_INTENSITY);
+    const secondLight:  THREE.DirectionalLight = new THREE.DirectionalLight(Constants.SECOND_LIGHT_COLOR, Constants.SECOND_LIGHT_INTENSITY);
+
+    firstLight.position.set(Constants.FIRST_LIGHT_POSITION_X, Constants.FIRST_LIGHT_POSITION_Y, Constants.FIRST_LIGHT_POSITION_Z);
+    secondLight.position.set(Constants.SECOND_LIGHT_POSITION_X, Constants.SECOND_LIGHT_POSITION_Y, Constants.SECOND_LIGHT_POSITION_Z);
+
+    this.scene.add(firstLight);
+    this.scene.add(secondLight);
+    this.scene.add(this.ambLight);
+  }
   public onKeyUp(keyboardEvent: KeyboardEvent): void {
 
     const keyValue: string = keyboardEvent.key.toLowerCase();
