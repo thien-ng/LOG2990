@@ -62,7 +62,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
   @HostListener("body:keyup", ["$event"])
   public async keyboardEventListenerUp(keyboardEvent: KeyboardEvent): Promise<void> {
     if (!this.focusChat) {
-      this.threejsViewService.onKeyUp(keyboardEvent);
+      this.threejsViewService.onKeyMovement(keyboardEvent, false);
     }
   }
 
@@ -70,7 +70,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
   public async keyboardEventListenerDown(keyboardEvent: KeyboardEvent): Promise<void> {
     if (!this.focusChat) {
       this.onKeyDown(keyboardEvent);
-      this.threejsViewService.onKeyDown(keyboardEvent);
+      this.threejsViewService.onKeyMovement(keyboardEvent, true);
     }
   }
 
