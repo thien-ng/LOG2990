@@ -12,6 +12,11 @@ export class ThreejsThemeGenerator {
     private originalColorById:     Map<number, string>,
     private idBySceneId:           Map<number, number>,
     private opacityById:           Map<number, number>) {}
+
+  public initiateObject(object3D: ISceneObject): void {
+
+  }
+
   private addObjectIdToMap(objectId: number, generatedObjectId: number): void {
 
     if (this.sceneIdById && this.idBySceneId) {
