@@ -10,6 +10,7 @@ import {
   ValidatorFn
 } from "@angular/forms";
 import { MatDialogRef, MatSnackBar } from "@angular/material";
+import { IMesh, ISceneObject } from "../../../../common/communication/iSceneObject";
 import { ISceneData } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
