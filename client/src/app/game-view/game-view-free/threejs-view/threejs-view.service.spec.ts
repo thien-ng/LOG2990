@@ -377,7 +377,7 @@ describe("ThreejsViewService Tests", () => {
       expect(threejsViewService["moveForward"]).toBe(false);
   }));
 
-  it("should make the camera move forward keyDown",
+  it("should stop the camera move forward keyDown",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     const keyboardEvent: any = new KeyboardEvent("keydown", {
@@ -401,7 +401,7 @@ describe("ThreejsViewService Tests", () => {
       expect(threejsViewService["moveBackward"]).toBe(false);
   }));
 
-  it("should make the camera move backward keyDown",
+  it("should stop the camera move backward keyDown",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     const keyboardEvent: any = new KeyboardEvent("keydown", {
@@ -413,7 +413,7 @@ describe("ThreejsViewService Tests", () => {
     expect(threejsViewService["moveBackward"]).toBe(true);
   }));
 
-  it("should make the camera move left keyDown",
+  it("should stop the camera move to the left",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     const keyboardEvent: any = new KeyboardEvent("keydown", {
@@ -425,7 +425,7 @@ describe("ThreejsViewService Tests", () => {
     expect(threejsViewService["moveLeft"]).toBe(true);
   }));
 
-  it("should make the camera move left keyDown",
+  it("should stop the camera move to the right",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     const keyboardEvent: any = new KeyboardEvent("keydown", {
@@ -437,7 +437,7 @@ describe("ThreejsViewService Tests", () => {
     expect(threejsViewService["moveRight"]).toBe(true);
   }));
 
-  it("should make the camera move left keyDown",
+  it("should not make camera move",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
       const keyboardEvent: any = new KeyboardEvent("keydown", {

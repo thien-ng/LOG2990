@@ -28,7 +28,6 @@ let scene:              THREE.Scene;
 let threejsRaycast:     ThreejsRaycast;
 let threejsGenerator:   ThreejsGenerator;
 let raycaster:          THREE.Raycaster;
-// let mouse:              THREE.Vector3;
 
 describe("threejs-raycast tests", () => {
 

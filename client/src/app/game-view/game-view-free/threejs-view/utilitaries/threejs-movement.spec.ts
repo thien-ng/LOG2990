@@ -19,7 +19,7 @@ describe("Threejs-movement", () => {
         threejsMovement = new ThreejsMovement(camera);
     });
 
-    it("should set camera directions to front", () => {
+    it("should set camera directions to front (to set the camera direction)", () => {
         const spy: any = spyOn<any>(threejsMovement, "multiplyVector");
         threejsMovement.setupFront(1);
         expect(spy).toHaveBeenCalled();
@@ -43,7 +43,7 @@ describe("Threejs-movement", () => {
         expect(spy).toHaveBeenCalled();
     });
 
-    it("should set canera velocity when camera keyboard isn't pressed (check movement)", () => {
+    it("should set camera velocity when camera keyboard isn't pressed (check movement)", () => {
 
         threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
         threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
@@ -59,7 +59,7 @@ describe("Threejs-movement", () => {
         expect(isNewPosition).toBe(true);
     });
 
-    it("should set canera velocity when camera keyboard isn't pressed (check call)", () => {
+    it("should set camera velocity when camera keyboard isn't pressed (check call)", () => {
         const spy: any = spyOn<any>(threejsMovement, "setCameratVelocity");
 
         threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
