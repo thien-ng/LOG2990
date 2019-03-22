@@ -10,6 +10,8 @@ export class ThreejsRaycast {
     private renderer:           THREE.WebGLRenderer;
     private camera:             THREE.PerspectiveCamera;
     private scene:              THREE.Scene;
+    private mouse:              THREE.Vector3;
+    private raycaster:          THREE.Raycaster;
     private idBySceneId:        Map<number, number>;
     private threejsGenerator:   ThreejsGenerator | ThreejsThemeGenerator;
 
@@ -20,6 +22,9 @@ export class ThreejsRaycast {
         this.camera   = camera;
         this.renderer = renderer;
         this.scene    = scene;
+
+        this. mouse     = new THREE.Vector3();
+        this.raycaster  = new THREE.Raycaster();
     }
 
     public setMaps(idBySceneId: Map<number, number>): void {
@@ -32,18 +37,13 @@ export class ThreejsRaycast {
 
     public detectObject(mouseEvent: MouseEvent): number {
         mouseEvent.preventDefault();
+        this.mouse.x =   ( mouseEvent.offsetX / this.renderer.domElement.clientWidth ) * this.NORMALIZE_FACTOR - 1;
+        this.mouse.y = - ( mouseEvent.offsetY / this.renderer.domElement.clientHeight ) * this.NORMALIZE_FACTOR + 1;
+        this.mouse.z = 0;
 
-        const mouse:      THREE.Vector3   = new THREE.Vector3();
-        const raycaster:  THREE.Raycaster = new THREE.Raycaster();
+        this.raycaster.setFromCamera(this.mouse, this.camera);
 
-        mouse.x =   ( mouseEvent.offsetX / this.renderer.domElement.clientWidth ) * this.NORMALIZE_FACTOR - 1;
-        mouse.y = - ( mouseEvent.offsetY / this.renderer.domElement.clientHeight ) * this.NORMALIZE_FACTOR + 1;
-        mouse.z = 0;
-
-        raycaster.setFromCamera(mouse, this.camera);
-
-        const objectsIntersected: THREE.Intersection[] = raycaster.intersectObjects(this.scene.children);
-
+        const objectsIntersected: THREE.Intersection[] = this.raycaster.intersectObjects(this.scene.children);
         if (objectsIntersected.length > 0) {
           const firstIntersectedId: number = objectsIntersected[0].object.id;
 

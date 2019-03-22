@@ -8,8 +8,9 @@ import {
   Inject,
   Input,
   OnChanges,
+  OnDestroy,
   Output,
-  ViewChild } from "@angular/core";
+  ViewChild} from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import { GameConnectionService } from "src/app/game-connection.service";
 import * as THREE from "three";
@@ -34,7 +35,7 @@ import { ThreejsViewService } from "./threejs-view.service";
   styleUrls:    ["./threejs-view.component.css"],
   providers:    [ThreejsViewService, ThreejsThemeViewService],
 })
-export class TheejsViewComponent implements AfterContentInit, OnChanges {
+export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestroy {
 
   private readonly CHEAT_URL:           string = "cheat/";
   private readonly CHEAT_KEYBOARD_KEY:  string = "t";
@@ -65,7 +66,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   @HostListener("body:keyup", ["$event"])
   public async keyboardEventListenerUp(keyboardEvent: KeyboardEvent): Promise<void> {
     if (!this.focusChat) {
-      this.sceneBuilderService.onKeyUp(keyboardEvent);
+      this.sceneBuilderService.onKeyMovement(keyboardEvent, false);
     }
   }
 
@@ -73,7 +74,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   public async keyboardEventListenerDown(keyboardEvent: KeyboardEvent): Promise<void> {
     if (!this.focusChat) {
       this.onKeyDown(keyboardEvent);
-      this.sceneBuilderService.onKeyDown(keyboardEvent);
+      this.sceneBuilderService.onKeyMovement(keyboardEvent, true);
     }
   }
 
@@ -243,6 +244,11 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
       duration:           Constants.SNACKBAR_DURATION,
       verticalPosition:   "top",
     });
+  }
+
+  public ngOnDestroy(): void {
+    this.renderer.dispose();
+    cancelAnimationFrame(this.threejsViewService.handleId);
   }
 
 }
