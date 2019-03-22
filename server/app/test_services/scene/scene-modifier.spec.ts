@@ -255,7 +255,7 @@ describe("Scene-modifier tests (2 changes)", () => {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
             sceneObjectsQuantity:   10,
-            selectedOptions:        [true, true, false],
+            selectedOptions:        [false, true, true],
         };
 
         const sceneModified: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
@@ -272,14 +272,11 @@ describe("Scene-modifier tests (2 changes)", () => {
             iSceneVariables.sceneObjects.forEach((sceneObjElt: any) => {
                 if (sceneModifiedElt.id === sceneObjElt.id && sceneModifiedElt.color !== sceneObjElt.color) {
                     counterDifference++;
-                    console.log("1 " , sceneModifiedElt.color);
-                    console.log("2 " , sceneObjElt.color);
                 }
             });
         });
-        console.log(counterDifference);
 
-        // chai.expect(counterDifference).to.be.equal(7);
+        chai.expect(counterDifference).to.be.equal(7);
     });
 
     it("should have 7 modifications (additions and colors)", () => {
