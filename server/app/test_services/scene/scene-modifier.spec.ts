@@ -222,4 +222,17 @@ describe("Scene-modifier tests", () => {
 
         chai.expect(modifiedList.length).to.be.equal(0);
     });
+
+    it("should have 7 modifications (additions, removals and colors)", () => {
+        iSceneOptions = {
+            sceneName:              "game",
+            sceneType:              SceneType.Thematic,
+            sceneObjectsQuantity:   10,
+            selectedOptions:        [true, true, true],
+        };
+
+        sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+
+        chai.expect(modifiedList.length).to.be.equal(7);
+    });
 });
