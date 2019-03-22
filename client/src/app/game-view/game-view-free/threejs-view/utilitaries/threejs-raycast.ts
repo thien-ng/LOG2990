@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { ActionType, ISceneObjectUpdate } from "../../../../../../../common/communication/iGameplay";
 import { ThreejsGenerator } from "./threejs-generator";
+import { ThreejsThemeGenerator } from "./threejs-themeGenerator";
 
 export class ThreejsRaycast {
 
@@ -10,7 +11,7 @@ export class ThreejsRaycast {
     private camera:             THREE.PerspectiveCamera;
     private scene:              THREE.Scene;
     private idBySceneId:        Map<number, number>;
-    private threejsGenerator:   ThreejsGenerator;
+    private threejsGenerator:   ThreejsGenerator | ThreejsThemeGenerator;
 
     public constructor(
         camera:   THREE.PerspectiveCamera,
@@ -25,7 +26,7 @@ export class ThreejsRaycast {
         this.idBySceneId = idBySceneId;
     }
 
-    public setThreeGenerator(threejsGenerator: ThreejsGenerator): void {
+    public setThreeGenerator(threejsGenerator: ThreejsGenerator | ThreejsThemeGenerator): void {
         this.threejsGenerator = threejsGenerator;
     }
 
