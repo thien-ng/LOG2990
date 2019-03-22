@@ -129,6 +129,12 @@ export class ThreejsThemeGenerator {
     }
   }
 
+  private addColorToMap(objectId: number, objectColor: string): void {
+    if (this.originalColorById) {
+      this.originalColorById.set(objectId, objectColor);
+    }
+  }
+
   private addObjectToScene(object3D: THREE.Mesh, position: IAxisValues, orientation: IAxisValues): void {
     this.setObjectPosition(object3D, position);
     this.setObjectRotation(object3D, orientation);
