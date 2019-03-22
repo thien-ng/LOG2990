@@ -204,7 +204,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
       sceneObjectsQuantity:   variables.originalScene.sceneObjectsQuantity,
     };
     this.modifiedVariables = {
-      theme:                  variables.modifiedScene.theme,
+      theme:                  variables.originalScene.theme,
       gameName:               variables.modifiedScene.gameName,
       sceneBackgroundColor:   variables.modifiedScene.sceneBackgroundColor,
       sceneObjects:           variables.modifiedScene.sceneObjects,
