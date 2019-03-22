@@ -1,11 +1,13 @@
 import { inject, TestBed } from "@angular/core/testing";
 import * as THREE from "three";
 import { anyNumber, mock, when } from "ts-mockito";
-import { ActionType, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
+import { ActionType, IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { SceneObjectType } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
+import { GameViewFreeService } from "../game-view-free.service";
 import { ThreejsViewService } from "./threejs-view.service";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
+import { ThreejsRaycast } from "./utilitaries/threejs-raycast";
 
 // tslint:disable:no-any max-file-line-count
 
@@ -47,7 +49,7 @@ describe("ThreejsViewService Tests", () => {
   }));
 
   it("should render scene",             inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
-    const spy: any = spyOn<any>(threejsViewService, "renderObject");
+    const spy: any = spyOn<any>(threejsViewService, "renderScene");
     threejsViewService.createScene(scene, sceneVariables, renderer, false, 1);
     threejsViewService.animate();
     expect(spy).toHaveBeenCalled();
@@ -113,21 +115,6 @@ describe("ThreejsViewService Tests", () => {
 
     expect(spy).toHaveBeenCalled();
   }));
-
-  // _TODO test to do in next pr
-  // it("should return -1 if no object is detected",
-  //    inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
-
-  //   threejsViewService["mouse"]     = mock(THREE.Vector3);
-  //   threejsViewService["camera"]    = mock(THREE.PerspectiveCamera);
-  //   threejsViewService["raycaster"] = mock(THREE.Raycaster);
-
-  //   threejsViewService.createScene(scene, sceneVariables, renderer);
-  //   const result: number = threejsViewService.detectObject(mock(MouseEvent));
-
-  //   expect(result).toBe(-1);
-
-  // }));
 
   it("should not do any update to scene because of undefined object (not call initiateObject)",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
@@ -340,6 +327,126 @@ describe("ThreejsViewService Tests", () => {
     threejsViewService.updateSceneWithNewObject(objectUpdate);
 
     expect(deleteSpy).not.toHaveBeenCalled();
+  }));
+
+  it("should call rotateCamera from threejsMovement",
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+
+      const position: IPosition2D = {x: 1, y: 1};
+
+      const spy: any = spyOn<any>(threejsViewService["threejsMovement"], "rotateCamera");
+      threejsViewService.rotateCamera(position);
+      expect(spy).toHaveBeenCalled();
+  }));
+
+  it("should call detectObject from threejsRayCast",
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+
+        threejsViewService["gameViewFreeService"] = mock(GameViewFreeService);
+        threejsViewService["threejsRaycast"] = mock(ThreejsRaycast);
+        const spy: any = spyOn<any>(threejsViewService["threejsRaycast"], "detectObject");
+        const mockedMouseEvent: any = mock(MouseEvent);
+
+        threejsViewService.detectObject(mockedMouseEvent);
+
+        expect(spy).toHaveBeenCalled();
+  }));
+
+  it("should call detectObject from threejsRayCast",
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+
+      threejsViewService["gameViewFreeService"] = mock(GameViewFreeService);
+      threejsViewService["threejsRaycast"] = mock(ThreejsRaycast);
+      const spy: any = spyOn<any>(threejsViewService["threejsRaycast"], "detectObject");
+      const mockedMouseEvent: any = mock(MouseEvent);
+
+      threejsViewService.detectObject(mockedMouseEvent);
+
+      expect(spy).toHaveBeenCalled();
+  }));
+
+  it("should make the camera move forward keyUp",
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+
+      const keyboardEvent: any = new KeyboardEvent("keyup", {
+        key: "w",
+      });
+
+      threejsViewService.onKeyMovement(keyboardEvent, false);
+
+      expect(threejsViewService["moveForward"]).toBe(false);
+  }));
+
+  it("should stop the camera move forward keyDown",
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+
+    const keyboardEvent: any = new KeyboardEvent("keydown", {
+      key: "w",
+    });
+
+    threejsViewService.onKeyMovement(keyboardEvent, true);
+
+    expect(threejsViewService["moveForward"]).toBe(true);
+  }));
+
+  it("should make the camera move backward keyUp",
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+
+      const keyboardEvent: any = new KeyboardEvent("keyup", {
+        key: "s",
+      });
+
+      threejsViewService.onKeyMovement(keyboardEvent, false);
+
+      expect(threejsViewService["moveBackward"]).toBe(false);
+  }));
+
+  it("should stop the camera move backward keyDown",
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+
+    const keyboardEvent: any = new KeyboardEvent("keydown", {
+      key: "s",
+    });
+
+    threejsViewService.onKeyMovement(keyboardEvent, true);
+
+    expect(threejsViewService["moveBackward"]).toBe(true);
+  }));
+
+  it("should stop the camera move to the left",
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+
+    const keyboardEvent: any = new KeyboardEvent("keydown", {
+      key: "a",
+    });
+
+    threejsViewService.onKeyMovement(keyboardEvent, true);
+
+    expect(threejsViewService["moveLeft"]).toBe(true);
+  }));
+
+  it("should stop the camera move to the right",
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+
+    const keyboardEvent: any = new KeyboardEvent("keydown", {
+      key: "d",
+    });
+
+    threejsViewService.onKeyMovement(keyboardEvent, true);
+
+    expect(threejsViewService["moveRight"]).toBe(true);
+  }));
+
+  it("should not make camera move",
+     inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+
+      const keyboardEvent: any = new KeyboardEvent("keydown", {
+        key: "p",
+      });
+
+      threejsViewService.onKeyMovement(keyboardEvent, true);
+
+      expect(threejsViewService["moveRight"]).not.toBe(true);
   }));
 
 });
