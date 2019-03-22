@@ -190,6 +190,8 @@ describe("Scene-modifier tests (2 changes)", () => {
         };
 
         const spy: any = chai.spy.on(sceneModifier, "changeObjectColor");
+        sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+
         chai.expect(spy).to.not.have.been.called();
     });
 
@@ -214,6 +216,8 @@ describe("Scene-modifier tests (2 changes)", () => {
         };
 
         const spy: any = chai.spy.on(sceneModifier, "addObject");
+        sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+
         chai.expect(spy).to.not.have.been.called();
     });
 
@@ -238,6 +242,8 @@ describe("Scene-modifier tests (2 changes)", () => {
         };
 
         const spy: any = chai.spy.on(sceneModifier, "removeObject");
+        sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+
         chai.expect(spy).to.not.have.been.called();
     });
 });
