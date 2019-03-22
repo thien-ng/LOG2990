@@ -155,7 +155,6 @@ export class GameManagerService {
         return arena ? arena.getDifferencesIds() : [];
     }
 
-
     private generateArenaID(): number {
         return this.arenaID++;
     }
