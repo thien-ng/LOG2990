@@ -113,6 +113,13 @@ export class ThreejsThemeViewService {
     this.scene.add(this.ambLight);
   }
 
+  private renderObject(): void {
+
+    this.threejsMovement.movementCamera(this.moveForward, this.moveBackward, this.moveLeft, this.moveRight);
+
+    this.renderer.render(this.scene, this.camera);
+  }
+
   private generateSceneObjects(isSnapshotNeeded: boolean, arenaID: number): void {
     this.sceneVariables.sceneObjects.forEach((element: ISceneObject) => {
       this.threejsGenerator.initiateObject(element);
@@ -122,6 +129,7 @@ export class ThreejsThemeViewService {
       this.gameViewFreeService.updateSceneLoaded(arenaID);
     }
   }
+
   public onKeyUp(keyboardEvent: KeyboardEvent): void {
 
     const keyValue: string = keyboardEvent.key.toLowerCase();
