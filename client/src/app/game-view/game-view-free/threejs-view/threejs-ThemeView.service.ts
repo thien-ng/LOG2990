@@ -20,6 +20,29 @@ enum KEYS {
 @Injectable()
 export class ThreejsThemeViewService {
 
+  public onKeyUp(keyboardEvent: KeyboardEvent): void {
+
+    const keyValue: string = keyboardEvent.key.toLowerCase();
+
+    switch ( keyValue ) {
+      case KEYS.W:
+        this.moveForward  = false;
+        break;
+      case KEYS.A:
+        this.moveLeft     = false;
+        break;
+      case KEYS.S:
+        this.moveBackward = false;
+        break;
+      case KEYS.D:
+        this.moveRight    = false;
+        break;
+
+      default:
+        break;
+    }
+  }
+
   public onKeyDown(keyboardEvent: KeyboardEvent): void {
 
     const keyValue: string = keyboardEvent.key.toLowerCase();
