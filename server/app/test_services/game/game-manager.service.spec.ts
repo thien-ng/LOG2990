@@ -72,6 +72,13 @@ const invalidRequest: IGameRequest = {
     type:       Mode.Singleplayer,
     mode:       GameMode.invalid,
 };
+const invalidRequestCreation: IGameRequest = {
+    username:   "Frankette",
+    gameId:     103,
+    type:       Mode.Singleplayer,
+    mode:       GameMode.simple,
+};
+
 
 const iArenaInfos: IArenaInfos<I2DInfos> = {
     arenaId:            1,
