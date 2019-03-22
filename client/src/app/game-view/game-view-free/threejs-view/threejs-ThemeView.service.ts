@@ -93,6 +93,10 @@ export class ThreejsThemeViewService {
     this.renderer.setSize(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
     this.renderer.setClearColor(this.sceneVariables.sceneBackgroundColor);
 
+    this.threejsRaycast = new ThreejsRaycast(this.camera, this.renderer, this.scene);
+    this.threejsRaycast.setMaps(this.idBySceneId);
+    this.threejsRaycast.setThreeGenerator(this.threejsGenerator);
+
   public onKeyUp(keyboardEvent: KeyboardEvent): void {
 
     const keyValue: string = keyboardEvent.key.toLowerCase();
