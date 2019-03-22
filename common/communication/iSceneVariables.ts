@@ -31,3 +31,9 @@ export interface ISceneVariables<OBJ3D_T> {
     sceneBackgroundColor:   string;
     floorObject?:           ISceneFloor;
 }
+
+export interface IVector3D {
+    x: number;
+    y: number;
+    z: number;
+}
