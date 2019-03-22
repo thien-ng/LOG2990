@@ -17,3 +17,7 @@ enum KEYS {
   T     = "t",
 }
 
+@Injectable()
+export class ThreejsThemeViewService {
+
+}
