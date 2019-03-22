@@ -1,10 +1,8 @@
 import * as THREE from "three";
-// import { Intersection } from "three";
 import { anything, mock, when } from "ts-mockito";
-import { ThreejsRaycast } from "./threejs-raycast";
+import { ActionType, ISceneObjectUpdate } from "../../../../../../../common/communication/iGameplay";
 import { ThreejsGenerator } from "./threejs-generator";
-import { Intersection } from "three";
-import { ISceneObjectUpdate, ActionType } from "../../../../../../../common/communication/iGameplay";
+import { ThreejsRaycast } from "./threejs-raycast";
 
 // tslint:disable:no-any no-magic-numbers
 
@@ -32,7 +30,7 @@ let threejsGenerator:   ThreejsGenerator;
 let raycaster:          THREE.Raycaster;
 // let mouse:              THREE.Vector3;
 
-fdescribe("threejs-raycast tests", () => {
+describe("threejs-raycast tests", () => {
 
     beforeEach(() => {
         camera              = mock(THREE.PerspectiveCamera);
@@ -72,7 +70,7 @@ fdescribe("threejs-raycast tests", () => {
 
         const mouseEvent: any = mock(MouseEvent);
 
-        const intersection: Intersection[] = [{
+        const intersection: THREE.Intersection[] = [{
             distance:   10,
             point:      new THREE.Vector3(1, 1, 1),
             object:     new THREE.Object3D(),
@@ -110,7 +108,7 @@ fdescribe("threejs-raycast tests", () => {
         threejsRaycast.setMaps(idBySceneId);
         threejsRaycast.setThreeGenerator(threejsGenerator);
 
-        objectUpdate.actionToApply = ActionType.DELETE
+        objectUpdate.actionToApply = ActionType.DELETE;
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "initiateObject");
 
@@ -123,7 +121,7 @@ fdescribe("threejs-raycast tests", () => {
         threejsRaycast.setMaps(idBySceneId);
         threejsRaycast.setThreeGenerator(threejsGenerator);
 
-        objectUpdate.actionToApply = ActionType.DELETE
+        objectUpdate.actionToApply = ActionType.DELETE;
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "changeObjectColor");
 
@@ -136,7 +134,7 @@ fdescribe("threejs-raycast tests", () => {
         threejsRaycast.setMaps(idBySceneId);
         threejsRaycast.setThreeGenerator(threejsGenerator);
 
-        objectUpdate.actionToApply = ActionType.CHANGE_COLOR
+        objectUpdate.actionToApply = ActionType.CHANGE_COLOR;
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "initiateObject");
 
@@ -149,7 +147,7 @@ fdescribe("threejs-raycast tests", () => {
         threejsRaycast.setMaps(idBySceneId);
         threejsRaycast.setThreeGenerator(threejsGenerator);
 
-        objectUpdate.actionToApply = ActionType.CHANGE_COLOR
+        objectUpdate.actionToApply = ActionType.CHANGE_COLOR;
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "deleteObject");
 
@@ -162,7 +160,7 @@ fdescribe("threejs-raycast tests", () => {
         threejsRaycast.setMaps(idBySceneId);
         threejsRaycast.setThreeGenerator(threejsGenerator);
 
-        objectUpdate.actionToApply = ActionType.NO_ACTION_REQUIRED
+        objectUpdate.actionToApply = ActionType.NO_ACTION_REQUIRED;
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "initiateObject");
 
@@ -175,7 +173,7 @@ fdescribe("threejs-raycast tests", () => {
         threejsRaycast.setMaps(idBySceneId);
         threejsRaycast.setThreeGenerator(threejsGenerator);
 
-        objectUpdate.actionToApply = ActionType.NO_ACTION_REQUIRED
+        objectUpdate.actionToApply = ActionType.NO_ACTION_REQUIRED;
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "deleteObject");
 
@@ -188,7 +186,7 @@ fdescribe("threejs-raycast tests", () => {
         threejsRaycast.setMaps(idBySceneId);
         threejsRaycast.setThreeGenerator(threejsGenerator);
 
-        objectUpdate.actionToApply = ActionType.NO_ACTION_REQUIRED
+        objectUpdate.actionToApply = ActionType.NO_ACTION_REQUIRED;
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "changeObjectColor");
 
@@ -201,7 +199,7 @@ fdescribe("threejs-raycast tests", () => {
         threejsRaycast.setMaps(idBySceneId);
         threejsRaycast.setThreeGenerator(threejsGenerator);
 
-        objectUpdate.actionToApply  = ActionType.NO_ACTION_REQUIRED
+        objectUpdate.actionToApply  = ActionType.NO_ACTION_REQUIRED;
         objectUpdate.sceneObject    = undefined;
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "initiateObject");
@@ -215,7 +213,7 @@ fdescribe("threejs-raycast tests", () => {
         threejsRaycast.setMaps(idBySceneId);
         threejsRaycast.setThreeGenerator(threejsGenerator);
 
-        objectUpdate.actionToApply  = ActionType.NO_ACTION_REQUIRED
+        objectUpdate.actionToApply  = ActionType.NO_ACTION_REQUIRED;
         objectUpdate.sceneObject    = undefined;
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "deleteObject");
@@ -229,7 +227,7 @@ fdescribe("threejs-raycast tests", () => {
         threejsRaycast.setMaps(idBySceneId);
         threejsRaycast.setThreeGenerator(threejsGenerator);
 
-        objectUpdate.actionToApply  = ActionType.NO_ACTION_REQUIRED
+        objectUpdate.actionToApply  = ActionType.NO_ACTION_REQUIRED;
         objectUpdate.sceneObject    = undefined;
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "changeObjectColor");

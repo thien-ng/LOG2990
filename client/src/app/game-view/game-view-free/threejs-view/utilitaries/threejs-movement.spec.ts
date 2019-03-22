@@ -73,7 +73,7 @@ describe("Threejs-movement", () => {
     });
 
     it("should move camera forward (check value)", () => {
-        const camera: any = threejsMovement["camera"];
+        const cameraMocked: any = threejsMovement["camera"];
 
         threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
         threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
@@ -82,9 +82,9 @@ describe("Threejs-movement", () => {
 
         threejsMovement.movementCamera(true, false, false, false);
 
-        const isNewPosition: any =  threejsMovement["camera"].position.x !== camera.position.x &&
-                                    threejsMovement["camera"].position.y !== camera.position.y &&
-                                    threejsMovement["camera"].position.z !== camera.position.z;
+        const isNewPosition: any =  threejsMovement["camera"].position.x !== cameraMocked.position.x &&
+                                    threejsMovement["camera"].position.y !== cameraMocked.position.y &&
+                                    threejsMovement["camera"].position.z !== cameraMocked.position.z;
 
         expect(isNewPosition).toBe(false);
     });
@@ -103,7 +103,7 @@ describe("Threejs-movement", () => {
     });
 
     it("should move camera backward (check value)", () => {
-        const camera: any = threejsMovement["camera"];
+        const cameraMocked: any = threejsMovement["camera"];
 
         threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
         threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
@@ -112,9 +112,9 @@ describe("Threejs-movement", () => {
 
         threejsMovement.movementCamera(false, true, false, false);
 
-        const isNewPosition: any =  threejsMovement["camera"].position.x !== camera.position.x &&
-                                    threejsMovement["camera"].position.y !== camera.position.y &&
-                                    threejsMovement["camera"].position.z !== camera.position.z;
+        const isNewPosition: any =  threejsMovement["camera"].position.x !== cameraMocked.position.x &&
+                                    threejsMovement["camera"].position.y !== cameraMocked.position.y &&
+                                    threejsMovement["camera"].position.z !== cameraMocked.position.z;
 
         expect(isNewPosition).toBe(false);
     });
@@ -133,7 +133,7 @@ describe("Threejs-movement", () => {
     });
 
     it("should move camera left (check value)", () => {
-        const camera: any = threejsMovement["camera"];
+        const cameraMocked: any = threejsMovement["camera"];
 
         threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
         threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
@@ -142,9 +142,9 @@ describe("Threejs-movement", () => {
 
         threejsMovement.movementCamera(false, false, true, false);
 
-        const isNewPosition: any =  threejsMovement["camera"].position.x !== camera.position.x &&
-                                    threejsMovement["camera"].position.y !== camera.position.y &&
-                                    threejsMovement["camera"].position.z !== camera.position.z;
+        const isNewPosition: any =  threejsMovement["camera"].position.x !== cameraMocked.position.x &&
+                                    threejsMovement["camera"].position.y !== cameraMocked.position.y &&
+                                    threejsMovement["camera"].position.z !== cameraMocked.position.z;
 
         expect(isNewPosition).toBe(false);
     });
@@ -163,7 +163,7 @@ describe("Threejs-movement", () => {
     });
 
     it("should move camera right (check value)", () => {
-        const camera: any = threejsMovement["camera"];
+        const cameraMocked: any = threejsMovement["camera"];
 
         threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
         threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
@@ -172,9 +172,9 @@ describe("Threejs-movement", () => {
 
         threejsMovement.movementCamera(false, false, false, true);
 
-        const isNewPosition: any =  threejsMovement["camera"].position.x !== camera.position.x &&
-                                    threejsMovement["camera"].position.y !== camera.position.y &&
-                                    threejsMovement["camera"].position.z !== camera.position.z;
+        const isNewPosition: any =  threejsMovement["camera"].position.x !== cameraMocked.position.x &&
+                                    threejsMovement["camera"].position.y !== cameraMocked.position.y &&
+                                    threejsMovement["camera"].position.z !== cameraMocked.position.z;
 
         expect(isNewPosition).toBe(false);
     });

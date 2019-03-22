@@ -63,7 +63,7 @@ export class ThreejsMovement {
         this.crossProduct(frontvector, yAxis, this.orthogonal);
     }
 
-    private setCameratVelocity(): void {   
+    private setCameratVelocity(): void {
         this.velocity.x = this.direction.x * this.CAMERA_MOVEMENT_SPEED;
         this.velocity.y = this.direction.y * this.CAMERA_MOVEMENT_SPEED;
         this.velocity.z = this.direction.z * this.CAMERA_MOVEMENT_SPEED;
