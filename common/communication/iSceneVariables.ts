@@ -12,6 +12,11 @@ export interface IModification {
     type:               ModificationType;
 }
 
+export interface ISceneFloor {
+    floorObjectUrl:     string;
+    floorMaterialUrl:   string;
+}
+
 export enum ModificationType {
     added,
     removed,
