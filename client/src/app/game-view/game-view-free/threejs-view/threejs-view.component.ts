@@ -114,11 +114,12 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   }
 
   private initScene(): void {
-
+    this.sceneBuilderService =
+      (this.iSceneVariables.theme === SceneType.Geometric) ? this.threejsViewService : this.threejsThemeViewService;
     this.renderer = new THREE.WebGLRenderer();
     this.originalScene.nativeElement.appendChild(this.renderer.domElement);
-    this.threejsViewService.createScene(this.scene, this.iSceneVariables, this.renderer, this.isSnapshotNeeded, this.arenaID);
-    this.threejsViewService.animate();
+    this.sceneBuilderService.createScene(this.scene, this.iSceneVariables, this.renderer, this.isSnapshotNeeded, this.arenaID);
+    this.sceneBuilderService.animate();
     this.takeSnapShot();
   }
 
