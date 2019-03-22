@@ -1,4 +1,3 @@
-import { ISceneObject } from "./iSceneObject";
 import { SceneType } from "./iSceneOptions";
 
 export interface ISceneData<OBJ3D_T> {
