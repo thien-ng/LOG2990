@@ -45,44 +45,44 @@ beforeEach(() => {
 
 describe("LobbyManagerService tests", () => {
 
-    it("Should return the right lobby", () => {
+    it("should return the right lobby", () => {
         expect(lobbyManagerService.getLobby(1)).to.deep.equal([user1]);
     });
 
-    it("Should return undefined if the lobby doesnt exist", () => {
+    it("should return undefined if the lobby doesnt exist", () => {
         expect(lobbyManagerService.getLobby(6)).to.deep.equal(undefined);
     });
 
-    it("Should delete the right lobby", () => {
+    it("should delete the right lobby", () => {
         expect(lobbyManagerService.deleteLobby(1)).to.be.true;
     });
 
-    it("Should return false if the lobby to be deleted is not existant", () => {
+    it("should return false if the lobby to be deleted is not existant", () => {
         expect(lobbyManagerService.deleteLobby(6)).to.be.false;
     });
 
-    it("Should set the socket server", () => {
+    it("should set the socket server", () => {
         lobbyManagerService.setServer(server);
 
         expect(lobbyManagerService["server"]).to.deep.equal(server);
     });
 
-    it("Should return a list of active lobby", () => {
+    it("should return a list of active lobby", () => {
         const activeLobbyIDs: number[] = lobbyManagerService.getActiveLobby();
         const expectedList:   number[] = [1, 2, 3];
 
         expect(activeLobbyIDs).to.deep.equal(expectedList);
     });
 
-    it("Should return a lobby event with the lobby id that was deleted", () => {
+    it("should return a lobby event with the lobby id that was deleted", () => {
         expect(lobbyManagerService.removePlayerFromLobby("michel").gameID).to.be.equal(1);
     });
 
-    it("Should return a lobby event with id 0 because no lobby existed with the username", () => {
+    it("should return a lobby event with id 0 because no lobby existed with the username", () => {
         expect(lobbyManagerService.removePlayerFromLobby("qrtyhbvcdrty").gameID).to.be.equal(0);
     });
 
-    it("Should create a new lobby when no lobby exists for the gameID", () => {
+    it("should create a new lobby when no lobby exists for the gameID", () => {
         lobbyManagerService.setServer(server);
 
         const expectedMessage: Message = {
@@ -99,7 +99,7 @@ describe("LobbyManagerService tests", () => {
         expect(lobbyManagerService.verifyLobby(request, user4)).to.deep.equal(expectedMessage);
     });
 
-    it("Should create a new lobby when no lobby exists for the gameID", () => {
+    it("should create a new lobby when no lobby exists for the gameID", () => {
         lobbyManagerService.setServer(server);
 
         const expectedMessage: Message = {
