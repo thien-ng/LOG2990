@@ -1,12 +1,21 @@
 import * as fs from "fs";
+import { injectable } from "inversify";
+import { CCommon } from "../../../common/constantes/cCommon";
 import { Constants } from "../constants";
 
 const IMAGES_PATH:              string = "./app/asset/image";
 const FILE_GENERATION_ERROR:    string = "error while generating file";
 const FILE_DELETION_ERROR:      string = "error while deleting file";
 const FILE_SAVING_ERROR:        string = "error while saving file";
+const TEMP_ROUTINE_ERROR:       string = "error while copying to temp";
 
+@injectable()
 export class AssetManagerService {
+    private countByGameId: Map<number, number>;
+
+    public constructor() {
+        this.countByGameId = new Map<number, number>();
+    }
 
     public createBMP(buffer: Buffer, gameID: number): number {
 
@@ -44,6 +53,45 @@ export class AssetManagerService {
         }
     }
 
+    public tempRoutine2d(gameId: number): void {
+        const pathOriginal:  string = Constants.IMAGES_PATH + "/" + gameId + CCommon.ORIGINAL_FILE;
+        const pathGenerated: string = Constants.IMAGES_PATH + "/" + gameId + Constants.GENERATED_FILE;
+        try {
+            this.copyFileToTemp(pathGenerated, gameId, Constants.GENERATED_FILE);
+            this.copyFileToTemp(pathOriginal, gameId, CCommon.ORIGINAL_FILE);
+            this.manageCounter(gameId);
+        } catch (error) {
+            throw new TypeError(TEMP_ROUTINE_ERROR);
+        }
+    }
+
+    public tempRoutine3d(gameId: number): void {
+        const path: string = Constants.SCENE_PATH + "/" + gameId + CCommon.SCENE_FILE;
+        try {
+            this.copyFileToTemp(path, gameId, CCommon.SCENE_FILE);
+            this.manageCounter(gameId);
+        } catch (error) {
+            throw new TypeError(TEMP_ROUTINE_ERROR);
+        }
+    }
+
+    private manageCounter(gameId: number): void {
+        const aliveArenaCount: number | undefined =  this.countByGameId.get(gameId);
+        if (aliveArenaCount !== undefined) {
+            this.countByGameId.set(gameId, aliveArenaCount + 1);
+        } else {
+            this.countByGameId.set(gameId, 1);
+        }
+    }
+
+    public decrementTempCounter(gameID: number, aliveArenaCount: number): void {
+        this.countByGameId.set(gameID, aliveArenaCount - 1);
+    }
+
+    public getCounter(gameID: number): number | undefined {
+        return this.countByGameId.get(gameID);
+    }
+
     public saveGeneratedScene(path: string, data: string): void {
         try {
             fs.writeFileSync(path, data);
@@ -52,7 +100,7 @@ export class AssetManagerService {
         }
     }
 
-    public copyFileToTemp(sourcePath: string, gameId: number, type: string): void {
+    private copyFileToTemp(sourcePath: string, gameId: number, type: string): void {
         const imgPathTemp: string = Constants.PATH_LOCAL_TEMP + gameId + type;
         try {
             fs.copyFileSync(sourcePath, imgPathTemp);

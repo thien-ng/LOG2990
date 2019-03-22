@@ -1,6 +1,5 @@
 import "reflect-metadata";
 
-import { throws } from "assert";
 import * as chai from "chai";
 import * as spies from "chai-spies";
 import * as fs from "fs";
@@ -13,25 +12,27 @@ import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../
 import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
-import { Constants } from "../../constants";
 import { CardOperations } from "../../services/card-operations.service";
 import { ChatManagerService } from "../../services/chat-manager.service";
 import { Arena2D } from "../../services/game/arena/arena2d";
 import { I2DInfos, IArenaInfos, IPlayerInput } from "../../services/game/arena/interfaces";
 import { GameManagerService } from "../../services/game/game-manager.service";
+import { LobbyManagerService } from "../../services/game/lobby-manager.service";
 import { HighscoreService } from "../../services/highscore.service";
 import { Mode } from "../../services/highscore/utilities/interfaces";
 import { TimeManagerService } from "../../services/time-manager.service";
 import { UserManagerService } from "../../services/user-manager.service";
+import { Constants } from "../../constants";
 
 // tslint:disable no-magic-numbers no-any await-promise no-floating-promises max-file-line-count max-func-body-length no-empty
 
-let gameManagerService: GameManagerService;
-let userManagerService: UserManagerService;
-let highscoreService:   HighscoreService;
-let chatManagerService: ChatManagerService;
-let timeManagerService: TimeManagerService;
-let cardOperations:     CardOperations;
+let lobbyManagerService:    LobbyManagerService;
+let gameManagerService:     GameManagerService;
+let userManagerService:     UserManagerService;
+let highscoreService:       HighscoreService;
+let chatManagerService:     ChatManagerService;
+let timeManagerService:     TimeManagerService;
+let cardOperations:         CardOperations;
 
 const mockAdapter:  any = require("axios-mock-adapter");
 const axios:        any = require("axios");
@@ -102,14 +103,17 @@ const modified: Buffer = fs.readFileSync(path.resolve(__dirname, "../../asset/im
 beforeEach(() => {
     socket              = mock(SocketIO);
     server              = mock(SocketIO);
+    lobbyManagerService = new LobbyManagerService();
     userManagerService  = new UserManagerService();
     highscoreService    = new HighscoreService();
     timeManagerService  = new TimeManagerService();
     chatManagerService  = new ChatManagerService(timeManagerService);
     cardOperations      = new CardOperations(highscoreService);
 
-    gameManagerService  = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations);
+    gameManagerService  = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations, lobbyManagerService);
     mockAxios           = new mockAdapter.default(axios);
+    gameManagerService["server"]  = server;
+    lobbyManagerService["server"] = server;
 });
 
 describe("GameManagerService tests", () => {
@@ -159,7 +163,7 @@ describe("GameManagerService tests", () => {
 
     it("Should return a success message when creating a 2D arena", async () => {
         userManagerService.validateName(request2DSimple.username);
-        chai.spy.on(gameManagerService, ["tempRoutine2d"], () => {return; });
+        chai.spy.on(gameManagerService["assetManager"], ["tempRoutine2d"], () => {return; });
 
         mockAxios.onGet(iArenaInfos.dataUrl.original, {
             responseType: "arraybuffer",
@@ -195,7 +199,7 @@ describe("GameManagerService tests", () => {
 
     it("Should return a success message when creating a 2D arena", async () => {
         userManagerService.validateName(request2DSimple.username);
-        chai.spy.on(gameManagerService, ["tempRoutine2d"], () => {return; });
+        chai.spy.on(gameManagerService["assetManager"], ["tempRoutine2d"], () => {return; });
 
         mockAxios.onGet(iArenaInfos.dataUrl.original, {
             responseType: "arraybuffer",
@@ -215,7 +219,7 @@ describe("GameManagerService tests", () => {
     });
 
     it("Should return a success message when creating a 3D arena", async () => {
-        chai.spy.on(gameManagerService, ["tempRoutine3d"], () => {return; });
+        chai.spy.on(gameManagerService["assetManager"], ["tempRoutine3d"], () => {return; });
         userManagerService.validateName(request3DSimple.username);
         const message: Message = await gameManagerService.analyseRequest(request3DSimple);
         chai.expect(message.title).to.equal("onSuccess");
@@ -243,7 +247,7 @@ describe("GameManagerService tests", () => {
     });
 
     it("Should return error if arena have been created", async () => {
-        chai.spy.on(gameManagerService, ["tempRoutine2d"], () => {return; });
+        chai.spy.on(gameManagerService["assetManager"], ["tempRoutine2d"], () => {return; });
         userManagerService.validateName(request2DSimple.username);
 
         mockAxios.onGet(iArenaInfos.dataUrl.original, {
@@ -270,7 +274,7 @@ describe("GameManagerService tests", () => {
 
     it("should remove player patate from arena and delete arena", async () => {
         userManagerService.validateName(request2DSimple.username);
-        chai.spy.on(gameManagerService, ["tempRoutine2d"], () => {return; });
+        chai.spy.on(gameManagerService["assetManager"], ["tempRoutine2d"], () => {return; });
         chai.spy.on(gameManagerService, ["deleteArena"], () => {return; });
 
         mockAxios.onGet(iArenaInfos.dataUrl.original, {
@@ -281,7 +285,7 @@ describe("GameManagerService tests", () => {
             responseType: "arraybuffer",
         }).reply(200, modified);
 
-        chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
+        chai.spy.on(gameManagerService["interfaceBuilder"], "buildArenaInfos", (returns: any) => iArenaInfos);
         chai.spy.on(gameManagerService, "init2DArena", async () => {});
 
         gameManagerService.analyseRequest(request2DSimple).catch();
@@ -300,8 +304,8 @@ describe("GameManagerService tests", () => {
             responseType: "arraybuffer",
         }).reply(200, modified);
 
-        chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
-        chai.spy.on(gameManagerService, ["tempRoutine2d"], () => {return; });
+        chai.spy.on(gameManagerService["interfaceBuilder"], "buildArenaInfos", (returns: any) => iArenaInfos);
+        chai.spy.on(gameManagerService["assetManager"], "tempRoutine2d", () => {return; });
         chai.spy.on(gameManagerService, "init2DArena", () => {});
         chai.spy.on(gameManagerService, "deleteTempFiles", () => {});
         chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
@@ -315,15 +319,14 @@ describe("GameManagerService tests", () => {
     });
 
     it("Should send message with socket", async () => {
-        gameManagerService = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations);
+        gameManagerService = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations, lobbyManagerService);
         gameManagerService.subscribeSocketID("socketID", socket);
         gameManagerService.sendMessage("socketID", "onEvent", 1);
         verify(socket.emit("onEvent", 1)).atLeast(0);
     });
 
     it("Should return a message saying onWaiting when no one is in the lobby", async () => {
-        gameManagerService["server"] = server;
-        chai.spy.on(gameManagerService, ["tempRoutine2d"], () => {return; });
+        chai.spy.on(gameManagerService["assetManager"], "tempRoutine2d", () => {return; });
         userManagerService["users"].push({username: "Frank", socketID: "Frank"});
         const response: Message = await gameManagerService.analyseRequest(request2DMulti);
         chai.expect(response.title).to.deep.equal(CCommon.ON_WAITING);
@@ -331,14 +334,13 @@ describe("GameManagerService tests", () => {
     });
 
     it("Should return a message saying onSuccess when someone is in the lobby (2D)", async () => {
-        gameManagerService["server"] = server;
         const request: IGameRequest = {
             username:   "Franky",
             gameId:     1,
             type:       Mode.Multiplayer,
             mode:       GameMode.simple,
         };
-        chai.spy.on(gameManagerService, ["tempRoutine2d"], () => {return; });
+        chai.spy.on(gameManagerService["assetManager"], "tempRoutine2d", () => {return; });
         userManagerService["users"].push({username: "Franky", socketID: "Franky"});
         userManagerService["users"].push({username: "Frank", socketID: "Frank"});
         await gameManagerService.analyseRequest(request);
@@ -348,14 +350,13 @@ describe("GameManagerService tests", () => {
     });
 
     it("Should return a message saying onSuccess when someone is in the lobby (3D)", async () => {
-        gameManagerService["server"] = server;
         const request: IGameRequest = {
             username:   "Frank",
             gameId:     2,
             type:       Mode.Multiplayer,
             mode:       GameMode.free,
         };
-        chai.spy.on(gameManagerService, ["tempRoutine3d"], () => {return; });
+        chai.spy.on(gameManagerService["assetManager"], "tempRoutine3d", () => {return; });
         userManagerService["users"].push({username: "Franky", socketID: "Franky"});
         userManagerService["users"].push({username: "Frank", socketID: "Frank"});
         gameManagerService.analyseRequest(request);
@@ -364,71 +365,18 @@ describe("GameManagerService tests", () => {
         chai.spy.restore();
     });
 
-    it("Should return a message saying the mode is invalid", async () => {
-        const user1: IUser = {username: "Frank", socketID: "Frank"};
-        const user2: IUser = {username: "Frankette", socketID: "Frankette"};
-        gameManagerService["lobby"].set(invalidRequest.gameId, [user1]);
-        const response: Message = await gameManagerService["verifyLobby"](invalidRequest, user2);
-        chai.expect(response.title).to.deep.equal(CCommon.ON_MODE_INVALID);
-    });
-
     it("Should return an error message when deleting an unexisting arena", async () => {
-        gameManagerService["server"] = server;
         chai.expect(gameManagerService.cancelRequest(2, false).title).to.deep.equal(CCommon.ON_ERROR);
     });
 
     it("Should return a success message when deleting an existing arena", async () => {
-        gameManagerService["server"] = server;
         const user: IUser = {username: "Frank", socketID: "Frank"};
-        gameManagerService["lobby"].set(1, [user]);
+        lobbyManagerService["lobby"].set(1, [user]);
         chai.expect(gameManagerService.cancelRequest(1, false).title).to.deep.equal(CCommon.ON_SUCCESS);
     });
 
-    it("Should increment to 1 the counter linked to the gameId", () => {
-        userManagerService.validateName(request2DSimple.username);
-
-        mockAxios.onGet(iArenaInfos.dataUrl.original, {
-            responseType: "arraybuffer",
-        }).reply(200, original);
-
-        mockAxios.onGet(iArenaInfos.dataUrl.difference, {
-            responseType: "arraybuffer",
-        }).reply(200, modified);
-        chai.spy.on(gameManagerService, ["tempRoutine2d"], () => {return; });
-        chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
-        chai.spy.on(gameManagerService, "init2DArena", () => {
-            gameManagerService["arenas[0]"].timer.stopTimer();
-        });
-
-        gameManagerService.analyseRequest(request2DSimple).then().catch();
-        chai.expect(gameManagerService["countByGameId"].get(request2DSimple.gameId)).to.equal(1);
-        chai.spy.restore();
-
-    });
-    it("Should increment to 2 the counter linked to the gameId when adding a 2nd arena with same game id", () => {
-        userManagerService.validateName(request2DSimple.username);
-
-        mockAxios.onGet(iArenaInfos.dataUrl.original, {
-            responseType: "arraybuffer",
-        }).reply(200, original);
-
-        mockAxios.onGet(iArenaInfos.dataUrl.difference, {
-            responseType: "arraybuffer",
-        }).reply(200, modified);
-        chai.spy.on(gameManagerService, ["tempRoutine2d"], () => {return; });
-        chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
-        chai.spy.on(gameManagerService, "init2DArena", () => {
-            gameManagerService["arenas[0]"].timer.stopTimer();
-        });
-        gameManagerService.analyseRequest(request2DSimple).then().catch();
-        gameManagerService.analyseRequest(request2DSimple).then().catch();
-        chai.expect(gameManagerService["countByGameId"].get(request2DSimple.gameId)).to.equal(2);
-        chai.spy.restore();
-
-    });
     it("Should throw an error if cannot copy the gameImages", () => {
         userManagerService.validateName(request2DSimple.username);
-        chai.spy.on(gameManagerService["assetManager"], "copyFileToTemp", () =>  throws(() => new TypeError()));
 
         mockAxios.onGet(iArenaInfos.dataUrl.original, {
             responseType: "arraybuffer",
@@ -438,15 +386,15 @@ describe("GameManagerService tests", () => {
             responseType: "arraybuffer",
         }).reply(200, modified);
 
-        chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
+        chai.spy.on(gameManagerService["interfaceBuilder"], "buildArenaInfos", (returns: any) => iArenaInfos);
         chai.spy.on(gameManagerService, "init2DArena", () => {
             gameManagerService["arenas[0]"].timer.stopTimer();
         });
-        const spy: any = chai.spy.on(gameManagerService, "tempRoutine2d");
+        const spy: any = chai.spy.on(gameManagerService["assetManager"], "copyFileToTemp");
 
-        gameManagerService.analyseRequest(request2DSimple).then().catch();
-        gameManagerService.analyseRequest(request2DSimple).then().catch();
-        chai.expect(spy).to.throw();
+        gameManagerService.analyseRequest(request2DSimple).then(() => {
+            chai.expect(spy).to.throw();
+        });
         chai.spy.restore();
 
     });
@@ -460,8 +408,8 @@ describe("GameManagerService tests", () => {
             responseType: "arraybuffer",
         }).reply(200, modified);
 
-        chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
-        chai.spy.on(gameManagerService, ["tempRoutine2d"], () => {return; });
+        chai.spy.on(gameManagerService["interfaceBuilder"], "buildArenaInfos", (returns: any) => iArenaInfos);
+        chai.spy.on(gameManagerService["assetManager"], ["tempRoutine2d"], () => {return; });
         chai.spy.on(gameManagerService, "init2DArena", () => {});
         const spy: any = chai.spy.on(gameManagerService["assetManager"], "deleteFileInTemp", () => {});
         chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
@@ -482,10 +430,10 @@ describe("GameManagerService tests", () => {
             responseType: "arraybuffer",
         }).reply(200, modified);
 
-        chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
-        chai.spy.on(gameManagerService, ["tempRoutine2d"], () => {return; });
+        chai.spy.on(gameManagerService["interfaceBuilder"], "buildArenaInfos", (returns: any) => iArenaInfos);
+        chai.spy.on(gameManagerService["assetManager"], ["tempRoutine2d"], () => {return; });
         chai.spy.on(gameManagerService, "init2DArena", () => {});
-        chai.spy.on(gameManagerService, "deleteTempFiles", () => {});
+        chai.spy.on(gameManagerService["assetManager"], "deleteTempFiles", () => {});
         chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
 
         gameManagerService.analyseRequest(request2DSimple).catch();
