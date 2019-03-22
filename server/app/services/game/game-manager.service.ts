@@ -12,6 +12,7 @@ import { AssetManagerService } from "../asset-manager.service";
 import { CardOperations } from "../card-operations.service";
 import { ChatManagerService } from "../chat-manager.service";
 import { HighscoreService } from "../highscore.service";
+import { InterfaceBuilder } from "../interface-generator";
 import { UserManagerService } from "../user-manager.service";
 import { Arena } from "./arena/arena";
 import { Arena2D } from "./arena/arena2d";
@@ -25,8 +26,7 @@ const HIGHSCORE_VALIDATION_ERROR:       string = "Erreur lors de la validation d
 const ARENA_START_ID:                   number = 1000;
 const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
 
-// _TODO: Enlever les any après les avoir remplacés
-// tslint:disable:no-any
+// tslint:disable:no-any // _TODO: Enlever les any après les avoir remplacés
 @injectable()
 export class GameManagerService {
     private arenaID:            number;
@@ -35,26 +35,27 @@ export class GameManagerService {
     private playerList:         Map<string, SocketIO.Socket>;
     private arenas:             Map<number, Arena<any, any, any, any>>;
     private gameIdByArenaId:    Map<number, number>;
+    private interfaceBuilder:   InterfaceBuilder;
 
     public constructor(
         @inject(Types.UserManagerService)   private userManagerService:     UserManagerService,
         @inject(Types.HighscoreService)     private highscoreService:       HighscoreService,
         @inject(Types.ChatManagerService)   private chatManagerService:     ChatManagerService,
         @inject(Types.CardOperations)       private cardOperations:         CardOperations,
-        @inject(Types.LobbyManagerService)  private lobbyManagerService:    LobbyManagerService,
-        ) {
+        @inject(Types.LobbyManagerService)  private lobbyManagerService:    LobbyManagerService) {
         this.arenaID            = ARENA_START_ID;
         this.assetManager       = new AssetManagerService();
         this.playerList         = new Map<string, SocketIO.Socket>();
         this.arenas             = new Map<number, Arena<any, any, any, any>>();
         this.gameIdByArenaId    = new Map<number, number>();
+        this.interfaceBuilder = new InterfaceBuilder();
     }
 
     public async analyseRequest(request: IGameRequest): Promise<Message> {
         const user: IUser | string = this.userManagerService.getUserByUsername(request.username);
 
         if (typeof user === "string") {
-            return this.returnError(Constants.USER_NOT_FOUND);
+            return this.interfaceBuilder.buildMessage(CCommon.ON_ERROR, Constants.USER_NOT_FOUND);
         }
 
         switch (request.mode) {
@@ -63,7 +64,7 @@ export class GameManagerService {
             case GameMode.free:
                 return (request.type === Mode.Singleplayer) ? this.create3DArena([user], request.gameId) : this.verifyLobby(request, user);
             default:
-                return this.returnError(REQUEST_ERROR_MESSAGE);
+                return this.interfaceBuilder.buildMessage(CCommon.ON_ERROR, REQUEST_ERROR_MESSAGE);
         }
     }
 
@@ -79,8 +80,8 @@ export class GameManagerService {
 
     private async multiplayerArenaRoutine(request: IGameRequest): Promise<Message> {
         const lobby:      IUser[] | undefined = this.lobbyManagerService.getLobby(request.gameId);
-        const lobbyEvent: ILobbyEvent         = this.generateLobbyEvent(request.gameId, MultiplayerButtonText.create);
-        let   message:    Message             = this.returnError(REQUEST_ERROR_MESSAGE);
+        const lobbyEvent: ILobbyEvent         = this.interfaceBuilder.buildLobbyEvent(request.gameId, MultiplayerButtonText.create);
+        let   message:    Message             = this.interfaceBuilder.buildMessage(CCommon.ON_ERROR, REQUEST_ERROR_MESSAGE);
 
         if (!lobby) {
             return message;
@@ -105,17 +106,10 @@ export class GameManagerService {
         return message;
     }
 
-    private returnError(errorMessage: string): Message {
-        return {
-            title:  CCommon.ON_ERROR,
-            body:   errorMessage,
-        };
-    }
-
     public cancelRequest(gameID: number, isCardDeleted: boolean): Message {
-        const successMessage:   Message     = this.generateMessage(CCommon.ON_SUCCESS, gameID.toString());
-        const errorMessage:     Message     = this.generateMessage(CCommon.ON_ERROR, gameID.toString());
-        const lobbyEvent:       ILobbyEvent = this.generateLobbyEvent(gameID, MultiplayerButtonText.create);
+        const successMessage:   Message     = this.interfaceBuilder.buildMessage(CCommon.ON_SUCCESS, gameID.toString());
+        const errorMessage:     Message     = this.interfaceBuilder.buildMessage(CCommon.ON_ERROR, gameID.toString());
+        const lobbyEvent:       ILobbyEvent = this.interfaceBuilder.buildLobbyEvent(gameID, MultiplayerButtonText.create);
         this.server.emit(CCommon.ON_LOBBY, lobbyEvent);
 
         const lobby: IUser[] | undefined = this.lobbyManagerService.getLobby(gameID);
@@ -129,29 +123,26 @@ export class GameManagerService {
         return cardIsDeleted ? successMessage : errorMessage;
     }
 
-    private generateMessage(title: string, body: string): Message {
-        return {
-            title: title,
-            body: body,
-        };
-    }
-
-    private generateLobbyEvent(gameID: number, buttonText: MultiplayerButtonText): ILobbyEvent {
-        return {
-            gameID:      gameID,
-            buttonText: buttonText,
-        };
-    }
-
     private async create2DArena(users: IUser[], gameId: number): Promise<Message> {
-        const arenaInfo: IArenaInfos<I2DInfos>  = this.buildArena2DInfos(users, gameId);
+        const arenaInfo: IArenaInfos<I2DInfos>  = this.interfaceBuilder.buildArena2DInfos(users, gameId, this.generateArenaID());
         const arena: Arena2D                    = new Arena2D(arenaInfo, this);
         this.assetManager.tempRoutine2d(gameId);
         this.gameIdByArenaId.set(arenaInfo.arenaId, gameId);
         this.initArena(arena).catch(() => Constants.INIT_ARENA_ERROR);
         this.arenas.set(arenaInfo.arenaId, arena);
 
-        return this.generateMessage(CCommon.ON_SUCCESS, arenaInfo.arenaId.toString());
+        return this.interfaceBuilder.buildMessage(CCommon.ON_SUCCESS, arenaInfo.arenaId.toString());
+    }
+
+    private async create3DArena(users: IUser[], gameId: number): Promise<Message> {
+        const arenaInfo: IArenaInfos<I3DInfos> = this.interfaceBuilder.buildArena3DInfos(users, gameId, this.generateArenaID());
+        const arena: Arena3D = new Arena3D(arenaInfo, this);
+        this.assetManager.tempRoutine3d(gameId);
+        this.gameIdByArenaId.set(arenaInfo.arenaId, gameId);
+        this.initArena(arena).catch(() => Constants.INIT_ARENA_ERROR);
+        this.arenas.set(arenaInfo.arenaId, arena);
+
+        return this.interfaceBuilder.buildMessage(CCommon.ON_SUCCESS, arenaInfo.arenaId.toString());
     }
 
     private async initArena(arena: Arena<any, any, any, any>): Promise<void> {
@@ -164,40 +155,6 @@ export class GameManagerService {
         return arena ? arena.getDifferencesIds() : [];
     }
 
-    private buildArena2DInfos(users: IUser[], gameId: number): IArenaInfos<I2DInfos> {
-        return {
-            arenaId:            this.generateArenaID(),
-            users:              users,
-            dataUrl: {
-                original:   Constants.PATH_SERVER_TEMP + gameId + CCommon.ORIGINAL_FILE,
-                difference: Constants.PATH_SERVER_TEMP + gameId + Constants.GENERATED_FILE,
-            },
-        };
-    }
-
-    private buildArena3DInfos(users: IUser[], gameId: number): IArenaInfos<I3DInfos> {
-        return {
-            arenaId:            this.generateArenaID(),
-            users:              users,
-            dataUrl:  {
-                sceneData:  Constants.PATH_SERVER_TEMP + gameId + CCommon.SCENE_FILE,
-            },
-        };
-    }
-
-    private async create3DArena(users: IUser[], gameId: number): Promise<Message> {
-        const arenaInfo: IArenaInfos<I3DInfos> = this.buildArena3DInfos(users, gameId);
-        const arena: Arena3D = new Arena3D(arenaInfo, this);
-        this.assetManager.tempRoutine3d(gameId);
-        this.gameIdByArenaId.set(arenaInfo.arenaId, gameId);
-        this.initArena(arena).catch(() => Constants.INIT_ARENA_ERROR);
-        this.arenas.set(arenaInfo.arenaId, arena);
-
-        return {
-            title:  CCommon.ON_SUCCESS,
-            body:   arenaInfo.arenaId.toString(),
-        };
-    }
 
     private generateArenaID(): number {
         return this.arenaID++;
@@ -287,10 +244,7 @@ export class GameManagerService {
             const players: Player[] = arena.getPlayers();
 
             players.forEach(( player: Player) => {
-                const user: IUser = {
-                    username: player.getUsername(),
-                    socketID: player.getUserSocketId(),
-                };
+                const user: IUser = this.interfaceBuilder.buildIUser(player.getUsername(), player.getUserSocketId());
                 users.push(user);
             });
         }
@@ -326,6 +280,4 @@ export class GameManagerService {
 
         arena.onPlayerReady(socketID);
     }
-    // _TODO: OTER CA APRES REFACTOR
-// tslint:disable-next-line:max-file-line-count
 }
