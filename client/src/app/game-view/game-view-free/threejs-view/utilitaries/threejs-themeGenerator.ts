@@ -15,6 +15,13 @@ export class ThreejsThemeGenerator {
 
   public initiateObject(object3D: ISceneObject): void {
 
+  public deleteObject(id: number): void {
+    const objectId:       number         = this.sceneIdById.get(id) as number;
+    const objectToRemove: THREE.Object3D = this.scene.getObjectById(objectId) as THREE.Object3D;
+
+    this.scene.remove(objectToRemove);
+  }
+
   }
 
   private addObjectIdToMap(objectId: number, generatedObjectId: number): void {
