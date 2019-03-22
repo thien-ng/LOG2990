@@ -38,8 +38,8 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
   @ViewChild("erreurText",    {read: ElementRef})  public erreurText:      ElementRef;
   @ViewChild("erreurText2",   {read: ElementRef})  public erreurText2:     ElementRef;
 
-  public  originalVariables: ISceneVariables;
-  public  modifiedVariables: ISceneVariables;
+  public  originalVariables: ISceneVariables<ISceneObject | IMesh>;
+  public  modifiedVariables: ISceneVariables<ISceneObject | IMesh>;
   public  activeCard:        ICard;
   public  gameRequest:       IGameRequest;
   public  objectToUpdate:    ISceneObject[];
