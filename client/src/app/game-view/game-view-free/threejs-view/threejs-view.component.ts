@@ -29,7 +29,7 @@ import { ThreejsViewService } from "./threejs-view.service";
   selector:     "app-threejs-view",
   templateUrl:  "./threejs-view.component.html",
   styleUrls:    ["./threejs-view.component.css"],
-  providers:    [ThreejsViewService],
+  providers:    [ThreejsViewService, ThreejsThemeViewService],
 })
 export class TheejsViewComponent implements AfterContentInit, OnChanges {
 
