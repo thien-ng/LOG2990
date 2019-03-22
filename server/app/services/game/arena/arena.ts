@@ -4,6 +4,7 @@ import { Time } from "../../../../../common/communication/highscore";
 import { GameMode } from "../../../../../common/communication/iCard";
 import { IArenaResponse } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
+import { CCommon } from "../../../../../common/constantes/cCommon";
 import Types from "../../../types";
 import { Mode } from "../../highscore/utilities/interfaces";
 import { GameManagerService } from "../game-manager.service";
@@ -13,7 +14,9 @@ import { Referee } from "./referee";
 import { Timer } from "./timer";
 
 // tslint:disable:no-any
-const axios: AxiosInstance = require("axios");
+const axios:          AxiosInstance = require("axios");
+const CHECK_INTERVAL: number        = 500;
+const MAX_TRIES:      number        = 6;
 
 export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
 
@@ -65,13 +68,13 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
 
     public contains(user: IUser): boolean {
         return this.players.some((player: Player) => {
-            return player.username === user.username;
+            return player.getUsername() === user.username;
         });
     }
 
     public removePlayer(username: string): void {
         this.players = this.players.filter( (player: Player) => {
-            return player.username !== username;
+            return player.getUsername() !== username;
         });
         if (this.players.length === 0) {
             this.referee.timer.stopTimer();
@@ -82,10 +85,58 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
     public endOfGameRoutine(time: number, winner: Player): void {
         const mode: Mode = (this.players.length === this.ONE_PLAYER) ? Mode.Singleplayer : Mode.Multiplayer;
         const newTime: Time = {
-            username: winner.username,
+            username: winner.getUsername(),
             time: time,
         };
         this.gameManagerService.endOfGameRoutine(newTime, mode, this.arenaInfos, this.ARENA_TYPE);
+    }
+
+    public onPlayerReady(socketID: string): void {
+        let nbPlayersReady: number = 0;
+
+        this.players.forEach((player: Player) => {
+            if (player.getUserSocketId() === socketID) {
+                player.setPlayerState(true);
+            }
+
+            if (player.getPlayerIsReady()) {
+                nbPlayersReady++;
+            }
+        });
+
+        if (nbPlayersReady === this.players.length) {
+            if (this.referee === undefined) {
+                this.waitForReferee();
+            } else {
+                this.referee.onPlayersReady();
+            }
+        }
+    }
+
+    protected waitForReferee(): void {
+        let nbOfTries: number = 0;
+        const interval: NodeJS.Timeout = setInterval(
+        () => {
+            nbOfTries++;
+            if (nbOfTries === MAX_TRIES && !this.referee) {
+                this.cancelGame();
+            }
+            if (nbOfTries === MAX_TRIES || this.referee) {
+                clearInterval(interval);
+            }
+            if (this.referee) {
+                this.referee.onPlayersReady();
+            }
+
+        },
+        CHECK_INTERVAL);
+    }
+
+    protected cancelGame(): void {
+        this.players.forEach((player: Player) => {
+            this.sendMessage(player.getUserSocketId(), CCommon.ON_CANCEL_GAME);
+        });
+        this.gameManagerService.deleteArena(this.arenaInfos);
     }
 
     protected async getDifferenceDataFromURL(differenceDataURL: string): Promise<Buffer> {
@@ -118,4 +169,5 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
 
         return arenaResponse;
     }
+
 }

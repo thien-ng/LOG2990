@@ -1,11 +1,11 @@
-<app-waiting-room [gameID]="gameID" *ngIf="!gameIsStarted && mode !== 0"></app-waiting-room>
+<app-waiting-room [isMultiplayer]="mode === 1" [gameID]="gameID" *ngIf="isLoading"></app-waiting-room>
 
-<span [hidden]="!gameIsStarted">
+<span [hidden]="isLoading">
   <mat-grid-list cols="9" rowHeight="1%">
     <mat-grid-tile
       [colspan]="7"
       [rowspan]="12">
-      <div class="gameName" *ngIf="gameIsStarted">{{activeCard.title}}</div>
+      <div class="gameName" *ngIf="!isLoading">{{activeCard.title}}</div>
     </mat-grid-tile>
     <mat-grid-tile
       [colspan]="2"
@@ -27,7 +27,7 @@
                                 [iSceneVariables]   = "originalVariables"
                                 [isSnapshotNeeded]  = "NEEDED_SNAPSHOT">
               </app-threejs-view>
-        </mat-grid-tile>  
+        </mat-grid-tile>
           <mat-grid-tile [colspan]="1" >
             <div class="text2" #erreurText2></div>
               <app-threejs-view #modified
@@ -41,7 +41,6 @@
             <div class="text2" #textDiv2></div>
           </mat-grid-tile>
       </mat-grid-list>
-      
     </mat-grid-tile>
     <mat-grid-tile
       [colspan]="4"
@@ -49,10 +48,23 @@
       <app-timer></app-timer>
     </mat-grid-tile>
     <mat-grid-tile
-      [colspan]="2"
-      [rowspan]="20">
-      <app-difference-counter></app-difference-counter>
-    </mat-grid-tile>
+        *ngIf="mode === 0"
+        [colspan]="2"
+        [rowspan]="20">
+        <app-difference-counter>{{username}}</app-difference-counter>
+      </mat-grid-tile>
+    <div *ngIf="mode === 1">
+      <mat-grid-tile
+        [colspan]="1"
+        [rowspan]="20">
+        <app-difference-counter>{{username}}</app-difference-counter>
+      </mat-grid-tile>
+      <mat-grid-tile
+        [colspan]="1"
+        [rowspan]="20">
+        <app-difference-counter>{{OPPONENT}}</app-difference-counter>
+      </mat-grid-tile>
+    </div>
   </mat-grid-list>
 </span>
 <audio #failSound>

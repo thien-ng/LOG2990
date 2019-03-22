@@ -10,9 +10,11 @@ import {
 import { IUser } from "../../../common/communication/iUser";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { Constants } from "../constants";
+import { CardOperations } from "../services/card-operations.service";
 import { ChatManagerService } from "../services/chat-manager.service";
 import { IPlayerInput } from "../services/game/arena/interfaces";
 import { GameManagerService } from "../services/game/game-manager.service";
+import { HighscoreService } from "../services/highscore.service";
 import { UserManagerService } from "../services/user-manager.service";
 import Types from "../types";
 
@@ -24,7 +26,9 @@ export class WebsocketManager {
     public constructor(
         @inject(Types.UserManagerService) private userManagerService: UserManagerService,
         @inject(Types.GameManagerService) private gameManagerService: GameManagerService,
-        @inject(Types.ChatManagerService) private chatManagerService: ChatManagerService) {}
+        @inject(Types.ChatManagerService) private chatManagerService: ChatManagerService,
+        @inject(Types.HighscoreService)   private highscoreService:   HighscoreService,
+        @inject(Types.CardOperations)     private cardOperations:     CardOperations) {}
 
     public createWebsocket(server: http.Server): void {
         this.io = SocketIO(server);
@@ -37,6 +41,8 @@ export class WebsocketManager {
             };
 
             this.gameManagerService.setServer(this.io);
+            this.cardOperations.setServer(this.io);
+            this.highscoreService.setServer(this.io);
             this.loginSocketChecker(user, socketID, socket);
             this.gameSocketChecker(socketID, socket);
             this.chatSocketChecker(socket);
@@ -61,26 +67,34 @@ export class WebsocketManager {
         socket.on(CCommon.GAME_DISCONNECT, (username: string) => {
             this.gameManagerService.unsubscribeSocketID(socketID, username);
         });
-        socket.on(CCommon.POSITION_VALIDATION, (data: IClickMessage<IPosition2D | number>) => {
 
-            const user: IUser | string = this.userManagerService.getUserByUsername(data.username);
-            const userList: IUser[]    = this.gameManagerService.getUsersInArena(data.arenaID);
-
-            if (typeof user !== "string") {
-                const playerInput: IPlayerInput<IPosition2D | number> = this.buildPlayerInput(data, user);
-                this.gameManagerService.onPlayerInput(playerInput)
-                // tslint:disable-next-line:no-any _TODO
-                .then((response: IArenaResponse<IOriginalPixelCluster | any>) => {    // _TODO: type de RES_T pour scene 3d
-
-                    socket.emit(CCommon.ON_ARENA_RESPONSE, response);
-                    if (response.status !== Constants.ON_PENALTY) {
-                        this.chatManagerService.sendPositionValidationMessage(data.username, userList, response, this.io);
-                    }
-                }).catch((error: Error) => {
-                    socket.emit(CCommon.ON_ERROR, error);
-                });
-            }
+        socket.on(CCommon.ON_GAME_LOADED, (arenaID: number) => {
+            this.gameManagerService.onGameLoaded(socket.id, arenaID);
         });
+
+        socket.on(CCommon.POSITION_VALIDATION, (data: IClickMessage<IPosition2D | number>) => {
+            this.validatePosition(data, socket);
+        });
+    }
+
+    private validatePosition(data: IClickMessage<IPosition2D | number>, socket: SocketIO.Socket): void {
+        const user: IUser | string = this.userManagerService.getUserByUsername(data.username);
+        const userList: IUser[]    = this.gameManagerService.getUsersInArena(data.arenaID);
+
+        if (typeof user !== "string") {
+            const playerInput: IPlayerInput<IPosition2D | number> = this.buildPlayerInput(data, user);
+            this.gameManagerService.onPlayerInput(playerInput)
+            // tslint:disable-next-line:no-any _TODO
+            .then((response: IArenaResponse<IOriginalPixelCluster | any>) => {    // _TODO: type de RES_T pour scene 3d
+
+                socket.emit(CCommon.ON_ARENA_RESPONSE, response);
+                if (response.status !== Constants.ON_PENALTY) {
+                    this.chatManagerService.sendPositionValidationMessage(data.username, userList, response, this.io);
+                }
+            }).catch((error: Error) => {
+                socket.emit(CCommon.ON_ERROR, error);
+            });
+        }
     }
 
     private chatSocketChecker(socket: SocketIO.Socket): void {

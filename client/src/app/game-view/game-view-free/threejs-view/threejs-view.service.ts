@@ -21,6 +21,8 @@ enum KEYS {
 export class ThreejsViewService {
 
   private readonly CAMERA_START_POSITION: number = 50;
+  private readonly FOWARD_ORIENTATION:    number = -1;
+  private readonly BACKWARD_ORIENTATION:  number = 1;
 
   private scene:              THREE.Scene;
   private camera:             THREE.PerspectiveCamera;
@@ -30,12 +32,10 @@ export class ThreejsViewService {
   private threejsGenerator:   ThreejsGenerator;
   private threejsMovement:    ThreejsMovement;
   private threejsRaycast:     ThreejsRaycast;
-
   private sceneIdById:        Map<number, number>;
   private idBySceneId:        Map<number, number>;
   private opacityById:        Map<number, number>;
   private originalColorById:  Map<number, string>;
-
   private moveForward:        boolean;
   private moveBackward:       boolean;
   private moveLeft:           boolean;
@@ -70,10 +70,15 @@ export class ThreejsViewService {
 
   public animate(): void {
     requestAnimationFrame(this.animate.bind(this));
-    this.renderObject();
+    this.renderScene();
   }
 
-  public createScene(scene: THREE.Scene, iSceneVariables: ISceneVariables, renderer: THREE.WebGLRenderer): void {
+  public createScene(
+    scene:            THREE.Scene,
+    iSceneVariables:  ISceneVariables,
+    renderer:         THREE.WebGLRenderer,
+    isSnapshotNeeded: boolean,
+    arenaID: number): void {
     this.renderer         = renderer;
     this.scene            = scene;
     this.sceneVariables   = iSceneVariables;
@@ -93,7 +98,7 @@ export class ThreejsViewService {
     this.threejsRaycast.setThreeGenerator(this.threejsGenerator);
 
     this.createLighting();
-    this.generateSceneObjects();
+    this.generateSceneObjects(isSnapshotNeeded, arenaID);
 
     this.camera.lookAt(new THREE.Vector3(this.CAMERA_START_POSITION, this.CAMERA_START_POSITION, this.CAMERA_START_POSITION));
   }
@@ -123,10 +128,6 @@ export class ThreejsViewService {
     });
   }
 
-  public setupFront(orientation: number): void {
-    this.threejsMovement.setupFront(orientation);
-  }
-
   public rotateCamera(point: IPosition2D): void {
     this.threejsMovement.rotateCamera(point);
   }
@@ -146,7 +147,7 @@ export class ThreejsViewService {
 
   public detectObject(mouseEvent: MouseEvent): number {
 
-    this.gameViewFreeService.setPosition(mouseEvent);
+    this.gameViewFreeService.setPosition(mouseEvent.offsetX, mouseEvent.offsetY);
 
     return this.threejsRaycast.detectObject(mouseEvent);
   }
@@ -168,63 +169,47 @@ export class ThreejsViewService {
     this.scene.add(this.ambLight);
   }
 
-  private renderObject(): void {
+  private renderScene(): void {
 
     this.threejsMovement.movementCamera(this.moveForward, this.moveBackward, this.moveLeft, this.moveRight);
 
     this.renderer.render(this.scene, this.camera);
   }
 
-  private generateSceneObjects(): void {
+  private generateSceneObjects(isSnapshotNeeded: boolean, arenaID: number): void {
     this.sceneVariables.sceneObjects.forEach((element: ISceneObject) => {
       this.threejsGenerator.initiateObject(element);
     });
-  }
 
-  public onKeyUp(keyboardEvent: KeyboardEvent): void {
-
-    const keyValue: string = keyboardEvent.key.toLowerCase();
-
-    switch ( keyValue ) {
-      case KEYS.W:
-        this.moveForward  = false;
-        break;
-      case KEYS.A:
-        this.moveLeft     = false;
-        break;
-      case KEYS.S:
-        this.moveBackward = false;
-        break;
-      case KEYS.D:
-        this.moveRight    = false;
-        break;
-
-      default:
-        break;
+    if (!isSnapshotNeeded) {
+      this.gameViewFreeService.updateSceneLoaded(arenaID);
     }
   }
 
-  public onKeyDown(keyboardEvent: KeyboardEvent): void {
-
+  public onKeyMovement(keyboardEvent: KeyboardEvent, buttonStatus: boolean): void {
     const keyValue: string = keyboardEvent.key.toLowerCase();
 
     switch ( keyValue ) {
       case KEYS.W:
-        this.setupFront(-1);
-        this.moveForward  = true;
+        if (buttonStatus) {
+          this.threejsMovement.setupFront(this.FOWARD_ORIENTATION);
+        }
+        this.moveForward  = buttonStatus;
         break;
 
       case KEYS.A:
-        this.moveLeft     = true;
+        this.moveLeft     = buttonStatus;
         break;
 
       case KEYS.S:
-        this.setupFront(1);
-        this.moveBackward = true;
+        if (buttonStatus) {
+          this.threejsMovement.setupFront(this.BACKWARD_ORIENTATION);
+        }
+        this.moveBackward = buttonStatus;
         break;
 
       case KEYS.D:
-        this.moveRight    = true;
+        this.moveRight    = buttonStatus;
         break;
 
       default:

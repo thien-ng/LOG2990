@@ -5,7 +5,7 @@ import { first } from "rxjs/operators";
 import { GameConnectionService } from "src/app/game-connection.service";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../../common/communication/iGameRequest";
-import { IClickMessage, IPosition2D } from "../../../../../common/communication/iGameplay";
+import { IClickMessage, IPenalty, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { Message } from "../../../../../common/communication/message";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { Constants } from "../../constants";
@@ -40,6 +40,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   private originalPath:   string;
   private gameRequest:    IGameRequest;
   private modifiedPath:   string;
+  private position:       IPosition2D;
 
   public constructor(
     @Inject(GameViewSimpleService)  public  gameViewService:  GameViewSimpleService,
@@ -52,11 +53,12 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       this.cardLoaded     = false;
       this.gameIsStarted  = false;
       this.username       = sessionStorage.getItem(Constants.USERNAME_KEY);
+      this.position       = {x: 0, y: 0};
       this.gameConnectionService.getGameConnectedListener().pipe(first()).subscribe((arenaID: number) => {
         this.arenaID = arenaID;
-        this.socketService.sendMsg(CCommon.GAME_CONNECTION, arenaID);
-        this.gameIsStarted = true;
+        this.socketService.sendMessage(CCommon.GAME_CONNECTION, arenaID);
         this.canvasRoutine();
+        this.socketService.sendMessage(CCommon.ON_GAME_LOADED, this.arenaID);
       });
     }
 
@@ -65,14 +67,24 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     if (this.gameID !== null && this.username !== null) {
       this.getActiveCard(this.username);
     }
+    this.socketService.onMessage(CCommon.ON_GAME_STARTED).subscribe(() => {
+      this.gameIsStarted = true;
+    });
   }
 
   public ngAfterContentInit(): void {
     this.initListener();
+    this.socketService.onMessage(CCommon.ON_PENALTY).subscribe((arenaResponse: IPenalty) => {
+      if (arenaResponse.isOnPenalty) {
+        this.wrongClickRoutine();
+      } else {
+        this.enableClickRoutine();
+      }
+    });
   }
 
   public ngOnDestroy(): void {
-    this.socketService.sendMsg(CCommon.GAME_DISCONNECT, this.username);
+    this.socketService.sendMessage(CCommon.GAME_DISCONNECT, this.username);
   }
 
   private getActiveCard(username: string): void {
@@ -103,12 +115,12 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   this.httpClient.post(Constants.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
       if (data.title === CCommon.ON_SUCCESS) {
         this.arenaID = parseInt(data.body, Constants.DECIMAL_BASE);
-        this.socketService.sendMsg(CCommon.GAME_CONNECTION, this.arenaID);
-        this.gameIsStarted = true;
+        this.socketService.sendMessage(CCommon.GAME_CONNECTION, this.arenaID);
         this.canvasRoutine();
+        this.socketService.sendMessage(CCommon.ON_GAME_LOADED, this.arenaID);
       } else if (data.title === CCommon.ON_WAITING) {
         this.arenaID = parseInt(data.body, Constants.DECIMAL_BASE);
-        this.socketService.sendMsg(CCommon.GAME_CONNECTION, CCommon.ON_WAITING);
+        this.socketService.sendMessage(CCommon.GAME_CONNECTION, CCommon.ON_WAITING);
         this.gameIsStarted = false;
       }
     });
@@ -130,9 +142,8 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     imgModified.onload = () => {
       canvasModified.drawImage(imgModified, 0, 0);
     };
-    this.gameViewService.setCanvas(canvasModified, canvasOriginal);
+    this.gameViewService.setCanvas(canvasModified);
     this.gameViewService.setSounds(this.successSound, this.failSound);
-    this.gameViewService.setText(this.erreurText, this.erreurText2);
   }
 
   public initListener(): void {
@@ -146,15 +157,44 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
 
   private sendClickEvent(mouseEvent: MouseEvent): void {
 
-    const pos: IPosition2D = {
+    const position2d: IPosition2D = {
       x:    mouseEvent.offsetX,
       y:    mouseEvent.offsetY,
     };
 
+    this.position = position2d;
     if (this.username !== null) {
-      const canvasPosition: IClickMessage<IPosition2D> = this.gameViewService.onCanvasClick(pos, this.arenaID, this.username);
-      this.socketService.sendMsg(CCommon.POSITION_VALIDATION, canvasPosition);
+      const canvasPosition: IClickMessage<IPosition2D> = this.gameViewService.onCanvasClick(position2d, this.arenaID, this.username);
+      this.socketService.sendMessage(CCommon.POSITION_VALIDATION, canvasPosition);
     }
+  }
+
+  public wrongClickRoutine(): void {
+    this.gameViewService.playFailSound();
+    this.disableClickRoutine();
+  }
+
+  public enableClickRoutine(): void {
+    document.body.style.cursor                     = "auto";
+    this.canvasModified.nativeElement.style.cursor = "auto";
+    this.canvasOriginal.nativeElement.style.cursor = "auto";
+    this.erreurText.nativeElement.textContent      = null;
+    this.erreurText2.nativeElement.textContent     = null;
+  }
+
+  private disableClickRoutine(): void {
+    document.body.style.cursor                      = "not-allowed";
+    this.canvasModified.nativeElement.style.cursor  = "not-allowed";
+    this.canvasOriginal.nativeElement.style.cursor  = "not-allowed";
+    const positionTop: number                       = this.position.y - Constants.CENTERY;
+    const positionRight: number                     = this.position.x - Constants.CENTERX;
+
+    this.erreurText.nativeElement.style.top     = positionTop     + "px";
+    this.erreurText.nativeElement.style.left    = positionRight   + "px";
+    this.erreurText2.nativeElement.style.top    = positionTop     + "px";
+    this.erreurText2.nativeElement.style.left   = positionRight   + "px";
+    this.erreurText.nativeElement.textContent   = Constants.ERROR_MESSAGE;
+    this.erreurText2.nativeElement.textContent  = Constants.ERROR_MESSAGE;
   }
 
 }
