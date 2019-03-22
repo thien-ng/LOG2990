@@ -74,7 +74,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
 
   public ngAfterContentInit(): void {
     this.initListener();
-    this.socketService.onMsg(CCommon.ON_PENALTY).subscribe((arenaResponse: IPenalty) => {
+    this.socketService.onMessage(CCommon.ON_PENALTY).subscribe((arenaResponse: IPenalty) => {
       if (arenaResponse.isOnPenalty) {
         this.wrongClickRoutine();
       } else {
