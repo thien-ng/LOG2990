@@ -89,6 +89,10 @@ export class ThreejsThemeViewService {
       this.idBySceneId,
       this.opacityById,
     );
+
+    this.renderer.setSize(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
+    this.renderer.setClearColor(this.sceneVariables.sceneBackgroundColor);
+
   public onKeyUp(keyboardEvent: KeyboardEvent): void {
 
     const keyValue: string = keyboardEvent.key.toLowerCase();
