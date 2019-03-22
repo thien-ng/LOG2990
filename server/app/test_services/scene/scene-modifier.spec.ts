@@ -197,11 +197,20 @@ describe("Scene-modifier tests", () => {
             selectedOptions:        [false, true, true],
         };
 
-        const spy: any = chai.spy.on(sceneModifier, "addObject");
         sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
-
-        chai.expect(spy).to.not.have.been.called();
         chai.expect(modifiedList.length).to.be.equal(7);
+    });
+
+    it("should have 7 modifications (removals and colors)", () => {
+        iSceneOptions = {
+            sceneName:              "game",
+            sceneType:              SceneType.Thematic,
+            sceneObjectsQuantity:   10,
+            selectedOptions:        [false, true, true],
+        };
+
+        const spy: any = chai.spy.on(sceneModifier, "addObject");
+        chai.expect(spy).to.not.have.been.called();
     });
 
     it("should have 7 modifications (additions and colors)", () => {
