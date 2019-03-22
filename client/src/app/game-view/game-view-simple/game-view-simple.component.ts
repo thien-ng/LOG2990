@@ -56,9 +56,9 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       this.position = {x: 0, y: 0};
       this.gameConnectionService.getGameConnectedListener().pipe(first()).subscribe((arenaID: number) => {
         this.arenaID = arenaID;
-        this.socketService.sendMsg(CCommon.GAME_CONNECTION, arenaID);
-        this.gameIsStarted = true;
+        this.socketService.sendMessage(CCommon.GAME_CONNECTION, arenaID);
         this.canvasRoutine();
+        this.socketService.sendMessage(CCommon.ON_GAME_LOADED, this.arenaID);
       });
     }
 
@@ -67,6 +67,9 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     if (this.gameID !== null && this.username !== null) {
       this.getActiveCard(this.username);
     }
+    this.socketService.onMessage(CCommon.ON_GAME_STARTED).subscribe(() => {
+      this.gameIsStarted = true;
+    });
   }
 
   public ngAfterContentInit(): void {
@@ -81,7 +84,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   }
 
   public ngOnDestroy(): void {
-    this.socketService.sendMsg(CCommon.GAME_DISCONNECT, this.username);
+    this.socketService.sendMessage(CCommon.GAME_DISCONNECT, this.username);
   }
 
   private getActiveCard(username: string): void {
@@ -112,12 +115,12 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   this.httpClient.post(Constants.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
       if (data.title === CCommon.ON_SUCCESS) {
         this.arenaID = parseInt(data.body, Constants.DECIMAL_BASE);
-        this.socketService.sendMsg(CCommon.GAME_CONNECTION, this.arenaID);
-        this.gameIsStarted = true;
+        this.socketService.sendMessage(CCommon.GAME_CONNECTION, this.arenaID);
         this.canvasRoutine();
+        this.socketService.sendMessage(CCommon.ON_GAME_LOADED, this.arenaID);
       } else if (data.title === CCommon.ON_WAITING) {
         this.arenaID = parseInt(data.body, Constants.DECIMAL_BASE);
-        this.socketService.sendMsg(CCommon.GAME_CONNECTION, CCommon.ON_WAITING);
+        this.socketService.sendMessage(CCommon.GAME_CONNECTION, CCommon.ON_WAITING);
         this.gameIsStarted = false;
       }
     });
@@ -162,7 +165,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     this.position = pos;
     if (this.username !== null) {
       const canvasPosition: IClickMessage<IPosition2D> = this.gameViewService.onCanvasClick(pos, this.arenaID, this.username);
-      this.socketService.sendMsg(CCommon.POSITION_VALIDATION, canvasPosition);
+      this.socketService.sendMessage(CCommon.POSITION_VALIDATION, canvasPosition);
     }
   }
 

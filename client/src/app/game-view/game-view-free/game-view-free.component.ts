@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { AfterViewInit, Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
 import { first } from "rxjs/operators";
@@ -25,7 +25,7 @@ const RIGHT_CLICK:  number = 2;
   templateUrl:  "./game-view-free.component.html",
   styleUrls:    ["./game-view-free.component.css"],
 })
-export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
+export class GameViewFreeComponent implements OnInit, OnDestroy {
 
   public readonly OPPONENT:         string = "Adversaire";
   public readonly NEEDED_SNAPSHOT:  boolean = false;
@@ -94,14 +94,13 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
       };
       this.rightClick     = true;
       this.cardIsLoaded   = false;
-      this.gameIsStarted  = false;
+      this.isLoading      = true;
       this.mode           = Number(this.route.snapshot.paramMap.get(GAMEMODE_KEY));
       this.username       = sessionStorage.getItem(Constants.USERNAME_KEY);
 
       this.gameConnectionService.getGameConnectedListener().pipe(first()).subscribe((arenaID: number) => {
-        this.arenaID        = arenaID;
-        this.gameIsStarted  = true;
-        this.socketService.sendMsg(CCommon.GAME_CONNECTION, arenaID);
+        this.arenaID = arenaID;
+        this.socketService.sendMessage(CCommon.GAME_CONNECTION, arenaID);
         this.fetchSceneFromServer(this.scenePath)
         .catch((error) => {
           this.openSnackBar(error, Constants.SNACK_ACTION);
@@ -118,7 +117,9 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    this.isLoading = true;
+    this.socketService.onMessage(CCommon.ON_GAME_STARTED).subscribe(() => {
+      this.isLoading = false;
+    });
     this.socketService.onMsg(CCommon.ON_PENALTY).subscribe((arenaResponse: IPenalty) => {
       if (arenaResponse.isOnPenalty) {
         this.wrongClickRoutine();
@@ -182,9 +183,8 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
     this.httpClient.post(Constants.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
       switch (data.title) {
         case CCommon.ON_SUCCESS:
-          this.arenaID        = Number(data.body);
-          this.gameIsStarted  = true;
-          this.socketService.sendMsg(CCommon.GAME_CONNECTION, this.arenaID);
+          this.arenaID = Number(data.body);
+          this.socketService.sendMessage(CCommon.GAME_CONNECTION, this.arenaID);
           this.fetchSceneFromServer(this.scenePath)
           .catch((error) => {
             this.openSnackBar(error, Constants.SNACK_ACTION);
@@ -192,7 +192,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
           break;
         case CCommon.ON_WAITING:
           this.arenaID = parseInt(data.body, Constants.DECIMAL_BASE);
-          this.socketService.sendMsg(CCommon.GAME_CONNECTION, CCommon.ON_WAITING);
+          this.socketService.sendMessage(CCommon.GAME_CONNECTION, CCommon.ON_WAITING);
           break;
         case CCommon.ON_ERROR:
           this.openSnackBar(data.body, Constants.SNACK_ACTION);
@@ -224,8 +224,6 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
       }).catch((error) => {
         this.openSnackBar(error, Constants.SNACK_ACTION);
       });
-
-      this.isLoading = false;
     }
   }
 
@@ -254,7 +252,7 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.socketService.sendMsg(CCommon.GAME_DISCONNECT, this.username);
+    this.socketService.sendMessage(CCommon.GAME_DISCONNECT, this.username);
   }
 
   private canvasRoutine(): void {

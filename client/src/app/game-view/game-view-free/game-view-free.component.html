@@ -1,11 +1,11 @@
-<app-waiting-room [gameID]="gameID" *ngIf="!gameIsStarted && mode !== 0"></app-waiting-room>
+<app-waiting-room [isMultiplayer]="mode === 1" [gameID]="gameID" *ngIf="isLoading"></app-waiting-room>
 
-<span [hidden]="!gameIsStarted">
+<span [hidden]="isLoading">
   <mat-grid-list cols="9" rowHeight="1%">
     <mat-grid-tile
       [colspan]="7"
       [rowspan]="12">
-      <div class="gameName" *ngIf="gameIsStarted">{{activeCard.title}}</div>
+      <div class="gameName" *ngIf="!isLoading">{{activeCard.title}}</div>
     </mat-grid-tile>
     <mat-grid-tile
       [colspan]="2"
@@ -27,7 +27,7 @@
                                 [iSceneVariables]   = "originalVariables"
                                 [isSnapshotNeeded]  = "NEEDED_SNAPSHOT">
               </app-threejs-view>
-        </mat-grid-tile>  
+        </mat-grid-tile>
           <mat-grid-tile [colspan]="1" >
             <div class="text2" #erreurText2></div>
               <app-threejs-view #modified

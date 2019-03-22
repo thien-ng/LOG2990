@@ -16,6 +16,8 @@ import { GameViewFreeService } from "../game-view/game-view-free/game-view-free.
 import { GameViewSimpleService } from "../game-view/game-view-simple/game-view-simple.service";
 import { TimerService } from "../game-view/timer/timer.service";
 
+const GAME_LOAD_ERROR: string = "Erreur lors du chargement du jeu";
+
 @Injectable({
   providedIn: "root",
 })
@@ -35,6 +37,7 @@ export class SocketService {
     private gameConnectionService:    GameConnectionService,
     ) {
       this.socket = io(Constants.WEBSOCKET_URL);
+      this.gameViewFreeService.setGameSocket(this.socket);
     }
 
   public initWebsocketListener(): void {
@@ -42,13 +45,16 @@ export class SocketService {
     this.socket.addEventListener(Constants.ON_CONNECT, () => {
       this.initArenaListeners();
       this.initGameViewListeners();
+      this.initCardListeners();
+
+      this.socket.on(CCommon.ON_CANCEL_GAME, () => {
+        this.router.navigate([Constants.GAMELIST_REDIRECT])
+        .catch((error: TypeError) => this.openSnackbar(error.message, Constants.SNACK_ACTION));
+        this.openSnackbar(GAME_LOAD_ERROR, Constants.SNACK_ACTION);
+      });
 
       this.socket.on(CCommon.CHAT_EVENT, (data: IChat) => {
         this.chatViewService.updateConversation(data);
-      });
-
-      this.socket.on(CCommon.ON_NEW_SCORE, (gameID: number) => {
-        this.cardManagerService.reloadHighscore(gameID);
       });
 
       this.socket.on(CCommon.ON_LOBBY, (lobbyEvent: ILobbyEvent) => {
@@ -60,6 +66,20 @@ export class SocketService {
         this.router.navigate([Constants.GAMELIST_REDIRECT])
         .catch((error: TypeError) => this.openSnackbar(error.message, Constants.SNACK_ACTION));
       });
+    });
+  }
+
+  private initCardListeners(): void {
+    this.socket.on(CCommon.ON_CARD_CREATED, () => {
+      this.cardManagerService.updateCards(true);
+    });
+
+    this.socket.on(CCommon.ON_CARD_DELETED, () => {
+      this.cardManagerService.updateCards(true);
+    });
+
+    this.socket.on(CCommon.ON_NEW_SCORE, (gameID: number) => {
+      this.cardManagerService.reloadHighscore(gameID);
     });
   }
 
@@ -93,11 +113,11 @@ export class SocketService {
     }
   }
 
-  public sendMsg<T>(type: string, msg: T): void {
+  public sendMessage<T>(type: string, msg?: T): void {
     this.socket.emit(type, msg);
   }
 
-  public onMsg<T>(msgType: string): Observable<T> {
+  public onMessage<T>(msgType: string): Observable<T> {
     return new Observable<T> ((observer) => {
       this.socket.on(msgType, (data: T) => {
         observer.next(data);

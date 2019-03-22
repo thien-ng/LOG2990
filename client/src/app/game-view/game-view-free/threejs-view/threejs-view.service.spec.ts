@@ -36,19 +36,19 @@ describe("ThreejsViewService Tests", () => {
 
   it("should generate object in scene", inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
     const spy: any = spyOn<any>(threejsViewService, "generateSceneObjects");
-    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.createScene(scene, sceneVariables, renderer, false, 1);
     expect(spy).toHaveBeenCalled();
   }));
 
   it("should add lighting in scene",    inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
     const spy: any = spyOn<any>(threejsViewService, "createLighting");
-    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.createScene(scene, sceneVariables, renderer, false, 1);
     expect(spy).toHaveBeenCalled();
   }));
 
   it("should render scene",             inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
     const spy: any = spyOn<any>(threejsViewService, "renderObject");
-    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.createScene(scene, sceneVariables, renderer, false, 1);
     threejsViewService.animate();
     expect(spy).toHaveBeenCalled();
   }));
@@ -64,7 +64,7 @@ describe("ThreejsViewService Tests", () => {
     when(scene.getObjectById(anyNumber())).thenReturn(generatedObject);
 
     const modifiedList: number[] = [1];
-    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.createScene(scene, sceneVariables, renderer, false, 1);
     threejsViewService.changeObjectsColor(true, false, modifiedList);
 
     expect(spy).toHaveBeenCalled();
@@ -74,7 +74,7 @@ describe("ThreejsViewService Tests", () => {
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
     const spy: any = spyOn<any>(threejsViewService, "recoverObjectFromScene").and.callThrough();
 
-    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.createScene(scene, sceneVariables, renderer, false, 1);
     threejsViewService.changeObjectsColor(true, false, undefined);
 
     expect(spy).not.toHaveBeenCalled();
@@ -91,7 +91,7 @@ describe("ThreejsViewService Tests", () => {
     when(scene.getObjectById(anyNumber())).thenReturn(generatedObject);
 
     const modifiedList: number[] = [1];
-    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.createScene(scene, sceneVariables, renderer, false, 1);
     threejsViewService.changeObjectsColor(false, false, modifiedList);
 
     expect(spy).toHaveBeenCalled();
@@ -108,7 +108,7 @@ describe("ThreejsViewService Tests", () => {
     when(scene.getObjectById(anyNumber())).thenReturn(generatedObject);
 
     const modifiedList: number[] = [1];
-    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.createScene(scene, sceneVariables, renderer, false, 1);
     threejsViewService.changeObjectsColor(false, true, modifiedList);
 
     expect(spy).toHaveBeenCalled();
@@ -140,7 +140,7 @@ describe("ThreejsViewService Tests", () => {
       actionToApply: ActionType.NO_ACTION_REQUIRED,
     };
 
-    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.createScene(scene, sceneVariables, renderer, false, 1);
     threejsViewService.updateSceneWithNewObject(objectUpdate);
 
     expect(initSpy).not.toHaveBeenCalled();
@@ -157,7 +157,7 @@ describe("ThreejsViewService Tests", () => {
       actionToApply: ActionType.NO_ACTION_REQUIRED,
     };
 
-    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.createScene(scene, sceneVariables, renderer, false, 1);
     threejsViewService.updateSceneWithNewObject(objectUpdate);
 
     expect(deleteSpy).not.toHaveBeenCalled();
@@ -174,7 +174,7 @@ describe("ThreejsViewService Tests", () => {
       actionToApply: ActionType.NO_ACTION_REQUIRED,
     };
 
-    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.createScene(scene, sceneVariables, renderer, false, 1);
     threejsViewService.updateSceneWithNewObject(objectUpdate);
 
     expect(changeSpy).not.toHaveBeenCalled();
@@ -192,7 +192,7 @@ describe("ThreejsViewService Tests", () => {
       sceneObject:   sceneVariables.sceneObjects[0],
     };
 
-    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.createScene(scene, sceneVariables, renderer, false, 1);
     threejsViewService.updateSceneWithNewObject(objectUpdate);
 
     expect(initSpy).not.toHaveBeenCalled();
@@ -210,7 +210,7 @@ describe("ThreejsViewService Tests", () => {
       sceneObject:   sceneVariables.sceneObjects[0],
     };
 
-    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.createScene(scene, sceneVariables, renderer, false, 1);
     threejsViewService.updateSceneWithNewObject(objectUpdate);
 
     expect(deleteSpy).not.toHaveBeenCalled();
@@ -228,7 +228,7 @@ describe("ThreejsViewService Tests", () => {
       sceneObject:   sceneVariables.sceneObjects[0],
     };
 
-    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.createScene(scene, sceneVariables, renderer, false, 1);
     threejsViewService.updateSceneWithNewObject(objectUpdate);
 
     expect(changeSpy).not.toHaveBeenCalled();
@@ -246,7 +246,7 @@ describe("ThreejsViewService Tests", () => {
       sceneObject:   sceneVariables.sceneObjects[0],
     };
 
-    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.createScene(scene, sceneVariables, renderer, false, 1);
     threejsViewService.updateSceneWithNewObject(objectUpdate);
 
     expect(deleteSpy).not.toHaveBeenCalled();
@@ -264,7 +264,7 @@ describe("ThreejsViewService Tests", () => {
       sceneObject:   sceneVariables.sceneObjects[0],
     };
 
-    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.createScene(scene, sceneVariables, renderer, false, 1);
     threejsViewService.updateSceneWithNewObject(objectUpdate);
 
     expect(changeSpy).not.toHaveBeenCalled();
@@ -282,7 +282,7 @@ describe("ThreejsViewService Tests", () => {
       sceneObject:   sceneVariables.sceneObjects[0],
     };
 
-    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.createScene(scene, sceneVariables, renderer, false, 1);
     threejsViewService.updateSceneWithNewObject(objectUpdate);
 
     expect(initSpy).not.toHaveBeenCalled();
@@ -300,7 +300,7 @@ describe("ThreejsViewService Tests", () => {
       sceneObject:   sceneVariables.sceneObjects[0],
     };
 
-    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.createScene(scene, sceneVariables, renderer, false, 1);
     threejsViewService.updateSceneWithNewObject(objectUpdate);
 
     expect(changeSpy).not.toHaveBeenCalled();
@@ -318,7 +318,7 @@ describe("ThreejsViewService Tests", () => {
       sceneObject:   sceneVariables.sceneObjects[0],
     };
 
-    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.createScene(scene, sceneVariables, renderer, false, 1);
     threejsViewService.updateSceneWithNewObject(objectUpdate);
 
     expect(initSpy).not.toHaveBeenCalled();
@@ -336,7 +336,7 @@ describe("ThreejsViewService Tests", () => {
       sceneObject:   sceneVariables.sceneObjects[0],
     };
 
-    threejsViewService.createScene(scene, sceneVariables, renderer);
+    threejsViewService.createScene(scene, sceneVariables, renderer, false, 1);
     threejsViewService.updateSceneWithNewObject(objectUpdate);
 
     expect(deleteSpy).not.toHaveBeenCalled();

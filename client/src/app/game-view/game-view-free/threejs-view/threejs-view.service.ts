@@ -73,7 +73,12 @@ export class ThreejsViewService {
     this.renderObject();
   }
 
-  public createScene(scene: THREE.Scene, iSceneVariables: ISceneVariables, renderer: THREE.WebGLRenderer): void {
+  public createScene(
+    scene:            THREE.Scene,
+    iSceneVariables:  ISceneVariables,
+    renderer:         THREE.WebGLRenderer,
+    isSnapshotNeeded: boolean,
+    arenaID: number): void {
     this.renderer         = renderer;
     this.scene            = scene;
     this.sceneVariables   = iSceneVariables;
@@ -93,7 +98,7 @@ export class ThreejsViewService {
     this.threejsRaycast.setThreeGenerator(this.threejsGenerator);
 
     this.createLighting();
-    this.generateSceneObjects();
+    this.generateSceneObjects(isSnapshotNeeded, arenaID);
 
     this.camera.lookAt(new THREE.Vector3(this.CAMERA_START_POSITION, this.CAMERA_START_POSITION, this.CAMERA_START_POSITION));
   }
@@ -175,10 +180,14 @@ export class ThreejsViewService {
     this.renderer.render(this.scene, this.camera);
   }
 
-  private generateSceneObjects(): void {
+  private generateSceneObjects(isSnapshotNeeded: boolean, arenaID: number): void {
     this.sceneVariables.sceneObjects.forEach((element: ISceneObject) => {
       this.threejsGenerator.initiateObject(element);
     });
+
+    if (!isSnapshotNeeded) {
+      this.gameViewFreeService.updateSceneLoaded(arenaID);
+    }
   }
 
   public onKeyUp(keyboardEvent: KeyboardEvent): void {
