@@ -23,10 +23,11 @@ export enum ModificationType {
     changedColor,
   }
 
-export interface ISceneVariables {
+export interface ISceneVariables<OBJ3D_T> {
     theme:                  SceneType;
     gameName:               string;
     sceneObjectsQuantity:   number;
-    sceneObjects:           ISceneObject[];
+    sceneObjects:           OBJ3D_T[];
     sceneBackgroundColor:   string;
+    floorObject?:           ISceneFloor;
 }
