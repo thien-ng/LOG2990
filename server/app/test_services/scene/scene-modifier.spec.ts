@@ -3,7 +3,7 @@ import * as spies from "chai-spies";
 import "reflect-metadata";
 import { ISceneObject} from "../../../../common/communication/iSceneObject";
 import { ISceneOptions, SceneType } from "../../../../common/communication/iSceneOptions";
-import { IModification, ISceneVariables } from "../../../../common/communication/iSceneVariables";
+import { IModification, ISceneVariables, ModificationType } from "../../../../common/communication/iSceneVariables";
 import { SceneBuilder } from "../../services/scene/scene-builder";
 import { SceneModifier } from "../../services/scene/scene-modifier";
 
@@ -193,6 +193,19 @@ describe("Scene-modifier tests (2 changes)", () => {
         sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
 
         chai.expect(spy).to.not.have.been.called();
+    });
+
+    it("should have additions or removals modifications", () => {
+        iSceneOptions = {
+            sceneName:              "game",
+            sceneType:              SceneType.Thematic,
+            sceneObjectsQuantity:   10,
+            selectedOptions:        [true, true, false],
+        };
+
+        const sceneModified: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+
+        chai.expect(counterDifference).to.be.equal(7);
     });
 
     it("should have 7 modifications (removals and colors)", () => {
