@@ -1,10 +1,11 @@
 import { ISceneObject } from "./iSceneObject";
 import { SceneType } from "./iSceneOptions";
 
-export interface ISceneData {
-    originalScene:      ISceneVariables;
-    modifiedScene:      ISceneVariables;
+export interface ISceneData<OBJ3D_T> {
+    originalScene:      ISceneVariables<OBJ3D_T>;
+    modifiedScene:      ISceneVariables<OBJ3D_T>;
     modifications:      IModification[];
+    meshIDs?:           number[];
 }
 
 export interface IModification {
