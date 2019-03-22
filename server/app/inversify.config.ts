@@ -6,12 +6,14 @@ import { HighscoreController } from "./controllers/highscore.controller";
 import { SceneManagerController } from "./controllers/scene-manager.controller";
 import { UserController } from "./controllers/user.controller";
 import { Server } from "./server";
+import { AssetManagerService } from "./services/asset-manager.service";
 import { CardManagerService } from "./services/card-manager.service";
 import { CardOperations } from "./services/card-operations.service";
 import { ChatManagerService } from "./services/chat-manager.service";
 import { DifferenceCheckerController } from "./services/difference-checker/difference-checker.controller";
 import { DifferenceCheckerService } from "./services/difference-checker/difference-checker.service";
 import { GameManagerService } from "./services/game/game-manager.service";
+import { LobbyManagerService } from "./services/game/lobby-manager.service";
 import { HighscoreService } from "./services/highscore.service";
 import { HighscoreApiController } from "./services/highscore/highscore-api.controller";
 import { HighscoreApiService } from "./services/highscore/highscore-api.service";
@@ -53,11 +55,14 @@ container.bind(Types.HitValidatorService3D).to(HitValidatorService3D);
 
 container.bind(Types.GameManagerController).to(GameManagerController);
 container.bind(Types.GameManagerService).to(GameManagerService).inSingletonScope();
+container.bind(Types.LobbyManagerService).to(LobbyManagerService).inSingletonScope();
 
 container.bind(Types.SceneManagerController).to(SceneManagerController);
 container.bind(Types.SceneManager).to(SceneManager).inSingletonScope();
 
 container.bind(Types.TimeManagerService).to(TimeManagerService).inSingletonScope();
 container.bind(Types.ChatManagerService).to(ChatManagerService).inSingletonScope();
+
+container.bind(Types.AssetManagerService).to(AssetManagerService).inSingletonScope();
 
 export { container };
