@@ -371,6 +371,14 @@ describe("Scene-modifier tests (3 changes or no change)", () => {
 
         const sceneModified: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
 
+        modifiedList.forEach((modifiedListElt: any) => {
+            sceneModified.sceneObjects.forEach((sceneObjElt: any) => {
+                if (modifiedListElt.id === sceneObjElt.id && modifiedListElt.type === ModificationType.added) {
+                    counterDifference++;
+                }
+            });
+        });
+
 
         chai.expect(counterDifference).to.be.equal(7);
     });
