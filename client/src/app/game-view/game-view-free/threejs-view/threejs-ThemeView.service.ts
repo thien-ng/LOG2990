@@ -40,6 +40,12 @@ export class ThreejsThemeViewService {
   private moveBackward:       boolean;
   private moveLeft:           boolean;
   private moveRight:          boolean;
+
+  public constructor(@Inject(GameViewFreeService) public gameViewFreeService: GameViewFreeService) {
+
+    this.init();
+  }
+
   public onKeyUp(keyboardEvent: KeyboardEvent): void {
 
     const keyValue: string = keyboardEvent.key.toLowerCase();
