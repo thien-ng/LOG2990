@@ -10,8 +10,8 @@ import { CCommon } from "../../../../../common/constantes/cCommon";
 export class GameViewFreeService {
 
   private rightClickActive:      Subject<boolean>;
-  private successSound:          HTMLAudioElement;
-  private failSound:             HTMLAudioElement;
+  private successSound:          ElementRef;
+  private failSound:             ElementRef;
   public  position:              IPosition2D;
 
   public constructor (private gameConnectionService: GameConnectionService) {
@@ -44,18 +44,18 @@ export class GameViewFreeService {
   }
 
   public playFailSound(): void {
-    this.failSound.currentTime = 0;
-    this.failSound.play();
+    this.failSound.nativeElement.currentTime = 0;
+    this.failSound.nativeElement.play();
   }
 
   private playSuccessSound(): void {
-    this.successSound.currentTime = 0;
-    this.successSound.play();
+    this.successSound.nativeElement.currentTime = 0;
+    this.successSound.nativeElement.play();
   }
 
   public setSounds(success: ElementRef, fail: ElementRef): void {
-    this.successSound = success.nativeElement;
-    this.failSound    = fail.nativeElement;
+    this.successSound = success;
+    this.failSound    = fail;
   }
 
 }
