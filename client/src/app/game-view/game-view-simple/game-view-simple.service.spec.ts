@@ -115,4 +115,19 @@ describe("GameViewSimpleService", () => {
       expect(spy).toHaveBeenCalled();
     }
   }));
+
+  it("should play htmlaudio success sound on good hit", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
+    const expectedResponse: IArenaResponse<IOriginalPixelCluster> = {
+      status:     CCommon.ON_SUCCESS,
+      response:   undefined,
+    };
+    const audio1: HTMLAudioElement = document.createElement("audio");
+    const audio2: HTMLAudioElement = document.createElement("audio");
+    const successSound: ElementRef = new ElementRef<HTMLAudioElement>(audio1);
+    const failsound: ElementRef = new ElementRef<HTMLAudioElement>(audio2);
+    gameViewService.setSounds(successSound, failsound);
+    const spy: any = spyOn(gameViewService["successSound"], "play");
+    gameViewService.onArenaResponse(expectedResponse);
+    expect(spy).toHaveBeenCalled();
+  }));
 });
