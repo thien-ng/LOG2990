@@ -100,6 +100,8 @@ export class ThreejsThemeViewService {
     this.createLighting();
     this.generateSceneObjects(isSnapshotNeeded, arenaID);
 
+    this.camera.lookAt(new THREE.Vector3(this.CAMERA_START_POSITION, this.CAMERA_START_POSITION, this.CAMERA_START_POSITION));
+  }
   public detectObject(mouseEvent: MouseEvent): number {
 
     this.gameViewFreeService.setPosition(mouseEvent);
