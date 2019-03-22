@@ -104,4 +104,13 @@ describe("GameViewFreeService", () => {
     gameViewService.playFailSound();
     expect(spy).toHaveBeenCalled();
   }));
+
+  it("should update subject right click", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
+    const expectedRes: boolean = true;
+    gameViewService.getRightClickListener().subscribe((value: boolean) => {
+      expect(value).toEqual(expectedRes);
+    })
+    gameViewService.updateRightClick(expectedRes);
+  }));
+
 });
