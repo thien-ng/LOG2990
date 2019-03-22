@@ -11,7 +11,9 @@ import { Player } from "../../../services/game/arena/player";
 import { Referee } from "../../../services/game/arena/referee";
 import { Timer } from "../../../services/game/arena/timer";
 import { GameManagerService } from "../../../services/game/game-manager.service";
+import { LobbyManagerService } from "../../../services/game/lobby-manager.service";
 import { HighscoreService } from "../../../services/highscore.service";
+import { InterfaceBuilder } from "../../../services/interface-generator";
 import { TimeManagerService } from "../../../services/time-manager.service";
 import { UserManagerService } from "../../../services/user-manager.service";
 
@@ -93,6 +95,8 @@ let userManagerService:     UserManagerService;
 let highscoreService:       HighscoreService;
 let chatManagerService:     ChatManagerService;
 let timeManagerService:     TimeManagerService;
+let interfaceBuilder:       InterfaceBuilder;
+let lobbyManagerService:    LobbyManagerService;
 let cardOperations:         CardOperations;
 let arena2D:                Arena2D;
 let arena3D:                Arena3D;
@@ -104,6 +108,8 @@ describe("Referee tests", () => {
 
     beforeEach(async () => {
         chai.use(spies);
+        interfaceBuilder    = new InterfaceBuilder();
+        lobbyManagerService = new LobbyManagerService();
         mockAxios           = new mockAdapter.default(axios);
         timer               = new Timer();
         userManagerService  = new UserManagerService();
@@ -111,7 +117,7 @@ describe("Referee tests", () => {
         timeManagerService  = new TimeManagerService();
         chatManagerService  = new ChatManagerService(timeManagerService);
         cardOperations      = new CardOperations(highscoreService);
-        gameManagerService  = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations);
+        gameManagerService  = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations, lobbyManagerService, interfaceBuilder);
         arena2D             = new Arena2D(arenaInfo2D, gameManagerService);
         arena3D             = new Arena3D(arenaInfo3D, gameManagerService);
     });
