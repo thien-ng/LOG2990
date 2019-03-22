@@ -13,6 +13,7 @@ export class CardOperations {
 
     private imageManagerService:    AssetManagerService;
     private cards:                  ICardLists;
+    private socketServer:           SocketIO.Server;
 
     public constructor(@inject(Types.HighscoreService) private highscoreService: HighscoreService) {
         this.imageManagerService = new AssetManagerService();
@@ -20,6 +21,10 @@ export class CardOperations {
             list2D: [],
             list3D: [],
         };
+    }
+
+    public setServer(server: SocketIO.Server): void {
+        this.socketServer = server;
     }
 
     public getCardList(): ICardLists {
@@ -36,6 +41,9 @@ export class CardOperations {
         if (!isExisting) {
             this.cards.list2D.unshift(card);
             this.highscoreService.createHighscore(card.gameID);
+            if (this.socketServer) {
+                this.socketServer.emit(CCommon.ON_CARD_CREATED);
+            }
         }
 
         return !isExisting;
@@ -51,6 +59,9 @@ export class CardOperations {
         if (!isExisting) {
             this.cards.list3D.unshift(card);
             this.highscoreService.createHighscore(card.gameID);
+            if (this.socketServer) {
+                this.socketServer.emit(CCommon.ON_CARD_CREATED);
+            }
         }
 
         return !isExisting;
@@ -76,6 +87,9 @@ export class CardOperations {
         } catch (error) {
             return this.generateErrorMessage(error).body;
         }
+        if (this.socketServer) {
+            this.socketServer.emit(CCommon.ON_CARD_DELETED);
+        }
 
         return Constants.CARD_DELETED;
     }
@@ -98,6 +112,9 @@ export class CardOperations {
             this.cards.list3D.splice(index, 1);
         } catch (error) {
             return this.generateErrorMessage(error).body;
+        }
+        if (this.socketServer) {
+            this.socketServer.emit(CCommon.ON_CARD_DELETED);
         }
 
         return Constants.CARD_DELETED;

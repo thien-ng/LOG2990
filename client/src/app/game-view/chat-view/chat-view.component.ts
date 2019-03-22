@@ -90,7 +90,7 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
   public sendMessage(): void {
     if (this.usernameFormControl.errors === null) {
       const generatedMessage: IChatSender = this.generateMessage(this.usernameFormControl.value);
-      this.socketService.sendMsg(this.CHAT_EVENT, generatedMessage);
+      this.socketService.sendMessage(this.CHAT_EVENT, generatedMessage);
       this.initialValue = "";
     }
   }

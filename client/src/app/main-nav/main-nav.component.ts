@@ -90,7 +90,7 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.isAdminMode = activeState;
     });
 
-    this.socketService.onMsg(CCommon.USER_EVENT).subscribe((answer: IUser) => {
+    this.socketService.onMessage(CCommon.USER_EVENT).subscribe((answer: IUser) => {
       this.assignUser(answer);
     });
   }
