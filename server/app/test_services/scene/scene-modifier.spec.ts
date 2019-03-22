@@ -360,4 +360,18 @@ describe("Scene-modifier tests (3 changes or no change)", () => {
         sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
         chai.expect(modifiedList.length).to.be.equal(7);
     });
+
+    it("should have additon and/or color modifications", () => {
+        iSceneOptions = {
+            sceneName:              "game",
+            sceneType:              SceneType.Thematic,
+            sceneObjectsQuantity:   10,
+            selectedOptions:        [true, false, true],
+        };
+
+        const sceneModified: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+
+
+        chai.expect(counterDifference).to.be.equal(7);
+    });
 });
