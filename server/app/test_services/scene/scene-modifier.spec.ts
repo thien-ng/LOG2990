@@ -165,7 +165,7 @@ describe("Scene-modifier tests", () => {
         chai.expect(counterDifference).to.be.equal(7);
     });
 
-    it("should have 7 modification (removals and colors)", () => {
+    it("should have 7 modifications (removals and colors)", () => {
         iSceneOptions = {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
@@ -173,20 +173,10 @@ describe("Scene-modifier tests", () => {
             selectedOptions:        [false, true, true],
         };
 
-        const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+        const spy: any = chai.spy.on(sceneModifier, "addObject");
+        sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
 
-        resultScene.sceneObjects.forEach((modifiedObject: ISceneObject) => {
-            iSceneVariables.sceneObjects.forEach((originalObject: ISceneObject) => {
-                const isEqualId:    boolean = modifiedObject.id     === originalObject.id;
-                const isEqualColor: boolean = modifiedObject.color  === originalObject.color;
-
-                if (isEqualId && !isEqualColor) {
-                    counterDifference++;
-                }
-
-            });
-        });
-
-        chai.expect(resultScene.sceneObjects.length).to.be.equal(10);
+        chai.expect(spy).to.not.have.been.called();
+        chai.expect(modifiedList.length).to.be.equal(7);
     });
 });
