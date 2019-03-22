@@ -67,6 +67,12 @@ export class ThreejsThemeViewService {
     this.moveRight            = false;
     this.moveLeft             = false;
   }
+
+  public animate(): void {
+    requestAnimationFrame(this.animate.bind(this));
+    this.renderObject();
+  }
+
   public onKeyUp(keyboardEvent: KeyboardEvent): void {
 
     const keyValue: string = keyboardEvent.key.toLowerCase();
