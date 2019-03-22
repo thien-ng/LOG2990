@@ -98,6 +98,7 @@ export class ThreejsThemeViewService {
     this.threejsRaycast.setThreeGenerator(this.threejsGenerator);
 
     this.createLighting();
+    this.generateSceneObjects(isSnapshotNeeded, arenaID);
 
   private createLighting(): void {
 
@@ -110,6 +111,16 @@ export class ThreejsThemeViewService {
     this.scene.add(firstLight);
     this.scene.add(secondLight);
     this.scene.add(this.ambLight);
+  }
+
+  private generateSceneObjects(isSnapshotNeeded: boolean, arenaID: number): void {
+    this.sceneVariables.sceneObjects.forEach((element: ISceneObject) => {
+      this.threejsGenerator.initiateObject(element);
+    });
+
+    if (!isSnapshotNeeded) {
+      this.gameViewFreeService.updateSceneLoaded(arenaID);
+    }
   }
   public onKeyUp(keyboardEvent: KeyboardEvent): void {
 
