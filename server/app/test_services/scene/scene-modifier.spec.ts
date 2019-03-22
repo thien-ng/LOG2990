@@ -7,7 +7,7 @@ import { IModification, ISceneVariables, ModificationType } from "../../../../co
 import { SceneBuilder } from "../../services/scene/scene-builder";
 import { SceneModifier } from "../../services/scene/scene-modifier";
 
-// tslint:disable:no-any prefer-for-of no-magic-numbers max-func-body-length
+// tslint:disable:no-any prefer-for-of no-magic-numbers max-func-body-length no-any max-file-line-count
 
 let sceneModifier:          SceneModifier;
 let sceneBuilder:           SceneBuilder;
