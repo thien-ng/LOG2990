@@ -12,6 +12,7 @@ import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../
 import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
+// import { Constants } from "../../constants";
 import { CardOperations } from "../../services/card-operations.service";
 import { ChatManagerService } from "../../services/chat-manager.service";
 import { Arena2D } from "../../services/game/arena/arena2d";
@@ -22,7 +23,6 @@ import { HighscoreService } from "../../services/highscore.service";
 import { Mode } from "../../services/highscore/utilities/interfaces";
 import { TimeManagerService } from "../../services/time-manager.service";
 import { UserManagerService } from "../../services/user-manager.service";
-import { Constants } from "../../constants";
 
 // tslint:disable no-magic-numbers no-any await-promise no-floating-promises max-file-line-count max-func-body-length no-empty
 
@@ -155,19 +155,6 @@ describe("GameManagerService tests", () => {
         chai.expect(result).to.be.equal(socket);
     });
 
-    it("Should return buildArenaInfo successfully", async () => {
-        const arenaInfo: IArenaInfos<I2DInfos> = {
-            arenaId:            1000,
-            users:              [{username: "Frank", socketID: "12345"}],
-            dataUrl: {
-                original:    Constants.PATH_SERVER_TEMP + "1" + CCommon.ORIGINAL_FILE,
-                difference:  Constants.PATH_SERVER_TEMP + "1" + Constants.GENERATED_FILE,
-            },
-        };
-        chai.expect(gameManagerService["buildArena2DInfos"]([{username: "Frank", socketID: "12345"}], 1))
-        .to.deep.equal(arenaInfo);
-    });
-
     it("Should return a success message when creating a 2D arena", async () => {
         userManagerService.validateName(request2DSimple.username);
         chai.spy.on(gameManagerService["assetManager"], ["tempRoutine2d"], () => {return; });
@@ -186,21 +173,6 @@ describe("GameManagerService tests", () => {
         gameManagerService.analyseRequest(request2DSimple).then((message: any) => {
             chai.expect(message.title).to.equal("onSuccess");
         });
-        chai.spy.restore();
-    });
-    it("Should return buildArenaInfo successfully", async () => {
-        const arenaInfo: IArenaInfos<I2DInfos> = {
-            arenaId:            1000,
-            users:              [{username: "Frank", socketID: "12345"}],
-            dataUrl:            {
-                original:    Constants.PATH_SERVER_TEMP + "1" + CCommon.ORIGINAL_FILE,
-                difference:  Constants.PATH_SERVER_TEMP + "1" + Constants.GENERATED_FILE,
-            },
-        };
-        chai.spy.on(gameManagerService, "buildArenaInfos");
-        chai.expect(
-            gameManagerService["buildArena2DInfos"]([{username: "Frank", socketID: "12345"}], 1))
-            .to.deep.equal(arenaInfo);
         chai.spy.restore();
     });
 
@@ -253,7 +225,7 @@ describe("GameManagerService tests", () => {
         chai.expect(await gameManagerService.onPlayerInput(playerInput)).to.deep.equal(expectedMessage);
     });
 
-    it("Should return error if arena have been created", async () => {
+    it("Should return error if wrong click after arena have been created", async () => {
         chai.spy.on(gameManagerService["assetManager"], ["tempRoutine2d"], () => {return; });
         userManagerService.validateName(request2DSimple.username);
 
@@ -279,27 +251,40 @@ describe("GameManagerService tests", () => {
         chai.spy.restore();
     });
 
-    it("should remove player patate from arena and delete arena", async () => {
-        userManagerService.validateName(request2DSimple.username);
-        chai.spy.on(gameManagerService["assetManager"], ["tempRoutine2d"], () => {return; });
-        chai.spy.on(gameManagerService, ["deleteArena"], () => {return; });
+    // it("should remove player patate from arena and delete arena", async () => {
+    //     userManagerService.validateName(request2DSimple.username);
+    //     chai.spy.on(gameManagerService["assetManager"], "tempRoutine2d", () => {return; });
+    //     chai.spy.on(gameManagerService, ["deleteArena"], () => {return; });
 
-        mockAxios.onGet(iArenaInfos.dataUrl.original, {
-            responseType: "arraybuffer",
-        }).reply(200, original);
+    //     mockAxios.onGet(iArenaInfos.dataUrl.original, {
+    //         responseType: "arraybuffer",
+    //     }).reply(200, original);
 
-        mockAxios.onGet(iArenaInfos.dataUrl.difference, {
-            responseType: "arraybuffer",
-        }).reply(200, modified);
+    //     mockAxios.onGet(iArenaInfos.dataUrl.difference, {
+    //         responseType: "arraybuffer",
+    //     }).reply(200, modified);
 
-        chai.spy.on(gameManagerService["interfaceBuilder"], "buildArenaInfos", (returns: any) => iArenaInfos);
-        chai.spy.on(gameManagerService, "init2DArena", async () => {});
+    //     chai.spy.on(gameManagerService["interfaceBuilder"], "buildArenaInfos", (returns: any) => iArenaInfos);
+    //     chai.spy.on(gameManagerService["assetManager"], "copyFileToTemp", () => {return; });
+    //     chai.spy.on(gameManagerService, "init2DArena", () => {});
+    //     chai.spy.on(gameManagerService, ["deleteTempFiles"], () => {});
+    //     chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
+    //     chai.spy.on(gameManagerService["cardOperations"], "getCardById", () => "title");
 
-        gameManagerService.analyseRequest(request2DSimple).catch();
-        gameManagerService.unsubscribeSocketID("12345", "Frank");
-        chai.expect(gameManagerService.getUsersInArena(1).length).to.deep.equal(0);
-        chai.spy.restore();
-    });
+    //     gameManagerService.analyseRequest(request2DSimple).catch();
+    //     const time: Time = { username: "Frank", time: 50};
+    //     const hs: Highscore = {
+    //         id:             1,
+    //         timesSingle:    [{username: "cpu", time: 1}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
+    //         timesMulti:     [{username: "cpu", time: 2}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
+    //     };
+    //     const hsRes: HighscoreValidationMessage = {newValue: time, mode: Mode.Singleplayer, times: hs};
+    //     chai.spy.on(gameManagerService["highscoreService"], "updateHighscore", () => hsRes);
+    //     gameManagerService.endOfGameRoutine(time, Mode.Singleplayer, iArenaInfos, GameMode.simple);
+    //     gameManagerService.unsubscribeSocketID("12345", "Frank");
+    //     chai.expect(gameManagerService.getUsersInArena(1).length).to.deep.equal(0);
+    //     chai.spy.restore();
+    // });
 
     it("should delete arena succesfully", async () => {
         userManagerService.validateName(request2DSimple.username);
