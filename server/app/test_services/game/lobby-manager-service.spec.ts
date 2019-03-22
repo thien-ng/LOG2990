@@ -1,13 +1,13 @@
 import { expect } from "chai";
 import SocketIO = require("socket.io");
 import { mock } from "ts-mockito";
-import { IUser } from "../../../../common/communication/iUser";
-import { LobbyManagerService } from "../../services/game/lobby-manager.service";
-import { Message } from "../../../../common/communication/message";
-import { CCommon } from "../../../../common/constantes/cCommon";
 import { Mode } from "../../../../common/communication/highscore";
 import { GameMode } from "../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../common/communication/iGameRequest";
+import { IUser } from "../../../../common/communication/iUser";
+import { Message } from "../../../../common/communication/message";
+import { CCommon } from "../../../../common/constantes/cCommon";
+import { LobbyManagerService } from "../../services/game/lobby-manager.service";
 
 // tslint:disable: no-unused-expression no-magic-numbers
 
@@ -49,8 +49,16 @@ describe("LobbyManagerService tests", () => {
         expect(lobbyManagerService.getLobby(1)).to.deep.equal([user1]);
     });
 
+    it("Should return undefined if the lobby doesnt exist", () => {
+        expect(lobbyManagerService.getLobby(6)).to.deep.equal(undefined);
+    });
+
     it("Should delete the right lobby", () => {
         expect(lobbyManagerService.deleteLobby(1)).to.be.true;
+    });
+
+    it("Should return false if the lobby to be deleted is not existant", () => {
+        expect(lobbyManagerService.deleteLobby(6)).to.be.false;
     });
 
     it("Should set the socket server", () => {
@@ -105,7 +113,6 @@ describe("LobbyManagerService tests", () => {
             type:       Mode.Multiplayer,
             mode:       GameMode.free,
         };
-
 
         expect(lobbyManagerService.verifyLobby(request, user4)).to.deep.equal(expectedMessage);
     });
