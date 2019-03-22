@@ -26,7 +26,7 @@ const expectedPixelClusters: IOriginalPixelCluster = {
   ],
 };
 
-describe("GameViewSimpleService", () => {
+describe("GameViewSimpleService Test", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
     providers: [GameViewSimpleService],
@@ -36,13 +36,13 @@ describe("GameViewSimpleService", () => {
   it("should set success sounds", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
     gameViewService.setSounds(new ElementRef<any>("url/success"), new ElementRef<any>("url/fail"));
 
-    expect(gameViewService["successSound"]).toEqual(new ElementRef<any>("url/success").nativeElement);
+    expect(gameViewService["successSound"]).toEqual(new ElementRef<any>("url/success"));
   }));
 
   it("should set fail sounds", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
     gameViewService.setSounds(new ElementRef<any>("url/success"), new ElementRef<any>("url/fail"));
 
-    expect(gameViewService["failSound"]).toEqual(new ElementRef<any>("url/fail").nativeElement);
+    expect(gameViewService["failSound"]).toEqual(new ElementRef<any>("url/fail"));
   }));
 
   it("should set modified canvas", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
@@ -87,6 +87,7 @@ describe("GameViewSimpleService", () => {
     gameViewService.onArenaResponse(expectedResponse);
     expect(spy).toHaveBeenCalled();
   }));
+
   it("should not play success sound when getting a bad click", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
     const spy: any = spyOn<any>(gameViewService, "playSuccessSound");
     const expectedResponse: IArenaResponse<IOriginalPixelCluster> = {
@@ -126,7 +127,7 @@ describe("GameViewSimpleService", () => {
     const successSound: ElementRef = new ElementRef<HTMLAudioElement>(audio1);
     const failsound: ElementRef = new ElementRef<HTMLAudioElement>(audio2);
     gameViewService.setSounds(successSound, failsound);
-    const spy: any = spyOn(gameViewService["successSound"], "play");
+    const spy: any = spyOn(gameViewService["successSound"].nativeElement, "play");
     gameViewService.onArenaResponse(expectedResponse);
     expect(spy).toHaveBeenCalled();
   }));
@@ -137,7 +138,7 @@ describe("GameViewSimpleService", () => {
     const successSound: ElementRef = new ElementRef<HTMLAudioElement>(audio1);
     const failsound: ElementRef = new ElementRef<HTMLAudioElement>(audio2);
     gameViewService.setSounds(successSound, failsound);
-    const spy: any = spyOn(gameViewService["failSound"], "play");
+    const spy: any = spyOn(gameViewService["failSound"].nativeElement, "play");
     gameViewService.playFailSound();
     expect(spy).toHaveBeenCalled();
   }));
