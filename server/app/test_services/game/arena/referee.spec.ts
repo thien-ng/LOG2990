@@ -317,6 +317,7 @@ describe("Referee tests for 3D", () => {
 
     beforeEach(async () => {
         chai.use(spies);
+        lobbyManagerService = new LobbyManagerService();
         mockAxios           = new mockAdapter.default(axios);
         timer               = new Timer();
         userManagerService  = new UserManagerService();
@@ -324,7 +325,7 @@ describe("Referee tests for 3D", () => {
         timeManagerService  = new TimeManagerService();
         chatManagerService  = new ChatManagerService(timeManagerService);
         cardOperations      = new CardOperations(highscoreService);
-        gameManagerService  = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations);
+        gameManagerService  = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations, lobbyManagerService);
         arena3D             = new Arena3D(arenaInfo3D, gameManagerService);
     });
 
