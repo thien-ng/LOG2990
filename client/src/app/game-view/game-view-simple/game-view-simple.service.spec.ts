@@ -2,14 +2,37 @@
 import { ElementRef } from "@angular/core";
 import { inject, TestBed } from "@angular/core/testing";
 import { IClickMessage, IPosition2D } from "../../../../../common/communication/iGameplay";
+import { mock } from "ts-mockito";
+import { IArenaResponse, IClickMessage, IOriginalPixelCluster, IPosition2D } from "../../../../../common/communication/iGameplay";
+import { CCommon } from "../../../../../common/constantes/cCommon";
 import { GameViewSimpleService } from "./game-view-simple.service";
 
-// tslint:disable:no-any
+// tslint:disable:no-any no-magic-numbers no-empty
+const hitPosition: IPosition2D = {
+  x: 1,
+  y: 1,
+};
 
-describe("GameViewService", () => {
-  beforeEach(() => TestBed.configureTestingModule({
+const expectedPixelClusters: IOriginalPixelCluster = {
+  differenceKey:  1,
+  cluster: [
+      {
+          color: {
+              R: 100,
+              G: 100,
+              B: 100,
+          },
+          position: hitPosition,
+      },
+  ],
+};
+
+describe("GameViewSimpleService", () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({
     providers: [GameViewSimpleService],
-  }));
+  });
+});
 
   it("should set success sounds", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
     gameViewService.setSounds(new ElementRef<any>("url/success"), new ElementRef<any>("url/fail"));
