@@ -147,7 +147,7 @@ export class CreateFreeGameComponent {
           this.openSnackBar(response, Constants.SNACK_ACTION);
         } else {
           this.sceneData = response;
-          this.isSceneGenerated       = true;
+          this.isSceneGenerated = true;
         }
     });
     this.isButtonEnabled = true;

@@ -125,7 +125,11 @@ export class ThreejsThemeViewService {
       }
 
       if (meshObject !== undefined) {
-        meshObject.material = new THREE.MeshPhongMaterial({color: objectColor, opacity: opacityNeeded, transparent: true});
+        meshObject.material = new THREE.MeshPhongMaterial({
+          color: objectColor,
+          opacity: opacityNeeded,
+          transparent: true
+        });
       }
     });
   }

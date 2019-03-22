@@ -56,9 +56,7 @@ export class ThreejsThemeGenerator {
     const sphereGeometry:   THREE.Geometry          = new THREE.SphereGeometry(object3D.scale.x);
     const generatedObject:  THREE.Mesh              = new THREE.Mesh(sphereGeometry, generatedColor);
 
-    this.addColorToMap(object3D.id, object3D.color);
-    this.addObjectIdToMap(object3D.id, generatedObject.id);
-    this.addObjectToScene(generatedObject, object3D.position, object3D.rotation);
+    this.addValuesToMaps(object3D, generatedObject);
   }
 
   private generateCube(object3D: ISceneObject): void {
@@ -72,9 +70,7 @@ export class ThreejsThemeGenerator {
 
     const generatedObject:  THREE.Mesh = new THREE.Mesh(cubeGeometry, generatedColor);
 
-    this.addColorToMap(object3D.id, object3D.color);
-    this.addObjectIdToMap(object3D.id, generatedObject.id);
-    this.addObjectToScene(generatedObject, object3D.position, object3D.rotation);
+    this.addValuesToMaps(object3D, generatedObject);
   }
 
   private generateCone(object3D: ISceneObject): void {
@@ -88,9 +84,7 @@ export class ThreejsThemeGenerator {
 
     const generatedObject: THREE.Mesh = new THREE.Mesh(coneGeometry, generatedColor);
 
-    this.addColorToMap(object3D.id, object3D.color);
-    this.addObjectIdToMap(object3D.id, generatedObject.id);
-    this.addObjectToScene(generatedObject, object3D.position, object3D.rotation);
+    this.addValuesToMaps(object3D, generatedObject);
   }
 
   private generateCylinder(object3D: ISceneObject): void {
@@ -105,9 +99,7 @@ export class ThreejsThemeGenerator {
 
     const generatedObject:  THREE.Mesh = new THREE.Mesh(cylinderGeometry, generatedColor);
 
-    this.addColorToMap(object3D.id, object3D.color);
-    this.addObjectIdToMap(object3D.id, generatedObject.id);
-    this.addObjectToScene(generatedObject, object3D.position, object3D.rotation);
+    this.addValuesToMaps(object3D, generatedObject);
   }
 
   private generateTriangularPyramid(object3D: ISceneObject): void {
@@ -121,9 +113,7 @@ export class ThreejsThemeGenerator {
 
     const generatedObject:  THREE.Mesh = new THREE.Mesh(pyramidGeometry, generatedColor);
 
-    this.addColorToMap(object3D.id, object3D.color);
-    this.addObjectIdToMap(object3D.id, generatedObject.id);
-    this.addObjectToScene(generatedObject, object3D.position, object3D.rotation);
+    this.addValuesToMaps(object3D, generatedObject);
   }
 
   private createObjectColor(object3D: ISceneObject): THREE.MeshBasicMaterial {
@@ -138,6 +128,13 @@ export class ThreejsThemeGenerator {
     };
 
     return new THREE.MeshPhongMaterial(materialParameter);
+  }
+
+  private addValuesToMaps(object3D: ISceneObject, generatedObject: THREE.Mesh): void {
+
+    this.addColorToMap(object3D.id, object3D.color);
+    this.addObjectIdToMap(object3D.id, generatedObject.id);
+    this.addObjectToScene(generatedObject, object3D.position, object3D.rotation);
   }
 
   private addObjectIdToMap(objectId: number, generatedObjectId: number): void {
