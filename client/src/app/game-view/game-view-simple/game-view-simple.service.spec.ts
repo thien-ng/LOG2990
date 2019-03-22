@@ -28,31 +28,31 @@ const expectedPixelClusters: IOriginalPixelCluster = {
 
 describe("GameViewSimpleService Test", () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({
-    providers: [GameViewSimpleService],
+      TestBed.configureTestingModule({
+      providers: [GameViewSimpleService],
+    });
   });
-});
 
-  it("should set success sounds", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
+  it("should set success sounds with value passed by parameter", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
     gameViewService.setSounds(new ElementRef<any>("url/success"), new ElementRef<any>("url/fail"));
 
     expect(gameViewService["successSound"]).toEqual(new ElementRef<any>("url/success"));
   }));
 
-  it("should set fail sounds", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
+  it("should set fail sounds with value passed by parameter", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
     gameViewService.setSounds(new ElementRef<any>("url/success"), new ElementRef<any>("url/fail"));
 
     expect(gameViewService["failSound"]).toEqual(new ElementRef<any>("url/fail"));
   }));
 
-  it("should set modified canvas", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
+  it("should set modified canvas with value passed by parameter", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
     const canvas: CanvasRenderingContext2D = mock(CanvasRenderingContext2D);
     gameViewService.setCanvas(canvas);
 
     expect(gameViewService["canvasModified"]).toEqual(canvas);
   }));
 
-  it("should return an IClickMessage", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
+  it("should return an IClickMessage when canvaClick is called", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
     const position: IPosition2D = {
       x:    10,
       y:    15,
@@ -98,7 +98,7 @@ describe("GameViewSimpleService Test", () => {
     expect(spy).not.toHaveBeenCalled();
   }));
 
-  it("should change pixel on goodClick", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
+  it("should change pixel on canvas on goodClick", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
     const canvas: HTMLCanvasElement = document.createElement("canvas");
     const expectedResponse: IArenaResponse<IOriginalPixelCluster> = {
       status:     CCommon.ON_SUCCESS,

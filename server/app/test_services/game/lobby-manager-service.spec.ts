@@ -45,7 +45,7 @@ beforeEach(() => {
 
 describe("LobbyManagerService tests", () => {
 
-    it("should return the right lobby", () => {
+    it("should return the right lobby with id 1", () => {
         expect(lobbyManagerService.getLobby(1)).to.deep.equal([user1]);
     });
 
@@ -53,7 +53,7 @@ describe("LobbyManagerService tests", () => {
         expect(lobbyManagerService.getLobby(6)).to.deep.equal(undefined);
     });
 
-    it("should delete the right lobby", () => {
+    it("should delete the right lobby with the right id", () => {
         expect(lobbyManagerService.deleteLobby(1)).to.be.true;
     });
 

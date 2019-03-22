@@ -41,7 +41,7 @@ describe("DifferenceCounterService tests", () => {
     expect(answer).toBeLessThanOrEqual(expectedAnswer);
   });
 
-  it("should return maxError equal to given number to setNbErrorMax()", () => {
+  it("should return maxError equal to given number to setNbErrorMax", () => {
     differenceCounterService.setNbErrorMax(maxError);
 
     expect(differenceCounterService["maxError"]).toEqual(maxError);
