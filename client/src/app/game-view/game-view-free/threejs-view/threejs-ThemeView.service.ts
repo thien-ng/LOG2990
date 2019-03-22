@@ -21,6 +21,8 @@ enum KEYS {
 export class ThreejsThemeViewService {
 
   private readonly CAMERA_START_POSITION: number = 50;
+  private readonly FOWARD_ORIENTATION:    number = -1;
+  private readonly BACKWARD_ORIENTATION:  number = 1;
 
   private scene:                    THREE.Scene;
   private camera:                   THREE.PerspectiveCamera;
@@ -151,7 +153,7 @@ export class ThreejsThemeViewService {
 
   public detectObject(mouseEvent: MouseEvent): number {
 
-    this.gameViewFreeService.setPosition(mouseEvent);
+    this.gameViewFreeService.setPosition(mouseEvent.offsetX, mouseEvent.offsetY);
 
     return this.threejsRaycast.detectObject(mouseEvent);
   }
@@ -190,50 +192,30 @@ export class ThreejsThemeViewService {
     }
   }
 
-  public onKeyUp(keyboardEvent: KeyboardEvent): void {
-
+  public onKeyMovement(keyboardEvent: KeyboardEvent, buttonStatus: boolean): void {
     const keyValue: string = keyboardEvent.key.toLowerCase();
 
     switch ( keyValue ) {
       case KEYS.W:
-        this.moveForward  = false;
-        break;
-      case KEYS.A:
-        this.moveLeft     = false;
-        break;
-      case KEYS.S:
-        this.moveBackward = false;
-        break;
-      case KEYS.D:
-        this.moveRight    = false;
-        break;
-
-      default:
-        break;
-    }
-  }
-
-  public onKeyDown(keyboardEvent: KeyboardEvent): void {
-
-    const keyValue: string = keyboardEvent.key.toLowerCase();
-
-    switch ( keyValue ) {
-      case KEYS.W:
-        this.setupFront(-1);
-        this.moveForward  = true;
+        if (buttonStatus) {
+          this.threejsMovement.setupFront(this.FOWARD_ORIENTATION);
+        }
+        this.moveForward  = buttonStatus;
         break;
 
       case KEYS.A:
-        this.moveLeft     = true;
+        this.moveLeft     = buttonStatus;
         break;
 
       case KEYS.S:
-        this.setupFront(1);
-        this.moveBackward = true;
+        if (buttonStatus) {
+          this.threejsMovement.setupFront(this.BACKWARD_ORIENTATION);
+        }
+        this.moveBackward = buttonStatus;
         break;
 
       case KEYS.D:
-        this.moveRight    = true;
+        this.moveRight    = buttonStatus;
         break;
 
       default:

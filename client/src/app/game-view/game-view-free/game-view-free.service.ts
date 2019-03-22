@@ -73,7 +73,7 @@ export class GameViewFreeService {
     this.failSound.nativeElement.play();
   }
 
-  private playSuccessSound(): void {
+  public playSuccessSound(): void {
     this.successSound.nativeElement.currentTime = 0;
     this.successSound.nativeElement.play();
   }
