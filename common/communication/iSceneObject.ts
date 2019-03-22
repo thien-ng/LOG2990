@@ -1,3 +1,5 @@
+import { IVector3D } from "./iSceneVariables";
+
 export interface ISceneObject {
     id:             number;
     type:           SceneObjectType;
