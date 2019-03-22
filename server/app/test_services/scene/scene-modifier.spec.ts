@@ -131,7 +131,15 @@ describe("Scene-modifier tests (only 1 change)", () => {
 
         const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
 
-        chai.expect(resultScene.sceneObjects.length).to.be.equal(10);
+        let differenceCounter: number = 0;
+
+        resultScene.sceneObjects.forEach((object: any) => {
+            if (object.hidden) {
+                differenceCounter++;
+            }
+        });
+
+        chai.expect(differenceCounter).to.be.equal(7);
     });
 
     it("should have 7 color changes", () => {
@@ -184,7 +192,7 @@ describe("Scene-modifier tests (2 changes) [true, true, false]", () => {
         chai.expect(modifiedList.length).to.be.equal(7);
     });
 
-    it("should not have call changeObjectColor)", () => {
+    it("should not have call changeObjectColor", () => {
 
         const spy: any = chai.spy.on(sceneModifier, "changeObjectColor");
         sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
@@ -265,7 +273,7 @@ describe("Scene-modifier tests (2 changes) [false, true, true]", () => {
     });
 });
 
-describe("Scene-modifier tests (2 changes) [false, true, true]", () => {
+describe("Scene-modifier tests (2 changes) [true, false, true]", () => {
 
     beforeEach(() => {
         iSceneOptions = {
