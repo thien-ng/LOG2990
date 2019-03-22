@@ -15,6 +15,25 @@ export class ThreejsThemeGenerator {
 
   public initiateObject(object3D: ISceneObject): void {
 
+    switch (object3D.type) {
+      case SceneObjectType.Cube:
+        this.generateCube(object3D);
+        break;
+      case SceneObjectType.Cone:
+        this.generateCone(object3D);
+        break;
+      case SceneObjectType.Cylinder:
+        this.generateCylinder(object3D);
+        break;
+      case SceneObjectType.TriangularPyramid:
+        this.generateTriangularPyramid(object3D);
+        break;
+      default:
+        this.generateSphere(object3D);
+        break;
+    }
+  }
+
   public deleteObject(id: number): void {
     const objectId:       number         = this.sceneIdById.get(id) as number;
     const objectToRemove: THREE.Object3D = this.scene.getObjectById(objectId) as THREE.Object3D;
