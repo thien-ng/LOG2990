@@ -181,7 +181,7 @@ describe("Scene-modifier tests (2 changes)", () => {
         chai.expect(modifiedList.length).to.be.equal(7);
     });
 
-    it("should not call changeObjectColor)", () => {
+    it("should not have call changeObjectColor)", () => {
         iSceneOptions = {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
@@ -236,7 +236,7 @@ describe("Scene-modifier tests (2 changes)", () => {
         chai.expect(modifiedList.length).to.be.equal(7);
     });
 
-    it("should have 7 modifications (removals and colors)", () => {
+    it("should not have called addObject", () => {
         iSceneOptions = {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
@@ -291,7 +291,7 @@ describe("Scene-modifier tests (2 changes)", () => {
         chai.expect(modifiedList.length).to.be.equal(7);
     });
 
-    it("should have 7 modifications (additions and colors)", () => {
+    it("should not have called removeObject", () => {
         iSceneOptions = {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
