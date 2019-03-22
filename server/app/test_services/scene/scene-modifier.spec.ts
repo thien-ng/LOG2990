@@ -11,7 +11,7 @@ import { SceneModifier } from "../../services/scene/scene-modifier";
 
 let sceneModifier:          SceneModifier;
 let sceneBuilder:           SceneBuilder;
-let iSceneVariables:        ISceneVariables;
+let iSceneVariables:        ISceneVariables<ISceneObject>;
 let iSceneObjectGenerated:  ISceneObject[];
 let iSceneOptions:          ISceneOptions;
 let counterDifference:      number;
@@ -98,7 +98,7 @@ describe("Scene-modifier tests (only 1 change)", () => {
             selectedOptions:        [true, false, false],
         };
 
-        const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+        const resultScene: ISceneVariables<ISceneObject> = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
 
         resultScene.sceneObjects.forEach((object: ISceneObject) => {
             for (let i: number = 0; i < iSceneVariables.sceneObjects.length; i++) {
@@ -129,7 +129,7 @@ describe("Scene-modifier tests (only 1 change)", () => {
             selectedOptions:        [false, true, false],
         };
 
-        const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+        const resultScene: ISceneVariables<ISceneObject> = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
 
         let differenceCounter: number = 0;
 
@@ -150,7 +150,7 @@ describe("Scene-modifier tests (only 1 change)", () => {
             selectedOptions:        [false, false, true],
         };
 
-        const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+        const resultScene: ISceneVariables<ISceneObject> = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
 
         resultScene.sceneObjects.forEach((object: ISceneObject) => {
             for (let i: number = 0; i < iSceneVariables.sceneObjects.length; i++) {
@@ -202,7 +202,7 @@ describe("Scene-modifier tests (2 changes) [true, true, false]", () => {
 
     it("should have additions and/or removals modifications", () => {
 
-        const sceneModified: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+        const sceneModified: ISceneVariables<ISceneObject> = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
 
         modifiedList.forEach((modifiedListElt: any) => {
             sceneModified.sceneObjects.forEach((sceneObjElt: any) => {
@@ -251,7 +251,7 @@ describe("Scene-modifier tests (2 changes) [false, true, true]", () => {
 
     it("should have removals and/or color modifications", () => {
 
-        const sceneModified: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+        const sceneModified: ISceneVariables<ISceneObject> = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
 
         modifiedList.forEach((modifiedListElt: any) => {
             iSceneVariables.sceneObjects.forEach((sceneObjElt: any) => {
@@ -300,7 +300,7 @@ describe("Scene-modifier tests (2 changes) [true, false, true]", () => {
 
     it("should have additon and/or color modifications", () => {
 
-        const sceneModified: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+        const sceneModified: ISceneVariables<ISceneObject> = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
 
         modifiedList.forEach((modifiedListElt: any) => {
             sceneModified.sceneObjects.forEach((sceneObjElt: any) => {
@@ -359,7 +359,7 @@ describe("Scene-modifier tests (3 changes or no change)", () => {
             selectedOptions:        [true, false, true],
         };
 
-        const sceneModified: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+        const sceneModified: ISceneVariables<ISceneObject> = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
 
         modifiedList.forEach((modifiedListElt: any) => {
             sceneModified.sceneObjects.forEach((sceneObjElt: any) => {

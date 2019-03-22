@@ -51,8 +51,8 @@
 </form>
 <app-spinner *ngIf="isSceneGenerated"></app-spinner>
 <div *ngIf="isSceneGenerated" style="display: none">
-  <app-threejs-view [iSceneVariablesMessage]="iSceneVariablesMessage"
-                    [iSceneVariables]="iSceneVariablesMessage.originalScene"
+  <app-threejs-view [sceneData]="sceneData"
+                    [iSceneVariables]="sceneData.originalScene"
                     [isSnapshotNeeded]="NEEDED_SNAPSHOT"
                     (sceneGenerated)="closeDialog()">
   </app-threejs-view>

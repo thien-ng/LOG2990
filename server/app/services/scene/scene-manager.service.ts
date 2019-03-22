@@ -1,4 +1,5 @@
 import { inject, injectable } from "inversify";
+import { ISceneObject } from "../../../../common/communication/iSceneObject";
 import { ISceneOptions, SceneType } from "../../../../common/communication/iSceneOptions";
 import { IModification, ISceneData, ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
@@ -21,7 +22,7 @@ export class SceneManager {
         this.sceneModifier = new SceneModifier(this.sceneBuilder);
     }
 
-    public createScene(formMessage: FormMessage): ISceneData | string {
+    public createScene(formMessage: FormMessage): ISceneData<ISceneObject> | string {
 
         const isFormValid: boolean = this.validateForm(formMessage);
 
@@ -29,16 +30,16 @@ export class SceneManager {
             if (isFormValid) {
                 const modifiedList: IModification[] = [];
                 const iSceneOptions: ISceneOptions = this.sceneOptionsMapper(formMessage);
-                const generatedOriginalScene: ISceneVariables = this.sceneBuilder.generateScene(iSceneOptions);
-                const generatedModifiedScene: ISceneVariables = this.sceneModifier.modifyScene(iSceneOptions,
-                                                                                               generatedOriginalScene,
-                                                                                               modifiedList);
+                const generatedOriginalScene: ISceneVariables<ISceneObject> = this.sceneBuilder.generateScene(iSceneOptions);
+                const generatedModifiedScene: ISceneVariables<ISceneObject> = this.sceneModifier.modifyScene(iSceneOptions,
+                                                                                                             generatedOriginalScene,
+                                                                                                             modifiedList);
 
                 return {
                     originalScene: generatedOriginalScene,
                     modifiedScene: generatedModifiedScene,
                     modifications: modifiedList,
-                } as ISceneData;
+                } as ISceneData<ISceneObject>;
             } else {
                 return Constants.CARD_CREATION_ERROR;
             }

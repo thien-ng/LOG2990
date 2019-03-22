@@ -5,9 +5,9 @@ import { IMesh, ISceneObject } from "../../../../../../common/communication/iSce
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Constants } from "../../../constants";
 import { GameViewFreeService } from "../game-view-free.service";
-import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 import { ThreejsMovement } from "./utilitaries/threejs-movement";
 import { ThreejsRaycast } from "./utilitaries/threejs-raycast";
+import { ThreejsThemeGenerator } from "./utilitaries/threejs-themeGenerator";
 
 enum KEYS {
   W     = "w",
@@ -18,25 +18,26 @@ enum KEYS {
 }
 
 @Injectable()
-export class ThreejsViewService {
+export class ThreejsThemeViewService {
 
   private readonly CAMERA_START_POSITION: number = 50;
   private readonly FOWARD_ORIENTATION:    number = -1;
   private readonly BACKWARD_ORIENTATION:  number = 1;
 
-  public  handleId:           number;
-  private scene:              THREE.Scene;
-  private camera:             THREE.PerspectiveCamera;
-  private renderer:           THREE.WebGLRenderer;
-  private ambLight:           THREE.AmbientLight;
-  private sceneVariables:     ISceneVariables<ISceneObject | IMesh>;
-  private threejsGenerator:   ThreejsGenerator;
-  private threejsMovement:    ThreejsMovement;
-  private threejsRaycast:     ThreejsRaycast;
+  private scene:                    THREE.Scene;
+  private camera:                   THREE.PerspectiveCamera;
+  private renderer:                 THREE.WebGLRenderer;
+  private ambLight:                 THREE.AmbientLight;
+  private threejsGenerator:         ThreejsThemeGenerator;
+  private threejsMovement:          ThreejsMovement;
+  private threejsRaycast:           ThreejsRaycast;
+  private sceneVariables:           ISceneVariables<ISceneObject | IMesh>;
+
   private sceneIdById:        Map<number, number>;
   private idBySceneId:        Map<number, number>;
   private opacityById:        Map<number, number>;
   private originalColorById:  Map<number, string>;
+
   private moveForward:        boolean;
   private moveBackward:       boolean;
   private moveLeft:           boolean;
@@ -70,8 +71,8 @@ export class ThreejsViewService {
   }
 
   public animate(): void {
-    this.handleId = requestAnimationFrame(this.animate.bind(this));
-    this.renderScene();
+    requestAnimationFrame(this.animate.bind(this));
+    this.renderObject();
   }
 
   public createScene(
@@ -83,7 +84,7 @@ export class ThreejsViewService {
     this.renderer         = renderer;
     this.scene            = scene;
     this.sceneVariables   = iSceneVariables;
-    this.threejsGenerator = new ThreejsGenerator(
+    this.threejsGenerator = new ThreejsThemeGenerator(
       this.scene,
       this.sceneIdById,
       this.originalColorById,
@@ -124,9 +125,17 @@ export class ThreejsViewService {
       }
 
       if (meshObject !== undefined) {
-        meshObject.material = new THREE.MeshPhongMaterial({color: objectColor, opacity: opacityNeeded, transparent: true});
+        meshObject.material = new THREE.MeshPhongMaterial({
+          color: objectColor,
+          opacity: opacityNeeded,
+          transparent: true,
+        });
       }
     });
+  }
+
+  public setupFront(orientation: number): void {
+    this.threejsMovement.setupFront(orientation);
   }
 
   public rotateCamera(point: IPosition2D): void {
@@ -170,7 +179,7 @@ export class ThreejsViewService {
     this.scene.add(this.ambLight);
   }
 
-  private renderScene(): void {
+  private renderObject(): void {
 
     this.threejsMovement.movementCamera(this.moveForward, this.moveBackward, this.moveLeft, this.moveRight);
 
@@ -217,4 +226,5 @@ export class ThreejsViewService {
         break;
     }
   }
+
 }

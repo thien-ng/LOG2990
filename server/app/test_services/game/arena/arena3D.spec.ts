@@ -45,7 +45,7 @@ const sceneObject: ISceneObject = {
     hidden:     true,
 };
 
-const sceneVariables: ISceneVariables = {
+const sceneVariables: ISceneVariables<ISceneObject> = {
     theme:                  1,
     gameName:               "fokoffMichael",
     sceneObjectsQuantity:   5,
@@ -53,7 +53,7 @@ const sceneVariables: ISceneVariables = {
     sceneBackgroundColor:   "#FFFFFF",
 };
 
-const sceneData: ISceneData = {
+const sceneData: ISceneData<ISceneObject> = {
     originalScene: sceneVariables,
     modifiedScene: sceneVariables,
     modifications: [{id: 1, type: 6}],
