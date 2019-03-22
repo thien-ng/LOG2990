@@ -9,7 +9,7 @@ import { SocketService } from "src/app/websocket/socket.service";
 import { Mode } from "../../../../../common/communication/highscore";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../../common/communication/iGameRequest";
-import { IPosition2D } from "../../../../../common/communication/iGameplay";
+import { IPenalty, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { ISceneData, ISceneVariables } from "../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../common/communication/message";
@@ -27,6 +27,7 @@ const RIGHT_CLICK:  number = 2;
 })
 export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
 
+  public readonly OPPONENT:         string = "Adversaire";
   public readonly NEEDED_SNAPSHOT:  boolean = false;
   public readonly SUCCESS_SOUND:    string  = "http://localhost:3000/audio/fail.wav";
   public readonly FAIL_SOUND:       string  = "http://localhost:3000/audio/success.wav";
@@ -118,6 +119,36 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
 
   public ngAfterViewInit(): void {
     this.isLoading = true;
+    this.socketService.onMsg(CCommon.ON_PENALTY).subscribe((arenaResponse: IPenalty) => {
+      if (arenaResponse.isOnPenalty) {
+        this.wrongClickRoutine();
+      } else {
+        this.enableClickRoutine();
+      }
+    });
+  }
+  public wrongClickRoutine(): void {
+    this.gameViewService.playFailSound();
+    this.disableClickRoutine();
+  }
+
+  public enableClickRoutine(): void {
+    document.body.style.cursor          = "auto";
+    this.erreurText.nativeElement.textContent = null;
+    this.erreurText2.nativeElement.textContent = null;
+  }
+
+  private disableClickRoutine(): void {
+      document.body.style.cursor  = "not-allowed";
+      const positionTop:   number = this.gameViewService.position.y - Constants.CENTERY;
+      const positionRight: number = this.gameViewService.position.x - Constants.CENTERX;
+
+      this.erreurText.nativeElement.style.top     = positionTop   + "px";
+      this.erreurText.nativeElement.style.left    = positionRight + "px";
+      this.erreurText.nativeElement.textContent   = Constants.ERROR_MESSAGE;
+      this.erreurText2.nativeElement.style.top    = positionTop   + "px";
+      this.erreurText2.nativeElement.style.left   = positionRight + "px";
+      this.erreurText2.nativeElement.textContent  = Constants.ERROR_MESSAGE;
   }
 
   private createGameRequest(gameID: string, username: string): void {
@@ -158,12 +189,10 @@ export class GameViewFreeComponent implements AfterViewInit, OnInit, OnDestroy {
           .catch((error) => {
             this.openSnackBar(error, Constants.SNACK_ACTION);
           });
-          this.gameViewService.setText(this.erreurText, this.erreurText2);
           break;
         case CCommon.ON_WAITING:
           this.arenaID = parseInt(data.body, Constants.DECIMAL_BASE);
           this.socketService.sendMsg(CCommon.GAME_CONNECTION, CCommon.ON_WAITING);
-          this.gameViewService.setText(this.erreurText, this.erreurText2);
           break;
         case CCommon.ON_ERROR:
           this.openSnackBar(data.body, Constants.SNACK_ACTION);
