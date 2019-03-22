@@ -136,6 +136,19 @@ export class ThreejsThemeViewService {
     this.threejsMovement.rotateCamera(point);
   }
 
+  private recoverObjectFromScene(index: number): THREE.Mesh | undefined {
+
+    const objectId: number = (this.sceneIdById.get(index)) as number;
+
+    const instanceObject3D: THREE.Object3D | undefined = this.scene.getObjectById(objectId);
+
+    if (instanceObject3D !== undefined) {
+      return (instanceObject3D as THREE.Mesh);
+    }
+
+    return undefined;
+  }
+
   public detectObject(mouseEvent: MouseEvent): number {
 
     this.gameViewFreeService.setPosition(mouseEvent);
