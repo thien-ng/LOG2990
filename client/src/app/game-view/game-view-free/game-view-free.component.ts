@@ -186,7 +186,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
     if (response.status !== Constants.SUCCESS_STATUS) {
       this.openSnackBar(response.statusText, Constants.SNACK_ACTION);
     } else {
-      await response.json().then((variables: ISceneData) => {
+      await response.json().then((variables: ISceneData<ISceneObject | IMesh>) => {
 
         this.assignSceneVariable(variables);
       }).catch((error) => {
@@ -195,7 +195,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
     }
   }
 
-  private assignSceneVariable(variables: ISceneData): void {
+  private assignSceneVariable(variables: ISceneData<ISceneObject | IMesh>): void {
     this.originalVariables = {
       theme:                  variables.originalScene.theme,
       gameName:               variables.originalScene.gameName,
