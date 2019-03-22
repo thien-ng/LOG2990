@@ -20,6 +20,26 @@ enum KEYS {
 @Injectable()
 export class ThreejsThemeViewService {
 
+  private readonly CAMERA_START_POSITION: number = 50;
+
+  private scene:                    THREE.Scene;
+  private camera:                   THREE.PerspectiveCamera;
+  private renderer:                 THREE.WebGLRenderer;
+  private ambLight:                 THREE.AmbientLight;
+  private sceneVariables:           ISceneVariables<ISceneObject | IMesh>;
+  private threejsGenerator:         ThreejsThemeGenerator;
+  private threejsMovement:          ThreejsMovement;
+  private threejsRaycast:           ThreejsRaycast;
+
+  private sceneIdById:        Map<number, number>;
+  private idBySceneId:        Map<number, number>;
+  private opacityById:        Map<number, number>;
+  private originalColorById:  Map<number, string>;
+
+  private moveForward:        boolean;
+  private moveBackward:       boolean;
+  private moveLeft:           boolean;
+  private moveRight:          boolean;
   public onKeyUp(keyboardEvent: KeyboardEvent): void {
 
     const keyValue: string = keyboardEvent.key.toLowerCase();
