@@ -77,14 +77,14 @@ describe("Image manager service tests", () => {
     it("Should copy an image to the temp directory (no error thrown)", async () => {
         const gameId: number = 5;
         const path: string = Constants.IMAGES_PATH + "/testBitmap/" + "7dots.bmp";
-        chai.expect(() => imageManagerService.copyFileToTemp(path, gameId, Constants.GENERATED_FILE))
+        chai.expect(() => imageManagerService["copyFileToTemp"](path, gameId, Constants.GENERATED_FILE))
             .to.not.throw(TypeError("error while generating file"));
 
     });
     it("Should not copy an inexistant image to the temp directory and throw error", async () => {
         const nonExistantgameId: number = 15;
         const path: string = Constants.IMAGES_PATH + "/testBitmap/" + nonExistantgameId + Constants.GENERATED_FILE;
-        chai.expect(() => { imageManagerService.copyFileToTemp(path, nonExistantgameId, Constants.GENERATED_FILE); })
+        chai.expect(() => { imageManagerService["copyFileToTemp"](path, nonExistantgameId, Constants.GENERATED_FILE); })
             .to.throw(TypeError);
 
     });
