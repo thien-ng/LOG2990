@@ -20,10 +20,12 @@ import { CardOperations } from "../../../services/card-operations.service";
 import { ChatManagerService } from "../../../services/chat-manager.service";
 import { Arena2D } from "../../../services/game/arena/arena2d";
 import { I2DInfos, IArenaInfos, IPlayerInput } from "../../../services/game/arena/interfaces";
+import { LobbyManagerService } from "../../../services/game/lobby-manager.service";
 import { HighscoreService } from "../../../services/highscore.service";
+import { InterfaceBuilder } from "../../../services/interface-generator";
 import { TimeManagerService } from "../../../services/time-manager.service";
 
-// tslint:disable:no-magic-numbers no-any max-file-line-count no-empty
+// tslint:disable:no-magic-numbers no-any max-file-line-count no-empty max-line-length
 
 const activeUser: IUser = {
     username: "mike",
@@ -81,6 +83,8 @@ let highscoreService:       HighscoreService;
 let chatManagerService:     ChatManagerService;
 let timeManagerService:     TimeManagerService;
 let cardOperations:         CardOperations;
+let interfaceBuilder:       InterfaceBuilder;
+let lobbyManagerService:    LobbyManagerService;
 
 const testImageOriginale:   Buffer = fs.readFileSync(path.resolve(__dirname, "../../../asset/image/1_original.bmp"));
 
@@ -89,12 +93,14 @@ let mockAxios: any;
 describe("Arena 2D tests", () => {
 
     beforeEach(async () => {
+        interfaceBuilder    = new InterfaceBuilder();
+        lobbyManagerService = new LobbyManagerService();
         userManagerService  = new UserManagerService();
         highscoreService    = new HighscoreService();
         timeManagerService  = new TimeManagerService();
         chatManagerService  = new ChatManagerService(timeManagerService);
         cardOperations      = new CardOperations(highscoreService);
-        gameManager         = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations);
+        gameManager         = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations, lobbyManagerService, interfaceBuilder);
         arena               = new Arena2D(arenaInfo, gameManager);
         mockAxios           = new MockAdapter.default(axios);
         chai.use(spies);
@@ -243,7 +249,7 @@ describe("Arena 2D tests", () => {
 
     it("should set the right number of points to win depending on number of players", async () => {
 
-        gameManager = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations);
+        gameManager = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations, lobbyManagerService, interfaceBuilder);
         arenaInfo.users = [activeUser, activeUser];
 
         arena       = new Arena2D(arenaInfo, gameManager);
