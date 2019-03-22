@@ -47,7 +47,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
   private previousModifications:  number[];
 
   @Input() private iSceneVariables:         ISceneVariables;
-  @Input() private iSceneVariablesMessage:  ISceneData;
+  @Input() private sceneData:               ISceneData<ISceneObject | IMesh>;
   @Input() private rightClick:              boolean;
   @Input() private isSnapshotNeeded:        boolean;
   @Input() private isNotOriginal:           boolean;
@@ -211,7 +211,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges {
 
   private createMessage(image: string): ISceneMessage {
     return {
-      iSceneVariablesMessage:   this.iSceneVariablesMessage,
+      sceneData:   this.sceneData,
       image:                    image,
     } as ISceneMessage;
   }
