@@ -413,6 +413,7 @@ describe("GameManagerService tests", () => {
         chai.spy.on(gameManagerService, "init2DArena", () => {});
         const spy: any = chai.spy.on(gameManagerService["assetManager"], "deleteFileInTemp", () => {});
         chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
+        chai.spy.on(gameManagerService["assetManager"], "getCounter", () => 1);
 
         gameManagerService.analyseRequest(request2DSimple).catch();
         gameManagerService.deleteArena(iArenaInfos);
@@ -431,17 +432,34 @@ describe("GameManagerService tests", () => {
         }).reply(200, modified);
 
         chai.spy.on(gameManagerService["interfaceBuilder"], "buildArenaInfos", (returns: any) => iArenaInfos);
-        chai.spy.on(gameManagerService["assetManager"], ["tempRoutine2d"], () => {return; });
+        chai.spy.on(gameManagerService["assetManager"], "copyFileToTemp", () => {return; });
         chai.spy.on(gameManagerService, "init2DArena", () => {});
-        chai.spy.on(gameManagerService["assetManager"], "deleteTempFiles", () => {});
+        chai.spy.on(gameManagerService, ["deleteTempFiles"], () => {});
         chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
 
         gameManagerService.analyseRequest(request2DSimple).catch();
         gameManagerService.analyseRequest(request2DSimple).catch();
         gameManagerService.deleteArena(iArenaInfos);
-        chai.expect(gameManagerService["countByGameId"].get(1)).to.equal(1);
+        chai.expect(gameManagerService["assetManager"].getCounter(1)).to.equal(1);
         chai.spy.restore();
 
     });
+
+    it("should make player ready when game is loaded", () => {
+        const arena: Arena2D = new Arena2D(iArenaInfos, gameManagerService);
+        chai.spy.on(gameManagerService["arenas"], "get", () => arena);
+        const spy: any = chai.spy.on(arena, "onPlayerReady", () => {return; });
+        gameManagerService.onGameLoaded("12345",1);
+        chai.expect(spy).to.have.been.called();
+    });
+
+    it("should not make player ready if arena doesnt exist", () => {
+        const arena: Arena2D = new Arena2D(iArenaInfos, gameManagerService);
+        chai.spy.on(gameManagerService["arenas"], "get", () => undefined);
+        const spy: any = chai.spy.on(arena, "onPlayerReady", () => {return; });
+        gameManagerService.onGameLoaded("12345",1);
+        chai.expect(spy).to.not.have.been.called();
+    });
+
 
 });
