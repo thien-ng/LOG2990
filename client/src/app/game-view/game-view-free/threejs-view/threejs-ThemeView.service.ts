@@ -128,7 +128,7 @@ export class ThreejsThemeViewService {
         meshObject.material = new THREE.MeshPhongMaterial({
           color: objectColor,
           opacity: opacityNeeded,
-          transparent: true
+          transparent: true,
         });
       }
     });
