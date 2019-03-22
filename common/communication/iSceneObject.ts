@@ -21,3 +21,13 @@ export interface IAxisValues {
     y:  number;
     z:  number;
 }
+
+export interface IMesh {
+    id:         number;
+    meshId:     number;
+    rayon:      number;
+    position:   IVector3D;
+    rotation:   IVector3D;
+    scale:      IVector3D;
+    hidden:     boolean;
+}
