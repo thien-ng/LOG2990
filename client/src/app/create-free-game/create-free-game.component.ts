@@ -140,14 +140,14 @@ export class CreateFreeGameComponent {
     this.isButtonEnabled = false;
     const formValue: FormMessage = this.createFormMessage(formData);
 
-    this.httpClient.post(Constants.FREE_SCENE_GENERATOR_PATH, formValue).subscribe((response: ISceneData | string) => {
-      if (typeof response === "string") {
-        this.openSnackBar(response, Constants.SNACK_ACTION);
-      } else {
-        this.iSceneVariablesMessage = response;
-        this.isSceneGenerated       = true;
-      }
-
+    this.httpClient.post(Constants.FREE_SCENE_GENERATOR_PATH, formValue).subscribe(
+      (response: ISceneData<ISceneObject | IMesh> | string) => {
+        if (typeof response === "string") {
+          this.openSnackBar(response, Constants.SNACK_ACTION);
+        } else {
+          this.sceneData = response;
+          this.isSceneGenerated       = true;
+        }
     });
     this.isButtonEnabled = true;
     this.isLoading = true;
