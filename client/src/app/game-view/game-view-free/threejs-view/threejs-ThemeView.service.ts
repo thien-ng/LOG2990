@@ -102,6 +102,10 @@ export class ThreejsThemeViewService {
 
     this.camera.lookAt(new THREE.Vector3(this.CAMERA_START_POSITION, this.CAMERA_START_POSITION, this.CAMERA_START_POSITION));
   }
+  public setupFront(orientation: number): void {
+    this.threejsMovement.setupFront(orientation);
+  }
+
   public detectObject(mouseEvent: MouseEvent): number {
 
     this.gameViewFreeService.setPosition(mouseEvent);
