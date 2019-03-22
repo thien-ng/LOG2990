@@ -21,9 +21,9 @@ export class SceneModifier {
     }
 
     public modifyScene(
-        iSceneOptions: ISceneOptions,
-        iSceneVariables: ISceneVariables<ISceneObject>,
-        modifiedList: IModification[]): ISceneVariables<ISceneObject> {
+        iSceneOptions:      ISceneOptions,
+        iSceneVariables:    ISceneVariables<ISceneObject>,
+        modifiedList:       IModification[]): ISceneVariables<ISceneObject> {
 
         this.originalScene       = iSceneVariables.sceneObjects;
         this.cloneSceneVariables = this.clone(iSceneVariables) as ISceneVariables<ISceneObject>;

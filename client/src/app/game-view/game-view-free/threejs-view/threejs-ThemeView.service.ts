@@ -28,10 +28,10 @@ export class ThreejsThemeViewService {
   private camera:                   THREE.PerspectiveCamera;
   private renderer:                 THREE.WebGLRenderer;
   private ambLight:                 THREE.AmbientLight;
-  private sceneVariables:           ISceneVariables<ISceneObject | IMesh>;
   private threejsGenerator:         ThreejsThemeGenerator;
   private threejsMovement:          ThreejsMovement;
   private threejsRaycast:           ThreejsRaycast;
+  private sceneVariables:           ISceneVariables<ISceneObject | IMesh>;
 
   private sceneIdById:        Map<number, number>;
   private idBySceneId:        Map<number, number>;

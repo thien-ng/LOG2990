@@ -219,7 +219,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
   private createMessage(image: string): ISceneMessage {
     return {
       sceneData:   this.sceneData,
-      image:                    image,
+      image:       image,
     } as ISceneMessage;
   }
 
