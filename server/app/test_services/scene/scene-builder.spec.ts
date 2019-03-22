@@ -31,17 +31,17 @@ describe("Scene builder tests", () => {
     });
 
     it("should generate a SceneObject[] of length 10", () => {
-        const scene: ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
+        const scene: ISceneVariables<ISceneObject> = sceneBuilder.generateScene(sceneOptions10);
         chai.expect(scene.sceneObjects.length).equal(10);
     });
 
     it("should generate a SceneObject[] of length 200", () => {
-        const scene: ISceneVariables = sceneBuilder.generateScene(sceneOptions200);
+        const scene: ISceneVariables<ISceneObject> = sceneBuilder.generateScene(sceneOptions200);
         chai.expect(scene.sceneObjects.length).equal(200);
     });
 
     it("should generate scene objects of valid type", () => {
-        const scene:            ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
+        const scene:            ISceneVariables<ISceneObject> = sceneBuilder.generateScene(sceneOptions10);
         let areAllTypesValid:   boolean         = false;
 
         scene.sceneObjects.forEach((element: ISceneObject) => {

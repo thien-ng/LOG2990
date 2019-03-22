@@ -14,15 +14,19 @@ export class SceneModifier {
     private sceneObjects:        ISceneObject[];
     private originalScene:       ISceneObject[];
     private modifiedIndex:       IModification[];
-    private cloneSceneVariables: ISceneVariables;
+    private cloneSceneVariables: ISceneVariables<ISceneObject>;
 
     public constructor(sceneBuilder: SceneBuilder) {
         this.sceneBuilder = sceneBuilder;
     }
 
-    public modifyScene(iSceneOptions: ISceneOptions, iSceneVariables: ISceneVariables, modifiedList: IModification[]): ISceneVariables {
+    public modifyScene(
+        iSceneOptions: ISceneOptions,
+        iSceneVariables: ISceneVariables<ISceneObject>,
+        modifiedList: IModification[]): ISceneVariables<ISceneObject> {
+
         this.originalScene       = iSceneVariables.sceneObjects;
-        this.cloneSceneVariables = this.clone(iSceneVariables) as ISceneVariables;
+        this.cloneSceneVariables = this.clone(iSceneVariables) as ISceneVariables<ISceneObject>;
         this.sceneObjects        = this.cloneSceneVariables.sceneObjects;
         this.modifiedIndex       = modifiedList;
 
@@ -37,7 +41,7 @@ export class SceneModifier {
             sceneObjectsQuantity: this.cloneSceneVariables.sceneObjectsQuantity,
             sceneObjects: this.sceneObjects,
             sceneBackgroundColor: this.cloneSceneVariables.sceneBackgroundColor,
-        } as ISceneVariables;
+        } as ISceneVariables<ISceneObject>;
     }
 
     private generateSelectedIndex(selectedOptions: boolean[]): string {
@@ -156,8 +160,8 @@ export class SceneModifier {
         return idNotExist;
     }
 
-    private clone(sceneVariables: ISceneVariables | ISceneObject): ISceneVariables | ISceneObject {
-        return deepcopy<ISceneVariables | ISceneObject>(sceneVariables);
+    private clone(sceneVariables: ISceneVariables<ISceneObject> | ISceneObject): ISceneVariables<ISceneObject> | ISceneObject {
+        return deepcopy<ISceneVariables<ISceneObject> | ISceneObject>(sceneVariables);
     }
 
 }

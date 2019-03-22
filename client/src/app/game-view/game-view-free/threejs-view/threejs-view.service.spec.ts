@@ -2,7 +2,7 @@ import { inject, TestBed } from "@angular/core/testing";
 import * as THREE from "three";
 import { anyNumber, mock, when } from "ts-mockito";
 import { ActionType, IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
-import { SceneObjectType } from "../../../../../../common/communication/iSceneObject";
+import { ISceneObject, SceneObjectType } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { GameViewFreeService } from "../game-view-free.service";
 import { ThreejsViewService } from "./threejs-view.service";
@@ -11,7 +11,7 @@ import { ThreejsRaycast } from "./utilitaries/threejs-raycast";
 
 // tslint:disable:no-any max-file-line-count
 
-const sceneVariables: ISceneVariables = {
+const sceneVariables: ISceneVariables<ISceneObject> = {
   theme:                  1,
   gameName:               "gameName",
   sceneObjectsQuantity:   1,

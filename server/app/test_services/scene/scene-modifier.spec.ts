@@ -11,7 +11,7 @@ import { SceneModifier } from "../../services/scene/scene-modifier";
 
 let sceneModifier:          SceneModifier;
 let sceneBuilder:           SceneBuilder;
-let iSceneVariables:        ISceneVariables;
+let iSceneVariables:        ISceneVariables<ISceneObject>;
 let iSceneObjectGenerated:  ISceneObject[];
 let iSceneOptions:          ISceneOptions;
 let counterDifference:      number;
@@ -98,7 +98,7 @@ describe("Scene-modifier tests", () => {
             selectedOptions:        [true, false, false],
         };
 
-        const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+        const resultScene: ISceneVariables<ISceneObject> = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
 
         resultScene.sceneObjects.forEach((object: ISceneObject) => {
             for (let i: number = 0; i < iSceneVariables.sceneObjects.length; i++) {
@@ -129,7 +129,7 @@ describe("Scene-modifier tests", () => {
             selectedOptions:        [false, false, true],
         };
 
-        const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+        const resultScene: ISceneVariables<ISceneObject> = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
 
         resultScene.sceneObjects.forEach((object: ISceneObject) => {
             for (let i: number = 0; i < iSceneVariables.sceneObjects.length; i++) {
@@ -160,7 +160,7 @@ describe("Scene-modifier tests", () => {
             selectedOptions:        [false, true, false],
         };
 
-        const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+        const resultScene: ISceneVariables<ISceneObject> = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
 
         chai.expect(resultScene.sceneObjects.length).to.be.equal(10);
     });
@@ -173,7 +173,7 @@ describe("Scene-modifier tests", () => {
             selectedOptions:        [false, true, true],
         };
 
-        const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+        const resultScene: ISceneVariables<ISceneObject> = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
 
         resultScene.sceneObjects.forEach((modifiedObject: ISceneObject) => {
             iSceneVariables.sceneObjects.forEach((originalObject: ISceneObject) => {
