@@ -6,9 +6,10 @@ export class Timer {
 
     private secondsSinceStart:  number;
     private timerUpdated:       Subject<number>;
-    private timer:              NodeJS.Timeout;
+    private timer:              NodeJS.Timeout | null;
 
     public constructor() {
+        this.timer = null;
         this.secondsSinceStart  = 0;
         this.timerUpdated       = new Subject<number>();
     }
@@ -22,15 +23,20 @@ export class Timer {
     }
 
     public startTimer(): void {
-        this.timer = setInterval(
-            () => {
-                this.updateTimeSinceStart();
-            },
-            Constants.ONE_SECOND);
+        if (this.timer === null) {
+            this.timer = setInterval(
+                () => {
+                    this.updateTimeSinceStart();
+                },
+                Constants.ONE_SECOND);
+        }
     }
 
     public stopTimer(): number {
-        clearInterval(this.timer);
+        if (this.timer !== null) {
+            clearInterval(this.timer);
+        }
+        this.timer = null;
 
         return this.secondsSinceStart;
     }
