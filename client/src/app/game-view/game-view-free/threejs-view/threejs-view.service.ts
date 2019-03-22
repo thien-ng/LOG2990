@@ -26,7 +26,7 @@ export class ThreejsViewService {
   private camera:             THREE.PerspectiveCamera;
   private renderer:           THREE.WebGLRenderer;
   private ambLight:           THREE.AmbientLight;
-  private sceneVariables:     ISceneVariables;
+  private sceneVariables:     ISceneVariables<ISceneObject | IMesh>;
   private threejsGenerator:   ThreejsGenerator;
   private threejsMovement:    ThreejsMovement;
   private threejsRaycast:     ThreejsRaycast;
@@ -75,7 +75,7 @@ export class ThreejsViewService {
 
   public createScene(
     scene:            THREE.Scene,
-    iSceneVariables:  ISceneVariables,
+    iSceneVariables:  ISceneVariables<ISceneObject | IMesh>,
     renderer:         THREE.WebGLRenderer,
     isSnapshotNeeded: boolean,
     arenaID: number): void {
