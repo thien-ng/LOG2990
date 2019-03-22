@@ -47,7 +47,7 @@ beforeEach(() => {
     counterDifference = 0;
 });
 
-describe("Scene-modifier tests", () => {
+describe("Scene-modifier tests (only 1 change)", () => {
 
     it("should have called addObject()", () => {
         iSceneOptions = {
@@ -165,6 +165,10 @@ describe("Scene-modifier tests", () => {
         chai.expect(counterDifference).to.be.equal(7);
     });
 
+});
+
+describe("Scene-modifier tests (2 changes)", () => {
+
     it("should have 7 modifications (additions and removals)", () => {
         iSceneOptions = {
             sceneName:              "game",
@@ -236,6 +240,9 @@ describe("Scene-modifier tests", () => {
         const spy: any = chai.spy.on(sceneModifier, "removeObject");
         chai.expect(spy).to.not.have.been.called();
     });
+});
+
+describe("Scene-modifier tests (3 changes or no change)", () => {
 
     it("should have 0 modification", () => {
         iSceneOptions = {
