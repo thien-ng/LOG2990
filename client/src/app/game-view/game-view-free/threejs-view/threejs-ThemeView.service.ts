@@ -55,6 +55,18 @@ export class ThreejsThemeViewService {
       Constants.MAX_VIEW_DISTANCE,
     );
 
+    this.ambLight             = new THREE.AmbientLight(Constants.AMBIENT_LIGHT_COLOR, Constants.AMBIENT_LIGHT_INTENSITY);
+    this.sceneIdById          = new Map<number, number>();
+    this.idBySceneId          = new Map<number, number>();
+    this.opacityById          = new Map<number, number>();
+    this.originalColorById    = new Map<number, string>();
+    this.threejsMovement      = new ThreejsMovement(this.camera);
+
+    this.moveForward          = false;
+    this.moveBackward         = false;
+    this.moveRight            = false;
+    this.moveLeft             = false;
+  }
   public onKeyUp(keyboardEvent: KeyboardEvent): void {
 
     const keyValue: string = keyboardEvent.key.toLowerCase();
