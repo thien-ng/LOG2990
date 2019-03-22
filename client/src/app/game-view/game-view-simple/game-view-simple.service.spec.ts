@@ -1,7 +1,6 @@
 
 import { ElementRef } from "@angular/core";
 import { inject, TestBed } from "@angular/core/testing";
-import { IClickMessage, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { mock } from "ts-mockito";
 import { IArenaResponse, IClickMessage, IOriginalPixelCluster, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../../common/constantes/cCommon";
@@ -37,13 +36,20 @@ describe("GameViewSimpleService", () => {
   it("should set success sounds", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
     gameViewService.setSounds(new ElementRef<any>("url/success"), new ElementRef<any>("url/fail"));
 
-    expect(gameViewService["successSound"]).toEqual(new ElementRef<any>("url/success"));
+    expect(gameViewService["successSound"]).toEqual(new ElementRef<any>("url/success").nativeElement);
   }));
 
   it("should set fail sounds", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
     gameViewService.setSounds(new ElementRef<any>("url/success"), new ElementRef<any>("url/fail"));
 
-    expect(gameViewService["failSound"]).toEqual(new ElementRef<any>("url/fail"));
+    expect(gameViewService["failSound"]).toEqual(new ElementRef<any>("url/fail").nativeElement);
+  }));
+
+  it("should set modified canvas", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
+    const canvas: CanvasRenderingContext2D = mock(CanvasRenderingContext2D);
+    gameViewService.setCanvas(canvas);
+
+    expect(gameViewService["canvasModified"]).toEqual(canvas);
   }));
 
   it("should return an IClickMessage", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
