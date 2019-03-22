@@ -73,6 +73,22 @@ export class ThreejsThemeViewService {
     this.renderObject();
   }
 
+  public createScene(
+    scene:            THREE.Scene,
+    iSceneVariables:  ISceneVariables<ISceneObject | IMesh>,
+    renderer:         THREE.WebGLRenderer,
+    isSnapshotNeeded: boolean,
+    arenaID: number): void {
+    this.renderer         = renderer;
+    this.scene            = scene;
+    this.sceneVariables   = iSceneVariables;
+    this.threejsGenerator = new ThreejsThemeGenerator(
+      this.scene,
+      this.sceneIdById,
+      this.originalColorById,
+      this.idBySceneId,
+      this.opacityById,
+    );
   public onKeyUp(keyboardEvent: KeyboardEvent): void {
 
     const keyValue: string = keyboardEvent.key.toLowerCase();
