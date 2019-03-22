@@ -9,3 +9,11 @@ import { ThreejsMovement } from "./utilitaries/threejs-movement";
 import { ThreejsRaycast } from "./utilitaries/threejs-raycast";
 import { ThreejsThemeGenerator } from "./utilitaries/threejs-themeGenerator";
 
+enum KEYS {
+  W     = "w",
+  A     = "a",
+  S     = "s",
+  D     = "d",
+  T     = "t",
+}
+
