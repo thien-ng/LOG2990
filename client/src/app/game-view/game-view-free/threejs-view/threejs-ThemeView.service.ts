@@ -107,6 +107,10 @@ export class ThreejsThemeViewService {
     return this.threejsRaycast.detectObject(mouseEvent);
   }
 
+  public updateSceneWithNewObject(object: ISceneObjectUpdate): void {
+    this.threejsRaycast.updateSceneWithNewObject(object);
+  }
+
   private createLighting(): void {
 
     const firstLight:   THREE.DirectionalLight = new THREE.DirectionalLight(Constants.FIRST_LIGHT_COLOR, Constants.FIRST_LIGHT_INTENSITY);
