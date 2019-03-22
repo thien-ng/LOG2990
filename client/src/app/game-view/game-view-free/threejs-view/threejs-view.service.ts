@@ -22,6 +22,7 @@ export class ThreejsViewService {
 
   private readonly CAMERA_START_POSITION: number = 50;
 
+  public id:                 number;
   private scene:              THREE.Scene;
   private camera:             THREE.PerspectiveCamera;
   private renderer:           THREE.WebGLRenderer;
@@ -69,7 +70,7 @@ export class ThreejsViewService {
   }
 
   public animate(): void {
-    requestAnimationFrame(this.animate.bind(this));
+    this.id = requestAnimationFrame(this.animate.bind(this));
     this.renderObject();
   }
 
@@ -240,5 +241,4 @@ export class ThreejsViewService {
         break;
     }
   }
-
 }
