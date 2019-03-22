@@ -7,6 +7,7 @@ import * as path from "path";
 import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
 import { ISceneMessage } from "../../../common/communication/iSceneMessage";
+import { ISceneObject } from "../../../common/communication/iSceneObject";
 import { ISceneOptions, SceneType } from "../../../common/communication/iSceneOptions";
 import { IModification, ISceneData, ISceneVariables, ModificationType } from "../../../common/communication/iSceneVariables";
 import { Message } from "../../../common/communication/message";
@@ -130,15 +131,15 @@ describe("Card-manager tests", () => {
 
         const sceneBuilder:     SceneBuilder    = new SceneBuilder();
         const sceneModifier:    SceneModifier   = new SceneModifier(sceneBuilder);
-        const isceneVariable:   ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
+        const isceneVariable:   ISceneVariables<ISceneObject> = sceneBuilder.generateScene(sceneOptions10);
 
-        const iSceneVariablesMessage:   ISceneData  = {
+        const iSceneVariablesMessage:   ISceneData<ISceneObject>  = {
             originalScene:          isceneVariable,
             modifiedScene:          sceneModifier.modifyScene(sceneOptions10, isceneVariable, modifiedList),
             modifications:          modifications,
         };
         const sceneMessage: ISceneMessage = {
-            iSceneVariablesMessage: iSceneVariablesMessage,
+            sceneData: iSceneVariablesMessage,
             image:                  "",
         };
         const message: Message = {
@@ -160,15 +161,15 @@ describe("Card-manager tests", () => {
 
         const sceneBuilder:     SceneBuilder    = new SceneBuilder();
         const sceneModifier:    SceneModifier   = new SceneModifier(sceneBuilder);
-        const isceneVariable:   ISceneVariables = sceneBuilder.generateScene(sceneOptions10);
+        const isceneVariable:   ISceneVariables<ISceneObject> = sceneBuilder.generateScene(sceneOptions10);
 
-        const iSceneVariablesMessage: ISceneData = {
+        const iSceneVariablesMessage: ISceneData<ISceneObject> = {
             originalScene:          isceneVariable,
             modifiedScene:          sceneModifier.modifyScene(sceneOptions10, isceneVariable, modifiedList),
             modifications:          modifications,
         };
         const sceneMessage: ISceneMessage = {
-            iSceneVariablesMessage: iSceneVariablesMessage,
+            sceneData: iSceneVariablesMessage,
             image:                  "",
         };
 

@@ -10,7 +10,7 @@ import { Mode } from "../../../../../common/communication/highscore";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../../common/communication/iGameRequest";
 import { IPenalty, IPosition2D } from "../../../../../common/communication/iGameplay";
-import { ISceneObject } from "../../../../../common/communication/iSceneObject";
+import { IMesh, ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { ISceneData, ISceneVariables } from "../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../common/communication/message";
 import { CCommon } from "../../../../../common/constantes/cCommon";
@@ -39,8 +39,8 @@ export class GameViewFreeComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild("erreurText",    {read: ElementRef})  public erreurText:      ElementRef;
   @ViewChild("erreurText2",   {read: ElementRef})  public erreurText2:     ElementRef;
 
-  public  originalVariables: ISceneVariables;
-  public  modifiedVariables: ISceneVariables;
+  public  originalVariables: ISceneVariables<ISceneObject | IMesh>;
+  public  modifiedVariables: ISceneVariables<ISceneObject | IMesh>;
   public  activeCard:        ICard;
   public  gameRequest:       IGameRequest;
   public  objectToUpdate:    ISceneObject[];
@@ -218,7 +218,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy, AfterViewInit {
     if (response.status !== Constants.SUCCESS_STATUS) {
       this.openSnackBar(response.statusText, Constants.SNACK_ACTION);
     } else {
-      await response.json().then((variables: ISceneData) => {
+      await response.json().then((variables: ISceneData<ISceneObject | IMesh>) => {
 
         this.assignSceneVariable(variables);
       }).catch((error) => {
@@ -227,7 +227,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  private assignSceneVariable(variables: ISceneData): void {
+  private assignSceneVariable(variables: ISceneData<ISceneObject | IMesh>): void {
     this.originalVariables = {
       theme:                  variables.originalScene.theme,
       gameName:               variables.originalScene.gameName,
@@ -236,7 +236,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy, AfterViewInit {
       sceneObjectsQuantity:   variables.originalScene.sceneObjectsQuantity,
     };
     this.modifiedVariables = {
-      theme:                  variables.modifiedScene.theme,
+      theme:                  variables.originalScene.theme,
       gameName:               variables.modifiedScene.gameName,
       sceneBackgroundColor:   variables.modifiedScene.sceneBackgroundColor,
       sceneObjects:           variables.modifiedScene.sceneObjects,

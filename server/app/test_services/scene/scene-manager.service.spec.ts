@@ -1,6 +1,7 @@
 import * as chai from "chai";
 import * as spies from "chai-spies";
 import "reflect-metadata";
+import { ISceneObject } from "../../../../common/communication/iSceneObject";
 import { SceneType } from "../../../../common/communication/iSceneOptions";
 import { ISceneData } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
@@ -50,7 +51,7 @@ describe("SceneManager Tests", () => {
             quantityChange:     10,
         };
 
-        const sceneVariables: ISceneData | string = sceneManager.createScene(formMessage);
+        const sceneVariables: ISceneData<ISceneObject> | string = sceneManager.createScene(formMessage);
 
         if (typeof sceneVariables !== "string") {
             chai.expect(sceneVariables.originalScene.theme).to.be.equal(0);
@@ -79,7 +80,7 @@ describe("SceneManager Tests", () => {
             quantityChange:     10,
         };
 
-        const sceneVariables: ISceneData | string = sceneManager.createScene(formMessage);
+        const sceneVariables: ISceneData<ISceneObject> | string = sceneManager.createScene(formMessage);
 
         if (typeof sceneVariables !== "string") {
             chai.expect(sceneVariables.originalScene.theme).to.be.equal(1);
@@ -94,7 +95,7 @@ describe("SceneManager Tests", () => {
             quantityChange:     10,
         };
 
-        const sceneVariables: ISceneData | string = sceneManager.createScene(formMessage);
+        const sceneVariables: ISceneData<ISceneObject> | string = sceneManager.createScene(formMessage);
 
         if (typeof sceneVariables !== "string") {
             chai.expect(sceneVariables.originalScene.theme).to.be.equal(0);
@@ -137,7 +138,7 @@ describe("SceneManager Tests", () => {
             quantityChange:     5,
         };
 
-        const sceneVariables: ISceneData | string = sceneManager.createScene(formMessage);
+        const sceneVariables: ISceneData<ISceneObject> | string = sceneManager.createScene(formMessage);
         if (typeof sceneVariables === "string") {
             chai.expect(sceneVariables).to.equal(Constants.CARD_EXISTING);
         }
