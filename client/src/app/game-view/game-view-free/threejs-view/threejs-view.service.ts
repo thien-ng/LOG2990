@@ -24,7 +24,7 @@ export class ThreejsViewService {
   private readonly FOWARD_ORIENTATION:    number = -1;
   private readonly BACKWARD_ORIENTATION:  number = 1;
 
-  public id:                 number;
+  public  handleId:           number;
   private scene:              THREE.Scene;
   private camera:             THREE.PerspectiveCamera;
   private renderer:           THREE.WebGLRenderer;
@@ -70,7 +70,7 @@ export class ThreejsViewService {
   }
 
   public animate(): void {
-    this.id = requestAnimationFrame(this.animate.bind(this));
+    this.handleId = requestAnimationFrame(this.animate.bind(this));
     this.renderScene();
   }
 
