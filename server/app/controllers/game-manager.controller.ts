@@ -4,12 +4,15 @@ import { inject, injectable } from "inversify";
 import { CardDeleted } from "../../../common/communication/iCard";
 import { Message } from "../../../common/communication/message";
 import { GameManagerService } from "../services/game/game-manager.service";
+import { LobbyManagerService } from "../services/game/lobby-manager.service";
 import Types from "../types";
 
 @injectable()
 export class GameManagerController {
 
-    public constructor(@inject(Types.GameManagerService) private gameManagerService: GameManagerService) { }
+    public constructor(
+        @inject(Types.GameManagerService) private gameManagerService: GameManagerService,
+        @inject(Types.LobbyManagerService) private lobbyManagerService: LobbyManagerService) { }
 
     public get router(): Router {
 
@@ -35,7 +38,7 @@ export class GameManagerController {
         });
 
         router.get("/active-lobby", async (req: Request, res: Response, next: NextFunction) => {
-            res.json(this.gameManagerService.getActiveLobby());
+            res.json(this.lobbyManagerService.getActiveLobby());
         });
 
         return router;
