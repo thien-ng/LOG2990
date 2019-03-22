@@ -82,4 +82,15 @@ describe("GameViewFreeService", () => {
     const isSameY: boolean = gameViewService.position.y === 3;
     expect(isSameX && isSameY).toEqual(true);
   }));
+
+  it("should play htmlaudio success sound on good hit", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
+    const audio1: HTMLAudioElement = document.createElement("audio");
+    const audio2: HTMLAudioElement = document.createElement("audio");
+    const successSound: ElementRef = new ElementRef<HTMLAudioElement>(audio1);
+    const failsound: ElementRef = new ElementRef<HTMLAudioElement>(audio2);
+    gameViewService.setSounds(successSound, failsound);
+    const spy: any = spyOn(gameViewService["successSound"], "play");
+    gameViewService.onArenaResponse(expectedResponse);
+    expect(spy).toHaveBeenCalled();
+  }));
 });
