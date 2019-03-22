@@ -379,6 +379,14 @@ describe("Scene-modifier tests (3 changes or no change)", () => {
             });
         });
 
+        modifiedList.forEach((modifiedListElt: any) => {
+            iSceneVariables.sceneObjects.forEach((sceneObjElt: any) => {
+                if (modifiedListElt.id === sceneObjElt.id && modifiedListElt.type === ModificationType.removed) {
+                    counterDifference++;
+                }
+            });
+        });
+
 
         chai.expect(counterDifference).to.be.equal(7);
     });
