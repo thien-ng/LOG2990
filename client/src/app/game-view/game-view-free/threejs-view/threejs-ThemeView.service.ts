@@ -46,6 +46,15 @@ export class ThreejsThemeViewService {
     this.init();
   }
 
+  private init(): void {
+    const windowRatio: number = window.innerWidth / window.innerHeight;
+    this.camera = new   THREE.PerspectiveCamera(
+      Constants.FIELD_OF_VIEW,
+      windowRatio,
+      Constants.MIN_VIEW_DISTANCE,
+      Constants.MAX_VIEW_DISTANCE,
+    );
+
   public onKeyUp(keyboardEvent: KeyboardEvent): void {
 
     const keyValue: string = keyboardEvent.key.toLowerCase();
