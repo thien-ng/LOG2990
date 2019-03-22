@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild, AfterViewInit } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
 import { first } from "rxjs/operators";
@@ -25,7 +25,7 @@ const RIGHT_CLICK:  number = 2;
   templateUrl:  "./game-view-free.component.html",
   styleUrls:    ["./game-view-free.component.css"],
 })
-export class GameViewFreeComponent implements OnInit, OnDestroy {
+export class GameViewFreeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public readonly OPPONENT:         string = "Adversaire";
   public readonly NEEDED_SNAPSHOT:  boolean = false;
@@ -120,7 +120,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
     this.socketService.onMessage(CCommon.ON_GAME_STARTED).subscribe(() => {
       this.isLoading = false;
     });
-    this.socketService.onMsg(CCommon.ON_PENALTY).subscribe((arenaResponse: IPenalty) => {
+    this.socketService.onMessage(CCommon.ON_PENALTY).subscribe((arenaResponse: IPenalty) => {
       if (arenaResponse.isOnPenalty) {
         this.wrongClickRoutine();
       } else {
