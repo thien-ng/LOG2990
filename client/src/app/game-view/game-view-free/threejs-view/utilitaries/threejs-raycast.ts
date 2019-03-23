@@ -34,8 +34,17 @@ export class ThreejsRaycast {
         this.idBySceneId = idBySceneId;
     }
 
+    public setModelsByNameMap(modelsByName: Map<string, THREE.Object3D>): void {
+      this.modelsByName = modelsByName;
+    }
+
     public setThreeGenerator(threejsGenerator: ThreejsGenerator | ThreejsThemeGenerator): void {
-        this.threejsGenerator = threejsGenerator;
+      this.isTheme = (threejsGenerator instanceof ThreejsThemeGenerator) ? true : false;
+      if (this.isTheme) {
+        this.threejsThemeGenerator  = threejsGenerator as ThreejsThemeGenerator;
+      } else {
+        this.threejsGenerator       = threejsGenerator as ThreejsGenerator;
+      }
     }
 
     public detectObject(mouseEvent: MouseEvent): number {
