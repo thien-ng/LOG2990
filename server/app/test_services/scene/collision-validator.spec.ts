@@ -453,5 +453,26 @@ describe("Collision validator tests", () => {
             chai.expect(isColliding).equal(false);
         });
 
+        it("should return true if there is collision between new and already existing scene objects", () => {
+            const newTriangularPyramid: ISceneObject = {
+                id:     1,
+                type:   4,
+                position: {
+                    x: 25, y: 25, z: 25,
+                },
+                rotation: {
+                    x: 1,   y: 1,   z: 1,
+                },
+                scale: {
+                    x: 10,  y: 10,  z: 10,
+                },
+                color:  "#8cadbb",
+                hidden: false,
+            };
+
+            const isColliding: boolean = collisionValidator.hasCollidingPositions(newTriangularPyramid, existingSceneObjects);
+
+            chai.expect(isColliding).equal(true);
+        });
     });
 });
