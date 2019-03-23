@@ -27,7 +27,7 @@ describe("Interface-generator tests", () => {
         interfaceBuilder = new InterfaceBuilder();
     });
 
-    it("should build a Message when calling buildMessage()", () => {
+    it("should return correct Message when calling buildMessage()", () => {
         const expectedMessage: Message = {
             title:  "MessageBonjour",
             body:   "allo",
@@ -38,7 +38,7 @@ describe("Interface-generator tests", () => {
 
     });
 
-    it("should return LobbyEvent interface when calling buildLobbyEvent()", () => {
+    it("should return correct ILobbyEvent when calling buildLobbyEvent()", () => {
         const expectedILobbyEvent: ILobbyEvent = {
             gameID:         1,
             buttonText:     MultiplayerButtonText.create,
@@ -49,7 +49,7 @@ describe("Interface-generator tests", () => {
 
     });
 
-    it("should return IArenaInfos<I2DInfos> when calling buildArena2DInfos()", () => {
+    it("should return correct IArenaInfos<I2DInfos> when calling buildArena2DInfos()", () => {
         const expectedIArenaInfos: IArenaInfos<I2DInfos> = {
             arenaId:            11,
             users:              usersMock,
@@ -64,7 +64,7 @@ describe("Interface-generator tests", () => {
 
     });
 
-    it("should return IArenaInfos<I3DInfos> when calling buildArena3DInfos()", () => {
+    it("should return correct IArenaInfos<I3DInfos> when calling buildArena3DInfos()", () => {
         const expectedIArenaInfos: IArenaInfos<I3DInfos> = {
             arenaId:            11,
             users:              usersMock,
@@ -78,7 +78,7 @@ describe("Interface-generator tests", () => {
 
     });
 
-    it("should return IUser when calling builIUser()", () => {
+    it("should return correct IUser when calling builIUser()", () => {
         const expectedIUser: IUser = {
             username: "jerry",
             socketID: "2",
