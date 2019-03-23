@@ -1,14 +1,14 @@
 import { Inject, Injectable, Optional } from "@angular/core";
 import * as THREE from "three";
 import GLTFLoader from "three-gltf-loader";
-import { IPosition2D, ISceneObjectUpdate } from "../../../../../../../common/communication/iGameplay";
-import { IMesh } from "../../../../../../../common/communication/iSceneObject";
-import { IMeshInfo, ISceneVariables } from "../../../../../../../common/communication/iSceneVariables";
-import { Constants } from "../../../../constants";
-import { GameViewFreeService } from "../../game-view-free.service";
-import { ThreejsMovement } from "../utilitaries/threejs-movement";
-import { ThreejsThemeGenerator } from "./threejs-themeGenerator";
-import { ThreejsThemeRaycast } from "./threejs-themeRaycast";
+import { IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
+import { IMesh } from "../../../../../../common/communication/iSceneObject";
+import { IMeshInfo, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
+import { Constants } from "../../../constants";
+import { GameViewFreeService } from "../game-view-free.service";
+import { ThreejsMovement } from "./utilitaries/threejs-movement";
+import { ThreejsRaycast } from "./utilitaries/threejs-raycast";
+import { ThreejsThemeGenerator } from "./utilitaries/threejs-themeGenerator";
 
 enum KEYS {
   W     = "w",
@@ -31,7 +31,7 @@ export class ThreejsThemeViewService {
   private ambLight:                 THREE.AmbientLight;
   private sceneVariables:           ISceneVariables<IMesh>;
   private threejsGenerator:         ThreejsThemeGenerator;
-  private threejsThemeRaycast:      ThreejsThemeRaycast;
+  private threejsThemeRaycast:      ThreejsRaycast;
   private threejsMovement:          ThreejsMovement;
   private modelsByName:             Map<string, THREE.Object3D>;
   private gltfByUrl:                Map<string, THREE.GLTF>;
@@ -104,7 +104,7 @@ export class ThreejsThemeViewService {
     this.renderer.setSize(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
     this.renderer.setClearColor(this.sceneVariables.sceneBackgroundColor);
 
-    this.threejsThemeRaycast = new ThreejsThemeRaycast(this.camera, this.renderer, this.scene);
+    this.threejsThemeRaycast = new ThreejsRaycast(this.camera, this.renderer, this.scene);
     this.threejsThemeRaycast.setMaps(this.idBySceneId);
     this.threejsThemeRaycast.setThreeGenerator(this.threejsGenerator);
 
