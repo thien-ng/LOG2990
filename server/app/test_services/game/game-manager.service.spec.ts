@@ -109,6 +109,30 @@ const playerInput: IPlayerInput<IPosition2D | number> = {
         y: 12,
     },
 };
+const c1: ICard = {
+    gameID:             4,
+    title:              "Default 2D",
+    subtitle:           "default 2D",
+    avatarImageUrl:     "/elon.jpg",
+    gameImageUrl:       "/elon.jpg",
+    gamemode:           GameMode.simple,
+};
+const answer: any = {
+    status: CCommon.ON_SUCCESS,
+    isNewHighscore: true,
+    index: 0,
+    highscore: {
+        id:             1,
+        timesSingle:    [{username: "cpu", time: 1}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
+        timesMulti:     [{username: "cpu", time: 2}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
+    },
+};
+
+const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
+const expectedMessage: IArenaResponse<any> = {
+    status:     CCommon.ON_ERROR,
+    response:   ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
+};
 
 let socket: SocketIO.Socket;
 let server: SocketIO.Server;
