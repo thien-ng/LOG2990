@@ -7,13 +7,16 @@ export class ThreejsRaycast {
 
     private readonly NORMALIZE_FACTOR: number = 2;
 
-    private renderer:           THREE.WebGLRenderer;
-    private camera:             THREE.PerspectiveCamera;
-    private scene:              THREE.Scene;
-    private mouse:              THREE.Vector3;
-    private raycaster:          THREE.Raycaster;
-    private idBySceneId:        Map<number, number>;
-    private threejsGenerator:   ThreejsGenerator | ThreejsThemeGenerator;
+    private renderer:               THREE.WebGLRenderer;
+    private camera:                 THREE.PerspectiveCamera;
+    private scene:                  THREE.Scene;
+    private mouse:                  THREE.Vector3;
+    private raycaster:              THREE.Raycaster;
+    private idBySceneId:            Map<number, number>;
+    private threejsGenerator:       ThreejsGenerator;
+    private threejsThemeGenerator:  ThreejsThemeGenerator;
+    private isTheme:                boolean;
+    private modelsByName:           Map<string, THREE.Object3D>;
 
     public constructor(
         camera:   THREE.PerspectiveCamera,
