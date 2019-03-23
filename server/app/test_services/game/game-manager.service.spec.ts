@@ -354,6 +354,14 @@ describe("GameManagerService tests", () => {
         chai.spy.restore();
     });
 
+    it("Should send an cancel request if lobby is now undefined", () => {
+        const user: IUser[] = [{username: "Franky", socketID: "Franky"}];
+        chai.spy.on(gameManagerService["lobbyManagerService"], "getLobby", () => user);
+        const spy: any = chai.spy.on(gameManagerService, "sendMessage");
+        gameManagerService.cancelRequest(1, true);
+        chai.expect(spy).to.have.been.called();
+    });
+
     it("Should return an error message when deleting an unexisting arena", async () => {
         chai.expect(gameManagerService.cancelRequest(2, false).title).to.deep.equal(CCommon.ON_ERROR);
     });
