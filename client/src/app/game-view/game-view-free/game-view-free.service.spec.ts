@@ -28,7 +28,7 @@ const expectedResponse: IArenaResponse<ISceneObjectUpdate> = {
   arenaType:          GameMode.free,
 };
 
-describe("GameViewFreeService test", () => {
+describe("GameViewFreeService Test", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
     providers: [GameViewFreeService],

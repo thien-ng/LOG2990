@@ -21,7 +21,7 @@ describe("Difference checker service tests", () => {
         differenceCheckerService = new DifferenceCheckerService();
     });
 
-    it("Should return a Buffer without any error thhrown", () => {
+    it("Should return a Buffer without any error thrown", () => {
         const requirements: ImageRequirements = {
             requiredHeight: 480,
             requiredWidth:  640,
