@@ -66,7 +66,7 @@ export class ThreejsRaycast {
         return -1;
     }
 
-    public updateSceneWithNewObject(object: ISceneObjectUpdate): void {
+    public updateSceneWithNewObject(sceneUpdate: ISceneObjectUpdate<ISceneObject | IMesh>): void {
 
         if (!object.sceneObject) {
             return;
