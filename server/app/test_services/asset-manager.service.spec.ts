@@ -99,7 +99,7 @@ describe("Image manager service tests", () => {
         chai.expect(() => imageManagerService.deleteFileInTemp(nonExistantgameId, Constants.GENERATED_FILE))
             .to.throw(TypeError);
     });
-    it("Should not get Theme file and throw error", async () => {
+    it("should not get Theme file and throw error", async () => {
         const themeName: string = "CestWRrrrrronnng";
         chai.expect(() => imageManagerService.getTheme(themeName))
             .to.throw(TypeError);

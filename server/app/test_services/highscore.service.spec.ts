@@ -58,13 +58,13 @@ describe("HighscoreService tests", () => {
         mockAxios.restore();
     });
 
-    it("Should set socket server", () => {
+    it("should set socket server", () => {
         const mockSocket: any = mock(SocketIO);
         highscoreService.setServer(mockSocket);
         expect(highscoreService["socketServer"]).to.equal(mockSocket);
     });
 
-    it("Should return the right highscore", () => {
+    it("should return the right highscore", () => {
         const updatedHS: Highscore | undefined = highscoreService.getHighscoreById(1);
         expect(updatedHS).deep.equal(mockHighscore[0]);
     });

@@ -279,42 +279,18 @@ describe("Scene builder theme tests", () => {
 });
 
 function hasAcceptableRangePosition(value: number): boolean {
-    let isAcceptable: boolean = true;
-
-    if (value < -5000 || value > 5000) {
-        isAcceptable = false;
-    }
-
-    return isAcceptable;
+    return !(value < -5000 || value > 5000);
 }
 
 function hasAcceptableRangeAngle(x: number, y: number, z: number): boolean {
-    let isAcceptable: boolean = true;
-
-    if (x !== 0  || z !== 0 || y < 0 || y > Math.PI * 3) {
-        isAcceptable = false;
-    }
-
-    return isAcceptable;
+    return !(x !== 0  || z !== 0 || y < 0 || y > Math.PI * 3);
 }
 
 function hasCorrectMeshInfo(info: IMeshInfo, sceneEntity: ISceneEntity): boolean {
-    let isAcceptable: boolean = true;
-
-    if (info.GLTFUrl !== sceneEntity.meshInfos[0].GLTFUrl ||
-        info.uuid !== sceneEntity.meshInfos[0].uuid) {
-        isAcceptable = false;
-    }
-
-    return isAcceptable;
+    return !(info.GLTFUrl !== sceneEntity.meshInfos[0].GLTFUrl ||
+        info.uuid !== sceneEntity.meshInfos[0].uuid);
 }
 
 function hasCorrectScaleFactor(value: number): boolean {
-    let isAcceptable: boolean = true;
-
-    if (value < 0.5 || value > 1.5) {
-        isAcceptable = false;
-    }
-
-    return isAcceptable;
+    return !(value < 0.5 || value > 1.5);
 }

@@ -29,9 +29,8 @@ export class SceneBuilderTheme {
     }
 
     private generateSceneObjects(sceneOptions: ISceneOptions): void {
-        const sceneObjectsQuantity: number = sceneOptions.sceneObjectsQuantity;
 
-        for (let id: number = 0; id < sceneObjectsQuantity; id++) {
+        for (let id: number = 0; id < sceneOptions.sceneObjectsQuantity; id++) {
             const generatedObject: IMesh = this.generateRandomSceneMesh(id, this.theme.sceneEntities);
             this.sceneVariables.sceneObjects.push(generatedObject);
         }

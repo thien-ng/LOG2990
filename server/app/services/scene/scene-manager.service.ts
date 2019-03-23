@@ -19,6 +19,8 @@ import { SceneConstants } from "./sceneConstants";
 @injectable()
 export class SceneManager {
 
+    private readonly FILE_TO_RECOVER: string = "park.json";
+
     private sceneBuilderGeometric:      SceneBuilder;
     private sceneBuilderTheme:          SceneBuilderTheme;
     private sceneModifierGeometric:     SceneModifier;
@@ -72,7 +74,7 @@ export class SceneManager {
 
     private buildSceneTheme(formMessage: FormMessage): ISceneData<IMesh> {
 
-        const theme: ITheme = this.assetManagerService.getTheme("park.json");
+        const theme: ITheme = this.assetManagerService.getTheme(this.FILE_TO_RECOVER);
 
         const modifiedList:             IModification[]          = [];
         const iSceneOptions:            ISceneOptions            = this.sceneOptionsMapper(formMessage);

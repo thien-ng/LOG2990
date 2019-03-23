@@ -16,6 +16,7 @@ import { HighscoreService } from "../services/highscore.service";
 
 const FAKE_PATH:        string = CCommon.BASE_URL + "/image";
 const CARD_NOT_FOUND:   string = "Erreur de suppression, carte pas trouvée";
+const ERROR_DELETION:   string = "error while deleting file";
 
 let highscoreService:   HighscoreService;
 let cardOperations:     CardOperations;
@@ -84,12 +85,12 @@ describe("Card-operations tests", () => {
 
     it("should return an error message because path image doesnt exist", () => {
         cardOperations.addCard2D(c1);
-        chai.expect(cardOperations.removeCard2D(4)).to.equal("error while deleting file");
+        chai.expect(cardOperations.removeCard2D(4)).to.equal(ERROR_DELETION);
     });
 
     it("should return an error message because path image doesnt exist", () => {
         cardOperations.addCard3D(c3);
-        chai.expect(cardOperations.removeCard3D(3)).to.equal("error while deleting file");
+        chai.expect(cardOperations.removeCard3D(3)).to.equal(ERROR_DELETION);
     });
 
     it("should return an error while deleting the default 2D card", () => {
@@ -111,13 +112,13 @@ describe("Card-operations tests", () => {
     it("should return an error message because path image doesnt exist", () => {
         cardOperations["socketServer"] = mock(SocketIO);
         cardOperations.addCard2D(c1);
-        chai.expect(cardOperations.removeCard2D(4)).to.equal("error while deleting file");
+        chai.expect(cardOperations.removeCard2D(4)).to.equal(ERROR_DELETION);
     });
 
     it("should return an error message because path image doesnt exist", () => {
         cardOperations["socketServer"] = mock(SocketIO);
         cardOperations.addCard3D(c3);
-        chai.expect(cardOperations.removeCard3D(3)).to.equal("error while deleting file");
+        chai.expect(cardOperations.removeCard3D(3)).to.equal(ERROR_DELETION);
     });
 
     it("should delete card 2D with specific card id", () => {

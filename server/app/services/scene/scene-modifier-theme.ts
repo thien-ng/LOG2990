@@ -149,8 +149,8 @@ export class SceneModifierTheme {
     }
 
     private generateRandomIndex(): number {
-        const lastObjectElement: IMesh = this.sceneObjects[this.sceneObjects.length - 1];
-        const MIN_INDEX_VALUE: number = 0;
+        const lastObjectElement:    IMesh = this.sceneObjects[this.sceneObjects.length - 1];
+        const MIN_INDEX_VALUE:      number = 0;
 
         return this.sceneBuilderTheme.randomIntegerFromInterval(MIN_INDEX_VALUE, lastObjectElement.id);
     }

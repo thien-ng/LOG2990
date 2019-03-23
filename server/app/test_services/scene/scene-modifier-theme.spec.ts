@@ -184,7 +184,7 @@ describe("Scene-modifier-theme tests", () => {
         chai.expect(counter).to.equal(7);
     });
 
-    it("should have 7 change color", () => {
+    it("should have 7 color changes", () => {
         sceneOptions = {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
@@ -205,7 +205,7 @@ describe("Scene-modifier-theme tests", () => {
         chai.expect(counter).to.equal(7);
     });
 
-    it("should have 7 modifications (additions and removals)", () => {
+    it("should have 7 modifications (additions and/or removals)", () => {
         sceneOptions = {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
@@ -217,7 +217,7 @@ describe("Scene-modifier-theme tests", () => {
         chai.expect(modifiedList.length).to.be.equal(7);
     });
 
-    it("should have 7 modifications (additions and change)", () => {
+    it("should have 7 modifications (additions and/or change)", () => {
         sceneOptions = {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
@@ -229,7 +229,7 @@ describe("Scene-modifier-theme tests", () => {
         chai.expect(modifiedList.length).to.be.equal(7);
     });
 
-    it("should have 7 modifications (remove and change)", () => {
+    it("should have 7 modifications (remove and/or change)", () => {
         sceneOptions = {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
@@ -241,7 +241,7 @@ describe("Scene-modifier-theme tests", () => {
         chai.expect(modifiedList.length).to.be.equal(7);
     });
 
-    it("should have 7 modifications of additions and removals", () => {
+    it("should have 7 modifications of additions and/or removals", () => {
         sceneOptions = {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
@@ -272,7 +272,7 @@ describe("Scene-modifier-theme tests", () => {
         chai.expect(counter).to.equal(7);
     });
 
-    it("should have 7 modifications of additions and changes", () => {
+    it("should have 7 modifications of additions and/or changes", () => {
         sceneOptions = {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
@@ -302,7 +302,7 @@ describe("Scene-modifier-theme tests", () => {
         chai.expect(counter).to.equal(7);
     });
 
-    it("should have 7 modifications of removes and changes", () => {
+    it("should have 7 modifications of removes and/or changes", () => {
         sceneOptions = {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
@@ -332,7 +332,7 @@ describe("Scene-modifier-theme tests", () => {
         chai.expect(counter).to.equal(7);
     });
 
-    it("should have 7 modifications of add, removes and changes", () => {
+    it("should have 7 modifications of add, removes and/or changes", () => {
         sceneOptions = {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
