@@ -236,4 +236,6 @@ describe("Collision validator tests", () => {
         });
     });
 
+    describe("tests collision with spheres", () => {
+    });
 });
