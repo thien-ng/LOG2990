@@ -56,6 +56,38 @@ describe("Collision validator tests", () => {
         hidden: false,
     };
 
+    const triangularPyramid1: ISceneObject = {
+        id:     10,
+        type:   4,
+        position: {
+            x: 330, y: 330, z: 330,
+        },
+        rotation: {
+            x: 1,   y: 1,   z: 1,
+        },
+        scale: {
+            x: 10,  y: 10,  z: 10,
+        },
+        color:  "#8cadbb",
+        hidden: false,
+    };
+
+    const triangularPyramid2: ISceneObject = {
+        id:     11,
+        type:   4,
+        position: {
+            x: 400, y: 400, z: 400,
+        },
+        rotation: {
+            x: 1,   y: 1,   z: 1,
+        },
+        scale: {
+            x: 10,  y: 10,  z: 10,
+        },
+        color:  "#8cadbb",
+        hidden: false,
+    };
+
     const existingSceneObjects: ISceneObject[] = [cube1, cube2, cube3];
 
     beforeEach(() => {
