@@ -120,6 +120,38 @@ describe("Collision validator tests", () => {
         hidden: false,
     };
 
+    const cylinder1: ISceneObject = {
+        id:     8,
+        type:   3,
+        position: {
+            x: 230, y: 230, z: 230,
+        },
+        rotation: {
+            x: 1,   y: 1,   z: 1,
+        },
+        scale: {
+            x: 10,  y: 10,  z: 10,
+        },
+        color:  "#8cadbb",
+        hidden: false,
+    };
+
+    const cylinder2: ISceneObject = {
+        id:     9,
+        type:   3,
+        position: {
+            x: 300, y: 300, z: 300,
+        },
+        rotation: {
+            x: 1,   y: 1,   z: 1,
+        },
+        scale: {
+            x: 10,  y: 10,  z: 10,
+        },
+        color:  "#8cadbb",
+        hidden: false,
+    };
+
     const triangularPyramid1: ISceneObject = {
         id:     10,
         type:   4,
