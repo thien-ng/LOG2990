@@ -13,7 +13,7 @@ describe("Difference finder microservice tests", () => {
         differenceFinder = new DifferenceFinder();
     });
 
-    it("should be throw TypeError", (done: Function) => {
+    it("should be throw TypeError if images have unequal dimensions", (done: Function) => {
 
         const strBuff1: string = "ffffff";
         const strBuff2: string = "ffffffffffff";

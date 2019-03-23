@@ -351,7 +351,7 @@ describe("Scene-modifier tests (3 changes or no change)", () => {
         chai.expect(modifiedList.length).to.be.equal(7);
     });
 
-    it("should have additon and/or color modifications", () => {
+    it("should have additon, remove, or change object color", () => {
         iSceneOptions = {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
