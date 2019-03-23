@@ -501,5 +501,38 @@ describe("GameManagerService tests", () => {
         chai.expect(gameManagerService["server"]).to.equal(server);
     });
 
+    it("Should send update new Highscore", (done: Function) => {
 
+        mockAxios.onPost(Constants.VALIDATE_HIGHSCORE_PATH)
+        .reply(200, answer);
+
+        gameManagerService["highscoreService"].createHighscore(1);
+        chai.spy.on(gameManagerService["highscoreService"], "findHighScoreByID", () => 0);
+        chai.spy.on(gameManagerService["cardOperations"], "getCardById", () => c1);
+        chai.spy.on(gameManagerService, "deleteArena", () => {return; });
+        chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
+        const spy: any = chai.spy.on(gameManagerService["chatManagerService"], "sendNewHighScoreMessage", () => {return; });
+        chai.spy.on(gameManagerService["server"], "emit", () => {return; });
+        const time: Time = {username: "cpu", time: 1};
+        gameManagerService.endOfGameRoutine(time, Mode.Singleplayer, iArenaInfos, GameMode.simple);
+        done();
+        chai.expect(spy).to.have.been.called();
+    });
+    it("Should emit the new Highscore", (done: Function) => {
+
+        mockAxios.onPost(Constants.VALIDATE_HIGHSCORE_PATH)
+        .reply(200, answer);
+
+        gameManagerService["highscoreService"].createHighscore(1);
+        chai.spy.on(gameManagerService["highscoreService"], "findHighScoreByID", () => 0);
+        chai.spy.on(gameManagerService["cardOperations"], "getCardById", () => c1);
+        chai.spy.on(gameManagerService, "deleteArena", () => {return; });
+        chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
+        chai.spy.on(gameManagerService["chatManagerService"], "sendNewHighScoreMessage", () => {return; });
+        const spy: any = chai.spy.on(gameManagerService["server"], "emit", () => {return; });
+        const time: Time = {username: "cpu", time: 1};
+        gameManagerService.endOfGameRoutine(time, Mode.Singleplayer, iArenaInfos, GameMode.simple);
+        done();
+        chai.expect(spy).to.have.been.called();
+    });
 });
