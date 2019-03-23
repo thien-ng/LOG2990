@@ -2,6 +2,10 @@ import { expect } from "chai";
 import { ILobbyEvent, MultiplayerButtonText } from "../../../common/communication/iCard";
 import { Message } from "../../../common/communication/message";
 import { InterfaceBuilder } from "../../app/services/interface-generator";
+import { Constants } from "../constants";
+import { CCommon } from "../../../common/constantes/cCommon";
+import { IArenaInfos, I2DInfos } from "../services/game/arena/interfaces";
+import { IUser } from "../../../common/communication/iUser";
 
 describe("interface-generator tests", () => {
     let interfaceBuilder: InterfaceBuilder;
@@ -29,6 +33,32 @@ describe("interface-generator tests", () => {
 
         const resultILobbyEvent: ILobbyEvent = interfaceBuilder.buildLobbyEvent(1, MultiplayerButtonText.create);
         expect(resultILobbyEvent).to.not.equal(expectedILobbyEvent);
+
+    });
+
+    it("should return IArenaInfos<I2DInfos> when calling buildArena2DInfos()", () => {
+        const usersMock: IUser[] = [
+            {
+                username: "gaby",
+                socketID: "14",
+            },
+            {
+                username: "arthy",
+                socketID: "15",
+            },
+        ];
+
+        const expectedIArenaInfos: IArenaInfos<I2DInfos> = {
+            arenaId:            11,
+            users:              usersMock,
+            dataUrl: {
+                original:   Constants.PATH_SERVER_TEMP + 2 + CCommon.ORIGINAL_FILE,
+                difference: Constants.PATH_SERVER_TEMP + 2 + Constants.GENERATED_FILE,
+            },
+        };
+
+        const resultIArenaInfos: IArenaInfos<I2DInfos> = interfaceBuilder.buildArena2DInfos(usersMock, 2, 11);
+        expect(resultIArenaInfos).deep.equal(expectedIArenaInfos);
 
     });
 
