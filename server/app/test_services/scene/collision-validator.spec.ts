@@ -152,37 +152,37 @@ describe("Collision validator tests", () => {
         hidden: false,
     };
 
-    const triangularPyramid1: ISceneObject = {
-        id:     10,
-        type:   4,
-        position: {
-            x: 330, y: 330, z: 330,
-        },
-        rotation: {
-            x: 1,   y: 1,   z: 1,
-        },
-        scale: {
-            x: 10,  y: 10,  z: 10,
-        },
-        color:  "#8cadbb",
-        hidden: false,
-    };
+    // const triangularPyramid1: ISceneObject = {
+    //     id:     10,
+    //     type:   4,
+    //     position: {
+    //         x: 330, y: 330, z: 330,
+    //     },
+    //     rotation: {
+    //         x: 1,   y: 1,   z: 1,
+    //     },
+    //     scale: {
+    //         x: 10,  y: 10,  z: 10,
+    //     },
+    //     color:  "#8cadbb",
+    //     hidden: false,
+    // };
 
-    const triangularPyramid2: ISceneObject = {
-        id:     11,
-        type:   4,
-        position: {
-            x: 400, y: 400, z: 400,
-        },
-        rotation: {
-            x: 1,   y: 1,   z: 1,
-        },
-        scale: {
-            x: 10,  y: 10,  z: 10,
-        },
-        color:  "#8cadbb",
-        hidden: false,
-    };
+    // const triangularPyramid2: ISceneObject = {
+    //     id:     11,
+    //     type:   4,
+    //     position: {
+    //         x: 400, y: 400, z: 400,
+    //     },
+    //     rotation: {
+    //         x: 1,   y: 1,   z: 1,
+    //     },
+    //     scale: {
+    //         x: 10,  y: 10,  z: 10,
+    //     },
+    //     color:  "#8cadbb",
+    //     hidden: false,
+    // };
 
     beforeEach(() => {
         collisionValidator = new CollisionValidator();
@@ -334,6 +334,28 @@ describe("Collision validator tests", () => {
 
     describe("tests collision with cylinders", () => {
         const existingSceneObjects: ISceneObject[] = [cylinder1, cylinder2];
+
+        it("should return false if there is no collision between new and already existing scene objects", () => {
+            const newCylinder: ISceneObject = {
+                id:     1,
+                type:   2,
+                position: {
+                    x: 250, y: 250, z: 250,
+                },
+                rotation: {
+                    x: 1,   y: 1,   z: 1,
+                },
+                scale: {
+                    x: 10,  y: 10,  z: 10,
+                },
+                color:  "#8cadbb",
+                hidden: false,
+            };
+
+            const isColliding: boolean = collisionValidator.hasCollidingPositions(newCylinder, existingSceneObjects);
+
+            chai.expect(isColliding).equal(false);
+        });
 
     });
 });
