@@ -72,7 +72,7 @@ export class SceneManager {
 
     private buildSceneTheme(formMessage: FormMessage): ISceneData<IMesh> {
 
-        const theme: ITheme = this.assetManagerService.getTheme("parktest.json");
+        const theme: ITheme = this.assetManagerService.getTheme("park.json");
 
         const modifiedList:             IModification[]          = [];
         const iSceneOptions:            ISceneOptions            = this.sceneOptionsMapper(formMessage);
