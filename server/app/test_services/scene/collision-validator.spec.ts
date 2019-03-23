@@ -427,4 +427,9 @@ describe("Collision validator tests", () => {
             chai.expect(isColliding).equal(true);
         });
     });
+
+    describe("tests collision with all sorts of objects", () => {
+        const existingSceneObjects: ISceneObject[] = [cube1, sphere1, sphere2, cylinder1, cylinder2, triangularPyramid2];
+
+    });
 });
