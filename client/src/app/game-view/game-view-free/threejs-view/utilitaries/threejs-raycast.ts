@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { ActionType, ISceneObjectUpdate } from "../../../../../../../common/communication/iGameplay";
+import { IMesh, ISceneObject } from "../../../../../../../common/communication/iSceneObject";
 import { ThreejsGenerator } from "./threejs-generator";
 import { ThreejsThemeGenerator } from "./threejs-themeGenerator";
 
