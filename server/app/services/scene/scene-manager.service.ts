@@ -12,7 +12,7 @@ import { SceneModifier } from "./scene-modifier";
 import { SceneConstants } from "./sceneConstants";
 import { SceneBuilderTheme } from "./scene-builder-theme";
 import { AssetManagerService } from "../asset-manager.service";
-import { ITheme } from "../../../../common/communication/ITheme";
+import { ITheme, ISceneEntity } from "../../../../common/communication/ITheme";
 import { SceneModifierTheme } from "./scene-modifier-theme";
 
 @injectable()
@@ -89,14 +89,30 @@ export class SceneManager {
                                                                                                      generatedOriginalScene,
                                                                                                      modifiedList,
                                                                                                      theme.sceneEntities);
-        return this.buildSceneData(generatedOriginalScene, generatedModifiedScene, modifiedList);
+        // return this.buildSceneData(generatedOriginalScene, generatedModifiedScene, modifiedList, this.extractMeshInfos(theme.sceneEntities));
+        var test = this.buildSceneData(generatedOriginalScene, generatedModifiedScene, modifiedList, this.extractMeshInfos(theme.sceneEntities));
+        this.assetManagerService.saveGeneratedScene("./app/asset/scene/test.json", JSON.stringify(test));
+        return test;
+    }
+
+    private extractMeshInfos(sceneEntities: ISceneEntity[]): IMeshInfo[] {
+        const meshInfos: IMeshInfo[] = [];
+
+        sceneEntities.forEach((sceneEntity: ISceneEntity) => {
+            sceneEntity.meshInfos.forEach((meshInfo: IMeshInfo) => {
+                meshInfos.push(meshInfo);
+            });
+        });
+
+        return meshInfos;
     }
 
     private buildSceneData<OBJ_T>(
         generatedOriginalScene: ISceneVariables<OBJ_T>,
         generatedModifiedScene: ISceneVariables<OBJ_T>,
         modifiedList:           IModification[],
-        meshInfo?:              IMeshInfo[]             ): ISceneData<OBJ_T> {
+        meshInfo?:              IMeshInfo[]
+        ): ISceneData<OBJ_T> {
 
         return {
             originalScene:  generatedOriginalScene,

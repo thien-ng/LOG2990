@@ -98,6 +98,7 @@ export class AssetManagerService {
         try {
             fs.writeFileSync(path, data);
         } catch (error) {
+            console.log(error.message);
             throw TypeError(FILE_SAVING_ERROR);
         }
     }
