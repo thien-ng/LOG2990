@@ -338,7 +338,7 @@ describe("Collision validator tests", () => {
         it("should return false if there is no collision between new and already existing scene objects", () => {
             const newCylinder: ISceneObject = {
                 id:     1,
-                type:   2,
+                type:   3,
                 position: {
                     x: 250, y: 250, z: 250,
                 },
@@ -360,7 +360,7 @@ describe("Collision validator tests", () => {
         it("should return true if there is collision between new and already existing scene objects", () => {
             const newCylinder: ISceneObject = {
                 id:     1,
-                type:   2,
+                type:   3,
                 position: {
                     x: 300, y: 300, z: 300,
                 },
