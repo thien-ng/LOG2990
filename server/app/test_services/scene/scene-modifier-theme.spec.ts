@@ -89,6 +89,19 @@ beforeEach(() => {
 
 describe("Scene-modifier-theme tests", () => {
 
+    it("should do nothing when selected option is wrong", () => {
+        sceneOptions = {
+            sceneName:              "game",
+            sceneType:              SceneType.Thematic,
+            sceneObjectsQuantity:   10,
+            selectedOptions:        [true, false, false],
+        };
+        const spy: any = chai.spy.on(sceneModifier, "addObject");
+        sceneModifier["chooseOperation"]("wrongOptionnnnnnn<3");
+
+        chai.expect(spy).not.to.have.been.called();
+    });
+
     it("should have called addObject() when modifying the scene", () => {
         sceneOptions = {
             sceneName:              "game",
