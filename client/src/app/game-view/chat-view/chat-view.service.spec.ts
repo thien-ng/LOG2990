@@ -11,7 +11,7 @@ const mockIChat:              IChat                 = {
   time:     "time",
 };
 
-describe("ChatViewService test", () => {
+describe("ChatViewService Test", () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it("should be created", () => {
