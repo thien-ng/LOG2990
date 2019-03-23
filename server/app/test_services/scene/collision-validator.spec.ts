@@ -1,6 +1,6 @@
 import * as chai from "chai";
 import "reflect-metadata";
-import { ISceneObject } from "../../../../common/communication/iSceneObject";
+import { ISceneObject, SceneObjectType } from "../../../../common/communication/iSceneObject";
 import { CollisionValidator } from "../../services/scene/utilitaries/collision-validator";
 
 /* tslint:disable:no-any no-magic-numbers */
