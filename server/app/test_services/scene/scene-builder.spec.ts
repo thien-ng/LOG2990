@@ -171,7 +171,7 @@ describe("Scene builder tests", () => {
         chai.expect(isAcceptable).to.equal(true);
     });
 
-    it("should generate a SceneObject[] containing the scale of x,y,z in acceptable range with 10 objects", () => {
+    it("should generate a SceneObject[] containing the color format with 10 objects", () => {
         const scene: ISceneVariables<ISceneObject> = sceneBuilder.generateScene(sceneOptions10);
 
         let isAcceptable: boolean = true;
@@ -187,7 +187,7 @@ describe("Scene builder tests", () => {
         chai.expect(isAcceptable).to.equal(true);
     });
 
-    it("should generate a SceneObject[] containing the scale of x,y,z in acceptable range with 200 objects", () => {
+    it("should generate a SceneObject[] containing the color format with 200 objects", () => {
         const scene: ISceneVariables<ISceneObject> = sceneBuilder.generateScene(sceneOptions200);
 
         let isAcceptable: boolean = true;

@@ -23,7 +23,7 @@ describe("Cluster Counter tests", () => {
         done();
     });
 
-    it("should count all the distinct clusters in grid and find 2 difference", (done: Function) => {
+    it("should count all the distinct clusters in grid and find 2 differences", (done: Function) => {
         const width:    number = 4;
         const height:   number = 4;
 
