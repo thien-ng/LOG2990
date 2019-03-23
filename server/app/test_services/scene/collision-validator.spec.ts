@@ -431,5 +431,27 @@ describe("Collision validator tests", () => {
     describe("tests collision with all sorts of objects", () => {
         const existingSceneObjects: ISceneObject[] = [cube1, sphere1, sphere2, cylinder1, cylinder2, triangularPyramid2];
 
+        it("should return false if there is no collision between new and already existing scene objects", () => {
+            const newTriangularPyramid: ISceneObject = {
+                id:     1,
+                type:   4,
+                position: {
+                    x: 50, y: 50, z: 50,
+                },
+                rotation: {
+                    x: 1,   y: 1,   z: 1,
+                },
+                scale: {
+                    x: 10,  y: 10,  z: 10,
+                },
+                color:  "#8cadbb",
+                hidden: false,
+            };
+
+            const isColliding: boolean = collisionValidator.hasCollidingPositions(newTriangularPyramid, existingSceneObjects);
+
+            chai.expect(isColliding).equal(false);
+        });
+
     });
 });
