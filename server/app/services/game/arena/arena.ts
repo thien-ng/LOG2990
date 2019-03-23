@@ -93,7 +93,6 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
 
     public onPlayerReady(socketID: string): void {
         let nbPlayersReady: number = 0;
-
         this.players.forEach((player: Player) => {
             if (player.getUserSocketId() === socketID) {
                 player.setPlayerState(true);

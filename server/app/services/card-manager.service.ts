@@ -3,6 +3,7 @@ import { inject, injectable } from "inversify";
 import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
 import { ISceneMessage } from "../../../common/communication/iSceneMessage";
+import { IMesh, ISceneObject } from "../../../common/communication/iSceneObject";
 import { ISceneData } from "../../../common/communication/iSceneVariables";
 import { Message } from "../../../common/communication/message";
 import { CCommon } from "../../../common/constantes/cCommon";
@@ -67,13 +68,13 @@ export class CardManagerService {
         const scenesPath:   string = Constants.SCENE_PATH + "/" + gameID + CCommon.SCENE_FILE;
 
         this.imageManagerService.saveImage(Constants.IMAGES_PATH + sceneImage, body.image);
-        this.saveSceneJson(body.iSceneVariablesMessage, scenesPath);
+        this.saveSceneJson(body.sceneData, scenesPath);
 
         const cardReceived: ICard = {
             gameID:         gameID,
             gamemode:       GameMode.free,
-            title:          body.iSceneVariablesMessage.originalScene.gameName,
-            subtitle:       body.iSceneVariablesMessage.originalScene.gameName,
+            title:          body.sceneData.originalScene.gameName,
+            subtitle:       body.sceneData.originalScene.gameName,
             avatarImageUrl: CCommon.BASE_URL + "/image" + sceneImage,
             gameImageUrl:   CCommon.BASE_URL + "/image" + sceneImage,
         };
@@ -81,7 +82,7 @@ export class CardManagerService {
         return this.generateMessage(cardReceived);
     }
 
-    private saveSceneJson(body: ISceneData, path: string): void {
+    private saveSceneJson(body: ISceneData<ISceneObject | IMesh>, path: string): void {
         const sceneObject: string = JSON.stringify(body);
         this.imageManagerService.saveGeneratedScene(path, sceneObject);
     }

@@ -6,7 +6,7 @@ import { CollisionValidator } from "./utilitaries/collision-validator";
 
 export class SceneBuilder {
 
-    private sceneVariables: ISceneVariables;
+    private sceneVariables: ISceneVariables<ISceneObject>;
     private collisionValidator: CollisionValidator;
 
     public constructor () {
@@ -14,7 +14,7 @@ export class SceneBuilder {
         this.collisionValidator = new CollisionValidator();
     }
 
-    public generateScene(sceneOptions: ISceneOptions): ISceneVariables {
+    public generateScene(sceneOptions: ISceneOptions): ISceneVariables<ISceneObject> {
 
         this.sceneVariables = {
             theme: sceneOptions.sceneType,
@@ -115,7 +115,7 @@ export class SceneBuilder {
         return Math.random() * (max - min + 1) + min;
     }
 
-    private generateSceneObjects(sceneOptions: ISceneOptions): ISceneVariables {
+    private generateSceneObjects(sceneOptions: ISceneOptions): ISceneVariables<ISceneObject> {
 
         const sceneObjectsQuantity: number = sceneOptions.sceneObjectsQuantity;
 
@@ -152,7 +152,7 @@ export class SceneBuilder {
         } while (hasCollision);
     }
 
-    public generateModifyObject(index: number, iSceneVariables: ISceneVariables): ISceneObject {
+    public generateModifyObject(index: number, iSceneVariables: ISceneVariables<ISceneObject>): ISceneObject {
 
         this.sceneVariables = iSceneVariables;
 

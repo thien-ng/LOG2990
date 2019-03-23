@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { IAxisValues, ISceneObject, SceneObjectType} from "../../../../../../../common/communication/iSceneObject";
 
-export class ThreejsGenerator {
+export class ThreejsThemeGenerator {
 
   private readonly NUMBER_CORNERS_PYRAMID:  number = 3;
   private readonly INFINITE_CORNERS:        number = 1000;

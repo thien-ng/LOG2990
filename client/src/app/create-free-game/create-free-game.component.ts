@@ -10,6 +10,7 @@ import {
   ValidatorFn
 } from "@angular/forms";
 import { MatDialogRef, MatSnackBar } from "@angular/material";
+import { IMesh, ISceneObject } from "../../../../common/communication/iSceneObject";
 import { ISceneData } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
@@ -53,7 +54,7 @@ export class CreateFreeGameComponent {
 
   public formControl:             FormGroup;
   public isSceneGenerated:        boolean;
-  public iSceneVariablesMessage:  ISceneData;
+  public sceneData:               ISceneData<ISceneObject | IMesh>;
 
   public constructor(
     public  dialogRef:    MatDialogRef<CreateFreeGameComponent>,
@@ -140,14 +141,15 @@ export class CreateFreeGameComponent {
     this.isButtonEnabled = false;
     const formValue: FormMessage = this.createFormMessage(formData);
 
-    this.httpClient.post(Constants.FREE_SCENE_GENERATOR_PATH, formValue).subscribe((response: ISceneData | string) => {
-      if (typeof response === "string") {
-        this.openSnackBar(response, Constants.SNACK_ACTION);
-      } else {
-        this.iSceneVariablesMessage = response;
-        this.isSceneGenerated       = true;
-      }
-
+    this.httpClient.post(Constants.FREE_SCENE_GENERATOR_PATH, formValue).subscribe(
+      (response: ISceneData<ISceneObject | IMesh> | string) => {
+        if (typeof response === "string") {
+          this.isLoading = false;
+          this.openSnackBar(response, Constants.SNACK_ACTION);
+        } else {
+          this.sceneData = response;
+          this.isSceneGenerated = true;
+        }
     });
     this.isButtonEnabled = true;
     this.isLoading = true;

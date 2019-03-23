@@ -64,7 +64,7 @@ export class Arena3D extends Arena<IPlayerInput<number>, IArenaResponse<ISceneOb
 
     private async extractModifiedSceneObjects(): Promise<void> {
         const sceneData:        Buffer      = await this.getDifferenceDataFromURL(this.arenaInfos.dataUrl.sceneData);
-        const sceneDataObject:  ISceneData  = JSON.parse(sceneData.toString()) as ISceneData;
+        const sceneDataObject:  ISceneData<ISceneObject>  = JSON.parse(sceneData.toString()) as ISceneData<ISceneObject>;
 
         sceneDataObject.modifications.forEach((modification: IModification) => {
             const sceneObjectUpdate: ISceneObjectUpdate = this.findObjectToUpdate(modification, sceneDataObject);
@@ -73,7 +73,7 @@ export class Arena3D extends Arena<IPlayerInput<number>, IArenaResponse<ISceneOb
 
     }
 
-    private findObjectToUpdate(modification: IModification, sceneVariableMessage: ISceneData): ISceneObjectUpdate {
+    private findObjectToUpdate(modification: IModification, sceneVariableMessage: ISceneData<ISceneObject>): ISceneObjectUpdate {
 
         const originalSceneObjects: ISceneObject[] = sceneVariableMessage.originalScene.sceneObjects;
         const modifiedSceneObjects: ISceneObject[] = sceneVariableMessage.modifiedScene.sceneObjects;

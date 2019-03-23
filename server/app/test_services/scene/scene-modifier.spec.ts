@@ -3,15 +3,15 @@ import * as spies from "chai-spies";
 import "reflect-metadata";
 import { ISceneObject} from "../../../../common/communication/iSceneObject";
 import { ISceneOptions, SceneType } from "../../../../common/communication/iSceneOptions";
-import { IModification, ISceneVariables } from "../../../../common/communication/iSceneVariables";
+import { IModification, ISceneVariables, ModificationType } from "../../../../common/communication/iSceneVariables";
 import { SceneBuilder } from "../../services/scene/scene-builder";
 import { SceneModifier } from "../../services/scene/scene-modifier";
 
-// tslint:disable:no-any prefer-for-of no-magic-numbers max-func-body-length
+// tslint:disable:no-any prefer-for-of no-magic-numbers max-func-body-length no-any max-file-line-count
 
 let sceneModifier:          SceneModifier;
 let sceneBuilder:           SceneBuilder;
-let iSceneVariables:        ISceneVariables;
+let iSceneVariables:        ISceneVariables<ISceneObject>;
 let iSceneObjectGenerated:  ISceneObject[];
 let iSceneOptions:          ISceneOptions;
 let counterDifference:      number;
@@ -47,9 +47,9 @@ beforeEach(() => {
     counterDifference = 0;
 });
 
-describe("Scene-modifier tests", () => {
+describe("Scene-modifier tests (only 1 change)", () => {
 
-    it("should add 7 objects to sceneObject array", () => {
+    it("should have called addObject() when modifying the scene", () => {
         iSceneOptions = {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
@@ -62,7 +62,7 @@ describe("Scene-modifier tests", () => {
         chai.expect(spy).to.have.been.called();
     });
 
-    it("should remove 7 objects to sceneObject array", () => {
+    it("should have called removeObject() when modifying the scene", () => {
         iSceneOptions = {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
@@ -76,7 +76,7 @@ describe("Scene-modifier tests", () => {
         chai.expect(spy).to.have.been.called();
     });
 
-    it("should change color 7 objects to sceneObject array", () => {
+    it("should have called changeObjectColor() when modifying the scene", () => {
         iSceneOptions = {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
@@ -98,7 +98,7 @@ describe("Scene-modifier tests", () => {
             selectedOptions:        [true, false, false],
         };
 
-        const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+        const resultScene: ISceneVariables<ISceneObject> = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
 
         resultScene.sceneObjects.forEach((object: ISceneObject) => {
             for (let i: number = 0; i < iSceneVariables.sceneObjects.length; i++) {
@@ -121,6 +121,27 @@ describe("Scene-modifier tests", () => {
         chai.expect(counterDifference).to.be.equal(17);
     });
 
+    it("should have 7 removals", () => {
+        iSceneOptions = {
+            sceneName:              "game",
+            sceneType:              SceneType.Thematic,
+            sceneObjectsQuantity:   10,
+            selectedOptions:        [false, true, false],
+        };
+
+        const resultScene: ISceneVariables<ISceneObject> = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+
+        let differenceCounter: number = 0;
+
+        resultScene.sceneObjects.forEach((object: any) => {
+            if (object.hidden) {
+                differenceCounter++;
+            }
+        });
+
+        chai.expect(differenceCounter).to.be.equal(7);
+    });
+
     it("should have 7 color changes", () => {
         iSceneOptions = {
             sceneName:              "game",
@@ -129,7 +150,7 @@ describe("Scene-modifier tests", () => {
             selectedOptions:        [false, false, true],
         };
 
-        const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+        const resultScene: ISceneVariables<ISceneObject> = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
 
         resultScene.sceneObjects.forEach((object: ISceneObject) => {
             for (let i: number = 0; i < iSceneVariables.sceneObjects.length; i++) {
@@ -152,41 +173,218 @@ describe("Scene-modifier tests", () => {
         chai.expect(counterDifference).to.be.equal(7);
     });
 
-    it("should have 7 removals", () => {
+});
+
+describe("Scene-modifier tests (2 changes) [true, true, false]", () => {
+
+    beforeEach(() => {
         iSceneOptions = {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
             sceneObjectsQuantity:   10,
-            selectedOptions:        [false, true, false],
+            selectedOptions:        [true, true, false],
         };
-
-        const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
-
-        chai.expect(resultScene.sceneObjects.length).to.be.equal(10);
     });
 
-    it("should have 7 modification (removals and colors)", () => {
+    it("should have 7 modifications (additions and removals)", () => {
+
+        sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+        chai.expect(modifiedList.length).to.be.equal(7);
+    });
+
+    it("should not have call changeObjectColor", () => {
+
+        const spy: any = chai.spy.on(sceneModifier, "changeObjectColor");
+        sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+
+        chai.expect(spy).to.not.have.been.called();
+    });
+
+    it("should have additions and/or removals modifications", () => {
+
+        const sceneModified: ISceneVariables<ISceneObject> = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+
+        modifiedList.forEach((modifiedListElt: any) => {
+            sceneModified.sceneObjects.forEach((sceneObjElt: any) => {
+                if (modifiedListElt.id === sceneObjElt.id && modifiedListElt.type === ModificationType.added) {
+                    counterDifference++;
+                }
+            });
+        });
+
+        modifiedList.forEach((modifiedListElt: any) => {
+            iSceneVariables.sceneObjects.forEach((sceneObjElt: any) => {
+                if (modifiedListElt.id === sceneObjElt.id && modifiedListElt.type === ModificationType.removed) {
+                    counterDifference++;
+                }
+            });
+        });
+
+        chai.expect(counterDifference).to.be.equal(7);
+    });
+});
+
+describe("Scene-modifier tests (2 changes) [false, true, true]", () => {
+
+    beforeEach(() => {
         iSceneOptions = {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
             sceneObjectsQuantity:   10,
             selectedOptions:        [false, true, true],
         };
+    });
 
-        const resultScene: ISceneVariables = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+    it("should have 7 modifications (removals and colors)", () => {
 
-        resultScene.sceneObjects.forEach((modifiedObject: ISceneObject) => {
-            iSceneVariables.sceneObjects.forEach((originalObject: ISceneObject) => {
-                const isEqualId:    boolean = modifiedObject.id     === originalObject.id;
-                const isEqualColor: boolean = modifiedObject.color  === originalObject.color;
+        sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+        chai.expect(modifiedList.length).to.be.equal(7);
+    });
 
-                if (isEqualId && !isEqualColor) {
+    it("should not have called addObject", () => {
+
+        const spy: any = chai.spy.on(sceneModifier, "addObject");
+        sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+
+        chai.expect(spy).to.not.have.been.called();
+    });
+
+    it("should have removals and/or color modifications", () => {
+
+        const sceneModified: ISceneVariables<ISceneObject> = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+
+        modifiedList.forEach((modifiedListElt: any) => {
+            iSceneVariables.sceneObjects.forEach((sceneObjElt: any) => {
+                if (modifiedListElt.id === sceneObjElt.id && modifiedListElt.type === ModificationType.removed) {
                     counterDifference++;
                 }
-
             });
         });
 
-        chai.expect(resultScene.sceneObjects.length).to.be.equal(10);
+        sceneModified.sceneObjects.forEach((sceneModifiedElt: any) => {
+            iSceneVariables.sceneObjects.forEach((sceneObjElt: any) => {
+                if (sceneModifiedElt.id === sceneObjElt.id && sceneModifiedElt.color !== sceneObjElt.color) {
+                    counterDifference++;
+                }
+            });
+        });
+
+        chai.expect(counterDifference).to.be.equal(7);
+    });
+});
+
+describe("Scene-modifier tests (2 changes) [true, false, true]", () => {
+
+    beforeEach(() => {
+        iSceneOptions = {
+            sceneName:              "game",
+            sceneType:              SceneType.Thematic,
+            sceneObjectsQuantity:   10,
+            selectedOptions:        [true, false, true],
+        };
+    });
+
+    it("should have 7 modifications (additions and colors)", () => {
+
+        sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+        chai.expect(modifiedList.length).to.be.equal(7);
+    });
+
+    it("should not have called removeObject", () => {
+
+        const spy: any = chai.spy.on(sceneModifier, "removeObject");
+        sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+
+        chai.expect(spy).to.not.have.been.called();
+    });
+
+    it("should have additon and/or color modifications", () => {
+
+        const sceneModified: ISceneVariables<ISceneObject> = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+
+        modifiedList.forEach((modifiedListElt: any) => {
+            sceneModified.sceneObjects.forEach((sceneObjElt: any) => {
+                if (modifiedListElt.id === sceneObjElt.id && modifiedListElt.type === ModificationType.added) {
+                    counterDifference++;
+                }
+            });
+        });
+
+        sceneModified.sceneObjects.forEach((sceneModifiedElt: any) => {
+            iSceneVariables.sceneObjects.forEach((sceneObjElt: any) => {
+                if (sceneModifiedElt.id === sceneObjElt.id && sceneModifiedElt.color !== sceneObjElt.color) {
+                    counterDifference++;
+                }
+            });
+        });
+
+        chai.expect(counterDifference).to.be.equal(7);
+    });
+});
+
+describe("Scene-modifier tests (3 changes or no change)", () => {
+
+    beforeEach(() => {
+        iSceneOptions = {
+            sceneName:              "game",
+            sceneType:              SceneType.Thematic,
+            sceneObjectsQuantity:   10,
+            selectedOptions:        [false, false, false],
+        };
+    });
+
+    it("should have 0 modification", () => {
+
+        sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+        chai.expect(modifiedList.length).to.be.equal(0);
+    });
+
+    it("should have 7 modifications (additions, removals and colors)", () => {
+        iSceneOptions = {
+            sceneName:              "game",
+            sceneType:              SceneType.Thematic,
+            sceneObjectsQuantity:   10,
+            selectedOptions:        [true, true, true],
+        };
+
+        sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+        chai.expect(modifiedList.length).to.be.equal(7);
+    });
+
+    it("should have additon, remove, or change object color", () => {
+        iSceneOptions = {
+            sceneName:              "game",
+            sceneType:              SceneType.Thematic,
+            sceneObjectsQuantity:   10,
+            selectedOptions:        [true, false, true],
+        };
+
+        const sceneModified: ISceneVariables<ISceneObject> = sceneModifier.modifyScene(iSceneOptions, iSceneVariables, modifiedList);
+
+        modifiedList.forEach((modifiedListElt: any) => {
+            sceneModified.sceneObjects.forEach((sceneObjElt: any) => {
+                if (modifiedListElt.id === sceneObjElt.id && modifiedListElt.type === ModificationType.added) {
+                    counterDifference++;
+                }
+            });
+        });
+
+        modifiedList.forEach((modifiedListElt: any) => {
+            iSceneVariables.sceneObjects.forEach((sceneObjElt: any) => {
+                if (modifiedListElt.id === sceneObjElt.id && modifiedListElt.type === ModificationType.removed) {
+                    counterDifference++;
+                }
+            });
+        });
+
+        sceneModified.sceneObjects.forEach((sceneModifiedElt: any) => {
+            iSceneVariables.sceneObjects.forEach((sceneObjElt: any) => {
+                if (sceneModifiedElt.id === sceneObjElt.id && sceneModifiedElt.color !== sceneObjElt.color) {
+                    counterDifference++;
+                }
+            });
+        });
+
+        chai.expect(counterDifference).to.be.equal(7);
     });
 });
