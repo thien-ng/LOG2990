@@ -229,7 +229,7 @@ describe("Scene-modifier-theme tests", () => {
         chai.expect(modifiedList.length).to.be.equal(7);
     });
 
-    it("should have 7 modifications (remove and/or color changes)", () => {
+    it("should have 7 modifications (removals and/or color changes)", () => {
         sceneOptions = {
             sceneName:              "game",
             sceneType:              SceneType.Thematic,
