@@ -5,7 +5,7 @@ import { Message } from "../../../common/communication/message";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { InterfaceBuilder } from "../../app/services/interface-generator";
 import { Constants } from "../constants";
-import { I2DInfos, IArenaInfos } from "../services/game/arena/interfaces";
+import { I2DInfos, IArenaInfos, I3DInfos } from "../services/game/arena/interfaces";
 
 describe("interface-generator tests", () => {
     let interfaceBuilder: InterfaceBuilder;
@@ -59,6 +59,21 @@ describe("interface-generator tests", () => {
         };
 
         const resultIArenaInfos: IArenaInfos<I2DInfos> = interfaceBuilder.buildArena2DInfos(usersMock, 2, 11);
+        expect(resultIArenaInfos).deep.equal(expectedIArenaInfos);
+
+    });
+
+    it("should return IArenaInfos<I3DInfos> when calling buildArena3DInfos()", () => {
+
+        const expectedIArenaInfos: IArenaInfos<I3DInfos> = {
+            arenaId:            11,
+            users:              usersMock,
+            dataUrl: {
+                sceneData:  Constants.PATH_SERVER_TEMP + 2 + CCommon.SCENE_FILE,
+            },
+        };
+
+        const resultIArenaInfos: IArenaInfos<I3DInfos> = interfaceBuilder.buildArena3DInfos(usersMock, 2, 11);
         expect(resultIArenaInfos).deep.equal(expectedIArenaInfos);
 
     });
