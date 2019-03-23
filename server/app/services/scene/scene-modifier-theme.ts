@@ -94,9 +94,7 @@ export class SceneModifierTheme {
         const generatedMeshForOriginal: IMesh   = this.clone<IMesh>(generatedMesh);
 
         generatedMeshForOriginal.hidden = true;
-
         const modificationMap: IModification = {id: newIndex, type: ModificationType.added};
-
         this.modifiedIndex.push(modificationMap);
         this.sceneObjects.push(generatedMesh);
         this.originalObjects.push(generatedMeshForOriginal);
@@ -130,7 +128,6 @@ export class SceneModifierTheme {
         });
 
         if (foundMesh) {
-
             const foundEntity: ISceneEntity | undefined = this.findEntityByUUID(foundMesh.name);
 
             if (foundEntity) {
@@ -146,15 +143,9 @@ export class SceneModifierTheme {
 
     private findEntityByUUID(entityName: string): ISceneEntity | undefined {
 
-        const entityFound: ISceneEntity | undefined = this.sceneEntities.find((sceneEntity: ISceneEntity) => {
+        return this.sceneEntities.find((sceneEntity: ISceneEntity) => {
             return sceneEntity.name === entityName;
         });
-
-        if (entityFound) {
-            return entityFound;
-        }
-
-        return undefined;
     }
 
     private generateRandomIndex(): number {
