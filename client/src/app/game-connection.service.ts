@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { ISceneObjectUpdate } from "../../../common/communication/iGameplay";
+import { IMesh, ISceneObject } from "../../../common/communication/iSceneObject";
 
 @Injectable({
   providedIn: "root",
@@ -8,11 +9,11 @@ import { ISceneObjectUpdate } from "../../../common/communication/iGameplay";
 export class GameConnectionService {
 
   private gameConnected:  Subject<number>;
-  private objectToUpdate: Subject<ISceneObjectUpdate>;
+  private objectToUpdate: Subject<ISceneObjectUpdate<ISceneObject | IMesh>>;
 
   public constructor() {
     this.gameConnected  = new Subject<number>();
-    this.objectToUpdate = new Subject<ISceneObjectUpdate>();
+    this.objectToUpdate = new Subject<ISceneObjectUpdate<ISceneObject | IMesh>>();
   }
 
   public getGameConnectedListener(): Observable<number> {
@@ -23,11 +24,11 @@ export class GameConnectionService {
     this.gameConnected.next(arenaID);
   }
 
-  public getObjectToUpdate(): Observable<ISceneObjectUpdate> {
+  public getObjectToUpdate(): Observable<ISceneObjectUpdate<ISceneObject | IMesh>> {
     return this.objectToUpdate;
   }
 
-  public updateModifiedScene(objectToUpdate: ISceneObjectUpdate): void {
+  public updateModifiedScene(objectToUpdate: ISceneObjectUpdate<ISceneObject | IMesh>): void {
     this.objectToUpdate.next(objectToUpdate);
   }
 
