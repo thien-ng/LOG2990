@@ -99,4 +99,43 @@ describe("Image manager service tests", () => {
         chai.expect(() => imageManagerService.deleteFileInTemp(nonExistantgameId, Constants.GENERATED_FILE))
             .to.throw(TypeError);
     });
+    it("should not get Theme file and throw error", async () => {
+        const themeName: string = "CestWRrrrrronnng";
+        chai.expect(() => imageManagerService.getTheme(themeName))
+            .to.throw(TypeError);
+    });
+    it("Should do temp routine for 2d and throw error", async () => {
+        const gameId: number = 9999999;
+        chai.expect(() => imageManagerService.tempRoutine2d(gameId))
+            .to.throw(TypeError);
+    });
+    it("Should do temp routine for 3d and throw error", async () => {
+        const gameId: number = 9999999;
+        chai.expect(() => imageManagerService.tempRoutine3d(gameId))
+            .to.throw(TypeError);
+    });
+    it("Should set new value of countGameId to map", async () => {
+        const gameId: number = 9999999;
+        imageManagerService["countByGameId"].set(gameId, 1000);
+        imageManagerService["manageCounter"](gameId);
+        chai.expect(imageManagerService["countByGameId"].get(gameId)).to.equal(1001);
+    });
+    it("Should set new value of countGameId to map", async () => {
+        const gameId: number = 9999999;
+        imageManagerService["countByGameId"].set(gameId, 1000);
+        imageManagerService["manageCounter"](gameId);
+        chai.expect(imageManagerService["countByGameId"].get(gameId)).to.equal(1001);
+    });
+    it("Should decrement map size", async () => {
+        const gameId: number = 9999999;
+        const spy: any = chai.spy.on(imageManagerService["countByGameId"], "set");
+        imageManagerService.decrementTempCounter(gameId, 1);
+        chai.expect(spy);
+    });
+    it("Should decrement map size", async () => {
+        const gameId: number = 1;
+        imageManagerService["countByGameId"].set(1, 1);
+        const result: number | undefined = imageManagerService.getCounter(gameId);
+        chai.expect(result).to.equal(1);
+    });
 });
