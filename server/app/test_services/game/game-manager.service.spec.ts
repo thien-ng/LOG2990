@@ -6,7 +6,7 @@ import * as fs from "fs";
 import * as path from "path";
 import SocketIO = require("socket.io");
 import { mock, verify } from "ts-mockito";
-import { GameMode } from "../../../../common/communication/iCard";
+import { GameMode, ICard, ILobbyEvent, MultiplayerButtonText } from "../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../common/communication/iGameRequest";
 import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../common/communication/iGameplay";
 import { IUser } from "../../../../common/communication/iUser";
@@ -16,13 +16,15 @@ import { CCommon } from "../../../../common/constantes/cCommon";
 import { CardOperations } from "../../services/card-operations.service";
 import { ChatManagerService } from "../../services/chat-manager.service";
 import { Arena2D } from "../../services/game/arena/arena2d";
-import { I2DInfos, IArenaInfos, IPlayerInput } from "../../services/game/arena/interfaces";
+import { I2DInfos, IArenaInfos, IPlayerInput, I3DInfos } from "../../services/game/arena/interfaces";
 import { GameManagerService } from "../../services/game/game-manager.service";
 import { LobbyManagerService } from "../../services/game/lobby-manager.service";
 import { HighscoreService } from "../../services/highscore.service";
-import { Mode } from "../../services/highscore/utilities/interfaces";
+import { Mode, Time } from "../../services/highscore/utilities/interfaces";
 import { TimeManagerService } from "../../services/time-manager.service";
 import { UserManagerService } from "../../services/user-manager.service";
+import { Player } from "../../services/game/arena/player";
+import { Constants } from "../../constants";
 
 // tslint:disable no-magic-numbers no-any await-promise no-floating-promises max-file-line-count max-func-body-length no-empty
 
@@ -79,13 +81,19 @@ const invalidRequestCreation: IGameRequest = {
     mode:       GameMode.simple,
 };
 
-
 const iArenaInfos: IArenaInfos<I2DInfos> = {
     arenaId:            1,
     users:              [{username: "Frank", socketID: "12345"}],
     dataUrl:            {
         original:    "../../../asset/image/1_original.bmp",
         difference:  "../../../asset/image/1_modified.bmp",
+    },
+};
+const iArenaInfos3d: IArenaInfos<I3DInfos> = {
+    arenaId:            1,
+    users:              [{username: "Frank", socketID: "12345"}],
+    dataUrl:            {
+        sceneData:  "../../../asset/image/1_modified.bmp",
     },
 };
 
