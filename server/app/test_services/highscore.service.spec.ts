@@ -1,4 +1,6 @@
 import { expect } from "chai";
+import * as SocketIO from "socket.io";
+import { mock } from "ts-mockito";
 import { Highscore, HighscoreMessage, Mode } from "../../../common/communication/highscore";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { Constants } from "../constants";
@@ -49,13 +51,20 @@ describe("HighscoreService tests", () => {
         ];
         highscoreService = new HighscoreService();
         highscoreService["highscores"] = mockHighscore;
+        highscoreService["socketServer"] = mock(SocketIO);
     });
 
     afterEach(() => {
         mockAxios.restore();
     });
 
-    it("Should return the right highscore", () => {
+    it("should set socket server", () => {
+        const mockSocket: any = mock(SocketIO);
+        highscoreService.setServer(mockSocket);
+        expect(highscoreService["socketServer"]).to.equal(mockSocket);
+    });
+
+    it("should return the right highscore", () => {
         const updatedHS: Highscore | undefined = highscoreService.getHighscoreById(1);
         expect(updatedHS).deep.equal(mockHighscore[0]);
     });

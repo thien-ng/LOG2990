@@ -1,51 +1,121 @@
 import { inject, injectable } from "inversify";
-import { ISceneObject } from "../../../../common/communication/iSceneObject";
+import { IMesh, ISceneObject } from "../../../../common/communication/iSceneObject";
 import { ISceneOptions, SceneType } from "../../../../common/communication/iSceneOptions";
-import { IModification, ISceneData, ISceneVariables } from "../../../../common/communication/iSceneVariables";
+import { IMeshInfo, IModification, ISceneData, ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
+
+import { ISceneEntity, ITheme } from "../../../../common/communication/ITheme";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../../constants";
 import Types from "../../types";
+import { AssetManagerService } from "../asset-manager.service";
 import { CardManagerService } from "../card-manager.service";
 import { SceneBuilder } from "./scene-builder";
+import { SceneBuilderTheme } from "./scene-builder-theme";
 import { SceneModifier } from "./scene-modifier";
+import { SceneModifierTheme } from "./scene-modifier-theme";
 import { SceneConstants } from "./sceneConstants";
 
 @injectable()
 export class SceneManager {
 
-    private sceneBuilder: SceneBuilder;
-    private sceneModifier: SceneModifier;
+    private readonly FILE_TO_RECOVER: string = "park.json";
 
-    public constructor(@inject(Types.CardManagerService) private cardManagerService: CardManagerService) {
-        this.sceneBuilder = new SceneBuilder();
-        this.sceneModifier = new SceneModifier(this.sceneBuilder);
+    private sceneBuilderGeometric:      SceneBuilder;
+    private sceneBuilderTheme:          SceneBuilderTheme;
+    private sceneModifierGeometric:     SceneModifier;
+    private sceneModifierTheme:         SceneModifierTheme;
+
+    public constructor(
+        @inject(Types.CardManagerService)   private cardManagerService:     CardManagerService,
+        @inject(Types.AssetManagerService)  private assetManagerService:    AssetManagerService) {
+
+        this.sceneBuilderGeometric  = new SceneBuilder();
+        this.sceneBuilderTheme      = new SceneBuilderTheme();
+        this.sceneModifierGeometric = new SceneModifier(this.sceneBuilderGeometric);
+        this.sceneModifierTheme     = new SceneModifierTheme(this.sceneBuilderTheme);
     }
 
-    public createScene(formMessage: FormMessage): ISceneData<ISceneObject> | string {
+    public createScene(formMessage: FormMessage): ISceneData<ISceneObject | IMesh> | string {
 
         const isFormValid: boolean = this.validateForm(formMessage);
 
         if (this.cardManagerService.isSceneNameNew(formMessage.gameName)) {
             if (isFormValid) {
-                const modifiedList: IModification[] = [];
-                const iSceneOptions: ISceneOptions = this.sceneOptionsMapper(formMessage);
-                const generatedOriginalScene: ISceneVariables<ISceneObject> = this.sceneBuilder.generateScene(iSceneOptions);
-                const generatedModifiedScene: ISceneVariables<ISceneObject> = this.sceneModifier.modifyScene(iSceneOptions,
-                                                                                                             generatedOriginalScene,
-                                                                                                             modifiedList);
-
-                return {
-                    originalScene: generatedOriginalScene,
-                    modifiedScene: generatedModifiedScene,
-                    modifications: modifiedList,
-                } as ISceneData<ISceneObject>;
+                return this.builderSelector(formMessage);
             } else {
                 return Constants.CARD_CREATION_ERROR;
             }
         } else {
             return Constants.CARD_EXISTING;
         }
+    }
+
+    private builderSelector(formMessage: FormMessage): ISceneData<ISceneObject | IMesh> {
+
+        if (formMessage.theme === SceneConstants.TYPE_GEOMETRIC) {
+            return this.buildSceneGeometric(formMessage);
+        } else {
+            return this.buildSceneTheme(formMessage);
+        }
+    }
+
+    private buildSceneGeometric(formMessage: FormMessage): ISceneData<ISceneObject> {
+
+        const modifiedList:             IModification[]                 = [];
+        const iSceneOptions:            ISceneOptions                   = this.sceneOptionsMapper(formMessage);
+        const generatedOriginalScene:   ISceneVariables<ISceneObject>   = this.sceneBuilderGeometric.generateScene(iSceneOptions);
+        const generatedModifiedScene:   ISceneVariables<ISceneObject>   = this.sceneModifierGeometric.modifyScene(  iSceneOptions,
+                                                                                                                    generatedOriginalScene,
+                                                                                                                    modifiedList);
+
+        return this.buildSceneData(generatedOriginalScene, generatedModifiedScene, modifiedList);
+    }
+
+    private buildSceneTheme(formMessage: FormMessage): ISceneData<IMesh> {
+
+        const theme: ITheme = this.assetManagerService.getTheme(this.FILE_TO_RECOVER);
+
+        const modifiedList:             IModification[]          = [];
+        const iSceneOptions:            ISceneOptions            = this.sceneOptionsMapper(formMessage);
+        const generatedOriginalScene:   ISceneVariables<IMesh>   = this.sceneBuilderTheme.generateScene(iSceneOptions, theme);
+        const generatedModifiedScene:   ISceneVariables<IMesh>   = this.sceneModifierTheme.modifyScene( iSceneOptions,
+                                                                                                        generatedOriginalScene,
+                                                                                                        modifiedList,
+                                                                                                        theme.sceneEntities);
+
+        return this.buildSceneData(
+            generatedOriginalScene,
+            generatedModifiedScene,
+            modifiedList,
+            this.extractMeshInfos(theme.sceneEntities));
+    }
+
+    private extractMeshInfos(sceneEntities: ISceneEntity[]): IMeshInfo[] {
+        const meshInfos: IMeshInfo[] = [];
+
+        sceneEntities.forEach((sceneEntity: ISceneEntity) => {
+            sceneEntity.meshInfos.forEach((meshInfo: IMeshInfo) => {
+                meshInfos.push(meshInfo);
+            });
+        });
+
+        return meshInfos;
+    }
+
+    private buildSceneData<OBJ_T>(
+        generatedOriginalScene: ISceneVariables<OBJ_T>,
+        generatedModifiedScene: ISceneVariables<OBJ_T>,
+        modifiedList:           IModification[],
+        meshInfo?:              IMeshInfo[],
+        ): ISceneData<OBJ_T> {
+
+        return {
+            originalScene:  generatedOriginalScene,
+            modifiedScene:  generatedModifiedScene,
+            modifications:  modifiedList,
+            meshInfos:      meshInfo,
+        } as ISceneData<OBJ_T>;
     }
 
     private sceneOptionsMapper(body: FormMessage): ISceneOptions {
