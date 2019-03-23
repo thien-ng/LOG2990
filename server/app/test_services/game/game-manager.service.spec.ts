@@ -394,7 +394,7 @@ describe("GameManagerService tests", () => {
         chai.spy.restore();
 
     });
-    it("should delete the temp images if we delete the last arena alive", () => {
+    it("should delete the temp images if we delete the last 2d arena alive", () => {
         userManagerService.validateName(request2DSimple.username);
         mockAxios.onGet(iArenaInfos.dataUrl.original, {
             responseType: "arraybuffer",
@@ -417,6 +417,37 @@ describe("GameManagerService tests", () => {
         chai.spy.restore();
 
     });
+
+    it("should delete the temp images if we delete the 3d last arena alive", () => {
+        userManagerService.validateName(request3DSimple.username);
+        mockAxios.onGet(iArenaInfos.dataUrl.original, {
+            responseType: "arraybuffer",
+        }).reply(200, original);
+
+        mockAxios.onGet(iArenaInfos.dataUrl.difference, {
+            responseType: "arraybuffer",
+        }).reply(200, modified);
+
+        chai.spy.on(gameManagerService["interfaceBuilder"], "buildArenaInfos", (returns: any) => iArenaInfos3d);
+        chai.spy.on(gameManagerService["assetManager"], ["tempRoutine3d"], () => {return; });
+        chai.spy.on(gameManagerService, "init3DArena", () => {});
+        const spy: any = chai.spy.on(gameManagerService["assetManager"], "deleteFileInTemp", () => {});
+        chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
+        chai.spy.on(gameManagerService["assetManager"], "getCounter", () => 1);
+
+        gameManagerService.analyseRequest(request3DSimple).catch();
+        gameManagerService.deleteArena(iArenaInfos3d);
+        chai.expect(spy).to.have.been.called();
+        chai.spy.restore();
+
+    });
+    it("Should break if cannot get counter from assetManager", () => {
+        chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
+        const spy: any = chai.spy.on(gameManagerService["assetManager"], "decrementTempCounter");
+        gameManagerService.deleteArena(iArenaInfos);
+        chai.expect(spy).to.not.have.been.called();
+    });
+
     it("should decrement the arenaAliveCount when deleting arena", () => {
         userManagerService.validateName(request2DSimple.username);
         mockAxios.onGet(iArenaInfos.dataUrl.original, {
