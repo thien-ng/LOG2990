@@ -251,26 +251,6 @@ describe("GameManagerService tests", () => {
         chai.spy.restore();
     });
 
-    // it("should remove player patate from arena and delete arena", async () => {
-    //     userManagerService.validateName(request2DSimple.username);
-    //     chai.spy.on(gameManagerService["assetManager"], "tempRoutine2d", () => {return; });
-    //     chai.spy.on(gameManagerService, ["deleteArena"], () => {return; });
-
-    //     mockAxios.onGet(iArenaInfos.dataUrl.original, {
-    //         responseType: "arraybuffer",
-    //     }).reply(200, original);
-
-    //     mockAxios.onGet(iArenaInfos.dataUrl.difference, {
-    //         responseType: "arraybuffer",
-    //     }).reply(200, modified);
-
-    //     chai.spy.on(gameManagerService["interfaceBuilder"], "buildArenaInfos", (returns: any) => iArenaInfos);
-    //     chai.spy.on(gameManagerService["assetManager"], "copyFileToTemp", () => {return; });
-    //     chai.spy.on(gameManagerService, "init2DArena", () => {});
-    //     chai.spy.on(gameManagerService, ["deleteTempFiles"], () => {});
-    //     chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
-    //     chai.spy.on(gameManagerService["cardOperations"], "getCardById", () => "title");
-
     it("should remove player from arena and delete arena", async () => {
         const arena: Arena2D = new Arena2D(iArenaInfos, gameManagerService);
         const user: IUser = {
@@ -336,6 +316,25 @@ describe("GameManagerService tests", () => {
         await gameManagerService.analyseRequest(request);
         const response: Message = await gameManagerService.analyseRequest(request2DMulti);
         chai.expect(response.title).to.deep.equal(CCommon.ON_SUCCESS);
+        chai.spy.restore();
+    });
+
+    it("Should return an error message when joining a non-existing lobby (2D)", async () => {
+        const request: IGameRequest = {
+            username:   "Franky",
+            gameId:     1,
+            type:       Mode.Multiplayer,
+            mode:       GameMode.simple,
+        };
+        const message: Message = {
+            title: CCommon.ON_SUCCESS,
+            body: "",
+        };
+        userManagerService["users"].push({username: "Franky", socketID: "Franky"});
+        chai.spy.on(gameManagerService["assetManager"], "tempRoutine2d", () => {return; });
+        chai.spy.on(gameManagerService["lobbyManagerService"], "verifyLobby", () => message);
+        const response: Message = await gameManagerService.analyseRequest(request);
+        chai.expect(response.title).to.deep.equal(CCommon.ON_ERROR);
         chai.spy.restore();
     });
 
