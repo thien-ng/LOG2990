@@ -10,6 +10,17 @@ import { I2DInfos, IArenaInfos } from "../services/game/arena/interfaces";
 describe("interface-generator tests", () => {
     let interfaceBuilder: InterfaceBuilder;
 
+    const usersMock: IUser[] = [
+        {
+            username: "gaby",
+            socketID: "14",
+        },
+        {
+            username: "arthy",
+            socketID: "15",
+        },
+    ];
+
     beforeEach( () => {
         interfaceBuilder = new InterfaceBuilder();
     });
@@ -37,16 +48,6 @@ describe("interface-generator tests", () => {
     });
 
     it("should return IArenaInfos<I2DInfos> when calling buildArena2DInfos()", () => {
-        const usersMock: IUser[] = [
-            {
-                username: "gaby",
-                socketID: "14",
-            },
-            {
-                username: "arthy",
-                socketID: "15",
-            },
-        ];
 
         const expectedIArenaInfos: IArenaInfos<I2DInfos> = {
             arenaId:            11,
