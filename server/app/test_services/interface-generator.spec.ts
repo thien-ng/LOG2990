@@ -9,7 +9,7 @@ import { I2DInfos, I3DInfos, IArenaInfos } from "../services/game/arena/interfac
 
 // tslint:disable:no-magic-numbers
 
-describe("interface-generator tests", () => {
+describe("Interface-generator tests", () => {
     let interfaceBuilder: InterfaceBuilder;
 
     const usersMock: IUser[] = [
