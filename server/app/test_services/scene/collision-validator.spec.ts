@@ -309,5 +309,26 @@ describe("Collision validator tests", () => {
             chai.expect(isColliding).equal(false);
         });
 
+        it("should return true if there is collision between new and already existing scene objects", () => {
+            const newCone: ISceneObject = {
+                id:     1,
+                type:   2,
+                position: {
+                    x: 200, y: 200, z: 200,
+                },
+                rotation: {
+                    x: 1,   y: 1,   z: 1,
+                },
+                scale: {
+                    x: 10,  y: 10,  z: 10,
+                },
+                color:  "#8cadbb",
+                hidden: false,
+            };
+
+            const isColliding: boolean = collisionValidator.hasCollidingPositions(newCone, existingSceneObjects);
+
+            chai.expect(isColliding).equal(true);
+        });
     });
 });
