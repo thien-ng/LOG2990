@@ -262,11 +262,6 @@ describe("GameManagerService tests", () => {
     });
 
     it("Should return an error message when loading an invalid game", async () => {
-        const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
-        const expectedMessage: IArenaResponse<any> = {
-            status:     CCommon.ON_ERROR,
-            response:   ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
-        };
         chai.expect(await gameManagerService.onPlayerInput(playerInput)).to.deep.equal(expectedMessage);
     });
 
@@ -578,6 +573,33 @@ describe("GameManagerService tests", () => {
         const time: Time = {username: "cpu", time: 1};
         gameManagerService.endOfGameRoutine(time, Mode.Singleplayer, iArenaInfos, GameMode.simple);
         done();
+        chai.expect(spy).to.have.been.called();
+    });
+
+    it("Should emit an error when entering in catch", (done: Function) => {
+
+        mockAxios.onPost(Constants.VALIDATE_HIGHSCORE_PATH)
+        .reply(200, answer);
+
+        gameManagerService["highscoreService"].createHighscore(1);
+        chai.spy.on(gameManagerService["highscoreService"], "findHighScoreByID", () => 0);
+        chai.spy.on(gameManagerService["cardOperations"], "getCardById", () => c1);
+        // chai.spy.on(gameManagerService, "deleteArena", () => {return; });
+        chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
+        chai.spy.on(gameManagerService["chatManagerService"], "sendNewHighScoreMessage", () => {throw new TypeError; });
+        const spy: any = chai.spy.on(gameManagerService["server"], "emit", () => {return; });
+        const time: Time = {username: "cpu", time: 1};
+        gameManagerService.endOfGameRoutine(time, Mode.Singleplayer, iArenaInfos, GameMode.simple);
+        done();
+        chai.expect(spy).to.have.been.called();
+    });
+
+    it("Should call the arena onPlayerInput when gameManager calls his", () => {
+        const arena: Arena2D = new Arena2D(iArenaInfos, gameManagerService);
+        chai.spy.on(gameManagerService["arenas"], "get", () => arena);
+        chai.spy.on(arena, "contains", () => true);
+        const spy: any = chai.spy.on(arena, "onPlayerInput", () => {return; });
+        gameManagerService.onPlayerInput(playerInput);
         chai.expect(spy).to.have.been.called();
     });
 });
