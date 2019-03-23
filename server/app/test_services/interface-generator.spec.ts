@@ -1,11 +1,11 @@
 import { expect } from "chai";
 import { ILobbyEvent, MultiplayerButtonText } from "../../../common/communication/iCard";
+import { IUser } from "../../../common/communication/iUser";
 import { Message } from "../../../common/communication/message";
+import { CCommon } from "../../../common/constantes/cCommon";
 import { InterfaceBuilder } from "../../app/services/interface-generator";
 import { Constants } from "../constants";
-import { CCommon } from "../../../common/constantes/cCommon";
-import { IArenaInfos, I2DInfos } from "../services/game/arena/interfaces";
-import { IUser } from "../../../common/communication/iUser";
+import { I2DInfos, IArenaInfos } from "../services/game/arena/interfaces";
 
 describe("interface-generator tests", () => {
     let interfaceBuilder: InterfaceBuilder;
@@ -21,18 +21,18 @@ describe("interface-generator tests", () => {
         };
 
         const resultMessage: Message = interfaceBuilder.buildMessage("MessageBonjour", "allo");
-        expect(resultMessage).to.not.equal(expectedMessage);
+        expect(resultMessage).deep.equal(expectedMessage);
 
     });
 
-    it("should return a LobbyEvent interface when calling buildLobbyEvent()", () => {
+    it("should return LobbyEvent interface when calling buildLobbyEvent()", () => {
         const expectedILobbyEvent: ILobbyEvent = {
-            gameID:  1,
-            buttonText:   MultiplayerButtonText.create,
+            gameID:         1,
+            buttonText:     MultiplayerButtonText.create,
         };
 
         const resultILobbyEvent: ILobbyEvent = interfaceBuilder.buildLobbyEvent(1, MultiplayerButtonText.create);
-        expect(resultILobbyEvent).to.not.equal(expectedILobbyEvent);
+        expect(resultILobbyEvent).deep.equal(expectedILobbyEvent);
 
     });
 
