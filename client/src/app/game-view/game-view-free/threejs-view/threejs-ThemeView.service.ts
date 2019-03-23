@@ -2,7 +2,7 @@ import { Inject, Injectable, Optional } from "@angular/core";
 import * as THREE from "three";
 import GLTFLoader from "three-gltf-loader";
 import { IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
-import { IMesh } from "../../../../../../common/communication/iSceneObject";
+import { IMesh, ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { IMeshInfo, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Constants } from "../../../constants";
 import { GameViewFreeService } from "../game-view-free.service";
@@ -29,7 +29,7 @@ export class ThreejsThemeViewService {
   private camera:                   THREE.PerspectiveCamera;
   private renderer:                 THREE.WebGLRenderer;
   private ambLight:                 THREE.AmbientLight;
-  private sceneVariables:           ISceneVariables<IMesh>;
+  private sceneVariables:           ISceneVariables<ISceneObject | IMesh>;
   private threejsGenerator:         ThreejsThemeGenerator;
   private threejsThemeRaycast:      ThreejsRaycast;
   private threejsMovement:          ThreejsMovement;
@@ -86,7 +86,7 @@ export class ThreejsThemeViewService {
 
   public createScene(
     scene:            THREE.Scene,
-    iSceneVariables:  ISceneVariables<IMesh>,
+    iSceneVariables:  ISceneVariables<ISceneObject | IMesh>,
     renderer:         THREE.WebGLRenderer,
     isSnapshotNeeded: boolean,
     arenaID: number): void {
@@ -96,7 +96,7 @@ export class ThreejsThemeViewService {
     this.threejsGenerator = new ThreejsThemeGenerator(
       this.scene,
       this.sceneIdById,
-      this.originalColorById, // _TODO: a enlever?
+      // this.originalColorById, // _TODO: a enlever?
       this.idBySceneId,
       this.opacityById,
     );
@@ -106,6 +106,7 @@ export class ThreejsThemeViewService {
 
     this.threejsThemeRaycast = new ThreejsRaycast(this.camera, this.renderer, this.scene);
     this.threejsThemeRaycast.setMaps(this.idBySceneId);
+    this.threejsThemeRaycast.setModelsByNameMap(this.modelsByName);
     this.threejsThemeRaycast.setThreeGenerator(this.threejsGenerator);
 
     this.createLighting();
@@ -167,7 +168,7 @@ export class ThreejsThemeViewService {
     return this.threejsThemeRaycast.detectObject(mouseEvent);
   }
 
-  public updateSceneWithNewObject(object: ISceneObjectUpdate): void {
+  public updateSceneWithNewObject(object: ISceneObjectUpdate<ISceneObject | IMesh>): void {
     this.threejsThemeRaycast.updateSceneWithNewObject(object);
   }
 
