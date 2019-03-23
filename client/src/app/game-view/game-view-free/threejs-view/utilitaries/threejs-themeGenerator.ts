@@ -7,7 +7,7 @@ export class ThreejsThemeGenerator {
   public constructor(
     private scene:                 THREE.Scene,
     private sceneIdById:           Map<number, number>,
-    private originalColorById:     Map<number, string>, // _TODO: a enlever?
+    // private originalColorById:     Map<number, string>, // _TODO: a enlever?
     private idBySceneId:           Map<number, number>,
     private opacityById:           Map<number, number>,
     ) {}
@@ -41,14 +41,14 @@ export class ThreejsThemeGenerator {
     this.scene.remove(objectToRemove);
   }
 
-  public changeObjectColor(id: number, color: string): void {
-    const objectId:       number         = this.sceneIdById.get(id) as number;
-    const objectToChange: THREE.Object3D = this.scene.getObjectById(objectId) as THREE.Object3D;
-    const objectMesh:     THREE.Mesh     = objectToChange as THREE.Mesh;
+  public changeObjectColor(): void {
+    // const objectId:       number         = this.sceneIdById.get(id) as number;
+    // const objectToChange: THREE.Object3D = this.scene.getObjectById(objectId) as THREE.Object3D;
+    // const objectMesh:     THREE.Mesh     = objectToChange as THREE.Mesh;
 
-    this.originalColorById.set(id, color);
+    // this.originalColorById.set(id, color);
 
-    objectMesh.material = new THREE.MeshPhongMaterial({color: color});
+    // objectMesh.material = new THREE.MeshPhongMaterial({color: color});
   }
 
   private addObjectIdToMap(objectId: number, generatedObjectId: number): void {
