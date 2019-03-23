@@ -285,5 +285,29 @@ describe("Collision validator tests", () => {
     });
 
     describe("tests collision with cones", () => {
+        const existingSceneObjects: ISceneObject[] = [cone1, cone2];
+
+        it("should return false if there is no collision between new and already existing scene objects", () => {
+            const newCone: ISceneObject = {
+                id:     1,
+                type:   2,
+                position: {
+                    x: 500, y: 500, z: 500,
+                },
+                rotation: {
+                    x: 1,   y: 1,   z: 1,
+                },
+                scale: {
+                    x: 10,  y: 10,  z: 10,
+                },
+                color:  "#8cadbb",
+                hidden: false,
+            };
+
+            const isColliding: boolean = collisionValidator.hasCollidingPositions(newCone, existingSceneObjects);
+
+            chai.expect(isColliding).equal(false);
+        });
+
     });
 });
