@@ -47,6 +47,8 @@ export class ThreejsThemeViewService {
   private moveLeft:           boolean;
   private moveRight:          boolean;
 
+  private allPromises: Promise<{}>[] = [];
+
   public constructor(
     @Inject(GameViewFreeService) public gameViewFreeService: GameViewFreeService) {
     this.init();
@@ -110,6 +112,7 @@ export class ThreejsThemeViewService {
     this.threejsThemeRaycast.setMaps(this.idBySceneId);
     this.threejsThemeRaycast.setModelsByNameMap(this.modelsByName);
     this.threejsThemeRaycast.setThreeGenerator(this.threejsGenerator);
+    // console.log(this.modelsByName);
 
     this.createLighting();
     this.generateSceneObjects(isSnapshotNeeded, arenaID);
@@ -206,10 +209,11 @@ export class ThreejsThemeViewService {
   }
 
   private async getModelObjects (meshInfos: IMeshInfo[]): Promise<void> {
-    this.getGLTFs(meshInfos).then(() => {
+    this.getGLTFs(meshInfos);
+
+    return Promise.all(this.allPromises).then(() => {
       meshInfos.forEach((meshInfo: IMeshInfo) => {
         const gtlf: THREE.GLTF | undefined = this.gltfByUrl.get(meshInfo.GLTFUrl);
-        console.log(this.gltfByUrl);
         if (gtlf) {
           gtlf.scene.traverse((child: THREE.Object3D) => {
             if (child.uuid === meshInfo.uuid) {
@@ -218,18 +222,19 @@ export class ThreejsThemeViewService {
           });
         }
       });
-    });
+    }).catch();
 
   }
 
-  private async getGLTFs (meshInfos: IMeshInfo[]): Promise<void> {
+  private getGLTFs (meshInfos: IMeshInfo[]): void {
     meshInfos.forEach(async (meshInfo: IMeshInfo) => {
       if (!this.gltfByUrl.has(meshInfo.GLTFUrl)) {
-        await new Promise( (resolve, reject) => {
+        this.allPromises.push(new Promise( (resolve, reject) => {
           new GLTFLoader().load(meshInfo.GLTFUrl, (gltf: THREE.GLTF) => {
             this.gltfByUrl.set(meshInfo.GLTFUrl, gltf);
+            resolve(gltf);
         },                      undefined, reject);
-        });
+        }));
 
         // const gltfObject: THREE.GLTF = await new Promise(
         //   (resolve, reject) => {
