@@ -61,7 +61,7 @@ describe("SceneManager Tests", () => {
         }
     });
 
-    it("should should receive Thematic theme string", () => {
+    it("should receive Thematic theme string", () => {
         formMessage = {
             gameName:           "gameName",
             checkedTypes:       [true, true, true],

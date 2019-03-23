@@ -11,7 +11,7 @@ const mockIChat:              IChat                 = {
   time:     "time",
 };
 
-describe("ChatViewService", () => {
+describe("ChatViewService test", () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it("should be created", () => {
@@ -19,12 +19,12 @@ describe("ChatViewService", () => {
     expect(service).toBeTruthy();
   });
 
-  it("should add IChat data in array", () => {
+  it("should add IChat data in array when update is called", () => {
     chatViewService.updateConversation(mockIChat);
     expect(chatViewService.getConversation().length).toBe(0);
   });
 
-  it("should error message", () => {
+  it("should ignore invalid message when updating chat", () => {
     const mockIChatInvalid: IChat = {
       username: "SERVEUR",
       message:  "message",
@@ -35,19 +35,19 @@ describe("ChatViewService", () => {
     expect(chatViewService.getConversation().length).toBe(0);
   });
 
-  it("should clear IChat data in array", () => {
+  it("should clear IChat data in array when clearConversations is called", () => {
     chatViewService.updateConversation(mockIChat);
     chatViewService.clearConversations();
     expect(chatViewService.getConversation().length).toBe(0);
   });
 
-  it("should return 1 for lenght of chat", () => {
+  it("should return 1 for lenght of chat after 1 update", () => {
     chatViewService = new ChatViewService();
     chatViewService.updateConversation(mockIChat);
     expect(chatViewService.getConversationLength()).toBe(1);
   });
 
-  it("should return 4 for length of chat", () => {
+  it("should return 4 for length of chat after 4 updates", () => {
     chatViewService = new ChatViewService();
     chatViewService.updateConversation(mockIChat);
     chatViewService.updateConversation(mockIChat);

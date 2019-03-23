@@ -99,7 +99,7 @@ describe("Card-manager tests", () => {
         chai.expect(cardManagerService.getCards().list3D[1]).deep.equal(undefined);
     });
 
-    it("Should return an error message", async () => {
+    it("Should return an error message when doing axios get", async () => {
         mockAxios.onGet("/api/differenceChecker/validate").reply(200, {
             title: CCommon.ON_ERROR,
             body: Constants.VALIDATION_FAILED,
@@ -259,7 +259,7 @@ describe("Card-manager tests", () => {
         mockAxios.restore();
     });
 
-    it("Should return an unknown error", async () => {
+    it("Should return an unknown error when error message is not handled", async () => {
         const typeError:    TypeError   = new TypeError("men calice");
         const result:       any         = cardManagerService.generateErrorMessage(typeError);
 

@@ -52,7 +52,7 @@ describe("AdminToggleService", () => {
     expect(adminToggleService["isAdmin"]).toBeFalsy();
   });
 
-  it("should navigate to ADMIN_PATH", () => {
+  it("should navigate to ADMIN_PATH when adminToggle is toggled", () => {
     spyOn<any>(adminToggleService["router"], "navigate").and.returnValue(Observable.of("true")).and.callThrough();
 
     adminToggleService["isAdmin"] = false;
@@ -61,7 +61,7 @@ describe("AdminToggleService", () => {
     expect(adminToggleService["router"].navigate).toHaveBeenCalledWith([Constants.ADMIN_PATH]);
   });
 
-  it("should navigate to GAMELIST_PATH", () => {
+  it("should navigate to GAMELIST_PATH when adminToggle is toggled", () => {
     spyOn<any>(adminToggleService["router"], "navigate").and.returnValue(Observable.of("true")).and.callThrough();
 
     adminToggleService["isAdmin"] = true;
