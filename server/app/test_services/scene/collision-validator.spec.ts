@@ -379,4 +379,9 @@ describe("Collision validator tests", () => {
             chai.expect(isColliding).equal(true);
         });
     });
+
+    describe("tests collision with triangularPyramid", () => {
+        const existingSceneObjects: ISceneObject[] = [triangularPyramid1, triangularPyramid2];
+
+    });
 });
