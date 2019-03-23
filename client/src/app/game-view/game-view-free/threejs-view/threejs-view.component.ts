@@ -115,13 +115,33 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
   }
 
   private initScene(): void {
-    this.sceneBuilderService =
-      (this.iSceneVariables.theme === SceneType.Geometric) ? this.threejsViewService : this.threejsThemeViewService;
     this.renderer = new THREE.WebGLRenderer();
     this.originalScene.nativeElement.appendChild(this.renderer.domElement);
-    this.sceneBuilderService.createScene(this.scene, this.iSceneVariables, this.renderer, this.isSnapshotNeeded, this.arenaID);
+    this.createScene();
     this.sceneBuilderService.animate();
     this.takeSnapShot();
+  }
+
+  private createScene(): void {
+    this.sceneBuilderService =
+      (this.iSceneVariables.theme === SceneType.Geometric) ? this.threejsViewService : this.threejsThemeViewService;
+
+    if (this.sceneBuilderService instanceof ThreejsThemeViewService) {
+      this.sceneBuilderService.createScene(
+        this.scene,
+        this.iSceneVariables,
+        this.renderer,
+        this.isSnapshotNeeded,
+        this.arenaID,
+        this.sceneData.meshInfos);
+    } else {
+      this.sceneBuilderService.createScene(
+        this.scene,
+        this.iSceneVariables,
+        this.renderer,
+        this.isSnapshotNeeded,
+        this.arenaID);
+    }
   }
 
   private onKeyDown(keyboardEvent: KeyboardEvent): void {

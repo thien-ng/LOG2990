@@ -7,6 +7,7 @@ import {
     IOriginalPixelCluster,
     IPosition2D,
     ISceneObjectUpdate } from "../../../../../common/communication/iGameplay";
+import { IMesh, ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { IUser } from "../../../../../common/communication/iUser";
 import { CardOperations } from "../../../services/card-operations.service";
 import { ChatManagerService } from "../../../services/chat-manager.service";
@@ -42,7 +43,7 @@ const activeUser2: IUser = {
 const event2D: IPosition2D  = {x: 1, y: 1};
 const event3D: number       = 1;
 const originalElements2D: Map<number, IOriginalPixelCluster> = new Map<number, IOriginalPixelCluster>();
-const originalElements3D: Map<number, ISceneObjectUpdate>    = new Map<number, ISceneObjectUpdate>();
+const originalElements3D: Map<number, ISceneObjectUpdate<ISceneObject | IMesh>>    = new Map<number, ISceneObjectUpdate<ISceneObject | IMesh>>();
 
 const hitConfirmation2D: IHitConfirmation = {
     isAHit:             true,
@@ -81,7 +82,7 @@ const replacement2D: IOriginalPixelCluster = {
     ],
 };
 
-const replacement3D: ISceneObjectUpdate = {
+const replacement3D: ISceneObjectUpdate<ISceneObject | IMesh> = {
     actionToApply: ActionType.ADD,
     sceneObject: {
         id:             1,
@@ -99,7 +100,7 @@ const responseArena2D: IArenaResponse<IOriginalPixelCluster> = {
     response:   replacement2D,
 };
 
-const responseArena3D: IArenaResponse<ISceneObjectUpdate> = {
+const responseArena3D: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>> = {
     status:     "onSuccess",
     response:   replacement3D,
 };
@@ -337,7 +338,7 @@ describe("Referee tests for 3D", () => {
         clock = sinon.useFakeTimers();
 
         const playerList:   Player[] = [new Player(activeUser2)];
-        const referee:      Referee<number, ISceneObjectUpdate> = new Referee<number, ISceneObjectUpdate>(arena3D, playerList, originalElements3D, timer, "url");
+        const referee:      Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>> = new Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>>(arena3D, playerList, originalElements3D, timer, "url");
         const spy: any = chai.spy.on(referee, "sendMessageToAllPlayers");
 
         referee.onPlayersReady();
@@ -349,50 +350,50 @@ describe("Referee tests for 3D", () => {
 
     it("should return a failed click arena response (3D arena)", async () => {
         const playerList:   Player[] = [new Player(activeUser2)];
-        const referee:      Referee<number, ISceneObjectUpdate> = new Referee<number, ISceneObjectUpdate>(arena3D, playerList, originalElements3D, timer, "url");
+        const referee:      Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>> = new Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>>(arena3D, playerList, originalElements3D, timer, "url");
 
-        const responseArenaError: IArenaResponse<ISceneObjectUpdate> = {
+        const responseArenaError: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>> = {
             status:     "onFailedClick",
             response:   undefined,
         };
 
-        referee.onPlayerClick(1, activeUser1).then((response: IArenaResponse<ISceneObjectUpdate>) => {
+        referee.onPlayerClick(1, activeUser1).then((response: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>>) => {
             chai.expect(response).to.deep.equal(responseArenaError);
         }).catch();
     });
 
     it("should return a onPenalty state (3D arena)", async () => {
         const playerList:   Player[] = [new Player(activeUser1)];
-        const referee:      Referee<number, ISceneObjectUpdate> = new Referee<number, ISceneObjectUpdate>(arena3D, playerList, originalElements3D, timer, "url");
+        const referee:      Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>> = new Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>>(arena3D, playerList, originalElements3D, timer, "url");
         playerList[0].setPenaltyState(true);
 
-        const responseArenaPenalty: IArenaResponse<ISceneObjectUpdate> = {
+        const responseArenaPenalty: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>> = {
             status:     "onPenalty",
             response:   undefined,
         };
 
-        referee.onPlayerClick(1, activeUser1).then((response: IArenaResponse<ISceneObjectUpdate>) => {
+        referee.onPlayerClick(1, activeUser1).then((response: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>>) => {
             chai.expect(response).to.deep.equal(responseArenaPenalty);
         }).catch();
     });
 
     it("should throw an error when onPlayerClick (3D arena)", async () => {
         const playerList:   Player[] = [new Player(activeUser1)];
-        const referee:      Referee<number, ISceneObjectUpdate> = new Referee<number, ISceneObjectUpdate>(arena3D, playerList, originalElements3D, timer, "url");
+        const referee:      Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>> = new Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>>(arena3D, playerList, originalElements3D, timer, "url");
 
-        const responseArenaError: IArenaResponse<ISceneObjectUpdate> = {
+        const responseArenaError: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>> = {
             status:     "onError",
             response:   undefined,
         };
 
-        referee.onPlayerClick(1, activeUser1).then((response: IArenaResponse<ISceneObjectUpdate>) => {
+        referee.onPlayerClick(1, activeUser1).then((response: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>>) => {
             chai.expect(response).to.deep.equal(responseArenaError);
         }).catch();
     });
 
     it("should validate a good hit (3D arena single)", async () => {
         const playerList:   Player[] = [new Player(activeUser1)];
-        const referee:      Referee<number, ISceneObjectUpdate> = new Referee<number, ISceneObjectUpdate>(arena3D, playerList, originalElements3D, timer, "url");
+        const referee:      Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>> = new Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>>(arena3D, playerList, originalElements3D, timer, "url");
 
         mockAxios.onPost(url3D, postData3D).reply(200, hitConfirmation3D);
 
@@ -403,7 +404,7 @@ describe("Referee tests for 3D", () => {
 
     it("should validate a good hit (3D arena multi)", async () => {
         const playerList:   Player[] = [new Player(activeUser1), new Player(activeUser2)];
-        const referee:      Referee<number, ISceneObjectUpdate> = new Referee<number, ISceneObjectUpdate>(arena3D, playerList, originalElements3D, timer, "url");
+        const referee:      Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>> = new Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>>(arena3D, playerList, originalElements3D, timer, "url");
 
         mockAxios.onPost(url3D, postData3D).reply(200, hitConfirmation3D);
 
@@ -414,7 +415,7 @@ describe("Referee tests for 3D", () => {
 
     it("should return error when validateHit (3D arena single)", async () => {
         const playerList:   Player[] = [new Player(activeUser1)];
-        const referee:      Referee<number, ISceneObjectUpdate> = new Referee<number, ISceneObjectUpdate>(arena3D, playerList, originalElements3D, timer, "url");
+        const referee:      Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>> = new Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>>(arena3D, playerList, originalElements3D, timer, "url");
 
         mockAxios.onPost(url3D, postData3D).reply(400);
 
@@ -425,40 +426,40 @@ describe("Referee tests for 3D", () => {
 
     it("should validate a good hit when onPlayerClick (3D arena single)", async () => {
         const playerList:   Player[] = [new Player(activeUser1)];
-        const referee:      Referee<number, ISceneObjectUpdate> = new Referee<number, ISceneObjectUpdate>(arena3D, playerList, originalElements3D, timer, "url");
+        const referee:      Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>> = new Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>>(arena3D, playerList, originalElements3D, timer, "url");
 
         referee["differencesFound"] = [];
 
         mockAxios.onPost(url3D, postData3D).reply(200, hitConfirmation3D);
 
-        referee.onPlayerClick(event3D, activeUser1).then((response: IArenaResponse<ISceneObjectUpdate>) => {
+        referee.onPlayerClick(event3D, activeUser1).then((response: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>>) => {
             chai.expect(response).to.deep.equal(responseArena3D);
         }).catch();
     });
 
     it("should validate a good hit when onPlayerClick (3D arena multi)", async () => {
         const playerList:   Player[] = [new Player(activeUser1), new Player(activeUser2)];
-        const referee:      Referee<number, ISceneObjectUpdate> = new Referee<number, ISceneObjectUpdate>(arena3D, playerList, originalElements3D, timer, "url");
+        const referee:      Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>> = new Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>>(arena3D, playerList, originalElements3D, timer, "url");
 
         referee["differencesFound"] = [];
 
         mockAxios.onPost(url3D, postData3D).reply(200, hitConfirmation3D);
 
-        referee.onPlayerClick(event3D, activeUser1).then((response: IArenaResponse<ISceneObjectUpdate>) => {
+        referee.onPlayerClick(event3D, activeUser1).then((response: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>>) => {
             chai.expect(response).to.deep.equal(responseArena3D);
         }).catch();
     });
 
     it("should validate a wrong hit when onPlayerClick (3D arena single)", async () => {
         const playerList:   Player[] = [new Player(activeUser1)];
-        const referee:      Referee<number, ISceneObjectUpdate> = new Referee<number, ISceneObjectUpdate>(arena3D, playerList, originalElements3D, timer, "url");
+        const referee:      Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>> = new Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>>(arena3D, playerList, originalElements3D, timer, "url");
 
         const notHitConfirmation3D: IHitConfirmation = {
             isAHit:             false,
             differenceIndex:    1,
         };
 
-        const wrongResponse: IArenaResponse<ISceneObjectUpdate> = {
+        const wrongResponse: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>> = {
             status:     "onFailedClick",
             response:   undefined,
         };
@@ -467,21 +468,21 @@ describe("Referee tests for 3D", () => {
 
         mockAxios.onPost(url3D, postData3D).reply(200, notHitConfirmation3D);
 
-        referee.onPlayerClick(event3D, activeUser1).then((response: IArenaResponse<ISceneObjectUpdate>) => {
+        referee.onPlayerClick(event3D, activeUser1).then((response: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>>) => {
             chai.expect(response).to.deep.equal(wrongResponse);
         }).catch();
     });
 
     it("should validate a wrong hit when onPlayerClick (3D arena multi)", async () => {
         const playerList:   Player[] = [new Player(activeUser1), new Player(activeUser2)];
-        const referee:      Referee<number, ISceneObjectUpdate> = new Referee<number, ISceneObjectUpdate>(arena3D, playerList, originalElements3D, timer, "url");
+        const referee:      Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>> = new Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>>(arena3D, playerList, originalElements3D, timer, "url");
 
         const notHitConfirmation3D: IHitConfirmation = {
             isAHit:             false,
             differenceIndex:    1,
         };
 
-        const wrongResponse: IArenaResponse<ISceneObjectUpdate> = {
+        const wrongResponse: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>> = {
             status:     "onFailedClick",
             response:   undefined,
         };
@@ -490,7 +491,7 @@ describe("Referee tests for 3D", () => {
 
         mockAxios.onPost(url3D, postData3D).reply(200, notHitConfirmation3D);
 
-        referee.onPlayerClick(event3D, activeUser1).then((response: IArenaResponse<ISceneObjectUpdate>) => {
+        referee.onPlayerClick(event3D, activeUser1).then((response: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>>) => {
             chai.expect(response).to.deep.equal(wrongResponse);
         }).catch();
     });

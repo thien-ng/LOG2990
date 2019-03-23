@@ -1,4 +1,4 @@
-import { Inject, Injectable, Optional } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
 import * as THREE from "three";
 import GLTFLoader from "three-gltf-loader";
 import { IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
@@ -30,6 +30,7 @@ export class ThreejsThemeViewService {
   private renderer:                 THREE.WebGLRenderer;
   private ambLight:                 THREE.AmbientLight;
   private sceneVariables:           ISceneVariables<ISceneObject | IMesh>;
+  private meshInfos:                IMeshInfo[];
   private threejsGenerator:         ThreejsThemeGenerator;
   private threejsThemeRaycast:      ThreejsRaycast;
   private threejsMovement:          ThreejsMovement;
@@ -47,9 +48,7 @@ export class ThreejsThemeViewService {
   private moveRight:          boolean;
 
   public constructor(
-    @Inject(GameViewFreeService) public gameViewFreeService: GameViewFreeService,
-    @Optional() private meshInfos: IMeshInfo[]) {
-
+    @Inject(GameViewFreeService) public gameViewFreeService: GameViewFreeService) {
     this.init();
   }
 
@@ -67,6 +66,8 @@ export class ThreejsThemeViewService {
     this.idBySceneId          = new Map<number, number>();
     this.opacityById          = new Map<number, number>();
     this.originalColorById    = new Map<number, string>(); // _TODO: a enlever?
+    this.gltfByUrl            = new Map<string, THREE.GLTF>();
+    this.modelsByName         = new Map<string, THREE.Object3D>();
     this.threejsMovement      = new ThreejsMovement(this.camera);
 
     this.moveForward          = false;
@@ -74,9 +75,6 @@ export class ThreejsThemeViewService {
     this.moveRight            = false;
     this.moveLeft             = false;
 
-    if (this.meshInfos) {
-      await this.getModelObjects(this.meshInfos);
-    }
   }
 
   public animate(): void {
@@ -84,15 +82,19 @@ export class ThreejsThemeViewService {
     this.renderObject();
   }
 
-  public createScene(
+  public async createScene(
     scene:            THREE.Scene,
     iSceneVariables:  ISceneVariables<ISceneObject | IMesh>,
     renderer:         THREE.WebGLRenderer,
     isSnapshotNeeded: boolean,
-    arenaID: number): void {
+    arenaID: number,
+    meshInfos?: IMeshInfo[]): Promise<void> {
     this.renderer         = renderer;
     this.scene            = scene;
     this.sceneVariables   = iSceneVariables;
+    if (meshInfos) {
+      this.meshInfos        = meshInfos;
+    }
     this.threejsGenerator = new ThreejsThemeGenerator(
       this.scene,
       this.sceneIdById,
@@ -100,7 +102,7 @@ export class ThreejsThemeViewService {
       this.idBySceneId,
       this.opacityById,
     );
-
+    await this.getModelObjects(this.meshInfos);
     this.renderer.setSize(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
     this.renderer.setClearColor(this.sceneVariables.sceneBackgroundColor);
 
@@ -204,38 +206,38 @@ export class ThreejsThemeViewService {
   }
 
   private async getModelObjects (meshInfos: IMeshInfo[]): Promise<void> {
-    await this.getGLTFs(meshInfos);
-
-    meshInfos.forEach((meshInfo: IMeshInfo) => {
-      const gtlf: THREE.GLTF | undefined = this.gltfByUrl.get(meshInfo.GLTFUrl);
-      if (gtlf) {
-        gtlf.scene.traverse((child: THREE.Object3D) => {
-          if (child.uuid === meshInfo.uuid) {
-            this.modelsByName.set(meshInfo.GLTFUrl, child);
-          }
-        });
-      }
+    this.getGLTFs(meshInfos).then(() => {
+      meshInfos.forEach((meshInfo: IMeshInfo) => {
+        const gtlf: THREE.GLTF | undefined = this.gltfByUrl.get(meshInfo.GLTFUrl);
+        console.log(this.gltfByUrl);
+        if (gtlf) {
+          gtlf.scene.traverse((child: THREE.Object3D) => {
+            if (child.uuid === meshInfo.uuid) {
+              this.modelsByName.set(meshInfo.GLTFUrl, child);
+            }
+          });
+        }
+      });
     });
+
   }
 
   private async getGLTFs (meshInfos: IMeshInfo[]): Promise<void> {
     meshInfos.forEach(async (meshInfo: IMeshInfo) => {
       if (!this.gltfByUrl.has(meshInfo.GLTFUrl)) {
-        const gltfObject: THREE.GLTF = await new Promise( (resolve, reject) => {
+        await new Promise( (resolve, reject) => {
           new GLTFLoader().load(meshInfo.GLTFUrl, (gltf: THREE.GLTF) => {
-            resolve(gltf);
+            this.gltfByUrl.set(meshInfo.GLTFUrl, gltf);
         },                      undefined, reject);
-        }).then((reponse) => {
-          this.gltfByUrl.set(meshInfo.GLTFUrl, gltfObject);
-        }).catch((error) => error);
+        });
 
-    //     // const gltfObject: THREE.GLTF = await new Promise(
-    //     //   (resolve, reject) => {
-    //     //     new GLTFLoader().load(meshInfo.GLTFUrl, (gltf: THREE.GLTF) => {
-    //     //       resolve(gltf);
-    //     //   },                      undefined, reject);
-    //     // });
-    //     // this.gltfByUrl.set(meshInfo.GLTFUrl, gltfObject);
+        // const gltfObject: THREE.GLTF = await new Promise(
+        //   (resolve, reject) => {
+        //     new GLTFLoader().load(meshInfo.GLTFUrl, (gltf: THREE.GLTF) => {
+        //       resolve(gltf);
+        //   },                      undefined, reject);
+        // });
+        // this.gltfByUrl.set(meshInfo.GLTFUrl, gltfObject);
       }
     });
   }
