@@ -1,8 +1,8 @@
-import { IMesh } from "../../../../../common/communication/iSceneObject";
-import { ISceneVariables, IVector3D } from "../../../../../common/communication/iSceneVariables";
-import { ISceneOptions } from "../../../../../common/communication/iSceneOptions";
-import { ITheme, ISceneEntity } from "../../../../../common/communication/ITheme";
-import { SceneConstants } from "../sceneConstants";
+import { IMesh } from "../../../../common/communication/iSceneObject";
+import { ISceneVariables, IVector3D } from "../../../../common/communication/iSceneVariables";
+import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
+import { ITheme, ISceneEntity } from "../../../../common/communication/ITheme";
+import { SceneConstants } from "./sceneConstants";
 
 export class SceneBuilderTheme {
 
@@ -37,23 +37,28 @@ export class SceneBuilderTheme {
     private generateRandomSceneMesh(id: number, sceneEntitiesList: ISceneEntity[]): IMesh {
 
         const chosenEntity: ISceneEntity = this.getRandomEntity(sceneEntitiesList);
+        console.log(chosenEntity.name);
         return this.generateMesh(id, chosenEntity);
     }
 
-    private getRandomEntity(sceneEntities: ISceneEntity[]): ISceneEntity {
+    public getRandomEntity(sceneEntities: ISceneEntity[]): ISceneEntity {
         const randomIndex:          number      = Math.random();
         const ratioByIndex:         number[]    = [];
         let   stepValue:            number      = 0;
         let   chosenObjectIndex:    number      = 0;
-
+        
         sceneEntities.forEach((sceneEntity: ISceneEntity) => {
             ratioByIndex.push(stepValue);
             stepValue += sceneEntity.presenceRatio;
         });
-
+        
         ratioByIndex.forEach((ratioByIndex: number, index: number) => {
-            if (randomIndex < ratioByIndex) {
+            if (randomIndex > ratioByIndex) {
+                // console.log("ratio", ratioByIndex);
+                // console.log("rand", randomIndex);
+                // console.log("index",index);
                 chosenObjectIndex = index;
+                // console.log(sceneEntities[index]);
             }
         });
 
@@ -61,12 +66,37 @@ export class SceneBuilderTheme {
     }
 
     private generateMesh(id: number, sceneEntity: ISceneEntity): IMesh {
-        const scaleFactor:  number = this.generateRandomScale(sceneEntity.baseSize);
-        const radius:       number = sceneEntity.radius * scaleFactor;
+        const scaleFactor:      number = this.generateRandomScale(sceneEntity.baseSize);
+        const radius:           number = sceneEntity.radius * scaleFactor;
 
         return {
             id:             id,
-            uuid:           sceneEntity.meshInfos.uuid,
+            uuid:           sceneEntity.meshInfos[0].uuid,
+            name:           sceneEntity.name,
+            radius:         radius,
+            position:       this.generateRandomPosition(radius),
+            rotation:       {
+                x: 0,
+                y: this.randomFloatFromInterval(0, SceneConstants.TWO_PI),
+                z: 0
+            },
+            scaleFactor:    scaleFactor,
+            hidden:         false,
+        } as IMesh;
+    }
+
+    public generateModifiedMesh(id: number, sceneEntity: ISceneEntity, sceneVariables: ISceneVariables<IMesh>): IMesh {
+
+        this.sceneVariables = sceneVariables;
+
+        const scaleFactor:      number = this.generateRandomScale(sceneEntity.baseSize);
+        const radius:           number = sceneEntity.radius * scaleFactor;
+        const randomIndex:      number = this.randomIntegerFromInterval(0, sceneEntity.meshInfos.length - 1);        
+
+        return {
+            id:             id,
+            uuid:           sceneEntity.meshInfos[randomIndex].uuid,
+            name:           sceneEntity.name,
             radius:         radius,
             position:       this.generateRandomPosition(radius),
             rotation:       {
@@ -93,8 +123,8 @@ export class SceneBuilderTheme {
                 y: this.randomFloatFromInterval(minPosition.y, maxPosition.y),
                 z: this.randomFloatFromInterval(minPosition.z, maxPosition.z),
             } as IVector3D;
+
             isValidPosition = this.isValidPosition(randomPosition, radius);
-            console.log(isValidPosition);
 
         } while (!isValidPosition);
 
@@ -109,6 +139,10 @@ export class SceneBuilderTheme {
 
     private randomFloatFromInterval(min: number, max: number): number {
         return Math.random() * (max - min + 1) + min;
+    }
+
+    public randomIntegerFromInterval(min: number, max: number): number {
+        return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
     private isValidPosition(position: IVector3D, radius: number): boolean {

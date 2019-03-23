@@ -10,16 +10,18 @@ import { CardManagerService } from "../card-manager.service";
 import { SceneBuilder } from "./scene-builder";
 import { SceneModifier } from "./scene-modifier";
 import { SceneConstants } from "./sceneConstants";
-import { SceneBuilderTheme } from "./utilitaries/scene-builder-theme";
+import { SceneBuilderTheme } from "./scene-builder-theme";
 import { AssetManagerService } from "../asset-manager.service";
 import { ITheme } from "../../../../common/communication/ITheme";
+import { SceneModifierTheme } from "./scene-modifier-theme";
 
 @injectable()
 export class SceneManager {
 
-    private sceneBuilderGeometric:  SceneBuilder;
-    private sceneBuilderTheme:      SceneBuilderTheme;
-    private sceneModifier: SceneModifier;
+    private sceneBuilderGeometric:      SceneBuilder;
+    private sceneBuilderTheme:          SceneBuilderTheme;
+    private sceneModifierGeometric:     SceneModifier;
+    private sceneModifierTheme:         SceneModifierTheme;
 
     public constructor(
         @inject(Types.CardManagerService)   private cardManagerService:     CardManagerService,
@@ -27,7 +29,8 @@ export class SceneManager {
 
         this.sceneBuilderGeometric  = new SceneBuilder();
         this.sceneBuilderTheme      = new SceneBuilderTheme();
-        this.sceneModifier          = new SceneModifier(this.sceneBuilderGeometric);
+        this.sceneModifierGeometric = new SceneModifier(this.sceneBuilderGeometric);
+        this.sceneModifierTheme     = new SceneModifierTheme(this.sceneBuilderTheme);
         
     }
 
@@ -66,7 +69,7 @@ export class SceneManager {
         const modifiedList:             IModification[]                 = [];
         const iSceneOptions:            ISceneOptions                   = this.sceneOptionsMapper(formMessage);
         const generatedOriginalScene:   ISceneVariables<ISceneObject>   = this.sceneBuilderGeometric.generateScene(iSceneOptions);
-        const generatedModifiedScene:   ISceneVariables<ISceneObject>   = this.sceneModifier.modifyScene(iSceneOptions,
+        const generatedModifiedScene:   ISceneVariables<ISceneObject>   = this.sceneModifierGeometric.modifyScene(iSceneOptions,
                                                                                                      generatedOriginalScene,
                                                                                                      modifiedList);
 
@@ -75,18 +78,21 @@ export class SceneManager {
 
     private buildSceneTheme(formMessage: FormMessage): ISceneData<IMesh> {
 
-        const theme: ITheme = this.assetManagerService.getTheme("park.json");
+        const theme: ITheme = this.assetManagerService.getTheme("parktest.json");
 
         const modifiedList:             IModification[]                 = [];
         const iSceneOptions:            ISceneOptions                   = this.sceneOptionsMapper(formMessage);
         const generatedOriginalScene:   ISceneVariables<IMesh>   = this.sceneBuilderTheme.generateScene(iSceneOptions, theme);
-        console.log(generatedOriginalScene);
 
         // _TODO
-        // const generatedModifiedScene:   ISceneVariables<IMesh>   = this.sceneModifier.modifyScene(iSceneOptions,
-        //                                                                                              generatedOriginalScene,
-        //                                                                                              modifiedList);
-
+        const generatedModifiedScene:   ISceneVariables<IMesh>   = this.sceneModifierTheme.modifyScene(iSceneOptions,
+                                                                                                     generatedOriginalScene,
+                                                                                                     modifiedList,
+                                                                                                     theme.sceneEntities);
+// console.log("original: ", generatedOriginalScene);
+// console.log("modified: ", generatedModifiedScene);
+// console.log("mod",modifiedList);
+if (generatedModifiedScene){}
                                                          // _TODO orignal scene to modify
         return this.buildSceneData(generatedOriginalScene, generatedOriginalScene, modifiedList);
     }

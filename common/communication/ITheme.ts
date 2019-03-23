@@ -18,7 +18,7 @@ export interface IVector3D {
 
 export interface ISceneEntity {
     name:               string;
-    meshInfos:          IMeshInfo;
+    meshInfos:          IMeshInfo[];
     baseSize:           number;
     radius:             number;
     presenceRatio:      number;

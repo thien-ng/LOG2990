@@ -8,8 +8,8 @@ export interface ISceneData<OBJ3D_T> {
 }
 
 export interface IMeshInfo {
-    GLTFUrl:        string;
-    uuid:           string;
+    GLTFUrl:            string;
+    uuid:               string;
 }
 
 export interface IModification {
