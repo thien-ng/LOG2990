@@ -68,22 +68,22 @@ export class ThreejsRaycast {
 
     public updateSceneWithNewObject(sceneUpdate: ISceneObjectUpdate<ISceneObject | IMesh>): void {
 
-        if (!object.sceneObject) {
+        if (!sceneUpdate.sceneObject) {
             return;
         }
 
-        switch (object.actionToApply) {
+        switch (sceneUpdate.actionToApply) {
 
             case ActionType.ADD:
-              this.threejsGenerator.initiateObject(object.sceneObject);
+              this.initiateObject(sceneUpdate);
               break;
 
             case ActionType.DELETE:
-              this.threejsGenerator.deleteObject(object.sceneObject.id);
+              this.threejsGenerator.deleteObject(sceneUpdate.sceneObject.id);
               break;
 
             case ActionType.CHANGE_COLOR:
-              this.threejsGenerator.changeObjectColor(object.sceneObject.id, object.sceneObject.color);
+              this.changeObjectColor(sceneUpdate);
               break;
 
             default:
