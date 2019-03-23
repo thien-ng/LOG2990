@@ -91,4 +91,12 @@ export class ThreejsRaycast {
           }
     }
 
+    private initiateObject(sceneUpdate: ISceneObjectUpdate<ISceneObject | IMesh>): void {
+      if (this.isTheme) {
+        this.threejsThemeGenerator.initiateObject(sceneUpdate.sceneObject as IMesh, this.modelsByName);
+      } else {
+        this.threejsGenerator.initiateObject(sceneUpdate.sceneObject as ISceneObject);
+      }
+    }
+
 }
