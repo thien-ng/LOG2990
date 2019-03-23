@@ -135,7 +135,7 @@ describe("Image manager service tests", () => {
     it("Should decrement map size", async () => {
         const gameId: number = 1;
         imageManagerService["countByGameId"].set(1, 1);
-        const result: number | undefined= imageManagerService.getCounter(gameId);
+        const result: number | undefined = imageManagerService.getCounter(gameId);
         chai.expect(result).to.equal(1);
     });
 });
