@@ -168,6 +168,21 @@ describe("Collision validator tests", () => {
         hidden: false,
     };
 
+    const triangularPyramid2: ISceneObject = {
+        id:     11,
+        type:   4,
+        position: {
+            x: 400, y: 400, z: 400,
+        },
+        rotation: {
+            x: 1,   y: 1,   z: 1,
+        },
+        scale: {
+            x: 10,  y: 10,  z: 10,
+        },
+        color:  "#8cadbb",
+        hidden: false,
+    };
 
     beforeEach(() => {
         collisionValidator = new CollisionValidator();
