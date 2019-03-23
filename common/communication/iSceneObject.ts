@@ -26,7 +26,7 @@ export interface IAxisValues {
 
 export interface IMesh {
     id:         number;
-    meshId:     number;
+    uuid:       string;
     rayon:      number;
     position:   IVector3D;
     rotation:   IVector3D;

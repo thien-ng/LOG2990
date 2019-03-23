@@ -1,0 +1,123 @@
+{
+    "sceneEntities":
+    [ 
+        {
+            "name":           "SandRock1",
+            "meshInfos":      {
+                "GLTFUrl":        "http://localhost:3000/mesh/environnement/scene.gltf",
+                "uuid":           "1FAFE538-0AA4-4812-8A10-F84F1E781A52"
+            },
+            "baseSize":       0.2,
+            "radius":         100,
+            "presenceRatio":  0.14
+        },
+        {
+            "name":           "Rock2",
+            "meshInfos":      {
+                "GLTFUrl":        "http://localhost:3000/mesh/environnement/scene.gltf",
+                "uuid":           "C2B45CE2-585A-415C-9C48-7890D859DA20"
+            },
+            "baseSize":       0.2,
+            "radius":         100,
+            "presenceRatio":  0.12
+        },
+        {
+            "name":           "Tree1",
+            "meshInfos":      {
+                "GLTFUrl":        "http://localhost:3000/mesh/environnement/scene.gltf",
+                "uuid":           "B236C587-973D-4A59-8CB7-C3389DFF39AF"
+            },
+            "baseSize":       0.2,
+            "radius":         100,
+            "presenceRatio":  0.09
+        },
+        {
+            "name":           "Plant",
+            "meshInfos":      {
+                "GLTFUrl":        "http://localhost:3000/mesh/environnement/scene.gltf",
+                "uuid":           "6FE23297-6BE9-4EED-B819-1BC69C7151E5"
+            },
+            "baseSize":       0.2,
+            "radius":         100,
+            "presenceRatio":  0.16
+        },
+        {
+            "name":           "DriedTree",
+            "meshInfos":      {
+                "GLTFUrl":        "http://localhost:3000/mesh/environnement/scene.gltf",
+                "uuid":           "3D91A483-3A51-413B-81B1-503929B05316"
+            },
+            "baseSize":       0.2,
+            "radius":         100,
+            "presenceRatio":  0.09
+        },
+        {
+            "name":           "Fern",
+            "meshInfos":      {
+                "GLTFUrl":        "http://localhost:3000/mesh/environnement/scene.gltf",
+                "uuid":           "33585220-0A12-4928-BA73-E2D544459A5F"
+            },
+            "baseSize":       0.2,
+            "radius":         100,
+            "presenceRatio":  0.16
+        },
+        {
+            "name":           "Tree3",
+            "meshInfos":      {
+                "GLTFUrl":        "http://localhost:3000/mesh/environnement/scene.gltf",
+                "uuid":           "971F5BFB-8D74-4943-8C06-F0BE6DCC66CA"
+            },
+            "baseSize":       0.2,
+            "radius":         100,
+            "presenceRatio":  0.07
+        },
+        {
+            "name":           "Tree2",
+            "meshInfos":      {
+                "GLTFUrl":        "http://localhost:3000/mesh/environnement/scene.gltf",
+                "uuid":           "25CE7799-68FE-4A82-9D4F-0DB4CF754FDE"
+            },
+            "baseSize":       0.2,
+            "radius":         100,
+            "presenceRatio":  0.07
+        },
+        {
+            "name":           "OSG_Scene",
+            "meshInfos":      {
+                "GLTFUrl":        "http://localhost:3000/mesh/chico/scene.gltf",
+                "uuid":           "D31F9C5D-B6C2-449A-8085-6B07DC4F7773"
+            },
+            "baseSize":       20,
+            "radius":         5,
+            "presenceRatio":  0.05
+        },
+        {
+            "name":           "hatchet",
+            "meshInfos":      {
+                "GLTFUrl":        "http://localhost:3000/mesh/hatchet/scene.gltf",
+                "uuid":           "4CA58B01-0A53-4742-B903-769E8783251F"
+            },
+            "baseSize":       20,
+            "radius":         2,
+            "presenceRatio":  0.04
+        }
+    ],
+    "backgroundColor":        "#81c2ff",
+    "startCameraPosition":    {
+        "x": 0,
+        "y": 0,
+        "z": 20
+    },
+    "generationArea":         {
+        "topLeftFarPosition": {
+            "x": -75,
+            "y": 75,
+            "z": -75
+        },
+        "bottomRightNearPosition": {
+            "x": 75,
+            "y": 0,
+            "z": 75
+        }
+    }
+}

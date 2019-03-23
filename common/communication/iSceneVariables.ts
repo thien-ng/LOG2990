@@ -4,7 +4,12 @@ export interface ISceneData<OBJ3D_T> {
     originalScene:      ISceneVariables<OBJ3D_T>;
     modifiedScene:      ISceneVariables<OBJ3D_T>;
     modifications:      IModification[];
-    meshIDs?:           number[];
+    meshInfos?:         IMeshInfo[];
+}
+
+export interface IMeshInfo {
+    GLTFUrl:        string;
+    uuid:           string;
 }
 
 export interface IModification {
