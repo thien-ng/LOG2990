@@ -56,6 +56,38 @@ describe("Collision validator tests", () => {
         hidden: false,
     };
 
+    const sphere1: ISceneObject = {
+        id:     4,
+        type:   0,
+        position: {
+            x: 30, y: 30, z: 30,
+        },
+        rotation: {
+            x: 1,   y: 1,   z: 1,
+        },
+        scale: {
+            x: 10,  y: 10,  z: 10,
+        },
+        color:  "#8cadbb",
+        hidden: false,
+    };
+
+    const sphere2: ISceneObject = {
+        id:     5,
+        type:   0,
+        position: {
+            x: 100, y: 100, z: 100,
+        },
+        rotation: {
+            x: 1,   y: 1,   z: 1,
+        },
+        scale: {
+            x: 10,  y: 10,  z: 10,
+        },
+        color:  "#8cadbb",
+        hidden: false,
+    };
+
     const triangularPyramid1: ISceneObject = {
         id:     10,
         type:   4,
