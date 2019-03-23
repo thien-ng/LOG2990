@@ -187,6 +187,19 @@ describe("GameManagerService tests", () => {
         chai.expect(result).to.be.equal(socket);
     });
 
+    it("should emit lobby event message when removing a player in a lobby", () => {
+        const lobbyEvent: ILobbyEvent = {
+            gameID: 1,
+            buttonText: MultiplayerButtonText.create,
+        }
+        gameManagerService.subscribeSocketID("dylan", socket);
+        gameManagerService.subscribeSocketID("michelGagnon", socket);
+        chai.spy.on(gameManagerService["lobbyManagerService"], "removePlayerFromLobby", () => lobbyEvent);
+        const spy: any = chai.spy.on(gameManagerService["server"], "emit", () => {return; });
+        gameManagerService.unsubscribeSocketID("dylan", "dylan");
+        chai.expect(spy).to.have.been.called();
+    });
+
     it("Should return a success message when creating a 2D arena", async () => {
         userManagerService.validateName(request2DSimple.username);
         chai.spy.on(gameManagerService["assetManager"], ["tempRoutine2d"], () => {return; });
