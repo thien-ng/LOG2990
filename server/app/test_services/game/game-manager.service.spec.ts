@@ -271,20 +271,19 @@ describe("GameManagerService tests", () => {
     //     chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
     //     chai.spy.on(gameManagerService["cardOperations"], "getCardById", () => "title");
 
-    //     gameManagerService.analyseRequest(request2DSimple).catch();
-    //     const time: Time = { username: "Frank", time: 50};
-    //     const hs: Highscore = {
-    //         id:             1,
-    //         timesSingle:    [{username: "cpu", time: 1}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
-    //         timesMulti:     [{username: "cpu", time: 2}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
-    //     };
-    //     const hsRes: HighscoreValidationMessage = {newValue: time, mode: Mode.Singleplayer, times: hs};
-    //     chai.spy.on(gameManagerService["highscoreService"], "updateHighscore", () => hsRes);
-    //     gameManagerService.endOfGameRoutine(time, Mode.Singleplayer, iArenaInfos, GameMode.simple);
-    //     gameManagerService.unsubscribeSocketID("12345", "Frank");
-    //     chai.expect(gameManagerService.getUsersInArena(1).length).to.deep.equal(0);
-    //     chai.spy.restore();
-    // });
+    it("should remove player from arena and delete arena", async () => {
+        const arena: Arena2D = new Arena2D(iArenaInfos, gameManagerService);
+        const user: IUser = {
+            username: "Frank",
+            socketID: "12345",
+        };
+        const player: Player = new Player(user);
+        arena["players"].push(player);
+        const spy: any = chai.spy.on(arena, "removePlayer", () => {return; });
+        gameManagerService["arenas"].set(1000, arena);
+        gameManagerService.unsubscribeSocketID("12345", "Frank");
+        chai.expect(spy).to.have.been.called();
+    });
 
     it("should delete arena succesfully", async () => {
         userManagerService.validateName(request2DSimple.username);
