@@ -114,7 +114,7 @@ describe("Arena3D tests", () => {
         }).catch();
     });
 
-    it("should call return failed click response", async () => {
+    it("should return failed click response when event is wrong", async () => {
 
         playerInput.event = "notAClickMyBoi";
 

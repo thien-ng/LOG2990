@@ -7,7 +7,7 @@ describe("FileValidatorService test", () => {
   beforeEach(() => TestBed.configureTestingModule({}));
   const fileValidatorService: FileValidatorService = new FileValidatorService();
 
-  it("should be created", () => {
+  it("Should be created", () => {
     const service: FileValidatorService = TestBed.get(FileValidatorService);
     expect(service).toBeTruthy();
   });

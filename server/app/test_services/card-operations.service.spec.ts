@@ -116,7 +116,7 @@ describe("Card-operations tests", () => {
         chai.expect(cardOperations.removeCard3D(3)).to.equal("error while deleting file");
     });
 
-    it("should delete card 2D", () => {
+    it("should delete card 2D with specific card id", () => {
         const originalImagePath:    string              = Constants.IMAGES_PATH + "/" + 4 + CCommon.ORIGINAL_FILE;
         const modifiedImagePath:    string              = Constants.IMAGES_PATH + "/" + 4 + CCommon.MODIFIED_FILE;
         const generatedImagePath:   string              = Constants.IMAGES_PATH + "/" + 4 + Constants.GENERATED_FILE;
@@ -131,7 +131,7 @@ describe("Card-operations tests", () => {
         chai.expect(cardOperations.removeCard2D(4)).to.equal(Constants.CARD_DELETED);
     });
 
-    it("should delete card 3D", () => {
+    it("should delete card 3D with specific card id", () => {
         const snapshot:             string = Constants.IMAGES_PATH + "/" + 7 + Constants.GENERATED_SNAPSHOT;
         const generatedScene:       string = Constants.SCENE_PATH  + "/" + 7 + CCommon.SCENE_FILE;
         const assetManager:         AssetManagerService = new AssetManagerService();

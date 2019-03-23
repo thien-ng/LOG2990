@@ -10,7 +10,7 @@ import { GameModeService } from "./game-mode.service";
 let gameModeService:  GameModeService;
 let router:           Router;
 
-describe("GameModeService", () => {
+describe("GameModeService Tests", () => {
   beforeEach(() => TestBed.configureTestingModule({
     providers: [GameModeService],
     imports: [
@@ -52,7 +52,7 @@ describe("GameModeService", () => {
     expect(gameModeService.getIndex()).toBe(2);
   });
 
-  it("should update the index after suscribe", () => {
+  it("should update the index after subscribe", () => {
     gameModeService.getGameModeUpdateListener()
     .subscribe((value: number) => {
       expect(value).toBe(1);
