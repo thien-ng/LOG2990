@@ -80,6 +80,7 @@ export class SceneManager {
         const modifiedList:             IModification[]                 = [];
         const iSceneOptions:            ISceneOptions                   = this.sceneOptionsMapper(formMessage);
         const generatedOriginalScene:   ISceneVariables<IMesh>   = this.sceneBuilderTheme.generateScene(iSceneOptions, theme);
+        console.log(generatedOriginalScene);
 
         // _TODO
         // const generatedModifiedScene:   ISceneVariables<IMesh>   = this.sceneModifier.modifyScene(iSceneOptions,

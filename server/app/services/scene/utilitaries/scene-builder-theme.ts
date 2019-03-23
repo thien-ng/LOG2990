@@ -1,6 +1,5 @@
 import { IMesh } from "../../../../../common/communication/iSceneObject";
 import { ISceneVariables, IVector3D } from "../../../../../common/communication/iSceneVariables";
-// import { CollisionValidator } from "./collision-validator";
 import { ISceneOptions } from "../../../../../common/communication/iSceneOptions";
 import { ITheme, ISceneEntity } from "../../../../../common/communication/ITheme";
 import { SceneConstants } from "../sceneConstants";
@@ -8,12 +7,7 @@ import { SceneConstants } from "../sceneConstants";
 export class SceneBuilderTheme {
 
     private sceneVariables: ISceneVariables<IMesh>;
-    // private collisionValidator: CollisionValidator;
     private theme: ITheme;
-
-    public constructor () {
-        // this.collisionValidator = new CollisionValidator();
-    }
 
     public generateScene(sceneOptions: ISceneOptions, theme: ITheme): ISceneVariables<IMesh> {
         this.theme = theme;
@@ -22,22 +16,22 @@ export class SceneBuilderTheme {
             theme:                  sceneOptions.sceneType,
             gameName:               sceneOptions.sceneName,
             sceneObjectsQuantity:   sceneOptions.sceneObjectsQuantity,
-            sceneObjects:           this.generateSceneObjects(sceneOptions),
+            sceneObjects:           [],
             sceneBackgroundColor:   this.theme.backgroundColor,
         };
+
+        this.generateSceneObjects(sceneOptions);
 
         return this.sceneVariables;
     }
 
-    private generateSceneObjects(sceneOptions: ISceneOptions): IMesh[] {
+    private generateSceneObjects(sceneOptions: ISceneOptions): void {
         const sceneObjectsQuantity: number = sceneOptions.sceneObjectsQuantity;
-        const objects: IMesh[] = [];
 
         for (let id: number = 0; id < sceneObjectsQuantity; id++) {
-            objects.push(this.generateRandomSceneMesh(id, this.theme.sceneEntities));
-        }   
-
-        return objects;
+            const generatedObject: IMesh = this.generateRandomSceneMesh(id, this.theme.sceneEntities);
+            this.sceneVariables.sceneObjects.push(generatedObject);
+        }
     }
 
     private generateRandomSceneMesh(id: number, sceneEntitiesList: ISceneEntity[]): IMesh {
@@ -67,30 +61,44 @@ export class SceneBuilderTheme {
     }
 
     private generateMesh(id: number, sceneEntity: ISceneEntity): IMesh {
-        
+        const scaleFactor:  number = this.generateRandomScale(sceneEntity.baseSize);
+        const radius:       number = sceneEntity.radius * scaleFactor;
+
         return {
             id:             id,
             uuid:           sceneEntity.meshInfos.uuid,
-            position:       this.generateRandomPosition(),
+            radius:         radius,
+            position:       this.generateRandomPosition(radius),
             rotation:       {
                 x: 0,
                 y: this.randomFloatFromInterval(0, SceneConstants.TWO_PI),
                 z: 0
             },
-            scaleFactor:    this.generateRandomScale(sceneEntity.baseSize),
+            scaleFactor:    scaleFactor,
             hidden:         false,
         } as IMesh;
     }
 
-    private generateRandomPosition(): IVector3D {
+    private generateRandomPosition(radius: number): IVector3D {
         const minPosition: IVector3D = this.theme.generationArea.minPosition;
         const maxPosition: IVector3D = this.theme.generationArea.maxPosition;
 
-        return {
-            x: this.randomFloatFromInterval(minPosition.x, maxPosition.x),
-            y: this.randomFloatFromInterval(minPosition.y, maxPosition.y),
-            z: this.randomFloatFromInterval(minPosition.z, maxPosition.z),
-        } as IVector3D;
+        let randomPosition:     IVector3D;
+        let isValidPosition:    boolean;
+
+        do {
+
+            randomPosition = {
+                x: this.randomFloatFromInterval(minPosition.x, maxPosition.x),
+                y: this.randomFloatFromInterval(minPosition.y, maxPosition.y),
+                z: this.randomFloatFromInterval(minPosition.z, maxPosition.z),
+            } as IVector3D;
+            isValidPosition = this.isValidPosition(randomPosition, radius);
+            console.log(isValidPosition);
+
+        } while (!isValidPosition);
+
+        return randomPosition;
     }
 
     private generateRandomScale(baseScale: number): number {
@@ -103,8 +111,26 @@ export class SceneBuilderTheme {
         return Math.random() * (max - min + 1) + min;
     }
 
-    private validatePosition(position: IVector3D, radius: number): boolean {
-        return true;
+    private isValidPosition(position: IVector3D, radius: number): boolean {
+
+        const sceneObjects: IMesh[] = this.sceneVariables.sceneObjects;
+
+        const isNotValid: boolean = sceneObjects.some((sceneObject: IMesh) => {
+            const distanceBetween:      number  = this.getDistanceBetween(position, sceneObject.position);
+            const minDistanceNeeded:    number  = radius + sceneObject.radius;
+
+            return distanceBetween < minDistanceNeeded;
+        });
+
+        return !isNotValid;
+    }
+
+    private getDistanceBetween(vectorFrom: IVector3D, vectorTo: IVector3D): number {
+        const deltaX: number = vectorTo.x - vectorFrom.x;
+        const deltaY: number = vectorTo.y - vectorFrom.y;
+        const deltaZ: number = vectorTo.z - vectorFrom.z;
+
+        return Math.hypot(deltaX, deltaY, deltaZ);
     }
 
 
