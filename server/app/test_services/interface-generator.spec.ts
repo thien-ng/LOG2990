@@ -78,4 +78,15 @@ describe("interface-generator tests", () => {
 
     });
 
+    it("should return IUser when calling builIUser()", () => {
+        const expectedIUser: IUser = {
+            username: "jerry",
+            socketID: "2",
+        };
+
+        const resultIUser: IUser = interfaceBuilder.buildIUser("jerry", "2");
+        expect(resultIUser).deep.equal(expectedIUser);
+
+    });
+
 });
