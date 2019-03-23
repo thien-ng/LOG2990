@@ -261,5 +261,26 @@ describe("Collision validator tests", () => {
             chai.expect(isColliding).equal(false);
         });
 
+        it("should return true if there is collision between new and already existing scene objects", () => {
+            const newSphere: ISceneObject = {
+                id:     1,
+                type:   0,
+                position: {
+                    x: 35, y: 35, z: 35,
+                },
+                rotation: {
+                    x: 1,   y: 1,   z: 1,
+                },
+                scale: {
+                    x: 10,  y: 10,  z: 10,
+                },
+                color:  "#8cadbb",
+                hidden: false,
+            };
+
+            const isColliding: boolean = collisionValidator.hasCollidingPositions(newSphere, existingSceneObjects);
+
+            chai.expect(isColliding).equal(true);
+        });
     });
 });
