@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { inject, injectable } from "inversify";
-import { ISceneObject, IMesh } from "../../../common/communication/iSceneObject";
+import { IMesh, ISceneObject } from "../../../common/communication/iSceneObject";
 import { ISceneData } from "../../../common/communication/iSceneVariables";
 import { SceneManager } from "../services/scene/scene-manager.service";
 import Types from "../types";

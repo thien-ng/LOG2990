@@ -1,10 +1,13 @@
+import { ISceneEntity, ITheme } from "../../../../common/communication/ITheme";
 import { IMesh } from "../../../../common/communication/iSceneObject";
-import { ISceneVariables, IVector3D } from "../../../../common/communication/iSceneVariables";
 import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
-import { ITheme, ISceneEntity } from "../../../../common/communication/ITheme";
+import { ISceneVariables, IVector3D } from "../../../../common/communication/iSceneVariables";
 import { SceneConstants } from "./sceneConstants";
 
 export class SceneBuilderTheme {
+
+    private readonly MIN_SCALE: number = 0.5;
+    private readonly MAX_SCALE: number = 1.5;
 
     private sceneVariables: ISceneVariables<IMesh>;
     private theme: ITheme;
@@ -46,14 +49,14 @@ export class SceneBuilderTheme {
         const ratioByIndex:         number[]    = [];
         let   stepValue:            number      = 0;
         let   chosenObjectIndex:    number      = 0;
-        
+
         sceneEntities.forEach((sceneEntity: ISceneEntity) => {
             ratioByIndex.push(stepValue);
             stepValue += sceneEntity.presenceRatio;
         });
-        
-        ratioByIndex.forEach((ratioByIndex: number, index: number) => {
-            if (randomIndex > ratioByIndex) {
+
+        ratioByIndex.forEach((ratioIndex: number, index: number) => {
+            if (randomIndex > ratioIndex) {
                 chosenObjectIndex = index;
             }
         });
@@ -74,7 +77,7 @@ export class SceneBuilderTheme {
             rotation:       {
                 x: 0,
                 y: this.randomFloatFromInterval(0, SceneConstants.TWO_PI),
-                z: 0
+                z: 0,
             },
             scaleFactor:    scaleFactor,
             hidden:         false,
@@ -87,7 +90,7 @@ export class SceneBuilderTheme {
 
         const scaleFactor:      number = this.generateRandomScale(sceneEntity.baseSize);
         const radius:           number = sceneEntity.radius * scaleFactor;
-        const randomIndex:      number = this.randomIntegerFromInterval(0, sceneEntity.meshInfos.length - 1);        
+        const randomIndex:      number = this.randomIntegerFromInterval(0, sceneEntity.meshInfos.length - 1);
 
         return {
             id:             id,
@@ -98,7 +101,7 @@ export class SceneBuilderTheme {
             rotation:       {
                 x: 0,
                 y: this.randomFloatFromInterval(0, SceneConstants.TWO_PI),
-                z: 0
+                z: 0,
             },
             scaleFactor:    scaleFactor,
             hidden:         false,
@@ -128,8 +131,9 @@ export class SceneBuilderTheme {
     }
 
     private generateRandomScale(baseScale: number): number {
-        const minValue: number = baseScale * 0.5;
-        const maxValue: number = baseScale * 1.5;
+        const minValue: number = baseScale * this.MIN_SCALE;
+        const maxValue: number = baseScale * this.MAX_SCALE;
+
         return this.randomFloatFromInterval(minValue, maxValue);
     }
 
@@ -162,11 +166,5 @@ export class SceneBuilderTheme {
 
         return Math.hypot(deltaX, deltaY, deltaZ);
     }
-
-
-
-    // for all  -> generate new id,
-    // get in ITheme sceneEntities 
-    // generate new size/ pos of entities radisu
 
 }

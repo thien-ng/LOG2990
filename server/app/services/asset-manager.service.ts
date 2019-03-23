@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import { injectable } from "inversify";
+import { ITheme } from "../../../common/communication/ITheme";
 import { CCommon } from "../../../common/constantes/cCommon";
-import { ITheme } from "../../../common/communication/ITheme"; 
 import { Constants } from "../constants";
 
 const IMAGES_PATH:              string = "./app/asset/image";
@@ -98,7 +98,6 @@ export class AssetManagerService {
         try {
             fs.writeFileSync(path, data);
         } catch (error) {
-            console.log(error.message);
             throw TypeError(FILE_SAVING_ERROR);
         }
     }
@@ -125,6 +124,7 @@ export class AssetManagerService {
         const themePath: string = Constants.PATH_LOCAL_THEME + themeName;
         try {
             const readFile: Buffer = fs.readFileSync(themePath);
+
             return JSON.parse(readFile.toString()) as ITheme;
         } catch (error) {
             throw new TypeError(GET_THEME_ERROR);

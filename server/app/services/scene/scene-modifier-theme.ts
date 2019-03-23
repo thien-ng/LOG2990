@@ -1,10 +1,10 @@
 import deepcopy from "ts-deepcopy";
-import { SceneBuilderTheme } from "./scene-builder-theme";
-import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
-import { ISceneVariables, IModification, ModificationType } from "../../../../common/communication/iSceneVariables";
-import { IMesh } from "../../../../common/communication/iSceneObject";
-import { SceneConstants } from "./sceneConstants";
 import { ISceneEntity } from "../../../../common/communication/ITheme";
+import { IMesh } from "../../../../common/communication/iSceneObject";
+import { ISceneOptions } from "../../../../common/communication/iSceneOptions";
+import { IModification, ISceneVariables, ModificationType } from "../../../../common/communication/iSceneVariables";
+import { SceneBuilderTheme } from "./scene-builder-theme";
+import { SceneConstants } from "./sceneConstants";
 
 export class SceneModifierTheme {
 
@@ -18,7 +18,6 @@ export class SceneModifierTheme {
     private sceneEntities:          ISceneEntity[];
     private cloneSceneVariables:    ISceneVariables<IMesh>;
 
-
     public constructor(sceneBuilderTheme: SceneBuilderTheme) {
         this.sceneBuilderTheme = sceneBuilderTheme;
     }
@@ -27,7 +26,7 @@ export class SceneModifierTheme {
         sceneOptions:      ISceneOptions,
         sceneVariables:    ISceneVariables<IMesh>,
         modifications:     IModification[],
-        sceneEntities:     ISceneEntity[]) {
+        sceneEntities:     ISceneEntity[]): ISceneVariables<IMesh> {
 
         this.originalObjects = sceneVariables.sceneObjects;
         this.cloneSceneVariables = this.clone<ISceneVariables<IMesh>>(sceneVariables);
@@ -39,7 +38,7 @@ export class SceneModifierTheme {
             const selectedOption: string = this.generateSelectedIndex(sceneOptions.selectedOptions);
 
             this.chooseOperation(selectedOption);
-        } 
+        }
 
         return {
             gameName:               this.cloneSceneVariables.gameName,
@@ -86,11 +85,13 @@ export class SceneModifierTheme {
     }
 
     private addObject(): void {
-        const lastObjectElement:            IMesh   = this.sceneObjects[this.sceneObjects.length - 1];
-        const newIndex:                     number  = lastObjectElement.id + 1;
-        const randomEntity:                 ISceneEntity = this.sceneBuilderTheme.getRandomEntity(this.sceneEntities);
-        const generatedMesh:                IMesh   = this.sceneBuilderTheme.generateModifiedMesh(newIndex, randomEntity, this.cloneSceneVariables);
-        const generatedMeshForOriginal:     IMesh   = this.clone<IMesh>(generatedMesh);
+        const lastObjectElement:        IMesh   = this.sceneObjects[this.sceneObjects.length - 1];
+        const newIndex:                 number  = lastObjectElement.id + 1;
+        const randomEntity:             ISceneEntity = this.sceneBuilderTheme.getRandomEntity(this.sceneEntities);
+        const generatedMesh:            IMesh   = this.sceneBuilderTheme.generateModifiedMesh(newIndex,
+                                                                                              randomEntity,
+                                                                                              this.cloneSceneVariables);
+        const generatedMeshForOriginal: IMesh   = this.clone<IMesh>(generatedMesh);
 
         generatedMeshForOriginal.hidden = true;
 
@@ -107,10 +108,9 @@ export class SceneModifierTheme {
         do {
             generatedIndex = this.generateRandomIndex();
         } while (this.containsInModifedList(generatedIndex) || this.idNotExist(generatedIndex));
-        
+
         const objectArray: IMesh[] = this.sceneObjects.filter((object: IMesh) => object.id === generatedIndex);
         objectArray[0].hidden = true;
-
 
         const modificationMap: IModification = {id: generatedIndex, type: ModificationType.removed};
 
@@ -135,7 +135,6 @@ export class SceneModifierTheme {
 
             if (foundEntity) {
 
-                foundEntity.meshInfos[1];
                 foundMesh.meshInfo = foundEntity.meshInfos[1];
                 const modificationMap: IModification = {id: generatedIndex, type: ModificationType.changedColor};
                 this.modifiedIndex.push(modificationMap);
@@ -146,7 +145,7 @@ export class SceneModifierTheme {
     }
 
     private findEntityByUUID(entityName: string): ISceneEntity | undefined {
-        
+
         const entityFound: ISceneEntity | undefined = this.sceneEntities.find((sceneEntity: ISceneEntity) => {
             return sceneEntity.name === entityName;
         });

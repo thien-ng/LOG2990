@@ -1,16 +1,16 @@
 import * as chai from "chai";
 import * as spies from "chai-spies";
 import "reflect-metadata";
-import { ISceneObject, IMesh } from "../../../../common/communication/iSceneObject";
+import { IMesh, ISceneObject } from "../../../../common/communication/iSceneObject";
 import { SceneType } from "../../../../common/communication/iSceneOptions";
 import { ISceneData } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
 import { Constants } from "../../constants";
+import { AssetManagerService } from "../../services/asset-manager.service";
 import { CardManagerService } from "../../services/card-manager.service";
 import { CardOperations } from "../../services/card-operations.service";
 import { HighscoreService } from "../../services/highscore.service";
 import { SceneManager } from "../../services/scene/scene-manager.service";
-import { AssetManagerService } from "../../services/asset-manager.service";
 
 /* tslint:disable:no-any no-magic-numbers */
 
@@ -102,6 +102,21 @@ describe("SceneManager Tests", () => {
 
         if (typeof sceneVariables !== "string") {
             chai.expect(sceneVariables.originalScene.theme).to.be.equal(0);
+        }
+    });
+
+    it("should return error of wrong game type message", () => {
+        formMessage = {
+            gameName:           "gameName",
+            checkedTypes:       [true, true, true],
+            theme:              "pasUnVraiJeuBro",
+            quantityChange:     10,
+        };
+
+        const sceneVariables: ISceneData<ISceneObject | IMesh> | string = sceneManager.createScene(formMessage);
+
+        if (typeof sceneVariables !== "string") {
+            chai.expect(sceneVariables).to.be.equal("Les données entrées sont invalides");
         }
     });
 

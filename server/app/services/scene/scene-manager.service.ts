@@ -1,19 +1,20 @@
 import { inject, injectable } from "inversify";
-import { ISceneObject, IMesh } from "../../../../common/communication/iSceneObject";
+import { IMesh, ISceneObject } from "../../../../common/communication/iSceneObject";
 import { ISceneOptions, SceneType } from "../../../../common/communication/iSceneOptions";
-import { IModification, ISceneData, ISceneVariables, IMeshInfo } from "../../../../common/communication/iSceneVariables";
+import { IMeshInfo, IModification, ISceneData, ISceneVariables } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
+
+import { ISceneEntity, ITheme } from "../../../../common/communication/ITheme";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { Constants } from "../../constants";
 import Types from "../../types";
+import { AssetManagerService } from "../asset-manager.service";
 import { CardManagerService } from "../card-manager.service";
 import { SceneBuilder } from "./scene-builder";
-import { SceneModifier } from "./scene-modifier";
-import { SceneConstants } from "./sceneConstants";
 import { SceneBuilderTheme } from "./scene-builder-theme";
-import { AssetManagerService } from "../asset-manager.service";
-import { ITheme, ISceneEntity } from "../../../../common/communication/ITheme";
+import { SceneModifier } from "./scene-modifier";
 import { SceneModifierTheme } from "./scene-modifier-theme";
+import { SceneConstants } from "./sceneConstants";
 
 @injectable()
 export class SceneManager {
@@ -31,7 +32,6 @@ export class SceneManager {
         this.sceneBuilderTheme      = new SceneBuilderTheme();
         this.sceneModifierGeometric = new SceneModifier(this.sceneBuilderGeometric);
         this.sceneModifierTheme     = new SceneModifierTheme(this.sceneBuilderTheme);
-        
     }
 
     public createScene(formMessage: FormMessage): ISceneData<ISceneObject | IMesh> | string {
@@ -49,18 +49,12 @@ export class SceneManager {
         }
     }
 
-    private builderSelector(formMessage: FormMessage): ISceneData<ISceneObject | IMesh> | string {
-
-        if (formMessage.theme === undefined) {
-            return "Theme doesn't exist.";
-        }
+    private builderSelector(formMessage: FormMessage): ISceneData<ISceneObject | IMesh> {
 
         if (formMessage.theme === SceneConstants.TYPE_GEOMETRIC) {
             return this.buildSceneGeometric(formMessage);
-        } else if (formMessage.theme === SceneConstants.TYPE_THEMATIC) {
-            return this.buildSceneTheme(formMessage);
         } else {
-            return "Wrong Type.";
+            return this.buildSceneTheme(formMessage);
         }
     }
 
@@ -69,9 +63,9 @@ export class SceneManager {
         const modifiedList:             IModification[]                 = [];
         const iSceneOptions:            ISceneOptions                   = this.sceneOptionsMapper(formMessage);
         const generatedOriginalScene:   ISceneVariables<ISceneObject>   = this.sceneBuilderGeometric.generateScene(iSceneOptions);
-        const generatedModifiedScene:   ISceneVariables<ISceneObject>   = this.sceneModifierGeometric.modifyScene(iSceneOptions,
-                                                                                                     generatedOriginalScene,
-                                                                                                     modifiedList);
+        const generatedModifiedScene:   ISceneVariables<ISceneObject>   = this.sceneModifierGeometric.modifyScene(  iSceneOptions,
+                                                                                                                    generatedOriginalScene,
+                                                                                                                    modifiedList);
 
         return this.buildSceneData(generatedOriginalScene, generatedModifiedScene, modifiedList);
     }
@@ -80,19 +74,19 @@ export class SceneManager {
 
         const theme: ITheme = this.assetManagerService.getTheme("parktest.json");
 
-        const modifiedList:             IModification[]                 = [];
-        const iSceneOptions:            ISceneOptions                   = this.sceneOptionsMapper(formMessage);
+        const modifiedList:             IModification[]          = [];
+        const iSceneOptions:            ISceneOptions            = this.sceneOptionsMapper(formMessage);
         const generatedOriginalScene:   ISceneVariables<IMesh>   = this.sceneBuilderTheme.generateScene(iSceneOptions, theme);
+        const generatedModifiedScene:   ISceneVariables<IMesh>   = this.sceneModifierTheme.modifyScene( iSceneOptions,
+                                                                                                        generatedOriginalScene,
+                                                                                                        modifiedList,
+                                                                                                        theme.sceneEntities);
 
-        // _TODO
-        const generatedModifiedScene:   ISceneVariables<IMesh>   = this.sceneModifierTheme.modifyScene(iSceneOptions,
-                                                                                                     generatedOriginalScene,
-                                                                                                     modifiedList,
-                                                                                                     theme.sceneEntities);
-        // return this.buildSceneData(generatedOriginalScene, generatedModifiedScene, modifiedList, this.extractMeshInfos(theme.sceneEntities));
-        var test = this.buildSceneData(generatedOriginalScene, generatedModifiedScene, modifiedList, this.extractMeshInfos(theme.sceneEntities));
-        this.assetManagerService.saveGeneratedScene("./app/asset/scene/test.json", JSON.stringify(test));
-        return test;
+        return this.buildSceneData(
+            generatedOriginalScene,
+            generatedModifiedScene,
+            modifiedList,
+            this.extractMeshInfos(theme.sceneEntities));
     }
 
     private extractMeshInfos(sceneEntities: ISceneEntity[]): IMeshInfo[] {
@@ -111,7 +105,7 @@ export class SceneManager {
         generatedOriginalScene: ISceneVariables<OBJ_T>,
         generatedModifiedScene: ISceneVariables<OBJ_T>,
         modifiedList:           IModification[],
-        meshInfo?:              IMeshInfo[]
+        meshInfo?:              IMeshInfo[],
         ): ISceneData<OBJ_T> {
 
         return {
