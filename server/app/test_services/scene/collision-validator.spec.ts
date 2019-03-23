@@ -3,7 +3,7 @@ import "reflect-metadata";
 import { ISceneObject } from "../../../../common/communication/iSceneObject";
 import { CollisionValidator } from "../../services/scene/utilitaries/collision-validator";
 
-/* tslint:disable:no-any no-magic-numbers */
+// tslint:disable:no-any no-magic-numbers max-file-line-count
 let collisionValidator: CollisionValidator;
 
 describe("Collision validator tests", () => {
