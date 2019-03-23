@@ -37,7 +37,7 @@ export class SceneBuilderTheme {
     private generateRandomSceneMesh(id: number, sceneEntitiesList: ISceneEntity[]): IMesh {
 
         const chosenEntity: ISceneEntity = this.getRandomEntity(sceneEntitiesList);
-        console.log(chosenEntity.name);
+
         return this.generateMesh(id, chosenEntity);
     }
 
@@ -54,11 +54,7 @@ export class SceneBuilderTheme {
         
         ratioByIndex.forEach((ratioByIndex: number, index: number) => {
             if (randomIndex > ratioByIndex) {
-                // console.log("ratio", ratioByIndex);
-                // console.log("rand", randomIndex);
-                // console.log("index",index);
                 chosenObjectIndex = index;
-                // console.log(sceneEntities[index]);
             }
         });
 
@@ -71,7 +67,7 @@ export class SceneBuilderTheme {
 
         return {
             id:             id,
-            uuid:           sceneEntity.meshInfos[0].uuid,
+            meshInfo:       sceneEntity.meshInfos[0],
             name:           sceneEntity.name,
             radius:         radius,
             position:       this.generateRandomPosition(radius),
@@ -95,7 +91,7 @@ export class SceneBuilderTheme {
 
         return {
             id:             id,
-            uuid:           sceneEntity.meshInfos[randomIndex].uuid,
+            meshInfo:       sceneEntity.meshInfos[randomIndex],
             name:           sceneEntity.name,
             radius:         radius,
             position:       this.generateRandomPosition(radius),

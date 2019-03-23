@@ -89,12 +89,7 @@ export class SceneManager {
                                                                                                      generatedOriginalScene,
                                                                                                      modifiedList,
                                                                                                      theme.sceneEntities);
-// console.log("original: ", generatedOriginalScene);
-// console.log("modified: ", generatedModifiedScene);
-// console.log("mod",modifiedList);
-if (generatedModifiedScene){}
-                                                         // _TODO orignal scene to modify
-        return this.buildSceneData(generatedOriginalScene, generatedOriginalScene, modifiedList);
+        return this.buildSceneData(generatedOriginalScene, generatedModifiedScene, modifiedList);
     }
 
     private buildSceneData<OBJ_T>(

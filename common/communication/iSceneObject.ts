@@ -1,4 +1,4 @@
-import { IVector3D } from "./iSceneVariables";
+import { IVector3D, IMeshInfo } from "./iSceneVariables";
 
 export interface ISceneObject {
     id:             number;
@@ -26,7 +26,7 @@ export interface IAxisValues {
 
 export interface IMesh {
     id:             number;
-    uuid:           string;
+    meshInfo:       IMeshInfo;
     name:           string;
     radius:         number;
     position:       IVector3D;
