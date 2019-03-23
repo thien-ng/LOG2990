@@ -14,7 +14,7 @@ export class ThreejsThemeGenerator {
 
   public initiateObject(mesh: IMesh, modelsByName: Map<string, THREE.Object3D>): void {
 
-    const model3D: THREE.Object3D | undefined = modelsByName.get(mesh.meshName);
+    const model3D: THREE.Object3D | undefined = modelsByName.get(mesh.name);
 
     if (model3D) {
       const object3D: THREE.Object3D = model3D.clone();
@@ -26,7 +26,7 @@ export class ThreejsThemeGenerator {
   private initObject3D (mesh: IMesh, object3D: THREE.Object3D): void {
     this.setObjectPosition(object3D, mesh.position);
     this.setObjectRotation(object3D, mesh.rotation);
-    this.setObjectScale(object3D, mesh.scale);
+    this.setObjectScale(object3D, mesh.scaleFactor);
     this.addObjectIdToMap(mesh.id, object3D.id);
 
     const opacityUsed: number = (object3D.visible) ? 0 : 1;
@@ -71,9 +71,9 @@ export class ThreejsThemeGenerator {
     object3D.rotation.z = orientation.z;
   }
 
-  private setObjectScale(object3D: THREE.Object3D, orientation: IVector3D): void {
-    object3D.scale.x = orientation.x;
-    object3D.scale.y = orientation.y;
-    object3D.scale.z = orientation.z;
+  private setObjectScale(object3D: THREE.Object3D, scale: number): void {
+    object3D.scale.x = scale;
+    object3D.scale.y = scale;
+    object3D.scale.z = scale;
   }
 }
