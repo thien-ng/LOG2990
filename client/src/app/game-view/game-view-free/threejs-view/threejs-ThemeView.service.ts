@@ -105,6 +105,7 @@ export class ThreejsThemeViewService {
       this.opacityById,
     );
     await this.getModelObjects(this.meshInfos);
+    console.log(this.modelsByName)
     this.renderer.setSize(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
     this.renderer.setClearColor(this.sceneVariables.sceneBackgroundColor);
 
@@ -116,6 +117,7 @@ export class ThreejsThemeViewService {
 
     this.createLighting();
     this.generateSceneObjects(isSnapshotNeeded, arenaID);
+    console.log(this.scene.children);
 
     this.camera.lookAt(new THREE.Vector3(this.CAMERA_START_POSITION, this.CAMERA_START_POSITION, this.CAMERA_START_POSITION));
   }
@@ -193,7 +195,7 @@ export class ThreejsThemeViewService {
   private renderObject(): void {
 
     this.threejsMovement.movementCamera(this.moveForward, this.moveBackward, this.moveLeft, this.moveRight);
-
+    console.log(this.renderer)
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -216,8 +218,9 @@ export class ThreejsThemeViewService {
         const gtlf: THREE.GLTF | undefined = this.gltfByUrl.get(meshInfo.GLTFUrl);
         if (gtlf) {
           gtlf.scene.traverse((child: THREE.Object3D) => {
-            if (child.uuid === meshInfo.uuid) {
-              this.modelsByName.set(meshInfo.GLTFUrl, child);
+            if (child.name === meshInfo.uuid) {
+              console.log("dsfdsf")
+              this.modelsByName.set(child.name, child);
             }
           });
         }
