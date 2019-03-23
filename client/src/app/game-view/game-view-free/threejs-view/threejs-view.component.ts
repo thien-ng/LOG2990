@@ -179,12 +179,12 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
       this.focusChat = newValue;
     });
 
-    this.gameConnectionService.getObjectToUpdate().subscribe((object: ISceneObjectUpdate) => {
+    this.gameConnectionService.getObjectToUpdate().subscribe((object: ISceneObjectUpdate<ISceneObject | IMesh>) => {
       this.getDifferencesList();
 
       this.sceneBuilderService.changeObjectsColor(false, true, this.modifications);
       if (this.isNotOriginal) {
-        this.sceneBuilderService.updateSceneWithNewObject(object);
+        this.sceneBuilderService.updateSceneWithNewObject(object as ISceneObjectUpdate<ISceneObject | IMesh>);
       }
     });
   }
