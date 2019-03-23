@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import { injectable } from "inversify";
 import { CCommon } from "../../../common/constantes/cCommon";
+import { ITheme } from "../../../common/communication/ITheme"; 
 import { Constants } from "../constants";
 
 const IMAGES_PATH:              string = "./app/asset/image";
@@ -8,6 +9,7 @@ const FILE_GENERATION_ERROR:    string = "error while generating file";
 const FILE_DELETION_ERROR:      string = "error while deleting file";
 const FILE_SAVING_ERROR:        string = "error while saving file";
 const TEMP_ROUTINE_ERROR:       string = "error while copying to temp";
+const GET_THEME_ERROR:          string = "error while getting theme file";
 
 @injectable()
 export class AssetManagerService {
@@ -115,6 +117,16 @@ export class AssetManagerService {
             fs.unlinkSync(imgPathTemp);
         } catch (error) {
             throw new TypeError(FILE_DELETION_ERROR);
+        }
+    }
+
+    public getTheme(themeName: string): ITheme {
+        const themePath: string = Constants.PATH_LOCAL_THEME + themeName;
+        try {
+            const readFile: Buffer = fs.readFileSync(themePath);
+            return JSON.parse(readFile.toString()) as ITheme;
+        } catch (error) {
+            throw new TypeError(GET_THEME_ERROR);
         }
     }
 }

@@ -25,11 +25,10 @@ export interface IAxisValues {
 }
 
 export interface IMesh {
-    id:         number;
-    uuid:       string;
-    rayon:      number;
-    position:   IVector3D;
-    rotation:   IVector3D;
-    scale:      IVector3D;
-    hidden:     boolean;
+    id:             number;
+    uuid:           string;
+    position:       IVector3D;
+    rotation:       IVector3D;
+    scaleFactor:    number;
+    hidden:         boolean;
 }

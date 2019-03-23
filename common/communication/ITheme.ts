@@ -2,6 +2,7 @@ import { IMeshInfo } from "./iSceneVariables";
 
 
 export interface ITheme {
+    name:                   string;
     sceneEntities:          ISceneEntity[];
     floorEntity?:           ISceneEntity;
     backgroundColor:        string;
@@ -24,6 +25,6 @@ export interface ISceneEntity {
 }
 
 export interface IArea3D {
-    topLeftFarPosition:         IVector3D;
-    bottomRightNearPosition:    IVector3D;
+    minPosition:    IVector3D;
+    maxPosition:    IVector3D;
 }
