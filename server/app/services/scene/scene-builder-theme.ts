@@ -138,7 +138,7 @@ export class SceneBuilderTheme {
     }
 
     private randomFloatFromInterval(min: number, max: number): number {
-        return Math.random() * (max - min + 1) + min;
+        return Math.random() * (max - min) + min;
     }
 
     public randomIntegerFromInterval(min: number, max: number): number {
