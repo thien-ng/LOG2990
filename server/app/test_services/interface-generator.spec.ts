@@ -5,7 +5,9 @@ import { Message } from "../../../common/communication/message";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { InterfaceBuilder } from "../../app/services/interface-generator";
 import { Constants } from "../constants";
-import { I2DInfos, IArenaInfos, I3DInfos } from "../services/game/arena/interfaces";
+import { I2DInfos, I3DInfos, IArenaInfos } from "../services/game/arena/interfaces";
+
+// tslint:disable:no-magic-numbers
 
 describe("interface-generator tests", () => {
     let interfaceBuilder: InterfaceBuilder;
@@ -48,7 +50,6 @@ describe("interface-generator tests", () => {
     });
 
     it("should return IArenaInfos<I2DInfos> when calling buildArena2DInfos()", () => {
-
         const expectedIArenaInfos: IArenaInfos<I2DInfos> = {
             arenaId:            11,
             users:              usersMock,
@@ -64,7 +65,6 @@ describe("interface-generator tests", () => {
     });
 
     it("should return IArenaInfos<I3DInfos> when calling buildArena3DInfos()", () => {
-
         const expectedIArenaInfos: IArenaInfos<I3DInfos> = {
             arenaId:            11,
             users:              usersMock,
