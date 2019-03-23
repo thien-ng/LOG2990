@@ -12,19 +12,18 @@ import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../
 import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
-// import { Constants } from "../../constants";
+import { Constants } from "../../constants";
 import { CardOperations } from "../../services/card-operations.service";
 import { ChatManagerService } from "../../services/chat-manager.service";
 import { Arena2D } from "../../services/game/arena/arena2d";
-import { I2DInfos, IArenaInfos, IPlayerInput, I3DInfos } from "../../services/game/arena/interfaces";
+import { I2DInfos, I3DInfos, IArenaInfos, IPlayerInput } from "../../services/game/arena/interfaces";
+import { Player } from "../../services/game/arena/player";
 import { GameManagerService } from "../../services/game/game-manager.service";
 import { LobbyManagerService } from "../../services/game/lobby-manager.service";
 import { HighscoreService } from "../../services/highscore.service";
 import { Mode, Time } from "../../services/highscore/utilities/interfaces";
 import { TimeManagerService } from "../../services/time-manager.service";
 import { UserManagerService } from "../../services/user-manager.service";
-import { Player } from "../../services/game/arena/player";
-import { Constants } from "../../constants";
 
 // tslint:disable no-magic-numbers no-any await-promise no-floating-promises max-file-line-count max-func-body-length no-empty
 
@@ -149,7 +148,12 @@ beforeEach(() => {
     chatManagerService  = new ChatManagerService(timeManagerService);
     cardOperations      = new CardOperations(highscoreService);
 
-    gameManagerService  = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations, lobbyManagerService);
+    gameManagerService  = new GameManagerService(
+        userManagerService,
+        highscoreService,
+        chatManagerService,
+        cardOperations,
+        lobbyManagerService);
     mockAxios           = new mockAdapter.default(axios);
     gameManagerService["server"]  = server;
     lobbyManagerService["server"] = server;
@@ -191,7 +195,7 @@ describe("GameManagerService tests", () => {
         const lobbyEvent: ILobbyEvent = {
             gameID: 1,
             buttonText: MultiplayerButtonText.create,
-        }
+        };
         gameManagerService.subscribeSocketID("dylan", socket);
         gameManagerService.subscribeSocketID("michelGagnon", socket);
         chai.spy.on(gameManagerService["lobbyManagerService"], "removePlayerFromLobby", () => lobbyEvent);
@@ -282,11 +286,6 @@ describe("GameManagerService tests", () => {
 
         gameManagerService.analyseRequest(request2DSimple).catch();
 
-        const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
-        const expectedMessage: IArenaResponse<any> = {
-            status:     CCommon.ON_ERROR,
-            response:   ON_ERROR_ORIGINAL_PIXEL_CLUSTER,
-        };
         chai.expect(await gameManagerService.onPlayerInput(playerInput)).to.deep.equal(expectedMessage);
         chai.spy.restore();
     });
@@ -329,7 +328,12 @@ describe("GameManagerService tests", () => {
     });
 
     it("Should send message with socket", async () => {
-        gameManagerService = new GameManagerService(userManagerService, highscoreService, chatManagerService, cardOperations, lobbyManagerService);
+        gameManagerService = new GameManagerService(
+            userManagerService,
+            highscoreService,
+            chatManagerService,
+            cardOperations,
+            lobbyManagerService);
         gameManagerService.subscribeSocketID("socketID", socket);
         gameManagerService.sendMessage("socketID", "onEvent", 1);
         verify(socket.emit("onEvent", 1)).atLeast(0);
@@ -524,7 +528,7 @@ describe("GameManagerService tests", () => {
         const arena: Arena2D = new Arena2D(iArenaInfos, gameManagerService);
         chai.spy.on(gameManagerService["arenas"], "get", () => undefined);
         const spy: any = chai.spy.on(arena, "onPlayerReady", () => {return; });
-        gameManagerService.onGameLoaded("12345",1);
+        gameManagerService.onGameLoaded("12345", 1);
         chai.expect(spy).to.not.have.been.called();
     });
 
@@ -584,7 +588,6 @@ describe("GameManagerService tests", () => {
         gameManagerService["highscoreService"].createHighscore(1);
         chai.spy.on(gameManagerService["highscoreService"], "findHighScoreByID", () => 0);
         chai.spy.on(gameManagerService["cardOperations"], "getCardById", () => c1);
-        // chai.spy.on(gameManagerService, "deleteArena", () => {return; });
         chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
         chai.spy.on(gameManagerService["chatManagerService"], "sendNewHighScoreMessage", () => {throw new TypeError; });
         const spy: any = chai.spy.on(gameManagerService["server"], "emit", () => {return; });
