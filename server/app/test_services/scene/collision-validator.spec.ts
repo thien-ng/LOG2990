@@ -283,4 +283,7 @@ describe("Collision validator tests", () => {
             chai.expect(isColliding).equal(true);
         });
     });
+
+    describe("tests collision with cones", () => {
+    });
 });
