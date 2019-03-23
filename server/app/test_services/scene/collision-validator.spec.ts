@@ -184,13 +184,12 @@ describe("Collision validator tests", () => {
         hidden: false,
     };
 
-    const existingSceneObjects: ISceneObject[] = [cube1, cube2, cube3];
-
     beforeEach(() => {
         collisionValidator = new CollisionValidator();
     });
 
     describe("tests collision with cubes", () => {
+        const existingSceneObjects: ISceneObject[] = [cube1, cube2, cube3];
 
         it("should return false if there is no collision between new and already existing scene objects", () => {
             const newCube: ISceneObject = {
