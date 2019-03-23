@@ -476,7 +476,7 @@ describe("GameManagerService tests", () => {
         const arena: Arena2D = new Arena2D(iArenaInfos, gameManagerService);
         chai.spy.on(gameManagerService["arenas"], "get", () => arena);
         const spy: any = chai.spy.on(arena, "onPlayerReady", () => {return; });
-        gameManagerService.onGameLoaded("12345",1);
+        gameManagerService.onGameLoaded("12345", 1);
         chai.expect(spy).to.have.been.called();
     });
 
@@ -486,6 +486,19 @@ describe("GameManagerService tests", () => {
         const spy: any = chai.spy.on(arena, "onPlayerReady", () => {return; });
         gameManagerService.onGameLoaded("12345",1);
         chai.expect(spy).to.not.have.been.called();
+    });
+
+    it("Should get the differences index in arena", () => {
+        const arena: Arena2D = new Arena2D(iArenaInfos, gameManagerService);
+        gameManagerService["arenas"].set(1000, arena);
+        const spy: any = chai.spy.on(arena, "getDifferencesIds", () => [1]);
+        gameManagerService.getDifferencesIndex(1000);
+        chai.expect(spy).to.have.been.called();
+    });
+
+    it("Should set the server", () => {
+        gameManagerService.setServer(server);
+        chai.expect(gameManagerService["server"]).to.equal(server);
     });
 
 
