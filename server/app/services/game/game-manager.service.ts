@@ -157,7 +157,10 @@ export class GameManagerService {
     }
 
     public getDifferencesIndex(arenaId: number): number[] {
-        const arena: Arena<any, any, any, any> | undefined = this.arenas.get(arenaId);
+        const arena: Arena<
+                        IPlayerInput<IPosition2D> | IPlayerInput<number>,
+                        IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+                        IPosition2D | number> | undefined = this.arenas.get(arenaId);
 
         return arena ? arena.getDifferencesIds() : [];
     }
