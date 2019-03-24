@@ -150,9 +150,9 @@ export class GameManagerService {
     }
 
     private async initArena(arena: Arena<
-                                        IPlayerInput<IPosition2D> | IPlayerInput<number>,
-                                        IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
-                                        IPosition2D | number>): Promise<void> {
+        IPlayerInput<IPosition2D> | IPlayerInput<number>,
+        IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+        IPosition2D | number>): Promise<void> {
         await arena.prepareArenaForGameplay();
     }
 
