@@ -35,9 +35,10 @@ export class ThreejsRaycast {
       this.idBySceneId = idBySceneId;
   }
 
+  public setModelsByNameMap(modelsByName: Map<string, THREE.Object3D>): void {
+    this.modelsByName = modelsByName;
+  }
 
-    public setModelsByNameMap(modelsByName: Map<string, THREE.Object3D>): void {
-      this.modelsByName = modelsByName;
     }
 
     public setThreeGenerator(threejsGenerator: ThreejsGenerator | ThreejsThemeGenerator): void {
