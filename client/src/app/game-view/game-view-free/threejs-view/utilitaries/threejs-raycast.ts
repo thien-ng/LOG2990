@@ -76,50 +76,57 @@ export class ThreejsRaycast {
     return -1;
   }
 
-        this.raycaster.setFromCamera(this.mouse, this.camera);
+  private getParentObject(object: THREE.Object3D): THREE.Object3D | null  {
 
-        const objectsIntersected: THREE.Intersection[] = this.raycaster.intersectObjects(this.scene.children, true);
-        if (objectsIntersected.length > 0) {
-          const firstIntersectedId: number = objectsIntersected[0].object.id;
-
-          return this.idBySceneId.get(firstIntersectedId) as number;
-        }
-
-        return -1;
+    if (object === null) {
+      return null;
+    }
+    if (object.parent === this.scene) {
+      return object;
     }
 
-    public updateSceneWithNewObject(sceneUpdate: ISceneObjectUpdate<ISceneObject | IMesh>): void {
+    const parent: THREE.Object3D | null = object.parent;
 
-        if (!sceneUpdate.sceneObject) {
-            return;
-        }
+    if (parent) {
 
-        switch (sceneUpdate.actionToApply) {
-
-            case ActionType.ADD:
-              this.initiateObject(sceneUpdate);
-              break;
-
-            case ActionType.DELETE:
-              this.threejsGenerator.deleteObject(sceneUpdate.sceneObject.id);
-              break;
-
-            case ActionType.CHANGE_COLOR:
-              this.changeObjectColor(sceneUpdate);
-              break;
-
-            default:
-              break;
-          }
+      return this.getParentObject(parent);
     }
 
-    private initiateObject(sceneUpdate: ISceneObjectUpdate<ISceneObject | IMesh>): void {
-      if (this.isTheme) {
-        this.threejsThemeGenerator.initiateObject(sceneUpdate.sceneObject as IMesh, this.modelsByName);
-      } else {
-        this.threejsGenerator.initiateObject(sceneUpdate.sceneObject as ISceneObject);
+    return null;
+  }
+
+  public updateSceneWithNewObject(sceneUpdate: ISceneObjectUpdate<ISceneObject | IMesh>): void {
+
+      if (!sceneUpdate.sceneObject) {
+          return;
       }
+
+      switch (sceneUpdate.actionToApply) {
+
+          case ActionType.ADD:
+            this.initiateObject(sceneUpdate);
+            break;
+
+          case ActionType.DELETE:
+            this.threejsGenerator.deleteObject(sceneUpdate.sceneObject.id);
+            break;
+
+          case ActionType.CHANGE_COLOR:
+            this.changeObjectColor(sceneUpdate);
+            break;
+
+          default:
+            break;
+        }
+  }
+
+  private initiateObject(sceneUpdate: ISceneObjectUpdate<ISceneObject | IMesh>): void {
+    if (this.isTheme) {
+      this.threejsThemeGenerator.initiateObject(sceneUpdate.sceneObject as IMesh, this.modelsByName);
+    } else {
+      this.threejsGenerator.initiateObject(sceneUpdate.sceneObject as ISceneObject);
     }
+  }
 
     private changeObjectColor(sceneUpdate: ISceneObjectUpdate<ISceneObject | IMesh>): void {
       if (this.isTheme) {
