@@ -40,7 +40,7 @@ export class ThreejsThemeViewService {
   private sceneIdById:          Map<number, number>;
   private idBySceneId:          Map<number, number>;
   private opacityById:          Map<number, number>;
-  private originalColorById:    Map<number, string>;
+  // private originalColorById:    Map<number, string>;
 
   private moveForward:        boolean;
   private moveBackward:       boolean;
@@ -67,7 +67,7 @@ export class ThreejsThemeViewService {
     this.sceneIdById          = new Map<number, number>();
     this.idBySceneId          = new Map<number, number>();
     this.opacityById          = new Map<number, number>();
-    this.originalColorById    = new Map<number, string>(); // _TODO: a enlever?
+    // this.originalColorById    = new Map<number, string>(); // _TODO: a enlever?
     this.gltfByUrl            = new Map<string, THREE.GLTF>();
     this.modelsByName         = new Map<string, THREE.Object3D>();
     this.threejsMovement      = new ThreejsMovement(this.camera);
@@ -111,7 +111,7 @@ export class ThreejsThemeViewService {
     );
     this.threejsThemeRaycast = new ThreejsRaycast(this.camera, this.renderer, this.scene);
     this.threejsThemeRaycast.setMaps(this.idBySceneId, this.sceneIdById);
-    this.threejsThemeRaycast.setModelsByNameMap(this.modelsByName);
+    // this.threejsThemeRaycast.setModelsByNameMap(this.modelsByName);
     this.threejsThemeRaycast.setThreeGenerator(this.threejsGenerator);
 
     this.createLighting();
@@ -138,15 +138,19 @@ export class ThreejsThemeViewService {
     }
     modifiedList.forEach((differenceId: number) => {
       const meshObject:      THREE.Mesh | undefined = this.recoverObjectFromScene(differenceId);
-      const objectColor:     string     | undefined = this.originalColorById.get(differenceId);
       let opacityNeeded:     number                 = (cheatColorActivated) ? 0 : 1;
-
+      
       if (isLastChange) {
+        // const objectId: number = this.idBySceneId.get(meshObject.id) as number;
+        // console.log("parent ", parentID);
+        
         const originalOpacity: number = this.opacityById.get(differenceId) as number;
+        console.log("OG ",originalOpacity);
         opacityNeeded = originalOpacity;
       }
-      if (meshObject !== undefined) {
-        meshObject.material = new THREE.MeshPhongMaterial({color: objectColor, opacity: opacityNeeded, transparent: true});
+      if (meshObject) {
+        // const parent: THREE.Object3D | null= this.threejsThemeRaycast.getParentObject(meshObject);
+        this.threejsGenerator.setObjectOpacity(meshObject, opacityNeeded);
       }
     });
   }
@@ -186,7 +190,6 @@ export class ThreejsThemeViewService {
   }
 
   public updateSceneWithNewObject(object: ISceneObjectUpdate<ISceneObject | IMesh>): void {
-    console.log(object)
     this.threejsThemeRaycast.updateSceneWithNewObject(object);
   }
 

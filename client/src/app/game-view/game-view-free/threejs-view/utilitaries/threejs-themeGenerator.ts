@@ -47,8 +47,8 @@ export class ThreejsThemeGenerator {
     this.setObjectScale(object3D, mesh.scaleFactor);
     this.addObjectIdToMap(mesh.id, object3D.id);
 
-    const opacityUsed: number = (object3D.visible) ? 0 : 1;
-    this.opacityById.set(object3D.id, opacityUsed);
+    const opacityUsed: number = (mesh.hidden) ? 0 : 1;
+    this.opacityById.set(mesh.id, opacityUsed);
     this.sceneIdById.set(object3D.id, mesh.id);
     this.scene.add(object3D);
 
@@ -91,6 +91,10 @@ export class ThreejsThemeGenerator {
     object3D.scale.x = scale;
     object3D.scale.y = scale;
     object3D.scale.z = scale;
+  }
+
+  public getOpacityById(): Map<number, number> {
+    return this.opacityById;
   }
 
   public setObjectOpacity(object: THREE.Object3D, opacity: number): void {
