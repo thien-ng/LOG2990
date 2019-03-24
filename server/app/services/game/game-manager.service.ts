@@ -97,11 +97,9 @@ export class GameManagerService {
             case GameMode.simple:
                 message = await this.create2DArena(lobby, request.gameId);
                 break;
-
             case GameMode.free:
                 message = await this.create3DArena(lobby, request.gameId);
                 break;
-
             default:
                 break;
         }
