@@ -128,14 +128,14 @@ export class ThreejsRaycast {
     }
   }
 
-    private changeObjectColor(sceneUpdate: ISceneObjectUpdate<ISceneObject | IMesh>): void {
-      if (this.isTheme) {
-        this.threejsThemeGenerator.changeObjectColor();
-      } else {
-        const sceneObjectToUpdate: ISceneObject = sceneUpdate.sceneObject as ISceneObject;
-        if (sceneObjectToUpdate) {
-          this.threejsGenerator.changeObjectColor(sceneObjectToUpdate.id, sceneObjectToUpdate.color);
-        }
+  private changeObjectColor(sceneUpdate: ISceneObjectUpdate<ISceneObject | IMesh>): void {
+    if (this.isTheme) {
+      this.threejsThemeGenerator.changeObjectColor();
+    } else {
+      const sceneObjectToUpdate: ISceneObject = sceneUpdate.sceneObject as ISceneObject;
+      if (sceneObjectToUpdate) {
+        this.threejsGenerator.changeObjectColor(sceneObjectToUpdate.id, sceneObjectToUpdate.color);
       }
     }
+  }
 }
