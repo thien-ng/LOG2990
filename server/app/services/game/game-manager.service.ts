@@ -253,7 +253,7 @@ export class GameManagerService {
 
     public getUsersInArena(arenaId: number): IUser[] {
         const users: IUser[] = [];
-        const arena: Arena<any, any, any, any> | undefined  = this.arenas.get(arenaId);
+        const arena: Arena<any, any, any> | undefined  = this.arenas.get(arenaId);
 
         if (arena) {
             const players: Player[] = arena.getPlayers();
@@ -288,7 +288,7 @@ export class GameManagerService {
     }
 
     public onGameLoaded(socketID: string, arenaID: number): void {
-        const arena: Arena<any, any, any, any> | undefined = this.arenas.get(arenaID);
+        const arena: Arena<any, any, any> | undefined = this.arenas.get(arenaID);
         if (!arena) {
             return;
         }
