@@ -13,7 +13,7 @@ export class ThreejsThemeGenerator {
 
   public initiateObject(mesh: IMesh, modelsByName: Map<string, THREE.Object3D>): void {
 
-    const model3D: THREE.Object3D | undefined = modelsByName.get(mesh.name);
+    const model3D: THREE.Object3D | undefined = modelsByName.get(mesh.meshInfo.uuid);
 
     if (model3D) {
       const object3D: THREE.Object3D = model3D.clone();
