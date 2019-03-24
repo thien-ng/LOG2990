@@ -54,7 +54,7 @@ export class GameManagerService {
                                     IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
                                     IPosition2D | number>>();
         this.gameIdByArenaId    = new Map<number, number>();
-        this.interfaceBuilder = new InterfaceBuilder();
+        this.interfaceBuilder   = new InterfaceBuilder();
     }
 
     public async analyseRequest(request: IGameRequest): Promise<Message> {
