@@ -118,19 +118,20 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
   private initScene(): void {
     this.renderer = new THREE.WebGLRenderer();
     this.originalScene.nativeElement.appendChild(this.renderer.domElement);
-    this.createScene();
-    this.sceneBuilderService.animate();
-    this.takeSnapShot();
+    this.createScene().then(() => {
+      this.sceneBuilderService.animate();
+      this.takeSnapShot();
+    }).catch((error: Error) => this.openSnackBar(error.message, Constants.SNACK_ACTION));
   }
 
-  private createScene(): void {
+  private async createScene(): Promise<void> {
     this.sceneBuilderService =
       (this.iSceneVariables.theme === SceneType.Geometric) ? this.threejsViewService : this.threejsThemeViewService;
 
     const meshUsed: IMeshInfo[] | undefined = (this.isSnapshotNeeded)? this.sceneData.meshInfos: this.meshInfos;
 
     if (this.sceneBuilderService instanceof ThreejsThemeViewService) {
-      this.sceneBuilderService.createScene(
+      await this.sceneBuilderService.createScene(
         this.scene,
         this.iSceneVariables,
         this.renderer,
