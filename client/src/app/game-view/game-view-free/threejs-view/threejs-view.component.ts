@@ -16,7 +16,9 @@ import { GameConnectionService } from "src/app/game-connection.service";
 import * as THREE from "three";
 import { IClickMessage, IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
-import { ISceneData, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
+import { IMesh, ISceneObject } from "../../../../../../common/communication/iSceneObject";
+import { SceneType } from "../../../../../../common/communication/iSceneOptions";
+import { IMeshInfo, ISceneData, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../../common/communication/message";
 import { CCommon } from "../../../../../../common/constantes/cCommon";
 import { CardManagerService } from "../../../card/card-manager.service";
@@ -24,13 +26,14 @@ import { Constants } from "../../../constants";
 import { SocketService } from "../../../websocket/socket.service";
 import { ChatViewService } from "../../chat-view/chat-view.service";
 import { GameViewFreeService } from "../game-view-free.service";
+import { ThreejsThemeViewService } from "./threejs-ThemeView.service";
 import { ThreejsViewService } from "./threejs-view.service";
 
 @Component({
   selector:     "app-threejs-view",
   templateUrl:  "./threejs-view.component.html",
   styleUrls:    ["./threejs-view.component.css"],
-  providers:    [ThreejsViewService],
+  providers:    [ThreejsViewService, ThreejsThemeViewService],
 })
 export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestroy {
 
@@ -46,9 +49,11 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
   private isFirstGet:             boolean;
   private modifications:          number[];
   private previousModifications:  number[];
+  private sceneBuilderService:    ThreejsThemeViewService | ThreejsViewService; // _TODO: renommer mieux
 
-  @Input() private iSceneVariables:         ISceneVariables;
-  @Input() private iSceneVariablesMessage:  ISceneData;
+  @Input() private iSceneVariables:         ISceneVariables<ISceneObject | IMesh>;
+  @Input() private meshInfos:               IMeshInfo[];
+  @Input() private sceneData:               ISceneData<ISceneObject | IMesh>;
   @Input() private rightClick:              boolean;
   @Input() private isSnapshotNeeded:        boolean;
   @Input() private isNotOriginal:           boolean;
@@ -62,7 +67,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
   @HostListener("body:keyup", ["$event"])
   public async keyboardEventListenerUp(keyboardEvent: KeyboardEvent): Promise<void> {
     if (!this.focusChat) {
-      this.threejsViewService.onKeyMovement(keyboardEvent, false);
+      this.sceneBuilderService.onKeyMovement(keyboardEvent, false);
     }
   }
 
@@ -70,15 +75,16 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
   public async keyboardEventListenerDown(keyboardEvent: KeyboardEvent): Promise<void> {
     if (!this.focusChat) {
       this.onKeyDown(keyboardEvent);
-      this.threejsViewService.onKeyMovement(keyboardEvent, true);
+      this.sceneBuilderService.onKeyMovement(keyboardEvent, true);
     }
   }
 
   public constructor(
-    @Inject(ThreejsViewService)   private threejsViewService:   ThreejsViewService,
-    @Inject(ChatViewService)      private chatViewService:      ChatViewService,
-    @Inject(SocketService)        private socketService:        SocketService,
-    @Inject(GameViewFreeService)  private gameViewFreeService:  GameViewFreeService,
+    @Inject(ThreejsViewService)         private threejsViewService:       ThreejsViewService,
+    @Inject(ThreejsThemeViewService)    private threejsThemeViewService:  ThreejsThemeViewService,
+    @Inject(ChatViewService)            private chatViewService:          ChatViewService,
+    @Inject(SocketService)              private socketService:            SocketService,
+    @Inject(GameViewFreeService)        private gameViewFreeService:      GameViewFreeService,
     private httpClient:             HttpClient,
     private snackBar:               MatSnackBar,
     private cardManagerService:     CardManagerService,
@@ -95,7 +101,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
 
   public onMouseMove(point: IPosition2D): void {
     if (this.rightClick) {
-      this.threejsViewService.rotateCamera(point);
+      this.sceneBuilderService.rotateCamera(point);
     }
   }
 
@@ -110,12 +116,36 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
   }
 
   private initScene(): void {
-
     this.renderer = new THREE.WebGLRenderer();
     this.originalScene.nativeElement.appendChild(this.renderer.domElement);
-    this.threejsViewService.createScene(this.scene, this.iSceneVariables, this.renderer, this.isSnapshotNeeded, this.arenaID);
-    this.threejsViewService.animate();
-    this.takeSnapShot();
+    this.createScene().then(() => {
+      this.sceneBuilderService.animate();
+      this.takeSnapShot();
+    }).catch((error: Error) => this.openSnackBar(error.message, Constants.SNACK_ACTION));
+  }
+
+  private async createScene(): Promise<void> {
+    this.sceneBuilderService =
+      (this.iSceneVariables.theme === SceneType.Geometric) ? this.threejsViewService : this.threejsThemeViewService;
+
+    const meshUsed: IMeshInfo[] | undefined = (this.isSnapshotNeeded) ? this.sceneData.meshInfos : this.meshInfos;
+
+    if (this.sceneBuilderService instanceof ThreejsThemeViewService) {
+      await this.sceneBuilderService.createScene(
+        this.scene,
+        this.iSceneVariables,
+        this.renderer,
+        this.isSnapshotNeeded,
+        this.arenaID,
+        meshUsed as IMeshInfo[]).catch((error: Error) => this.openSnackBar(error.message, Constants.SNACK_ACTION));
+    } else {
+      this.sceneBuilderService.createScene(
+        this.scene,
+        this.iSceneVariables,
+        this.renderer,
+        this.isSnapshotNeeded,
+        this.arenaID);
+    }
   }
 
   private onKeyDown(keyboardEvent: KeyboardEvent): void {
@@ -145,13 +175,13 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
       this.interval = setInterval(
         () => {
           flashValue = !flashValue;
-          this.threejsViewService.changeObjectsColor(flashValue, false, this.modifications);
+          this.sceneBuilderService.changeObjectsColor(flashValue, false, this.modifications);
         },
         this.CHEAT_INTERVAL_TIME);
     } else {
 
       clearInterval(this.interval);
-      this.threejsViewService.changeObjectsColor(false, true, this.previousModifications);
+      this.sceneBuilderService.changeObjectsColor(false, true, this.previousModifications);
       this.previousModifications = this.modifications;
       this.modifications         = [];
     }
@@ -173,12 +203,12 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
       this.focusChat = newValue;
     });
 
-    this.gameConnectionService.getObjectToUpdate().subscribe((object: ISceneObjectUpdate) => {
+    this.gameConnectionService.getObjectToUpdate().subscribe((object: ISceneObjectUpdate<ISceneObject | IMesh>) => {
       this.getDifferencesList();
 
-      this.threejsViewService.changeObjectsColor(false, true, this.modifications);
+      this.sceneBuilderService.changeObjectsColor(false, true, this.modifications);
       if (this.isNotOriginal) {
-        this.threejsViewService.updateSceneWithNewObject(object);
+        this.sceneBuilderService.updateSceneWithNewObject(object as ISceneObjectUpdate<ISceneObject | IMesh>);
       }
     });
   }
@@ -186,7 +216,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
   private initListener(): void {
     this.originalScene.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
 
-      const idValue: number                  = this.threejsViewService.detectObject(mouseEvent);
+      const idValue: number                  = this.sceneBuilderService.detectObject(mouseEvent);
       const message: IClickMessage<number>   = this.createHitValidationMessage(idValue);
 
       this.socketService.sendMessage(CCommon.POSITION_VALIDATION, message);
@@ -212,8 +242,8 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
 
   private createMessage(image: string): ISceneMessage {
     return {
-      iSceneVariablesMessage:   this.iSceneVariablesMessage,
-      image:                    image,
+      sceneData:   this.sceneData,
+      image:       image,
     } as ISceneMessage;
   }
 

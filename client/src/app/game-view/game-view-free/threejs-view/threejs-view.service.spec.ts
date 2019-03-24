@@ -2,16 +2,16 @@ import { inject, TestBed } from "@angular/core/testing";
 import * as THREE from "three";
 import { anyNumber, mock, when } from "ts-mockito";
 import { ActionType, IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
-import { SceneObjectType } from "../../../../../../common/communication/iSceneObject";
+import { IMesh, ISceneObject, SceneObjectType } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { GameViewFreeService } from "../game-view-free.service";
 import { ThreejsViewService } from "./threejs-view.service";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 import { ThreejsRaycast } from "./utilitaries/threejs-raycast";
 
-// tslint:disable:no-any max-file-line-count
+// tslint:disable:no-any max-file-line-count max-line-length
 
-const sceneVariables: ISceneVariables = {
+const sceneVariables: ISceneVariables<ISceneObject> = {
   theme:                  1,
   gameName:               "gameName",
   sceneObjectsQuantity:   1,
@@ -36,19 +36,19 @@ describe("ThreejsViewService Tests", () => {
     providers: [ThreejsViewService],
   }));
 
-  it("should generate object in scene", inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+  it("should generate objects in scene when createScene() is called", inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
     const spy: any = spyOn<any>(threejsViewService, "generateSceneObjects");
     threejsViewService.createScene(scene, sceneVariables, renderer, false, 1);
     expect(spy).toHaveBeenCalled();
   }));
 
-  it("should add lighting in scene",    inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+  it("should add lighting in scene when createLigthing is called", inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
     const spy: any = spyOn<any>(threejsViewService, "createLighting");
     threejsViewService.createScene(scene, sceneVariables, renderer, false, 1);
     expect(spy).toHaveBeenCalled();
   }));
 
-  it("should render scene",             inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+  it("should render scene when animate() is called", inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
     const spy: any = spyOn<any>(threejsViewService, "renderScene");
     threejsViewService.createScene(scene, sceneVariables, renderer, false, 1);
     threejsViewService.animate();
@@ -72,7 +72,7 @@ describe("ThreejsViewService Tests", () => {
     expect(spy).toHaveBeenCalled();
   }));
 
-  it("should not change any color",
+  it("should not change any color if forced to put color back to original",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
     const spy: any = spyOn<any>(threejsViewService, "recoverObjectFromScene").and.callThrough();
 
@@ -116,14 +116,14 @@ describe("ThreejsViewService Tests", () => {
     expect(spy).toHaveBeenCalled();
   }));
 
-  it("should not do any update to scene because of undefined object (not call initiateObject)",
+  it("should not do any update to scene because of undefined object (check if not call initiateObject)",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
 
     const initSpy:   any = spyOn<any>(threejsViewService["threejsGenerator"], "initiateObject");
 
-    const objectUpdate: ISceneObjectUpdate = {
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.NO_ACTION_REQUIRED,
     };
 
@@ -133,14 +133,14 @@ describe("ThreejsViewService Tests", () => {
     expect(initSpy).not.toHaveBeenCalled();
   }));
 
-  it("should not do any update to scene because of undefined object (not call deleteObject)",
+  it("should not do any update to scene because of undefined object (check if not call deleteObject)",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
 
     const deleteSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "deleteObject");
 
-    const objectUpdate: ISceneObjectUpdate = {
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.NO_ACTION_REQUIRED,
     };
 
@@ -150,14 +150,14 @@ describe("ThreejsViewService Tests", () => {
     expect(deleteSpy).not.toHaveBeenCalled();
   }));
 
-  it("should not do any update to scene because of undefined object (not call changeObjectColor)",
+  it("should not do any update to scene because of undefined object (check if not call changeObjectColor)",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
 
     const changeSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "changeObjectColor");
 
-    const objectUpdate: ISceneObjectUpdate = {
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.NO_ACTION_REQUIRED,
     };
 
@@ -167,14 +167,14 @@ describe("ThreejsViewService Tests", () => {
     expect(changeSpy).not.toHaveBeenCalled();
   }));
 
-  it("should not do any update to scene because of no action required (not call initiateObject)",
+  it("should not do any update to scene because of no action required (check if not call initiateObject)",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
 
     const initSpy:   any = spyOn<any>(threejsViewService["threejsGenerator"], "initiateObject");
 
-    const objectUpdate: ISceneObjectUpdate = {
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.NO_ACTION_REQUIRED,
       sceneObject:   sceneVariables.sceneObjects[0],
     };
@@ -185,14 +185,14 @@ describe("ThreejsViewService Tests", () => {
     expect(initSpy).not.toHaveBeenCalled();
   }));
 
-  it("should not do any update to scene because of no action required (not call deleteObject)",
+  it("should not do any update to scene because of no action required (check if not call deleteObject)",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
 
     const deleteSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "deleteObject");
 
-    const objectUpdate: ISceneObjectUpdate = {
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.NO_ACTION_REQUIRED,
       sceneObject:   sceneVariables.sceneObjects[0],
     };
@@ -203,14 +203,14 @@ describe("ThreejsViewService Tests", () => {
     expect(deleteSpy).not.toHaveBeenCalled();
   }));
 
-  it("should not do any update to scene because of no action required (not call changeObjectColor)",
+  it("should not do any update to scene because of no action required (check if not call changeObjectColor)",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
 
     const changeSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "changeObjectColor");
 
-    const objectUpdate: ISceneObjectUpdate = {
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.NO_ACTION_REQUIRED,
       sceneObject:   sceneVariables.sceneObjects[0],
     };
@@ -221,14 +221,14 @@ describe("ThreejsViewService Tests", () => {
     expect(changeSpy).not.toHaveBeenCalled();
   }));
 
-  it("should call function initiate object from threejsGenerator (not call deleteObject)",
+  it("should call function initiate object from threejsGenerator (check if not call deleteObject)",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
 
     const deleteSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "deleteObject");
 
-    const objectUpdate: ISceneObjectUpdate = {
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.ADD,
       sceneObject:   sceneVariables.sceneObjects[0],
     };
@@ -239,14 +239,14 @@ describe("ThreejsViewService Tests", () => {
     expect(deleteSpy).not.toHaveBeenCalled();
   }));
 
-  it("should call function initiate object from threejsGenerator (not call changeObjectColor)",
+  it("should call function initiate object from threejsGenerator (check if not call changeObjectColor)",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
 
     const changeSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "changeObjectColor");
 
-    const objectUpdate: ISceneObjectUpdate = {
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.ADD,
       sceneObject:   sceneVariables.sceneObjects[0],
     };
@@ -257,14 +257,14 @@ describe("ThreejsViewService Tests", () => {
     expect(changeSpy).not.toHaveBeenCalled();
   }));
 
-  it("should call function delete object from threejsGenerator (not call initiateObject)",
+  it("should call function delete object from threejsGenerator (check if not call initiateObject)",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
 
     const initSpy:   any = spyOn<any>(threejsViewService["threejsGenerator"], "initiateObject");
 
-    const objectUpdate: ISceneObjectUpdate = {
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.DELETE,
       sceneObject:   sceneVariables.sceneObjects[0],
     };
@@ -275,14 +275,14 @@ describe("ThreejsViewService Tests", () => {
     expect(initSpy).not.toHaveBeenCalled();
   }));
 
-  it("should call function delete object from threejsGenerator (not call changeObjectColor)",
+  it("should call function delete object from threejsGenerator (check if not call changeObjectColor)",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
 
     const changeSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "changeObjectColor");
 
-    const objectUpdate: ISceneObjectUpdate = {
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.DELETE,
       sceneObject:   sceneVariables.sceneObjects[0],
     };
@@ -293,14 +293,14 @@ describe("ThreejsViewService Tests", () => {
     expect(changeSpy).not.toHaveBeenCalled();
   }));
 
-  it("should call function change color object from threejsGenerator (not call initiateObject)",
+  it("should call function change color object from threejsGenerator (check if not call initiateObject)",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
 
     const initSpy:   any = spyOn<any>(threejsViewService["threejsGenerator"], "initiateObject");
 
-    const objectUpdate: ISceneObjectUpdate = {
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.CHANGE_COLOR,
       sceneObject:   sceneVariables.sceneObjects[0],
     };
@@ -311,14 +311,14 @@ describe("ThreejsViewService Tests", () => {
     expect(initSpy).not.toHaveBeenCalled();
   }));
 
-  it("should call function change color object from threejsGenerator (not call deleteObject)",
+  it("should call function change color object from threejsGenerator (check if not call deleteObject)",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     threejsViewService["threejsGenerator"] = mock(ThreejsGenerator);
 
     const deleteSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "deleteObject");
 
-    const objectUpdate: ISceneObjectUpdate = {
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.CHANGE_COLOR,
       sceneObject:   sceneVariables.sceneObjects[0],
     };
@@ -365,7 +365,7 @@ describe("ThreejsViewService Tests", () => {
       expect(spy).toHaveBeenCalled();
   }));
 
-  it("should make the camera move forward keyUp",
+  it("should stop the camera move forward keyUp when key W is released",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
       const keyboardEvent: any = new KeyboardEvent("keyup", {
@@ -377,7 +377,7 @@ describe("ThreejsViewService Tests", () => {
       expect(threejsViewService["moveForward"]).toBe(false);
   }));
 
-  it("should stop the camera move forward keyDown",
+  it("should make the camera move forward keyDown when key W is pressed",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     const keyboardEvent: any = new KeyboardEvent("keydown", {
@@ -389,7 +389,7 @@ describe("ThreejsViewService Tests", () => {
     expect(threejsViewService["moveForward"]).toBe(true);
   }));
 
-  it("should make the camera move backward keyUp",
+  it("should stop the camera move backward keyUp when key S is released",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
       const keyboardEvent: any = new KeyboardEvent("keyup", {
@@ -401,7 +401,7 @@ describe("ThreejsViewService Tests", () => {
       expect(threejsViewService["moveBackward"]).toBe(false);
   }));
 
-  it("should stop the camera move backward keyDown",
+  it("should move the camera move backward keyDown when key S is pressed",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     const keyboardEvent: any = new KeyboardEvent("keydown", {
@@ -413,7 +413,7 @@ describe("ThreejsViewService Tests", () => {
     expect(threejsViewService["moveBackward"]).toBe(true);
   }));
 
-  it("should stop the camera move to the left",
+  it("should move the camera move to the left when key A is pressed",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     const keyboardEvent: any = new KeyboardEvent("keydown", {
@@ -425,7 +425,7 @@ describe("ThreejsViewService Tests", () => {
     expect(threejsViewService["moveLeft"]).toBe(true);
   }));
 
-  it("should stop the camera move to the right",
+  it("should stop the camera move to the right when key D is pressed",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
     const keyboardEvent: any = new KeyboardEvent("keydown", {
@@ -437,7 +437,7 @@ describe("ThreejsViewService Tests", () => {
     expect(threejsViewService["moveRight"]).toBe(true);
   }));
 
-  it("should not make camera move",
+  it("should not make camera move when unhandled key is pressed",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
       const keyboardEvent: any = new KeyboardEvent("keydown", {

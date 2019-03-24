@@ -1,18 +1,23 @@
 import * as THREE from "three";
 import { ActionType, ISceneObjectUpdate } from "../../../../../../../common/communication/iGameplay";
+import { IMesh, ISceneObject } from "../../../../../../../common/communication/iSceneObject";
 import { ThreejsGenerator } from "./threejs-generator";
+import { ThreejsThemeGenerator } from "./threejs-themeGenerator";
 
 export class ThreejsRaycast {
 
     private readonly NORMALIZE_FACTOR: number = 2;
 
-    private renderer:           THREE.WebGLRenderer;
-    private camera:             THREE.PerspectiveCamera;
-    private scene:              THREE.Scene;
-    private mouse:              THREE.Vector3;
-    private raycaster:          THREE.Raycaster;
-    private idBySceneId:        Map<number, number>;
-    private threejsGenerator:   ThreejsGenerator;
+    private renderer:               THREE.WebGLRenderer;
+    private camera:                 THREE.PerspectiveCamera;
+    private scene:                  THREE.Scene;
+    private mouse:                  THREE.Vector3;
+    private raycaster:              THREE.Raycaster;
+    private idBySceneId:            Map<number, number>;
+    private threejsGenerator:       ThreejsGenerator;
+    private threejsThemeGenerator:  ThreejsThemeGenerator;
+    private isTheme:                boolean;
+    private modelsByName:           Map<string, THREE.Object3D>;
 
     public constructor(
         camera:   THREE.PerspectiveCamera,
@@ -30,8 +35,17 @@ export class ThreejsRaycast {
         this.idBySceneId = idBySceneId;
     }
 
-    public setThreeGenerator(threejsGenerator: ThreejsGenerator): void {
-        this.threejsGenerator = threejsGenerator;
+    public setModelsByNameMap(modelsByName: Map<string, THREE.Object3D>): void {
+      this.modelsByName = modelsByName;
+    }
+
+    public setThreeGenerator(threejsGenerator: ThreejsGenerator | ThreejsThemeGenerator): void {
+      this.isTheme = threejsGenerator instanceof ThreejsThemeGenerator;
+      if (this.isTheme) {
+        this.threejsThemeGenerator  = threejsGenerator as ThreejsThemeGenerator;
+      } else {
+        this.threejsGenerator       = threejsGenerator as ThreejsGenerator;
+      }
     }
 
     public detectObject(mouseEvent: MouseEvent): number {
@@ -42,7 +56,7 @@ export class ThreejsRaycast {
 
         this.raycaster.setFromCamera(this.mouse, this.camera);
 
-        const objectsIntersected: THREE.Intersection[] = this.raycaster.intersectObjects(this.scene.children);
+        const objectsIntersected: THREE.Intersection[] = this.raycaster.intersectObjects(this.scene.children, true);
         if (objectsIntersected.length > 0) {
           const firstIntersectedId: number = objectsIntersected[0].object.id;
 
@@ -52,24 +66,24 @@ export class ThreejsRaycast {
         return -1;
     }
 
-    public updateSceneWithNewObject(object: ISceneObjectUpdate): void {
+    public updateSceneWithNewObject(sceneUpdate: ISceneObjectUpdate<ISceneObject | IMesh>): void {
 
-        if (!object.sceneObject) {
+        if (!sceneUpdate.sceneObject) {
             return;
         }
 
-        switch (object.actionToApply) {
+        switch (sceneUpdate.actionToApply) {
 
             case ActionType.ADD:
-              this.threejsGenerator.initiateObject(object.sceneObject);
+              this.initiateObject(sceneUpdate);
               break;
 
             case ActionType.DELETE:
-              this.threejsGenerator.deleteObject(object.sceneObject.id);
+              this.threejsGenerator.deleteObject(sceneUpdate.sceneObject.id);
               break;
 
             case ActionType.CHANGE_COLOR:
-              this.threejsGenerator.changeObjectColor(object.sceneObject.id, object.sceneObject.color);
+              this.changeObjectColor(sceneUpdate);
               break;
 
             default:
@@ -77,4 +91,22 @@ export class ThreejsRaycast {
           }
     }
 
+    private initiateObject(sceneUpdate: ISceneObjectUpdate<ISceneObject | IMesh>): void {
+      if (this.isTheme) {
+        this.threejsThemeGenerator.initiateObject(sceneUpdate.sceneObject as IMesh, this.modelsByName);
+      } else {
+        this.threejsGenerator.initiateObject(sceneUpdate.sceneObject as ISceneObject);
+      }
+    }
+
+    private changeObjectColor(sceneUpdate: ISceneObjectUpdate<ISceneObject | IMesh>): void {
+      if (this.isTheme) {
+        this.threejsThemeGenerator.changeObjectColor();
+      } else {
+        const sceneObjectToUpdate: ISceneObject = sceneUpdate.sceneObject as ISceneObject;
+        if (sceneObjectToUpdate) {
+          this.threejsGenerator.changeObjectColor(sceneObjectToUpdate.id, sceneObjectToUpdate.color);
+        }
+      }
+    }
 }

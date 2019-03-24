@@ -7,7 +7,7 @@ import * as path from "path";
 import { anything, mock, when } from "ts-mockito";
 import { GameMode } from "../../../../../common/communication/iCard";
 import { ActionType, IArenaResponse, ISceneObjectUpdate } from "../../../../../common/communication/iGameplay";
-import { ISceneObject } from "../../../../../common/communication/iSceneObject";
+import { IMesh, ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { IModification, ISceneData, ISceneVariables } from "../../../../../common/communication/iSceneVariables";
 import { IUser } from "../../../../../common/communication/iUser";
 import { Arena3D } from "../../../services/game/arena/arena3d";
@@ -45,7 +45,7 @@ const sceneObject: ISceneObject = {
     hidden:     true,
 };
 
-const sceneVariables: ISceneVariables = {
+const sceneVariables: ISceneVariables<ISceneObject> = {
     theme:                  1,
     gameName:               "fokoffMichael",
     sceneObjectsQuantity:   5,
@@ -53,13 +53,13 @@ const sceneVariables: ISceneVariables = {
     sceneBackgroundColor:   "#FFFFFF",
 };
 
-const sceneData: ISceneData = {
+const sceneData: ISceneData<ISceneObject> = {
     originalScene: sceneVariables,
     modifiedScene: sceneVariables,
     modifications: [{id: 1, type: 6}],
 };
 
-const refereeResponse: IArenaResponse<ISceneObjectUpdate> = {
+const refereeResponse: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>> = {
     status:             "onSuccess",
     response: {
         actionToApply:  ActionType.ADD,
@@ -114,15 +114,15 @@ describe("Arena3D tests", () => {
         }).catch();
     });
 
-    it("should call return failed click response", async () => {
+    it("should return failed click response when event is wrong", async () => {
 
         playerInput.event = "notAClickMyBoi";
 
-        const arenaResponse: IArenaResponse<ISceneObjectUpdate> = {
+        const arenaResponse: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>> = {
             status: "onFailedClick",
         };
 
-        arena.onPlayerInput(playerInput).then((response: IArenaResponse<ISceneObjectUpdate>) => {
+        arena.onPlayerInput(playerInput).then((response: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>>) => {
             chai.expect(response).to.deep.equal(arenaResponse);
         }).catch();
 

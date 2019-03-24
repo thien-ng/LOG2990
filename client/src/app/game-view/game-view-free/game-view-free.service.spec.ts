@@ -5,7 +5,7 @@ import * as io from "socket.io-client";
 import { Constants } from "src/app/constants";
 import { GameMode } from "../../../../../common/communication/iCard";
 import { ActionType, IArenaResponse, ISceneObjectUpdate } from "../../../../../common/communication/iGameplay";
-import { ISceneObject } from "../../../../../common/communication/iSceneObject";
+import { IMesh, ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { GameViewFreeService } from "./game-view-free.service";
 
@@ -19,7 +19,7 @@ const sceneObject: ISceneObject = {
   scale:      {x: 1, y: 2, z: 3},
   hidden:     true,
 };
-const expectedResponse: IArenaResponse<ISceneObjectUpdate> = {
+const expectedResponse: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>> = {
   status:             "onSuccess",
   response: {
       actionToApply:  ActionType.ADD,
@@ -35,13 +35,13 @@ describe("GameViewFreeService Test", () => {
   });
 });
 
-  it("should set success sound", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
+  it("should set success sound with value passed by parameter", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
     gameViewService.setSounds(new ElementRef<any>("url/success"), new ElementRef<any>("url/fail"));
 
     expect(gameViewService["successSound"]).toEqual(new ElementRef<any>("url/success"));
   }));
 
-  it("should set fail sound", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
+  it("should set fail sound with value passed by parameter", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
     gameViewService.setSounds(new ElementRef<any>("url/success"), new ElementRef<any>("url/fail"));
 
     expect(gameViewService["failSound"]).toEqual(new ElementRef<any>("url/fail"));
@@ -49,7 +49,7 @@ describe("GameViewFreeService Test", () => {
 
   it("should play success sound when getting a success click", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
     const spy: any = spyOn<any>(gameViewService, "playSuccessSound");
-    const expectResponse: IArenaResponse<ISceneObjectUpdate> = {
+    const expectResponse: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>> = {
       status:     CCommon.ON_SUCCESS,
       response:   undefined,
   };
@@ -71,7 +71,7 @@ describe("GameViewFreeService Test", () => {
   it("should not play success sound when getting a bad click", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
 
     const spy: any = spyOn<any>(gameViewService, "playSuccessSound");
-    const expectedFalseResponse: IArenaResponse<ISceneObjectUpdate> = {
+    const expectedFalseResponse: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>> = {
       status:     CCommon.ON_ERROR,
       response:   undefined,
     };
@@ -79,7 +79,7 @@ describe("GameViewFreeService Test", () => {
     expect(spy).not.toHaveBeenCalled();
   }));
 
-  it("should set position", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
+  it("should set position of gameViewService", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
     gameViewService.setPosition(2, 3);
     const isSameX: boolean = gameViewService.position.x === 2;
     const isSameY: boolean = gameViewService.position.y === 3;

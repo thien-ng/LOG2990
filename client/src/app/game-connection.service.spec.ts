@@ -1,6 +1,7 @@
 import { TestBed } from "@angular/core/testing";
 
 import { ActionType, ISceneObjectUpdate } from "../../../common/communication/iGameplay";
+import { IMesh, ISceneObject } from "../../../common/communication/iSceneObject";
 import { GameConnectionService } from "./game-connection.service";
 
 describe("GameConnectionService", () => {
@@ -21,9 +22,9 @@ describe("GameConnectionService", () => {
 
   it("should send the object to update through subjects", () => {
     const service:        GameConnectionService = TestBed.get(GameConnectionService);
-    const objectToUpdate: ISceneObjectUpdate    = {actionToApply: ActionType.ADD};
+    const objectToUpdate: ISceneObjectUpdate<ISceneObject | IMesh>    = {actionToApply: ActionType.ADD};
 
-    service.getObjectToUpdate().subscribe((object: ISceneObjectUpdate) => {
+    service.getObjectToUpdate().subscribe((object: ISceneObjectUpdate<ISceneObject | IMesh>) => {
       expect(object).toBe(objectToUpdate);
     });
     service.updateModifiedScene(objectToUpdate);

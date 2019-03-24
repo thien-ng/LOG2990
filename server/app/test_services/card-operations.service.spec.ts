@@ -2,6 +2,8 @@ import "reflect-metadata";
 
 import * as chai from "chai";
 import * as spies from "chai-spies";
+import * as SocketIO from "socket.io";
+import { mock } from "ts-mockito";
 import { GameMode, ICard } from "../../../common/communication/iCard";
 import { Message } from "../../../common/communication/message";
 import { CCommon } from "../../../common/constantes/cCommon";
@@ -14,6 +16,7 @@ import { HighscoreService } from "../services/highscore.service";
 
 const FAKE_PATH:        string = CCommon.BASE_URL + "/image";
 const CARD_NOT_FOUND:   string = "Erreur de suppression, carte pas trouvée";
+const ERROR_DELETION:   string = "error while deleting file";
 
 let highscoreService:   HighscoreService;
 let cardOperations:     CardOperations;
@@ -82,12 +85,12 @@ describe("Card-operations tests", () => {
 
     it("should return an error message because path image doesnt exist", () => {
         cardOperations.addCard2D(c1);
-        chai.expect(cardOperations.removeCard2D(4)).to.equal("error while deleting file");
+        chai.expect(cardOperations.removeCard2D(4)).to.equal(ERROR_DELETION);
     });
 
     it("should return an error message because path image doesnt exist", () => {
         cardOperations.addCard3D(c3);
-        chai.expect(cardOperations.removeCard3D(3)).to.equal("error while deleting file");
+        chai.expect(cardOperations.removeCard3D(3)).to.equal(ERROR_DELETION);
     });
 
     it("should return an error while deleting the default 2D card", () => {
@@ -107,16 +110,18 @@ describe("Card-operations tests", () => {
     });
 
     it("should return an error message because path image doesnt exist", () => {
+        cardOperations["socketServer"] = mock(SocketIO);
         cardOperations.addCard2D(c1);
-        chai.expect(cardOperations.removeCard2D(4)).to.equal("error while deleting file");
+        chai.expect(cardOperations.removeCard2D(4)).to.equal(ERROR_DELETION);
     });
 
     it("should return an error message because path image doesnt exist", () => {
+        cardOperations["socketServer"] = mock(SocketIO);
         cardOperations.addCard3D(c3);
-        chai.expect(cardOperations.removeCard3D(3)).to.equal("error while deleting file");
+        chai.expect(cardOperations.removeCard3D(3)).to.equal(ERROR_DELETION);
     });
 
-    it("should delete card 2D", () => {
+    it("should delete card 2D with specific card id", () => {
         const originalImagePath:    string              = Constants.IMAGES_PATH + "/" + 4 + CCommon.ORIGINAL_FILE;
         const modifiedImagePath:    string              = Constants.IMAGES_PATH + "/" + 4 + CCommon.MODIFIED_FILE;
         const generatedImagePath:   string              = Constants.IMAGES_PATH + "/" + 4 + Constants.GENERATED_FILE;
@@ -128,10 +133,12 @@ describe("Card-operations tests", () => {
         assetManager.saveImage(modifiedImagePath,  "test");
         assetManager.saveImage(generatedImagePath, "test");
 
+        cardOperations["socketServer"] = mock(SocketIO);
+
         chai.expect(cardOperations.removeCard2D(4)).to.equal(Constants.CARD_DELETED);
     });
 
-    it("should delete card 3D", () => {
+    it("should delete card 3D with specific card id", () => {
         const snapshot:             string = Constants.IMAGES_PATH + "/" + 7 + Constants.GENERATED_SNAPSHOT;
         const generatedScene:       string = Constants.SCENE_PATH  + "/" + 7 + CCommon.SCENE_FILE;
         const assetManager:         AssetManagerService = new AssetManagerService();
@@ -141,6 +148,8 @@ describe("Card-operations tests", () => {
         assetManager.saveImage(snapshot, "test");
         assetManager.saveGeneratedScene(generatedScene, "test");
 
+        cardOperations["socketServer"] = mock(SocketIO);
+
         chai.expect(cardOperations.removeCard3D(7)).to.equal(Constants.CARD_DELETED);
     });
 
@@ -149,6 +158,13 @@ describe("Card-operations tests", () => {
         const result:   Message     = cardOperations.generateErrorMessage(error);
 
         chai.expect(result).to.deep.equal({title: CCommon.ON_ERROR, body: Constants.UNKNOWN_ERROR});
+    });
+
+    it("should set socket server", () => {
+        const mockSocket: any = mock(SocketIO);
+        cardOperations.setServer(mockSocket);
+
+        chai.expect(cardOperations["socketServer"]).to.equal(mockSocket);
     });
 
 });

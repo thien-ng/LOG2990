@@ -128,9 +128,34 @@ describe("Arena 2D tests", () => {
 
     });
 
-    it("should get empty difference ids list ", async () => {
+    it("should get empty difference ids list", async () => {
         const result: number[] = arena.getDifferencesIds();
         chai.expect(result.length).to.equal(0);
+    });
+
+    it("should  call onPlayersReady from referee", async () => {
+        const spy: any = chai.spy.on(arena["referee"], "onPlayersReady");
+
+        arena.onPlayerReady("123");
+        chai.expect(spy).called();
+    });
+
+    it("should  wait for referee when players are ready", async () => {
+        const clock: any = sinon.useFakeTimers();
+
+        arena = new Arena2D(arenaInfo, gameManager);
+        const spy: any = chai.spy.on(arena, "waitForReferee");
+
+        arena.onPlayerReady("123");
+        clock.tick(4000);
+        await arena.prepareArenaForGameplay()
+        .then(() => {
+            arena["referee"].timer.stopTimer();
+        })
+        .catch((error: Error) => {});
+
+        chai.expect(spy).called();
+        clock.restore();
     });
 
     it("should be able to extract original pixel clusters from buffers ", async () => {

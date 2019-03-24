@@ -1,0 +1,114 @@
+{
+    "name": "park",
+    "sceneEntities":
+    [ 
+        {
+            "name":           "SandRock1",
+            "meshInfos":      [{
+                "GLTFUrl":        "http://localhost:3000/mesh/environnement/scene.gltf",
+                "uuid":           "SandRock1"
+            }],
+            "baseSize":       0.2,
+            "radius":         15,
+            "presenceRatio":  0.14
+        },
+        {
+            "name":           "Rock2",
+            "meshInfos":      [{
+                "GLTFUrl":        "http://localhost:3000/mesh/environnement/scene.gltf",
+                "uuid":           "Rock2"
+            }],
+            "baseSize":       0.2,
+            "radius":         15,
+            "presenceRatio":  0.12
+        },
+        {
+            "name":           "Tree1",
+            "meshInfos":      [{
+                "GLTFUrl":        "http://localhost:3000/mesh/environnement/scene.gltf",
+                "uuid":           "Tree1"
+            }],
+            "baseSize":       0.2,
+            "radius":         15,
+            "presenceRatio":  0.09
+        },
+        {
+            "name":           "Plant",
+            "meshInfos":      [{
+                "GLTFUrl":        "http://localhost:3000/mesh/environnement/scene.gltf",
+                "uuid":           "Plant"
+            }],
+            "baseSize":       0.2,
+            "radius":         15,
+            "presenceRatio":  0.16
+        },
+        {
+            "name":           "DriedTree",
+            "meshInfos":      [{
+                "GLTFUrl":        "http://localhost:3000/mesh/environnement/scene.gltf",
+                "uuid":           "DriedTree"
+            }],
+            "baseSize":       0.2,
+            "radius":         15,
+            "presenceRatio":  0.09
+        },
+        {
+            "name":           "Fern",
+            "meshInfos":      [{
+                "GLTFUrl":        "http://localhost:3000/mesh/environnement/scene.gltf",
+                "uuid":           "Fern"
+            }],
+            "baseSize":       0.2,
+            "radius":         15,
+            "presenceRatio":  0.16
+        },
+        {
+            "name":           "Tree3",
+            "meshInfos":      [{
+                "GLTFUrl":        "http://localhost:3000/mesh/environnement/scene.gltf",
+                "uuid":           "Tree3"
+            }],
+            "baseSize":       0.2,
+            "radius":         15,
+            "presenceRatio":  0.07
+        },
+        {
+            "name":           "Tree2",
+            "meshInfos":      [{
+                "GLTFUrl":        "http://localhost:3000/mesh/environnement/scene.gltf",
+                "uuid":           "Tree2"
+            }],
+            "baseSize":       0.2,
+            "radius":         15,
+            "presenceRatio":  0.07
+        },
+        {
+            "name":           "hatchet",
+            "meshInfos":      [{
+                "GLTFUrl":        "http://localhost:3000/mesh/hatchet/scene.gltf",
+                "uuid":           "Hatchet"
+            }],
+            "baseSize":       15,
+            "radius":         2,
+            "presenceRatio":  0.04
+        }
+    ],
+    "backgroundColor":        "#81c2ff",
+    "startCameraPosition":    {
+        "x": 0,
+        "y": 0,
+        "z": 20
+    },
+    "generationArea":         {
+        "minPosition": {
+            "x": -300,
+            "y": 0,
+            "z": -300
+        },
+        "maxPosition": {
+            "x": 300,
+            "y": 0,
+            "z": 300
+        }
+    }
+}
