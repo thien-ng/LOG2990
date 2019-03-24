@@ -94,6 +94,7 @@ export class ThreejsThemeViewService {
     this.renderer         = renderer;
     this.scene            = scene;
     this.sceneVariables   = iSceneVariables;
+
     if (meshInfos) {
       this.meshInfos        = meshInfos;
     }

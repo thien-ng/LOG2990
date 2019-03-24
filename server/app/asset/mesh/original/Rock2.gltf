@@ -1,0 +1,129 @@
+{
+  "asset": {
+    "version": "2.0",
+    "generator": "THREE.GLTFExporter"
+  },
+  "scenes": [
+    {
+      "nodes": [
+        0,
+        2
+      ],
+      "name": "Scene"
+    }
+  ],
+  "scene": 0,
+  "nodes": [
+    {
+      "name": "SandRock1"
+    },
+    {
+      "matrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        -1.1920928977282498e-7,
+        -0.9999998807907106,
+        0,
+        0,
+        0.9999998807907106,
+        -1.1920928977282498e-7,
+        0,
+        92.34565734863281,
+        -0.00000834496950119501,
+        -146.40585327148438,
+        1
+      ],
+      "name": "mesh_0",
+      "mesh": 0
+    },
+    {
+      "name": "Rock2",
+      "children": [
+        1
+      ]
+    }
+  ],
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteOffset": 0,
+      "byteLength": 360,
+      "target": 34962,
+      "byteStride": 12
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 360,
+      "byteLength": 672,
+      "target": 34963
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 1032,
+      "uri": "data:application/octet-stream;base64,UGXCwirB1cJgMrZBFyDwwpxo4sIc03xByDnPwqNmA8N/+gBClwQEw3pBD8OX2lNBwsUCw/lAD8McqdhBdEPzwrg+38LGsfJACozCwqwi0sKaSjFBzyKDwrlF2ML6kZJBWgR+wuBl08IWkA1BqIlTwnJfD8OqVC9BTIpewsBYD8PhPbRBGGV/whPoLMMo22NBkZF6wrX+LcN8p9lA6pa+wni+O8Nm2YJBf2y+wkjOOcNyLgVCvRH9whMcKcN0J9xB99D/whRQKsN+W1dBEyrDwn1SD8MASoW2jLFSws9aD8NIa4W2aU99wrA0LcPO0vy27Jy+wkP2OsOO7Bm3oAitwmsvA8ONzwBC5P8Cw7Y4D8Pm4oS20n/+wpnYKcNyYu+2sAvzwgbZ38IAQxK0vlPCwk4R08LA6g4154Gowp/HFcNFXwRCaU99wk4R08LA6g41EfbdwpDtFMOlwxpCI1S/wlYhH8OZRR5CAAAAAAEAAAACAAAAAwAAAAQAAAABAAAAAwAAAAEAAAAFAAAABgAAAAAAAAAHAAAABgAAAAcAAAAIAAAACQAAAAoAAAALAAAACQAAAAsAAAAMAAAADQAAAA4AAAAPAAAADQAAAA8AAAAQAAAAEQAAABIAAAATAAAAEQAAABMAAAAUAAAAAgAAABUAAAAHAAAAAgAAAAcAAAAAAAAAFgAAABEAAAAUAAAAFgAAABQAAAAXAAAADAAAAAsAAAAOAAAADAAAAA4AAAANAAAABQAAAAEAAAAAAAAABQAAAAAAAAAGAAAAGAAAABkAAAARAAAAGAAAABEAAAAWAAAABwAAABUAAAAaAAAABwAAABoAAAAKAAAAGQAAABsAAAASAAAAGQAAABIAAAARAAAACAAAAAcAAAAKAAAACAAAAAoAAAAJAAAAEAAAAA8AAAAEAAAAEAAAAAQAAAADAAAAAgAAAAEAAAAEAAAAAgAAAAQAAAAcAAAAFwAAABAAAAADAAAAFwAAAAMAAAAWAAAAGwAAAAgAAAAJAAAAGwAAAAkAAAASAAAAGAAAAAUAAAAGAAAAGAAAAAYAAAAZAAAAEwAAAAwAAAANAAAAEwAAAA0AAAAUAAAAFAAAAA0AAAAQAAAAFAAAABAAAAAXAAAAEgAAAAkAAAAMAAAAEgAAAAwAAAATAAAAGQAAAAYAAAAIAAAAGQAAAAgAAAAbAAAAFgAAAAMAAAAFAAAAFgAAAAUAAAAYAAAADwAAABwAAAAEAAAAHAAAAA8AAAAdAAAAHQAAAA8AAAAOAAAAAgAAABoAAAAVAAAAGgAAAAIAAAAcAAAAGgAAABwAAAAdAAAAGgAAAAsAAAAKAAAACwAAABoAAAAdAAAACwAAAB0AAAAOAAAA"
+    }
+  ],
+  "accessors": [
+    {
+      "bufferView": 0,
+      "componentType": 5126,
+      "count": 30,
+      "max": [
+        -52.67338562011719,
+        -105.06771850585938,
+        39.56796646118164
+      ],
+      "min": [
+        -132.01792907714844,
+        -187.7440185546875,
+        -0.00000917458783078473
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5125,
+      "count": 168,
+      "max": [
+        29
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    }
+  ],
+  "materials": [
+    {
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.2079159915447235,
+          0.2079159915447235,
+          0.2079159915447235,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 1
+      },
+      "name": "RockMaterial"
+    }
+  ],
+  "meshes": [
+    {
+      "primitives": [
+        {
+          "mode": 4,
+          "attributes": {
+            "POSITION": 0
+          },
+          "indices": 1,
+          "material": 0
+        }
+      ]
+    }
+  ]
+}

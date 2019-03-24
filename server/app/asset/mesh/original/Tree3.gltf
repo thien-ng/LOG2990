@@ -1,0 +1,214 @@
+{
+  "asset": {
+    "version": "2.0",
+    "generator": "THREE.GLTFExporter"
+  },
+  "scenes": [
+    {
+      "nodes": [
+        2
+      ],
+      "name": "Scene"
+    }
+  ],
+  "scene": 0,
+  "nodes": [
+    {
+      "matrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        -1.1920928977282498e-7,
+        -0.9999998807907106,
+        0,
+        0,
+        0.9999998807907106,
+        -1.1920928977282498e-7,
+        0,
+        -234.1859588623047,
+        0.0000028736976673826575,
+        231.9798583984375,
+        1
+      ],
+      "name": "mesh_0",
+      "mesh": 0
+    },
+    {
+      "matrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        -1.1920928977282498e-7,
+        -0.9999998807907106,
+        0,
+        0,
+        0.9999998807907106,
+        -1.1920928977282498e-7,
+        0,
+        -234.1859588623047,
+        0.0000028736976673826575,
+        231.9798583984375,
+        1
+      ],
+      "name": "mesh_1",
+      "mesh": 1
+    },
+    {
+      "name": "Tree3",
+      "children": [
+        0,
+        1
+      ]
+    }
+  ],
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteOffset": 0,
+      "byteLength": 384,
+      "target": 34962,
+      "byteStride": 12
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 384,
+      "byteLength": 648,
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 1032,
+      "byteLength": 588,
+      "target": 34962,
+      "byteStride": 12
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 1620,
+      "byteLength": 1056,
+      "target": 34963
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 2676,
+      "uri": "data:application/octet-stream;base64,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"
+    }
+  ],
+  "accessors": [
+    {
+      "bufferView": 0,
+      "componentType": 5126,
+      "count": 32,
+      "max": [
+        258.20147705078125,
+        255.99539184570312,
+        96.73178100585938
+      ],
+      "min": [
+        210.1704559326172,
+        207.96438598632812,
+        0.00002479129034327343
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5125,
+      "count": 162,
+      "max": [
+        31
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 49,
+      "max": [
+        330.5360412597656,
+        328.3299255371094,
+        265.9906311035156
+      ],
+      "min": [
+        137.83590698242188,
+        135.6298370361328,
+        75.70858001708984
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5125,
+      "count": 264,
+      "max": [
+        48
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    }
+  ],
+  "materials": [
+    {
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.2019999772310257,
+          0.06499999761581421,
+          0,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 1
+      },
+      "name": "Tree2BarkMaterial"
+    },
+    {
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.03326869383454323,
+          0.2529430091381073,
+          0.009702459909021854,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 1
+      },
+      "name": "Tree2LeafMaterial"
+    }
+  ],
+  "meshes": [
+    {
+      "primitives": [
+        {
+          "mode": 4,
+          "attributes": {
+            "POSITION": 0
+          },
+          "indices": 1,
+          "material": 0
+        }
+      ]
+    },
+    {
+      "primitives": [
+        {
+          "mode": 4,
+          "attributes": {
+            "POSITION": 2
+          },
+          "indices": 3,
+          "material": 1
+        }
+      ]
+    }
+  ]
+}
