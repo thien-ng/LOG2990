@@ -1,10 +1,17 @@
 import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import { IArenaResponse, IPenalty } from "../../../../../common/communication/iGameplay";
+import {
+    IArenaResponse,
+    IOriginalPixelCluster,
+    IPenalty,
+    IPosition2D,
+    ISceneObjectUpdate
+} from "../../../../../common/communication/iGameplay";
+import { IMesh, ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { IUser } from "../../../../../common/communication/iUser";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { Constants } from "../../../constants";
 import { Arena } from "./arena";
-import { IHitConfirmation, IHitToValidate } from "./interfaces";
+import { IHitConfirmation, IHitToValidate, IPlayerInput } from "./interfaces";
 import { Player } from "./player";
 import { Timer } from "./timer";
 
