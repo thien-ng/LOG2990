@@ -6,29 +6,31 @@ import { ThreejsThemeGenerator } from "./threejs-themeGenerator";
 
 export class ThreejsRaycast {
 
-    private readonly NORMALIZE_FACTOR: number = 2;
+  private readonly NORMALIZE_FACTOR: number = 2;
 
-    private renderer:               THREE.WebGLRenderer;
-    private camera:                 THREE.PerspectiveCamera;
-    private scene:                  THREE.Scene;
-    private mouse:                  THREE.Vector3;
-    private raycaster:              THREE.Raycaster;
-    private idBySceneId:            Map<number, number>;
-    private threejsGenerator:       ThreejsGenerator;
-    private threejsThemeGenerator:  ThreejsThemeGenerator;
-    private isTheme:                boolean;
-    private modelsByName:           Map<string, THREE.Object3D>;
+  private renderer:               THREE.WebGLRenderer;
+  private camera:                 THREE.PerspectiveCamera;
+  private scene:                  THREE.Scene;
+  private mouse:                  THREE.Vector3;
+  private raycaster:              THREE.Raycaster;
+  private idBySceneId:            Map<number, number>;
+  private threejsGenerator:       ThreejsGenerator;
+  private threejsThemeGenerator:  ThreejsThemeGenerator;
+  private isTheme:                boolean;
+  private modelsByName:           Map<string, THREE.Object3D>;
 
-    public constructor(
-        camera:   THREE.PerspectiveCamera,
-        renderer: THREE.WebGLRenderer,
-        scene:    THREE.Scene) {
-        this.camera   = camera;
-        this.renderer = renderer;
-        this.scene    = scene;
+  public constructor(
+      camera:   THREE.PerspectiveCamera,
+      renderer: THREE.WebGLRenderer,
+      scene:    THREE.Scene) {
+      this.camera   = camera;
+      this.renderer = renderer;
+      this.scene    = scene;
 
-        this. mouse     = new THREE.Vector3();
-        this.raycaster  = new THREE.Raycaster();
+      this. mouse     = new THREE.Vector3();
+      this.raycaster  = new THREE.Raycaster();
+  }
+
     }
 
     public setMaps(idBySceneId: Map<number, number>): void {
