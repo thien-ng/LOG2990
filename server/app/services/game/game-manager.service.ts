@@ -288,7 +288,11 @@ export class GameManagerService {
     }
 
     public onGameLoaded(socketID: string, arenaID: number): void {
-        const arena: Arena<any, any, any> | undefined = this.arenas.get(arenaID);
+        const arena: Arena<
+                        IPlayerInput<IPosition2D> | IPlayerInput<number>,
+                        IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+                        IPosition2D | number> | undefined
+                        = this.arenas.get(arenaID);
         if (!arena) {
             return;
         }
