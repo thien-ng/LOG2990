@@ -33,7 +33,10 @@ export class GameManagerService {
     private server:             SocketIO.Server;
     private assetManager:       AssetManagerService;
     private playerList:         Map<string, SocketIO.Socket>;
-    private arenas:             Map<number, Arena<any, any, any, any>>;
+    private arenas:             Map<number, Arena<
+                                                IPlayerInput<IPosition2D> | IPlayerInput<number>,
+                                                IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+                                                IPosition2D | number>>;
     private gameIdByArenaId:    Map<number, number>;
     private interfaceBuilder:   InterfaceBuilder;
 
