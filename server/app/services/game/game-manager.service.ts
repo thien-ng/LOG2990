@@ -22,6 +22,9 @@ import { I2DInfos, I3DInfos, IArenaInfos, IPlayerInput } from "./arena/interface
 import { Player } from "./arena/player";
 import { LobbyManagerService } from "./lobby-manager.service";
 
+// _TODO: possible refactor
+// tslint:disable:max-file-line-count
+
 const REQUEST_ERROR_MESSAGE:            string = "Game mode invalide";
 const HIGHSCORE_VALIDATION_ERROR:       string = "Erreur lors de la validation du highscore";
 const ARENA_START_ID:                   number = 1000;
