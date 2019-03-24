@@ -18,7 +18,7 @@ import { IClickMessage, IPosition2D, ISceneObjectUpdate } from "../../../../../.
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
 import { IMesh, ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { SceneType } from "../../../../../../common/communication/iSceneOptions";
-import { ISceneData, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
+import { ISceneData, ISceneVariables, IMeshInfo } from "../../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../../common/communication/message";
 import { CCommon } from "../../../../../../common/constantes/cCommon";
 import { CardManagerService } from "../../../card/card-manager.service";
@@ -52,6 +52,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
   private sceneBuilderService:    ThreejsThemeViewService | ThreejsViewService; // _TODO: renommer mieux
 
   @Input() private iSceneVariables:         ISceneVariables<ISceneObject | IMesh>;
+  @Input() private meshInfos:               IMeshInfo[];
   @Input() private sceneData:               ISceneData<ISceneObject | IMesh>;
   @Input() private rightClick:              boolean;
   @Input() private isSnapshotNeeded:        boolean;
@@ -126,6 +127,8 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
     this.sceneBuilderService =
       (this.iSceneVariables.theme === SceneType.Geometric) ? this.threejsViewService : this.threejsThemeViewService;
 
+    const meshUsed: IMeshInfo[] | undefined = (this.isSnapshotNeeded)? this.sceneData.meshInfos: this.meshInfos;
+
     if (this.sceneBuilderService instanceof ThreejsThemeViewService) {
       this.sceneBuilderService.createScene(
         this.scene,
@@ -133,7 +136,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
         this.renderer,
         this.isSnapshotNeeded,
         this.arenaID,
-        this.sceneData.meshInfos);
+        meshUsed as IMeshInfo[]).catch((error: Error) => this.openSnackBar(error.message, Constants.SNACK_ACTION));
     } else {
       this.sceneBuilderService.createScene(
         this.scene,
