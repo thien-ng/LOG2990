@@ -14,6 +14,7 @@ export class ThreejsRaycast {
     private mouse:                  THREE.Vector3;
     private raycaster:              THREE.Raycaster;
     private idBySceneId:            Map<number, number>;
+    private sceneIdById:            Map<number, number>;
     private threejsGenerator:       ThreejsGenerator;
     private threejsThemeGenerator:  ThreejsThemeGenerator;
     private isTheme:                boolean;
@@ -31,8 +32,9 @@ export class ThreejsRaycast {
         this.raycaster  = new THREE.Raycaster();
     }
 
-    public setMaps(idBySceneId: Map<number, number>): void {
+    public setMaps(idBySceneId: Map<number, number>, sceneIdById: Map<number, number>): void {
         this.idBySceneId = idBySceneId;
+        this.sceneIdById = sceneIdById;
     }
 
     public setModelsByNameMap(modelsByName: Map<string, THREE.Object3D>): void {
@@ -59,41 +61,17 @@ export class ThreejsRaycast {
         const objectsIntersected: THREE.Intersection[] = this.raycaster.intersectObjects(this.scene.children, true);
 
         if (objectsIntersected.length > 0) {
-
           const clickedObject: THREE.Object3D = objectsIntersected[0].object;
           let parent: THREE.Object3D | null = this.getParentObject(clickedObject);
-  
-          if (parent) {
-            this.setObjectOpacity(parent, 0);
-          }
           
           if (parent) {
-          const firstIntersectedId: number = parent.id;
+          const parentID: number = parent.id;
 
-          return this.idBySceneId.get(firstIntersectedId) as number;
+          return this.idBySceneId.get(parentID) as number;
           }
         }
 
         return -1;
-    }
-
-    private setObjectOpacity(object: THREE.Object3D, opacity: number): void {
-
-      object.traverse((child: THREE.Object3D) => {
-        
-        if (child instanceof THREE.Mesh) {
-          if (Array.isArray(child.material)) {
-
-            child.material.forEach((mat: THREE.Material) => {
-              mat.transparent = true;
-              mat.opacity = opacity;
-            });
-          } else {
-            child.material.transparent = true;
-            child.material.opacity = opacity;
-          }
-        }
-      });
     }
 
     private getParentObject(object: THREE.Object3D): THREE.Object3D | null  {
@@ -124,11 +102,15 @@ export class ThreejsRaycast {
         switch (sceneUpdate.actionToApply) {
 
             case ActionType.ADD:
-              this.initiateObject(sceneUpdate);
+              if (this.isTheme) {
+                this.displayObject(sceneUpdate);
+              } else {
+                this.threejsGenerator.initiateObject(sceneUpdate.sceneObject as ISceneObject);
+              }
               break;
 
             case ActionType.DELETE:
-              this.threejsGenerator.deleteObject(sceneUpdate.sceneObject.id);
+              this.deleteObject(sceneUpdate.sceneObject.id);
               break;
 
             case ActionType.CHANGE_COLOR:
@@ -140,17 +122,30 @@ export class ThreejsRaycast {
           }
     }
 
-    private initiateObject(sceneUpdate: ISceneObjectUpdate<ISceneObject | IMesh>): void {
+    private displayObject(sceneUpdate: ISceneObjectUpdate<ISceneObject | IMesh>): void {
+      if (!sceneUpdate.sceneObject) {
+        return;
+      }
+      const objectID: number | undefined = this.sceneIdById.get(sceneUpdate.sceneObject.id);
+      if (objectID){
+        const object: THREE.Object3D | undefined = this.scene.getObjectById(objectID);
+        if (object) {
+          this.threejsThemeGenerator.setObjectOpacity(object, 1);
+        }
+      }
+    }
+
+    private deleteObject(id: number): void {
       if (this.isTheme) {
-        this.threejsThemeGenerator.initiateObject(sceneUpdate.sceneObject as IMesh, this.modelsByName);
+        this.threejsThemeGenerator.deleteObject(id);
       } else {
-        this.threejsGenerator.initiateObject(sceneUpdate.sceneObject as ISceneObject);
+        this.threejsGenerator.deleteObject(id);
       }
     }
 
     private changeObjectColor(sceneUpdate: ISceneObjectUpdate<ISceneObject | IMesh>): void {
-      if (this.isTheme) {
-        this.threejsThemeGenerator.changeObjectColor();
+      if (this.isTheme && sceneUpdate.sceneObject) {
+        this.threejsThemeGenerator.changeObjectColor(sceneUpdate.sceneObject as IMesh);
       } else {
         const sceneObjectToUpdate: ISceneObject = sceneUpdate.sceneObject as ISceneObject;
         if (sceneObjectToUpdate) {
@@ -158,4 +153,5 @@ export class ThreejsRaycast {
         }
       }
     }
+
 }

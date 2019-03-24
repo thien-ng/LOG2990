@@ -95,7 +95,7 @@ export class ThreejsViewService {
     this.renderer.setClearColor(this.sceneVariables.sceneBackgroundColor);
 
     this.threejsRaycast = new ThreejsRaycast(this.camera, this.renderer, this.scene);
-    this.threejsRaycast.setMaps(this.idBySceneId);
+    this.threejsRaycast.setMaps(this.idBySceneId, this.sceneIdById);
     this.threejsRaycast.setThreeGenerator(this.threejsGenerator);
 
     this.createLighting();

@@ -98,18 +98,19 @@ export class ThreejsThemeViewService {
     if (meshInfos) {
       this.meshInfos        = meshInfos;
     }
+    this.renderer.setSize(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
+    this.renderer.setClearColor(this.sceneVariables.sceneBackgroundColor);
+
+    await this.getModelObjects(this.meshInfos);
     this.threejsGenerator = new ThreejsThemeGenerator(
       this.scene,
       this.sceneIdById,
       this.idBySceneId,
       this.opacityById,
+      this.modelsByName,
     );
-    this.renderer.setSize(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
-    this.renderer.setClearColor(this.sceneVariables.sceneBackgroundColor);
-
-    await this.getModelObjects(this.meshInfos);
     this.threejsThemeRaycast = new ThreejsRaycast(this.camera, this.renderer, this.scene);
-    this.threejsThemeRaycast.setMaps(this.idBySceneId);
+    this.threejsThemeRaycast.setMaps(this.idBySceneId, this.sceneIdById);
     this.threejsThemeRaycast.setModelsByNameMap(this.modelsByName);
     this.threejsThemeRaycast.setThreeGenerator(this.threejsGenerator);
 
@@ -185,6 +186,7 @@ export class ThreejsThemeViewService {
   }
 
   public updateSceneWithNewObject(object: ISceneObjectUpdate<ISceneObject | IMesh>): void {
+    console.log(object)
     this.threejsThemeRaycast.updateSceneWithNewObject(object);
   }
 

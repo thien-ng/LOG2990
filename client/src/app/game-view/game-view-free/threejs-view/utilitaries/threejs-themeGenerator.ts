@@ -9,16 +9,35 @@ export class ThreejsThemeGenerator {
     private sceneIdById:           Map<number, number>,
     private idBySceneId:           Map<number, number>,
     private opacityById:           Map<number, number>,
+    private modelsByName:          Map<string, THREE.Object3D>,
     ) {}
 
   public initiateObject(mesh: IMesh, modelsByName: Map<string, THREE.Object3D>): void {
 
     const model3D: THREE.Object3D | undefined = modelsByName.get(mesh.meshInfo.uuid);
-
     if (model3D) {
       const object3D: THREE.Object3D = model3D.clone();
-
+      object3D.children.forEach((child: THREE.Mesh) => {
+        this.cloneMaterialRecursive(child);
+      })
+      if (mesh.hidden) {
+        this.setObjectOpacity(object3D, 0);
+      }
       this.initObject3D(mesh, object3D);
+    }
+  }
+
+  private cloneMaterialRecursive(object3D: THREE.Mesh): void {
+    if (object3D.material instanceof THREE.Material) {
+      object3D.material = object3D.material.clone();
+    } else if (Array.isArray(object3D.material)) {
+      object3D.material.forEach((mat: THREE.Material) => {
+        mat = mat.clone();
+      });
+    } else {
+      object3D.children.forEach((child: THREE.Mesh) => {
+        this.cloneMaterialRecursive(child);
+      })
     }
   }
 
@@ -30,7 +49,10 @@ export class ThreejsThemeGenerator {
 
     const opacityUsed: number = (object3D.visible) ? 0 : 1;
     this.opacityById.set(object3D.id, opacityUsed);
+    this.sceneIdById.set(object3D.id, mesh.id);
     this.scene.add(object3D);
+
+    object3D.parent = this.scene;
   }
 
   public deleteObject(id: number): void {
@@ -40,14 +62,9 @@ export class ThreejsThemeGenerator {
     this.scene.remove(objectToRemove);
   }
 
-  public changeObjectColor(): void {
-    // const objectId:       number         = this.sceneIdById.get(id) as number;
-    // const objectToChange: THREE.Object3D = this.scene.getObjectById(objectId) as THREE.Object3D;
-    // const objectMesh:     THREE.Mesh     = objectToChange as THREE.Mesh;
-
-    // this.originalColorById.set(id, color);
-
-    // objectMesh.material = new THREE.MeshPhongMaterial({color: color});
+  public changeObjectColor(sceneObject: IMesh): void {
+    this.deleteObject(sceneObject.id);
+    this.initiateObject(sceneObject, this.modelsByName);
   }
 
   private addObjectIdToMap(objectId: number, generatedObjectId: number): void {
@@ -75,4 +92,23 @@ export class ThreejsThemeGenerator {
     object3D.scale.y = scale;
     object3D.scale.z = scale;
   }
+
+  public setObjectOpacity(object: THREE.Object3D, opacity: number): void {
+
+    object.traverse((child: THREE.Object3D) => {
+      if (child instanceof THREE.Mesh) {
+        if (Array.isArray(child.material)) {
+
+          child.material.forEach((mat: THREE.Material) => {
+            mat.transparent = true;
+            mat.opacity = opacity;
+          });
+        } else {
+          child.material.transparent = true;
+          child.material.opacity = opacity;
+        }
+      }
+    });
+  }
+
 }
