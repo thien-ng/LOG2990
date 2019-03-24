@@ -597,7 +597,7 @@ describe("GameManagerService tests", () => {
         chai.expect(spy).to.have.been.called();
     });
 
-    it("should call the arena onPlayerInput when gameManager calls his", () => {
+    it("should call the arena onPlayerInput when gameManager calls him", () => {
         const arena: Arena2D = new Arena2D(iArenaInfos, gameManagerService);
         chai.spy.on(gameManagerService["arenas"], "get", () => arena);
         chai.spy.on(arena, "contains", () => true);
