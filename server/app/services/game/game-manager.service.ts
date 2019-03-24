@@ -199,15 +199,19 @@ export class GameManagerService {
             return;
         }
         if (aliveArenaCount === 1) {
-            if ("original" in arenaInfo.dataUrl) {
-                this.assetManager.deleteFileInTemp(gameId, Constants.GENERATED_FILE);
-                this.assetManager.deleteFileInTemp(gameId, CCommon.ORIGINAL_FILE);
-            } else {
-                this.assetManager.deleteFileInTemp(gameId, CCommon.SCENE_FILE);
-            }
+            this.deleteTempFiles(arenaInfo, gameId);
         }
         this.assetManager.decrementTempCounter(gameId, aliveArenaCount);
         this.arenas.delete(arenaInfo.arenaId);
+    }
+
+    private deleteTempFiles(arenaInfo: IArenaInfos<I2DInfos | I3DInfos>, gameId: number): void {
+        if ("original" in arenaInfo.dataUrl) {
+            this.assetManager.deleteFileInTemp(gameId, Constants.GENERATED_FILE);
+            this.assetManager.deleteFileInTemp(gameId, CCommon.ORIGINAL_FILE);
+        } else {
+            this.assetManager.deleteFileInTemp(gameId, CCommon.SCENE_FILE);
+        }
     }
 
     public get userList(): Map<string, SocketIO.Socket> {
@@ -276,7 +280,6 @@ export class GameManagerService {
         if (!arena) {
             return;
         }
-
         arena.onPlayerReady(socketID);
     }
 }
