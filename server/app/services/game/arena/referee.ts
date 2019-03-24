@@ -32,8 +32,6 @@ export class Referee<EVT_T, DIFF_T> {
     private differencesFound:   number[];
     private pointsNeededToWin:  number;
 
-    // _TODO: Enlever les any après les avoir remplacés
-    // tslint:disable-next-line:no-any
     public constructor(public  arena:               Arena<
                                                         IPlayerInput<IPosition2D> | IPlayerInput<number>,
                                                         IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
