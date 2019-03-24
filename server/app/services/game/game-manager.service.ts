@@ -49,7 +49,10 @@ export class GameManagerService {
         this.arenaID            = ARENA_START_ID;
         this.assetManager       = new AssetManagerService();
         this.playerList         = new Map<string, SocketIO.Socket>();
-        this.arenas             = new Map<number, Arena<any, any, any, any>>();
+        this.arenas             = new Map<number, Arena<
+                                                    IPlayerInput<IPosition2D> | IPlayerInput<number>,
+                                                    IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+                                                    IPosition2D | number>>();
         this.gameIdByArenaId    = new Map<number, number>();
         this.interfaceBuilder = new InterfaceBuilder();
     }
