@@ -9,7 +9,7 @@
                 "uuid":           "SandRock1"
             }],
             "baseSize":       0.2,
-            "radius":         100,
+            "radius":         15,
             "presenceRatio":  0.14
         },
         {
@@ -19,7 +19,7 @@
                 "uuid":           "Rock2"
             }],
             "baseSize":       0.2,
-            "radius":         100,
+            "radius":         15,
             "presenceRatio":  0.12
         },
         {
@@ -29,7 +29,7 @@
                 "uuid":           "Tree1"
             }],
             "baseSize":       0.2,
-            "radius":         100,
+            "radius":         15,
             "presenceRatio":  0.09
         },
         {
@@ -39,7 +39,7 @@
                 "uuid":           "Plant"
             }],
             "baseSize":       0.2,
-            "radius":         100,
+            "radius":         15,
             "presenceRatio":  0.16
         },
         {
@@ -49,7 +49,7 @@
                 "uuid":           "DriedTree"
             }],
             "baseSize":       0.2,
-            "radius":         100,
+            "radius":         15,
             "presenceRatio":  0.09
         },
         {
@@ -59,7 +59,7 @@
                 "uuid":           "Fern"
             }],
             "baseSize":       0.2,
-            "radius":         100,
+            "radius":         15,
             "presenceRatio":  0.16
         },
         {
@@ -69,7 +69,7 @@
                 "uuid":           "Tree3"
             }],
             "baseSize":       0.2,
-            "radius":         100,
+            "radius":         15,
             "presenceRatio":  0.07
         },
         {
@@ -79,7 +79,7 @@
                 "uuid":           "Tree2"
             }],
             "baseSize":       0.2,
-            "radius":         100,
+            "radius":         15,
             "presenceRatio":  0.07
         },
         {
@@ -88,7 +88,7 @@
                 "GLTFUrl":        "http://localhost:3000/mesh/hatchet/scene.gltf",
                 "uuid":           "Hatchet"
             }],
-            "baseSize":       20,
+            "baseSize":       15,
             "radius":         2,
             "presenceRatio":  0.04
         }
@@ -101,14 +101,14 @@
     },
     "generationArea":         {
         "minPosition": {
-            "x": -250,
+            "x": -300,
             "y": 0,
-            "z": -250
+            "z": -300
         },
         "maxPosition": {
-            "x": 250,
+            "x": 300,
             "y": 0,
-            "z": 250
+            "z": 300
         }
     }
 }
