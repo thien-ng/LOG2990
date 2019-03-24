@@ -7,7 +7,7 @@ import * as path from "path";
 import { anything, mock, when } from "ts-mockito";
 import { GameMode } from "../../../../../common/communication/iCard";
 import { ActionType, IArenaResponse, ISceneObjectUpdate } from "../../../../../common/communication/iGameplay";
-import { ISceneObject } from "../../../../../common/communication/iSceneObject";
+import { IMesh, ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { IModification, ISceneData, ISceneVariables } from "../../../../../common/communication/iSceneVariables";
 import { IUser } from "../../../../../common/communication/iUser";
 import { Arena3D } from "../../../services/game/arena/arena3d";
@@ -59,7 +59,7 @@ const sceneData: ISceneData<ISceneObject> = {
     modifications: [{id: 1, type: 6}],
 };
 
-const refereeResponse: IArenaResponse<ISceneObjectUpdate> = {
+const refereeResponse: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>> = {
     status:             "onSuccess",
     response: {
         actionToApply:  ActionType.ADD,
@@ -118,11 +118,11 @@ describe("Arena3D tests", () => {
 
         playerInput.event = "notAClickMyBoi";
 
-        const arenaResponse: IArenaResponse<ISceneObjectUpdate> = {
+        const arenaResponse: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>> = {
             status: "onFailedClick",
         };
 
-        arena.onPlayerInput(playerInput).then((response: IArenaResponse<ISceneObjectUpdate>) => {
+        arena.onPlayerInput(playerInput).then((response: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>>) => {
             chai.expect(response).to.deep.equal(arenaResponse);
         }).catch();
 

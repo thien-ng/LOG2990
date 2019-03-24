@@ -2,7 +2,7 @@ import { inject, TestBed } from "@angular/core/testing";
 import * as THREE from "three";
 import { anyNumber, mock, when } from "ts-mockito";
 import { ActionType, IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
-import { ISceneObject, SceneObjectType } from "../../../../../../common/communication/iSceneObject";
+import { IMesh, ISceneObject, SceneObjectType } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { GameViewFreeService } from "../game-view-free.service";
 import { ThreejsViewService } from "./threejs-view.service";
@@ -123,7 +123,7 @@ describe("ThreejsViewService Tests", () => {
 
     const initSpy:   any = spyOn<any>(threejsViewService["threejsGenerator"], "initiateObject");
 
-    const objectUpdate: ISceneObjectUpdate = {
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.NO_ACTION_REQUIRED,
     };
 
@@ -140,7 +140,7 @@ describe("ThreejsViewService Tests", () => {
 
     const deleteSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "deleteObject");
 
-    const objectUpdate: ISceneObjectUpdate = {
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.NO_ACTION_REQUIRED,
     };
 
@@ -157,7 +157,7 @@ describe("ThreejsViewService Tests", () => {
 
     const changeSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "changeObjectColor");
 
-    const objectUpdate: ISceneObjectUpdate = {
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.NO_ACTION_REQUIRED,
     };
 
@@ -174,7 +174,7 @@ describe("ThreejsViewService Tests", () => {
 
     const initSpy:   any = spyOn<any>(threejsViewService["threejsGenerator"], "initiateObject");
 
-    const objectUpdate: ISceneObjectUpdate = {
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.NO_ACTION_REQUIRED,
       sceneObject:   sceneVariables.sceneObjects[0],
     };
@@ -192,7 +192,7 @@ describe("ThreejsViewService Tests", () => {
 
     const deleteSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "deleteObject");
 
-    const objectUpdate: ISceneObjectUpdate = {
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.NO_ACTION_REQUIRED,
       sceneObject:   sceneVariables.sceneObjects[0],
     };
@@ -210,7 +210,7 @@ describe("ThreejsViewService Tests", () => {
 
     const changeSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "changeObjectColor");
 
-    const objectUpdate: ISceneObjectUpdate = {
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.NO_ACTION_REQUIRED,
       sceneObject:   sceneVariables.sceneObjects[0],
     };
@@ -228,7 +228,7 @@ describe("ThreejsViewService Tests", () => {
 
     const deleteSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "deleteObject");
 
-    const objectUpdate: ISceneObjectUpdate = {
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.ADD,
       sceneObject:   sceneVariables.sceneObjects[0],
     };
@@ -246,7 +246,7 @@ describe("ThreejsViewService Tests", () => {
 
     const changeSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "changeObjectColor");
 
-    const objectUpdate: ISceneObjectUpdate = {
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.ADD,
       sceneObject:   sceneVariables.sceneObjects[0],
     };
@@ -264,7 +264,7 @@ describe("ThreejsViewService Tests", () => {
 
     const initSpy:   any = spyOn<any>(threejsViewService["threejsGenerator"], "initiateObject");
 
-    const objectUpdate: ISceneObjectUpdate = {
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.DELETE,
       sceneObject:   sceneVariables.sceneObjects[0],
     };
@@ -282,7 +282,7 @@ describe("ThreejsViewService Tests", () => {
 
     const changeSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "changeObjectColor");
 
-    const objectUpdate: ISceneObjectUpdate = {
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.DELETE,
       sceneObject:   sceneVariables.sceneObjects[0],
     };
@@ -300,7 +300,7 @@ describe("ThreejsViewService Tests", () => {
 
     const initSpy:   any = spyOn<any>(threejsViewService["threejsGenerator"], "initiateObject");
 
-    const objectUpdate: ISceneObjectUpdate = {
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.CHANGE_COLOR,
       sceneObject:   sceneVariables.sceneObjects[0],
     };
@@ -318,7 +318,7 @@ describe("ThreejsViewService Tests", () => {
 
     const deleteSpy: any = spyOn<any>(threejsViewService["threejsGenerator"], "deleteObject");
 
-    const objectUpdate: ISceneObjectUpdate = {
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.CHANGE_COLOR,
       sceneObject:   sceneVariables.sceneObjects[0],
     };
