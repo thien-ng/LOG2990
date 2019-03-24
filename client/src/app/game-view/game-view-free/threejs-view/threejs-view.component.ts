@@ -128,7 +128,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
     this.sceneBuilderService =
       (this.iSceneVariables.theme === SceneType.Geometric) ? this.threejsViewService : this.threejsThemeViewService;
 
-    const meshUsed: IMeshInfo[] | undefined = (this.isSnapshotNeeded)? this.sceneData.meshInfos: this.meshInfos;
+    const meshUsed: IMeshInfo[] | undefined = (this.isSnapshotNeeded) ? this.sceneData.meshInfos : this.meshInfos;
 
     if (this.sceneBuilderService instanceof ThreejsThemeViewService) {
       await this.sceneBuilderService.createScene(
