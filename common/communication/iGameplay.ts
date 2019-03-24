@@ -1,5 +1,4 @@
 import { GameMode } from "./iCard";
-import { ISceneObject } from "./iSceneObject";
 
 export interface IPosition2D {
     x:  number;
@@ -28,9 +27,9 @@ export interface IOriginalPixelCluster {
     cluster:        IReplacementPixel[];
 }
 
-export interface ISceneObjectUpdate {
+export interface ISceneObjectUpdate<OBJ_T> {
     actionToApply:  ActionType;
-    sceneObject?:   ISceneObject;
+    sceneObject?:   OBJ_T;
 }
 
 export interface IArenaResponse<RES_T> {

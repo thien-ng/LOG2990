@@ -2,6 +2,7 @@ import { ElementRef, Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { GameConnectionService } from "src/app/game-connection.service";
 import { IArenaResponse, IPosition2D, ISceneObjectUpdate } from "../../../../../common/communication/iGameplay";
+import { IMesh, ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 
 const EVERY_SCENE_LOADED: number = 2;
@@ -52,7 +53,7 @@ export class GameViewFreeService {
     return this.rightClickActive.asObservable();
   }
 
-  public onArenaResponse(data: IArenaResponse<ISceneObjectUpdate>): void {
+  public onArenaResponse(data: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>>): void {
 
     if (data.status === CCommon.ON_SUCCESS) {
 

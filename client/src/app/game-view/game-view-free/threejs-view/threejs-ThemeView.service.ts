@@ -1,8 +1,9 @@
 import { Inject, Injectable } from "@angular/core";
 import * as THREE from "three";
+import GLTFLoader from "three-gltf-loader";
 import { IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { IMesh, ISceneObject } from "../../../../../../common/communication/iSceneObject";
-import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
+import { IMeshInfo, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Constants } from "../../../constants";
 import { GameViewFreeService } from "../game-view-free.service";
 import { ThreejsMovement } from "./utilitaries/threejs-movement";
@@ -24,27 +25,32 @@ export class ThreejsThemeViewService {
   private readonly FOWARD_ORIENTATION:    number = -1;
   private readonly BACKWARD_ORIENTATION:  number = 1;
 
-  private scene:                    THREE.Scene;
-  private camera:                   THREE.PerspectiveCamera;
-  private renderer:                 THREE.WebGLRenderer;
-  private ambLight:                 THREE.AmbientLight;
-  private threejsGenerator:         ThreejsThemeGenerator;
-  private threejsMovement:          ThreejsMovement;
-  private threejsRaycast:           ThreejsRaycast;
-  private sceneVariables:           ISceneVariables<ISceneObject | IMesh>;
+  private scene:                THREE.Scene;
+  private camera:               THREE.PerspectiveCamera;
+  private renderer:             THREE.WebGLRenderer;
+  private ambLight:             THREE.AmbientLight;
+  private sceneVariables:       ISceneVariables<ISceneObject | IMesh>;
+  private meshInfos:            IMeshInfo[];
+  private threejsGenerator:     ThreejsThemeGenerator;
+  private threejsThemeRaycast:  ThreejsRaycast;
+  private threejsMovement:      ThreejsMovement;
+  private modelsByName:         Map<string, THREE.Object3D>;
+  private gltfByUrl:            Map<string, THREE.GLTF>;
 
-  private sceneIdById:        Map<number, number>;
-  private idBySceneId:        Map<number, number>;
-  private opacityById:        Map<number, number>;
-  private originalColorById:  Map<number, string>;
+  private sceneIdById:          Map<number, number>;
+  private idBySceneId:          Map<number, number>;
+  private opacityById:          Map<number, number>;
+  private originalColorById:    Map<number, string>;
 
   private moveForward:        boolean;
   private moveBackward:       boolean;
   private moveLeft:           boolean;
   private moveRight:          boolean;
 
-  public constructor(@Inject(GameViewFreeService) public gameViewFreeService: GameViewFreeService) {
+  private allPromises: Promise<{}>[] = [];
 
+  public constructor(
+    @Inject(GameViewFreeService) public gameViewFreeService: GameViewFreeService) {
     this.init();
   }
 
@@ -61,13 +67,16 @@ export class ThreejsThemeViewService {
     this.sceneIdById          = new Map<number, number>();
     this.idBySceneId          = new Map<number, number>();
     this.opacityById          = new Map<number, number>();
-    this.originalColorById    = new Map<number, string>();
+    this.originalColorById    = new Map<number, string>(); // _TODO: a enlever?
+    this.gltfByUrl            = new Map<string, THREE.GLTF>();
+    this.modelsByName         = new Map<string, THREE.Object3D>();
     this.threejsMovement      = new ThreejsMovement(this.camera);
 
     this.moveForward          = false;
     this.moveBackward         = false;
     this.moveRight            = false;
     this.moveLeft             = false;
+
   }
 
   public animate(): void {
@@ -75,34 +84,49 @@ export class ThreejsThemeViewService {
     this.renderObject();
   }
 
-  public createScene(
+  public async createScene(
     scene:            THREE.Scene,
     iSceneVariables:  ISceneVariables<ISceneObject | IMesh>,
     renderer:         THREE.WebGLRenderer,
     isSnapshotNeeded: boolean,
-    arenaID: number): void {
+    arenaID: number,
+    meshInfos?: IMeshInfo[]): Promise<void> {
     this.renderer         = renderer;
     this.scene            = scene;
     this.sceneVariables   = iSceneVariables;
+    if (meshInfos) {
+      this.meshInfos        = meshInfos;
+    }
     this.threejsGenerator = new ThreejsThemeGenerator(
       this.scene,
       this.sceneIdById,
-      this.originalColorById,
       this.idBySceneId,
       this.opacityById,
     );
-
     this.renderer.setSize(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
     this.renderer.setClearColor(this.sceneVariables.sceneBackgroundColor);
 
-    this.threejsRaycast = new ThreejsRaycast(this.camera, this.renderer, this.scene);
-    this.threejsRaycast.setMaps(this.idBySceneId);
-    this.threejsRaycast.setThreeGenerator(this.threejsGenerator);
+    await this.getModelObjects(this.meshInfos);
+    this.threejsThemeRaycast = new ThreejsRaycast(this.camera, this.renderer, this.scene);
+    this.threejsThemeRaycast.setMaps(this.idBySceneId);
+    this.threejsThemeRaycast.setModelsByNameMap(this.modelsByName);
+    this.threejsThemeRaycast.setThreeGenerator(this.threejsGenerator);
 
     this.createLighting();
     this.generateSceneObjects(isSnapshotNeeded, arenaID);
+    this.setFloor();
+    this.setCameraPosition(Constants.CAMERA_POSITION_X, Constants.CAMERA_POSITION_Y, Constants.CAMERA_POSITION_Z);
 
     this.camera.lookAt(new THREE.Vector3(this.CAMERA_START_POSITION, this.CAMERA_START_POSITION, this.CAMERA_START_POSITION));
+  }
+
+  private setFloor(): void {
+    const floor:          THREE.PlaneBufferGeometry = new THREE.PlaneBufferGeometry(
+      Constants.FLOOR_DIMENTION, Constants.FLOOR_DIMENTION, Constants.FLOOR_SEGMENT, Constants.FLOOR_SEGMENT);
+    const floorMaterial:  THREE.MeshBasicMaterial   = new THREE.MeshBasicMaterial({ color: Constants.FLOOR_COLOR, side: THREE.DoubleSide });
+    const plane:          THREE.Mesh                = new THREE.Mesh(floor, floorMaterial);
+    plane.rotateX( - Math.PI / Constants.FLOOR_DIVIDER);
+    this.scene.add(plane);
   }
 
   public changeObjectsColor(cheatColorActivated: boolean, isLastChange: boolean, modifiedList?: number[]): void {
@@ -125,13 +149,15 @@ export class ThreejsThemeViewService {
       }
 
       if (meshObject !== undefined) {
-        meshObject.material = new THREE.MeshPhongMaterial({
-          color: objectColor,
-          opacity: opacityNeeded,
-          transparent: true,
-        });
+        meshObject.material = new THREE.MeshPhongMaterial({color: objectColor, opacity: opacityNeeded, transparent: true});
       }
     });
+  }
+
+  public setCameraPosition(x: number, y: number, z: number): void {
+    this.camera.position.x = x;
+    this.camera.position.y = y;
+    this.camera.position.z = z;
   }
 
   public setupFront(orientation: number): void {
@@ -159,11 +185,11 @@ export class ThreejsThemeViewService {
 
     this.gameViewFreeService.setPosition(mouseEvent.offsetX, mouseEvent.offsetY);
 
-    return this.threejsRaycast.detectObject(mouseEvent);
+    return this.threejsThemeRaycast.detectObject(mouseEvent);
   }
 
-  public updateSceneWithNewObject(object: ISceneObjectUpdate): void {
-    this.threejsRaycast.updateSceneWithNewObject(object);
+  public updateSceneWithNewObject(object: ISceneObjectUpdate<ISceneObject | IMesh>): void {
+    this.threejsThemeRaycast.updateSceneWithNewObject(object);
   }
 
   private createLighting(): void {
@@ -182,18 +208,49 @@ export class ThreejsThemeViewService {
   private renderObject(): void {
 
     this.threejsMovement.movementCamera(this.moveForward, this.moveBackward, this.moveLeft, this.moveRight);
-
     this.renderer.render(this.scene, this.camera);
   }
 
   private generateSceneObjects(isSnapshotNeeded: boolean, arenaID: number): void {
-    this.sceneVariables.sceneObjects.forEach((element: ISceneObject) => {
-      this.threejsGenerator.initiateObject(element);
+
+    this.sceneVariables.sceneObjects.forEach((mesh: IMesh) => {
+      this.threejsGenerator.initiateObject(mesh, this.modelsByName);
     });
 
     if (!isSnapshotNeeded) {
       this.gameViewFreeService.updateSceneLoaded(arenaID);
     }
+  }
+
+  private async getModelObjects (meshInfos: IMeshInfo[]): Promise<void> {
+    this.getGLTFs(meshInfos);
+
+    return Promise.all(this.allPromises).then(() => {
+      meshInfos.forEach((meshInfo: IMeshInfo) => {
+        const gtlf: THREE.GLTF | undefined = this.gltfByUrl.get(meshInfo.GLTFUrl);
+        if (gtlf) {
+          gtlf.scene.traverse((child: THREE.Object3D) => {
+            if (child.name === meshInfo.uuid) {
+              this.modelsByName.set(child.name, child);
+            }
+          });
+        }
+      });
+    }).catch();
+
+  }
+
+  private getGLTFs (meshInfos: IMeshInfo[]): void {
+    meshInfos.forEach(async (meshInfo: IMeshInfo) => {
+      if (!this.gltfByUrl.has(meshInfo.GLTFUrl)) {
+        this.allPromises.push(new Promise( (resolve, reject) => {
+          new GLTFLoader().load(meshInfo.GLTFUrl, (gltf: THREE.GLTF) => {
+            this.gltfByUrl.set(meshInfo.GLTFUrl, gltf);
+            resolve(gltf);
+        },                      undefined, reject);
+        }));
+      }
+    });
   }
 
   public onKeyMovement(keyboardEvent: KeyboardEvent, buttonStatus: boolean): void {

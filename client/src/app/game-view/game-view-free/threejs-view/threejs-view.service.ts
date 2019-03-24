@@ -153,7 +153,7 @@ export class ThreejsViewService {
     return this.threejsRaycast.detectObject(mouseEvent);
   }
 
-  public updateSceneWithNewObject(object: ISceneObjectUpdate): void {
+  public updateSceneWithNewObject(object: ISceneObjectUpdate<ISceneObject | IMesh>): void {
     this.threejsRaycast.updateSceneWithNewObject(object);
   }
 
