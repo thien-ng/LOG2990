@@ -50,9 +50,9 @@ export class GameManagerService {
         this.assetManager       = new AssetManagerService();
         this.playerList         = new Map<string, SocketIO.Socket>();
         this.arenas             = new Map<number, Arena<
-                                                    IPlayerInput<IPosition2D> | IPlayerInput<number>,
-                                                    IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
-                                                    IPosition2D | number>>();
+                                    IPlayerInput<IPosition2D> | IPlayerInput<number>,
+                                    IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+                                    IPosition2D | number>>();
         this.gameIdByArenaId    = new Map<number, number>();
         this.interfaceBuilder = new InterfaceBuilder();
     }
