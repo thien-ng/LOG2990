@@ -6,13 +6,14 @@ import { ThreejsGenerator } from "./threejs-generator";
 import { ThreejsRaycast } from "./threejs-raycast";
 import { ThreejsThemeGenerator } from "./threejs-themeGenerator";
 
-// tslint:disable:no-any no-magic-numbers
+// tslint:disable:no-any no-magic-numbers max-file-line-count
 
 const idBySceneId: Map<number, number> = new Map<number, number>();
 idBySceneId.set(1, 1);
 const sceneIdById: Map<number, number> = new Map<number, number>();
+sceneIdById.set(10, 1);
 
-const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
+const objectUpdateSceneObject: ISceneObjectUpdate<ISceneObject> = {
     actionToApply:  ActionType.ADD,
     sceneObject:    {
         id:         1,
@@ -25,6 +26,23 @@ const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
     },
 };
 
+const objectUpdateMesh: ISceneObjectUpdate<IMesh> = {
+    actionToApply:  ActionType.ADD,
+    sceneObject:        {
+        id:             1,
+        meshInfo:       {
+            GLTFUrl:    "url",
+            uuid:       "uuid",
+        },
+        name:           "patate",
+        radius:         1,
+        position:       {x: 1, y: 1, z: 1},
+        rotation:       {x: 1, y: 1, z: 1},
+        scaleFactor:    1,
+        hidden:         false,
+    },
+};
+
 let camera:                     THREE.PerspectiveCamera;
 let renderer:                   THREE.WebGLRenderer;
 let scene:                      THREE.Scene;
@@ -33,7 +51,7 @@ let threejsRaycast:             ThreejsRaycast;
 let threejsGeneratorGeometric:  ThreejsGenerator;
 let threejsGeneratorTheme:      ThreejsThemeGenerator;
 
-fdescribe("threejs-raycast tests", () => {
+describe("threejs-raycast tests", () => {
 
     beforeEach(() => {
         camera                      = mock(THREE.PerspectiveCamera);
@@ -92,7 +110,7 @@ fdescribe("threejs-raycast tests", () => {
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "deleteObject");
 
-        threejsRaycast.updateSceneWithNewObject(objectUpdate);
+        threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
     });
@@ -103,7 +121,7 @@ fdescribe("threejs-raycast tests", () => {
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "changeObjectColor");
 
-        threejsRaycast.updateSceneWithNewObject(objectUpdate);
+        threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
     });
@@ -112,11 +130,11 @@ fdescribe("threejs-raycast tests", () => {
         threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
-        objectUpdate.actionToApply = ActionType.DELETE;
+        objectUpdateSceneObject.actionToApply = ActionType.DELETE;
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "initiateObject");
 
-        threejsRaycast.updateSceneWithNewObject(objectUpdate);
+        threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
     });
@@ -125,11 +143,11 @@ fdescribe("threejs-raycast tests", () => {
         threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
-        objectUpdate.actionToApply = ActionType.DELETE;
+        objectUpdateSceneObject.actionToApply = ActionType.DELETE;
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "changeObjectColor");
 
-        threejsRaycast.updateSceneWithNewObject(objectUpdate);
+        threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
     });
@@ -138,11 +156,11 @@ fdescribe("threejs-raycast tests", () => {
         threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
-        objectUpdate.actionToApply = ActionType.CHANGE_COLOR;
+        objectUpdateSceneObject.actionToApply = ActionType.CHANGE_COLOR;
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "initiateObject");
 
-        threejsRaycast.updateSceneWithNewObject(objectUpdate);
+        threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
     });
@@ -151,11 +169,11 @@ fdescribe("threejs-raycast tests", () => {
         threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
-        objectUpdate.actionToApply = ActionType.CHANGE_COLOR;
+        objectUpdateSceneObject.actionToApply = ActionType.CHANGE_COLOR;
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "deleteObject");
 
-        threejsRaycast.updateSceneWithNewObject(objectUpdate);
+        threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
     });
@@ -164,11 +182,11 @@ fdescribe("threejs-raycast tests", () => {
         threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
-        objectUpdate.actionToApply = ActionType.NO_ACTION_REQUIRED;
+        objectUpdateSceneObject.actionToApply = ActionType.NO_ACTION_REQUIRED;
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "initiateObject");
 
-        threejsRaycast.updateSceneWithNewObject(objectUpdate);
+        threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
     });
@@ -177,11 +195,11 @@ fdescribe("threejs-raycast tests", () => {
         threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
-        objectUpdate.actionToApply = ActionType.NO_ACTION_REQUIRED;
+        objectUpdateSceneObject.actionToApply = ActionType.NO_ACTION_REQUIRED;
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "deleteObject");
 
-        threejsRaycast.updateSceneWithNewObject(objectUpdate);
+        threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
     });
@@ -190,11 +208,11 @@ fdescribe("threejs-raycast tests", () => {
         threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
-        objectUpdate.actionToApply = ActionType.NO_ACTION_REQUIRED;
+        objectUpdateSceneObject.actionToApply = ActionType.NO_ACTION_REQUIRED;
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "changeObjectColor");
 
-        threejsRaycast.updateSceneWithNewObject(objectUpdate);
+        threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
     });
@@ -203,12 +221,12 @@ fdescribe("threejs-raycast tests", () => {
         threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
-        objectUpdate.actionToApply  = ActionType.NO_ACTION_REQUIRED;
-        objectUpdate.sceneObject    = undefined;
+        objectUpdateSceneObject.actionToApply  = ActionType.NO_ACTION_REQUIRED;
+        objectUpdateSceneObject.sceneObject    = undefined;
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "initiateObject");
 
-        threejsRaycast.updateSceneWithNewObject(objectUpdate);
+        threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
     });
@@ -217,12 +235,12 @@ fdescribe("threejs-raycast tests", () => {
         threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
-        objectUpdate.actionToApply  = ActionType.NO_ACTION_REQUIRED;
-        objectUpdate.sceneObject    = undefined;
+        objectUpdateSceneObject.actionToApply  = ActionType.NO_ACTION_REQUIRED;
+        objectUpdateSceneObject.sceneObject    = undefined;
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "deleteObject");
 
-        threejsRaycast.updateSceneWithNewObject(objectUpdate);
+        threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
     });
@@ -231,12 +249,12 @@ fdescribe("threejs-raycast tests", () => {
         threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
-        objectUpdate.actionToApply  = ActionType.NO_ACTION_REQUIRED;
-        objectUpdate.sceneObject    = undefined;
+        objectUpdateSceneObject.actionToApply  = ActionType.NO_ACTION_REQUIRED;
+        objectUpdateSceneObject.sceneObject    = undefined;
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "changeObjectColor");
 
-        threejsRaycast.updateSceneWithNewObject(objectUpdate);
+        threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
     });
@@ -268,6 +286,86 @@ fdescribe("threejs-raycast tests", () => {
         object2.parent = object3;
 
         expect(threejsRaycast.getParentObject(object1) as THREE.Object3D).not.toBe(object3);
+    });
+
+    it("should return null if the object is null", () => {
+        threejsRaycast.setMaps(idBySceneId, sceneIdById);
+        threejsRaycast.setThreeGenerator(threejsGeneratorTheme);
+
+        const object1: THREE.Object3D = new THREE.Object3D();
+        const object2: THREE.Object3D = new THREE.Object3D();
+        const object3: THREE.Object3D = new THREE.Object3D();
+
+        object1.parent = object2;
+        object2.parent = object3;
+
+        expect(threejsRaycast.getParentObject(object3.parent as THREE.Object3D) as THREE.Object3D).not.toBe(object3);
+    });
+
+    it("should return null if the object is null", () => {
+        threejsRaycast.setMaps(idBySceneId, sceneIdById);
+        threejsRaycast.setThreeGenerator(threejsGeneratorTheme);
+
+        const object1: THREE.Object3D = new THREE.Object3D();
+        const object2: THREE.Object3D = new THREE.Object3D();
+        const object3: THREE.Object3D = new THREE.Object3D();
+
+        object1.parent = object2;
+        object2.parent = object3;
+
+        expect(threejsRaycast.getParentObject(object3.parent as THREE.Object3D) as THREE.Object3D).not.toBe(object3);
+    });
+
+    it("should display object to update to scene Theme", () => {
+        const spy: any = spyOn<any>(threejsRaycast, "displayObject").and.callThrough();
+        threejsRaycast.setMaps(idBySceneId, sceneIdById);
+        threejsRaycast.setThreeGenerator(threejsGeneratorTheme);
+        threejsRaycast["isTheme"] = true;
+
+        threejsRaycast.updateSceneWithNewObject(objectUpdateMesh);
+
+        expect(spy).toHaveBeenCalled();
+    });
+
+    it("should ignore object and not display update to scene theme", () => {
+        const spy: any = spyOn<any>(threejsRaycast, "displayObject").and.callThrough();
+        threejsRaycast.setMaps(idBySceneId, sceneIdById);
+        threejsRaycast.setThreeGenerator(threejsGeneratorTheme);
+        threejsRaycast["isTheme"] = true;
+
+        const objectUpdateMeshWrong: ISceneObjectUpdate<IMesh> = {
+            actionToApply:  ActionType.ADD,
+        };
+
+        threejsRaycast.updateSceneWithNewObject(objectUpdateMeshWrong);
+
+        expect(spy).not.toHaveBeenCalled();
+    });
+
+    it("should delete object to update to scene Theme", () => {
+        const spy: any = spyOn<any>(threejsRaycast, "deleteObject").and.callThrough();
+        threejsRaycast.setMaps(idBySceneId, sceneIdById);
+        threejsRaycast["threejsThemeGenerator"] = mock(ThreejsThemeGenerator);
+        threejsRaycast["isTheme"] = true;
+
+        objectUpdateMesh.actionToApply = ActionType.DELETE;
+
+        threejsRaycast.updateSceneWithNewObject(objectUpdateMesh);
+
+        expect(spy).toHaveBeenCalled();
+    });
+
+    it("should change object to update to scene Theme", () => {
+        const spy: any = spyOn<any>(threejsRaycast, "changeObjectColor").and.callThrough();
+        threejsRaycast.setMaps(idBySceneId, sceneIdById);
+        threejsRaycast["threejsThemeGenerator"] = mock(ThreejsThemeGenerator);
+        threejsRaycast["isTheme"] = true;
+
+        objectUpdateMesh.actionToApply = ActionType.CHANGE_COLOR;
+
+        threejsRaycast.updateSceneWithNewObject(objectUpdateMesh);
+
+        expect(spy).toHaveBeenCalled();
     });
 
 });
