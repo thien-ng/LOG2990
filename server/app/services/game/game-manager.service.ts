@@ -243,6 +243,8 @@ export class GameManagerService {
             = this.arenas.get(playerInput.arenaId);
         if (arena !== undefined) {
             if (arena.contains(playerInput.user)) {
+                // Any pour pouvoir utiliser le polymorphisme
+                // tslint:disable-next-line:no-any
                 return  arena.onPlayerInput(playerInput as IPlayerInput<any>);
             }
         }
