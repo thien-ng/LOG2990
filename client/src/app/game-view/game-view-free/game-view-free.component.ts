@@ -11,7 +11,7 @@ import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../../common/communication/iGameRequest";
 import { IPenalty, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { IMesh, ISceneObject } from "../../../../../common/communication/iSceneObject";
-import { ISceneData, ISceneVariables } from "../../../../../common/communication/iSceneVariables";
+import { ISceneData, ISceneVariables, IMeshInfo } from "../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../common/communication/message";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { GameViewFreeService } from "./game-view-free.service";
@@ -41,6 +41,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public  originalVariables: ISceneVariables<ISceneObject | IMesh>;
   public  modifiedVariables: ISceneVariables<ISceneObject | IMesh>;
+  public  meshInfos:         IMeshInfo[];
   public  activeCard:        ICard;
   public  gameRequest:       IGameRequest;
   public  objectToUpdate:    ISceneObject[];
@@ -242,6 +243,9 @@ export class GameViewFreeComponent implements OnInit, OnDestroy, AfterViewInit {
       sceneObjects:           variables.modifiedScene.sceneObjects,
       sceneObjectsQuantity:   variables.modifiedScene.sceneObjectsQuantity,
     };
+    if (variables.meshInfos) {
+      this.meshInfos = variables.meshInfos;
+    }
   }
 
   private openSnackBar(msg: string, action: string): void {
