@@ -57,13 +57,62 @@ export class ThreejsRaycast {
         this.raycaster.setFromCamera(this.mouse, this.camera);
 
         const objectsIntersected: THREE.Intersection[] = this.raycaster.intersectObjects(this.scene.children, true);
+
         if (objectsIntersected.length > 0) {
-          const firstIntersectedId: number = objectsIntersected[0].object.id;
+
+          const clickedObject: THREE.Object3D = objectsIntersected[0].object;
+          let parent: THREE.Object3D | null = this.getParentObject(clickedObject);
+  
+          if (parent) {
+            this.setObjectOpacity(parent, 0);
+          }
+          
+          if (parent) {
+          const firstIntersectedId: number = parent.id;
 
           return this.idBySceneId.get(firstIntersectedId) as number;
+          }
         }
 
         return -1;
+    }
+
+    private setObjectOpacity(object: THREE.Object3D, opacity: number): void {
+
+      object.traverse((child: THREE.Object3D) => {
+        
+        if (child instanceof THREE.Mesh) {
+          if (Array.isArray(child.material)) {
+
+            child.material.forEach((mat: THREE.Material) => {
+              mat.transparent = true;
+              mat.opacity = opacity;
+            });
+          } else {
+            child.material.transparent = true;
+            child.material.opacity = opacity;
+          }
+        }
+      });
+    }
+
+    private getParentObject(object: THREE.Object3D): THREE.Object3D | null  {
+
+      if (object === null) {
+        return null;
+      }
+      if (object.parent === this.scene) {
+        return object;
+      }
+
+      const parent: THREE.Object3D | null = object.parent;
+
+      if (parent) {
+
+        return this.getParentObject(parent);
+      }
+
+      return null;
     }
 
     public updateSceneWithNewObject(sceneUpdate: ISceneObjectUpdate<ISceneObject | IMesh>): void {

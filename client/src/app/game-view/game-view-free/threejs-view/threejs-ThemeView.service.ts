@@ -135,20 +135,15 @@ export class ThreejsThemeViewService {
     if (!modifiedList) {
       return;
     }
-
     modifiedList.forEach((differenceId: number) => {
-
       const meshObject:      THREE.Mesh | undefined = this.recoverObjectFromScene(differenceId);
       const objectColor:     string     | undefined = this.originalColorById.get(differenceId);
       let opacityNeeded:     number                 = (cheatColorActivated) ? 0 : 1;
 
       if (isLastChange) {
-
         const originalOpacity: number = this.opacityById.get(differenceId) as number;
-
         opacityNeeded = originalOpacity;
       }
-
       if (meshObject !== undefined) {
         meshObject.material = new THREE.MeshPhongMaterial({color: objectColor, opacity: opacityNeeded, transparent: true});
       }
