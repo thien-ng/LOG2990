@@ -117,7 +117,7 @@ const c1: ICard = {
     gamemode:           GameMode.simple,
 };
 const answer: any = {
-    status: CCommon.ON_SUCCESS,
+    status:         CCommon.ON_SUCCESS,
     isNewHighscore: true,
     index: 0,
     highscore: {
