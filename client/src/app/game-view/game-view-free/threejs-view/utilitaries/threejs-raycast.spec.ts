@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { anything, mock, when } from "ts-mockito";
 import { ActionType, ISceneObjectUpdate } from "../../../../../../../common/communication/iGameplay";
+import { IMesh, ISceneObject } from "../../../../../../../common/communication/iSceneObject";
 import { ThreejsGenerator } from "./threejs-generator";
 import { ThreejsRaycast } from "./threejs-raycast";
 
@@ -9,7 +10,7 @@ import { ThreejsRaycast } from "./threejs-raycast";
 const idBySceneId: Map<number, number> = new Map<number, number>();
 idBySceneId.set(1, 1);
 
-const objectUpdate: ISceneObjectUpdate = {
+const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
     actionToApply:  ActionType.ADD,
     sceneObject:    {
         id:         1,

@@ -6,6 +6,7 @@ import * as io from "socket.io-client";
 import { GameMode, ILobbyEvent } from "../../../../common/communication/iCard";
 import { IChat } from "../../../../common/communication/iChat";
 import { IArenaResponse, IOriginalPixelCluster, ISceneObjectUpdate } from "../../../../common/communication/iGameplay";
+import { IMesh, ISceneObject } from "../../../../common/communication/iSceneObject";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { CardManagerService } from "../card/card-manager.service";
 import { Constants } from "../constants";
@@ -99,17 +100,17 @@ export class SocketService {
 
   private initGameViewListeners(): void {
 
-    this.socket.on(CCommon.ON_ARENA_RESPONSE, (data: IArenaResponse<IOriginalPixelCluster | ISceneObjectUpdate>) => {
+    this.socket.on(CCommon.ON_ARENA_RESPONSE, (data: IArenaResponse<IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>>) => {
       this.emitOnArenaResponse(data);
     });
   }
 
-  private emitOnArenaResponse(arenaResponse: IArenaResponse<IOriginalPixelCluster | ISceneObjectUpdate>): void {
+  private emitOnArenaResponse(arenaResponse: IArenaResponse<IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>>): void {
 
     if (arenaResponse.arenaType === GameMode.simple) {
       this.gameViewSimpleService.onArenaResponse(arenaResponse as IArenaResponse<IOriginalPixelCluster>);
     } else {
-      this.gameViewFreeService.onArenaResponse(arenaResponse as IArenaResponse<ISceneObjectUpdate>);
+      this.gameViewFreeService.onArenaResponse(arenaResponse as IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>>);
     }
   }
 

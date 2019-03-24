@@ -115,6 +115,13 @@ export class Constants {
   public static readonly CAMERA_LOOK_AT_X:          number = 50;
   public static readonly CAMERA_LOOK_AT_Y:          number = 50;
   public static readonly CAMERA_LOOK_AT_Z:          number = 50;
+  public static readonly CAMERA_POSITION_X:         number = 0;
+  public static readonly CAMERA_POSITION_Y:         number = 70;
+  public static readonly CAMERA_POSITION_Z:         number = 0;
+  public static readonly FLOOR_DIMENTION:           number = 2000;
+  public static readonly FLOOR_SEGMENT:             number = 8;
+  public static readonly FLOOR_COLOR:               number = 0xE0CDA9;
+  public static readonly FLOOR_DIVIDER:             number = 2;
 
   public static readonly GET_OBJECTS_ID_PATH:       string = CCommon.BASE_URL + "/api/game/";
 

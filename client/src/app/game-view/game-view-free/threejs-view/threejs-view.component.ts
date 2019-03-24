@@ -18,7 +18,7 @@ import { IClickMessage, IPosition2D, ISceneObjectUpdate } from "../../../../../.
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
 import { IMesh, ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { SceneType } from "../../../../../../common/communication/iSceneOptions";
-import { ISceneData, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
+import { IMeshInfo, ISceneData, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../../common/communication/message";
 import { CCommon } from "../../../../../../common/constantes/cCommon";
 import { CardManagerService } from "../../../card/card-manager.service";
@@ -52,6 +52,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
   private sceneBuilderService:    ThreejsThemeViewService | ThreejsViewService; // _TODO: renommer mieux
 
   @Input() private iSceneVariables:         ISceneVariables<ISceneObject | IMesh>;
+  @Input() private meshInfos:               IMeshInfo[];
   @Input() private sceneData:               ISceneData<ISceneObject | IMesh>;
   @Input() private rightClick:              boolean;
   @Input() private isSnapshotNeeded:        boolean;
@@ -115,13 +116,36 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
   }
 
   private initScene(): void {
-    this.sceneBuilderService =
-      (this.iSceneVariables.theme === SceneType.Geometric) ? this.threejsViewService : this.threejsThemeViewService;
     this.renderer = new THREE.WebGLRenderer();
     this.originalScene.nativeElement.appendChild(this.renderer.domElement);
-    this.sceneBuilderService.createScene(this.scene, this.iSceneVariables, this.renderer, this.isSnapshotNeeded, this.arenaID);
-    this.sceneBuilderService.animate();
-    this.takeSnapShot();
+    this.createScene().then(() => {
+      this.sceneBuilderService.animate();
+      this.takeSnapShot();
+    }).catch((error: Error) => this.openSnackBar(error.message, Constants.SNACK_ACTION));
+  }
+
+  private async createScene(): Promise<void> {
+    this.sceneBuilderService =
+      (this.iSceneVariables.theme === SceneType.Geometric) ? this.threejsViewService : this.threejsThemeViewService;
+
+    const meshUsed: IMeshInfo[] | undefined = (this.isSnapshotNeeded) ? this.sceneData.meshInfos : this.meshInfos;
+
+    if (this.sceneBuilderService instanceof ThreejsThemeViewService) {
+      await this.sceneBuilderService.createScene(
+        this.scene,
+        this.iSceneVariables,
+        this.renderer,
+        this.isSnapshotNeeded,
+        this.arenaID,
+        meshUsed as IMeshInfo[]).catch((error: Error) => this.openSnackBar(error.message, Constants.SNACK_ACTION));
+    } else {
+      this.sceneBuilderService.createScene(
+        this.scene,
+        this.iSceneVariables,
+        this.renderer,
+        this.isSnapshotNeeded,
+        this.arenaID);
+    }
   }
 
   private onKeyDown(keyboardEvent: KeyboardEvent): void {
@@ -179,12 +203,12 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
       this.focusChat = newValue;
     });
 
-    this.gameConnectionService.getObjectToUpdate().subscribe((object: ISceneObjectUpdate) => {
+    this.gameConnectionService.getObjectToUpdate().subscribe((object: ISceneObjectUpdate<ISceneObject | IMesh>) => {
       this.getDifferencesList();
 
       this.sceneBuilderService.changeObjectsColor(false, true, this.modifications);
       if (this.isNotOriginal) {
-        this.sceneBuilderService.updateSceneWithNewObject(object);
+        this.sceneBuilderService.updateSceneWithNewObject(object as ISceneObjectUpdate<ISceneObject | IMesh>);
       }
     });
   }
