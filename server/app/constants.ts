@@ -52,6 +52,7 @@ export class Constants {
   public static readonly PATH_TO_IMAGES:            string = CCommon.BASE_URL + "/image/";
   public static readonly PATH_SERVER_TEMP:          string = CCommon.BASE_URL + "/temp/";
   public static readonly PATH_LOCAL_TEMP:           string = "./app/asset/temp/";
+  public static readonly PATH_LOCAL_THEME:          string = "./app/asset/theme/";
   public static readonly NOT_UNIQUE_NAME:           string = "isNotUnique";
   public static readonly INIT_ARENA_ERROR:          string = "Erreur lors de l'initialisation de l'arène 2D";
 

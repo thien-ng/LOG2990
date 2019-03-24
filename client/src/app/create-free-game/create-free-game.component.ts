@@ -144,6 +144,7 @@ export class CreateFreeGameComponent {
     this.httpClient.post(Constants.FREE_SCENE_GENERATOR_PATH, formValue).subscribe(
       (response: ISceneData<ISceneObject | IMesh> | string) => {
         if (typeof response === "string") {
+          this.isLoading = false;
           this.openSnackBar(response, Constants.SNACK_ACTION);
         } else {
           this.sceneData = response;

@@ -35,13 +35,13 @@ describe("GameViewFreeService Test", () => {
   });
 });
 
-  it("should set success sound", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
+  it("should set success sound with value passed by parameter", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
     gameViewService.setSounds(new ElementRef<any>("url/success"), new ElementRef<any>("url/fail"));
 
     expect(gameViewService["successSound"]).toEqual(new ElementRef<any>("url/success"));
   }));
 
-  it("should set fail sound", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
+  it("should set fail sound with value passed by parameter", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
     gameViewService.setSounds(new ElementRef<any>("url/success"), new ElementRef<any>("url/fail"));
 
     expect(gameViewService["failSound"]).toEqual(new ElementRef<any>("url/fail"));
@@ -79,7 +79,7 @@ describe("GameViewFreeService Test", () => {
     expect(spy).not.toHaveBeenCalled();
   }));
 
-  it("should set position", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
+  it("should set position of gameViewService", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
     gameViewService.setPosition(2, 3);
     const isSameX: boolean = gameViewService.position.x === 2;
     const isSameY: boolean = gameViewService.position.y === 3;
