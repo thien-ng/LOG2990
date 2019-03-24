@@ -83,16 +83,6 @@
             "presenceRatio":  0.07
         },
         {
-            "name":           "OSG_Scene",
-            "meshInfos":      [{
-                "GLTFUrl":        "http://localhost:3000/mesh/chico/scene.gltf",
-                "uuid":           "OSG_Scene"
-            }],
-            "baseSize":       20,
-            "radius":         5,
-            "presenceRatio":  0.05
-        },
-        {
             "name":           "hatchet",
             "meshInfos":      [{
                 "GLTFUrl":        "http://localhost:3000/mesh/hatchet/scene.gltf",
