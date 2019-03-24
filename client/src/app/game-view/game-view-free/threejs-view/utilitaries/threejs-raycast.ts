@@ -40,7 +40,8 @@ export class ThreejsRaycast {
     }
 
     public setThreeGenerator(threejsGenerator: ThreejsGenerator | ThreejsThemeGenerator): void {
-      this.isTheme = (threejsGenerator instanceof ThreejsThemeGenerator) ? true : false;
+      this.isTheme = threejsGenerator instanceof ThreejsThemeGenerator;
+      console.log(this.isTheme);
       if (this.isTheme) {
         this.threejsThemeGenerator  = threejsGenerator as ThreejsThemeGenerator;
       } else {
