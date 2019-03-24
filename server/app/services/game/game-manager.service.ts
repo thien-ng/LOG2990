@@ -149,7 +149,10 @@ export class GameManagerService {
         return this.interfaceBuilder.buildMessage(CCommon.ON_SUCCESS, arenaInfo.arenaId.toString());
     }
 
-    private async initArena(arena: Arena<any, any, any, any>): Promise<void> {
+    private async initArena(arena: Arena<
+                                        IPlayerInput<IPosition2D> | IPlayerInput<number>,
+                                        IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+                                        IPosition2D | number>): Promise<void> {
         await arena.prepareArenaForGameplay();
     }
 
