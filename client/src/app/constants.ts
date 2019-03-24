@@ -120,8 +120,11 @@ export class Constants {
   public static readonly CAMERA_POSITION_Z:         number = 0;
   public static readonly FLOOR_DIMENTION:           number = 2000;
   public static readonly FLOOR_SEGMENT:             number = 8;
-  public static readonly FLOOR_COLOR:               number = 0xE0CDA9;
+  public static readonly FLOOR_COLOR:               number = 0x567D46;
   public static readonly FLOOR_DIVIDER:             number = 2;
+  public static readonly FOG_COLOR:                 number = 0x444444;
+  public static readonly FOG_NEAR_DISTANCE:         number = 100;
+  public static readonly FOG_FAR_DISTANCE:          number = 500;
 
   public static readonly GET_OBJECTS_ID_PATH:       string = CCommon.BASE_URL + "/api/game/";
 
