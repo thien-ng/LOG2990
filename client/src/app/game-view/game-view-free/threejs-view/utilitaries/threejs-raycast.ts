@@ -48,6 +48,11 @@ export class ThreejsRaycast {
     }
   }
 
+  public detectObject(mouseEvent: MouseEvent): number {
+    mouseEvent.preventDefault();
+    this.mouse.x =   ( mouseEvent.offsetX / this.renderer.domElement.clientWidth ) * this.NORMALIZE_FACTOR - 1;
+    this.mouse.y = - ( mouseEvent.offsetY / this.renderer.domElement.clientHeight ) * this.NORMALIZE_FACTOR + 1;
+    this.mouse.z = 0;
 
     public setThreeGenerator(threejsGenerator: ThreejsGenerator | ThreejsThemeGenerator): void {
       this.isTheme = threejsGenerator instanceof ThreejsThemeGenerator;
@@ -55,6 +60,22 @@ export class ThreejsRaycast {
         this.threejsThemeGenerator  = threejsGenerator as ThreejsThemeGenerator;
       } else {
         this.threejsGenerator       = threejsGenerator as ThreejsGenerator;
+    this.raycaster.setFromCamera(this.mouse, this.camera);
+
+    const objectsIntersected: THREE.Intersection[] = this.raycaster.intersectObjects(this.scene.children, true);
+
+    if (objectsIntersected.length > 0) {
+
+      const clickedObject: THREE.Object3D = objectsIntersected[0].object;
+      const parent: THREE.Object3D | null = this.getParentObject(clickedObject);
+
+      if (parent) {
+        this.scene.remove(parent);
+      }
+      if (parent) {
+      const firstIntersectedId: number = parent.id;
+
+      return this.idBySceneId.get(firstIntersectedId) as number;
       }
     }
 
