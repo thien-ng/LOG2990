@@ -25,22 +25,22 @@ export class ThreejsThemeViewService {
   private readonly FOWARD_ORIENTATION:    number = -1;
   private readonly BACKWARD_ORIENTATION:  number = 1;
 
-  private scene:                    THREE.Scene;
-  private camera:                   THREE.PerspectiveCamera;
-  private renderer:                 THREE.WebGLRenderer;
-  private ambLight:                 THREE.AmbientLight;
-  private sceneVariables:           ISceneVariables<ISceneObject | IMesh>;
-  private meshInfos:                IMeshInfo[];
-  private threejsGenerator:         ThreejsThemeGenerator;
-  private threejsThemeRaycast:      ThreejsRaycast;
-  private threejsMovement:          ThreejsMovement;
-  private modelsByName:             Map<string, THREE.Object3D>;
-  private gltfByUrl:                Map<string, THREE.GLTF>;
+  private scene:                THREE.Scene;
+  private camera:               THREE.PerspectiveCamera;
+  private renderer:             THREE.WebGLRenderer;
+  private ambLight:             THREE.AmbientLight;
+  private sceneVariables:       ISceneVariables<ISceneObject | IMesh>;
+  private meshInfos:            IMeshInfo[];
+  private threejsGenerator:     ThreejsThemeGenerator;
+  private threejsThemeRaycast:  ThreejsRaycast;
+  private threejsMovement:      ThreejsMovement;
+  private modelsByName:         Map<string, THREE.Object3D>;
+  private gltfByUrl:            Map<string, THREE.GLTF>;
 
-  private sceneIdById:        Map<number, number>;
-  private idBySceneId:        Map<number, number>;
-  private opacityById:        Map<number, number>;
-  private originalColorById:  Map<number, string>;
+  private sceneIdById:          Map<number, number>;
+  private idBySceneId:          Map<number, number>;
+  private opacityById:          Map<number, number>;
+  private originalColorById:    Map<number, string>;
 
   private moveForward:        boolean;
   private moveBackward:       boolean;
@@ -100,7 +100,6 @@ export class ThreejsThemeViewService {
     this.threejsGenerator = new ThreejsThemeGenerator(
       this.scene,
       this.sceneIdById,
-      // this.originalColorById, // _TODO: a enlever?
       this.idBySceneId,
       this.opacityById,
     );
@@ -115,8 +114,19 @@ export class ThreejsThemeViewService {
 
     this.createLighting();
     this.generateSceneObjects(isSnapshotNeeded, arenaID);
+    this.setFloor();
+    this.setCameraPosition(Constants.CAMERA_POSITION_X, Constants.CAMERA_POSITION_Y, Constants.CAMERA_POSITION_Z);
 
     this.camera.lookAt(new THREE.Vector3(this.CAMERA_START_POSITION, this.CAMERA_START_POSITION, this.CAMERA_START_POSITION));
+  }
+
+  private setFloor(): void {
+    const floor:          THREE.PlaneBufferGeometry = new THREE.PlaneBufferGeometry(
+      Constants.FLOOR_DIMENTION, Constants.FLOOR_DIMENTION, Constants.FLOOR_SEGMENT, Constants.FLOOR_SEGMENT);
+    const floorMaterial:  THREE.MeshBasicMaterial   = new THREE.MeshBasicMaterial({ color: Constants.FLOOR_COLOR, side: THREE.DoubleSide });
+    const plane:          THREE.Mesh                = new THREE.Mesh(floor, floorMaterial);
+    plane.rotateX( - Math.PI / Constants.FLOOR_DIVIDER);
+    this.scene.add(plane);
   }
 
   public changeObjectsColor(cheatColorActivated: boolean, isLastChange: boolean, modifiedList?: number[]): void {
@@ -142,6 +152,12 @@ export class ThreejsThemeViewService {
         meshObject.material = new THREE.MeshPhongMaterial({color: objectColor, opacity: opacityNeeded, transparent: true});
       }
     });
+  }
+
+  public setCameraPosition(x: number, y: number, z: number): void {
+    this.camera.position.x = x;
+    this.camera.position.y = y;
+    this.camera.position.z = z;
   }
 
   public setupFront(orientation: number): void {
@@ -233,14 +249,6 @@ export class ThreejsThemeViewService {
             resolve(gltf);
         },                      undefined, reject);
         }));
-
-        // const gltfObject: THREE.GLTF = await new Promise(
-        //   (resolve, reject) => {
-        //     new GLTFLoader().load(meshInfo.GLTFUrl, (gltf: THREE.GLTF) => {
-        //       resolve(gltf);
-        //   },                      undefined, reject);
-        // });
-        // this.gltfByUrl.set(meshInfo.GLTFUrl, gltfObject);
       }
     });
   }
