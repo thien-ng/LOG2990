@@ -60,9 +60,9 @@ export class ThreejsRaycast {
           const parent: THREE.Object3D | null = this.getParentObject(clickedObject);
 
           if (parent) {
-          const parentID: number = parent.id;
+            const parentID: number = parent.id;
 
-          return this.idBySceneId.get(parentID) as number;
+            return this.idBySceneId.get(parentID) as number;
           }
         }
 
@@ -81,7 +81,6 @@ export class ThreejsRaycast {
       const parent: THREE.Object3D | null = object.parent;
 
       if (parent) {
-
         return this.getParentObject(parent);
       }
 
