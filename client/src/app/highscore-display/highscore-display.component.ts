@@ -12,6 +12,7 @@ import { HighscoreService } from "./highscore.service";
 })
 export class HighscoreDisplayComponent implements OnInit , OnDestroy {
 
+  @Input() public id:         number;
   @Input() public isExpanded: boolean;
 
   public IMAGE_MEDAL_URL: string[] = [
@@ -35,7 +36,7 @@ export class HighscoreDisplayComponent implements OnInit , OnDestroy {
   public ngOnInit(): void {
     this.highscoreSubscription = this.highscoreService.getHighscoreUpdateListener()
       .subscribe((highscoreValue: HighscoreMessage) => {
-        if (this.highscore === undefined || highscoreValue.id === this.highscore.id) {
+        if (highscoreValue.id === this.id) {
           this.highscore  = highscoreValue;
           this.isLoaded   = true;
         }
