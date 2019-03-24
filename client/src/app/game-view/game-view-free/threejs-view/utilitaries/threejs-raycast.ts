@@ -39,7 +39,15 @@ export class ThreejsRaycast {
     this.modelsByName = modelsByName;
   }
 
+  public setThreeGenerator(threejsGenerator: ThreejsGenerator | ThreejsThemeGenerator): void {
+    this.isTheme = threejsGenerator instanceof ThreejsThemeGenerator;
+    if (this.isTheme) {
+      this.threejsThemeGenerator  = threejsGenerator as ThreejsThemeGenerator;
+    } else {
+      this.threejsGenerator       = threejsGenerator as ThreejsGenerator;
     }
+  }
+
 
     public setThreeGenerator(threejsGenerator: ThreejsGenerator | ThreejsThemeGenerator): void {
       this.isTheme = threejsGenerator instanceof ThreejsThemeGenerator;
