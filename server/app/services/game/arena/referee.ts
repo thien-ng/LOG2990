@@ -27,7 +27,7 @@ export class Referee<EVT_T, DIFF_T> {
 
     // _TODO: Enlever les any après les avoir remplacés
     // tslint:disable-next-line:no-any
-    public constructor(public  arena:               Arena<any, any, any, any>,
+    public constructor(public  arena:               Arena<any, any, any>,
                        private players:             Player[],
                        private originalElements:    Map<number, DIFF_T>,
                        public  timer:               Timer,
