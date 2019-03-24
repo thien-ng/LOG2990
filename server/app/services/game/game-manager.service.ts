@@ -189,9 +189,9 @@ export class GameManagerService {
 
     private removePlayerFromArena(username: string): void {
         this.arenas.forEach((arena: Arena<
-                                        IPlayerInput<IPosition2D> | IPlayerInput<number>,
-                                        IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
-                                        IPosition2D | number>) => {
+            IPlayerInput<IPosition2D> | IPlayerInput<number>,
+            IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+            IPosition2D | number>) => {
             arena.getPlayers().forEach((player: Player) => {
                 if (player.getUsername() === username) {
                     arena.removePlayer(username);
