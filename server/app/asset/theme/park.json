@@ -6,7 +6,7 @@
             "name":           "SandRock1",
             "meshInfos":      [
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/environnement/scene.gltf",
+                    "GLTFUrl":        "http://localhost:3000/mesh/original/SandRock1.gltf",
                     "uuid":           "SandRock1"
                 },
                 {
@@ -22,7 +22,7 @@
             "name":           "Rock2",
             "meshInfos":      [
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/environnement/scene.gltf",
+                    "GLTFUrl":        "http://localhost:3000/mesh/original/Rock2.gltf",
                     "uuid":           "Rock2"
                 },
                 {
@@ -38,7 +38,7 @@
             "name":           "Tree1",
             "meshInfos":      [
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/environnement/scene.gltf",
+                    "GLTFUrl":        "http://localhost:3000/mesh/original/Tree1.gltf",
                     "uuid":           "Tree1"
                 },
                 {
@@ -54,7 +54,7 @@
             "name":           "Plant",
             "meshInfos":      [
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/environnement/scene.gltf",
+                    "GLTFUrl":        "http://localhost:3000/mesh/original/Plant.gltf",
                     "uuid":           "Plant"
                 },
                 {
@@ -70,7 +70,7 @@
             "name":           "DriedTree",
             "meshInfos":      [
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/environnement/scene.gltf",
+                    "GLTFUrl":        "http://localhost:3000/mesh/original/DriedTree.gltf",
                     "uuid":           "DriedTree"
                 },
                 {
@@ -86,7 +86,7 @@
             "name":           "Fern",
             "meshInfos":      [
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/environnement/scene.gltf",
+                    "GLTFUrl":        "http://localhost:3000/mesh/original/Fern.gltf",
                     "uuid":           "Fern"
                 },
                 {
@@ -102,7 +102,7 @@
             "name":           "Tree3",
             "meshInfos":      [
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/environnement/scene.gltf",
+                    "GLTFUrl":        "http://localhost:3000/mesh/original/Tree3.gltf",
                     "uuid":           "Tree3"
                 },
                 {
@@ -115,19 +115,19 @@
             "presenceRatio":  0.07
         },
         {
-            "name":           "Tree2",
+            "name":           "grassland_tree_SC_05_trees_red_SC_mat_0",
             "meshInfos":      [
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/environnement/scene.gltf",
-                    "uuid":           "Tree2"
+                    "GLTFUrl":        "http://localhost:3000/mesh/original/grassland_tree_SC_05_trees_red_SC_mat_0.gltf",
+                    "uuid":           "grassland_tree_SC_05_trees_red_SC_mat_0"
                 },
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/modified/Tree2_modified.gltf",
-                    "uuid":           "Tree2_modified"
+                    "GLTFUrl":        "http://localhost:3000/mesh/modified/grassland_tree_SC_05_trees_red_SC_mat_0_modified.gltf",
+                    "uuid":           "grassland_tree_SC_05_trees_red_SC_mat_0_modified"
                 }
             ],
-            "baseSize":       0.2,
-            "radius":         15,
+            "baseSize":       0.5,
+            "radius":         10,
             "presenceRatio":  0.07
         }
     ],

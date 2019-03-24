@@ -131,7 +131,6 @@ export class SceneModifierTheme {
             const foundEntity: ISceneEntity | undefined = this.findEntityByUUID(foundMesh.name);
 
             if (foundEntity) {
-
                 foundMesh.meshInfo = foundEntity.meshInfos[1];
                 const modificationMap: IModification = {id: generatedIndex, type: ModificationType.changedColor};
                 this.modifiedIndex.push(modificationMap);
