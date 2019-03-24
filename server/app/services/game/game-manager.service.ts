@@ -27,7 +27,6 @@ const HIGHSCORE_VALIDATION_ERROR:       string = "Erreur lors de la validation d
 const ARENA_START_ID:                   number = 1000;
 const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
 
-// tslint:disable:no-any // _TODO: Enlever les any après les avoir remplacés
 @injectable()
 export class GameManagerService {
     private arenaID:            number;
