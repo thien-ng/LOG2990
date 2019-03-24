@@ -220,7 +220,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy, AfterViewInit {
       this.openSnackBar(response.statusText, Constants.SNACK_ACTION);
     } else {
       await response.json().then((variables: ISceneData<ISceneObject | IMesh>) => {
-
+        console.log(variables);
         this.assignSceneVariable(variables);
       }).catch((error) => {
         this.openSnackBar(error, Constants.SNACK_ACTION);

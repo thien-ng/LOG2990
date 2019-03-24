@@ -224,7 +224,6 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
   }
 
   private takeSnapShot(): void {
-
     if (this.isSnapshotNeeded) {
       const snapshot: string        = this.renderer.domElement.toDataURL("image/jpeg");
       const message:  ISceneMessage = this.createMessage(snapshot);
