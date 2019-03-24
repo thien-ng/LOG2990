@@ -23,6 +23,8 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
     public ARENA_TYPE:              GameMode;
     public timer:                   Timer;
 
+    private waitForRefereeInterval: NodeJS.Timeout;
+
     protected readonly ERROR_ON_HTTPGET:  string = "Didn't succeed to get image buffer from URL given. File: arena.ts.";
     protected readonly ON_FAILED_CLICK:   string = "onFailedClick";
     protected readonly ON_CLICK:          string = "onClick";
@@ -78,6 +80,8 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
         });
         if (this.players.length === 0) {
             this.referee.timer.stopTimer();
+            clearInterval(this.waitForRefereeInterval);
+            this.referee.cancelCountdown();
             this.gameManagerService.deleteArena(this.arenaInfos);
         }
     }
@@ -114,14 +118,14 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
 
     protected waitForReferee(): void {
         let nbOfTries: number = 0;
-        const interval: NodeJS.Timeout = setInterval(
+        this.waitForRefereeInterval = setInterval(
         () => {
             nbOfTries++;
             if (nbOfTries === MAX_TRIES && !this.referee) {
                 this.cancelGame();
             }
             if (nbOfTries === MAX_TRIES || this.referee) {
-                clearInterval(interval);
+                clearInterval(this.waitForRefereeInterval);
             }
             if (this.referee) {
                 this.referee.onPlayersReady();
