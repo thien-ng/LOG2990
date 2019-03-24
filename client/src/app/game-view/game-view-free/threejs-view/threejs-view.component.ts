@@ -18,7 +18,7 @@ import { IClickMessage, IPosition2D, ISceneObjectUpdate } from "../../../../../.
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
 import { IMesh, ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { SceneType } from "../../../../../../common/communication/iSceneOptions";
-import { ISceneData, ISceneVariables, IMeshInfo } from "../../../../../../common/communication/iSceneVariables";
+import { IMeshInfo, ISceneData, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../../common/communication/message";
 import { CCommon } from "../../../../../../common/constantes/cCommon";
 import { CardManagerService } from "../../../card/card-manager.service";

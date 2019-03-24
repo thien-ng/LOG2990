@@ -7,7 +7,6 @@ export class ThreejsThemeGenerator {
   public constructor(
     private scene:                 THREE.Scene,
     private sceneIdById:           Map<number, number>,
-    // private originalColorById:     Map<number, string>, // _TODO: a enlever?
     private idBySceneId:           Map<number, number>,
     private opacityById:           Map<number, number>,
     ) {}

@@ -90,6 +90,7 @@ export class SceneBuilderTheme {
         const scaleFactor:      number = this.generateRandomScale(sceneEntity.baseSize);
         const radius:           number = sceneEntity.radius * scaleFactor;
         const randomIndex:      number = this.randomIntegerFromInterval(0, sceneEntity.meshInfos.length - 1);
+
         return {
             id:             id,
             meshInfo:       sceneEntity.meshInfos[randomIndex],
