@@ -1,0 +1,125 @@
+{
+  "asset": {
+    "version": "2.0",
+    "generator": "THREE.GLTFExporter"
+  },
+  "scenes": [
+    {
+      "nodes": [
+        1
+      ],
+      "name": "Scene"
+    }
+  ],
+  "scene": 0,
+  "nodes": [
+    {
+      "matrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        -1.1920928977282498e-7,
+        -0.9999998807907106,
+        0,
+        0,
+        0.9999998807907106,
+        -1.1920928977282498e-7,
+        0,
+        -203.39468383789062,
+        -0.000002301076165167615,
+        -109.52360534667969,
+        1
+      ],
+      "name": "mesh_0",
+      "mesh": 0
+    },
+    {
+      "name": "SandRock1",
+      "children": [
+        0
+      ]
+    }
+  ],
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteOffset": 0,
+      "byteLength": 360,
+      "target": 34962,
+      "byteStride": 12
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 360,
+      "byteLength": 672,
+      "target": 34963
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 1032,
+      "uri": "data:application/octet-stream;base64,pYQnQyuix8JeMrZBpi8lQw7a9sIU03xBABY8QzFE5cJ/+gBCYuo8Q9FmEcOQ2lNBvFw9QzM9EMMZqdhBNyUjQ9aj+MK3sfJAg80lQ6F4xsKUSjFBcBU0Q3qGjcL6kZJBpY0yQ1jrh8IUkA1BGYZZQ5Q9j8KsVC9BQYJYQ5NalMLjPbRBiiBxQ134uMIr22NBt5NyQ76At8KEp9lA36RzQ0VU/sJo2YJBnt1xQ07H/MJyLgVCZQJXQ+eYFcNzJ9xBGqNXQ9lPF8N6W1dBE2FJQ9qZ4sK8M9W2OpVZQ2/VjsKQq7a1EJhxQ5w2uMI+bYC2BelyQ6vJ/cKvyQW3qwpCQ502xcKNzwBCGEA9Q3RwEMPs4Ci3WnBXQ46HFsMgDzW3PHcjQ2Kn+MLMLv629kYmQw6axsIjNJ22GjRUQ1BizsJFXwRCfnYyQ314h8IAiHe1k8hJQy6j/8KkwxpCMdFYQ6po6sKaRR5CAAAAAAEAAAACAAAAAwAAAAQAAAABAAAAAwAAAAEAAAAFAAAABgAAAAAAAAAHAAAABgAAAAcAAAAIAAAACQAAAAoAAAALAAAACQAAAAsAAAAMAAAADQAAAA4AAAAPAAAADQAAAA8AAAAQAAAAEQAAABIAAAATAAAAEQAAABMAAAAUAAAAAgAAABUAAAAHAAAAAgAAAAcAAAAAAAAAFgAAABEAAAAUAAAAFgAAABQAAAAXAAAADAAAAAsAAAAOAAAADAAAAA4AAAANAAAABQAAAAEAAAAAAAAABQAAAAAAAAAGAAAAGAAAABkAAAARAAAAGAAAABEAAAAWAAAABwAAABUAAAAaAAAABwAAABoAAAAKAAAAGQAAABsAAAASAAAAGQAAABIAAAARAAAACAAAAAcAAAAKAAAACAAAAAoAAAAJAAAAEAAAAA8AAAAEAAAAEAAAAAQAAAADAAAAAgAAAAEAAAAEAAAAAgAAAAQAAAAcAAAAFwAAABAAAAADAAAAFwAAAAMAAAAWAAAAGwAAAAgAAAAJAAAAGwAAAAkAAAASAAAAGAAAAAUAAAAGAAAAGAAAAAYAAAAZAAAAEwAAAAwAAAANAAAAEwAAAA0AAAAUAAAAFAAAAA0AAAAQAAAAFAAAABAAAAAXAAAAEgAAAAkAAAAMAAAAEgAAAAwAAAATAAAAGQAAAAYAAAAIAAAAGQAAAAgAAAAbAAAAFgAAAAMAAAAFAAAAFgAAAAUAAAAYAAAAHAAAAA4AAAAdAAAADgAAABwAAAAPAAAADwAAABwAAAAEAAAAAgAAABoAAAAVAAAAGgAAAAIAAAAdAAAAHQAAAAIAAAAcAAAAGgAAAAsAAAAKAAAACwAAABoAAAAOAAAADgAAABoAAAAdAAAA"
+    }
+  ],
+  "accessors": [
+    {
+      "bufferView": 0,
+      "componentType": 5126,
+      "count": 30,
+      "max": [
+        243.64402770996094,
+        -67.7353286743164,
+        39.567970275878906
+      ],
+      "min": [
+        163.14537048339844,
+        -151.31190490722656,
+        -0.000010791962267830968
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5125,
+      "count": 168,
+      "max": [
+        29
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    }
+  ],
+  "materials": [
+    {
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.6618639230728149,
+          0.47172901034355164,
+          0.2597210109233856,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 1
+      },
+      "name": "SandRockMaterial"
+    }
+  ],
+  "meshes": [
+    {
+      "primitives": [
+        {
+          "mode": 4,
+          "attributes": {
+            "POSITION": 0
+          },
+          "indices": 1,
+          "material": 0
+        }
+      ]
+    }
+  ]
+}
