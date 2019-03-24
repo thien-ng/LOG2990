@@ -255,7 +255,11 @@ export class GameManagerService {
 
     public getUsersInArena(arenaId: number): IUser[] {
         const users: IUser[] = [];
-        const arena: Arena<any, any, any> | undefined  = this.arenas.get(arenaId);
+        const arena: Arena<
+            IPlayerInput<IPosition2D> | IPlayerInput<number>,
+            IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+            IPosition2D | number> | undefined
+            = this.arenas.get(arenaId);
 
         if (arena) {
             const players: Player[] = arena.getPlayers();
