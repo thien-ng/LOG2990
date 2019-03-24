@@ -56,7 +56,7 @@ export class ThreejsRaycast {
 
         this.raycaster.setFromCamera(this.mouse, this.camera);
 
-        const objectsIntersected: THREE.Intersection[] = this.raycaster.intersectObjects(this.scene.children);
+        const objectsIntersected: THREE.Intersection[] = this.raycaster.intersectObjects(this.scene.children, true);
         if (objectsIntersected.length > 0) {
           const firstIntersectedId: number = objectsIntersected[0].object.id;
 
