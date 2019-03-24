@@ -234,11 +234,14 @@ export class GameManagerService {
         }
     }
 
-    public async onPlayerInput(playerInput: IPlayerInput<IPosition2D | number>): Promise<IArenaResponse<IOriginalPixelCluster | any>>  {
-        const arena: Arena<any, any, any, any> | undefined = this.arenas.get(playerInput.arenaId);
+    public async onPlayerInput(playerInput: IPlayerInput<IPosition2D | number>):
+        Promise<IArenaResponse<IOriginalPixelCluster |  ISceneObjectUpdate<ISceneObject | IMesh>>>  {
+        const arena: Arena<IPlayerInput<IPosition2D> | IPlayerInput<number>,
+        IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+        IPosition2D | number> | undefined = this.arenas.get(playerInput.arenaId);
         if (arena !== undefined) {
             if (arena.contains(playerInput.user)) {
-                return  arena.onPlayerInput(playerInput);
+                return  arena.onPlayerInput(playerInput as IPlayerInput<any>);
             }
         }
 
