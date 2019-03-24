@@ -54,7 +54,7 @@ export class ThreejsThemeViewService {
     this.init();
   }
 
-  private async init(): Promise<void> {
+  private init(): void {
     const windowRatio: number = window.innerWidth / window.innerHeight;
     this.camera = new   THREE.PerspectiveCamera(
       Constants.FIELD_OF_VIEW,
@@ -104,20 +104,17 @@ export class ThreejsThemeViewService {
       this.idBySceneId,
       this.opacityById,
     );
-    await this.getModelObjects(this.meshInfos);
-    console.log(this.modelsByName)
     this.renderer.setSize(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
     this.renderer.setClearColor(this.sceneVariables.sceneBackgroundColor);
 
+    await this.getModelObjects(this.meshInfos);
     this.threejsThemeRaycast = new ThreejsRaycast(this.camera, this.renderer, this.scene);
     this.threejsThemeRaycast.setMaps(this.idBySceneId);
     this.threejsThemeRaycast.setModelsByNameMap(this.modelsByName);
     this.threejsThemeRaycast.setThreeGenerator(this.threejsGenerator);
-    // console.log(this.modelsByName);
 
     this.createLighting();
     this.generateSceneObjects(isSnapshotNeeded, arenaID);
-    console.log(this.scene.children);
 
     this.camera.lookAt(new THREE.Vector3(this.CAMERA_START_POSITION, this.CAMERA_START_POSITION, this.CAMERA_START_POSITION));
   }
@@ -195,7 +192,6 @@ export class ThreejsThemeViewService {
   private renderObject(): void {
 
     this.threejsMovement.movementCamera(this.moveForward, this.moveBackward, this.moveLeft, this.moveRight);
-    console.log(this.renderer)
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -219,7 +215,6 @@ export class ThreejsThemeViewService {
         if (gtlf) {
           gtlf.scene.traverse((child: THREE.Object3D) => {
             if (child.name === meshInfo.uuid) {
-              console.log("dsfdsf")
               this.modelsByName.set(child.name, child);
             }
           });
