@@ -115,18 +115,18 @@
             "presenceRatio":  0.07
         },
         {
-            "name":           "grassland_tree_SC_05_trees_red_SC_mat_0",
+            "name":           "tree_pink",
             "meshInfos":      [
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/original/grassland_tree_SC_05_trees_red_SC_mat_0.gltf",
-                    "uuid":           "grassland_tree_SC_05_trees_red_SC_mat_0"
+                    "GLTFUrl":        "http://localhost:3000/mesh/original/tree_pink.gltf",
+                    "uuid":           "tree_pink"
                 },
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/modified/grassland_tree_SC_05_trees_red_SC_mat_0_modified.gltf",
-                    "uuid":           "grassland_tree_SC_05_trees_red_SC_mat_0_modified"
+                    "GLTFUrl":        "http://localhost:3000/mesh/modified/tree_pink_modified.gltf",
+                    "uuid":           "tree_pink_modified"
                 }
             ],
-            "baseSize":       0.5,
+            "baseSize":       0.07,
             "radius":         10,
             "presenceRatio":  0.07
         }
