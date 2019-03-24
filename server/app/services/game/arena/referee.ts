@@ -21,6 +21,7 @@ export class Referee<EVT_T, DIFF_T> {
     private readonly POINTS_TO_WIN_MULTI:   number = 4;
     private readonly PENALTY_TIMEOUT_MS:    number = 1000;
 
+    private countdownInterval:  NodeJS.Timeout;
     private differencesFound:   number[];
     private pointsNeededToWin:  number;
 
@@ -46,18 +47,22 @@ export class Referee<EVT_T, DIFF_T> {
 
     private startCountDown(): void {
         let count: number = COUNT_START;
-        const countDown: NodeJS.Timeout = setInterval(
+        this.countdownInterval = setInterval(
             () => {
                 if (count > COUNTDOWN_DONE) {
                     this.sendMessageToAllPlayers(CCommon.ON_COUNTDOWN, count);
                     count--;
                 } else if (count === COUNTDOWN_DONE) {
                     this.sendMessageToAllPlayers(CCommon.ON_GAME_STARTED);
-                    clearInterval(countDown);
+                    clearInterval(this.countdownInterval);
                     this.initTimer();
                 }
             },
             ONE_SECOND_INTERVAL);
+    }
+
+    public cancelCountdown(): void {
+        clearInterval(this.countdownInterval);
     }
 
     private sendMessageToAllPlayers(messageType: string, message?: number): void {
