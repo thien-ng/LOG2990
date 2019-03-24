@@ -18,7 +18,6 @@ export class ThreejsRaycast {
     private threejsGenerator:       ThreejsGenerator;
     private threejsThemeGenerator:  ThreejsThemeGenerator;
     private isTheme:                boolean;
-    // private modelsByName:           Map<string, THREE.Object3D>;
 
     public constructor(
         camera:   THREE.PerspectiveCamera,
@@ -36,10 +35,6 @@ export class ThreejsRaycast {
         this.idBySceneId = idBySceneId;
         this.sceneIdById = sceneIdById;
     }
-
-    // public setModelsByNameMap(modelsByName: Map<string, THREE.Object3D>): void {
-    //   this.modelsByName = modelsByName;
-    // }
 
     public setThreeGenerator(threejsGenerator: ThreejsGenerator | ThreejsThemeGenerator): void {
       this.isTheme = threejsGenerator instanceof ThreejsThemeGenerator;
@@ -62,8 +57,8 @@ export class ThreejsRaycast {
 
         if (objectsIntersected.length > 0) {
           const clickedObject: THREE.Object3D = objectsIntersected[0].object;
-          let parent: THREE.Object3D | null = this.getParentObject(clickedObject);
-          
+          const parent: THREE.Object3D | null = this.getParentObject(clickedObject);
+
           if (parent) {
           const parentID: number = parent.id;
 
@@ -127,7 +122,7 @@ export class ThreejsRaycast {
         return;
       }
       const objectID: number | undefined = this.sceneIdById.get(sceneUpdate.sceneObject.id);
-      if (objectID){
+      if (objectID) {
         const object: THREE.Object3D | undefined = this.scene.getObjectById(objectID);
         if (object) {
           this.threejsThemeGenerator.getOpacityById().set(sceneUpdate.sceneObject.id, 1);

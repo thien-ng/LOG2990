@@ -19,7 +19,7 @@ export class ThreejsThemeGenerator {
       const object3D: THREE.Object3D = model3D.clone();
       object3D.children.forEach((child: THREE.Mesh) => {
         this.cloneMaterialRecursive(child);
-      })
+      });
       if (mesh.hidden) {
         this.setObjectOpacity(object3D, 0);
       }
@@ -37,7 +37,7 @@ export class ThreejsThemeGenerator {
     } else {
       object3D.children.forEach((child: THREE.Mesh) => {
         this.cloneMaterialRecursive(child);
-      })
+      });
     }
   }
 
