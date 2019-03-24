@@ -204,7 +204,7 @@ describe("GameManagerService tests", () => {
         chai.expect(spy).to.have.been.called();
     });
 
-    it("Should return a success message when creating a 2D arena", async () => {
+    it("should return a success message when creating a 2D arena", async () => {
         userManagerService.validateName(request2DSimple.username);
         chai.spy.on(gameManagerService["assetManager"], ["tempRoutine2d"], () => {return; });
 
@@ -225,7 +225,7 @@ describe("GameManagerService tests", () => {
         chai.spy.restore();
     });
 
-    it("Should return a success message when creating a 2D arena", async () => {
+    it("should return a success message when creating a 2D arena", async () => {
         userManagerService.validateName(request2DSimple.username);
         chai.spy.on(gameManagerService["assetManager"], ["tempRoutine2d"], () => {return; });
 
@@ -246,7 +246,7 @@ describe("GameManagerService tests", () => {
 
     });
 
-    it("Should return a success message when creating a 3D arena", async () => {
+    it("should return a success message when creating a 3D arena", async () => {
         chai.spy.on(gameManagerService["assetManager"], ["tempRoutine3d"], () => {return; });
         userManagerService.validateName(request3DSimple.username);
         const message: Message = await gameManagerService.analyseRequest(request3DSimple);
@@ -254,22 +254,22 @@ describe("GameManagerService tests", () => {
         chai.spy.restore();
     });
 
-    it("Should return an error message when loading an invalid game", async () => {
+    it("should return an error message when loading an invalid game", async () => {
         userManagerService.validateName(invalidRequest.username);
         const message: Message = await gameManagerService.analyseRequest(invalidRequest);
         chai.expect(message.body).to.equal("Game mode invalide");
     });
 
-    it("Should return an error message when username doesnt exist", async () => {
+    it("should return an error message when username doesnt exist", async () => {
         const message: Message = await gameManagerService.analyseRequest(invalidRequest);
         chai.expect(message.body).to.equal("Utilisateur inexistant");
     });
 
-    it("Should return an error message when loading an invalid game", async () => {
+    it("should return an error message when loading an invalid game", async () => {
         chai.expect(await gameManagerService.onPlayerInput(playerInput)).to.deep.equal(expectedMessage);
     });
 
-    it("Should return error if wrong click after arena have been created", async () => {
+    it("should return error if wrong click after arena have been created", async () => {
         chai.spy.on(gameManagerService["assetManager"], ["tempRoutine2d"], () => {return; });
         userManagerService.validateName(request2DSimple.username);
 
@@ -327,7 +327,7 @@ describe("GameManagerService tests", () => {
         chai.spy.restore();
     });
 
-    it("Should send message with socket", async () => {
+    it("should send message with socket", async () => {
         gameManagerService = new GameManagerService(
             userManagerService,
             highscoreService,
@@ -339,7 +339,7 @@ describe("GameManagerService tests", () => {
         verify(socket.emit("onEvent", 1)).atLeast(0);
     });
 
-    it("Should return a message saying onWaiting when no one is in the lobby", async () => {
+    it("should return a message saying onWaiting when no one is in the lobby", async () => {
         chai.spy.on(gameManagerService["assetManager"], "tempRoutine2d", () => {return; });
         userManagerService["users"].push({username: "Frank", socketID: "Frank"});
         const response: Message = await gameManagerService.analyseRequest(request2DMulti);
@@ -347,7 +347,7 @@ describe("GameManagerService tests", () => {
         chai.spy.restore();
     });
 
-    it("Should return a message saying onSuccess when someone is in the lobby (2D)", async () => {
+    it("should return a message saying onSuccess when someone is in the lobby (2D)", async () => {
         const request: IGameRequest = {
             username:   "Franky",
             gameId:     1,
@@ -363,7 +363,7 @@ describe("GameManagerService tests", () => {
         chai.spy.restore();
     });
 
-    it("Should return an error message when joining a non-existing lobby (2D)", async () => {
+    it("should return an error message when joining a non-existing lobby (2D)", async () => {
         const request: IGameRequest = {
             username:   "Franky",
             gameId:     1,
@@ -382,7 +382,7 @@ describe("GameManagerService tests", () => {
         chai.spy.restore();
     });
 
-    it("Should return a message saying onSuccess when someone is in the lobby (3D)", async () => {
+    it("should return a message saying onSuccess when someone is in the lobby (3D)", async () => {
         const request: IGameRequest = {
             username:   "Frank",
             gameId:     2,
@@ -398,7 +398,7 @@ describe("GameManagerService tests", () => {
         chai.spy.restore();
     });
 
-    it("Should send an cancel request if lobby is now undefined", () => {
+    it("should send an cancel request if lobby is now undefined", () => {
         const user: IUser[] = [{username: "Franky", socketID: "Franky"}];
         chai.spy.on(gameManagerService["lobbyManagerService"], "getLobby", () => user);
         const spy: any = chai.spy.on(gameManagerService, "sendMessage");
@@ -406,17 +406,17 @@ describe("GameManagerService tests", () => {
         chai.expect(spy).to.have.been.called();
     });
 
-    it("Should return an error message when deleting an unexisting arena", async () => {
+    it("should return an error message when deleting an unexisting arena", async () => {
         chai.expect(gameManagerService.cancelRequest(2, false).title).to.deep.equal(CCommon.ON_ERROR);
     });
 
-    it("Should return a success message when deleting an existing arena", async () => {
+    it("should return a success message when deleting an existing arena", async () => {
         const user: IUser = {username: "Frank", socketID: "Frank"};
         lobbyManagerService["lobby"].set(1, [user]);
         chai.expect(gameManagerService.cancelRequest(1, false).title).to.deep.equal(CCommon.ON_SUCCESS);
     });
 
-    it("Should throw an error if cannot copy the gameImages", async () => {
+    it("should throw an error if cannot copy the gameImages", async () => {
         userManagerService.validateName(request2DSimple.username);
 
         mockAxios.onGet(iArenaInfos.dataUrl.original, {
@@ -485,7 +485,7 @@ describe("GameManagerService tests", () => {
         chai.spy.restore();
 
     });
-    it("Should break if cannot get counter from assetManager", () => {
+    it("should break if cannot get counter from assetManager", () => {
         chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
         const spy: any = chai.spy.on(gameManagerService["assetManager"], "decrementTempCounter");
         gameManagerService.deleteArena(iArenaInfos);
@@ -532,7 +532,7 @@ describe("GameManagerService tests", () => {
         chai.expect(spy).to.not.have.been.called();
     });
 
-    it("Should get the differences index in arena", () => {
+    it("should get the differences index in arena", () => {
         const arena: Arena2D = new Arena2D(iArenaInfos, gameManagerService);
         gameManagerService["arenas"].set(1000, arena);
         const spy: any = chai.spy.on(arena, "getDifferencesIds", () => [1]);
@@ -540,12 +540,12 @@ describe("GameManagerService tests", () => {
         chai.expect(spy).to.have.been.called();
     });
 
-    it("Should set the server", () => {
+    it("should set the server", () => {
         gameManagerService.setServer(server);
         chai.expect(gameManagerService["server"]).to.equal(server);
     });
 
-    it("Should send update new Highscore", (done: Function) => {
+    it("should send update new Highscore", (done: Function) => {
 
         mockAxios.onPost(Constants.VALIDATE_HIGHSCORE_PATH)
         .reply(200, answer);
@@ -562,7 +562,7 @@ describe("GameManagerService tests", () => {
         done();
         chai.expect(spy).to.have.been.called();
     });
-    it("Should emit the new Highscore", (done: Function) => {
+    it("should emit the new Highscore", (done: Function) => {
 
         mockAxios.onPost(Constants.VALIDATE_HIGHSCORE_PATH)
         .reply(200, answer);
@@ -580,7 +580,7 @@ describe("GameManagerService tests", () => {
         chai.expect(spy).to.have.been.called();
     });
 
-    it("Should emit an error when entering in catch", (done: Function) => {
+    it("should emit an error when entering in catch", (done: Function) => {
 
         mockAxios.onPost(Constants.VALIDATE_HIGHSCORE_PATH)
         .reply(200, answer);
@@ -597,7 +597,7 @@ describe("GameManagerService tests", () => {
         chai.expect(spy).to.have.been.called();
     });
 
-    it("Should call the arena onPlayerInput when gameManager calls his", () => {
+    it("should call the arena onPlayerInput when gameManager calls his", () => {
         const arena: Arena2D = new Arena2D(iArenaInfos, gameManagerService);
         chai.spy.on(gameManagerService["arenas"], "get", () => arena);
         chai.spy.on(arena, "contains", () => true);
