@@ -31,11 +31,10 @@ export class ThreejsRaycast {
       this.raycaster  = new THREE.Raycaster();
   }
 
-    }
+  public setMaps(idBySceneId: Map<number, number>): void {
+      this.idBySceneId = idBySceneId;
+  }
 
-    public setMaps(idBySceneId: Map<number, number>): void {
-        this.idBySceneId = idBySceneId;
-    }
 
     public setModelsByNameMap(modelsByName: Map<string, THREE.Object3D>): void {
       this.modelsByName = modelsByName;
