@@ -202,8 +202,8 @@ describe("ThreejsThemeViewService Tests", () => {
   it("should not do any update to scene because of undefined object (check if not call changeObjectColor)",
      inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
 
-    threejsThemeViewService["threejsGenerator"] = mock(ThreejsThemeGenerator);
-    threejsThemeViewService["threejsThemeRaycast"] = mock(ThreejsRaycast);
+    threejsThemeViewService["threejsGenerator"]     = mock(ThreejsThemeGenerator);
+    threejsThemeViewService["threejsThemeRaycast"]  = mock(ThreejsRaycast);
 
     const changeSpy: any = spyOn<any>(threejsThemeViewService["threejsGenerator"], "changeObjectColor");
 
