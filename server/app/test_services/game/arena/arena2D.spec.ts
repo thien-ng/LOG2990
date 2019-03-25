@@ -23,6 +23,7 @@ import { I2DInfos, IArenaInfos, IPlayerInput } from "../../../services/game/aren
 import { LobbyManagerService } from "../../../services/game/lobby-manager.service";
 import { HighscoreService } from "../../../services/highscore.service";
 import { TimeManagerService } from "../../../services/time-manager.service";
+import { GameMode } from "../../../../../common/communication/iCard";
 
 // tslint:disable:no-magic-numbers no-any max-file-line-count no-empty max-line-length
 
@@ -131,6 +132,16 @@ describe("Arena 2D tests", () => {
     it("should get empty difference ids list", async () => {
         const result: number[] = arena.getDifferencesIds();
         chai.expect(result.length).to.equal(0);
+    });
+
+    it("should build an arena response", async () => {
+        const expectedResponse:  IArenaResponse<IOriginalPixelCluster> = {
+            status: "penis",
+            response: expectedPixelClusters,
+            arenaType: GameMode.simple,
+        };
+        const result: any = arena["buildArenaResponse"]("statusZIIZ", expectedPixelClusters);
+        chai.expect(result).to.equal(expectedResponse);
     });
 
     it("should  call onPlayersReady from referee", async () => {
