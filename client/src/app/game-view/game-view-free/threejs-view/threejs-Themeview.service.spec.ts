@@ -160,8 +160,8 @@ describe("ThreejsThemeViewService Tests", () => {
   it("should not do any update to scene because of undefined object (check if not call initiateObject)",
      inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
 
-    threejsThemeViewService["threejsGenerator"] = mock(ThreejsThemeGenerator);
-    threejsThemeViewService["threejsThemeRaycast"] = mock(ThreejsRaycast);
+    threejsThemeViewService["threejsGenerator"]     = mock(ThreejsThemeGenerator);
+    threejsThemeViewService["threejsThemeRaycast"]  = mock(ThreejsRaycast);
 
     const initSpy:   any = spyOn<any>(threejsThemeViewService["threejsGenerator"], "initiateObject");
 
