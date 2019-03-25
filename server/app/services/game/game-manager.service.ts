@@ -22,9 +22,6 @@ import { I2DInfos, I3DInfos, IArenaInfos, IPlayerInput } from "./arena/interface
 import { Player } from "./arena/player";
 import { LobbyManagerService } from "./lobby-manager.service";
 
-// _TODO: possible refactor
-// tslint:disable:max-file-line-count
-
 const REQUEST_ERROR_MESSAGE:            string = "Game mode invalide";
 const HIGHSCORE_VALIDATION_ERROR:       string = "Erreur lors de la validation du highscore";
 const ARENA_START_ID:                   number = 1000;
@@ -80,9 +77,7 @@ export class GameManagerService {
     private async verifyLobby(request: IGameRequest, user: IUser): Promise<Message> {
         const lobbyResult: Message = this.lobbyManagerService.verifyLobby(request, user);
 
-        if (lobbyResult.title === CCommon.ON_WAITING) {
-            return lobbyResult;
-        }
+        if (lobbyResult.title === CCommon.ON_WAITING) { return lobbyResult; }
 
         return this.multiplayerArenaRoutine(request);
     }
@@ -121,9 +116,7 @@ export class GameManagerService {
 
         const lobby: IUser[] | undefined = this.lobbyManagerService.getLobby(gameID);
         if (isCardDeleted && lobby !== undefined) {
-            lobby.forEach((user: IUser) => {
-                this.sendMessage(user.socketID, CCommon.ON_CANCEL_REQUEST);
-            });
+            lobby.forEach((user: IUser) => { this.sendMessage(user.socketID, CCommon.ON_CANCEL_REQUEST); });
         }
         const cardIsDeleted: boolean = this.lobbyManagerService.deleteLobby(gameID);
 
@@ -206,17 +199,12 @@ export class GameManagerService {
     public deleteArena(arenaInfo: IArenaInfos<I2DInfos | I3DInfos>): void {
         const arenaId:  number              = arenaInfo.arenaId;
         const gameId:   number | undefined  = this.gameIdByArenaId.get(arenaId);
-        if (gameId === undefined) {
-            return;
-        }
+        if (gameId === undefined) { return; }
+
         const aliveArenaCount: number | undefined = this.assetManager.getCounter(gameId);
 
-        if (aliveArenaCount === undefined) {
-            return;
-        }
-        if (aliveArenaCount === 1) {
-            this.deleteTempFiles(arenaInfo, gameId);
-        }
+        if (aliveArenaCount === undefined)  { return; }
+        if (aliveArenaCount === 1)          { this.deleteTempFiles(arenaInfo, gameId); }
         this.assetManager.decrementTempCounter(gameId, aliveArenaCount);
         this.arenas.delete(arenaInfo.arenaId);
     }
@@ -236,9 +224,7 @@ export class GameManagerService {
 
     public sendMessage<DATA_T>(socketID: string, event: string, data?: DATA_T): void {
         const playerSocket: SocketIO.Socket | undefined = this.playerList.get(socketID);
-        if (playerSocket !== undefined) {
-            playerSocket.emit(event, data);
-        }
+        if (playerSocket !== undefined) { playerSocket.emit(event, data); }
     }
 
     public async onPlayerInput(playerInput: IPlayerInput<IPosition2D | number>):
@@ -272,7 +258,6 @@ export class GameManagerService {
 
         if (arena) {
             const players: Player[] = arena.getPlayers();
-
             players.forEach(( player: Player) => {
                 const user: IUser = this.interfaceBuilder.buildIUser(player.getUsername(), player.getUserSocketId());
                 users.push(user);
@@ -284,10 +269,7 @@ export class GameManagerService {
 
     public endOfGameRoutine(newTime: Time, mode: Mode, arenaInfo: IArenaInfos<I2DInfos | I3DInfos>, arenaType: GameMode): void {
         const gameID: number | undefined = this.gameIdByArenaId.get(arenaInfo.arenaId);
-        if (gameID === undefined) {
-            return;
-        }
-
+        if (gameID === undefined) { return; }
         const title: string = this.cardOperations.getCardById(gameID.toString(), arenaType).title;
 
         this.highscoreService.updateHighscore(newTime, mode, gameID)
