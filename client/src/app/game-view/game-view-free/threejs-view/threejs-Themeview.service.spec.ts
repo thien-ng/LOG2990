@@ -28,3 +28,30 @@ const sceneVariables: ISceneVariables<IMesh> = {
     },
   ],
   sceneBackgroundColor: "#FFFFFF",
+};
+const renderer:   THREE.WebGLRenderer   = mock(THREE.WebGLRenderer);
+const scene:      THREE.Scene           = mock(THREE.Scene);
+const generator:  ThreejsThemeGenerator = mock(ThreejsThemeGenerator);
+
+describe("ThreejsThemeViewService Tests", () => {
+  beforeEach(() => TestBed.configureTestingModule({
+    providers: [ThreejsThemeViewService],
+  }));
+
+  it("should generate objects in scene when createScene() is called", inject([ThreejsThemeViewService], async (threejsThemeViewService: ThreejsThemeViewService) => {
+    const spy: any = spyOn<any>(threejsThemeViewService, "generateSceneObjects");
+    spyOn<any>(threejsThemeViewService, "getModelObjects").and.callFake(() => {Promise.resolve(); });
+    await threejsThemeViewService.createScene(scene, sceneVariables, renderer, false, 1);
+    expect(spy).toHaveBeenCalled();
+  }));
+
+  it("should initiate objects in scene when createScene() is called", inject([ThreejsThemeViewService], async (threejsThemeViewService: ThreejsThemeViewService) => {
+    spyOn<any>(threejsThemeViewService, "createLighting").and.callFake(() => {return; });
+    spyOn<any>(threejsThemeViewService, "getModelObjects").and.callFake(() => {Promise.resolve(); });
+    await threejsThemeViewService.createScene(scene, sceneVariables, renderer, false, 1);
+    threejsThemeViewService["threejsThemeRaycast"].setThreeGenerator(generator);
+    const spy: any = spyOn(threejsThemeViewService["threejsGenerator"], "initiateObject").and.callFake(() => {return; });
+    spyOn(threejsThemeViewService["gameViewFreeService"], "updateSceneLoaded").and.callFake(() => {return; });
+    threejsThemeViewService["generateSceneObjects"](false, 1);
+    expect(spy).toHaveBeenCalled();
+  }));
