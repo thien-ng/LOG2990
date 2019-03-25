@@ -51,7 +51,7 @@ describe("ThreejsThemeViewService Tests", () => {
     await threejsThemeViewService.createScene(scene, sceneVariables, renderer, false, 1);
     threejsThemeViewService["threejsThemeRaycast"].setThreeGenerator(generator);
     const spy: any = spyOn(threejsThemeViewService["threejsGenerator"], "initiateObject").and.callFake(() => {return; });
-    spyOn(threejsThemeViewService["gameViewFreeService"], "updateSceneLoaded").and.callFake(() => {return; });
+    spyOn(threejsThemeViewService["gameViewFreeService"], "updateSceneLoaded").and.callFake(()            => {return; });
     threejsThemeViewService["generateSceneObjects"](false, 1);
     expect(spy).toHaveBeenCalled();
   }));
