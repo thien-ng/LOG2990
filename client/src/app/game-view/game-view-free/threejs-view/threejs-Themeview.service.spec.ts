@@ -241,3 +241,47 @@ describe("ThreejsThemeViewService Tests", () => {
 
     expect(initSpy).not.toHaveBeenCalled();
   }));
+
+  it("should not do any update to scene because of no action required (check if not call deleteObject)",
+     inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
+
+    threejsThemeViewService["threejsGenerator"] = mock(ThreejsThemeGenerator);
+    threejsThemeViewService["threejsThemeRaycast"] = mock(ThreejsRaycast);
+    spyOn<any>(threejsThemeViewService, "createLighting").and.callFake(() => {return; });
+    spyOn<any>(threejsThemeViewService, "generateSceneObjects").and.callFake(() => { return; });
+    spyOn<any>(threejsThemeViewService, "getModelObjects").and.callFake(() => {Promise.resolve(); });
+
+    const deleteSpy: any = spyOn<any>(threejsThemeViewService["threejsGenerator"], "deleteObject");
+
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
+      actionToApply: ActionType.NO_ACTION_REQUIRED,
+      sceneObject:   sceneVariables.sceneObjects[0],
+    };
+
+    threejsThemeViewService.createScene(scene, sceneVariables, renderer, false, 1);
+    threejsThemeViewService.updateSceneWithNewObject(objectUpdate);
+
+    expect(deleteSpy).not.toHaveBeenCalled();
+  }));
+
+  it("should not do any update to scene because of no action required (check if not call changeObjectColor)",
+     inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
+
+    threejsThemeViewService["threejsGenerator"] = mock(ThreejsThemeGenerator);
+    threejsThemeViewService["threejsThemeRaycast"] = mock(ThreejsRaycast);
+    spyOn<any>(threejsThemeViewService, "createLighting").and.callFake(() => {return; });
+    spyOn<any>(threejsThemeViewService, "generateSceneObjects").and.callFake(() => { return; });
+    spyOn<any>(threejsThemeViewService, "getModelObjects").and.callFake(() => {Promise.resolve(); });
+
+    const changeSpy: any = spyOn<any>(threejsThemeViewService["threejsGenerator"], "changeObjectColor");
+
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
+      actionToApply: ActionType.NO_ACTION_REQUIRED,
+      sceneObject:   sceneVariables.sceneObjects[0],
+    };
+
+    threejsThemeViewService.createScene(scene, sceneVariables, renderer, false, 1);
+    threejsThemeViewService.updateSceneWithNewObject(objectUpdate);
+
+    expect(changeSpy).not.toHaveBeenCalled();
+  }));
