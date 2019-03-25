@@ -46,8 +46,8 @@ describe("ThreejsThemeViewService Tests", () => {
   }));
 
   it("should initiate objects in scene when createScene() is called", inject([ThreejsThemeViewService], async (threejsThemeViewService: ThreejsThemeViewService) => {
-    spyOn<any>(threejsThemeViewService, "createLighting").and.callFake(() => {return; });
-    spyOn<any>(threejsThemeViewService, "getModelObjects").and.callFake(() => {Promise.resolve(); });
+    spyOn<any>(threejsThemeViewService, "createLighting").and.callFake(()   => {return; });
+    spyOn<any>(threejsThemeViewService, "getModelObjects").and.callFake(()  => {Promise.resolve(); });
     await threejsThemeViewService.createScene(scene, sceneVariables, renderer, false, 1);
     threejsThemeViewService["threejsThemeRaycast"].setThreeGenerator(generator);
     const spy: any = spyOn(threejsThemeViewService["threejsGenerator"], "initiateObject").and.callFake(() => {return; });
