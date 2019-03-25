@@ -6,7 +6,8 @@ import {
     IArenaResponse,
     IOriginalPixelCluster,
     IPosition2D,
-    ISceneObjectUpdate } from "../../../../../common/communication/iGameplay";
+    ISceneObjectUpdate, 
+    IPenalty} from "../../../../../common/communication/iGameplay";
 import { IMesh, ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { IUser } from "../../../../../common/communication/iUser";
 import { CardOperations } from "../../../services/card-operations.service";
@@ -22,6 +23,7 @@ import { LobbyManagerService } from "../../../services/game/lobby-manager.servic
 import { HighscoreService } from "../../../services/highscore.service";
 import { TimeManagerService } from "../../../services/time-manager.service";
 import { UserManagerService } from "../../../services/user-manager.service";
+import { GameMode } from "../../../../../common/communication/iCard";
 
 // tslint:disable no-magic-numbers no-any await-promise no-floating-promises max-file-line-count max-line-length
 
@@ -176,6 +178,17 @@ describe("Referee tests for 2D", () => {
 
         const result: number[] = referee.getFoundDifferences();
         chai.expect(result.length).to.equal(1);
+    });
+
+    it("should remove penalty from player", async () => {
+        const playerList: Player[] = [new Player(activeUser2)];
+        const referee: Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
+        const penalty: IPenalty = {
+            isOnPenalty: true,
+            arenaType:   GameMode.simple,
+        };
+        referee["removePenalty"](playerList[0], penalty);
+        chai.expect(playerList[0].getPenaltyState()).to.equal(false);
     });
 
     it("should return a failed click arena response (2D arena)", async () => {
@@ -346,6 +359,17 @@ describe("Referee tests for 3D", () => {
         clock.restore();
 
         chai.expect(spy).called();
+    });
+
+    it("should remove penalty from player", async () => {
+        const playerList:   Player[] = [new Player(activeUser2)];
+        const referee:      Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>> = new Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>>(arena3D, playerList, originalElements3D, timer, "url");
+        const penalty:      IPenalty = {
+            isOnPenalty: true,
+            arenaType:   GameMode.simple,
+        };
+        referee["removePenalty"](playerList[0], penalty);
+        chai.expect(playerList[0].getPenaltyState()).to.equal(false);
     });
 
     it("should return a failed click arena response (3D arena)", async () => {
