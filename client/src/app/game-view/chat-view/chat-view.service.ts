@@ -11,15 +11,18 @@ export class ChatViewService {
 
   private conversation: IChat[];
   private chatFocus:    Subject<boolean>;
+  private chatUpdate:   Subject<boolean>;
 
   public constructor() {
     this.conversation = [];
-    this.chatFocus = new Subject<boolean>();
+    this.chatFocus  = new Subject<boolean>();
+    this.chatUpdate = new Subject<boolean>();
   }
 
   public updateConversation(data: IChat): void {
     if (data.message !== this.INVALID_CHAT_MESSAGE) {
       this.conversation.push(data);
+      this.chatUpdate.next(true);
     }
   }
 
@@ -43,6 +46,10 @@ export class ChatViewService {
 
   public updateChatFocus(value: boolean): void {
     this.chatFocus.next(value);
+  }
+
+  public getChatUpdateListener(): Observable<boolean> {
+    return this.chatUpdate.asObservable();
   }
 
 }

@@ -40,7 +40,6 @@ export class ThreejsThemeViewService {
   private sceneIdById:          Map<number, number>;
   private idBySceneId:          Map<number, number>;
   private opacityById:          Map<number, number>;
-  private originalColorById:    Map<number, string>;
 
   private moveForward:        boolean;
   private moveBackward:       boolean;
@@ -67,7 +66,6 @@ export class ThreejsThemeViewService {
     this.sceneIdById          = new Map<number, number>();
     this.idBySceneId          = new Map<number, number>();
     this.opacityById          = new Map<number, number>();
-    this.originalColorById    = new Map<number, string>(); // _TODO: a enlever?
     this.gltfByUrl            = new Map<string, THREE.GLTF>();
     this.modelsByName         = new Map<string, THREE.Object3D>();
     this.threejsMovement      = new ThreejsMovement(this.camera);
@@ -98,26 +96,26 @@ export class ThreejsThemeViewService {
     if (meshInfos) {
       this.meshInfos        = meshInfos;
     }
+    this.renderer.setSize(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
+    this.renderer.setClearColor(this.sceneVariables.sceneBackgroundColor);
+
+    await this.getModelObjects(this.meshInfos);
     this.threejsGenerator = new ThreejsThemeGenerator(
       this.scene,
       this.sceneIdById,
       this.idBySceneId,
       this.opacityById,
+      this.modelsByName,
     );
-    this.renderer.setSize(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
-    this.renderer.setClearColor(this.sceneVariables.sceneBackgroundColor);
-
-    await this.getModelObjects(this.meshInfos);
     this.threejsThemeRaycast = new ThreejsRaycast(this.camera, this.renderer, this.scene);
-    this.threejsThemeRaycast.setMaps(this.idBySceneId);
-    this.threejsThemeRaycast.setModelsByNameMap(this.modelsByName);
+    this.threejsThemeRaycast.setMaps(this.idBySceneId, this.sceneIdById);
     this.threejsThemeRaycast.setThreeGenerator(this.threejsGenerator);
 
     this.createLighting();
     this.generateSceneObjects(isSnapshotNeeded, arenaID);
     this.setFloor();
     this.setCameraPosition(Constants.CAMERA_POSITION_X, Constants.CAMERA_POSITION_Y, Constants.CAMERA_POSITION_Z);
-
+    this.scene.fog = new THREE.Fog(Constants.FOG_COLOR, Constants.FOG_NEAR_DISTANCE, Constants.FOG_FAR_DISTANCE);
     this.camera.lookAt(new THREE.Vector3(this.CAMERA_START_POSITION, this.CAMERA_START_POSITION, this.CAMERA_START_POSITION));
   }
 
@@ -135,22 +133,16 @@ export class ThreejsThemeViewService {
     if (!modifiedList) {
       return;
     }
-
     modifiedList.forEach((differenceId: number) => {
-
       const meshObject:      THREE.Mesh | undefined = this.recoverObjectFromScene(differenceId);
-      const objectColor:     string     | undefined = this.originalColorById.get(differenceId);
       let opacityNeeded:     number                 = (cheatColorActivated) ? 0 : 1;
 
       if (isLastChange) {
-
         const originalOpacity: number = this.opacityById.get(differenceId) as number;
-
         opacityNeeded = originalOpacity;
       }
-
-      if (meshObject !== undefined) {
-        meshObject.material = new THREE.MeshPhongMaterial({color: objectColor, opacity: opacityNeeded, transparent: true});
+      if (meshObject) {
+        this.threejsGenerator.setObjectOpacity(meshObject, opacityNeeded);
       }
     });
   }
