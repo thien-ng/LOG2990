@@ -13,12 +13,11 @@ import { Player } from "./player";
 import { Referee } from "./referee";
 import { Timer } from "./timer";
 
-// tslint:disable:no-any
 const axios:          AxiosInstance = require("axios");
 const CHECK_INTERVAL: number        = 500;
 const MAX_TRIES:      number        = 6;
 
-export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
+export abstract class Arena<IN_T, DIFF_T, EVT_T> {
 
     public ARENA_TYPE:              GameMode;
     public timer:                   Timer;
@@ -30,7 +29,7 @@ export abstract class Arena<IN_T, OUT_T, DIFF_T, EVT_T> {
     protected readonly ON_CLICK:          string = "onClick";
     protected readonly ONE_PLAYER:        number = 1;
     protected players:                    Player[];
-    protected referee:                    Referee<any, any>;
+    protected referee:                    Referee<EVT_T, DIFF_T>;
     protected originalElements:           Map<number, DIFF_T>; // _TODO: A BOUGER DANS LES ARENA 2D et 3D
 
     public constructor (

@@ -142,8 +142,8 @@
                     "uuid":           "chico_modified"
                 }
             ],
-            "baseSize":       5.0,
-            "radius":         10,
+            "baseSize":       4.0,
+            "radius":         3,
             "presenceRatio":  0.05
         },
         {
@@ -171,14 +171,14 @@
     },
     "generationArea":         {
         "minPosition": {
-            "x": -300,
+            "x": -500,
             "y": 0,
-            "z": -300
+            "z": -500
         },
         "maxPosition": {
-            "x": 300,
+            "x": 500,
             "y": 0,
-            "z": 300
+            "z": 500
         }
     }
 }

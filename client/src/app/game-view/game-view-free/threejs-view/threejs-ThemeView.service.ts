@@ -25,6 +25,7 @@ export class ThreejsThemeViewService {
   private readonly FOWARD_ORIENTATION:    number = -1;
   private readonly BACKWARD_ORIENTATION:  number = 1;
 
+  public  handleId:             number;
   private scene:                THREE.Scene;
   private camera:               THREE.PerspectiveCamera;
   private renderer:             THREE.WebGLRenderer;
@@ -75,10 +76,18 @@ export class ThreejsThemeViewService {
     this.moveRight            = false;
     this.moveLeft             = false;
 
+    this.setStartCameraRotation();
+
+  }
+
+  private setStartCameraRotation(): void {
+    this.camera.rotation.x = 0;
+    this.camera.rotation.y = 0;
+    this.camera.rotation.z = 0;
   }
 
   public animate(): void {
-    requestAnimationFrame(this.animate.bind(this));
+    this.handleId = requestAnimationFrame(this.animate.bind(this));
     this.renderObject();
   }
 

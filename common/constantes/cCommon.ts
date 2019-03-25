@@ -5,7 +5,7 @@ export class CCommon {
     public static readonly MODIFIED_FILE:             string = "_modified.bmp";
     public static readonly SCENE_FILE:                string = "_scene.json";
     
-    public static readonly REGEX_PATTERN_ALPHANUM:    string = "^[a-zA-Z0-9]+$";
+    public static readonly REGEX_PATTERN_ALPHANUM:    string = "^[a-zA-Z0-9 ]+$";
     
     public static readonly IS_UNIQUE:                 string = "isUnique";
 

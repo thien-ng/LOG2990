@@ -3,7 +3,7 @@ import { IPosition2D } from "../../../../../../../common/communication/iGameplay
 
 export class ThreejsMovement {
 
-    private readonly CAMERA_MOVEMENT_SPEED:  number = 1;
+    private readonly CAMERA_MOVEMENT_SPEED:  number = 2;
     private readonly CAMERA_ROTATION_SPEED:  number = 0.01;
 
     private camera:     THREE.PerspectiveCamera;
@@ -27,6 +27,7 @@ export class ThreejsMovement {
     }
 
     public rotateCamera(position: IPosition2D): void {
+
         this.camera.rotateX(-position.y * this.CAMERA_ROTATION_SPEED);
         this.camera.rotateY(-position.x * this.CAMERA_ROTATION_SPEED);
     }
