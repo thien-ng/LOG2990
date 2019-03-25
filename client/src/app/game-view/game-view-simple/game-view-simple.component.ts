@@ -30,7 +30,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   @ViewChild("erreurText2",   {read: ElementRef})  public erreurText2:     ElementRef;
   @ViewChild("originalImage", {read: ElementRef})  public canvasOriginal:  ElementRef;
   @ViewChild("modifiedImage", {read: ElementRef})  public canvasModified:  ElementRef;
-  @ViewChild("chat")          private chat:        ChatViewComponent;
+  @ViewChild("chat")                               private chat:           ChatViewComponent;
 
   public activeCard:      ICard;
   public cardLoaded:      boolean;
