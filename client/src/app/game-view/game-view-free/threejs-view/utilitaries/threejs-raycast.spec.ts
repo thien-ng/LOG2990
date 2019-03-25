@@ -276,4 +276,18 @@ describe("threejs-raycast tests", () => {
         expect(spy).toHaveBeenCalled();
     });
 
+    it("should call changeObjectColor() if isTheme is true", () => {
+        const param: ISceneObjectUpdate<ISceneObject | IMesh> = {
+            sceneObject: {id: 1} as IMesh,
+        } as ISceneObjectUpdate<IMesh>;
+
+        threejsRaycast["threejsThemeGenerator"] = mock(ThreejsThemeGenerator);
+        const spy: any = spyOn<any>(threejsRaycast["threejsThemeGenerator"], "changeObjectColor");
+
+        threejsRaycast["isTheme"] = true;
+        threejsRaycast["changeObjectColor"](param);
+
+        expect(spy).toHaveBeenCalled();
+    });
+
 });
