@@ -9,7 +9,7 @@ import { ThreejsThemeViewService } from "./threejs-ThemeView.service";
 import { ThreejsRaycast } from "./utilitaries/threejs-raycast";
 import { ThreejsThemeGenerator } from "./utilitaries/threejs-themeGenerator";
 
-// tslint:disable:no-any max-file-line-count max-line-length
+// tslint:disable:no-any max-file-line-count max-line-length no-floating-promises
 
 const sceneVariables: ISceneVariables<IMesh> = {
   theme:                  1,
@@ -56,7 +56,7 @@ describe("ThreejsThemeViewService Tests", () => {
     expect(spy).toHaveBeenCalled();
   }));
 
-  it("should set up front the threejsMovement", inject([ThreejsThemeViewService], async (threejsThemeViewService: ThreejsThemeViewService)=> {
+  it("should set up front the threejsMovement", inject([ThreejsThemeViewService], async (threejsThemeViewService: ThreejsThemeViewService) => {
     const spy: any = spyOn(threejsThemeViewService["threejsMovement"], "setupFront").and.callFake(() => {return; });
     threejsThemeViewService["setupFront"](1);
     expect(spy).toHaveBeenCalled();
