@@ -525,3 +525,17 @@ describe("ThreejsThemeViewService Tests", () => {
 
     expect(threejsThemeViewService["moveRight"]).toBe(true);
   }));
+
+  it("should not make camera move when unhandled key is pressed",
+     inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
+
+      const keyboardEvent: any = new KeyboardEvent("keydown", {
+        key: "p",
+      });
+
+      threejsThemeViewService.onKeyMovement(keyboardEvent, true);
+
+      expect(threejsThemeViewService["moveRight"]).not.toBe(true);
+  }));
+
+});
