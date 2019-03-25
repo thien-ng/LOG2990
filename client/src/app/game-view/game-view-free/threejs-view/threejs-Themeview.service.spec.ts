@@ -489,3 +489,39 @@ describe("ThreejsThemeViewService Tests", () => {
 
       expect(threejsThemeViewService["moveBackward"]).toBe(false);
   }));
+
+  it("should move the camera move backward keyDown when key S is pressed",
+     inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
+
+    const keyboardEvent: any = new KeyboardEvent("keydown", {
+      key: "s",
+    });
+
+    threejsThemeViewService.onKeyMovement(keyboardEvent, true);
+
+    expect(threejsThemeViewService["moveBackward"]).toBe(true);
+  }));
+
+  it("should move the camera move to the left when key A is pressed",
+     inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
+
+    const keyboardEvent: any = new KeyboardEvent("keydown", {
+      key: "a",
+    });
+
+    threejsThemeViewService.onKeyMovement(keyboardEvent, true);
+
+    expect(threejsThemeViewService["moveLeft"]).toBe(true);
+  }));
+
+  it("should stop the camera move to the right when key D is pressed",
+     inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
+
+    const keyboardEvent: any = new KeyboardEvent("keydown", {
+      key: "d",
+    });
+
+    threejsThemeViewService.onKeyMovement(keyboardEvent, true);
+
+    expect(threejsThemeViewService["moveRight"]).toBe(true);
+  }));
