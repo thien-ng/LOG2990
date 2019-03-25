@@ -248,4 +248,18 @@ describe("threejs-raycast tests", () => {
         expect(threejsRaycast["modelsByName"]).toBe(modelsByNameParam);
     });
 
+    it("should set attribute threejsThemeGenerator equal to parameter passed to setThreeGenerator()", () => {
+        const sceneIdById:           Map<number, number> = new Map<number, number>();
+        const opacityById:           Map<number, number> =  new Map<number, number>();
+
+        sceneIdById.set(1, 1);
+        opacityById.set(3, 3);
+
+        const threejsThemeGeneratorMock:  ThreejsThemeGenerator = new ThreejsThemeGenerator(scene, sceneIdById, idBySceneId, opacityById);
+        threejsRaycast["isTheme"] = true;
+        threejsRaycast.setThreeGenerator(threejsThemeGeneratorMock);
+
+        expect(threejsRaycast["threejsThemeGenerator"]).toBe(threejsThemeGeneratorMock);
+    });
+
 });
