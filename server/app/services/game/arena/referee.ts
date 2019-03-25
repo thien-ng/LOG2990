@@ -1,10 +1,17 @@
 import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import { IArenaResponse, IPenalty } from "../../../../../common/communication/iGameplay";
+import {
+    IArenaResponse,
+    IOriginalPixelCluster,
+    IPenalty,
+    IPosition2D,
+    ISceneObjectUpdate
+} from "../../../../../common/communication/iGameplay";
+import { IMesh, ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { IUser } from "../../../../../common/communication/iUser";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { Constants } from "../../../constants";
 import { Arena } from "./arena";
-import { IHitConfirmation, IHitToValidate } from "./interfaces";
+import { IHitConfirmation, IHitToValidate, IPlayerInput } from "./interfaces";
 import { Player } from "./player";
 import { Timer } from "./timer";
 
@@ -25,9 +32,10 @@ export class Referee<EVT_T, DIFF_T> {
     private differencesFound:   number[];
     private pointsNeededToWin:  number;
 
-    // _TODO: Enlever les any après les avoir remplacés
-    // tslint:disable-next-line:no-any
-    public constructor(public  arena:               Arena<any, any, any, any>,
+    public constructor(public  arena:               Arena<
+                                                        IPlayerInput<IPosition2D> | IPlayerInput<number>,
+                                                        IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+                                                        IPosition2D | number>,
                        private players:             Player[],
                        private originalElements:    Map<number, DIFF_T>,
                        public  timer:               Timer,

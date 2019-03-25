@@ -2,7 +2,8 @@ import { inject, injectable } from "inversify";
 import { HighscoreValidationResponse, Mode, Time } from "../../../../common/communication/highscore";
 import { GameMode, ILobbyEvent, MultiplayerButtonText } from "../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../common/communication/iGameRequest";
-import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../common/communication/iGameplay";
+import { IArenaResponse, IOriginalPixelCluster, IPosition2D, ISceneObjectUpdate } from "../../../../common/communication/iGameplay";
+import { IMesh, ISceneObject } from "../../../../common/communication/iSceneObject";
 import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
@@ -21,19 +22,24 @@ import { I2DInfos, I3DInfos, IArenaInfos, IPlayerInput } from "./arena/interface
 import { Player } from "./arena/player";
 import { LobbyManagerService } from "./lobby-manager.service";
 
+// _TODO: possible refactor
+// tslint:disable:max-file-line-count
+
 const REQUEST_ERROR_MESSAGE:            string = "Game mode invalide";
 const HIGHSCORE_VALIDATION_ERROR:       string = "Erreur lors de la validation du highscore";
 const ARENA_START_ID:                   number = 1000;
 const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
 
-// tslint:disable:no-any // _TODO: Enlever les any après les avoir remplacés
 @injectable()
 export class GameManagerService {
     private arenaID:            number;
     private server:             SocketIO.Server;
     private assetManager:       AssetManagerService;
     private playerList:         Map<string, SocketIO.Socket>;
-    private arenas:             Map<number, Arena<any, any, any, any>>;
+    private arenas:             Map<number, Arena<
+                                    IPlayerInput<IPosition2D> | IPlayerInput<number>,
+                                    IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+                                    IPosition2D | number>>;
     private gameIdByArenaId:    Map<number, number>;
     private interfaceBuilder:   InterfaceBuilder;
 
@@ -46,9 +52,12 @@ export class GameManagerService {
         this.arenaID            = ARENA_START_ID;
         this.assetManager       = new AssetManagerService();
         this.playerList         = new Map<string, SocketIO.Socket>();
-        this.arenas             = new Map<number, Arena<any, any, any, any>>();
+        this.arenas             = new Map<number, Arena<
+                                    IPlayerInput<IPosition2D> | IPlayerInput<number>,
+                                    IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+                                    IPosition2D | number>>();
         this.gameIdByArenaId    = new Map<number, number>();
-        this.interfaceBuilder = new InterfaceBuilder();
+        this.interfaceBuilder   = new InterfaceBuilder();
     }
 
     public async analyseRequest(request: IGameRequest): Promise<Message> {
@@ -91,11 +100,9 @@ export class GameManagerService {
             case GameMode.simple:
                 message = await this.create2DArena(lobby, request.gameId);
                 break;
-
             case GameMode.free:
                 message = await this.create3DArena(lobby, request.gameId);
                 break;
-
             default:
                 break;
         }
@@ -145,12 +152,18 @@ export class GameManagerService {
         return this.interfaceBuilder.buildMessage(CCommon.ON_SUCCESS, arenaInfo.arenaId.toString());
     }
 
-    private async initArena(arena: Arena<any, any, any, any>): Promise<void> {
+    private async initArena(arena: Arena<
+        IPlayerInput<IPosition2D> | IPlayerInput<number>,
+        IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+        IPosition2D | number>): Promise<void> {
         await arena.prepareArenaForGameplay();
     }
 
     public getDifferencesIndex(arenaId: number): number[] {
-        const arena: Arena<any, any, any, any> | undefined = this.arenas.get(arenaId);
+        const arena: Arena<
+                        IPlayerInput<IPosition2D> | IPlayerInput<number>,
+                        IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+                        IPosition2D | number> | undefined = this.arenas.get(arenaId);
 
         return arena ? arena.getDifferencesIds() : [];
     }
@@ -178,7 +191,10 @@ export class GameManagerService {
     }
 
     private removePlayerFromArena(username: string): void {
-        this.arenas.forEach((arena: Arena<any, any, any, any>) => {
+        this.arenas.forEach((arena: Arena<
+            IPlayerInput<IPosition2D> | IPlayerInput<number>,
+            IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+            IPosition2D | number>) => {
             arena.getPlayers().forEach((player: Player) => {
                 if (player.getUsername() === username) {
                     arena.removePlayer(username);
@@ -225,11 +241,18 @@ export class GameManagerService {
         }
     }
 
-    public async onPlayerInput(playerInput: IPlayerInput<IPosition2D | number>): Promise<IArenaResponse<IOriginalPixelCluster | any>>  {
-        const arena: Arena<any, any, any, any> | undefined = this.arenas.get(playerInput.arenaId);
+    public async onPlayerInput(playerInput: IPlayerInput<IPosition2D | number>):
+        Promise<IArenaResponse<IOriginalPixelCluster |  ISceneObjectUpdate<ISceneObject | IMesh>>>  {
+        const arena: Arena<
+            IPlayerInput<IPosition2D> | IPlayerInput<number>,
+            IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+            IPosition2D | number> | undefined
+            = this.arenas.get(playerInput.arenaId);
         if (arena !== undefined) {
             if (arena.contains(playerInput.user)) {
-                return  arena.onPlayerInput(playerInput);
+                // Any pour pouvoir utiliser le polymorphisme
+                // tslint:disable-next-line:no-any
+                return  arena.onPlayerInput(playerInput as IPlayerInput<any>);
             }
         }
 
@@ -241,7 +264,11 @@ export class GameManagerService {
 
     public getUsersInArena(arenaId: number): IUser[] {
         const users: IUser[] = [];
-        const arena: Arena<any, any, any, any> | undefined  = this.arenas.get(arenaId);
+        const arena: Arena<
+            IPlayerInput<IPosition2D> | IPlayerInput<number>,
+            IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+            IPosition2D | number> | undefined
+            = this.arenas.get(arenaId);
 
         if (arena) {
             const players: Player[] = arena.getPlayers();
@@ -276,7 +303,11 @@ export class GameManagerService {
     }
 
     public onGameLoaded(socketID: string, arenaID: number): void {
-        const arena: Arena<any, any, any, any> | undefined = this.arenas.get(arenaID);
+        const arena: Arena<
+                        IPlayerInput<IPosition2D> | IPlayerInput<number>,
+                        IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+                        IPosition2D | number> | undefined
+                        = this.arenas.get(arenaID);
         if (!arena) {
             return;
         }
