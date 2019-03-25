@@ -269,9 +269,9 @@ describe("ThreejsThemeViewService Tests", () => {
 
     threejsThemeViewService["threejsGenerator"] = mock(ThreejsThemeGenerator);
     threejsThemeViewService["threejsThemeRaycast"] = mock(ThreejsRaycast);
-    spyOn<any>(threejsThemeViewService, "createLighting").and.callFake(() => {return; });
+    spyOn<any>(threejsThemeViewService, "createLighting").and.callFake(()       => {return; });
     spyOn<any>(threejsThemeViewService, "generateSceneObjects").and.callFake(() => { return; });
-    spyOn<any>(threejsThemeViewService, "getModelObjects").and.callFake(() => {Promise.resolve(); });
+    spyOn<any>(threejsThemeViewService, "getModelObjects").and.callFake(()      => {Promise.resolve(); });
 
     const changeSpy: any = spyOn<any>(threejsThemeViewService["threejsGenerator"], "changeObjectColor");
 
