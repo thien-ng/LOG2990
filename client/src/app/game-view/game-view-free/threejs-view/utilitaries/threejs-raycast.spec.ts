@@ -238,8 +238,8 @@ describe("threejs-raycast tests", () => {
     });
 
     it("should set attribute modelsByName with parameter passed to setModelsByNameMap()", () => {
-        const mockObject3D: THREE.Object3D = mock(THREE.Object3D);
-        const modelsByNameParam: Map<string, THREE.Object3D> = new Map<string, THREE.Object3D>();
+        const mockObject3D:         THREE.Object3D              = mock(THREE.Object3D);
+        const modelsByNameParam:    Map<string, THREE.Object3D> = new Map<string, THREE.Object3D>();
 
         modelsByNameParam.set("test", mockObject3D);
         threejsRaycast.setModelsByNameMap(modelsByNameParam);
