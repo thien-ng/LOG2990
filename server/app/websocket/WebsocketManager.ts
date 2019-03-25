@@ -87,8 +87,9 @@ export class WebsocketManager {
         if (typeof user !== "string") {
             const playerInput: IPlayerInput<IPosition2D | number> = this.buildPlayerInput(data, user);
             this.gameManagerService.onPlayerInput(playerInput)
-            // tslint:disable-next-line:no-any _TODO
-            .then((response: IArenaResponse<IOriginalPixelCluster | any>) => {    // _TODO: type de RES_T pour scene 3d
+            // Any pour permettre le polymorphisme de la réponse
+            // tslint:disable-next-line:no-any
+            .then((response: IArenaResponse<IOriginalPixelCluster | any>) => {
 
                 socket.emit(CCommon.ON_ARENA_RESPONSE, response);
                 if (response.status !== Constants.ON_PENALTY) {

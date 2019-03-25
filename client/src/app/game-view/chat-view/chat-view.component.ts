@@ -36,7 +36,7 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
   public chatBox:                         ElementRef;
 
   public constructor(
-    private chatViewService:      ChatViewService,
+    public  chatViewService:      ChatViewService,
     private socketService:        SocketService) {
       this.init();
       this.conversationLength   = this.chatViewService.getConversationLength();
@@ -81,6 +81,11 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
     this.usernameFormControl  = new FormControl("", [
       Validators.pattern(this.MESSAGE_PATTERN_REGEX),
     ]);
+    this.chatViewService.getChatUpdateListener().subscribe((value: boolean) => {
+      if (value) {
+        this.conversations = this.chatViewService.getConversation();
+      }
+    });
   }
 
   public ngOnDestroy(): void {

@@ -14,6 +14,7 @@ import { IMesh, ISceneObject } from "../../../../../common/communication/iSceneO
 import { IMeshInfo, ISceneData, ISceneVariables } from "../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../common/communication/message";
 import { CCommon } from "../../../../../common/constantes/cCommon";
+import { ChatViewComponent } from "../chat-view/chat-view.component";
 import { GameViewFreeService } from "./game-view-free.service";
 import { TheejsViewComponent } from "./threejs-view/threejs-view.component";
 
@@ -34,6 +35,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild("original")      private original:    TheejsViewComponent;
   @ViewChild("modified")      private modified:    TheejsViewComponent;
+  @ViewChild("chat")          private chat:        ChatViewComponent;
   @ViewChild("successSound",  {read: ElementRef})  public successSound:    ElementRef;
   @ViewChild("failSound",     {read: ElementRef})  public failSound:       ElementRef;
   @ViewChild("erreurText",    {read: ElementRef})  public erreurText:      ElementRef;
@@ -119,6 +121,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.socketService.onMessage(CCommon.ON_GAME_STARTED).subscribe(() => {
+      this.chat.chatViewService.clearConversations();
       this.isLoading = false;
     });
     this.socketService.onMessage(CCommon.ON_PENALTY).subscribe((arenaResponse: IPenalty) => {

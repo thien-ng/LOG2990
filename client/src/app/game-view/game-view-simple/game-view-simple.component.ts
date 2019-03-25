@@ -10,6 +10,7 @@ import { Message } from "../../../../../common/communication/message";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { Constants } from "../../constants";
 import { SocketService } from "../../websocket/socket.service";
+import { ChatViewComponent } from "../chat-view/chat-view.component";
 import { GameViewSimpleService } from "./game-view-simple.service";
 
 @Component({
@@ -29,6 +30,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   @ViewChild("erreurText2",   {read: ElementRef})  public erreurText2:     ElementRef;
   @ViewChild("originalImage", {read: ElementRef})  public canvasOriginal:  ElementRef;
   @ViewChild("modifiedImage", {read: ElementRef})  public canvasModified:  ElementRef;
+  @ViewChild("chat")                               private chat:           ChatViewComponent;
 
   public activeCard:      ICard;
   public cardLoaded:      boolean;
@@ -68,6 +70,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       this.getActiveCard(this.username);
     }
     this.socketService.onMessage(CCommon.ON_GAME_STARTED).subscribe(() => {
+      this.chat.chatViewService.clearConversations();
       this.gameIsStarted = true;
     });
   }

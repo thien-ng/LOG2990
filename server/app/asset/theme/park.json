@@ -110,7 +110,7 @@
                     "uuid":           "Tree3_modified"
                 }
             ],
-            "baseSize":       0.2,
+            "baseSize":       0.3,
             "radius":         15,
             "presenceRatio":  0.07
         },
@@ -126,12 +126,44 @@
                     "uuid":           "tree_pink_modified"
                 }
             ],
-            "baseSize":       0.07,
+            "baseSize":       0.1,
             "radius":         10,
             "presenceRatio":  0.07
+        },
+        {
+            "name":           "chico",
+            "meshInfos":      [
+                {
+                    "GLTFUrl":        "http://localhost:3000/mesh/original/chico.gltf",
+                    "uuid":           "chico"
+                },
+                {
+                    "GLTFUrl":        "http://localhost:3000/mesh/modified/chico_modified.gltf",
+                    "uuid":           "chico_modified"
+                }
+            ],
+            "baseSize":       4.0,
+            "radius":         3,
+            "presenceRatio":  0.05
+        },
+        {
+            "name":           "dog",
+            "meshInfos":      [
+                {
+                    "GLTFUrl":        "http://localhost:3000/mesh/original/dog.gltf",
+                    "uuid":           "dog"
+                },
+                {
+                    "GLTFUrl":        "http://localhost:3000/mesh/modified/dog_modified.gltf",
+                    "uuid":           "dog_modified"
+                }
+            ],
+            "baseSize":       2.0,
+            "radius":         10,
+            "presenceRatio":  0.05
         }
     ],
-    "backgroundColor":        "#81c2ff",
+    "backgroundColor":        "#343E60",
     "startCameraPosition":    {
         "x": 0,
         "y": 0,
@@ -139,14 +171,14 @@
     },
     "generationArea":         {
         "minPosition": {
-            "x": -300,
+            "x": -500,
             "y": 0,
-            "z": -300
+            "z": -500
         },
         "maxPosition": {
-            "x": 300,
+            "x": 500,
             "y": 0,
-            "z": 300
+            "z": 500
         }
     }
 }
