@@ -22,7 +22,6 @@ export class ChatViewService {
   public updateConversation(data: IChat): void {
     if (data.message !== this.INVALID_CHAT_MESSAGE) {
       this.conversation.push(data);
-      this.chatUpdate.next(true);
     }
   }
 
@@ -34,6 +33,7 @@ export class ChatViewService {
 
   public clearConversations(): void {
     this.conversation = [];
+    this.chatUpdate.next(true);
   }
 
   public getConversationLength(): number {
