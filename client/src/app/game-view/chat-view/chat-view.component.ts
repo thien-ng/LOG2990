@@ -36,7 +36,7 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
   public chatBox:                         ElementRef;
 
   public constructor(
-    private chatViewService:      ChatViewService,
+    public  chatViewService:      ChatViewService,
     private socketService:        SocketService) {
       this.init();
       this.conversationLength   = this.chatViewService.getConversationLength();
