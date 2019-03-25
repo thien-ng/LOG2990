@@ -156,3 +156,24 @@ describe("ThreejsThemeViewService Tests", () => {
 
     expect(spy).toHaveBeenCalled();
   }));
+
+  it("should not do any update to scene because of undefined object (check if not call initiateObject)",
+     inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
+
+    threejsThemeViewService["threejsGenerator"] = mock(ThreejsThemeGenerator);
+    threejsThemeViewService["threejsThemeRaycast"] = mock(ThreejsRaycast);
+
+    const initSpy:   any = spyOn<any>(threejsThemeViewService["threejsGenerator"], "initiateObject");
+
+    const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
+      actionToApply: ActionType.NO_ACTION_REQUIRED,
+    };
+    spyOn<any>(threejsThemeViewService, "createLighting").and.callFake(() => {return; });
+    spyOn<any>(threejsThemeViewService, "generateSceneObjects").and.callFake(() => { return; });
+    spyOn<any>(threejsThemeViewService, "getModelObjects").and.callFake(() => {Promise.resolve(); });
+
+    threejsThemeViewService.createScene(scene, sceneVariables, renderer, false, 1);
+    threejsThemeViewService.updateSceneWithNewObject(objectUpdate);
+
+    expect(initSpy).not.toHaveBeenCalled();
+  }));
