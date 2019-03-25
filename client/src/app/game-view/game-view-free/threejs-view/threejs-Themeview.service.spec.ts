@@ -417,3 +417,39 @@ describe("ThreejsThemeViewService Tests", () => {
 
     expect(deleteSpy).not.toHaveBeenCalled();
   }));
+
+  it("should call rotateCamera from threejsMovement",
+     inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
+
+      const position: IPosition2D = {x: 1, y: 1};
+
+      const spy: any = spyOn<any>(threejsThemeViewService["threejsMovement"], "rotateCamera");
+      threejsThemeViewService.rotateCamera(position);
+      expect(spy).toHaveBeenCalled();
+  }));
+
+  it("should call detectObject from threejsRayCast",
+     inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
+
+        threejsThemeViewService["gameViewFreeService"] = mock(GameViewFreeService);
+        threejsThemeViewService["threejsThemeRaycast"] = mock(ThreejsRaycast);
+        const spy: any = spyOn<any>(threejsThemeViewService["threejsThemeRaycast"], "detectObject");
+        const mockedMouseEvent: any = mock(MouseEvent);
+
+        threejsThemeViewService.detectObject(mockedMouseEvent);
+
+        expect(spy).toHaveBeenCalled();
+  }));
+
+  it("should call detectObject from threejsRayCast",
+     inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
+
+      threejsThemeViewService["gameViewFreeService"] = mock(GameViewFreeService);
+      threejsThemeViewService["threejsThemeRaycast"] = mock(ThreejsRaycast);
+      const spy: any = spyOn<any>(threejsThemeViewService["threejsThemeRaycast"], "detectObject");
+      const mockedMouseEvent: any = mock(MouseEvent);
+
+      threejsThemeViewService.detectObject(mockedMouseEvent);
+
+      expect(spy).toHaveBeenCalled();
+  }));
