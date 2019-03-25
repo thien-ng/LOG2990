@@ -149,11 +149,13 @@ export class Referee<EVT_T, DIFF_T> {
 
         this.arena.sendMessage<IPenalty>(player.getUserSocketId(), CCommon.ON_PENALTY, penalty);
 
-        setTimeout(() => {
-            penalty.isOnPenalty = false;
-            this.arena.sendMessage<IPenalty>(player.getUserSocketId(), CCommon.ON_PENALTY, penalty);
-            player.setPenaltyState(false);
-        },         this.PENALTY_TIMEOUT_MS);
+        setTimeout(() => { this.removePenalty(player, penalty); } , this.PENALTY_TIMEOUT_MS);
+    }
+
+    private removePenalty(player: Player, penalty: IPenalty): void {
+        penalty.isOnPenalty = false;
+        this.arena.sendMessage<IPenalty>(player.getUserSocketId(), CCommon.ON_PENALTY, penalty);
+        player.setPenaltyState(false);
     }
 
     private getPlayerFromUsername(user: IUser): Player | undefined {
