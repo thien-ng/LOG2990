@@ -211,7 +211,6 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
         try {
           this.sceneBuilderService.updateSceneWithNewObject(object as ISceneObjectUpdate<ISceneObject | IMesh>);
         } catch (error) {
-          console.log(error)
           this.socketService.sendMessage(CCommon.ERROR_HANDLING, error.msg);
         }
       }
