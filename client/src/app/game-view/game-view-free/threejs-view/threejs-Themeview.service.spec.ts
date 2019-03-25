@@ -55,3 +55,28 @@ describe("ThreejsThemeViewService Tests", () => {
     threejsThemeViewService["generateSceneObjects"](false, 1);
     expect(spy).toHaveBeenCalled();
   }));
+
+  it("should set up front the threejsMovement", inject([ThreejsThemeViewService], async (threejsThemeViewService: ThreejsThemeViewService)=> {
+    const spy: any = spyOn(threejsThemeViewService["threejsMovement"], "setupFront").and.callFake(() => {return; });
+    threejsThemeViewService["setupFront"](1);
+    expect(spy).toHaveBeenCalled();
+  }));
+
+  it("should add lighting in scene when createLigthing is called", inject([ThreejsThemeViewService], async (threejsThemeViewService: ThreejsThemeViewService) => {
+    const spy: any = spyOn<any>(threejsThemeViewService, "createLighting").and.callFake(() => {return; });
+    spyOn<any>(threejsThemeViewService, "generateSceneObjects").and.callFake(() => { return; });
+    spyOn<any>(threejsThemeViewService, "getModelObjects").and.callFake(() => {Promise.resolve(); });
+    await threejsThemeViewService.createScene(scene, sceneVariables, renderer, false, 1);
+    expect(spy).toHaveBeenCalled();
+  }));
+
+  it("should render scene when animate() is called", inject([ThreejsThemeViewService], async (threejsThemeViewService: ThreejsThemeViewService) => {
+    const spy: any = spyOn<any>(threejsThemeViewService, "renderObject");
+    spyOn<any>(threejsThemeViewService, "createLighting").and.callFake(() => {return; });
+    spyOn<any>(threejsThemeViewService, "generateSceneObjects").and.callFake(() => { return; });
+    spyOn<any>(threejsThemeViewService, "getModelObjects").and.callFake(() => {Promise.resolve(); });
+    await threejsThemeViewService.createScene(scene, sceneVariables, renderer, false, 1);
+    threejsThemeViewService.animate();
+    expect(spy).toHaveBeenCalled();
+  }));
+
