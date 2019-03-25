@@ -4,6 +4,7 @@ import { ActionType, ISceneObjectUpdate } from "../../../../../../../common/comm
 import { IMesh, ISceneObject } from "../../../../../../../common/communication/iSceneObject";
 import { ThreejsGenerator } from "./threejs-generator";
 import { ThreejsRaycast } from "./threejs-raycast";
+import { ThreejsThemeGenerator } from "./threejs-themeGenerator";
 
 // tslint:disable:no-any no-magic-numbers
 
