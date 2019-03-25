@@ -101,3 +101,28 @@ describe("ThreejsThemeViewService Tests", () => {
     expect(spy).toHaveBeenCalled();
   }));
 
+  it("should not change any color if forced to put color back to original",
+     inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
+    const spy: any = spyOn<any>(threejsThemeViewService, "recoverObjectFromScene").and.callThrough();
+    spyOn<any>(threejsThemeViewService, "createLighting").and.callFake(() => {return; });
+    spyOn<any>(threejsThemeViewService, "generateSceneObjects").and.callFake(() => { return; });
+    spyOn<any>(threejsThemeViewService, "getModelObjects").and.callFake(() => {Promise.resolve(); });
+
+    threejsThemeViewService.createScene(scene, sceneVariables, renderer, false, 1);
+    threejsThemeViewService["threejsGenerator"] = generator;
+    threejsThemeViewService.changeObjectsColor(true, false, undefined);
+
+    expect(spy).not.toHaveBeenCalled();
+  }));
+
+  it("should change color of the mesh object to origin color",
+     inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
+    const spy: any = spyOn<any>(threejsThemeViewService, "recoverObjectFromScene").and.callThrough();
+    spyOn<any>(threejsThemeViewService, "createLighting").and.callFake(() => {return; });
+    spyOn<any>(threejsThemeViewService, "generateSceneObjects").and.callFake(() => { return; });
+    spyOn<any>(threejsThemeViewService, "getModelObjects").and.callFake(() => {Promise.resolve(); });
+
+    const generatedColor:   THREE.MeshBasicMaterial = new THREE.MeshPhongMaterial( {color: "#FFFFFF"} );
+    const sphereGeometry:   THREE.Geometry          = new THREE.SphereGeometry(1);
+    const generatedObject:  THREE.Mesh              = new THREE.Mesh(sphereGeometry, generatedColor);
+
