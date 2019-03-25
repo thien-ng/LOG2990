@@ -115,7 +115,7 @@ export class ThreejsThemeViewService {
     this.generateSceneObjects(isSnapshotNeeded, arenaID);
     this.setFloor();
     this.setCameraPosition(Constants.CAMERA_POSITION_X, Constants.CAMERA_POSITION_Y, Constants.CAMERA_POSITION_Z);
-
+    this.scene.fog = new THREE.Fog(Constants.FOG_COLOR, Constants.FOG_NEAR_DISTANCE, Constants.FOG_FAR_DISTANCE);
     this.camera.lookAt(new THREE.Vector3(this.CAMERA_START_POSITION, this.CAMERA_START_POSITION, this.CAMERA_START_POSITION));
   }
 

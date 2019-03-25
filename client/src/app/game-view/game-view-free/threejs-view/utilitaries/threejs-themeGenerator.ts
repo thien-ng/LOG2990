@@ -105,11 +105,11 @@ export class ThreejsThemeGenerator {
 
           child.material.forEach((mat: THREE.Material) => {
             mat.transparent = true;
-            mat.opacity = opacity;
+            mat.opacity     = opacity;
           });
         } else {
-          child.material.transparent = true;
-          child.material.opacity = opacity;
+          child.material.transparent  = true;
+          child.material.opacity      = opacity;
         }
       }
     });

@@ -208,7 +208,11 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
 
       this.sceneBuilderService.changeObjectsColor(false, true, this.modifications);
       if (this.isNotOriginal) {
-        this.sceneBuilderService.updateSceneWithNewObject(object as ISceneObjectUpdate<ISceneObject | IMesh>);
+        try {
+          this.sceneBuilderService.updateSceneWithNewObject(object as ISceneObjectUpdate<ISceneObject | IMesh>);
+        } catch (error) {
+          this.socketService.sendMessage(CCommon.ERROR_HANDLING);
+        }
       }
     });
   }

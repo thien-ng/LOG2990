@@ -274,7 +274,7 @@ describe("threejs-raycast tests", () => {
         expect(threejsRaycast.getParentObject(object1) as THREE.Object3D).toBe(object3);
     });
 
-    it("should return null if none of the objects are connected to scene", () => {
+    it("should not return object3 as parent if none of the objects are connected to scene", () => {
         threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorTheme);
 
