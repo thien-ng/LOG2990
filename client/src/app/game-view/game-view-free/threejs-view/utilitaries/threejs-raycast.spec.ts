@@ -262,4 +262,18 @@ describe("threejs-raycast tests", () => {
         expect(threejsRaycast["threejsThemeGenerator"]).toBe(threejsThemeGeneratorMock);
     });
 
+    it("should call initiateObject() if isTheme is true", () => {
+        const param: ISceneObjectUpdate<ISceneObject | IMesh> = {
+            sceneObject: {id: 1} as IMesh,
+        } as ISceneObjectUpdate<IMesh>;
+
+        threejsRaycast["threejsThemeGenerator"] = mock(ThreejsThemeGenerator);
+        const spy: any = spyOn<any>(threejsRaycast["threejsThemeGenerator"], "initiateObject");
+
+        threejsRaycast["isTheme"] = true;
+        threejsRaycast["initiateObject"](param);
+
+        expect(spy).toHaveBeenCalled();
+    });
+
 });
