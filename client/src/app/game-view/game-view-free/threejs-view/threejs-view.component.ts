@@ -211,7 +211,8 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
         try {
           this.sceneBuilderService.updateSceneWithNewObject(object as ISceneObjectUpdate<ISceneObject | IMesh>);
         } catch (error) {
-          this.socketService.sendMessage(CCommon.ERROR_HANDLING);
+          console.log(error)
+          this.socketService.sendMessage(CCommon.ERROR_HANDLING, error.msg);
         }
       }
     });
@@ -275,7 +276,11 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
 
   public ngOnDestroy(): void {
     this.renderer.dispose();
-    cancelAnimationFrame(this.threejsViewService.handleId);
+    if (this.iSceneVariables && this.iSceneVariables.floorObject) {
+      cancelAnimationFrame(this.threejsThemeViewService.handleId);
+    } else {
+      cancelAnimationFrame(this.threejsViewService.handleId);
+    }
   }
 
 }
