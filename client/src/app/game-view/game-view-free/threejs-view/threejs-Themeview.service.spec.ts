@@ -104,9 +104,9 @@ describe("ThreejsThemeViewService Tests", () => {
   it("should not change any color if forced to put color back to original",
      inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
     const spy: any = spyOn<any>(threejsThemeViewService, "recoverObjectFromScene").and.callThrough();
-    spyOn<any>(threejsThemeViewService, "createLighting").and.callFake(() => {return; });
+    spyOn<any>(threejsThemeViewService, "createLighting").and.callFake(()       => {return; });
     spyOn<any>(threejsThemeViewService, "generateSceneObjects").and.callFake(() => { return; });
-    spyOn<any>(threejsThemeViewService, "getModelObjects").and.callFake(() => {Promise.resolve(); });
+    spyOn<any>(threejsThemeViewService, "getModelObjects").and.callFake(()      => {Promise.resolve(); });
 
     threejsThemeViewService.createScene(scene, sceneVariables, renderer, false, 1);
     threejsThemeViewService["threejsGenerator"] = generator;
