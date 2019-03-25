@@ -76,6 +76,14 @@ export class ThreejsThemeViewService {
     this.moveRight            = false;
     this.moveLeft             = false;
 
+    this.setStartCameraRotation();
+
+  }
+
+  private setStartCameraRotation(): void {
+    this.camera.rotation.x = 0;
+    this.camera.rotation.y = 0;
+    this.camera.rotation.z = 0;
   }
 
   public animate(): void {

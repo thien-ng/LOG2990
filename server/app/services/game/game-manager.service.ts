@@ -2,7 +2,8 @@ import { inject, injectable } from "inversify";
 import { HighscoreValidationResponse, Mode, Time } from "../../../../common/communication/highscore";
 import { GameMode, ILobbyEvent, MultiplayerButtonText } from "../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../common/communication/iGameRequest";
-import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../common/communication/iGameplay";
+import { IArenaResponse, IOriginalPixelCluster, IPosition2D, ISceneObjectUpdate } from "../../../../common/communication/iGameplay";
+import { IMesh, ISceneObject } from "../../../../common/communication/iSceneObject";
 import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
@@ -26,14 +27,16 @@ const HIGHSCORE_VALIDATION_ERROR:       string = "Erreur lors de la validation d
 const ARENA_START_ID:                   number = 1000;
 const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
 
-// tslint:disable:no-any // _TODO: Enlever les any après les avoir remplacés
 @injectable()
 export class GameManagerService {
     private arenaID:            number;
     private server:             SocketIO.Server;
     private assetManager:       AssetManagerService;
     private playerList:         Map<string, SocketIO.Socket>;
-    private arenas:             Map<number, Arena<any, any, any, any>>;
+    private arenas:             Map<number, Arena<
+                                    IPlayerInput<IPosition2D> | IPlayerInput<number>,
+                                    IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+                                    IPosition2D | number>>;
     private gameIdByArenaId:    Map<number, number>;
     private interfaceBuilder:   InterfaceBuilder;
 
@@ -46,9 +49,12 @@ export class GameManagerService {
         this.arenaID            = ARENA_START_ID;
         this.assetManager       = new AssetManagerService();
         this.playerList         = new Map<string, SocketIO.Socket>();
-        this.arenas             = new Map<number, Arena<any, any, any, any>>();
+        this.arenas             = new Map<number, Arena<
+                                    IPlayerInput<IPosition2D> | IPlayerInput<number>,
+                                    IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+                                    IPosition2D | number>>();
         this.gameIdByArenaId    = new Map<number, number>();
-        this.interfaceBuilder = new InterfaceBuilder();
+        this.interfaceBuilder   = new InterfaceBuilder();
     }
 
     public async analyseRequest(request: IGameRequest): Promise<Message> {
@@ -71,9 +77,7 @@ export class GameManagerService {
     private async verifyLobby(request: IGameRequest, user: IUser): Promise<Message> {
         const lobbyResult: Message = this.lobbyManagerService.verifyLobby(request, user);
 
-        if (lobbyResult.title === CCommon.ON_WAITING) {
-            return lobbyResult;
-        }
+        if (lobbyResult.title === CCommon.ON_WAITING) { return lobbyResult; }
 
         return this.multiplayerArenaRoutine(request);
     }
@@ -91,11 +95,9 @@ export class GameManagerService {
             case GameMode.simple:
                 message = await this.create2DArena(lobby, request.gameId);
                 break;
-
             case GameMode.free:
                 message = await this.create3DArena(lobby, request.gameId);
                 break;
-
             default:
                 break;
         }
@@ -114,9 +116,7 @@ export class GameManagerService {
 
         const lobby: IUser[] | undefined = this.lobbyManagerService.getLobby(gameID);
         if (isCardDeleted && lobby !== undefined) {
-            lobby.forEach((user: IUser) => {
-                this.sendMessage(user.socketID, CCommon.ON_CANCEL_REQUEST);
-            });
+            lobby.forEach((user: IUser) => { this.sendMessage(user.socketID, CCommon.ON_CANCEL_REQUEST); });
         }
         const cardIsDeleted: boolean = this.lobbyManagerService.deleteLobby(gameID);
 
@@ -145,12 +145,18 @@ export class GameManagerService {
         return this.interfaceBuilder.buildMessage(CCommon.ON_SUCCESS, arenaInfo.arenaId.toString());
     }
 
-    private async initArena(arena: Arena<any, any, any, any>): Promise<void> {
+    private async initArena(arena: Arena<
+        IPlayerInput<IPosition2D> | IPlayerInput<number>,
+        IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+        IPosition2D | number>): Promise<void> {
         await arena.prepareArenaForGameplay();
     }
 
     public getDifferencesIndex(arenaId: number): number[] {
-        const arena: Arena<any, any, any, any> | undefined = this.arenas.get(arenaId);
+        const arena: Arena<
+                        IPlayerInput<IPosition2D> | IPlayerInput<number>,
+                        IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+                        IPosition2D | number> | undefined = this.arenas.get(arenaId);
 
         return arena ? arena.getDifferencesIds() : [];
     }
@@ -178,7 +184,10 @@ export class GameManagerService {
     }
 
     private removePlayerFromArena(username: string): void {
-        this.arenas.forEach((arena: Arena<any, any, any, any>) => {
+        this.arenas.forEach((arena: Arena<
+            IPlayerInput<IPosition2D> | IPlayerInput<number>,
+            IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+            IPosition2D | number>) => {
             arena.getPlayers().forEach((player: Player) => {
                 if (player.getUsername() === username) {
                     arena.removePlayer(username);
@@ -190,17 +199,12 @@ export class GameManagerService {
     public deleteArena(arenaInfo: IArenaInfos<I2DInfos | I3DInfos>): void {
         const arenaId:  number              = arenaInfo.arenaId;
         const gameId:   number | undefined  = this.gameIdByArenaId.get(arenaId);
-        if (gameId === undefined) {
-            return;
-        }
+        if (gameId === undefined) { return; }
+
         const aliveArenaCount: number | undefined = this.assetManager.getCounter(gameId);
 
-        if (aliveArenaCount === undefined) {
-            return;
-        }
-        if (aliveArenaCount === 1) {
-            this.deleteTempFiles(arenaInfo, gameId);
-        }
+        if (aliveArenaCount === undefined)  { return; }
+        if (aliveArenaCount === 1)          { this.deleteTempFiles(arenaInfo, gameId); }
         this.assetManager.decrementTempCounter(gameId, aliveArenaCount);
         this.arenas.delete(arenaInfo.arenaId);
     }
@@ -220,16 +224,21 @@ export class GameManagerService {
 
     public sendMessage<DATA_T>(socketID: string, event: string, data?: DATA_T): void {
         const playerSocket: SocketIO.Socket | undefined = this.playerList.get(socketID);
-        if (playerSocket !== undefined) {
-            playerSocket.emit(event, data);
-        }
+        if (playerSocket !== undefined) { playerSocket.emit(event, data); }
     }
 
-    public async onPlayerInput(playerInput: IPlayerInput<IPosition2D | number>): Promise<IArenaResponse<IOriginalPixelCluster | any>>  {
-        const arena: Arena<any, any, any, any> | undefined = this.arenas.get(playerInput.arenaId);
+    public async onPlayerInput(playerInput: IPlayerInput<IPosition2D | number>):
+        Promise<IArenaResponse<IOriginalPixelCluster |  ISceneObjectUpdate<ISceneObject | IMesh>>>  {
+        const arena: Arena<
+            IPlayerInput<IPosition2D> | IPlayerInput<number>,
+            IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+            IPosition2D | number> | undefined
+            = this.arenas.get(playerInput.arenaId);
         if (arena !== undefined) {
             if (arena.contains(playerInput.user)) {
-                return  arena.onPlayerInput(playerInput);
+                // Any pour pouvoir utiliser le polymorphisme
+                // tslint:disable-next-line:no-any
+                return  arena.onPlayerInput(playerInput as IPlayerInput<any>);
             }
         }
 
@@ -241,11 +250,14 @@ export class GameManagerService {
 
     public getUsersInArena(arenaId: number): IUser[] {
         const users: IUser[] = [];
-        const arena: Arena<any, any, any, any> | undefined  = this.arenas.get(arenaId);
+        const arena: Arena<
+            IPlayerInput<IPosition2D> | IPlayerInput<number>,
+            IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+            IPosition2D | number> | undefined
+            = this.arenas.get(arenaId);
 
         if (arena) {
             const players: Player[] = arena.getPlayers();
-
             players.forEach(( player: Player) => {
                 const user: IUser = this.interfaceBuilder.buildIUser(player.getUsername(), player.getUserSocketId());
                 users.push(user);
@@ -257,10 +269,7 @@ export class GameManagerService {
 
     public endOfGameRoutine(newTime: Time, mode: Mode, arenaInfo: IArenaInfos<I2DInfos | I3DInfos>, arenaType: GameMode): void {
         const gameID: number | undefined = this.gameIdByArenaId.get(arenaInfo.arenaId);
-        if (gameID === undefined) {
-            return;
-        }
-
+        if (gameID === undefined) { return; }
         const title: string = this.cardOperations.getCardById(gameID.toString(), arenaType).title;
 
         this.highscoreService.updateHighscore(newTime, mode, gameID)
@@ -276,7 +285,11 @@ export class GameManagerService {
     }
 
     public onGameLoaded(socketID: string, arenaID: number): void {
-        const arena: Arena<any, any, any, any> | undefined = this.arenas.get(arenaID);
+        const arena: Arena<
+                        IPlayerInput<IPosition2D> | IPlayerInput<number>,
+                        IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
+                        IPosition2D | number> | undefined
+                        = this.arenas.get(arenaID);
         if (!arena) {
             return;
         }

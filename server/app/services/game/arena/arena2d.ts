@@ -11,7 +11,7 @@ import { I2DInfos, IArenaInfos, IHitConfirmation, IPlayerInput } from "./interfa
 import { Player } from "./player";
 import { Referee } from "./referee";
 
-export class Arena2D extends Arena<IPlayerInput<IPosition2D>, IArenaResponse<IOriginalPixelCluster>, IOriginalPixelCluster, IPosition2D> {
+export class Arena2D extends Arena<IPlayerInput<IPosition2D>, IOriginalPixelCluster, IPosition2D> {
 
     protected referee: Referee<IPosition2D, IOriginalPixelCluster>;
 
