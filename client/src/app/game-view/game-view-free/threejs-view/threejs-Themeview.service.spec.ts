@@ -139,9 +139,9 @@ describe("ThreejsThemeViewService Tests", () => {
   it("should change color of the mesh object to original opacity",
      inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
     const spy: any = spyOn<any>(threejsThemeViewService, "recoverObjectFromScene").and.callThrough();
-    spyOn<any>(threejsThemeViewService, "createLighting").and.callFake(() => {return; });
+    spyOn<any>(threejsThemeViewService, "createLighting").and.callFake(()       => {return; });
     spyOn<any>(threejsThemeViewService, "generateSceneObjects").and.callFake(() => { return; });
-    spyOn<any>(threejsThemeViewService, "getModelObjects").and.callFake(() => {Promise.resolve(); });
+    spyOn<any>(threejsThemeViewService, "getModelObjects").and.callFake(()      => {Promise.resolve(); });
 
     const generatedColor:   THREE.MeshBasicMaterial = new THREE.MeshPhongMaterial( {color: "#FFFFFF"} );
     const sphereGeometry:   THREE.Geometry          = new THREE.SphereGeometry(1);
