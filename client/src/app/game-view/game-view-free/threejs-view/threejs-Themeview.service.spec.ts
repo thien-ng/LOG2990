@@ -80,3 +80,24 @@ describe("ThreejsThemeViewService Tests", () => {
     expect(spy).toHaveBeenCalled();
   }));
 
+  it("should change color of the mesh object to cheat color",
+     inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
+    const spy: any = spyOn<any>(threejsThemeViewService, "recoverObjectFromScene").and.callThrough();
+    spyOn<any>(threejsThemeViewService, "createLighting").and.callFake(() => {return; });
+    spyOn<any>(threejsThemeViewService, "generateSceneObjects").and.callFake(() => { return; });
+    spyOn<any>(threejsThemeViewService, "getModelObjects").and.callFake(() => {Promise.resolve(); });
+
+    const generatedColor:   THREE.MeshBasicMaterial = new THREE.MeshPhongMaterial( {color: "#FFFFFF"} );
+    const sphereGeometry:   THREE.Geometry          = new THREE.SphereGeometry(1);
+    const generatedObject:  THREE.Mesh              = new THREE.Mesh(sphereGeometry, generatedColor);
+
+    when(scene.getObjectById(anyNumber())).thenReturn(generatedObject);
+
+    const modifiedList: number[] = [1];
+    threejsThemeViewService.createScene(scene, sceneVariables, renderer, false, 1);
+    threejsThemeViewService["threejsGenerator"] = generator;
+    threejsThemeViewService.changeObjectsColor(true, false, modifiedList);
+
+    expect(spy).toHaveBeenCalled();
+  }));
+
