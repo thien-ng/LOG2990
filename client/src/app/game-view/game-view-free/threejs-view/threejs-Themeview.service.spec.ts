@@ -189,9 +189,9 @@ describe("ThreejsThemeViewService Tests", () => {
     const objectUpdate: ISceneObjectUpdate<ISceneObject | IMesh> = {
       actionToApply: ActionType.NO_ACTION_REQUIRED,
     };
-    spyOn<any>(threejsThemeViewService, "createLighting").and.callFake(() => {return; });
+    spyOn<any>(threejsThemeViewService, "createLighting").and.callFake(()       => {return; });
     spyOn<any>(threejsThemeViewService, "generateSceneObjects").and.callFake(() => { return; });
-    spyOn<any>(threejsThemeViewService, "getModelObjects").and.callFake(() => {Promise.resolve(); });
+    spyOn<any>(threejsThemeViewService, "getModelObjects").and.callFake(()      => {Promise.resolve(); });
 
     threejsThemeViewService.createScene(scene, sceneVariables, renderer, false, 1);
     threejsThemeViewService.updateSceneWithNewObject(objectUpdate);
