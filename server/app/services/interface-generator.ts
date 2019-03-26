@@ -2,7 +2,7 @@ import { ILobbyEvent, MultiplayerButtonText } from "../../../common/communicatio
 import { IUser } from "../../../common/communication/iUser";
 import { Message } from "../../../common/communication/message";
 import { CCommon } from "../../../common/constantes/cCommon";
-import { Constants } from "../constants";
+import { CServer } from "../CServer";
 import { I2DInfos, I3DInfos, IArenaInfos } from "./game/arena/interfaces";
 
 export class InterfaceBuilder {
@@ -26,8 +26,8 @@ export class InterfaceBuilder {
             arenaId:            arenaId,
             users:              users,
             dataUrl: {
-                original:   Constants.PATH_SERVER_TEMP + gameId + CCommon.ORIGINAL_FILE,
-                difference: Constants.PATH_SERVER_TEMP + gameId + Constants.GENERATED_FILE,
+                original:   CServer.PATH_SERVER_TEMP + gameId + CCommon.ORIGINAL_FILE,
+                difference: CServer.PATH_SERVER_TEMP + gameId + CServer.GENERATED_FILE,
             },
         };
     }
@@ -37,7 +37,7 @@ export class InterfaceBuilder {
             arenaId:            arenaId,
             users:              users,
             dataUrl:  {
-                sceneData:  Constants.PATH_SERVER_TEMP + gameId + CCommon.SCENE_FILE,
+                sceneData:  CServer.PATH_SERVER_TEMP + gameId + CCommon.SCENE_FILE,
             },
         };
     }
