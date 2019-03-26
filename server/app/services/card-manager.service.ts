@@ -7,7 +7,7 @@ import { IMesh, ISceneObject } from "../../../common/communication/iSceneObject"
 import { ISceneData } from "../../../common/communication/iSceneVariables";
 import { Message } from "../../../common/communication/message";
 import { CCommon } from "../../../common/constantes/cCommon";
-import { Constants } from "../constants";
+import { CServer } from "../CServer";
 import Types from "../types";
 import { AssetManagerService } from "./asset-manager.service";
 import { CardOperations } from "./card-operations.service";
@@ -28,8 +28,8 @@ export class CardManagerService {
 
     public constructor( @inject(Types.CardOperations) private cardOperations: CardOperations) {
 
-        this.uniqueId               = Constants.START_ID_2D;
-        this.uniqueIdScene          = Constants.START_ID_3D;
+        this.uniqueId               = CServer.START_ID_2D;
+        this.uniqueIdScene          = CServer.START_ID_3D;
         this.cards                  = cardOperations.getCardList();
         this.imageManagerService    = new AssetManagerService();
 
@@ -48,10 +48,10 @@ export class CardManagerService {
 
         let returnValue: Message = {
             title:  CCommon.ON_ERROR,
-            body:   Constants.VALIDATION_FAILED,
+            body:   CServer.VALIDATION_FAILED,
         };
         try {
-            await axios.post(Constants.PATH_FOR_2D_VALIDATION, requirements)
+            await axios.post(CServer.PATH_FOR_2D_VALIDATION, requirements)
             .then((response: Axios.AxiosResponse< Buffer | Message>) => {
                 returnValue = this.handlePostResponse(response, cardTitle);
             });
@@ -64,10 +64,10 @@ export class CardManagerService {
 
     public freeCardCreationRoutine(body: ISceneMessage): Message {
         const gameID:       number = this.generateSceneId();
-        const sceneImage:   string = "/" + gameID + Constants.SCENE_SNAPSHOT;
-        const scenesPath:   string = Constants.SCENE_PATH + "/" + gameID + CCommon.SCENE_FILE;
+        const sceneImage:   string = "/" + gameID + CServer.SCENE_SNAPSHOT;
+        const scenesPath:   string = CServer.SCENE_PATH + "/" + gameID + CCommon.SCENE_FILE;
 
-        this.imageManagerService.saveImage(Constants.IMAGES_PATH + sceneImage, body.image);
+        this.imageManagerService.saveImage(CServer.IMAGES_PATH + sceneImage, body.image);
         this.saveSceneJson(body.sceneData, scenesPath);
 
         const cardReceived: ICard = {
@@ -75,8 +75,8 @@ export class CardManagerService {
             gamemode:       GameMode.free,
             title:          body.sceneData.originalScene.gameName,
             subtitle:       body.sceneData.originalScene.gameName,
-            avatarImageUrl: CCommon.BASE_URL + "/image" + sceneImage,
-            gameImageUrl:   CCommon.BASE_URL + "/image" + sceneImage,
+            avatarImageUrl: CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/image" + sceneImage,
+            gameImageUrl:   CCommon.BASE_URL + CCommon.BASE_SERVER_PORT  + "/image" + sceneImage,
         };
 
         return this.generateMessage(cardReceived);
@@ -91,12 +91,12 @@ export class CardManagerService {
         if (this.cardOperations.addCard3D(cardReceived)) {
             return {
                 title:  CCommon.ON_SUCCESS,
-                body:   Constants.CARD_ADDED,
+                body:   CServer.CARD_ADDED,
             } as Message;
         } else {
             return {
                 title:  CCommon.ON_ERROR,
-                body:   Constants.CARD_EXISTING,
+                body:   CServer.CARD_EXISTING,
             } as Message;
         }
     }
@@ -109,16 +109,16 @@ export class CardManagerService {
             const gameID:               number = this.generateId();
             const originalImagePath:    string = "/" + gameID + CCommon.ORIGINAL_FILE;
             const modifiedImagePath:    string = "/" + gameID + CCommon.MODIFIED_FILE;
-            this.imageManagerService.stockImage(Constants.IMAGES_PATH + originalImagePath, this.originalImageRequest);
-            this.imageManagerService.stockImage(Constants.IMAGES_PATH + modifiedImagePath, this.modifiedImageRequest);
+            this.imageManagerService.stockImage(CServer.IMAGES_PATH + originalImagePath, this.originalImageRequest);
+            this.imageManagerService.stockImage(CServer.IMAGES_PATH + modifiedImagePath, this.modifiedImageRequest);
             this.imageManagerService.createBMP(result, gameID);
 
             const cardReceived: ICard = {
                     gameID:         gameID,
                     title:          cardTitle,
                     subtitle:       cardTitle,
-                    avatarImageUrl: CCommon.BASE_URL + "/image" + originalImagePath,
-                    gameImageUrl:   CCommon.BASE_URL + "/image" + originalImagePath,
+                    avatarImageUrl: CCommon.BASE_URL + CCommon.BASE_SERVER_PORT  + "/image" + originalImagePath,
+                    gameImageUrl:   CCommon.BASE_URL + CCommon.BASE_SERVER_PORT  + "/image" + originalImagePath,
                     gamemode:       GameMode.simple,
             };
 
@@ -135,7 +135,7 @@ export class CardManagerService {
         } else {
             return {
                 title:  CCommon.ON_ERROR,
-                body:   Constants.CARD_EXISTING,
+                body:   CServer.CARD_EXISTING,
             } as Message;
         }
     }
@@ -165,7 +165,7 @@ export class CardManagerService {
 
     public generateErrorMessage(error: Error): Message {
         const isTypeError:  boolean = error instanceof TypeError;
-        const errorMessage: string  = isTypeError ? error.message : Constants.UNKNOWN_ERROR;
+        const errorMessage: string  = isTypeError ? error.message : CServer.UNKNOWN_ERROR;
 
         return {
             title:  CCommon.ON_ERROR,
@@ -176,14 +176,14 @@ export class CardManagerService {
     private validateCardTitle(cardTitle: string): Message {
 
         if (!this.titleIsValid(cardTitle)) {
-            return this.buildValidatorMessage(CCommon.ON_ERROR, Constants.GAME_FORMAT_LENTGH_ERROR);
+            return this.buildValidatorMessage(CCommon.ON_ERROR, CServer.GAME_FORMAT_LENTGH_ERROR);
         }
 
         if (this.formatIsValid(cardTitle)) {
-            return this.buildValidatorMessage(CCommon.ON_ERROR, Constants.GAME_NAME_ERROR);
+            return this.buildValidatorMessage(CCommon.ON_ERROR, CServer.GAME_NAME_ERROR);
         }
 
-        return this.buildValidatorMessage(CCommon.ON_SUCCESS, Constants.GAME_TITLE_IS_CORRECT);
+        return this.buildValidatorMessage(CCommon.ON_SUCCESS, CServer.GAME_TITLE_IS_CORRECT);
     }
 
     private titleIsValid(cardTitle: string): boolean {
