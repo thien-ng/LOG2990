@@ -1,3 +1,5 @@
+import { CServer } from "../../server/app/CServer";
+
 export enum GameMode {
   simple  = "simple",
   free    = "free",
@@ -39,8 +41,8 @@ export const DefaultCard2D: ICard = {
   gamemode:           GameMode.simple,
   title:              "Stewie deathray",
   subtitle:           "Default Image",
-  avatarImageUrl:     "http://localhost:3000/image/default.gif",
-  gameImageUrl:       "http://localhost:3000/image/default.gif",
+  avatarImageUrl:     CServer.PATH_TO_IMAGES + "/default.gif",
+  gameImageUrl:       CServer.PATH_TO_IMAGES + "/default.gif",
 }
 
 export const DefaultCard3D: ICard = {
@@ -48,6 +50,6 @@ export const DefaultCard3D: ICard = {
   gamemode:           GameMode.free,
   title:              "Scène par défaut",
   subtitle:           "Scène par défaut",
-  avatarImageUrl:     "http://localhost:3000/image/2_snapshot.jpeg",
-  gameImageUrl:       "http://localhost:3000/image/2_snapshot.jpeg",
+  avatarImageUrl:     CServer.PATH_TO_IMAGES + "/2_snapshot.jpeg",
+  gameImageUrl:       CServer.PATH_TO_IMAGES + "/2_snapshot.jpeg",
 }
