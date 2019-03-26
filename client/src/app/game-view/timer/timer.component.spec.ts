@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { MatCardModule } from "@angular/material/card";
 
-import { Constants } from "../../constants";
+import { CClient } from "../../CClient";
 import { TimerComponent } from "./timer.component";
 
 describe("TimerComponent", () => {
@@ -14,7 +14,7 @@ describe("TimerComponent", () => {
       imports:      [ MatCardModule  ],
     })
     .compileComponents()
-    .catch(() => Constants.OBLIGATORY_CATCH);
+    .catch(() => CClient.OBLIGATORY_CATCH);
   }));
 
   beforeEach(() => {
