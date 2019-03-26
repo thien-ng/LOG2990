@@ -7,14 +7,13 @@ import { mock } from "ts-mockito";
 import { GameMode, ICard } from "../../../common/communication/iCard";
 import { Message } from "../../../common/communication/message";
 import { CCommon } from "../../../common/constantes/cCommon";
-import { Constants } from "../constants";
+import { CServer } from "../CServer";
 import { AssetManagerService } from "../services/asset-manager.service";
 import { CardOperations } from "../services/card-operations.service";
 import { HighscoreService } from "../services/highscore.service";
 
 /*tslint:disable no-magic-numbers no-any */
-
-const FAKE_PATH:        string = CCommon.BASE_URL + "/image";
+const FAKE_PATH:        string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/image";
 const CARD_NOT_FOUND:   string = "Erreur de suppression, carte pas trouvée";
 const ERROR_DELETION:   string = "error while deleting file";
 
@@ -94,11 +93,11 @@ describe("Card-operations tests", () => {
     });
 
     it("should return an error while deleting the default 2D card", () => {
-        chai.expect(cardOperations.removeCard2D(1)).deep.equal(Constants.DELETION_ERROR_MESSAGE);
+        chai.expect(cardOperations.removeCard2D(1)).deep.equal(CServer.DELETION_ERROR_MESSAGE);
     });
 
     it("should return an error while deleting the default 3D card", () => {
-        chai.expect(cardOperations.removeCard3D(2)).deep.equal(Constants.DELETION_ERROR_MESSAGE);
+        chai.expect(cardOperations.removeCard3D(2)).deep.equal(CServer.DELETION_ERROR_MESSAGE);
     });
 
     it("should return false because the card doesnt exist", () => {
@@ -122,9 +121,9 @@ describe("Card-operations tests", () => {
     });
 
     it("should delete card 2D with specific card id", () => {
-        const originalImagePath:    string              = Constants.IMAGES_PATH + "/" + 4 + CCommon.ORIGINAL_FILE;
-        const modifiedImagePath:    string              = Constants.IMAGES_PATH + "/" + 4 + CCommon.MODIFIED_FILE;
-        const generatedImagePath:   string              = Constants.IMAGES_PATH + "/" + 4 + Constants.GENERATED_FILE;
+        const originalImagePath:    string              = CServer.IMAGES_PATH + "/" + 4 + CCommon.ORIGINAL_FILE;
+        const modifiedImagePath:    string              = CServer.IMAGES_PATH + "/" + 4 + CCommon.MODIFIED_FILE;
+        const generatedImagePath:   string              = CServer.IMAGES_PATH + "/" + 4 + CServer.GENERATED_FILE;
         const assetManager:         AssetManagerService = new AssetManagerService();
 
         cardOperations.addCard2D(c1);
@@ -135,12 +134,12 @@ describe("Card-operations tests", () => {
 
         cardOperations["socketServer"] = mock(SocketIO);
 
-        chai.expect(cardOperations.removeCard2D(4)).to.equal(Constants.CARD_DELETED);
+        chai.expect(cardOperations.removeCard2D(4)).to.equal(CServer.CARD_DELETED);
     });
 
     it("should delete card 3D with specific card id", () => {
-        const snapshot:             string = Constants.IMAGES_PATH + "/" + 7 + Constants.GENERATED_SNAPSHOT;
-        const generatedScene:       string = Constants.SCENE_PATH  + "/" + 7 + CCommon.SCENE_FILE;
+        const snapshot:             string = CServer.IMAGES_PATH + "/" + 7 + CServer.GENERATED_SNAPSHOT;
+        const generatedScene:       string = CServer.SCENE_PATH  + "/" + 7 + CCommon.SCENE_FILE;
         const assetManager:         AssetManagerService = new AssetManagerService();
 
         cardOperations.addCard3D(c2);
@@ -150,14 +149,14 @@ describe("Card-operations tests", () => {
 
         cardOperations["socketServer"] = mock(SocketIO);
 
-        chai.expect(cardOperations.removeCard3D(7)).to.equal(Constants.CARD_DELETED);
+        chai.expect(cardOperations.removeCard3D(7)).to.equal(CServer.CARD_DELETED);
     });
 
     it("should generate message with unknown error", () => {
         const error:    SyntaxError = new SyntaxError();
         const result:   Message     = cardOperations.generateErrorMessage(error);
 
-        chai.expect(result).to.deep.equal({title: CCommon.ON_ERROR, body: Constants.UNKNOWN_ERROR});
+        chai.expect(result).to.deep.equal({title: CCommon.ON_ERROR, body: CServer.UNKNOWN_ERROR});
     });
 
     it("should set socket server", () => {
