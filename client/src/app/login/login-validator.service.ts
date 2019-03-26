@@ -4,7 +4,7 @@ import "rxjs/add/operator/toPromise";
 import { Message } from "../../../../common/communication/message";
 
 import { Observable } from "rxjs";
-import { Constants } from "../constants";
+import { CClient } from "../CClient";
 @Injectable({
   providedIn: "root",
 })
@@ -20,12 +20,12 @@ export class LoginValidatorService {
   }
 
   private sendUsernameRequest(message: Message): Observable<Message> {
-    return this.httpClient.post<Message>(Constants.PATH_TO_LOGIN_VALIDATION, message);
+    return this.httpClient.post<Message>(CClient.PATH_TO_LOGIN_VALIDATION, message);
   }
 
   private generateMessage(username: string): Message {
     return {
-      title:    Constants.LOGIN_MESSAGE_TITLE,
+      title:    CClient.LOGIN_MESSAGE_TITLE,
       body:     username,
     };
   }
