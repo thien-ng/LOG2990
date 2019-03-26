@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { Constants } from "../../constants";
+import { CClient } from "../../CClient";
 import { TestingImportsModule } from "../../testing-imports/testing-imports.module";
 import { ChatViewComponent } from "./chat-view.component";
 import { MessageViewComponent } from "./message-view/message-view.component";
@@ -18,7 +18,7 @@ describe("ChatViewComponent", () => {
       ],
     })
     .compileComponents()
-    .catch(() => Constants.OBLIGATORY_CATCH);
+    .catch(() => CClient.OBLIGATORY_CATCH);
   }));
 
   beforeEach(() => {
