@@ -244,9 +244,10 @@ export class ThreejsThemeViewService {
 
   private getGLTFs (meshInfos: IMeshInfo[]): void {
     meshInfos.forEach(async (meshInfo: IMeshInfo) => {
-      if (!this.gltfByUrl.has(meshInfo.GLTFUrl)) {
+      const meshUrl: string = CClient.PATH_TO_MESHES + "/" + meshInfo.GLTFUrl;
+      if (!this.gltfByUrl.has(meshUrl)) {
         this.allPromises.push(new Promise( (resolve, reject) => {
-          new GLTFLoader().load(meshInfo.GLTFUrl, (gltf: THREE.GLTF) => {
+          new GLTFLoader().load(meshUrl, (gltf: THREE.GLTF) => {
             this.gltfByUrl.set(meshInfo.GLTFUrl, gltf);
             resolve(gltf);
         },                      undefined, reject);
