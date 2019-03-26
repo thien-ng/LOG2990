@@ -8,8 +8,8 @@ import { IChat } from "../../../../common/communication/iChat";
 import { IArenaResponse, IOriginalPixelCluster, ISceneObjectUpdate } from "../../../../common/communication/iGameplay";
 import { IMesh, ISceneObject } from "../../../../common/communication/iSceneObject";
 import { CCommon } from "../../../../common/constantes/cCommon";
+import { CClient } from "../CClient";
 import { CardManagerService } from "../card/card-manager.service";
-import { Constants } from "../constants";
 import { GameConnectionService } from "../game-connection.service";
 import { ChatViewService } from "../game-view/chat-view/chat-view.service";
 import { DifferenceCounterService } from "../game-view/difference-counter/difference-counter.service";
@@ -37,21 +37,21 @@ export class SocketService {
     private differenceCounterService: DifferenceCounterService,
     private gameConnectionService:    GameConnectionService,
     ) {
-      this.socket = io(Constants.WEBSOCKET_URL);
+      this.socket = io(CClient.WEBSOCKET_URL);
       this.gameViewFreeService.setGameSocket(this.socket);
     }
 
   public initWebsocketListener(): void {
 
-    this.socket.addEventListener(Constants.ON_CONNECT, () => {
+    this.socket.addEventListener(CClient.ON_CONNECT, () => {
       this.initArenaListeners();
       this.initGameViewListeners();
       this.initCardListeners();
 
       this.socket.on(CCommon.ON_CANCEL_GAME, () => {
-        this.router.navigate([Constants.GAMELIST_REDIRECT])
-        .catch((error: TypeError) => this.openSnackbar(error.message, Constants.SNACK_ACTION));
-        this.openSnackbar(GAME_LOAD_ERROR, Constants.SNACK_ACTION);
+        this.router.navigate([CClient.GAMELIST_REDIRECT])
+        .catch((error: TypeError) => this.openSnackbar(error.message, CClient.SNACK_ACTION));
+        this.openSnackbar(GAME_LOAD_ERROR, CClient.SNACK_ACTION);
       });
 
       this.socket.on(CCommon.CHAT_EVENT, (data: IChat) => {
@@ -63,9 +63,9 @@ export class SocketService {
       });
 
       this.socket.on(CCommon.ON_CANCEL_REQUEST, () => {
-        this.openSnackbar(Constants.CARD_DELETED_MESSAGE, Constants.SNACKBAR_ACKNOWLEDGE);
-        this.router.navigate([Constants.GAMELIST_REDIRECT])
-        .catch((error: TypeError) => this.openSnackbar(error.message, Constants.SNACK_ACTION));
+        this.openSnackbar(CClient.CARD_DELETED_MESSAGE, CClient.SNACKBAR_ACKNOWLEDGE);
+        this.router.navigate([CClient.GAMELIST_REDIRECT])
+        .catch((error: TypeError) => this.openSnackbar(error.message, CClient.SNACK_ACTION));
       });
     });
   }
@@ -128,7 +128,7 @@ export class SocketService {
 
   private openSnackbar(message: string, action: string): void {
     this.snackBar.open( message, action, {
-      duration:           Constants.SNACKBAR_DURATION,
+      duration:           CClient.SNACKBAR_DURATION,
       verticalPosition:   "top",
       panelClass:         ["snackbar"],
     });
