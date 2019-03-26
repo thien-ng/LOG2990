@@ -10,6 +10,7 @@ import { ActionType, IArenaResponse, ISceneObjectUpdate } from "../../../../../c
 import { IMesh, ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { IModification, ISceneData, ISceneVariables } from "../../../../../common/communication/iSceneVariables";
 import { IUser } from "../../../../../common/communication/iUser";
+import { CServer } from "../../../CServer";
 import { Arena3D } from "../../../services/game/arena/arena3d";
 import { I3DInfos, IArenaInfos, IPlayerInput } from "../../../services/game/arena/interfaces";
 import { Referee } from "../../../services/game/arena/referee";
@@ -31,7 +32,7 @@ const arenaInfo: IArenaInfos<I3DInfos> = {
     arenaId:    1,
     users:      [activeUser],
     dataUrl:    {
-        sceneData: "http://localhost:3000/scene/2_scene.json",
+        sceneData: CServer.PATH_TO_SCENES + "/2_scene.json",
     },
 };
 
