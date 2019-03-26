@@ -5,7 +5,7 @@ import { IMesh, ISceneObject } from "../../../../common/communication/iSceneObje
 import { SceneType } from "../../../../common/communication/iSceneOptions";
 import { ISceneData } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
-import { Constants } from "../../constants";
+import { CServer } from "../../CServer";
 import { AssetManagerService } from "../../services/asset-manager.service";
 import { CardManagerService } from "../../services/card-manager.service";
 import { CardOperations } from "../../services/card-operations.service";
@@ -158,7 +158,7 @@ describe("SceneManager Tests", () => {
 
         const sceneVariables: ISceneData<ISceneObject | IMesh> | string = sceneManager.createScene(formMessage);
         if (typeof sceneVariables === "string") {
-            chai.expect(sceneVariables).to.equal(Constants.CARD_EXISTING);
+            chai.expect(sceneVariables).to.equal(CServer.CARD_EXISTING);
         }
     });
 });
