@@ -9,6 +9,8 @@ import {
     ISceneObjectUpdate } from "../../../../../common/communication/iGameplay";
 import { IMesh, ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { IUser } from "../../../../../common/communication/iUser";
+import { CCommon } from "../../../../../common/constantes/cCommon";
+import { CServer } from "../../../CServer";
 import { CardOperations } from "../../../services/card-operations.service";
 import { ChatManagerService } from "../../../services/chat-manager.service";
 import { Arena2D } from "../../../services/game/arena/arena2d";
@@ -59,8 +61,8 @@ const arenaInfo2D: IArenaInfos<I2DInfos> = {
     arenaId:            1,
     users:              [activeUser1],
     dataUrl:            {
-        original:       "http://localhost:3000/image/1_original.bmp",
-        difference:     "http://localhost:3000/image/1_generated.bmp",
+        original:       CServer.PATH_TO_IMAGES + "/1_original.bmp",
+        difference:     CServer.PATH_TO_IMAGES + "/1_generated.bmp",
     },
 };
 
@@ -117,8 +119,8 @@ const postData3D: IHitToValidate<number> = {
     colorToIgnore:      255,
 };
 
-const url2D: string = "http://localhost:3000/api/hitvalidator/simple";
-const url3D: string = "http://localhost:3000/api/hitvalidator/free";
+const url2D: string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/api/hitvalidator/simple";
+const url3D: string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/api/hitvalidator/free";
 
 let gameManagerService:     GameManagerService;
 let userManagerService:     UserManagerService;
