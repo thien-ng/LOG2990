@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { IMesh, ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
-import { Constants } from "../../../constants";
+import { CClient } from "../../../CClient";
 import { GameViewFreeService } from "../game-view-free.service";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
 import { ThreejsMovement } from "./utilitaries/threejs-movement";
@@ -50,13 +50,13 @@ export class ThreejsViewService {
   private init(): void {
     const windowRatio: number = window.innerWidth / window.innerHeight;
     this.camera = new   THREE.PerspectiveCamera(
-      Constants.FIELD_OF_VIEW,
+      CClient.FIELD_OF_VIEW,
       windowRatio,
-      Constants.MIN_VIEW_DISTANCE,
-      Constants.MAX_VIEW_DISTANCE,
+      CClient.MIN_VIEW_DISTANCE,
+      CClient.MAX_VIEW_DISTANCE,
     );
 
-    this.ambLight             = new THREE.AmbientLight(Constants.AMBIENT_LIGHT_COLOR, Constants.AMBIENT_LIGHT_INTENSITY);
+    this.ambLight             = new THREE.AmbientLight(CClient.AMBIENT_LIGHT_COLOR, CClient.AMBIENT_LIGHT_INTENSITY);
     this.sceneIdById          = new Map<number, number>();
     this.idBySceneId          = new Map<number, number>();
     this.opacityById          = new Map<number, number>();
@@ -91,7 +91,7 @@ export class ThreejsViewService {
       this.opacityById,
     );
 
-    this.renderer.setSize(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
+    this.renderer.setSize(CClient.SCENE_WIDTH, CClient.SCENE_HEIGHT);
     this.renderer.setClearColor(this.sceneVariables.sceneBackgroundColor);
 
     this.threejsRaycast = new ThreejsRaycast(this.camera, this.renderer, this.scene);
@@ -159,11 +159,11 @@ export class ThreejsViewService {
 
   private createLighting(): void {
 
-    const firstLight:   THREE.DirectionalLight = new THREE.DirectionalLight(Constants.FIRST_LIGHT_COLOR, Constants.FIRST_LIGHT_INTENSITY);
-    const secondLight:  THREE.DirectionalLight = new THREE.DirectionalLight(Constants.SECOND_LIGHT_COLOR, Constants.SECOND_LIGHT_INTENSITY);
+    const firstLight:   THREE.DirectionalLight = new THREE.DirectionalLight(CClient.FIRST_LIGHT_COLOR, CClient.FIRST_LIGHT_INTENSITY);
+    const secondLight:  THREE.DirectionalLight = new THREE.DirectionalLight(CClient.SECOND_LIGHT_COLOR, CClient.SECOND_LIGHT_INTENSITY);
 
-    firstLight.position.set(Constants.FIRST_LIGHT_POSITION_X, Constants.FIRST_LIGHT_POSITION_Y, Constants.FIRST_LIGHT_POSITION_Z);
-    secondLight.position.set(Constants.SECOND_LIGHT_POSITION_X, Constants.SECOND_LIGHT_POSITION_Y, Constants.SECOND_LIGHT_POSITION_Z);
+    firstLight.position.set(CClient.FIRST_LIGHT_POSITION_X, CClient.FIRST_LIGHT_POSITION_Y, CClient.FIRST_LIGHT_POSITION_Z);
+    secondLight.position.set(CClient.SECOND_LIGHT_POSITION_X, CClient.SECOND_LIGHT_POSITION_Y, CClient.SECOND_LIGHT_POSITION_Z);
 
     this.scene.add(firstLight);
     this.scene.add(secondLight);
