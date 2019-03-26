@@ -3,7 +3,7 @@ import { GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
 import { Message } from "../../../common/communication/message";
 import { CCommon } from "../../../common/constantes/cCommon";
-import { Constants } from "../constants";
+import { CServer } from "../CServer";
 import Types from "../types";
 import { AssetManagerService } from "./asset-manager.service";
 import { HighscoreService } from "./highscore.service";
@@ -68,17 +68,17 @@ export class CardOperations {
     }
 
     public removeCard2D(id: number): string {
-        if (id === Constants.DEFAULT_CARD_2D) {
-            return Constants.DELETION_ERROR_MESSAGE;
+        if (id === CServer.DEFAULT_CARD_2D) {
+            return CServer.DELETION_ERROR_MESSAGE;
         }
         const index: number = this.findCard2D(id);
         const paths: string[] = [
-            Constants.IMAGES_PATH + "/" + id + Constants.GENERATED_FILE,
-            Constants.IMAGES_PATH + "/" + id + CCommon.ORIGINAL_FILE,
-            Constants.IMAGES_PATH + "/" + id + CCommon.MODIFIED_FILE,
+            CServer.IMAGES_PATH + "/" + id + CServer.GENERATED_FILE,
+            CServer.IMAGES_PATH + "/" + id + CCommon.ORIGINAL_FILE,
+            CServer.IMAGES_PATH + "/" + id + CCommon.MODIFIED_FILE,
         ];
-        if (index === Constants.DOESNT_EXIST) {
-            return Constants.CARD_NOT_FOUND;
+        if (index === CServer.DOESNT_EXIST) {
+            return CServer.CARD_NOT_FOUND;
         }
 
         try {
@@ -91,21 +91,21 @@ export class CardOperations {
             this.socketServer.emit(CCommon.ON_CARD_DELETED);
         }
 
-        return Constants.CARD_DELETED;
+        return CServer.CARD_DELETED;
     }
 
     public removeCard3D(id: number): string {
-        if (id === Constants.DEFAULT_CARD_3D) {
-            return Constants.DELETION_ERROR_MESSAGE;
+        if (id === CServer.DEFAULT_CARD_3D) {
+            return CServer.DELETION_ERROR_MESSAGE;
         }
         const index: number = this.findCard3D(id);
-        if (index === Constants.DOESNT_EXIST) {
-            return Constants.CARD_NOT_FOUND;
+        if (index === CServer.DOESNT_EXIST) {
+            return CServer.CARD_NOT_FOUND;
         }
 
         const paths: string[] = [
-            Constants.IMAGES_PATH   + "/" + id + Constants.GENERATED_SNAPSHOT,
-            Constants.SCENE_PATH    + "/" + id + CCommon.SCENE_FILE,
+            CServer.IMAGES_PATH   + "/" + id + CServer.GENERATED_SNAPSHOT,
+            CServer.SCENE_PATH    + "/" + id + CCommon.SCENE_FILE,
         ];
         try {
             this.imageManagerService.deleteStoredImages(paths);
@@ -117,18 +117,18 @@ export class CardOperations {
             this.socketServer.emit(CCommon.ON_CARD_DELETED);
         }
 
-        return Constants.CARD_DELETED;
+        return CServer.CARD_DELETED;
     }
 
     public getCardById(id: string, gamemode: GameMode): ICard {
-        const gameID:   number = parseInt(id, Constants.DECIMAL);
+        const gameID:   number = parseInt(id, CServer.DECIMAL);
         const index:    number = (gamemode === GameMode.simple) ? this.findCard2D(gameID) : this.findCard3D(gameID);
 
         return (gamemode === GameMode.simple) ? this.cards.list2D[index] : this.cards.list3D[index];
     }
 
     private findCard2D(id: number): number {
-        let index: number = Constants.DOESNT_EXIST;
+        let index: number = CServer.DOESNT_EXIST;
         this.cards.list2D.forEach((card: ICard) => {
             if (card.gameID === id) {
                 index = this.cards.list2D.indexOf(card);
@@ -139,7 +139,7 @@ export class CardOperations {
     }
 
     private findCard3D(id: number): number {
-        let index: number = Constants.DOESNT_EXIST;
+        let index: number = CServer.DOESNT_EXIST;
         this.cards.list3D.forEach((card: ICard) => {
             if (card.gameID === id) {
                 index = this.cards.list3D.indexOf(card);
@@ -155,7 +155,7 @@ export class CardOperations {
 
     public generateErrorMessage(error: Error): Message {
         const isTypeError:  boolean = error instanceof TypeError;
-        const errorMessage: string  = isTypeError ? error.message : Constants.UNKNOWN_ERROR;
+        const errorMessage: string  = isTypeError ? error.message : CServer.UNKNOWN_ERROR;
 
         return {
             title:  CCommon.ON_ERROR,
