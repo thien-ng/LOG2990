@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 
 import { Subscription } from "rxjs";
 import { HighscoreMessage } from "../../../../common/communication/highscore";
-import { Constants } from "../constants";
+import { CClient } from "../CClient";
 import { HighscoreService } from "./highscore.service";
 
 @Component({
@@ -16,9 +16,9 @@ export class HighscoreDisplayComponent implements OnInit , OnDestroy {
   @Input() public isExpanded: boolean;
 
   public IMAGE_MEDAL_URL: string[] = [
-    Constants.PATH_TO_ICONS + "/gold.png",    // gold medal image
-    Constants.PATH_TO_ICONS + "/silver.png",  // silver medal image
-    Constants.PATH_TO_ICONS + "/bronze.png",  // bronze medal image
+    CClient.PATH_TO_ICONS + "/gold.png",    // gold medal image
+    CClient.PATH_TO_ICONS + "/silver.png",  // silver medal image
+    CClient.PATH_TO_ICONS + "/bronze.png",  // bronze medal image
   ];
   public highscore:               HighscoreMessage;
   public isLoaded:                boolean;
