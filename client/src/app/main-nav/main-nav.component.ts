@@ -8,7 +8,7 @@ import { Observable, Subscription } from "rxjs";
 import { map } from "rxjs/operators";
 import { IUser } from "../../../../common/communication/iUser";
 import { CCommon } from "../../../../common/constantes/cCommon";
-import { Constants } from "../constants";
+import { CClient } from "../CClient";
 import { CreateFreeGameComponent } from "../create-free-game/create-free-game.component";
 import { CreateSimpleGameComponent } from "../create-simple-game/create-simple-game.component";
 import { SocketService } from "../websocket/socket.service";
@@ -25,17 +25,17 @@ import { AdminToggleService } from "./admin-toggle.service";
         transform: "translateX(15em)",
       })),
       transition("open => closed", [
-        animate(Constants.ANIMATION_TIME),
+        animate(CClient.ANIMATION_TIME),
       ]),
       transition("closed => open", [
-        animate(Constants.ANIMATION_TIME),
+        animate(CClient.ANIMATION_TIME),
       ]),
     ]),
   ],
 })
 export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
 
-  public  readonly LOGIN_PATH:      string = Constants.LOGIN_REDIRECT;
+  public  readonly LOGIN_PATH:      string = CClient.LOGIN_REDIRECT;
   public  readonly GAME_LIST_PATH:  string = "/gamelist";
   public  readonly ADMIN_PATH:      string = "/admin";
   public  readonly TEXT_ADMIN:      string = "Vue Administration";
@@ -83,7 +83,7 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   public initMainNav(): void {
-    this.client             = sessionStorage.getItem(Constants.USERNAME_KEY);
+    this.client             = sessionStorage.getItem(CClient.USERNAME_KEY);
     this.isAdminMode        = this.adminService.isAdminState;
     this.stateSubscription  = this.adminService.getAdminUpdateListener()
       .subscribe((activeState: boolean) => {
@@ -104,12 +104,12 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
     const isLogged:           boolean = this.client == null;
     const isNotAdminPath:     boolean = this.router.url !== this.ADMIN_PATH;
     if ( isLoggedAfterInit && isLogged && isNotAdminPath) {
-      this.router.navigateByUrl(this.LOGIN_PATH).catch((error) => this.openSnackBar(error, Constants.SNACK_ACTION));
+      this.router.navigateByUrl(this.LOGIN_PATH).catch((error) => this.openSnackBar(error, CClient.SNACK_ACTION));
     }
   }
 
   private assignUser(user: IUser): void {
-    sessionStorage.setItem(Constants.USERNAME_KEY, user.username);
+    sessionStorage.setItem(CClient.USERNAME_KEY, user.username);
     this.client = user.username;
   }
 
@@ -132,8 +132,8 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   public redirectGameList(): void {
-    this.router.navigate([Constants.GAMELIST_REDIRECT])
-      .catch((error) => this.openSnackBar(error, Constants.SNACK_ACTION));
+    this.router.navigate([CClient.GAMELIST_REDIRECT])
+      .catch((error) => this.openSnackBar(error, CClient.SNACK_ACTION));
   }
 
   public ngOnDestroy(): void {
@@ -144,7 +144,7 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   private openSnackBar(msg: string, action: string): void {
     this.snackBar.open(msg, action, {
-      duration:           Constants.SNACKBAR_DURATION,
+      duration:           CClient.SNACKBAR_DURATION,
       verticalPosition:   "top",
     });
   }
