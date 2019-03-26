@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { Constants } from "../../../constants";
+import { CClient } from "../../../CClient";
 import { TheejsViewComponent } from "./threejs-view.component";
 
 describe("TheejsViewComponent", () => {
@@ -10,7 +10,7 @@ describe("TheejsViewComponent", () => {
       declarations: [ TheejsViewComponent ],
     })
     .compileComponents()
-    .catch(() => Constants.OBLIGATORY_CATCH);
+    .catch(() => CClient.OBLIGATORY_CATCH);
   }));
 
   beforeEach(() => {
