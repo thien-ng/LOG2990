@@ -102,7 +102,7 @@ export class ThreejsThemeViewService {
     this.threejsMovement  = new ThreejsMovement(this.camera, this.scene);
 
     if (meshInfos) {
-      this.meshInfos        = meshInfos;
+      this.meshInfos = meshInfos;
     }
     this.renderer.setSize(CClient.SCENE_WIDTH, CClient.SCENE_HEIGHT);
     this.renderer.setClearColor(this.sceneVariables.sceneBackgroundColor);
