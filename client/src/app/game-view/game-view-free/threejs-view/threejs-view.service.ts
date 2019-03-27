@@ -43,7 +43,6 @@ export class ThreejsViewService {
   private moveRight:          boolean;
 
   public constructor(@Inject(GameViewFreeService) public gameViewFreeService: GameViewFreeService) {
-
     this.init();
   }
 
@@ -61,8 +60,6 @@ export class ThreejsViewService {
     this.idBySceneId          = new Map<number, number>();
     this.opacityById          = new Map<number, number>();
     this.originalColorById    = new Map<number, string>();
-    this.threejsMovement      = new ThreejsMovement(this.camera);
-
     this.moveForward          = false;
     this.moveBackward         = false;
     this.moveRight            = false;
@@ -90,6 +87,8 @@ export class ThreejsViewService {
       this.idBySceneId,
       this.opacityById,
     );
+
+    this.threejsMovement      = new ThreejsMovement(this.camera, this.scene);
 
     this.renderer.setSize(CClient.SCENE_WIDTH, CClient.SCENE_HEIGHT);
     this.renderer.setClearColor(this.sceneVariables.sceneBackgroundColor);
