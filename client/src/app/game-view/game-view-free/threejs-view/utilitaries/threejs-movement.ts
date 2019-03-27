@@ -71,6 +71,24 @@ export class ThreejsMovement {
         this.velocity.z = this.direction.z * this.CAMERA_MOVEMENT_SPEED;
     }
 
+    private objectIsBlockingDirection(frontDirection: number, sideDirection: number): boolean {
+        const raycaster: THREE.Raycaster = new THREE.Raycaster();
+        const worldDirection: THREE.Vector3 = new THREE.Vector3();
+
+        this.camera.getWorldDirection(worldDirection);
+
+        const ray: THREE.Vector3 = new THREE.Vector3(worldDirection.x, worldDirection.y, worldDirection.z * - frontDirection);
+        raycaster.set(this.camera.position, ray);
+
+        const objectsIntersected: THREE.Intersection[] = raycaster.intersectObjects(this.scene.children, true);
+
+        if (objectsIntersected.length > 0 && objectsIntersected[0].distance < 5) {
+            return true;
+        }
+
+        return false;
+    }
+
     private translateCamera(): void {
         this.camera.translateX( this.velocity.x );
         this.camera.translateY( this.velocity.y );
