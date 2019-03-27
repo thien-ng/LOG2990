@@ -115,10 +115,7 @@ export class ThreejsThemeViewService {
       this.opacityById,
       this.modelsByName,
     );
-    this.threejsThemeRaycast = new ThreejsRaycast(this.camera, this.renderer, this.scene);
-    this.threejsThemeRaycast.setMaps(this.idBySceneId, this.sceneIdById);
-    this.threejsThemeRaycast.setThreeGenerator(this.threejsGenerator);
-
+    this.prepareRaycasts();
     this.createLighting();
     this.generateSceneObjects(isSnapshotNeeded, arenaID);
     this.setFloor();
