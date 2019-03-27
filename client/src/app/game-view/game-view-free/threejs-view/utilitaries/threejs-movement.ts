@@ -27,9 +27,8 @@ export class ThreejsMovement {
     }
 
     public rotateCamera(position: IPosition2D): void {
-
-        this.camera.rotateX(-position.y * this.CAMERA_ROTATION_SPEED);
-        this.camera.rotateY(-position.x * this.CAMERA_ROTATION_SPEED);
+        this.camera.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), -position.x * this.CAMERA_ROTATION_SPEED);
+        this.camera.rotateOnAxis(new THREE.Vector3(1, 0, 0), -position.y * this.CAMERA_ROTATION_SPEED);
     }
 
     public movementCamera(moveForward: boolean, moveBackward: boolean, moveLeft: boolean, moveRight: boolean): void {
