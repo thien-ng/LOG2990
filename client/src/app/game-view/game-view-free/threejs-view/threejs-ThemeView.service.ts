@@ -69,8 +69,6 @@ export class ThreejsThemeViewService {
     this.opacityById          = new Map<number, number>();
     this.gltfByUrl            = new Map<string, THREE.GLTF>();
     this.modelsByName         = new Map<string, THREE.Object3D>();
-    this.threejsMovement      = new ThreejsMovement(this.camera);
-
     this.moveForward          = false;
     this.moveBackward         = false;
     this.moveRight            = false;
@@ -101,6 +99,7 @@ export class ThreejsThemeViewService {
     this.renderer         = renderer;
     this.scene            = scene;
     this.sceneVariables   = iSceneVariables;
+    this.threejsMovement  = new ThreejsMovement(this.camera, this.scene);
 
     if (meshInfos) {
       this.meshInfos        = meshInfos;
