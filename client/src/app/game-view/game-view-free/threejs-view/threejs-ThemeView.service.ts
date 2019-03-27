@@ -128,6 +128,12 @@ export class ThreejsThemeViewService {
     this.camera.lookAt(new THREE.Vector3(this.CAMERA_START_POSITION, this.CAMERA_START_POSITION, this.CAMERA_START_POSITION));
   }
 
+  private prepareRaycasts(): void {
+    this.threejsThemeRaycast = new ThreejsRaycast(this.camera, this.renderer, this.scene);
+    this.threejsThemeRaycast.setMaps(this.idBySceneId, this.sceneIdById);
+    this.threejsThemeRaycast.setThreeGenerator(this.threejsGenerator);
+  }
+
   private setFloor(): void {
     const floor:          THREE.PlaneBufferGeometry = new THREE.PlaneBufferGeometry(
       CClient.FLOOR_DIMENTION, CClient.FLOOR_DIMENTION, CClient.FLOOR_SEGMENT, CClient.FLOOR_SEGMENT);
