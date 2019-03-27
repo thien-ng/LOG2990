@@ -12,7 +12,7 @@ export class ThreejsMovement {
     private front:      THREE.Vector3;
     private orthogonal: THREE.Vector3;
 
-    public constructor(camera: THREE.PerspectiveCamera) {
+    public constructor(camera: THREE.PerspectiveCamera, private scene: THREE.Scene) {
         this.camera     = camera;
         this.velocity   = new THREE.Vector3(0, 0, 0);
         this.direction  = new THREE.Vector3(0, 0, 0);
@@ -47,7 +47,6 @@ export class ThreejsMovement {
 
             this.direction.z = Number(moveBackward) - Number(moveForward);
             this.direction.x = Number(moveRight)    - Number(moveLeft);
-
             this.setCameratVelocity();
         } else {
             this.multiplyVector(this.velocity, 0);
@@ -66,7 +65,6 @@ export class ThreejsMovement {
 
     private setCameratVelocity(): void {
         this.direction.normalize();
-
         this.velocity.x = this.direction.x * this.CAMERA_MOVEMENT_SPEED;
         this.velocity.y = this.direction.y * this.CAMERA_MOVEMENT_SPEED;
         this.velocity.z = this.direction.z * this.CAMERA_MOVEMENT_SPEED;
