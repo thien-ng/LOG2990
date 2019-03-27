@@ -64,11 +64,11 @@ export class ThreejsMovement {
     }
 
     private setCameratVelocity(): void {
+        this.direction.normalize();
+
         this.velocity.x = this.direction.x * this.CAMERA_MOVEMENT_SPEED;
         this.velocity.y = this.direction.y * this.CAMERA_MOVEMENT_SPEED;
         this.velocity.z = this.direction.z * this.CAMERA_MOVEMENT_SPEED;
-
-        this.velocity.normalize();
     }
 
     private translateCamera(): void {
