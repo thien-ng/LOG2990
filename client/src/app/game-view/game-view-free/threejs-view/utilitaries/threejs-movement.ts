@@ -52,8 +52,9 @@ export class ThreejsMovement {
         } else {
             this.multiplyVector(this.velocity, 0);
         }
-
-        this.translateCamera();
+        if (!this.objectIsBlockingDirection(this.direction.z, 1)) {
+            this.translateCamera();
+        }
     }
 
     private moveToSide(orientation: number): void {
