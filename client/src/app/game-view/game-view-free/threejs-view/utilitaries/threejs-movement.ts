@@ -90,9 +90,9 @@ export class ThreejsMovement {
     }
 
     private translateCamera(): void {
-        this.camera.translateX( this.velocity.x );
-        this.camera.translateY( this.velocity.y );
-        this.camera.translateZ( this.velocity.z );
+        this.camera.translateX(this.velocity.x);
+        this.camera.translateY(this.velocity.y);
+        this.camera.translateZ(this.velocity.z);
     }
 
     private multiplyVector (vector: THREE.Vector3, multiplier: number): void {
