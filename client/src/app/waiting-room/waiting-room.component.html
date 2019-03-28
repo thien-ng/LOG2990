@@ -1,4 +1,23 @@
 <div class="counter">{{counter}}</div>
 
-<button *ngIf="isMultiplayer && counter === ''" (click)="cancelRequest()">{{CANCEL_BUTTON_TEXT}}</button>
-<app-spinner *ngIf="counter === ''"></app-spinner>
+
+<mat-grid-list *ngIf="isMultiplayer && counter === ''"  class="lobbyContainer" cols="12" rowHeight="1%">
+    <mat-grid-tile
+      [colspan]="12"
+      [rowspan]="10">
+        <div class="textMessage" >{{LOBBY_MESSAGE}}</div>
+    </mat-grid-tile>
+    <mat-grid-tile
+      [colspan]="4"
+      [rowspan]="55"
+      class="container">
+      <mat-grid-list class="player1Container" cols="1" rowHeight="1%">
+            <mat-grid-tile [colspan]="1" [rowspan]="15">
+            </mat-grid-tile>
+            <mat-grid-tile [colspan]="1" [rowspan]="50">
+                <img src="{{imgPlaceHolder}}">
+            </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="1" [rowspan]="10">
+            <div class="textUsername">{{username}}</div>
+        </mat-grid-tile>
