@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Component } from "@angular/core";
+import { Component, ElementRef, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
 import { MatDialogRef, MatSnackBar } from "@angular/material";
 import { Message } from "../../../../common/communication/message";
@@ -29,6 +29,16 @@ export class CreateSimpleGameComponent {
   public readonly ERROR_PATTERN:  string    = "Caractères autorisés: A-Z, a-z";
   public readonly ERROR_SIZE:     string    = "Taille: " + CCommon.MIN_GAME_LENGTH + "-" + CCommon.MAX_GAME_LENGTH + " caractères";
   public readonly ERROR_REQUIRED: string    = "Nom de jeu requis";
+  public readonly CHECK_CIRCLE:   string    = "cancel";
+  public          nameOrigPlaceHolder: string;
+  public nameModifPlaceHolder: string;
+
+  @ViewChild("checkOrigImage",    {read: ElementRef})   public checkOrigImage:     ElementRef;
+  @ViewChild("checkModifImage",    {read: ElementRef})  public checkModifImage:    ElementRef;
+  @ViewChild("buttonOriginal",    {read: ElementRef})   public buttonOriginal:     ElementRef<HTMLButtonElement>;
+  @ViewChild("buttonModified",    {read: ElementRef})   public buttonModified:     ElementRef<HTMLButtonElement>;
+  @ViewChild("originalInput",    {read: ElementRef})    public originalInput:      ElementRef<HTMLInputElement>;
+  @ViewChild("modifiedInput",    {read: ElementRef})    public modifiedInput:      ElementRef<HTMLInputElement>;
 
   public formControl:             FormGroup;
   private selectedFiles:          [Blob, Blob];
