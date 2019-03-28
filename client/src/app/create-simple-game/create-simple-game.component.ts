@@ -22,6 +22,7 @@ export class CreateSimpleGameComponent {
   public readonly MODIFIED_IMAGE: string    = "Image modifiée";
   public readonly SUBMIT:         string    = "Soumettre";
   public readonly CANCEL:         string    = "Annuler";
+  public readonly UPLOAD:         string    = "Choisir une image";
   public readonly MAX_LENGTH:     number    = 15;
   public readonly IS_IMAGE_BMP:   boolean[] = [false, false];
   public readonly ORIGINAL_INDEX: number    = 0;
@@ -43,6 +44,8 @@ export class CreateSimpleGameComponent {
   public formControl:             FormGroup;
   private selectedFiles:          [Blob, Blob];
   public isButtonEnabled:         boolean;
+  public isOriginalVisible:       Boolean;
+  public isModifiedVisible:       Boolean;
 
   public constructor(
     private dialogRef:            MatDialogRef<CreateSimpleGameComponent>,
@@ -51,9 +54,13 @@ export class CreateSimpleGameComponent {
     private httpClient:           HttpClient,
     private cardManagerService:   CardManagerService,
     ) {
-      this.isButtonEnabled  = true;
-      this.selectedFiles    = [new Blob(), new Blob()];
-      this.formControl      = new FormGroup({
+      this.isButtonEnabled      = true;
+      this.isOriginalVisible    = true;
+      this.isModifiedVisible    = true;
+      this.nameModifPlaceHolder = "";
+      this.nameOrigPlaceHolder  = "";
+      this.selectedFiles        = [new Blob(), new Blob()];
+      this.formControl          = new FormGroup({
         gameName: new FormControl("", [
           Validators.required,
           Validators.pattern(CCommon.REGEX_PATTERN_ALPHANUM),
