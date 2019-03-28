@@ -274,7 +274,9 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
   }
 
   public ngOnDestroy(): void {
-    this.renderer.dispose();
+    if (this.renderer) {
+      this.renderer.dispose();
+    }
     if (this.iSceneVariables && this.iSceneVariables.floorObject) {
       cancelAnimationFrame(this.threejsThemeViewService.handleId);
     } else {
