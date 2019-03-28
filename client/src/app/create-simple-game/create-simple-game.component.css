@@ -15,7 +15,7 @@
 }
 
 .input-width, .mat-title {
-  padding-bottom: 40px;
+  padding-bottom: 2%;
 }
 
 .button-padding {
@@ -29,4 +29,29 @@
   font-size: 13px;
   position: relative;
   bottom: 15px;
+}
+
+div input {
+  display: none;
+}
+
+button:hover {
+  background: #3F51B5;
+  color: white;
+}
+
+.checkImage {
+  padding-left: 10px;
+  display: inline-block;
+  vertical-align: bottom;
+  color: red;
+  cursor: pointer;
+}
+
+span {
+  font-style: italic;
+}
+
+.mat-subheading-2 mat-icon {
+  padding-top: 20px;
 }
