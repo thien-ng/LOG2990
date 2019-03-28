@@ -48,3 +48,11 @@
 .textUsername {
   font-size: 55px;
 }
+
+img {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
