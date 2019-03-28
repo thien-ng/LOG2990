@@ -104,7 +104,19 @@ export class CreateSimpleGameComponent {
       }
     } else {
       this.IS_IMAGE_BMP[imageIndex]   = false;
-      this.openSnackBar(Constants.SNACK_ERROR_MSG, Constants.SNACK_ACTION);
+      if (imageIndex === this.ORIGINAL_INDEX) {
+        this.originalInput.nativeElement.value = "";
+        this.checkOrigImage.nativeElement.textContent = null;
+        this.nameOrigPlaceHolder  = "";
+        this.isOriginalVisible    = true;
+      } else if (imageIndex === this.MODIFIED_INDEX) {
+        this.modifiedInput.nativeElement.value = "";
+        this.checkModifImage.nativeElement.textContent = null;
+        this.nameModifPlaceHolder = "";
+        this.isModifiedVisible    = true;
+      } else {
+        this.openSnackBar(Constants.SNACK_ERROR_MSG, Constants.SNACK_ACTION);
+      }
     }
   }
 
