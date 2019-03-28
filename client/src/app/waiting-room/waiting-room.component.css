@@ -21,3 +21,6 @@
      -ms-user-select: none; /* Internet Explorer/Edge */
          user-select: none;
 }
+.textUsername {
+  font-size: 55px;
+}
