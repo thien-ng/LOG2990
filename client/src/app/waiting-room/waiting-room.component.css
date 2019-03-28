@@ -10,3 +10,14 @@
      -ms-user-select: none; /* Internet Explorer/Edge */
          user-select: none;
 }
+
+.textVS {
+  font-weight: bold;
+  font-size: 250px;
+  font-family: 'Open Sans', sans-serif;
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+     -ms-user-select: none; /* Internet Explorer/Edge */
+         user-select: none;
+}
