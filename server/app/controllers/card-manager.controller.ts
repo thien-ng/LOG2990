@@ -5,7 +5,7 @@ import * as multer from "multer";
 import { ICard } from "../../../common/communication/iCard";
 import { ICardLists } from "../../../common/communication/iCardLists";
 import { Message } from "../../../common/communication/message";
-import { Constants } from "../constants";
+import { CServer } from "../CServer";
 import { CardManagerService } from "../services/card-manager.service";
 import { CardOperations } from "../services/card-operations.service";
 import { ImageRequirements } from "../services/difference-checker/utilities/imageRequirements";
@@ -45,9 +45,9 @@ export class CardManagerController {
             const modifiedBuffer: Buffer = req.files[MODIFIED_IMAGE_NAME][0].buffer;
 
             const requirements: ImageRequirements = {
-                requiredHeight: Constants.REQUIRED_HEIGHT,
-                requiredWidth:  Constants.REQUIRED_WIDTH,
-                requiredNbDiff: Constants.REQUIRED_NB_DIFF,
+                requiredHeight: CServer.REQUIRED_HEIGHT,
+                requiredWidth:  CServer.REQUIRED_WIDTH,
+                requiredNbDiff: CServer.REQUIRED_NB_DIFF,
                 originalImage:  originalBuffer,
                 modifiedImage:  modifiedBuffer,
             };

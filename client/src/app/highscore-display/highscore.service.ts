@@ -2,8 +2,8 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { HighscoreMessage, StringFormatedTime } from "../../../../common/communication/highscore";
+import { CClient } from "../CClient";
 import { CardManagerService } from "../card/card-manager.service";
-import { Constants } from "../constants";
 
 @Injectable()
 export class HighscoreService {
@@ -28,7 +28,7 @@ export class HighscoreService {
   }
 
   public getHighscore(id: number): void {
-    this.httpClient.get(Constants.HIGHSCORE_PATH + id).subscribe((data: HighscoreMessage) => {
+    this.httpClient.get(CClient.HIGHSCORE_PATH + id).subscribe((data: HighscoreMessage) => {
       if (this.validateId(data.id) && this.validateTimes(data.timesSingle) && this.validateTimes(data.timesMulti)) {
         this.highscoreUpdated.next(data);
       }
@@ -36,7 +36,7 @@ export class HighscoreService {
   }
 
   public resetHighscore(id: number): void {
-    this.httpClient.get(Constants.HIGHSCORE_PATH + Constants.RESET_PATH + id).subscribe(() => {
+    this.httpClient.get(CClient.HIGHSCORE_PATH + CClient.RESET_PATH + id).subscribe(() => {
       this.getHighscore(id);
     });
   }

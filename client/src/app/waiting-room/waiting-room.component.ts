@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 import { CardDeleted } from "../../../../common/communication/iCard";
 import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
-import { Constants } from "../constants";
+import { CClient } from "../CClient";
 import { SocketService } from "../websocket/socket.service";
 
 const SUCCESS_MESSAGE:  string = "Attente annulée";
@@ -47,16 +47,16 @@ export class WaitingRoomComponent {
   }
 
   public cancelRequest(): void {
-    this.httpClient.get(Constants.CANCEL_REQUEST_PATH + this.gameID + "/" + CardDeleted.false).subscribe((response: Message) => {
+    this.httpClient.get(CClient.CANCEL_REQUEST_PATH + this.gameID + "/" + CardDeleted.false).subscribe((response: Message) => {
       const message: string = (response.title === CCommon.ON_SUCCESS) ? SUCCESS_MESSAGE : ERROR_MESSAGE;
       this.openSnackbar(message);
-      this.router.navigate([Constants.GAMELIST_REDIRECT]).catch((error: TypeError) => this.openSnackbar(error.message));
+      this.router.navigate([CClient.GAMELIST_REDIRECT]).catch((error: TypeError) => this.openSnackbar(error.message));
     });
   }
 
   private openSnackbar(message: string): void {
-    this.snackBar.open( message, Constants.SNACK_ACTION, {
-      duration:           Constants.SNACKBAR_DURATION,
+    this.snackBar.open( message, CClient.SNACK_ACTION, {
+      duration:           CClient.SNACKBAR_DURATION,
       verticalPosition:   "top",
       panelClass:         ["snackbar"],
     });

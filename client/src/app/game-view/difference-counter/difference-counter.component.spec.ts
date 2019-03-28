@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { TestingImportsModule } from "../../testing-imports/testing-imports.module";
 
-import { Constants } from "src/app/constants";
+import { CClient } from "src/app/CClient";
 import { DifferenceCounterComponent } from "./difference-counter.component";
 
 describe("DifferenceCounterComponent", () => {
@@ -13,7 +13,7 @@ describe("DifferenceCounterComponent", () => {
       declarations: [ DifferenceCounterComponent ],
       imports:      [ TestingImportsModule ]})
     .compileComponents()
-    .catch(() => Constants.OBLIGATORY_CATCH);
+    .catch(() => CClient.OBLIGATORY_CATCH);
   }));
 
   beforeEach(() => {
