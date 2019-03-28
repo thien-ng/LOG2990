@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { GameMode, ICard } from "../../../../common/communication/iCard";
-import { Constants } from "../constants";
+import { CClient } from "../CClient";
 import { GameModeService } from "../game-list-container/game-mode.service";
 import { HighscoreDisplayComponent } from "../highscore-display/highscore-display.component";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
@@ -18,7 +18,7 @@ describe("CardComponent", () => {
       providers:    [GameModeService],
     })
       .compileComponents()
-      .catch(() => Constants.OBLIGATORY_CATCH);
+      .catch(() => CClient.OBLIGATORY_CATCH);
   }));
   // initialiser le cardmodel pour que linterface compile
   beforeEach(() => {

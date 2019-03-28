@@ -10,7 +10,7 @@ import {
     Time
 } from "../../../common/communication/highscore";
 import { CCommon } from "../../../common/constantes/cCommon";
-import { Constants } from "../constants";
+import { CServer } from "../CServer";
 
 const ERROR:                number = -1;
 const DEFAULT_NUMBER:       number = 0;
@@ -194,7 +194,7 @@ export class HighscoreService {
 
     private async validateHighscore(message: HighscoreValidationMessage, index: number): Promise<HighscoreValidationResponse> {
         try {
-            const response: HighscoreValidationResponse = (await axios.post(Constants.VALIDATE_HIGHSCORE_PATH, message)).data;
+            const response: HighscoreValidationResponse = (await axios.post(CServer.VALIDATE_HIGHSCORE_PATH, message)).data;
             if (response.status === CCommon.ON_SUCCESS && response.isNewHighscore) {
                 this.highscores[index] = response.highscore;
             }

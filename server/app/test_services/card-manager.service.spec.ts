@@ -12,7 +12,7 @@ import { ISceneOptions, SceneType } from "../../../common/communication/iSceneOp
 import { IModification, ISceneData, ISceneVariables, ModificationType } from "../../../common/communication/iSceneVariables";
 import { Message } from "../../../common/communication/message";
 import { CCommon } from "../../../common/constantes/cCommon";
-import { Constants } from "../constants";
+import { CServer } from "../CServer";
 import { AssetManagerService } from "../services/asset-manager.service";
 import { CardManagerService } from "../services/card-manager.service";
 import { CardOperations } from "../services/card-operations.service";
@@ -23,7 +23,7 @@ import { SceneModifier } from "../services/scene/scene-modifier";
 
 /*tslint:disable no-magic-numbers no-any max-file-line-count */
 
-const FAKE_PATH:            string  = CCommon.BASE_URL + "/image";
+const FAKE_PATH:            string  = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT  + "/image";
 const mockAdapter:          any     = require("axios-mock-adapter");
 const axios:                any     = require("axios");
 let modifiedList:           IModification[];
@@ -102,12 +102,12 @@ describe("Card-manager tests", () => {
     it("should return an error message when doing axios get", async () => {
         mockAxios.onGet("/api/differenceChecker/validate").reply(200, {
             title: CCommon.ON_ERROR,
-            body: Constants.VALIDATION_FAILED,
+            body: CServer.VALIDATION_FAILED,
         });
         const requirements: ImageRequirements = {
-            requiredHeight:     Constants.REQUIRED_HEIGHT,
-            requiredWidth:      Constants.REQUIRED_WIDTH,
-            requiredNbDiff:     Constants.REQUIRED_NB_DIFF,
+            requiredHeight:     CServer.REQUIRED_HEIGHT,
+            requiredWidth:      CServer.REQUIRED_WIDTH,
+            requiredNbDiff:     CServer.REQUIRED_NB_DIFF,
             originalImage:      original,
             modifiedImage:      modified,
         };
@@ -144,7 +144,7 @@ describe("Card-manager tests", () => {
         };
         const message: Message = {
             title:  CCommon.ON_SUCCESS,
-            body:   Constants.CARD_ADDED,
+            body:   CServer.CARD_ADDED,
         };
         chai.expect(cardManagerService.freeCardCreationRoutine(sceneMessage)).to.deep.equal(message);
 
@@ -186,13 +186,13 @@ describe("Card-manager tests", () => {
 
     it("Should return a message of success and simple create card", async () => {
         const requirements: ImageRequirements = {
-            requiredHeight:     Constants.REQUIRED_HEIGHT,
-            requiredWidth:      Constants.REQUIRED_WIDTH,
-            requiredNbDiff:     Constants.REQUIRED_NB_DIFF,
+            requiredHeight:     CServer.REQUIRED_HEIGHT,
+            requiredWidth:      CServer.REQUIRED_WIDTH,
+            requiredNbDiff:     CServer.REQUIRED_NB_DIFF,
             originalImage:      original,
             modifiedImage:      modified,
         };
-        mockAxios.onPost(Constants.PATH_FOR_2D_VALIDATION).reply(200, original);
+        mockAxios.onPost(CServer.PATH_FOR_2D_VALIDATION).reply(200, original);
 
         await cardManagerService.simpleCardCreationRoutine(requirements, "title").then((response: any) => {
             chai.expect(response).to.deep.equal({ title: "onSuccess", body: "Card 1000 created" });
@@ -211,13 +211,13 @@ describe("Card-manager tests", () => {
 
     it("Should return error because simple card title exist already", async () => {
         const requirements: ImageRequirements = {
-            requiredHeight:     Constants.REQUIRED_HEIGHT,
-            requiredWidth:      Constants.REQUIRED_WIDTH,
-            requiredNbDiff:     Constants.REQUIRED_NB_DIFF,
+            requiredHeight:     CServer.REQUIRED_HEIGHT,
+            requiredWidth:      CServer.REQUIRED_WIDTH,
+            requiredNbDiff:     CServer.REQUIRED_NB_DIFF,
             originalImage:      original,
             modifiedImage:      modified,
         };
-        mockAxios.onPost(Constants.PATH_FOR_2D_VALIDATION).reply(200, original);
+        mockAxios.onPost(CServer.PATH_FOR_2D_VALIDATION).reply(200, original);
         await cardManagerService.simpleCardCreationRoutine(requirements, "title").then();
         await cardManagerService.simpleCardCreationRoutine(requirements, "title").then((response: any) => {
             chai.expect(response).to.deep.equal({ title: "onError", body: "Le titre de la carte existe déjà" });
@@ -239,9 +239,9 @@ describe("Card-manager tests", () => {
 
     it("Should return an error while creating simple card", async () => {
         const requirements: ImageRequirements = {
-            requiredHeight:     Constants.REQUIRED_HEIGHT,
-            requiredWidth:      Constants.REQUIRED_WIDTH,
-            requiredNbDiff:     Constants.REQUIRED_NB_DIFF,
+            requiredHeight:     CServer.REQUIRED_HEIGHT,
+            requiredWidth:      CServer.REQUIRED_WIDTH,
+            requiredNbDiff:     CServer.REQUIRED_NB_DIFF,
             originalImage:      original,
             modifiedImage:      modified,
         };
@@ -250,7 +250,7 @@ describe("Card-manager tests", () => {
             title:  "test",
             body:   "ok",
         };
-        mockAxios.onPost(Constants.PATH_FOR_2D_VALIDATION).reply(200, message);
+        mockAxios.onPost(CServer.PATH_FOR_2D_VALIDATION).reply(200, message);
 
         await cardManagerService.simpleCardCreationRoutine(requirements, "title").then((response: any) => {
             chai.expect(response).to.deep.equal(message);
@@ -272,9 +272,9 @@ describe("cardManagerService CardTitle test", () => {
     const modified: Buffer = fs.readFileSync(path.resolve(__dirname, "../asset/image/testBitmap/imagetestOg.bmp"));
 
     const requirements: ImageRequirements = {
-        requiredHeight:     Constants.REQUIRED_HEIGHT,
-        requiredWidth:      Constants.REQUIRED_WIDTH,
-        requiredNbDiff:     Constants.REQUIRED_NB_DIFF,
+        requiredHeight:     CServer.REQUIRED_HEIGHT,
+        requiredWidth:      CServer.REQUIRED_WIDTH,
+        requiredNbDiff:     CServer.REQUIRED_NB_DIFF,
         originalImage:      original,
         modifiedImage:      modified,
     };
@@ -284,7 +284,7 @@ describe("cardManagerService CardTitle test", () => {
         cardManagerService.simpleCardCreationRoutine(requirements, "123")
         .then((message: Message) => {
             messageTitle = message.body;
-            chai.expect(messageTitle).to.equal(Constants.GAME_FORMAT_LENTGH_ERROR);
+            chai.expect(messageTitle).to.equal(CServer.GAME_FORMAT_LENTGH_ERROR);
         }).catch();
 
         done();
@@ -295,7 +295,7 @@ describe("cardManagerService CardTitle test", () => {
         cardManagerService.simpleCardCreationRoutine(requirements, "superTitreDeJeuBeaucoupTropLong")
         .then((message: Message) => {
             messageTitle = message.body;
-            chai.expect(messageTitle).to.equal(Constants.GAME_FORMAT_LENTGH_ERROR);
+            chai.expect(messageTitle).to.equal(CServer.GAME_FORMAT_LENTGH_ERROR);
         }).catch();
 
         done();
@@ -306,7 +306,7 @@ describe("cardManagerService CardTitle test", () => {
         cardManagerService.simpleCardCreationRoutine(requirements, "titre*@#$")
         .then((message: Message) => {
             messageTitle = message.body;
-            chai.expect(messageTitle).to.equal(Constants.GAME_NAME_ERROR);
+            chai.expect(messageTitle).to.equal(CServer.GAME_NAME_ERROR);
         }).catch();
 
         done();

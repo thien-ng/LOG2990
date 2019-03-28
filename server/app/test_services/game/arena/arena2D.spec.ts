@@ -7,7 +7,7 @@ import * as path from "path";
 import { of } from "rxjs/index";
 import sinon = require("sinon");
 import { CCommon } from "../../../../../common/constantes/cCommon";
-import { Constants } from "../../../constants";
+import { CServer } from "../../../CServer";
 
 import { BMPBuilder } from "../../../services/difference-checker/utilities/bmpBuilder";
 import { Player } from "../../../services/game/arena/player";
@@ -51,7 +51,7 @@ const expectedPixelClusters: IOriginalPixelCluster = {
 };
 
 const playerInputClick: IPlayerInput<IPosition2D> = {
-    event:      Constants.CLICK_EVENT,
+    event:      CServer.CLICK_EVENT,
     arenaId:    1,
     user:       activeUser,
     eventInfo:  hitPosition,
@@ -69,8 +69,8 @@ const arenaInfo: IArenaInfos<I2DInfos> = {
         arenaId:            1,
         users:              [activeUser],
         dataUrl:            {
-            original:       "http://localhost:3000/image/1_original.bmp",
-            difference:     "http://localhost:3000/image/1_generated.bmp",
+            original:       CServer.PATH_TO_IMAGES + "/1_original.bmp",
+            difference:     CServer.PATH_TO_IMAGES + "/1_generated.bmp",
         },
     };
 
@@ -228,7 +228,7 @@ describe("Arena 2D tests", () => {
 
     it("should be able to catch an error during the hitValidation process", async () => {
 
-        mockAxios.onPost(Constants.URL_HIT_VALIDATOR, hitPosition).reply(200, { response: "nope"});
+        mockAxios.onPost(CServer.URL_HIT_VALIDATOR, hitPosition).reply(200, { response: "nope"});
 
         let errorMessage: string = "";
 

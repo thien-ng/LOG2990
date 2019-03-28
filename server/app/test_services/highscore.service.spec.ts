@@ -3,7 +3,7 @@ import * as SocketIO from "socket.io";
 import { mock } from "ts-mockito";
 import { Highscore, HighscoreMessage, Mode } from "../../../common/communication/highscore";
 import { CCommon } from "../../../common/constantes/cCommon";
-import { Constants } from "../constants";
+import { CServer } from "../CServer";
 import { HighscoreService } from "../services/highscore.service";
 
 // tslint:disable:no-magic-numbers no-any no-floating-promises
@@ -81,7 +81,7 @@ describe("HighscoreService tests", () => {
             },
         };
 
-        mockAxios.onPost(Constants.VALIDATE_HIGHSCORE_PATH)
+        mockAxios.onPost(CServer.VALIDATE_HIGHSCORE_PATH)
         .reply(200, answer);
 
         await highscoreService.updateHighscore({username: "cpu", time: 1}, Mode.Singleplayer, 1);
@@ -100,7 +100,7 @@ describe("HighscoreService tests", () => {
                 timesMulti:     [{username: "cpu", time: 1}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
             },
         };
-        mockAxios.onPost(Constants.VALIDATE_HIGHSCORE_PATH)
+        mockAxios.onPost(CServer.VALIDATE_HIGHSCORE_PATH)
         .reply(200, answer);
 
         await highscoreService.updateHighscore({username: "cpu", time: 1}, Mode.Multiplayer, 1);
@@ -110,7 +110,7 @@ describe("HighscoreService tests", () => {
 
     it("Should not update the highscore", () => {
         const answer: any = [{username: "cpu", time: 2}, {username: "cpu", time: 4}, {username: "cpu", time: 6}];
-        mockAxios.onPost(Constants.VALIDATE_HIGHSCORE_PATH)
+        mockAxios.onPost(CServer.VALIDATE_HIGHSCORE_PATH)
         .reply(200, answer);
 
         highscoreService.updateHighscore({username: "cpu", time: 7}, Mode.Multiplayer, 1);

@@ -6,7 +6,7 @@ import { ThreejsGenerator } from "./threejs-generator";
 import { ThreejsRaycast } from "./threejs-raycast";
 import { ThreejsThemeGenerator } from "./threejs-themeGenerator";
 
-// tslint:disable:no-any no-magic-numbers max-file-line-count
+// tslint:disable:no-any no-magic-numbers max-file-line-count max-line-length
 
 const idBySceneId: Map<number, number> = new Map<number, number>();
 idBySceneId.set(1, 1);
@@ -50,6 +50,7 @@ let raycaster:                  THREE.Raycaster;
 let threejsRaycast:             ThreejsRaycast;
 let threejsGeneratorGeometric:  ThreejsGenerator;
 let threejsGeneratorTheme:      ThreejsThemeGenerator;
+const modelsByName:             Map<string, THREE.Object3D> = new Map<string, THREE.Object3D>();
 
 describe("threejs-raycast tests", () => {
 
@@ -259,6 +260,20 @@ describe("threejs-raycast tests", () => {
         expect(spy).not.toHaveBeenCalled();
     });
 
+    it("should set attribute threejsThemeGenerator equal to parameter passed to setThreeGenerator()", () => {
+        const opacityById:           Map<number, number> =  new Map<number, number>();
+
+        sceneIdById.set(1, 1);
+        opacityById.set(3, 3);
+
+        threejsRaycast["threejsThemeGenerator"] = mock(ThreejsThemeGenerator);
+        const threejsThemeGeneratorMock:  ThreejsThemeGenerator = new ThreejsThemeGenerator(scene, sceneIdById, idBySceneId, opacityById, modelsByName);
+        threejsRaycast["isTheme"] = true;
+        threejsRaycast.setThreeGenerator(threejsThemeGeneratorMock);
+
+        expect(threejsRaycast["threejsThemeGenerator"]).toBe(threejsThemeGeneratorMock);
+    });
+
     it("should return parent object3 as parent object", () => {
         threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorTheme);
@@ -314,15 +329,30 @@ describe("threejs-raycast tests", () => {
         object2.parent = object3;
 
         expect(threejsRaycast.getParentObject(object3.parent as THREE.Object3D) as THREE.Object3D).not.toBe(object3);
+
     });
 
     it("should display object to update to scene Theme", () => {
-        const spy: any = spyOn<any>(threejsRaycast, "displayObject").and.callThrough();
+        const spy: any = spyOn<any>(threejsRaycast, "displayObject").and.callFake(() => {return; });
         threejsRaycast.setMaps(idBySceneId, sceneIdById);
-        threejsRaycast.setThreeGenerator(threejsGeneratorTheme);
         threejsRaycast["isTheme"] = true;
+        threejsRaycast["threejsThemeGenerator"] = (threejsGeneratorTheme);
 
         threejsRaycast.updateSceneWithNewObject(objectUpdateMesh);
+
+        expect(spy).toHaveBeenCalled();
+    });
+
+    it("should call changeObjectColor() if isTheme is true", () => {
+        const param: ISceneObjectUpdate<IMesh> = {
+            sceneObject: {id: 1} as IMesh,
+        } as ISceneObjectUpdate<IMesh>;
+
+        threejsRaycast["threejsThemeGenerator"] = mock(ThreejsThemeGenerator);
+        const spy: any = spyOn<any>(threejsRaycast["threejsThemeGenerator"], "changeObjectColor");
+
+        threejsRaycast["isTheme"] = true;
+        threejsRaycast["changeObjectColor"](param);
 
         expect(spy).toHaveBeenCalled();
     });

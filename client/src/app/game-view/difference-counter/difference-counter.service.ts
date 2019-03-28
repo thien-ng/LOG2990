@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
-import { Constants } from "../../constants";
+import { CClient } from "../../CClient";
 @Injectable({
   providedIn: "root",
 })
@@ -22,7 +22,7 @@ export class DifferenceCounterService {
   }
 
   public convertErrorToPercent(errorFoundCounter: number): number {
-    return errorFoundCounter * Constants.PERCENT / this.maxError;
+    return errorFoundCounter * CClient.PERCENT / this.maxError;
   }
 
   public generateAngleSpinner(errorFoundCounter: number): number {
@@ -30,7 +30,7 @@ export class DifferenceCounterService {
 
     convertedErrorToPercent = this.convertErrorToPercent(errorFoundCounter);
 
-    return convertedErrorToPercent * Constants.DEGREE_CIRCLE / Constants.PERCENT;
+    return convertedErrorToPercent * CClient.DEGREE_CIRCLE / CClient.PERCENT;
   }
 
   public setNbErrorMax(maxError: number): void {

@@ -7,7 +7,7 @@ import { IMesh, ISceneObject } from "../../../../common/communication/iSceneObje
 import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
-import { Constants } from "../../constants";
+import { CServer } from "../../CServer";
 import Types from "../../types";
 import { AssetManagerService } from "../asset-manager.service";
 import { CardOperations } from "../card-operations.service";
@@ -61,7 +61,7 @@ export class GameManagerService {
         const user: IUser | string = this.userManagerService.getUserByUsername(request.username);
 
         if (typeof user === "string") {
-            return this.interfaceBuilder.buildMessage(CCommon.ON_ERROR, Constants.USER_NOT_FOUND);
+            return this.interfaceBuilder.buildMessage(CCommon.ON_ERROR, CServer.USER_NOT_FOUND);
         }
 
         switch (request.mode) {
@@ -128,7 +128,7 @@ export class GameManagerService {
         const arena: Arena2D                    = new Arena2D(arenaInfo, this);
         this.assetManager.tempRoutine2d(gameId);
         this.gameIdByArenaId.set(arenaInfo.arenaId, gameId);
-        this.initArena(arena).catch(() => Constants.INIT_ARENA_ERROR);
+        this.initArena(arena).catch(() => CServer.INIT_ARENA_ERROR);
         this.arenas.set(arenaInfo.arenaId, arena);
 
         return this.interfaceBuilder.buildMessage(CCommon.ON_SUCCESS, arenaInfo.arenaId.toString());
@@ -139,7 +139,7 @@ export class GameManagerService {
         const arena: Arena3D = new Arena3D(arenaInfo, this);
         this.assetManager.tempRoutine3d(gameId);
         this.gameIdByArenaId.set(arenaInfo.arenaId, gameId);
-        this.initArena(arena).catch(() => Constants.INIT_ARENA_ERROR);
+        this.initArena(arena).catch(() => CServer.INIT_ARENA_ERROR);
         this.arenas.set(arenaInfo.arenaId, arena);
 
         return this.interfaceBuilder.buildMessage(CCommon.ON_SUCCESS, arenaInfo.arenaId.toString());
@@ -211,7 +211,7 @@ export class GameManagerService {
 
     private deleteTempFiles(arenaInfo: IArenaInfos<I2DInfos | I3DInfos>, gameId: number): void {
         if ("original" in arenaInfo.dataUrl) {
-            this.assetManager.deleteFileInTemp(gameId, Constants.GENERATED_FILE);
+            this.assetManager.deleteFileInTemp(gameId, CServer.GENERATED_FILE);
             this.assetManager.deleteFileInTemp(gameId, CCommon.ORIGINAL_FILE);
         } else {
             this.assetManager.deleteFileInTemp(gameId, CCommon.SCENE_FILE);

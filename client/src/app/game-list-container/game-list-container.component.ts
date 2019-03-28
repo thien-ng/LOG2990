@@ -3,8 +3,8 @@ import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { ICard } from "../../../../common/communication/iCard";
 import { ICardLists } from "../../../../common/communication/iCardLists";
+import { CClient } from "../CClient";
 import { CardManagerService } from "../card/card-manager.service";
-import { Constants } from "../constants";
 import { AdminToggleService } from "../main-nav/admin-toggle.service";
 import { GameModeService } from "./game-mode.service";
 
@@ -37,7 +37,7 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
   public initSubscription(): void {
 
     this.tabIndex = this.gameModeservice.getIndex();
-    if (this.router.url === Constants.ADMIN_REDIRECT) {
+    if (this.router.url === CClient.ADMIN_REDIRECT) {
       this.adminService.adminTrue();
     }
     this.stateSubscription = this.gameModeservice.getGameModeUpdateListener()

@@ -6,11 +6,11 @@
             "name":           "SandRock1",
             "meshInfos":      [
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/original/SandRock1.gltf",
+                    "GLTFUrl":        "/original/SandRock1.gltf",
                     "uuid":           "SandRock1"
                 },
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/modified/SandRock1_modified.gltf",
+                    "GLTFUrl":        "/modified/SandRock1_modified.gltf",
                     "uuid":           "SandRock1_modified"
                 }
             ],
@@ -22,11 +22,11 @@
             "name":           "Rock2",
             "meshInfos":      [
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/original/Rock2.gltf",
+                    "GLTFUrl":        "/original/Rock2.gltf",
                     "uuid":           "Rock2"
                 },
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/modified/Rock2_modified.gltf",
+                    "GLTFUrl":        "/modified/Rock2_modified.gltf",
                     "uuid":           "Rock2_modified"
                 }
             ],
@@ -38,11 +38,11 @@
             "name":           "Tree1",
             "meshInfos":      [
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/original/Tree1.gltf",
+                    "GLTFUrl":        "/original/Tree1.gltf",
                     "uuid":           "Tree1"
                 },
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/modified/Tree1_modified.gltf",
+                    "GLTFUrl":        "/modified/Tree1_modified.gltf",
                     "uuid":           "Tree1_modified"
                 }
             ],
@@ -54,11 +54,11 @@
             "name":           "Plant",
             "meshInfos":      [
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/original/Plant.gltf",
+                    "GLTFUrl":        "/original/Plant.gltf",
                     "uuid":           "Plant"
                 },
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/modified/Plant_modified.gltf",
+                    "GLTFUrl":        "/modified/Plant_modified.gltf",
                     "uuid":           "Plant_modified"
                 }
             ],
@@ -70,11 +70,11 @@
             "name":           "DriedTree",
             "meshInfos":      [
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/original/DriedTree.gltf",
+                    "GLTFUrl":        "/original/DriedTree.gltf",
                     "uuid":           "DriedTree"
                 },
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/modified/DriedTree_modified.gltf",
+                    "GLTFUrl":        "/modified/DriedTree_modified.gltf",
                     "uuid":           "DriedTree_modified"
                 }
             ],
@@ -86,11 +86,11 @@
             "name":           "Fern",
             "meshInfos":      [
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/original/Fern.gltf",
+                    "GLTFUrl":        "/original/Fern.gltf",
                     "uuid":           "Fern"
                 },
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/modified/Fern_modified.gltf",
+                    "GLTFUrl":        "/modified/Fern_modified.gltf",
                     "uuid":           "Fern_modified"
                 }
             ],
@@ -102,11 +102,11 @@
             "name":           "Tree3",
             "meshInfos":      [
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/original/Tree3.gltf",
+                    "GLTFUrl":        "/original/Tree3.gltf",
                     "uuid":           "Tree3"
                 },
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/modified/Tree3_modified.gltf",
+                    "GLTFUrl":        "/modified/Tree3_modified.gltf",
                     "uuid":           "Tree3_modified"
                 }
             ],
@@ -118,11 +118,11 @@
             "name":           "tree_pink",
             "meshInfos":      [
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/original/tree_pink.gltf",
+                    "GLTFUrl":        "/original/tree_pink.gltf",
                     "uuid":           "tree_pink"
                 },
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/modified/tree_pink_modified.gltf",
+                    "GLTFUrl":        "/modified/tree_pink_modified.gltf",
                     "uuid":           "tree_pink_modified"
                 }
             ],
@@ -134,11 +134,11 @@
             "name":           "chico",
             "meshInfos":      [
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/original/chico.gltf",
+                    "GLTFUrl":        "/original/chico.gltf",
                     "uuid":           "chico"
                 },
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/modified/chico_modified.gltf",
+                    "GLTFUrl":        "/modified/chico_modified.gltf",
                     "uuid":           "chico_modified"
                 }
             ],
@@ -150,11 +150,11 @@
             "name":           "dog",
             "meshInfos":      [
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/original/dog.gltf",
+                    "GLTFUrl":        "/original/dog.gltf",
                     "uuid":           "dog"
                 },
                 {
-                    "GLTFUrl":        "http://localhost:3000/mesh/modified/dog_modified.gltf",
+                    "GLTFUrl":        "/modified/dog_modified.gltf",
                     "uuid":           "dog_modified"
                 }
             ],

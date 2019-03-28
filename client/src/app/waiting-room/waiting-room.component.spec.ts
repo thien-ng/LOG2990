@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { Constants } from "../constants";
+import { CClient } from "../CClient";
 import { SpinnerComponent } from "../spinner/spinner.component";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { WaitingRoomComponent } from "./waiting-room.component";
@@ -18,7 +18,7 @@ describe("WaitingRoomComponent", () => {
       ],
     })
     .compileComponents()
-    .catch(() => Constants.OBLIGATORY_CATCH);
+    .catch(() => CClient.OBLIGATORY_CATCH);
   }));
 
   beforeEach(() => {

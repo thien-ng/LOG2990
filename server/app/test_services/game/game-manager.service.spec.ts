@@ -12,7 +12,7 @@ import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../
 import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
-import { Constants } from "../../constants";
+import { CServer } from "../../CServer";
 import { CardOperations } from "../../services/card-operations.service";
 import { ChatManagerService } from "../../services/chat-manager.service";
 import { Arena2D } from "../../services/game/arena/arena2d";
@@ -547,7 +547,7 @@ describe("GameManagerService tests", () => {
 
     it("should send update new Highscore", (done: Function) => {
 
-        mockAxios.onPost(Constants.VALIDATE_HIGHSCORE_PATH)
+        mockAxios.onPost(CServer.VALIDATE_HIGHSCORE_PATH)
         .reply(200, answer);
 
         gameManagerService["highscoreService"].createHighscore(1);
@@ -564,7 +564,7 @@ describe("GameManagerService tests", () => {
     });
     it("should emit the new Highscore", (done: Function) => {
 
-        mockAxios.onPost(Constants.VALIDATE_HIGHSCORE_PATH)
+        mockAxios.onPost(CServer.VALIDATE_HIGHSCORE_PATH)
         .reply(200, answer);
 
         gameManagerService["highscoreService"].createHighscore(1);
@@ -582,7 +582,7 @@ describe("GameManagerService tests", () => {
 
     it("should emit an error when entering in catch", (done: Function) => {
 
-        mockAxios.onPost(Constants.VALIDATE_HIGHSCORE_PATH)
+        mockAxios.onPost(CServer.VALIDATE_HIGHSCORE_PATH)
         .reply(200, answer);
 
         gameManagerService["highscoreService"].createHighscore(1);

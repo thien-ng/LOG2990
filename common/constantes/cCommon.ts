@@ -1,5 +1,8 @@
 export class CCommon {
-    public static readonly BASE_URL:                  string = "http://localhost:3000";
+
+    // public static readonly BASE_URL:                  string = "http://localhost";
+    public static readonly BASE_URL:                  string = "http://10.200.2.107";
+    public static readonly BASE_SERVER_PORT:          string = ":3000";
     
     public static readonly ORIGINAL_FILE:             string = "_original.bmp";
     public static readonly MODIFIED_FILE:             string = "_modified.bmp";

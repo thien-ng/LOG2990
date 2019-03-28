@@ -14,7 +14,7 @@ import { IMesh, ISceneObject } from "../../../../common/communication/iSceneObje
 import { ISceneData } from "../../../../common/communication/iSceneVariables";
 import { FormMessage } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
-import { Constants } from "../constants";
+import { CClient } from "../CClient";
 
 @Component({
   selector:     "app-create-free-game",
@@ -63,7 +63,7 @@ export class CreateFreeGameComponent {
     private snackBar:     MatSnackBar,
   ) {
 
-    this.sliderValue      = Constants.DEFAULT_SLIDER_VALUE;
+    this.sliderValue      = CClient.DEFAULT_SLIDER_VALUE;
     this.isButtonEnabled  = true;
     this.addChecked       = false;
     this.delChecked       = false;
@@ -141,11 +141,11 @@ export class CreateFreeGameComponent {
     this.isButtonEnabled = false;
     const formValue: FormMessage = this.createFormMessage(formData);
 
-    this.httpClient.post(Constants.FREE_SCENE_GENERATOR_PATH, formValue).subscribe(
+    this.httpClient.post(CClient.FREE_SCENE_GENERATOR_PATH, formValue).subscribe(
       (response: ISceneData<ISceneObject | IMesh> | string) => {
         if (typeof response === "string") {
           this.isLoading = false;
-          this.openSnackBar(response, Constants.SNACK_ACTION);
+          this.openSnackBar(response, CClient.SNACK_ACTION);
         } else {
           this.sceneData = response;
           this.isSceneGenerated = true;
@@ -157,7 +157,7 @@ export class CreateFreeGameComponent {
 
   private openSnackBar(msg: string, action: string): void {
     this.snackBar.open(msg, action, {
-      duration: Constants.SNACKBAR_DURATION,
+      duration: CClient.SNACKBAR_DURATION,
       verticalPosition: "top",
     });
   }

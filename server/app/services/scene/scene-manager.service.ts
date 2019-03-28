@@ -6,7 +6,7 @@ import { FormMessage } from "../../../../common/communication/message";
 
 import { ISceneEntity, ITheme } from "../../../../common/communication/ITheme";
 import { CCommon } from "../../../../common/constantes/cCommon";
-import { Constants } from "../../constants";
+import { CServer } from "../../CServer";
 import Types from "../../types";
 import { AssetManagerService } from "../asset-manager.service";
 import { CardManagerService } from "../card-manager.service";
@@ -44,10 +44,10 @@ export class SceneManager {
             if (isFormValid) {
                 return this.builderSelector(formMessage);
             } else {
-                return Constants.CARD_CREATION_ERROR;
+                return CServer.CARD_CREATION_ERROR;
             }
         } else {
-            return Constants.CARD_EXISTING;
+            return CServer.CARD_EXISTING;
         }
     }
 
@@ -163,11 +163,11 @@ export class SceneManager {
     }
 
     private validateTheme(theme: string): boolean {
-        return (theme === Constants.THEME_GEOMETRIC || theme === Constants.THEME_THEMATIC);
+        return (theme === CServer.THEME_GEOMETRIC || theme === CServer.THEME_THEMATIC);
     }
 
     private validateQuantity(quantity: number): boolean {
-        return (quantity >= Constants.MIN_ITEMS_IN_SCENE && quantity <= Constants.MAX_ITEMS_IN_SCENE);
+        return (quantity >= CServer.MIN_ITEMS_IN_SCENE && quantity <= CServer.MAX_ITEMS_IN_SCENE);
     }
 
     private validateCheckedTypes(list: [boolean, boolean, boolean]): boolean {

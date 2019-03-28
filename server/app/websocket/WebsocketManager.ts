@@ -9,7 +9,7 @@ import {
     IPosition2D } from "../../../common/communication/iGameplay";
 import { IUser } from "../../../common/communication/iUser";
 import { CCommon } from "../../../common/constantes/cCommon";
-import { Constants } from "../constants";
+import { CServer } from "../CServer";
 import { CardOperations } from "../services/card-operations.service";
 import { ChatManagerService } from "../services/chat-manager.service";
 import { IPlayerInput } from "../services/game/arena/interfaces";
@@ -34,7 +34,7 @@ export class WebsocketManager {
 
     public createWebsocket(server: http.Server): void {
         this.io = SocketIO(server);
-        this.io.on(Constants.CONNECTION, (socket: SocketIO.Socket) => {
+        this.io.on(CServer.CONNECTION, (socket: SocketIO.Socket) => {
 
             const socketID: string = "";
             const user: IUser = {
@@ -57,7 +57,7 @@ export class WebsocketManager {
             });
 
          });
-        this.io.listen(Constants.WEBSOCKET_PORT_NUMBER);
+        this.io.listen(CServer.WEBSOCKET_PORT_NUMBER);
     }
 
     private gameSocketChecker(socketID: string, socket: SocketIO.Socket): void {
@@ -92,7 +92,7 @@ export class WebsocketManager {
             .then((response: IArenaResponse<IOriginalPixelCluster | any>) => {
 
                 socket.emit(CCommon.ON_ARENA_RESPONSE, response);
-                if (response.status !== Constants.ON_PENALTY) {
+                if (response.status !== CServer.ON_PENALTY) {
                     this.chatManagerService.sendPositionValidationMessage(data.username, userList, response, this.io);
                 }
             }).catch((error: Error) => {
@@ -102,7 +102,7 @@ export class WebsocketManager {
     }
 
     private chatSocketChecker(socket: SocketIO.Socket): void {
-        socket.on(Constants.ON_CHAT_EVENT, (messageRecieved: IChatSender) => {
+        socket.on(CServer.ON_CHAT_EVENT, (messageRecieved: IChatSender) => {
             const userList: IUser[] = this.gameManagerService.getUsersInArena(messageRecieved.arenaID);
             this.chatManagerService.sendChatMessage(userList, messageRecieved, this.io);
         });
@@ -122,7 +122,7 @@ export class WebsocketManager {
             }
         });
 
-        socket.on(Constants.DISCONNECT_EVENT, () => {
+        socket.on(CServer.DISCONNECT_EVENT, () => {
             this.userManagerService.leaveBrowser(user);
             this.gameManagerService.unsubscribeSocketID(user.socketID, user.username);
             this.chatManagerService.sendPlayerLogStatus(user.username, this.io, false);
@@ -133,7 +133,7 @@ export class WebsocketManager {
         const eventInfo: T = data.value;
 
         return {
-            event:      Constants.CLICK_EVENT,
+            event:      CServer.CLICK_EVENT,
             arenaId:    data.arenaID,
             user:       user,
             eventInfo:  eventInfo,

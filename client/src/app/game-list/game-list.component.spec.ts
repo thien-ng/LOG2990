@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
+import { CClient } from "../CClient";
 import { CardComponent } from "../card/card.component";
-import { Constants } from "../constants";
 import { HighscoreDisplayComponent } from "../highscore-display/highscore-display.component";
 import { GameListComponent } from "./game-list.component";
 
@@ -22,7 +22,7 @@ describe("GameListComponent", () => {
       imports: [TestingImportsModule],
     })
       .compileComponents()
-      .catch(() => Constants.OBLIGATORY_CATCH);
+      .catch(() => CClient.OBLIGATORY_CATCH);
   }));
 
   beforeEach(() => {

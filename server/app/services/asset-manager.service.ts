@@ -2,7 +2,7 @@ import * as fs from "fs";
 import { injectable } from "inversify";
 import { ITheme } from "../../../common/communication/ITheme";
 import { CCommon } from "../../../common/constantes/cCommon";
-import { Constants } from "../constants";
+import { CServer } from "../CServer";
 
 const IMAGES_PATH:              string = "./app/asset/image";
 const FILE_GENERATION_ERROR:    string = "error while generating file";
@@ -21,7 +21,7 @@ export class AssetManagerService {
 
     public createBMP(buffer: Buffer, gameID: number): number {
 
-        const path: string = IMAGES_PATH + "/" + gameID + Constants.GENERATED_FILE;
+        const path: string = IMAGES_PATH + "/" + gameID + CServer.GENERATED_FILE;
         this.stockImage(path, buffer);
 
         return gameID;
@@ -56,10 +56,10 @@ export class AssetManagerService {
     }
 
     public tempRoutine2d(gameId: number): void {
-        const pathOriginal:  string = Constants.IMAGES_PATH + "/" + gameId + CCommon.ORIGINAL_FILE;
-        const pathGenerated: string = Constants.IMAGES_PATH + "/" + gameId + Constants.GENERATED_FILE;
+        const pathOriginal:  string = CServer.IMAGES_PATH + "/" + gameId + CCommon.ORIGINAL_FILE;
+        const pathGenerated: string = CServer.IMAGES_PATH + "/" + gameId + CServer.GENERATED_FILE;
         try {
-            this.copyFileToTemp(pathGenerated, gameId, Constants.GENERATED_FILE);
+            this.copyFileToTemp(pathGenerated, gameId, CServer.GENERATED_FILE);
             this.copyFileToTemp(pathOriginal, gameId, CCommon.ORIGINAL_FILE);
             this.manageCounter(gameId);
         } catch (error) {
@@ -68,7 +68,7 @@ export class AssetManagerService {
     }
 
     public tempRoutine3d(gameId: number): void {
-        const path: string = Constants.SCENE_PATH + "/" + gameId + CCommon.SCENE_FILE;
+        const path: string = CServer.SCENE_PATH + "/" + gameId + CCommon.SCENE_FILE;
         try {
             this.copyFileToTemp(path, gameId, CCommon.SCENE_FILE);
             this.manageCounter(gameId);
@@ -103,7 +103,7 @@ export class AssetManagerService {
     }
 
     private copyFileToTemp(sourcePath: string, gameId: number, type: string): void {
-        const imgPathTemp: string = Constants.PATH_LOCAL_TEMP + gameId + type;
+        const imgPathTemp: string = CServer.PATH_LOCAL_TEMP + gameId + type;
         try {
             fs.copyFileSync(sourcePath, imgPathTemp);
         } catch (error) {
@@ -112,7 +112,7 @@ export class AssetManagerService {
     }
 
     public deleteFileInTemp(gameId: number, type: string): void {
-        const imgPathTemp: string = Constants.PATH_LOCAL_TEMP + gameId + type;
+        const imgPathTemp: string = CServer.PATH_LOCAL_TEMP + gameId + type;
         try {
             fs.unlinkSync(imgPathTemp);
         } catch (error) {
@@ -121,7 +121,7 @@ export class AssetManagerService {
     }
 
     public getTheme(themeName: string): ITheme {
-        const themePath: string = Constants.PATH_LOCAL_THEME + themeName;
+        const themePath: string = CServer.PATH_LOCAL_THEME + themeName;
         try {
             const readFile: Buffer = fs.readFileSync(themePath);
 

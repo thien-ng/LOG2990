@@ -1,6 +1,6 @@
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
-import { Constants } from "../../../constants";
+import { CServer } from "../../../CServer";
 
 export class Timer {
 
@@ -28,7 +28,7 @@ export class Timer {
                 () => {
                     this.updateTimeSinceStart();
                 },
-                Constants.ONE_SECOND);
+                CServer.ONE_SECOND);
         }
     }
 

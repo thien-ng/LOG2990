@@ -4,7 +4,7 @@ import { ErrorStateMatcher, MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import { Message } from "../../../../../common/communication/message";
 import { CCommon } from "../../../../../common/constantes/cCommon";
-import { Constants } from "../../constants";
+import { CClient } from "../../CClient";
 import { SocketService } from "../../websocket/socket.service";
 import { LoginValidatorService } from "../login-validator.service";
 
@@ -22,7 +22,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class LoginValidatorComponent {
 
-  public readonly LOGO_URL: string = Constants.PATH_TO_IMAGES + "/logo.png";
+  public readonly LOGO_URL: string = CClient.PATH_TO_IMAGES + "/logo.png";
   public readonly HINT_USERNAME:  string = "Nom d'utilisateur";
   public readonly HINT:           string = "Veuillez entrer un alias";
   public readonly ERROR_PATTERN:  string = "Caractères autorisés: A-Z, a-z, 0-9";
@@ -53,7 +53,7 @@ export class LoginValidatorComponent {
       this.loginValidatorService.addUsername(this.usernameFormControl.value).subscribe(async (response: Message) => {
 
         if (response.title === CCommon.ON_ERROR) {
-          this.displaySnackBar(response.body, Constants.SNACK_ACTION);
+          this.displaySnackBar(response.body, CClient.SNACK_ACTION);
 
           return;
         }
@@ -61,7 +61,7 @@ export class LoginValidatorComponent {
         if (response.body === CCommon.IS_UNIQUE) {
           this.displayNameIsUnique();
           this.socketService.sendMessage(CCommon.LOGIN_EVENT, this.usernameFormControl.value);
-          await this.router.navigate([Constants.ROUTER_LOGIN]);
+          await this.router.navigate([CClient.ROUTER_LOGIN]);
         } else {
           this.displayNameNotUnique();
         }
@@ -74,18 +74,18 @@ export class LoginValidatorComponent {
       this.snackbar.open(
         message,
         closeStatement,
-        { duration: Constants.SNACKBAR_DURATION});
+        { duration: CClient.SNACKBAR_DURATION});
   }
 
   private displayNameIsUnique(): void {
     this.displaySnackBar(
-      Constants.SNACKBAR_GREETINGS + this.usernameFormControl.value,
-      Constants.SNACKBAR_ACKNOWLEDGE);
+      CClient.SNACKBAR_GREETINGS + this.usernameFormControl.value,
+      CClient.SNACKBAR_ACKNOWLEDGE);
   }
 
   private displayNameNotUnique(): void {
     this.displaySnackBar(
-      this.usernameFormControl.value + Constants.SNACKBAR_USED_NAME,
-      Constants.SNACKBAR_ATTENTION);
+      this.usernameFormControl.value + CClient.SNACKBAR_USED_NAME,
+      CClient.SNACKBAR_ATTENTION);
   }
 }

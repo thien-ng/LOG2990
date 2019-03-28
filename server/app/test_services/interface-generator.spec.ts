@@ -4,7 +4,7 @@ import { IUser } from "../../../common/communication/iUser";
 import { Message } from "../../../common/communication/message";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { InterfaceBuilder } from "../../app/services/interface-generator";
-import { Constants } from "../constants";
+import { CServer } from "../CServer";
 import { I2DInfos, I3DInfos, IArenaInfos } from "../services/game/arena/interfaces";
 
 // tslint:disable:no-magic-numbers
@@ -54,8 +54,8 @@ describe("Interface-generator tests", () => {
             arenaId:            11,
             users:              usersMock,
             dataUrl: {
-                original:   Constants.PATH_SERVER_TEMP + 2 + CCommon.ORIGINAL_FILE,
-                difference: Constants.PATH_SERVER_TEMP + 2 + Constants.GENERATED_FILE,
+                original:   CServer.PATH_SERVER_TEMP + 2 + CCommon.ORIGINAL_FILE,
+                difference: CServer.PATH_SERVER_TEMP + 2 + CServer.GENERATED_FILE,
             },
         };
 
@@ -69,7 +69,7 @@ describe("Interface-generator tests", () => {
             arenaId:            11,
             users:              usersMock,
             dataUrl: {
-                sceneData:  Constants.PATH_SERVER_TEMP + 2 + CCommon.SCENE_FILE,
+                sceneData:  CServer.PATH_SERVER_TEMP + 2 + CCommon.SCENE_FILE,
             },
         };
 

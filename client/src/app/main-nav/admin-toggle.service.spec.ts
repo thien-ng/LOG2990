@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Observable } from "rxjs";
 import "rxjs/add/observable/of";
-import { Constants } from "../constants";
+import { CClient } from "../CClient";
 import { AdminToggleService } from "./admin-toggle.service";
 
 // tslint:disable:no-any no-floating-promises
@@ -58,7 +58,7 @@ describe("AdminToggleService", () => {
     adminToggleService["isAdmin"] = false;
     adminToggleService.adminToggle();
 
-    expect(adminToggleService["router"].navigate).toHaveBeenCalledWith([Constants.ADMIN_PATH]);
+    expect(adminToggleService["router"].navigate).toHaveBeenCalledWith([CClient.ADMIN_PATH]);
   });
 
   it("should navigate to GAMELIST_PATH when adminToggle is toggled", () => {
@@ -67,7 +67,7 @@ describe("AdminToggleService", () => {
     adminToggleService["isAdmin"] = true;
     adminToggleService.adminToggle();
 
-    expect(adminToggleService["router"].navigate).toHaveBeenCalledWith([Constants.GAMELIST_PATH]);
+    expect(adminToggleService["router"].navigate).toHaveBeenCalledWith([CClient.GAMELIST_PATH]);
   });
 
 });
