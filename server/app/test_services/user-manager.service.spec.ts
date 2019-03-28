@@ -3,7 +3,7 @@ import "reflect-metadata";
 import { expect } from "chai";
 import { IUser } from "../../../common/communication/iUser";
 import { Message } from "../../../common/communication/message";
-import { Constants } from "../constants";
+import { CServer } from "../CServer";
 import { UserManagerService } from "../services/user-manager.service";
 
 let userManagerService: UserManagerService;
@@ -71,7 +71,7 @@ describe("UserManagerService test", () => {
 
         const resultExpected:   Message = {
             title:          "onError",
-            body:           Constants.NAME_FORMAT_LENGTH_ERROR,
+            body:           CServer.NAME_FORMAT_LENGTH_ERROR,
         };
         const result: Message = userManagerService.validateName(testString);
 
@@ -84,7 +84,7 @@ describe("UserManagerService test", () => {
 
         const resultExpected:   Message = {
             title:          "onError",
-            body:           Constants.USER_NAME_ERROR,
+            body:           CServer.USER_NAME_ERROR,
         };
         const result: Message = userManagerService.validateName(testString);
 

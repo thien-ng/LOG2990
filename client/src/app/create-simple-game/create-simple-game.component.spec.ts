@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
-import { Constants } from "../constants";
+import { CClient } from "../CClient";
 import { TestingImportsModule } from "../testing-imports/testing-imports.module";
 import { CreateSimpleGameComponent } from "./create-simple-game.component";
 
@@ -22,7 +22,7 @@ describe("CreateSimpleGameComponent", () => {
       }],
     })
     .compileComponents()
-    .catch(() => Constants.OBLIGATORY_CATCH);
+    .catch(() => CClient.OBLIGATORY_CATCH);
   }));
 
   beforeEach(() => {

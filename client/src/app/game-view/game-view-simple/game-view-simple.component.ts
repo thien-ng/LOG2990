@@ -8,7 +8,7 @@ import { IGameRequest } from "../../../../../common/communication/iGameRequest";
 import { IClickMessage, IPenalty, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { Message } from "../../../../../common/communication/message";
 import { CCommon } from "../../../../../common/constantes/cCommon";
-import { Constants } from "../../constants";
+import { CClient } from "../../CClient";
 import { SocketService } from "../../websocket/socket.service";
 import { ChatViewComponent } from "../chat-view/chat-view.component";
 import { GameViewSimpleService } from "./game-view-simple.service";
@@ -21,8 +21,8 @@ import { GameViewSimpleService } from "./game-view-simple.service";
 
 export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDestroy {
   public readonly OPPONENT:       string = "Adversaire";
-  public readonly SUCCESS_SOUND:  string = "http://localhost:3000/audio/fail.wav";
-  public readonly FAIL_SOUND:     string = "http://localhost:3000/audio/success.wav";
+  public readonly SUCCESS_SOUND:  string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/fail.wav";
+  public readonly FAIL_SOUND:     string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/success.wav";
 
   @ViewChild("successSound",  {read: ElementRef})  public successSound:    ElementRef;
   @ViewChild("failSound",     {read: ElementRef})  public failSound:       ElementRef;
@@ -54,7 +54,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       this.mode           = Number(this.route.snapshot.paramMap.get("gamemode"));
       this.cardLoaded     = false;
       this.gameIsStarted  = false;
-      this.username       = sessionStorage.getItem(Constants.USERNAME_KEY);
+      this.username       = sessionStorage.getItem(CClient.USERNAME_KEY);
       this.position       = {x: 0, y: 0};
       this.gameConnectionService.getGameConnectedListener().pipe(first()).subscribe((arenaID: number) => {
         this.arenaID = arenaID;
@@ -65,7 +65,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     }
 
   public ngOnInit(): void {
-    this.gameID = Number(this.route.snapshot.paramMap.get(Constants.ID_BY_URL));
+    this.gameID = Number(this.route.snapshot.paramMap.get(CClient.ID_BY_URL));
     if (this.gameID !== null && this.username !== null) {
       this.getActiveCard(this.username);
     }
@@ -92,13 +92,13 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
 
   private getActiveCard(username: string): void {
     if (this.gameID !== null) {
-      this.httpClient.get(Constants.PATH_TO_GET_CARD + this.gameID + "/" + GameMode.simple).subscribe((response: ICard) => {
+      this.httpClient.get(CClient.PATH_TO_GET_CARD + this.gameID + "/" + GameMode.simple).subscribe((response: ICard) => {
         this.activeCard = response;
         this.cardLoaded = true;
         this.createGameRequest(username);
       });
-      this.originalPath = Constants.PATH_TO_IMAGES + "/" + this.gameID + CCommon.ORIGINAL_FILE;
-      this.modifiedPath = Constants.PATH_TO_IMAGES + "/" + this.gameID + CCommon.MODIFIED_FILE;
+      this.originalPath = CClient.PATH_TO_IMAGES + "/" + this.gameID + CCommon.ORIGINAL_FILE;
+      this.modifiedPath = CClient.PATH_TO_IMAGES + "/" + this.gameID + CCommon.MODIFIED_FILE;
     }
   }
 
@@ -115,14 +115,14 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   }
 
   private handleGameRequest(): void {
-  this.httpClient.post(Constants.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
+  this.httpClient.post(CClient.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
       if (data.title === CCommon.ON_SUCCESS) {
-        this.arenaID = parseInt(data.body, Constants.DECIMAL_BASE);
+        this.arenaID = parseInt(data.body, CClient.DECIMAL_BASE);
         this.socketService.sendMessage(CCommon.GAME_CONNECTION, this.arenaID);
         this.canvasRoutine();
         this.socketService.sendMessage(CCommon.ON_GAME_LOADED, this.arenaID);
       } else if (data.title === CCommon.ON_WAITING) {
-        this.arenaID = parseInt(data.body, Constants.DECIMAL_BASE);
+        this.arenaID = parseInt(data.body, CClient.DECIMAL_BASE);
         this.socketService.sendMessage(CCommon.GAME_CONNECTION, CCommon.ON_WAITING);
         this.gameIsStarted = false;
       }
@@ -189,15 +189,15 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     document.body.style.cursor                      = "not-allowed";
     this.canvasModified.nativeElement.style.cursor  = "not-allowed";
     this.canvasOriginal.nativeElement.style.cursor  = "not-allowed";
-    const positionTop: number                       = this.position.y - Constants.CENTERY;
-    const positionRight: number                     = this.position.x - Constants.CENTERX;
+    const positionTop: number                       = this.position.y - CClient.CENTERY;
+    const positionRight: number                     = this.position.x - CClient.CENTERX;
 
     this.erreurText.nativeElement.style.top     = positionTop     + "px";
     this.erreurText.nativeElement.style.left    = positionRight   + "px";
     this.erreurText2.nativeElement.style.top    = positionTop     + "px";
     this.erreurText2.nativeElement.style.left   = positionRight   + "px";
-    this.erreurText.nativeElement.textContent   = Constants.ERROR_MESSAGE;
-    this.erreurText2.nativeElement.textContent  = Constants.ERROR_MESSAGE;
+    this.erreurText.nativeElement.textContent   = CClient.ERROR_MESSAGE;
+    this.erreurText2.nativeElement.textContent  = CClient.ERROR_MESSAGE;
   }
 
 }

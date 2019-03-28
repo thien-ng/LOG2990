@@ -4,7 +4,7 @@ import GLTFLoader from "three-gltf-loader";
 import { IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { IMesh, ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { IMeshInfo, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
-import { Constants } from "../../../constants";
+import { CClient } from "../../../CClient";
 import { GameViewFreeService } from "../game-view-free.service";
 import { ThreejsMovement } from "./utilitaries/threejs-movement";
 import { ThreejsRaycast } from "./utilitaries/threejs-raycast";
@@ -57,13 +57,13 @@ export class ThreejsThemeViewService {
   private init(): void {
     const windowRatio: number = window.innerWidth / window.innerHeight;
     this.camera = new   THREE.PerspectiveCamera(
-      Constants.FIELD_OF_VIEW,
+      CClient.FIELD_OF_VIEW,
       windowRatio,
-      Constants.MIN_VIEW_DISTANCE,
-      Constants.MAX_VIEW_DISTANCE,
+      CClient.MIN_VIEW_DISTANCE,
+      CClient.MAX_VIEW_DISTANCE,
     );
 
-    this.ambLight             = new THREE.AmbientLight(Constants.AMBIENT_LIGHT_COLOR, Constants.AMBIENT_LIGHT_INTENSITY);
+    this.ambLight             = new THREE.AmbientLight(CClient.AMBIENT_LIGHT_COLOR, CClient.AMBIENT_LIGHT_INTENSITY);
     this.sceneIdById          = new Map<number, number>();
     this.idBySceneId          = new Map<number, number>();
     this.opacityById          = new Map<number, number>();
@@ -105,7 +105,7 @@ export class ThreejsThemeViewService {
     if (meshInfos) {
       this.meshInfos        = meshInfos;
     }
-    this.renderer.setSize(Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
+    this.renderer.setSize(CClient.SCENE_WIDTH, CClient.SCENE_HEIGHT);
     this.renderer.setClearColor(this.sceneVariables.sceneBackgroundColor);
 
     await this.getModelObjects(this.meshInfos);
@@ -123,17 +123,17 @@ export class ThreejsThemeViewService {
     this.createLighting();
     this.generateSceneObjects(isSnapshotNeeded, arenaID);
     this.setFloor();
-    this.setCameraPosition(Constants.CAMERA_POSITION_X, Constants.CAMERA_POSITION_Y, Constants.CAMERA_POSITION_Z);
-    this.scene.fog = new THREE.Fog(Constants.FOG_COLOR, Constants.FOG_NEAR_DISTANCE, Constants.FOG_FAR_DISTANCE);
+    this.setCameraPosition(CClient.CAMERA_POSITION_X, CClient.CAMERA_POSITION_Y, CClient.CAMERA_POSITION_Z);
+    this.scene.fog = new THREE.Fog(CClient.FOG_COLOR, CClient.FOG_NEAR_DISTANCE, CClient.FOG_FAR_DISTANCE);
     this.camera.lookAt(new THREE.Vector3(this.CAMERA_START_POSITION, this.CAMERA_START_POSITION, this.CAMERA_START_POSITION));
   }
 
   private setFloor(): void {
     const floor:          THREE.PlaneBufferGeometry = new THREE.PlaneBufferGeometry(
-      Constants.FLOOR_DIMENTION, Constants.FLOOR_DIMENTION, Constants.FLOOR_SEGMENT, Constants.FLOOR_SEGMENT);
-    const floorMaterial:  THREE.MeshBasicMaterial   = new THREE.MeshBasicMaterial({ color: Constants.FLOOR_COLOR, side: THREE.DoubleSide });
+      CClient.FLOOR_DIMENTION, CClient.FLOOR_DIMENTION, CClient.FLOOR_SEGMENT, CClient.FLOOR_SEGMENT);
+    const floorMaterial:  THREE.MeshBasicMaterial   = new THREE.MeshBasicMaterial({ color: CClient.FLOOR_COLOR, side: THREE.DoubleSide });
     const plane:          THREE.Mesh                = new THREE.Mesh(floor, floorMaterial);
-    plane.rotateX( - Math.PI / Constants.FLOOR_DIVIDER);
+    plane.rotateX( - Math.PI / CClient.FLOOR_DIVIDER);
     this.scene.add(plane);
   }
 
@@ -196,11 +196,11 @@ export class ThreejsThemeViewService {
 
   private createLighting(): void {
 
-    const firstLight:   THREE.DirectionalLight = new THREE.DirectionalLight(Constants.FIRST_LIGHT_COLOR, Constants.FIRST_LIGHT_INTENSITY);
-    const secondLight:  THREE.DirectionalLight = new THREE.DirectionalLight(Constants.SECOND_LIGHT_COLOR, Constants.SECOND_LIGHT_INTENSITY);
+    const firstLight:   THREE.DirectionalLight = new THREE.DirectionalLight(CClient.FIRST_LIGHT_COLOR, CClient.FIRST_LIGHT_INTENSITY);
+    const secondLight:  THREE.DirectionalLight = new THREE.DirectionalLight(CClient.SECOND_LIGHT_COLOR, CClient.SECOND_LIGHT_INTENSITY);
 
-    firstLight.position.set(Constants.FIRST_LIGHT_POSITION_X, Constants.FIRST_LIGHT_POSITION_Y, Constants.FIRST_LIGHT_POSITION_Z);
-    secondLight.position.set(Constants.SECOND_LIGHT_POSITION_X, Constants.SECOND_LIGHT_POSITION_Y, Constants.SECOND_LIGHT_POSITION_Z);
+    firstLight.position.set(CClient.FIRST_LIGHT_POSITION_X, CClient.FIRST_LIGHT_POSITION_Y, CClient.FIRST_LIGHT_POSITION_Z);
+    secondLight.position.set(CClient.SECOND_LIGHT_POSITION_X, CClient.SECOND_LIGHT_POSITION_Y, CClient.SECOND_LIGHT_POSITION_Z);
 
     this.scene.add(firstLight);
     this.scene.add(secondLight);
@@ -244,9 +244,10 @@ export class ThreejsThemeViewService {
 
   private getGLTFs (meshInfos: IMeshInfo[]): void {
     meshInfos.forEach(async (meshInfo: IMeshInfo) => {
-      if (!this.gltfByUrl.has(meshInfo.GLTFUrl)) {
+      const meshUrl: string = CClient.PATH_TO_MESHES + "/" + meshInfo.GLTFUrl;
+      if (!this.gltfByUrl.has(meshUrl)) {
         this.allPromises.push(new Promise( (resolve, reject) => {
-          new GLTFLoader().load(meshInfo.GLTFUrl, (gltf: THREE.GLTF) => {
+          new GLTFLoader().load(meshUrl, (gltf: THREE.GLTF) => {
             this.gltfByUrl.set(meshInfo.GLTFUrl, gltf);
             resolve(gltf);
         },                      undefined, reject);

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 
 import { Observable, Subject } from "rxjs";
-import { Constants } from "../constants";
+import { CClient } from "../CClient";
 
 @Injectable({
   providedIn: "root",
@@ -26,8 +26,8 @@ export class AdminToggleService {
 
   public adminToggle(): void {
     this.isAdmin            = !this.isAdmin;
-    const pathToGo: string  = this.isAdmin ? Constants.ADMIN_PATH :  Constants.GAMELIST_PATH;
-    this.router.navigate([pathToGo]).catch(() => Constants.OBLIGATORY_CATCH);
+    const pathToGo: string  = this.isAdmin ? CClient.ADMIN_PATH :  CClient.GAMELIST_PATH;
+    this.router.navigate([pathToGo]).catch(() => CClient.OBLIGATORY_CATCH);
     this.adminUpdated.next(this.isAdmin);
   }
 

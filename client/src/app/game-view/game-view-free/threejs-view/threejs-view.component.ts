@@ -21,8 +21,8 @@ import { SceneType } from "../../../../../../common/communication/iSceneOptions"
 import { IMeshInfo, ISceneData, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../../common/communication/message";
 import { CCommon } from "../../../../../../common/constantes/cCommon";
+import { CClient } from "../../../CClient";
 import { CardManagerService } from "../../../card/card-manager.service";
-import { Constants } from "../../../constants";
 import { SocketService } from "../../../websocket/socket.service";
 import { ChatViewService } from "../../chat-view/chat-view.service";
 import { GameViewFreeService } from "../game-view-free.service";
@@ -121,7 +121,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
     this.createScene().then(() => {
       this.sceneBuilderService.animate();
       this.takeSnapShot();
-    }).catch((error: Error) => this.openSnackBar(error.message, Constants.SNACK_ACTION));
+    }).catch((error: Error) => this.openSnackBar(error.message, CClient.SNACK_ACTION));
   }
 
   private async createScene(): Promise<void> {
@@ -137,7 +137,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
         this.renderer,
         this.isSnapshotNeeded,
         this.arenaID,
-        meshUsed as IMeshInfo[]).catch((error: Error) => this.openSnackBar(error.message, Constants.SNACK_ACTION));
+        meshUsed as IMeshInfo[]).catch((error: Error) => this.openSnackBar(error.message, CClient.SNACK_ACTION));
     } else {
       this.sceneBuilderService.createScene(
         this.scene,
@@ -155,7 +155,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
   }
 
   private cheatRoutine (): void {
-    this.httpClient.get(Constants.GET_OBJECTS_ID_PATH + this.CHEAT_URL + this.arenaID).subscribe((modifications: number[]) => {
+    this.httpClient.get(CClient.GET_OBJECTS_ID_PATH + this.CHEAT_URL + this.arenaID).subscribe((modifications: number[]) => {
       if (this.isFirstGet) {
         this.previousModifications = modifications;
         this.isFirstGet            = false;
@@ -251,7 +251,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
   }
 
   private sendSnapshot(message: ISceneMessage): void {
-    this.httpClient.post(Constants.FREE_SUBMIT_PATH, message).subscribe((response: Message) => {
+    this.httpClient.post(CClient.FREE_SUBMIT_PATH, message).subscribe((response: Message) => {
       this.analyseResponse(response);
     });
   }
@@ -262,19 +262,21 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
       this.cardManagerService.updateCards(true);
       this.sceneGenerated.emit();
     } else if (response.title === CCommon.ON_ERROR) {
-      this.openSnackBar(response.body, Constants.SNACK_ACTION);
+      this.openSnackBar(response.body, CClient.SNACK_ACTION);
     }
   }
 
   private openSnackBar(msg: string, action: string): void {
     this.snackBar.open(msg, action, {
-      duration:           Constants.SNACKBAR_DURATION,
+      duration:           CClient.SNACKBAR_DURATION,
       verticalPosition:   "top",
     });
   }
 
   public ngOnDestroy(): void {
-    this.renderer.dispose();
+    if (this.renderer) {
+      this.renderer.dispose();
+    }
     if (this.iSceneVariables && this.iSceneVariables.floorObject) {
       cancelAnimationFrame(this.threejsThemeViewService.handleId);
     } else {

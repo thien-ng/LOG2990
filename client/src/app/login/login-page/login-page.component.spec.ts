@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { TestingImportsModule } from "../../testing-imports/testing-imports.module";
 
-import { Constants } from "../../constants";
+import { CClient } from "../../CClient";
 import { LoginValidatorComponent } from "../../login/login-validator/login-validator.component";
 import { LoginViewComponent } from "../../login/login-view/login-view.component";
 import { LoginPageComponent } from "./login-page.component";
@@ -21,7 +21,7 @@ describe("LoginPageComponent", () => {
       imports: [TestingImportsModule],
     })
       .compileComponents()
-      .catch(() => Constants.OBLIGATORY_CATCH);
+      .catch(() => CClient.OBLIGATORY_CATCH);
   }));
 
   beforeEach(() => {

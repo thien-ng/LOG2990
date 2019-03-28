@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 import { Mode } from "../../../../common/communication/highscore";
 import { CardDeleted, ICard, ILobbyEvent, MultiplayerButtonText } from "../../../../common/communication/iCard";
 import { CCommon } from "../../../../common/constantes/cCommon";
-import { Constants } from "../constants";
+import { CClient } from "../CClient";
 import { GameModeService } from "../game-list-container/game-mode.service";
 import { HighscoreService } from "../highscore-display/highscore.service";
 import { CardManagerService } from "./card-manager.service";
@@ -90,7 +90,7 @@ export class CardComponent implements AfterContentInit {
 
   public deleteCard(): void {
     this.cardManagerService.removeCard(this.card.gameID, this.card.gamemode).subscribe((response: string) => {
-      this.httpClient.get(Constants.CANCEL_REQUEST_PATH + this.card.gameID + "/" + CardDeleted.true).subscribe();
+      this.httpClient.get(CClient.CANCEL_REQUEST_PATH + this.card.gameID + "/" + CardDeleted.true).subscribe();
       this.openSnackbar(response);
       this.cardDeleted.emit();
     });
@@ -112,8 +112,8 @@ export class CardComponent implements AfterContentInit {
   }
 
   private openSnackbar(response: string): void {
-    this.snackBar.open( response, Constants.SNACK_ACTION, {
-      duration:           Constants.SNACKBAR_DURATION,
+    this.snackBar.open( response, CClient.SNACK_ACTION, {
+      duration:           CClient.SNACKBAR_DURATION,
       verticalPosition:   "top",
       panelClass:         ["snackbar"],
     });
@@ -125,8 +125,8 @@ export class CardComponent implements AfterContentInit {
   }
 
   public onStartGameClick(type: Mode): void {
-    const gameModeComparison: boolean = this.card.gamemode === Constants.GAMEMODE_SIMPLE;
-    const gameModePath:       string  = gameModeComparison ? Constants.GAME_VIEW_SIMPLE_PATH : Constants.GAME_VIEW_FREE_PATH;
+    const gameModeComparison: boolean = this.card.gamemode === CClient.GAMEMODE_SIMPLE;
+    const gameModePath:       string  = gameModeComparison ? CClient.GAME_VIEW_SIMPLE_PATH : CClient.GAME_VIEW_FREE_PATH;
 
     this.router.navigate([gameModePath, this.card.gameID, type]).catch((error) => this.openSnackbar(error));
   }

@@ -4,10 +4,10 @@ import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule, RouterOutlet, Routes } from "@angular/router";
 
+import { CClient } from "./CClient";
 import { AppComponent } from "./app.component";
 import { CardComponent } from "./card/card.component";
 import { ConfirmationDialogComponent } from "./card/confirmation-dialog/confirmation-dialog.component";
-import { Constants } from "./constants";
 import { CreateFreeGameComponent } from "./create-free-game/create-free-game.component";
 import { CreateSimpleGameComponent } from "./create-simple-game/create-simple-game.component";
 import { GameListContainerComponent } from "./game-list-container/game-list-container.component";
@@ -30,37 +30,37 @@ import { WaitingRoomComponent } from "./waiting-room/waiting-room.component";
 
 const routes: Routes = [
   {
-    path:         Constants.ROOT_PATH,
-    redirectTo:   Constants.LOGIN_PATH,
-    pathMatch:    Constants.PATH_MATCH_FULL,
+    path:         CClient.ROOT_PATH,
+    redirectTo:   CClient.LOGIN_PATH,
+    pathMatch:    CClient.PATH_MATCH_FULL,
   },
   {
-    path:         Constants.LOGIN_PATH,
+    path:         CClient.LOGIN_PATH,
     component:    LoginPageComponent,
   },
   {
-    path:         Constants.NAV_PATH,
+    path:         CClient.NAV_PATH,
     component:    MainNavComponent,
     children: [
       {
-        path:         Constants.ROOT_PATH,
-        redirectTo:   Constants.LOGIN_REDIRECT,
-        pathMatch:    Constants.PATH_MATCH_FULL,
+        path:         CClient.ROOT_PATH,
+        redirectTo:   CClient.LOGIN_REDIRECT,
+        pathMatch:    CClient.PATH_MATCH_FULL,
       },
       {
-        path:         Constants.GAMELIST_PATH,
+        path:         CClient.GAMELIST_PATH,
         component:    GameListContainerComponent,
       },
       {
-        path:         Constants.ADMIN_PATH,
+        path:         CClient.ADMIN_PATH,
         component:    GameListContainerComponent,
       },
       {
-        path:         Constants.GAME_VIEW_SIMPLE,
+        path:         CClient.GAME_VIEW_SIMPLE,
         component:    GameViewSimpleComponent,
       },
       {
-        path:         Constants.GAME_VIEW_FREE,
+        path:         CClient.GAME_VIEW_FREE,
         component:    GameViewFreeComponent,
       },
     ],

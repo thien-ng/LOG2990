@@ -3,7 +3,7 @@ import { AfterViewInit, Component, ElementRef, HostListener, Inject, OnDestroy, 
 import { MatSnackBar } from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
 import { first } from "rxjs/operators";
-import { Constants } from "src/app/constants";
+import { CClient } from "src/app/CClient";
 import { GameConnectionService } from "src/app/game-connection.service";
 import { SocketService } from "src/app/websocket/socket.service";
 import { Mode } from "../../../../../common/communication/highscore";
@@ -30,8 +30,8 @@ export class GameViewFreeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public readonly OPPONENT:         string = "Adversaire";
   public readonly NEEDED_SNAPSHOT:  boolean = false;
-  public readonly SUCCESS_SOUND:    string  = "http://localhost:3000/audio/fail.wav";
-  public readonly FAIL_SOUND:       string  = "http://localhost:3000/audio/success.wav";
+  public readonly SUCCESS_SOUND:    string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/fail.wav";
+  public readonly FAIL_SOUND:       string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/success.wav";
 
   @ViewChild("original")      private original:    TheejsViewComponent;
   @ViewChild("modified")      private modified:    TheejsViewComponent;
@@ -99,21 +99,21 @@ export class GameViewFreeComponent implements OnInit, OnDestroy, AfterViewInit {
       this.cardIsLoaded   = false;
       this.isLoading      = true;
       this.mode           = Number(this.route.snapshot.paramMap.get(GAMEMODE_KEY));
-      this.username       = sessionStorage.getItem(Constants.USERNAME_KEY);
+      this.username       = sessionStorage.getItem(CClient.USERNAME_KEY);
 
       this.gameConnectionService.getGameConnectedListener().pipe(first()).subscribe((arenaID: number) => {
         this.arenaID = arenaID;
         this.socketService.sendMessage(CCommon.GAME_CONNECTION, arenaID);
         this.fetchSceneFromServer(this.scenePath)
         .catch((error) => {
-          this.openSnackBar(error, Constants.SNACK_ACTION);
+          this.openSnackBar(error, CClient.SNACK_ACTION);
         });
       });
     }
 
   public ngOnInit(): void {
     this.gameID = this.route.snapshot.paramMap.get("id");
-    const username: string | null = sessionStorage.getItem(Constants.USERNAME_KEY);
+    const username: string | null = sessionStorage.getItem(CClient.USERNAME_KEY);
     if (this.gameID !== null && username !== null) {
       this.createGameRequest(this.gameID, username);
     }
@@ -145,22 +145,22 @@ export class GameViewFreeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private disableClickRoutine(): void {
       document.body.style.cursor  = "not-allowed";
-      const positionTop:   number = this.gameViewService.position.y - Constants.CENTERY;
-      const positionRight: number = this.gameViewService.position.x - Constants.CENTERX;
+      const positionTop:   number = this.gameViewService.position.y - CClient.CENTERY;
+      const positionRight: number = this.gameViewService.position.x - CClient.CENTERX;
 
       this.erreurText.nativeElement.style.top     = positionTop   + "px";
       this.erreurText.nativeElement.style.left    = positionRight + "px";
-      this.erreurText.nativeElement.textContent   = Constants.ERROR_MESSAGE;
+      this.erreurText.nativeElement.textContent   = CClient.ERROR_MESSAGE;
       this.erreurText2.nativeElement.style.top    = positionTop   + "px";
       this.erreurText2.nativeElement.style.left   = positionRight + "px";
-      this.erreurText2.nativeElement.textContent  = Constants.ERROR_MESSAGE;
+      this.erreurText2.nativeElement.textContent  = CClient.ERROR_MESSAGE;
   }
 
   private createGameRequest(gameID: string, username: string): void {
 
-    this.httpClient.get(Constants.PATH_TO_GET_CARD + gameID + "/" + GameMode.free).subscribe((response: ICard) => {
+    this.httpClient.get(CClient.PATH_TO_GET_CARD + gameID + "/" + GameMode.free).subscribe((response: ICard) => {
       this.activeCard = response;
-      this.scenePath  = CCommon.BASE_URL + "/temp/" + this.activeCard.gameID + CCommon.SCENE_FILE;
+      this.scenePath  = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/temp/" + this.activeCard.gameID + CCommon.SCENE_FILE;
       this.canvasRoutine();
 
       const type: string | null = this.route.snapshot.paramMap.get(GAMEMODE_KEY);
@@ -184,22 +184,22 @@ export class GameViewFreeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private handleGameRequest(): void {
-    this.httpClient.post(Constants.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
+    this.httpClient.post(CClient.GAME_REQUEST_PATH, this.gameRequest).subscribe((data: Message) => {
       switch (data.title) {
         case CCommon.ON_SUCCESS:
           this.arenaID = Number(data.body);
           this.socketService.sendMessage(CCommon.GAME_CONNECTION, this.arenaID);
           this.fetchSceneFromServer(this.scenePath)
           .catch((error) => {
-            this.openSnackBar(error, Constants.SNACK_ACTION);
+            this.openSnackBar(error, CClient.SNACK_ACTION);
           });
           break;
         case CCommon.ON_WAITING:
-          this.arenaID = parseInt(data.body, Constants.DECIMAL_BASE);
+          this.arenaID = parseInt(data.body, CClient.DECIMAL_BASE);
           this.socketService.sendMessage(CCommon.GAME_CONNECTION, CCommon.ON_WAITING);
           break;
         case CCommon.ON_ERROR:
-          this.openSnackBar(data.body, Constants.SNACK_ACTION);
+          this.openSnackBar(data.body, CClient.SNACK_ACTION);
           break;
         default:
           break;
@@ -211,21 +211,21 @@ export class GameViewFreeComponent implements OnInit, OnDestroy, AfterViewInit {
     fetch(path).then((response) => {
       this.loadFileInObject(response)
       .catch((error) => {
-        this.openSnackBar(error, Constants.SNACK_ACTION);
+        this.openSnackBar(error, CClient.SNACK_ACTION);
       });
     }).catch((error) => {
-      this.openSnackBar(error, Constants.SNACK_ACTION);
+      this.openSnackBar(error, CClient.SNACK_ACTION);
     });
   }
 
   private async loadFileInObject(response: Response): Promise<void> {
-    if (response.status !== Constants.SUCCESS_STATUS) {
-      this.openSnackBar(response.statusText, Constants.SNACK_ACTION);
+    if (response.status !== CClient.SUCCESS_STATUS) {
+      this.openSnackBar(response.statusText, CClient.SNACK_ACTION);
     } else {
       await response.json().then((variables: ISceneData<ISceneObject | IMesh>) => {
         this.assignSceneVariable(variables);
       }).catch((error) => {
-        this.openSnackBar(error, Constants.SNACK_ACTION);
+        this.openSnackBar(error, CClient.SNACK_ACTION);
       });
     }
   }
@@ -252,7 +252,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private openSnackBar(msg: string, action: string): void {
     this.snackBar.open(msg, action, {
-      duration:           Constants.SNACKBAR_DURATION,
+      duration:           CClient.SNACKBAR_DURATION,
       verticalPosition:   "top",
     });
   }

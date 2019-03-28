@@ -4,8 +4,8 @@ import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
 import { MatDialogRef, MatSnackBar } from "@angular/material";
 import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
+import { CClient } from "../CClient";
 import { CardManagerService } from "../card/card-manager.service";
-import { Constants } from "../constants";
 import { FileValidatorService } from "./game-validator.service";
 
 @Component({
@@ -115,7 +115,7 @@ export class CreateSimpleGameComponent {
         this.nameModifPlaceHolder = "";
         this.isModifiedVisible    = true;
       } else {
-        this.openSnackBar(Constants.SNACK_ERROR_MSG, Constants.SNACK_ACTION);
+        this.openSnackBar(CClient.SNACK_ERROR_MSG, CClient.SNACK_ACTION);
       }
     }
   }
@@ -126,9 +126,9 @@ export class CreateSimpleGameComponent {
 
   private createFormData(data: NgForm): FormData {
     const formdata: FormData = new FormData();
-    formdata.append(Constants.NAME_KEY,           this.capitalizeFirstLetter(data.value.gameName));
-    formdata.append(Constants.ORIGINAL_IMAGE_KEY, this.selectedFiles[this.ORIGINAL_INDEX]);
-    formdata.append(Constants.MODIFIED_IMAGE_KEY, this.selectedFiles[this.MODIFIED_INDEX]);
+    formdata.append(CClient.NAME_KEY,           this.capitalizeFirstLetter(data.value.gameName));
+    formdata.append(CClient.ORIGINAL_IMAGE_KEY, this.selectedFiles[this.ORIGINAL_INDEX]);
+    formdata.append(CClient.MODIFIED_IMAGE_KEY, this.selectedFiles[this.MODIFIED_INDEX]);
 
     return formdata;
   }
@@ -136,7 +136,7 @@ export class CreateSimpleGameComponent {
   public submit(data: NgForm): void {
     this.isButtonEnabled = false;
     const formdata: FormData = this.createFormData(data);
-    this.httpClient.post(Constants.SIMPLE_SUBMIT_PATH, formdata).subscribe((response: Message) => {
+    this.httpClient.post(CClient.SIMPLE_SUBMIT_PATH, formdata).subscribe((response: Message) => {
       this.analyseResponse(response);
       this.isButtonEnabled = true;
     });
@@ -147,13 +147,13 @@ export class CreateSimpleGameComponent {
       this.cardManagerService.updateCards(true);
       this.dialogRef.close();
     } else if (response.title === CCommon.ON_ERROR) {
-      this.openSnackBar(response.body, Constants.SNACK_ACTION);
+      this.openSnackBar(response.body, CClient.SNACK_ACTION);
     }
   }
 
   private openSnackBar(msg: string, action: string): void {
     this.snackBar.open(msg, action, {
-      duration:           Constants.SNACKBAR_DURATION,
+      duration:           CClient.SNACKBAR_DURATION,
       verticalPosition:   "top",
     });
   }

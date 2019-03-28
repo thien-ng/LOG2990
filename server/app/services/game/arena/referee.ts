@@ -9,7 +9,7 @@ import {
 import { IMesh, ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { IUser } from "../../../../../common/communication/iUser";
 import { CCommon } from "../../../../../common/constantes/cCommon";
-import { Constants } from "../../../constants";
+import { CServer } from "../../../CServer";
 import { Arena } from "./arena";
 import { IHitConfirmation, IHitToValidate, IPlayerInput } from "./interfaces";
 import { Player } from "./player";
@@ -88,7 +88,7 @@ export class Referee<EVT_T, DIFF_T> {
         }
 
         if (player.getPenaltyState()) {
-            return this.buildArenaResponse(Constants.ON_PENALTY) as IArenaResponse<DIFF_T>;
+            return this.buildArenaResponse(CServer.ON_PENALTY) as IArenaResponse<DIFF_T>;
         }
 
         return this.validateHit(eventInfos)
@@ -126,7 +126,7 @@ export class Referee<EVT_T, DIFF_T> {
         const postData:     IHitToValidate<EVT_T>   = this.buildPostData(eventInfos);
         const postConfig:   AxiosRequestConfig      = this.buildPostConfig();
 
-        return axios.post(Constants.URL_HIT_VALIDATOR + "/" + this.arena.ARENA_TYPE, postData, postConfig)
+        return axios.post(CServer.URL_HIT_VALIDATOR + "/" + this.arena.ARENA_TYPE, postData, postConfig)
             .then((res: AxiosResponse) => {
                 return res.data;
             })
@@ -213,7 +213,7 @@ export class Referee<EVT_T, DIFF_T> {
         return {
             eventInfo:          eventInfos,
             differenceDataURL:  this.differenceDataUrl,
-            colorToIgnore:      Constants.FF,
+            colorToIgnore:      CServer.FF,
         } as IHitToValidate<EVT_T>;
     }
 

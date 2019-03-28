@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
-import { Constants } from "../../constants";
+import { CClient } from "../../CClient";
 
 @Injectable({
   providedIn: "root",
@@ -18,12 +18,12 @@ export class TimerService {
   }
 
   public timeFormat(totalTimeInSeconds: number): void {
-    const min: number = Math.floor((totalTimeInSeconds / Constants.SECONDS_IN_MINUTE));
-    const sec: number = totalTimeInSeconds - (min * Constants.SECONDS_IN_MINUTE);
+    const min: number = Math.floor((totalTimeInSeconds / CClient.SECONDS_IN_MINUTE));
+    const sec: number = totalTimeInSeconds - (min * CClient.SECONDS_IN_MINUTE);
 
-    let timeFormat: string = (min < Constants.DECIMAL_BASE ? "0" + min.toString() : min.toString());
+    let timeFormat: string = (min < CClient.DECIMAL_BASE ? "0" + min.toString() : min.toString());
 
-    timeFormat += ":" + (sec < Constants.DECIMAL_BASE ? "0" + sec.toString() : sec.toString());
+    timeFormat += ":" + (sec < CClient.DECIMAL_BASE ? "0" + sec.toString() : sec.toString());
 
     this.timeUpdated.next(timeFormat);
   }

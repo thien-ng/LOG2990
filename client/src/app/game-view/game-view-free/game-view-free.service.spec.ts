@@ -2,7 +2,7 @@ import { inject, TestBed } from "@angular/core/testing";
 
 import { ElementRef } from "@angular/core";
 import * as io from "socket.io-client";
-import { Constants } from "src/app/constants";
+import { CClient } from "src/app/CClient";
 import { GameMode } from "../../../../../common/communication/iCard";
 import { ActionType, IArenaResponse, ISceneObjectUpdate } from "../../../../../common/communication/iGameplay";
 import { IMesh, ISceneObject } from "../../../../../common/communication/iSceneObject";
@@ -124,7 +124,7 @@ describe("GameViewFreeService Test", () => {
 
   it("should reset the number of sceneLoaded ", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
     const arenaID: number = 20;
-    gameViewService["socket"] =  io(Constants.WEBSOCKET_URL);
+    gameViewService["socket"] =  io(CClient.WEBSOCKET_URL);
     spyOn(gameViewService["socket"], "emit").and.returnValue(() => {});
     gameViewService.updateSceneLoaded(arenaID);
     gameViewService.updateSceneLoaded(arenaID);

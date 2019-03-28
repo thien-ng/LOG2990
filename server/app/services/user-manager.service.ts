@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 import { IUser } from "../../../common/communication/iUser";
 import { Message } from "../../../common/communication/message";
 import { CCommon } from "../../../common/constantes/cCommon";
-import { Constants } from "../constants";
+import { CServer } from "../CServer";
 
 @injectable()
 export class UserManagerService {
@@ -52,7 +52,7 @@ export class UserManagerService {
             return this.generateMessage(CCommon.ON_SUCCESS, CCommon.IS_UNIQUE);
         }
 
-        return this.generateMessage(CCommon.ON_SUCCESS, Constants.NOT_UNIQUE_NAME);
+        return this.generateMessage(CCommon.ON_SUCCESS, CServer.NOT_UNIQUE_NAME);
     }
 
     public getUserByUsername(username: string): IUser | string {
@@ -60,7 +60,7 @@ export class UserManagerService {
             return user.username === username;
         })[0];
 
-        return (foundUser) ? foundUser : Constants.USER_NOT_FOUND;
+        return (foundUser) ? foundUser : CServer.USER_NOT_FOUND;
     }
 
     public leaveBrowser(user: IUser): void {
@@ -83,11 +83,11 @@ export class UserManagerService {
         const regex: RegExp = new RegExp(CCommon.REGEX_PATTERN_ALPHANUM);
 
         if (username.length < CCommon.MIN_NAME_LENGTH || username.length > CCommon.MAX_NAME_LENGTH) {
-            return this.generateMessage(CCommon.ON_ERROR, Constants.NAME_FORMAT_LENGTH_ERROR);
+            return this.generateMessage(CCommon.ON_ERROR, CServer.NAME_FORMAT_LENGTH_ERROR);
         }
 
         if (!regex.test(username)) {
-            return this.generateMessage(CCommon.ON_ERROR, Constants.USER_NAME_ERROR);
+            return this.generateMessage(CCommon.ON_ERROR, CServer.USER_NAME_ERROR);
         }
 
         return this.generateMessage(CCommon.ON_SUCCESS, CCommon.ON_SUCCESS);

@@ -1,8 +1,9 @@
 import { CCommon } from "../../common/constantes/cCommon";
 
-export class Constants {
+// Constantes pour le serveur Express
+export class CServer {
 
-  // Constants for websocket.ts
+  // CServer for websocket.ts
   public static readonly SOCKET_IO:                 string = "socket.io";
   public static readonly CONNECTION:                string = "connection";
   public static readonly DISCONNECT_EVENT:          string = "disconnect";
@@ -14,10 +15,10 @@ export class Constants {
   public static readonly ON_POINT_ADDED:            string = "onPointAdded";
   public static readonly ON_CHAT_EVENT:             string = "onChatEvent";
 
-  // Constants for card-manager.service.ts
+  // CServer for card-manager.service.ts
   public static readonly SCENE_SNAPSHOT:            string = "_snapshot.jpeg";
   public static readonly GENERATED_FILE:            string = "_generated.bmp";
-  public static readonly PATH_FOR_2D_VALIDATION:    string = CCommon.BASE_URL + "/api/differenceChecker";
+  public static readonly PATH_FOR_2D_VALIDATION:    string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/api/differenceChecker";
   public static readonly VALIDATION_FAILED:         string = "Validation services failed";
   public static readonly UNKNOWN_ERROR:             string = "Erreur inconnue";
   public static readonly GENERATED_SNAPSHOT:        string = "_snapshot.jpeg";
@@ -43,35 +44,38 @@ export class Constants {
                                                              " et " + CCommon.MAX_GAME_LENGTH + "caracteres";
   public static readonly GAME_TITLE_IS_CORRECT:     string = "Le titre est correct";
 
-  // Constants for card-manager-controller
+  // CServer for card-manager-controller
   public static readonly DEFAULT_CARD_2D:           number = 1;
   public static readonly DEFAULT_CARD_3D:           number = 2;
   public static readonly DELETION_ERROR_MESSAGE:    string = "Impossible de supprimer la carte par défault";
 
-  // Constants for game manager
-  public static readonly PATH_TO_IMAGES:            string = CCommon.BASE_URL + "/image/";
-  public static readonly PATH_SERVER_TEMP:          string = CCommon.BASE_URL + "/temp/";
+  // CServer for game manager
+  public static readonly PATH_TO_IMAGES:            string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/image/";
+  public static readonly PATH_TO_SCENES:            string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/scene/";
+  public static readonly PATH_TO_MESHES:            string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/mesh/";
+
+  public static readonly PATH_SERVER_TEMP:          string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/temp/";
   public static readonly PATH_LOCAL_TEMP:           string = "./app/asset/temp/";
   public static readonly PATH_LOCAL_THEME:          string = "./app/asset/theme/";
   public static readonly NOT_UNIQUE_NAME:           string = "isNotUnique";
   public static readonly INIT_ARENA_ERROR:          string = "Erreur lors de l'initialisation de l'arène 2D";
 
-  // Constants for user manager service
+  // CServer for user manager service
   public static readonly USER_NOT_FOUND:            string = "Utilisateur inexistant";
   public static readonly NAME_FORMAT_LENGTH_ERROR:  string = "Le nom doit contenir entre 4 et 15 characteres";
   public static readonly USER_NAME_ERROR:           string = "Le nom doit contenir seulement des caracteres alphanumériques";
 
-  // Constants for arena.ts
+  // CServer for arena.ts
   public static readonly FF:                        number = 255;
-  public static readonly URL_HIT_VALIDATOR:         string = "http://localhost:3000/api/hitvalidator";
+  public static readonly URL_HIT_VALIDATOR:         string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/api/hitvalidator";
   public static readonly ONE_SECOND:                number = 1000;
 
-  // Constants for scene manager service
+  // CServer for scene manager service
   public static readonly MIN_ITEMS_IN_SCENE:        number = 10;
   public static readonly MAX_ITEMS_IN_SCENE:        number = 200;
   public static readonly THEME_GEOMETRIC:           string = "geometric";
   public static readonly THEME_THEMATIC:            string = "thematic";
 
-  // Constants for highscore.service.ts
-  public static readonly VALIDATE_HIGHSCORE_PATH:   string = CCommon.BASE_URL + "/api/highscore-api";
+  // CServer for highscore.service.ts
+  public static readonly VALIDATE_HIGHSCORE_PATH:   string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/api/highscore-api";
 }
