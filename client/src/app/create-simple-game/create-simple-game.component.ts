@@ -89,10 +89,19 @@ export class CreateSimpleGameComponent {
     this.dialogRef.close();
   }
 
-  public onFileSelected(file: Blob, imageIndex: number): void {
+  public onFileSelected(file: Blob, imageIndex: number, name: string): void {
     if (this.fileValidatorService.validateFile(file)) {
       this.selectedFiles[imageIndex]  = file;
       this.IS_IMAGE_BMP[imageIndex]   = true;
+      if (imageIndex === 0) {
+        this.checkOrigImage.nativeElement.textContent = this.CHECK_CIRCLE;
+        this.nameOrigPlaceHolder                      = name;
+        this.isOriginalVisible                        = false;
+      } else {
+        this.checkModifImage.nativeElement.textContent  = this.CHECK_CIRCLE;
+        this.nameModifPlaceHolder                       = name;
+        this.isModifiedVisible                          = false;
+      }
     } else {
       this.IS_IMAGE_BMP[imageIndex]   = false;
       this.openSnackBar(Constants.SNACK_ERROR_MSG, Constants.SNACK_ACTION);
