@@ -21,6 +21,17 @@
      -ms-user-select: none; /* Internet Explorer/Edge */
          user-select: none;
 }
+
+.buttonGrid {
+  vertical-align: text-bottom;
+}
+
+.player1Container {
+  height: 100%;
+  width: 100%;
+  vertical-align: middle;
+}
+
 .textMessage {
   font-size: 60px;
   color: #3F51B5;
