@@ -153,6 +153,7 @@ export class CardManagerService {
 
     public isSceneNameNew(title: string): boolean {
         const cards:    ICardLists = this.getCards();
+
         return !cards.list3D.some((card: ICard): boolean => {
             return card.title === title;
         });

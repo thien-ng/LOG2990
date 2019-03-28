@@ -96,7 +96,7 @@ describe("Card-manager tests", () => {
     });
 
     it("should return undefined because there is no more card there", () => {
-        chai.expect(cardManagerService.getCards().list3D[1]).deep.equal(undefined);
+        chai.expect(cardManagerService.getCards().list3D[3]).deep.equal(undefined);
     });
 
     it("should return an error message when doing axios get", async () => {
