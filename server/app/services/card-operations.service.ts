@@ -12,57 +12,56 @@ import { HighscoreService } from "./highscore.service";
 export class CardOperations {
 
     private imageManagerService:    AssetManagerService;
-    private cards:                  ICardLists;
     private socketServer:           SocketIO.Server;
 
     public constructor(@inject(Types.HighscoreService) private highscoreService: HighscoreService) {
         this.imageManagerService = new AssetManagerService();
-        this.cards = {
-            list2D: [],
-            list3D: [],
-        };
     }
 
     public setServer(server: SocketIO.Server): void {
         this.socketServer = server;
     }
 
-    public getCardList(): ICardLists {
-        return this.cards;
-    }
-
     public addCard2D(card: ICard): boolean {
         let isExisting: boolean = false;
-        this.cards.list2D.forEach((element: ICard) => {
+
+        const cards: ICardLists = this.getCards();
+        cards.list2D.forEach((element: ICard) => {
             if (this.cardEqual(card, element)) {
                 isExisting = true;
             }
         });
         if (!isExisting) {
-            this.cards.list2D.unshift(card);
+            cards.list2D.unshift(card);
             this.highscoreService.createHighscore(card.gameID);
             if (this.socketServer) {
                 this.socketServer.emit(CCommon.ON_CARD_CREATED);
             }
         }
+
+        this.imageManagerService.saveCardsUpdate(cards);
 
         return !isExisting;
     }
 
     public addCard3D(card: ICard): boolean {
         let isExisting: boolean = false;
-        this.cards.list3D.forEach((element: ICard) => {
+
+        const cards: ICardLists = this.getCards();
+        cards.list3D.forEach((element: ICard) => {
             if (this.cardEqual(card, element)) {
                 isExisting = true;
             }
         });
         if (!isExisting) {
-            this.cards.list3D.unshift(card);
+            cards.list3D.unshift(card);
             this.highscoreService.createHighscore(card.gameID);
             if (this.socketServer) {
                 this.socketServer.emit(CCommon.ON_CARD_CREATED);
             }
         }
+
+        this.imageManagerService.saveCardsUpdate(cards);
 
         return !isExisting;
     }
@@ -80,16 +79,17 @@ export class CardOperations {
         if (index === CServer.DOESNT_EXIST) {
             return CServer.CARD_NOT_FOUND;
         }
-
+        const cards: ICardLists = this.getCards();
         try {
             this.imageManagerService.deleteStoredImages(paths);
-            this.cards.list2D.splice(index, 1);
+            cards.list2D.splice(index, 1);
         } catch (error) {
             return this.generateErrorMessage(error).body;
         }
         if (this.socketServer) {
             this.socketServer.emit(CCommon.ON_CARD_DELETED);
         }
+        this.imageManagerService.saveCardsUpdate(cards);
 
         return CServer.CARD_DELETED;
     }
@@ -107,31 +107,35 @@ export class CardOperations {
             CServer.IMAGES_PATH   + "/" + id + CServer.GENERATED_SNAPSHOT,
             CServer.SCENE_PATH    + "/" + id + CCommon.SCENE_FILE,
         ];
+        const cards: ICardLists = this.getCards();
         try {
             this.imageManagerService.deleteStoredImages(paths);
-            this.cards.list3D.splice(index, 1);
+            cards.list3D.splice(index, 1);
         } catch (error) {
             return this.generateErrorMessage(error).body;
         }
         if (this.socketServer) {
             this.socketServer.emit(CCommon.ON_CARD_DELETED);
         }
+        this.imageManagerService.saveCardsUpdate(cards);
 
         return CServer.CARD_DELETED;
     }
 
     public getCardById(id: string, gamemode: GameMode): ICard {
+        const cards:    ICardLists = this.getCards();
         const gameID:   number = parseInt(id, CServer.DECIMAL);
         const index:    number = (gamemode === GameMode.simple) ? this.findCard2D(gameID) : this.findCard3D(gameID);
 
-        return (gamemode === GameMode.simple) ? this.cards.list2D[index] : this.cards.list3D[index];
+        return (gamemode === GameMode.simple) ? cards.list2D[index] : cards.list3D[index];
     }
 
     private findCard2D(id: number): number {
-        let index: number = CServer.DOESNT_EXIST;
-        this.cards.list2D.forEach((card: ICard) => {
+        const cards:    ICardLists = this.getCards();
+        let index:      number = CServer.DOESNT_EXIST;
+        cards.list2D.forEach((card: ICard) => {
             if (card.gameID === id) {
-                index = this.cards.list2D.indexOf(card);
+                index = cards.list2D.indexOf(card);
             }
         });
 
@@ -139,14 +143,19 @@ export class CardOperations {
     }
 
     private findCard3D(id: number): number {
-        let index: number = CServer.DOESNT_EXIST;
-        this.cards.list3D.forEach((card: ICard) => {
+        const cards:    ICardLists = this.getCards();
+        let index:      number = CServer.DOESNT_EXIST;
+        cards.list3D.forEach((card: ICard) => {
             if (card.gameID === id) {
-                index = this.cards.list3D.indexOf(card);
+                index = cards.list3D.indexOf(card);
             }
         });
 
         return index;
+    }
+
+    private getCards(): ICardLists {
+        return this.imageManagerService.getCards();
     }
 
     private cardEqual(card: ICard, element: ICard): boolean {

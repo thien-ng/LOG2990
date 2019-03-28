@@ -3,6 +3,7 @@ import { injectable } from "inversify";
 import { ITheme } from "../../../common/communication/ITheme";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { CServer } from "../CServer";
+import { ICardLists } from "../../../common/communication/iCardLists";
 
 const IMAGES_PATH:              string = "./app/asset/image";
 const FILE_GENERATION_ERROR:    string = "error while generating file";
@@ -10,6 +11,7 @@ const FILE_DELETION_ERROR:      string = "error while deleting file";
 const FILE_SAVING_ERROR:        string = "error while saving file";
 const TEMP_ROUTINE_ERROR:       string = "error while copying to temp";
 const GET_THEME_ERROR:          string = "error while getting theme file";
+const GET_CARDS_ERROR:          string = "error while getting cards file";
 
 @injectable()
 export class AssetManagerService {
@@ -128,6 +130,25 @@ export class AssetManagerService {
             return JSON.parse(readFile.toString()) as ITheme;
         } catch (error) {
             throw new TypeError(GET_THEME_ERROR);
+        }
+    }
+
+    public getCards(): ICardLists {
+        try {
+            const readFile: Buffer = fs.readFileSync(CServer.PATH_LOCAL_CARDS);
+
+            return JSON.parse(readFile.toString()) as ICardLists;
+        } catch (error) {
+            throw new TypeError(GET_CARDS_ERROR);
+        }
+    }
+
+    public saveCardsUpdate(cards: ICardLists): void {
+        const cardsParsed: string = JSON.stringify(cards);
+        try {
+            fs.writeFileSync(CServer.PATH_LOCAL_CARDS, cardsParsed);
+        } catch (error) {
+            throw TypeError(FILE_SAVING_ERROR);
         }
     }
 }

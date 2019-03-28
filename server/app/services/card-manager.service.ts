@@ -17,7 +17,6 @@ const axios: Axios.AxiosInstance = require("axios");
 
 @injectable()
 export class CardManagerService {
-    private cards:                  ICardLists;
 
     private originalImageRequest:   Buffer;
     private modifiedImageRequest:   Buffer;
@@ -26,11 +25,10 @@ export class CardManagerService {
     private uniqueId:               number;
     private uniqueIdScene:          number;
 
-    public constructor( @inject(Types.CardOperations) private cardOperations: CardOperations) {
+    public constructor(@inject(Types.CardOperations) private cardOperations: CardOperations) {
 
         this.uniqueId               = CServer.START_ID_2D;
         this.uniqueIdScene          = CServer.START_ID_3D;
-        this.cards                  = cardOperations.getCardList();
         this.imageManagerService    = new AssetManagerService();
 
         this.cardOperations.addCard2D(DefaultCard2D);
@@ -154,13 +152,14 @@ export class CardManagerService {
     }
 
     public isSceneNameNew(title: string): boolean {
-        return !this.cards.list3D.some((card: ICard): boolean => {
+        const cards:    ICardLists = this.getCards();
+        return !cards.list3D.some((card: ICard): boolean => {
             return card.title === title;
         });
     }
 
     public getCards(): ICardLists {
-        return this.cards;
+        return this.imageManagerService.getCards();
     }
 
     public generateErrorMessage(error: Error): Message {
