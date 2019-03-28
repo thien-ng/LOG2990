@@ -21,3 +21,23 @@
           <mat-grid-tile [colspan]="1" [rowspan]="10">
             <div class="textUsername">{{username}}</div>
         </mat-grid-tile>
+
+    </mat-grid-list>
+    </mat-grid-tile>
+    <mat-grid-tile
+      [colspan]="4"
+      [rowspan]="55">
+      <div class="textVS">VS</div>
+    </mat-grid-tile>
+    <mat-grid-tile
+      [colspan]="4"
+      [rowspan]="55">
+      <app-spinner *ngIf="counter === ''"></app-spinner>
+    </mat-grid-tile>
+    <mat-grid-tile
+    class="buttonGrid"
+      [colspan]="12"
+      [rowspan]="15">
+      <button mat-raised-button (click)="cancelRequest()">{{CANCEL_BUTTON_TEXT}}</button>
+    </mat-grid-tile>
+
