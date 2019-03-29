@@ -75,12 +75,12 @@ describe("threejs-raycast tests", () => {
         expect(threejsRaycast["idBySceneId"]).toEqual(idBySceneId);
     });
 
-    it("should set threeGenetor", () => {
+    it("should set threeGenerator (geometric)", () => {
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
         expect(threejsRaycast["threejsGenerator"]).toEqual(threejsGeneratorGeometric);
     });
 
-    it("should set attribute threejsThemeGenerator equal to parameter passed to setThreeGenerator()", () => {
+    it("should set threeGenerator (thematic)", () => {
         const threejsThemeGeneratorMock:  ThreejsThemeGenerator = new ThreejsThemeGenerator(scene, sceneIdById, idBySceneId, opacityById, modelsByName);
         threejsRaycast.setThreeGenerator(threejsThemeGeneratorMock);
 
