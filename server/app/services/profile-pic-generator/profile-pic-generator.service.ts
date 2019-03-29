@@ -24,6 +24,28 @@ export class ProfilePicGeneratorService {
         this.COLOR_PINK,
     ];
     private readonly multiplier: number = 20;
+
+    public generateRandomImage(): Buffer  {
+
+        const sizeOfSquare:     number      = 7;
+        const builder:          BMPBuilder  = new BMPBuilder(sizeOfSquare * this.multiplier, sizeOfSquare * this.multiplier, 0);
+        const color:            IColor      = this.getRandomColor();
+        const middleOfSquare:   number      = this.getCeiledHalf(sizeOfSquare);
+
+        for (let x: number = 0; x < middleOfSquare; x++) {
+            for (let y: number = 0; y < sizeOfSquare; y++) {
+
+                const isColor: boolean = this.randomBoolean();
+                const colorToApply: IColor = isColor ? color : this.COLOR_WHITE;
+
+                this.fillImage(builder, x, y, colorToApply);
+                this.fillImage(builder, sizeOfSquare - 1 - x, y, colorToApply);
+            }
+        }
+
+        return builder.getBuffer();
+    }
+
     private getCeiledHalf(numberToDivide: number): number {
         const two: number = 2;
 
