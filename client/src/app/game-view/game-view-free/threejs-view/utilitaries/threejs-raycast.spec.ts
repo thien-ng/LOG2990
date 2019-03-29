@@ -277,6 +277,15 @@ describe("threejs-raycast tests", () => {
         expect(spy).not.toHaveBeenCalled();
     });
 
+    it("should not do anything when the action is NO_ACTION_REQUIRED", () => {
+        const spy: any = spyOn<any>(threejsRaycast, "displayObject");
+
+        objectUpdateMesh.actionToApply = ActionType.NO_ACTION_REQUIRED;
+        threejsRaycast.updateSceneWithNewObject(objectUpdateMesh);
+
+        expect(spy).not.toHaveBeenCalled();
+    });
+
     it("should display object to scene theme", () => {
         const spy: any = spyOn<any>(threejsRaycast, "displayObject");
 
