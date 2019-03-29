@@ -31,7 +31,7 @@ describe("threejs-raycast tests", () => {
         camera                      = mock(THREE.PerspectiveCamera);
         renderer                    = mock(THREE.WebGLRenderer);
         scene                       = mock(THREE.Scene);
-        threejsGeneratorGeometric   = mock(ThreejsGenerator);
+        // threejsGeneratorGeometric   = mock(ThreejsGenerator);
         threejsGeneratorTheme       = mock(ThreejsThemeGenerator);
         threejsRaycast              = new ThreejsRaycast(camera, renderer, scene);
     });
@@ -234,13 +234,8 @@ describe("threejs-raycast tests", () => {
     });
 
     it("should set attribute threejsThemeGenerator equal to parameter passed to setThreeGenerator()", () => {
-        const opacityById:           Map<number, number> =  new Map<number, number>();
-
-        sceneIdById.set(1, 1);
-        opacityById.set(3, 3);
-
-        threejsRaycast["threejsThemeGenerator"] = mock(ThreejsThemeGenerator);
         const threejsThemeGeneratorMock:  ThreejsThemeGenerator = new ThreejsThemeGenerator(scene, sceneIdById, idBySceneId, opacityById, modelsByName);
+        threejsRaycast["threejsThemeGenerator"] = threejsGeneratorTheme;
         threejsRaycast["isTheme"] = true;
         threejsRaycast.setThreeGenerator(threejsThemeGeneratorMock);
 
