@@ -184,10 +184,8 @@ describe("threejs-raycast tests", () => {
     it("should not call initiateObject from threejsGenerator if no object is passed as reference", () => {
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
-        objectUpdateSceneObject.sceneObject    = undefined;
-
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "initiateObject");
-
+        objectUpdateSceneObject.sceneObject    = undefined;
         threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
@@ -196,10 +194,9 @@ describe("threejs-raycast tests", () => {
     it("should not call deleteObject from threejsGenerator if no object is passed as reference", () => {
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
-        objectUpdateSceneObject.sceneObject    = undefined;
-
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "deleteObject");
 
+        objectUpdateSceneObject.sceneObject    = undefined;
         threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
