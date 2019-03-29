@@ -92,7 +92,6 @@ describe("threejs-raycast tests", () => {
     });
 
     it("should not call changeObjectColor from threejsGenerator if action type is ADD", () => {
-        threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "changeObjectColor");
@@ -103,7 +102,6 @@ describe("threejs-raycast tests", () => {
     });
 
     it("should not call initiateObject from threejsGenerator if action type is DELETE", () => {
-        threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
         objectUpdateSceneObject.actionToApply = ActionType.DELETE;
@@ -116,7 +114,6 @@ describe("threejs-raycast tests", () => {
     });
 
     it("should not call changeObjectColor from threejsGenerator if action type is DELETE", () => {
-        threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
         objectUpdateSceneObject.actionToApply = ActionType.DELETE;
@@ -129,7 +126,6 @@ describe("threejs-raycast tests", () => {
     });
 
     it("should not call initiateObject from threejsGenerator if action type is CHANGE_COLOR", () => {
-        threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
         objectUpdateSceneObject.actionToApply = ActionType.CHANGE_COLOR;
@@ -142,7 +138,6 @@ describe("threejs-raycast tests", () => {
     });
 
     it("should not call deleteObject from threejsGenerator if action type is CHANGE_COLOR", () => {
-        threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
         objectUpdateSceneObject.actionToApply = ActionType.CHANGE_COLOR;
@@ -260,7 +255,6 @@ describe("threejs-raycast tests", () => {
     });
 
     it("should not return object3 as parent if none of the objects are connected to scene", () => {
-        threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorTheme);
 
         const object1: THREE.Object3D = new THREE.Object3D();
