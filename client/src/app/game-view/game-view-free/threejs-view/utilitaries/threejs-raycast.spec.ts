@@ -189,10 +189,8 @@ describe("threejs-raycast tests", () => {
     });
 
     it("should not call initiateObject from threejsGenerator if no object is passed as reference", () => {
-        threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
-        objectUpdateSceneObject.actionToApply  = ActionType.NO_ACTION_REQUIRED;
         objectUpdateSceneObject.sceneObject    = undefined;
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "initiateObject");
@@ -203,10 +201,8 @@ describe("threejs-raycast tests", () => {
     });
 
     it("should not call deleteObject from threejsGenerator if no object is passed as reference", () => {
-        threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
-        objectUpdateSceneObject.actionToApply  = ActionType.NO_ACTION_REQUIRED;
         objectUpdateSceneObject.sceneObject    = undefined;
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "deleteObject");
@@ -217,10 +213,8 @@ describe("threejs-raycast tests", () => {
     });
 
     it("should not call changeObjectColor from threejsGenerator if no object is passed as reference", () => {
-        threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
-        objectUpdateSceneObject.actionToApply  = ActionType.NO_ACTION_REQUIRED;
         objectUpdateSceneObject.sceneObject    = undefined;
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "changeObjectColor");
@@ -240,7 +234,6 @@ describe("threejs-raycast tests", () => {
     });
 
     it("should return parent object3 as parent object", () => {
-        threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorTheme);
 
         const object1: THREE.Object3D = new THREE.Object3D();
