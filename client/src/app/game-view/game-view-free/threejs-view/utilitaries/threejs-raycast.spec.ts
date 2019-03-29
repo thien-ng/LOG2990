@@ -1,7 +1,10 @@
 import * as THREE from "three";
-import { anything, mock, when } from "ts-mockito";
+// import { anything, mock, when } from "ts-mockito";
+import { mock } from "ts-mockito";
+
 import { ActionType, ISceneObjectUpdate } from "../../../../../../../common/communication/iGameplay";
 import { IMesh, ISceneObject } from "../../../../../../../common/communication/iSceneObject";
+
 import { ThreejsGenerator } from "./threejs-generator";
 import { ThreejsRaycast } from "./threejs-raycast";
 import { ThreejsThemeGenerator } from "./threejs-themeGenerator";
@@ -33,7 +36,7 @@ describe("threejs-raycast tests", () => {
         camera                      = mock(THREE.PerspectiveCamera);
         renderer                    = mock(THREE.WebGLRenderer);
         scene                       = mock(THREE.Scene);
-        // threejsGeneratorGeometric   = mock(ThreejsGenerator);
+        threejsGeneratorGeometric   = mock(ThreejsGenerator);
         threejsGeneratorTheme       = mock(ThreejsThemeGenerator);
         threejsRaycast              = new ThreejsRaycast(camera, renderer, scene);
     });
