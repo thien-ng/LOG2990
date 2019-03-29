@@ -6,6 +6,7 @@ import { IMesh, ISceneObject } from "../../../../../../common/communication/iSce
 import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { GameViewFreeService } from "../game-view-free.service";
 import { ThreejsThemeViewService } from "./threejs-ThemeView.service";
+import { ThreejsMovement } from "./utilitaries/threejs-movement";
 import { ThreejsRaycast } from "./utilitaries/threejs-raycast";
 import { ThreejsThemeGenerator } from "./utilitaries/threejs-themeGenerator";
 
@@ -57,6 +58,7 @@ describe("ThreejsThemeViewService Tests", () => {
   }));
 
   it("should set up front the threejsMovement", inject([ThreejsThemeViewService], async (threejsThemeViewService: ThreejsThemeViewService) => {
+    threejsThemeViewService["threejsMovement"] = mock(ThreejsMovement);
     const spy: any = spyOn(threejsThemeViewService["threejsMovement"], "setupFront").and.callFake(() => {return; });
     threejsThemeViewService["setupFront"](1);
     expect(spy).toHaveBeenCalled();
@@ -421,6 +423,8 @@ describe("ThreejsThemeViewService Tests", () => {
   it("should call rotateCamera from threejsMovement",
      inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
 
+      threejsThemeViewService["threejsMovement"] = mock(ThreejsMovement);
+
       const position: IPosition2D = {x: 1, y: 1};
 
       const spy: any = spyOn<any>(threejsThemeViewService["threejsMovement"], "rotateCamera");
@@ -469,6 +473,8 @@ describe("ThreejsThemeViewService Tests", () => {
   it("should make the camera move forward keyDown when key W is pressed",
      inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
 
+    threejsThemeViewService["threejsMovement"] = mock(ThreejsMovement);
+
     const keyboardEvent: any = new KeyboardEvent("keydown", {
       key: "w",
     });
@@ -492,6 +498,8 @@ describe("ThreejsThemeViewService Tests", () => {
 
   it("should move the camera move backward keyDown when key S is pressed",
      inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
+
+    threejsThemeViewService["threejsMovement"] = mock(ThreejsMovement);
 
     const keyboardEvent: any = new KeyboardEvent("keydown", {
       key: "s",
