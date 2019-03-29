@@ -319,7 +319,7 @@ describe("threejs-raycast tests", () => {
         expect(spy).toHaveBeenCalled();
     });
 
-    it("should not call getObjectById() if objectID is undefined", () => {
+    it("should not call getObjectById() if 'objectID' is undefined", () => {
         threejsRaycast.setMaps(idBySceneId, sceneIdById);
 
         const spy: any = spyOn<any>(threejsRaycast["scene"], "getObjectById");
@@ -329,7 +329,7 @@ describe("threejs-raycast tests", () => {
         expect(spy).not.toHaveBeenCalled();
     });
 
-    it("should call getOpacityById() if object is not undefined", () => {
+    it("should call getOpacityById() if 'object' is not undefined", () => {
         const threejsThemeGeneratorMock:  ThreejsThemeGenerator = new ThreejsThemeGenerator(scene, sceneIdById, idBySceneId, opacityById, modelsByName);
         threejsRaycast.setThreeGenerator(threejsThemeGeneratorMock);
         const spy: any = spyOn<any>(threejsRaycast["threejsThemeGenerator"], "getOpacityById").and.callFake( () => new Map<1, 1>());
@@ -343,7 +343,7 @@ describe("threejs-raycast tests", () => {
         expect(spy).toHaveBeenCalled();
     });
 
-    it("should call setObjectOpacity() if object is not undefined", () => {
+    it("should call setObjectOpacity() if 'object' is not undefined", () => {
         const threejsThemeGeneratorMock:  ThreejsThemeGenerator = new ThreejsThemeGenerator(scene, sceneIdById, idBySceneId, opacityById, modelsByName);
         threejsRaycast.setThreeGenerator(threejsThemeGeneratorMock);
         const spy: any = spyOn<any>(threejsRaycast["threejsThemeGenerator"], "setObjectOpacity").and.callFake( () => new Map<1, 1>());
