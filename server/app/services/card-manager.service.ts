@@ -22,13 +22,7 @@ export class CardManagerService {
     private modifiedImageRequest:   Buffer;
     private imageManagerService:    AssetManagerService;
 
-    private uniqueId:               number;
-    private uniqueIdScene:          number;
-
     public constructor(@inject(Types.CardOperations) private cardOperations: CardOperations) {
-
-        this.uniqueId               = CServer.START_ID_2D;
-        this.uniqueIdScene          = CServer.START_ID_3D;
         this.imageManagerService    = new AssetManagerService();
 
         this.cardOperations.addCard(DefaultCard2D);
@@ -144,11 +138,25 @@ export class CardManagerService {
     }
 
     private generateId(): number {
-        return this.uniqueId++;
+        let chosenId: number = 1000;
+        const list: ICardsIds = this.imageManagerService.getCardsIds();
+        list.descriptions.forEach((description: ICardDescription) => {
+            if (description.gamemode === GameMode.simple && description.id !== DefaultCard2D.gameID) {
+                chosenId = description.id;
+            }
+        });
+        return ++chosenId;
     }
 
     private generateSceneId(): number {
-        return this.uniqueIdScene++;
+        let chosenId: number = 2000;
+        const list: ICardsIds = this.imageManagerService.getCardsIds();
+        list.descriptions.forEach((description: ICardDescription) => {
+            if (description.gamemode === GameMode.free && description.id !== DefaultCard3D.gameID) {
+                chosenId = description.id;
+            }
+        });
+        return ++chosenId;
     }
 
     public isSceneNameNew(title: string): boolean {
