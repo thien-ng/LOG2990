@@ -331,7 +331,7 @@ describe("threejs-raycast tests", () => {
         expect(spy).toHaveBeenCalled();
     });
 
-    it("should change the object color if the object is a scene Theme", () => {
+    it("should not call changeObjectColor() with wrong parameter", () => {
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
         const objectUpdateSceneObjectWrong: ISceneObjectUpdate<ISceneObject> = {
