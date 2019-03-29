@@ -331,4 +331,15 @@ describe("threejs-raycast tests", () => {
         expect(spy).toHaveBeenCalled();
     });
 
+    it("should change the object color if the object is a scene Theme", () => {
+        threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
+
+        const objectUpdateSceneObjectWrong: ISceneObjectUpdate<ISceneObject> = {
+            actionToApply:  ActionType.ADD,
+        };
+        const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "changeObjectColor");
+        threejsRaycast["changeObjectColor"](objectUpdateSceneObjectWrong);
+        expect(spy).not.toHaveBeenCalled();
+    });
+
 });
