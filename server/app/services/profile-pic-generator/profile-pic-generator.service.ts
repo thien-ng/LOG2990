@@ -30,6 +30,13 @@ export class ProfilePicGeneratorService {
         return Math.ceil(numberToDivide / two) + 1;
     }
 
+    private randomBoolean(): boolean {
+        const two: number = 2;
+        const sampleSize: number = 100;
+
+        return Math.floor(Math.random() * sampleSize) % two === 0;
+    }
+
     private fillImage(builder: BMPBuilder, x: number, y: number, color: IColor): void {
         for (let i: number = 0; i < this.multiplier; i++) {
             for (let j: number = 0; j < this.multiplier; j++) {
