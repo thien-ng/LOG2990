@@ -1,6 +1,5 @@
 import * as THREE from "three";
-// import { anything, mock, when } from "ts-mockito";
-import { mock } from "ts-mockito";
+import { anything, mock, when } from "ts-mockito";
 
 import { ActionType, ISceneObjectUpdate } from "../../../../../../../common/communication/iGameplay";
 import { IMesh, ISceneObject } from "../../../../../../../common/communication/iSceneObject";
