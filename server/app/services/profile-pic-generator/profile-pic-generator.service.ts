@@ -24,4 +24,7 @@ export class ProfilePicGeneratorService {
         this.COLOR_PINK,
     ];
     private readonly multiplier: number = 20;
+    private getRandomColor(): IColor {
+        return this.colors[Math.floor(Math.random() * this.colors.length)];
+    }
 }
