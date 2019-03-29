@@ -24,6 +24,12 @@ export class ProfilePicGeneratorService {
         this.COLOR_PINK,
     ];
     private readonly multiplier: number = 20;
+    private getCeiledHalf(numberToDivide: number): number {
+        const two: number = 2;
+
+        return Math.ceil(numberToDivide / two) + 1;
+    }
+
     private fillImage(builder: BMPBuilder, x: number, y: number, color: IColor): void {
         for (let i: number = 0; i < this.multiplier; i++) {
             for (let j: number = 0; j < this.multiplier; j++) {
