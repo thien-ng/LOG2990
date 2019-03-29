@@ -80,6 +80,13 @@ describe("threejs-raycast tests", () => {
         expect(threejsRaycast["threejsGenerator"]).toEqual(threejsGeneratorGeometric);
     });
 
+    it("should set attribute threejsThemeGenerator equal to parameter passed to setThreeGenerator()", () => {
+        const threejsThemeGeneratorMock:  ThreejsThemeGenerator = new ThreejsThemeGenerator(scene, sceneIdById, idBySceneId, opacityById, modelsByName);
+        threejsRaycast.setThreeGenerator(threejsThemeGeneratorMock);
+
+        expect(threejsRaycast["threejsThemeGenerator"]).toBe(threejsThemeGeneratorMock);
+    });
+
     it("should not dectect any object", () => {
         raycaster = mock(THREE.Raycaster);
         threejsRaycast["raycaster"] = raycaster;
@@ -312,13 +319,6 @@ describe("threejs-raycast tests", () => {
         threejsRaycast.updateSceneWithNewObject(objectUpdateMesh);
 
         expect(spy).toHaveBeenCalled();
-    });
-
-    it("should set attribute threejsThemeGenerator equal to parameter passed to setThreeGenerator()", () => {
-        const threejsThemeGeneratorMock:  ThreejsThemeGenerator = new ThreejsThemeGenerator(scene, sceneIdById, idBySceneId, opacityById, modelsByName);
-        threejsRaycast.setThreeGenerator(threejsThemeGeneratorMock);
-
-        expect(threejsRaycast["threejsThemeGenerator"]).toBe(threejsThemeGeneratorMock);
     });
 
 });
