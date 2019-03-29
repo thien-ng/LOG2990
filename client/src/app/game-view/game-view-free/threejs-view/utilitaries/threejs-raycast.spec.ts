@@ -331,7 +331,6 @@ describe("threejs-raycast tests", () => {
         const spy: any = spyOn<any>(threejsRaycast, "deleteObject");
 
         objectUpdateMesh.actionToApply = ActionType.DELETE;
-
         threejsRaycast.updateSceneWithNewObject(objectUpdateMesh);
 
         expect(spy).toHaveBeenCalled();
@@ -341,7 +340,6 @@ describe("threejs-raycast tests", () => {
         const spy: any = spyOn<any>(threejsRaycast, "changeObjectColor");
 
         objectUpdateMesh.actionToApply = ActionType.CHANGE_COLOR;
-
         threejsRaycast.updateSceneWithNewObject(objectUpdateMesh);
 
         expect(spy).toHaveBeenCalled();
