@@ -12,36 +12,9 @@ const idBySceneId: Map<number, number> = new Map<number, number>();
 idBySceneId.set(1, 1);
 const sceneIdById: Map<number, number> = new Map<number, number>();
 sceneIdById.set(10, 1);
+const opacityById: Map<number, number> =  new Map<number, number>();
+opacityById.set(3, 3);
 
-const objectUpdateSceneObject: ISceneObjectUpdate<ISceneObject> = {
-    actionToApply:  ActionType.ADD,
-    sceneObject:    {
-        id:         1,
-        type:       1,
-        position:   {x: 1, y: 1, z: 1},
-        rotation:   {x: 1, y: 1, z: 1},
-        color:      "#FFFFFF",
-        scale:      {x: 1, y: 1, z: 1},
-        hidden:     true,
-    },
-};
-
-const objectUpdateMesh: ISceneObjectUpdate<IMesh> = {
-    actionToApply:  ActionType.ADD,
-    sceneObject:        {
-        id:             1,
-        meshInfo:       {
-            GLTFUrl:    "url",
-            uuid:       "uuid",
-        },
-        name:           "patate",
-        radius:         1,
-        position:       {x: 1, y: 1, z: 1},
-        rotation:       {x: 1, y: 1, z: 1},
-        scaleFactor:    1,
-        hidden:         false,
-    },
-};
 
 let camera:                     THREE.PerspectiveCamera;
 let renderer:                   THREE.WebGLRenderer;
