@@ -315,9 +315,7 @@ describe("threejs-raycast tests", () => {
     });
 
     it("should ignore object and not display update to scene theme", () => {
-        const spy: any = spyOn<any>(threejsRaycast, "displayObject").and.callThrough();
-        threejsRaycast.setMaps(idBySceneId, sceneIdById);
-        threejsRaycast.setThreeGenerator(threejsGeneratorTheme);
+        const spy: any = spyOn<any>(threejsRaycast, "displayObject");
         threejsRaycast["isTheme"] = true;
 
         const objectUpdateMeshWrong: ISceneObjectUpdate<IMesh> = {
@@ -330,10 +328,7 @@ describe("threejs-raycast tests", () => {
     });
 
     it("should delete object to update to scene Theme", () => {
-        const spy: any = spyOn<any>(threejsRaycast, "deleteObject").and.callThrough();
-        threejsRaycast.setMaps(idBySceneId, sceneIdById);
-        threejsRaycast["threejsThemeGenerator"] = mock(ThreejsThemeGenerator);
-        threejsRaycast["isTheme"] = true;
+        const spy: any = spyOn<any>(threejsRaycast, "deleteObject");
 
         objectUpdateMesh.actionToApply = ActionType.DELETE;
 
@@ -343,20 +338,20 @@ describe("threejs-raycast tests", () => {
     });
 
     it("should change object to update to scene Theme", () => {
-        const spy: any = spyOn<any>(threejsRaycast, "changeObjectColor").and.callThrough();
-        threejsRaycast.setMaps(idBySceneId, sceneIdById);
-        threejsRaycast["threejsThemeGenerator"] = mock(ThreejsThemeGenerator);
-        threejsRaycast["isTheme"] = true;
+        const spy: any = spyOn<any>(threejsRaycast, "changeObjectColor");
 
         objectUpdateMesh.actionToApply = ActionType.CHANGE_COLOR;
 
-    it("should set attribute threejsGenerator equal to parameter passed to setThreeGenerator()", () => {
-        const threejsGeneratorMock:  ThreejsGenerator = new ThreejsGenerator(scene, sceneIdById, originalColorById, idBySceneId, opacityById);
-        threejsRaycast["threejsGenerator"] = threejsGeneratorGeometric;
-        threejsRaycast["isTheme"] = false;
-        threejsRaycast.setThreeGenerator(threejsGeneratorMock);
+        threejsRaycast.updateSceneWithNewObject(objectUpdateMesh);
 
-        expect(threejsRaycast["threejsGenerator"]).toBe(threejsGeneratorMock);
+        expect(spy).toHaveBeenCalled();
+    });
+
+    it("should set attribute threejsThemeGenerator equal to parameter passed to setThreeGenerator()", () => {
+        const threejsThemeGeneratorMock:  ThreejsThemeGenerator = new ThreejsThemeGenerator(scene, sceneIdById, idBySceneId, opacityById, modelsByName);
+        threejsRaycast.setThreeGenerator(threejsThemeGeneratorMock);
+
+        expect(threejsRaycast["threejsThemeGenerator"]).toBe(threejsThemeGeneratorMock);
     });
 
 });
