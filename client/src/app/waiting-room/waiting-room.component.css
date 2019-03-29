@@ -42,29 +42,51 @@
 @keyframes loading {
   0% {opacity: 0.2;}
   50% {opacity: 1;}
-  100% {opacity: 0.2;}
+  100% {opacity: 0.1;}
 }
 
 .textUsername {
   font-size: 55px;
+  font-family: 'Open Sans', sans-serif;
 }
 
-img {
+.profilePic {
+  width: 240px;
+  height: 225px;
+  margin: 5px;
+  padding: 25px;
+  background: white;
+  border: lightgrey 3px solid;
+  border-radius: 25px;
+  vertical-align: middle;
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+     -ms-user-select: none; /* Internet Explorer/Edge */
+         user-select: none;
+}
+
+.vsImage {
   width: 250px;
   height: 250px;
-  border-radius: 50%;
-  vertical-align: middle;
 }
 
 button {
   background-color: #6372c2;
   color: white;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 20px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
 }
 
 button:hover {
   background-color: #3F51B5;
+}
+
+.app-spinner {
+  padding-right: 0;
 }
