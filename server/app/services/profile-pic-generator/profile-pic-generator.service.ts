@@ -43,7 +43,7 @@ export class ProfilePicGeneratorService {
             }
         }
 
-        return builder.getBuffer();
+        return builder.buffer;
     }
 
     private getCeiledHalf(numberToDivide: number): number {
