@@ -363,9 +363,13 @@ describe("threejs-raycast tests", () => {
 
         objectUpdateMesh.actionToApply = ActionType.CHANGE_COLOR;
 
-        threejsRaycast.updateSceneWithNewObject(objectUpdateMesh);
+    it("should set attribute threejsGenerator equal to parameter passed to setThreeGenerator()", () => {
+        const threejsGeneratorMock:  ThreejsGenerator = new ThreejsGenerator(scene, sceneIdById, originalColorById, idBySceneId, opacityById);
+        threejsRaycast["threejsGenerator"] = threejsGeneratorGeometric;
+        threejsRaycast["isTheme"] = false;
+        threejsRaycast.setThreeGenerator(threejsGeneratorMock);
 
-        expect(spy).toHaveBeenCalled();
+        expect(threejsRaycast["threejsGenerator"]).toBe(threejsGeneratorMock);
     });
 
 });
