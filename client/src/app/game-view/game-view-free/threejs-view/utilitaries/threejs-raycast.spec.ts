@@ -16,8 +16,6 @@ const sceneIdById: Map<number, number> = new Map<number, number>();
 sceneIdById.set(10, 1);
 const opacityById: Map<number, number> =  new Map<number, number>();
 opacityById.set(3, 3);
-const originalColorById: Map<number, string> = new Map<number, string>();
-originalColorById.set(1, "blue");
 
 const objectUpdateSceneObject: ISceneObjectUpdate<ISceneObject> = {
     actionToApply:  ActionType.ADD,
