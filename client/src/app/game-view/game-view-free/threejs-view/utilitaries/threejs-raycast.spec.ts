@@ -85,10 +85,10 @@ describe("threejs-raycast tests", () => {
     });
 
     it("should not dectect any object", () => {
-        raycaster = mock(THREE.Raycaster);
+        const mouseEvent: any       = mock(MouseEvent);
+        const result: number        = threejsRaycast.detectObject(mouseEvent);
+        raycaster                   = mock(THREE.Raycaster);
         threejsRaycast["raycaster"] = raycaster;
-        const mouseEvent: any = mock(MouseEvent);
-        const result: number = threejsRaycast.detectObject(mouseEvent);
 
         expect(result).toBe(-1);
     });
@@ -185,7 +185,6 @@ describe("threejs-raycast tests", () => {
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "deleteObject");
-
         objectUpdateSceneObject.sceneObject    = undefined;
         threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
@@ -268,8 +267,8 @@ describe("threejs-raycast tests", () => {
     it("should display object to scene Theme", () => {
         const spy: any = spyOn<any>(threejsRaycast, "displayObject");
 
-        threejsRaycast["isTheme"] = true;
-        objectUpdateMesh.actionToApply = ActionType.ADD;
+        threejsRaycast["isTheme"]       = true;
+        objectUpdateMesh.actionToApply  = ActionType.ADD;
         threejsRaycast.updateSceneWithNewObject(objectUpdateMesh);
 
         expect(spy).toHaveBeenCalled();
