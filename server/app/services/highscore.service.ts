@@ -26,6 +26,7 @@ const axios:                AxiosInstance = require("axios");
 export class HighscoreService {
     private socketServer: SocketIO.Server;
     private assetManager: AssetManagerService;
+    private newHighscore: Highscore;
 
     public constructor() {
         this.assetManager = new AssetManagerService();
@@ -35,7 +36,7 @@ export class HighscoreService {
         this.socketServer = server;
     }
 
-    public convertToString(id: number): HighscoreMessage {
+    public getHighscoreById(id: number): HighscoreMessage {
 
         const foundHighscore: Highscore = this.assetManager.getHighscoreById(id);
         if (foundHighscore) {
@@ -53,10 +54,10 @@ export class HighscoreService {
 
     public generateNewHighscore(id: number): void {
 
-        const foundHighscore: Highscore = {
+        this.newHighscore = {
             id: id,
         } as Highscore;
-        this.setMaxValue(foundHighscore);
+        this.setMaxValue(this.newHighscore);
 
         const randomSingleTimes: [number, number, number] = [DEFAULT_NUMBER, DEFAULT_NUMBER, DEFAULT_NUMBER];
         const randomMultiTimes: [number, number, number] = [DEFAULT_NUMBER, DEFAULT_NUMBER, DEFAULT_NUMBER];
@@ -70,14 +71,14 @@ export class HighscoreService {
         randomSingleTimes.sort();
 
         for (let j: number = 0; j < randomMultiTimes.length; j++) {
-            foundHighscore.timesSingle[j].time = randomSingleTimes[j];
-            foundHighscore.timesMulti[j].time  = randomMultiTimes[j];
+            this.newHighscore.timesSingle[j].time = randomSingleTimes[j];
+            this.newHighscore.timesMulti[j].time  = randomMultiTimes[j];
         }
 
         if (this.socketServer) {
             this.socketServer.emit(CCommon.ON_NEW_SCORE, id);
         }
-        this.assetManager.saveHighscore(foundHighscore);
+        this.assetManager.saveHighscore(this.newHighscore);
     }
 
     public randomTime(min: number, max: number): number {
