@@ -1,7 +1,7 @@
 import * as Axios from "axios";
 import { inject, injectable } from "inversify";
 import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/communication/iCard";
-import { ICardLists } from "../../../common/communication/iCardLists";
+import { ICardLists, ICardsIds, ICardDescription } from "../../../common/communication/iCardLists";
 import { ISceneMessage } from "../../../common/communication/iSceneMessage";
 import { IMesh, ISceneObject } from "../../../common/communication/iSceneObject";
 import { ISceneData } from "../../../common/communication/iSceneVariables";
@@ -31,8 +31,8 @@ export class CardManagerService {
         this.uniqueIdScene          = CServer.START_ID_3D;
         this.imageManagerService    = new AssetManagerService();
 
-        this.cardOperations.addCard2D(DefaultCard2D);
-        this.cardOperations.addCard3D(DefaultCard3D);
+        this.cardOperations.addCard(DefaultCard2D);
+        this.cardOperations.addCard(DefaultCard3D);
     }
 
     public async simpleCardCreationRoutine(requirements: ImageRequirements, cardTitle: string): Promise<Message> {
@@ -86,7 +86,7 @@ export class CardManagerService {
     }
 
     private generateMessage(cardReceived: ICard): Message {
-        if (this.cardOperations.addCard3D(cardReceived)) {
+        if (this.cardOperations.addCard(cardReceived)) {
             return {
                 title:  CCommon.ON_SUCCESS,
                 body:   CServer.CARD_ADDED,
@@ -125,7 +125,7 @@ export class CardManagerService {
     }
 
     private verifyCard(card: ICard): Message {
-        if (this.cardOperations.addCard2D(card)) {
+        if (this.cardOperations.addCard(card)) {
             return {
                 title:  CCommon.ON_SUCCESS,
                 body:   "Card " + card.gameID + " created",
@@ -160,7 +160,20 @@ export class CardManagerService {
     }
 
     public getCards(): ICardLists {
-        return this.imageManagerService.getCards();
+        const cardsIds: ICardsIds = this.imageManagerService.getCardsIds();
+        const list2D: ICard[] = [];
+        const list3D: ICard[] = [];        
+
+        cardsIds.descriptions.forEach((description: ICardDescription) => {
+            if (description.gamemode === GameMode.simple) {
+                const foundCard: ICard = this.imageManagerService.getCardById(description.id.toString());
+                list2D.push(foundCard);
+            } else if (description.gamemode === GameMode.free) {
+                const foundCard: ICard = this.imageManagerService.getCardById(description.id.toString());
+                list3D.push(foundCard);
+            }
+        });
+        return {list2D, list3D};
     }
 
     public generateErrorMessage(error: Error): Message {

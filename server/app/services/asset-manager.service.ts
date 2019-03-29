@@ -1,9 +1,10 @@
 import * as fs from "fs";
 import { injectable } from "inversify";
 import { ITheme } from "../../../common/communication/ITheme";
-import { ICardLists } from "../../../common/communication/iCardLists";
+import { ICardsIds } from "../../../common/communication/iCardLists";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { CServer } from "../CServer";
+import { ICard } from "../../../common/communication/iCard";
 
 const IMAGES_PATH:              string = "./app/asset/image";
 const FILE_GENERATION_ERROR:    string = "error while generating file";
@@ -133,20 +134,41 @@ export class AssetManagerService {
         }
     }
 
-    public getCards(): ICardLists {
+    public getCardById(id: string): ICard {
         try {
-            const readFile: Buffer = fs.readFileSync(CServer.PATH_LOCAL_CARDS);
+            const readFile: Buffer = fs.readFileSync(CServer.PATH_LOCAL_CARDS + id + "_card.json");
 
-            return JSON.parse(readFile.toString()) as ICardLists;
+            return JSON.parse(readFile.toString()) as ICard;
         } catch (error) {
             throw new TypeError(GET_CARDS_ERROR);
         }
     }
 
-    public saveCardsUpdate(cards: ICardLists): void {
-        const cardsParsed: string = JSON.stringify(cards);
+    public getCardsIds(): ICardsIds {
         try {
-            fs.writeFileSync(CServer.PATH_LOCAL_CARDS, cardsParsed);
+            const readFile: Buffer = fs.readFileSync(CServer.PATH_LOCAL_CARDS_IDS);
+
+            return JSON.parse(readFile.toString()) as ICardsIds;
+        } catch (error) {
+            throw new TypeError(GET_CARDS_ERROR);
+        }
+    }
+
+    public saveCardsIds(cardsIds: ICardsIds): void {
+        const cardsParsed: string = JSON.stringify(cardsIds);
+
+        try {
+            fs.writeFileSync(CServer.PATH_LOCAL_CARDS_IDS, cardsParsed);
+        } catch (error) {
+            throw TypeError(FILE_SAVING_ERROR);
+        }
+    }
+
+    public saveCard(card: ICard): void {
+        const cardsParsed: string = JSON.stringify(card);
+        const path: string = CServer.PATH_LOCAL_CARDS + card.gameID + "_card.json";
+        try {
+            fs.writeFileSync(path, cardsParsed);
         } catch (error) {
             throw TypeError(FILE_SAVING_ERROR);
         }
