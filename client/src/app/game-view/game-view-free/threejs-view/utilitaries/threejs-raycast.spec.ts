@@ -198,15 +198,6 @@ describe("threejs-raycast tests", () => {
         expect(spy).not.toHaveBeenCalled();
     });
 
-    it("should set attribute threejsThemeGenerator equal to parameter passed to setThreeGenerator()", () => {
-        const threejsThemeGeneratorMock:  ThreejsThemeGenerator = new ThreejsThemeGenerator(scene, sceneIdById, idBySceneId, opacityById, modelsByName);
-        threejsRaycast["threejsThemeGenerator"] = threejsGeneratorTheme;
-        threejsRaycast["isTheme"] = true;
-        threejsRaycast.setThreeGenerator(threejsThemeGeneratorMock);
-
-        expect(threejsRaycast["threejsThemeGenerator"]).toBe(threejsThemeGeneratorMock);
-    });
-
     it("should return parent object3 as parent object", () => {
         threejsRaycast.setThreeGenerator(threejsGeneratorTheme);
 
@@ -245,8 +236,7 @@ describe("threejs-raycast tests", () => {
         object1.parent = object2;
         object2.parent = object3;
 
-        expect(threejsRaycast.getParentObject(object3.parent as THREE.Object3D) as THREE.Object3D).not.toBe(object3);
-
+        expect(threejsRaycast.getParentObject(object3.parent as THREE.Object3D)).toEqual(null);
     });
 
     it("should display object to update to scene Theme", () => {
