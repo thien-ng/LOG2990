@@ -1,7 +1,7 @@
 import * as Axios from "axios";
 import { inject, injectable } from "inversify";
 import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/communication/iCard";
-import { ICardLists, ICardsIds, ICardDescription } from "../../../common/communication/iCardLists";
+import { ICardsIds, ICardDescription, ICardLists } from "../../../common/communication/iCardLists";
 import { ISceneMessage } from "../../../common/communication/iSceneMessage";
 import { IMesh, ISceneObject } from "../../../common/communication/iSceneObject";
 import { ISceneData } from "../../../common/communication/iSceneVariables";
@@ -145,6 +145,7 @@ export class CardManagerService {
                 chosenId = description.id;
             }
         });
+
         return ++chosenId;
     }
 
@@ -156,6 +157,7 @@ export class CardManagerService {
                 chosenId = description.id;
             }
         });
+
         return ++chosenId;
     }
 
@@ -170,7 +172,7 @@ export class CardManagerService {
     public getCards(): ICardLists {
         const cardsIds: ICardsIds = this.imageManagerService.getCardsIds();
         const list2D: ICard[] = [];
-        const list3D: ICard[] = [];        
+        const list3D: ICard[] = [];
 
         cardsIds.descriptions.forEach((description: ICardDescription) => {
             if (description.gamemode === GameMode.simple) {
@@ -181,6 +183,7 @@ export class CardManagerService {
                 list3D.push(foundCard);
             }
         });
+
         return {list2D, list3D};
     }
 

@@ -4,15 +4,16 @@ import * as chai from "chai";
 import * as spies from "chai-spies";
 import * as fs from "fs";
 import * as path from "path";
+import * as sinon from "sinon";
 import SocketIO = require("socket.io");
 import { mock, verify } from "ts-mockito";
-import { GameMode, ILobbyEvent, MultiplayerButtonText } from "../../../../common/communication/iCard";
+import { GameMode, ICard, ILobbyEvent, MultiplayerButtonText } from "../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../common/communication/iGameRequest";
 import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../common/communication/iGameplay";
 import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
-// import { CServer } from "../../CServer";
+import { CServer } from "../../CServer";
 import { CardOperations } from "../../services/card-operations.service";
 import { ChatManagerService } from "../../services/chat-manager.service";
 import { Arena2D } from "../../services/game/arena/arena2d";
@@ -21,7 +22,7 @@ import { Player } from "../../services/game/arena/player";
 import { GameManagerService } from "../../services/game/game-manager.service";
 import { LobbyManagerService } from "../../services/game/lobby-manager.service";
 import { HighscoreService } from "../../services/highscore.service";
-import { Mode } from "../../services/highscore/utilities/interfaces";
+import { HighscoreValidationResponse, Mode, Time } from "../../services/highscore/utilities/interfaces";
 import { TimeManagerService } from "../../services/time-manager.service";
 import { UserManagerService } from "../../services/user-manager.service";
 
@@ -108,24 +109,24 @@ const playerInput: IPlayerInput<IPosition2D | number> = {
         y: 12,
     },
 };
-// const c1: ICard = {
-//     gameID:             4,
-//     title:              "Default 2D",
-//     subtitle:           "default 2D",
-//     avatarImageUrl:     "/elon.jpg",
-//     gameImageUrl:       "/elon.jpg",
-//     gamemode:           GameMode.simple,
-// };
-// const answer: any = {
-//     status:         CCommon.ON_SUCCESS,
-//     isNewHighscore: true,
-//     index: 0,
-//     highscore: {
-//         id:             1,
-//         timesSingle:    [{username: "cpu", time: 1}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
-//         timesMulti:     [{username: "cpu", time: 2}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
-//     },
-// };
+const c1: ICard = {
+    gameID:             4,
+    title:              "Default 2D",
+    subtitle:           "default 2D",
+    avatarImageUrl:     "/elon.jpg",
+    gameImageUrl:       "/elon.jpg",
+    gamemode:           GameMode.simple,
+};
+const answer: any = {
+    status:         CCommon.ON_SUCCESS,
+    isNewHighscore: true,
+    index: 0,
+    highscore: {
+        id:             1,
+        timesSingle:    [{username: "cpu", time: 1}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
+        timesMulti:     [{username: "cpu", time: 2}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
+    },
+};
 
 const ON_ERROR_ORIGINAL_PIXEL_CLUSTER: IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
 const expectedMessage: IArenaResponse<any> = {
@@ -545,57 +546,97 @@ describe("GameManagerService tests", () => {
         chai.expect(gameManagerService["server"]).to.equal(server);
     });
 
-    // it("should send update new Highscore", (done: Function) => {
+    it("should send update new Highscore", (done: Function) => {
 
-    //     mockAxios.onPost(CServer.VALIDATE_HIGHSCORE_PATH)
-    //     .reply(200, answer);
+        mockAxios.onPost(CServer.VALIDATE_HIGHSCORE_PATH)
+        .reply(200, answer);
 
-    //     gameManagerService["highscoreService"].createHighscore(1);
-    //     chai.spy.on(gameManagerService["highscoreService"], "findHighScoreByID", () => 0);
-    //     chai.spy.on(gameManagerService["cardOperations"], "getCardById", () => c1);
-    //     chai.spy.on(gameManagerService, "deleteArena", () => {return; });
-    //     chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
-    //     const spy: any = chai.spy.on(gameManagerService["chatManagerService"], "sendNewHighScoreMessage", () => {return; });
-    //     chai.spy.on(gameManagerService["server"], "emit", () => {return; });
-    //     const time: Time = {username: "cpu", time: 1};
-    //     gameManagerService.endOfGameRoutine(time, Mode.Singleplayer, iArenaInfos, GameMode.simple);
-    //     done();
-    //     chai.expect(spy).to.have.been.called();
-    // });
-    // it("should emit the new Highscore", (done: Function) => {
+        const highscoreValidation: HighscoreValidationResponse = {
+            status: CCommon.ON_SUCCESS,
+            isNewHighscore: true,
+            index: 1,
+            highscore: {
+                id:             1,
+                timesSingle:    [{username: "cpu", time: 2}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
+                timesMulti:     [{username: "cpu", time: 2}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
+            },
+        };
+        if (highscoreValidation) {}
 
-    //     mockAxios.onPost(CServer.VALIDATE_HIGHSCORE_PATH)
-    //     .reply(200, answer);
+        chai.spy.on(gameManagerService["cardOperations"], "getCardById", () => c1);
+        const stubbedVal: any = sinon.stub(gameManagerService["highscoreService"], "updateHighscore");
+        stubbedVal.resolves(highscoreValidation);
 
-    //     gameManagerService["highscoreService"].createHighscore(1);
-    //     chai.spy.on(gameManagerService["highscoreService"], "findHighScoreByID", () => 0);
-    //     chai.spy.on(gameManagerService["cardOperations"], "getCardById", () => c1);
-    //     chai.spy.on(gameManagerService, "deleteArena", () => {return; });
-    //     chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
-    //     chai.spy.on(gameManagerService["chatManagerService"], "sendNewHighScoreMessage", () => {return; });
-    //     const spy: any = chai.spy.on(gameManagerService["server"], "emit", () => {return; });
-    //     const time: Time = {username: "cpu", time: 1};
-    //     gameManagerService.endOfGameRoutine(time, Mode.Singleplayer, iArenaInfos, GameMode.simple);
-    //     done();
-    //     chai.expect(spy).to.have.been.called();
-    // });
+        chai.spy.on(gameManagerService, "deleteArena", () => {return; });
+        chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
+        const spy: any = chai.spy.on(gameManagerService["chatManagerService"], "sendNewHighScoreMessage", () => {return; });
+        chai.spy.on(gameManagerService["server"], "emit", () => {return; });
+        const time: Time = {username: "cpu", time: 1};
+        gameManagerService.endOfGameRoutine(time, Mode.Singleplayer, iArenaInfos, GameMode.simple);
+        done();
+        chai.expect(spy).to.have.been.called();
+    });
 
-    // it("should emit an error when entering in catch", (done: Function) => {
+    it("should emit the new Highscore", (done: Function) => {
 
-    //     mockAxios.onPost(CServer.VALIDATE_HIGHSCORE_PATH)
-    //     .reply(200, answer);
+        mockAxios.onPost(CServer.VALIDATE_HIGHSCORE_PATH)
+        .reply(200, answer);
 
-    //     gameManagerService["highscoreService"].createHighscore(1);
-    //     chai.spy.on(gameManagerService["highscoreService"], "findHighScoreByID", () => 0);
-    //     chai.spy.on(gameManagerService["cardOperations"], "getCardById", () => c1);
-    //     chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
-    //     chai.spy.on(gameManagerService["chatManagerService"], "sendNewHighScoreMessage", () => {throw new TypeError; });
-    //     const spy: any = chai.spy.on(gameManagerService["server"], "emit", () => {return; });
-    //     const time: Time = {username: "cpu", time: 1};
-    //     gameManagerService.endOfGameRoutine(time, Mode.Singleplayer, iArenaInfos, GameMode.simple);
-    //     done();
-    //     chai.expect(spy).to.have.been.called();
-    // });
+        const highscoreValidation: HighscoreValidationResponse = {
+            status: CCommon.ON_SUCCESS,
+            isNewHighscore: true,
+            index: 1,
+            highscore: {
+                id:             1,
+                timesSingle:    [{username: "cpu", time: 2}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
+                timesMulti:     [{username: "cpu", time: 2}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
+            },
+        };
+        if (highscoreValidation) {}
+
+        chai.spy.on(gameManagerService["cardOperations"], "getCardById", () => c1);
+        const stubbedVal: any = sinon.stub(gameManagerService["highscoreService"], "updateHighscore");
+        stubbedVal.resolves(highscoreValidation);
+
+        chai.spy.on(gameManagerService, "deleteArena", () => {return; });
+        chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
+        const spy: any = chai.spy.on(gameManagerService["server"], "emit", () => {return; });
+        const time: Time = {username: "cpu", time: 1};
+        gameManagerService.endOfGameRoutine(time, Mode.Singleplayer, iArenaInfos, GameMode.simple);
+        done();
+        chai.expect(spy).to.have.been.called();
+    });
+
+    it("should emit an error when entering in catch", (done: Function) => {
+
+        mockAxios.onPost(CServer.VALIDATE_HIGHSCORE_PATH)
+        .reply(200, answer);
+
+        const highscoreValidation: HighscoreValidationResponse = {
+            status: CCommon.ON_SUCCESS,
+            isNewHighscore: true,
+            index: 1,
+            highscore: {
+                id:             1,
+                timesSingle:    [{username: "cpu", time: 2}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
+                timesMulti:     [{username: "cpu", time: 2}, {username: "cpu", time: 4}, {username: "cpu", time: 6}],
+            },
+        };
+        if (highscoreValidation) {}
+
+        chai.spy.on(gameManagerService["cardOperations"], "getCardById", () => c1);
+        const stubbedVal: any = sinon.stub(gameManagerService["highscoreService"], "updateHighscore");
+        stubbedVal.resolves(highscoreValidation);
+
+        chai.spy.on(gameManagerService, "deleteArena", () => {return; });
+        chai.spy.on(gameManagerService["gameIdByArenaId"], "get", () => 1);
+        chai.spy.on(gameManagerService["chatManagerService"], "sendNewHighScoreMessage", () => {throw new TypeError; });
+        const spy: any = chai.spy.on(gameManagerService["server"], "emit", () => {return; });
+        const time: Time = {username: "cpu", time: 1};
+        gameManagerService.endOfGameRoutine(time, Mode.Singleplayer, iArenaInfos, GameMode.simple);
+        done();
+        chai.expect(spy).to.have.been.called();
+    });
 
     it("should call the arena onPlayerInput when gameManager calls him", () => {
         const arena: Arena2D = new Arena2D(iArenaInfos, gameManagerService);

@@ -50,7 +50,7 @@ export class CardOperations {
         if (!this.cardExist(id)) {
             return CServer.CARD_NOT_FOUND;
         }
-        
+
         const paths: string[] = [
             CServer.IMAGES_PATH + "/" + id + CServer.GENERATED_FILE,
             CServer.IMAGES_PATH + "/" + id + CCommon.ORIGINAL_FILE,
@@ -110,25 +110,27 @@ export class CardOperations {
 
     private cardEqual(card: ICard): boolean {
         const cardsIds: ICardsIds = this.getCardsIds();
-        const description: ICardDescription | undefined = cardsIds.descriptions.find((description: ICardDescription) => {
+        const descriptionFound: ICardDescription | undefined = cardsIds.descriptions.find((description: ICardDescription) => {
             return (description.id === card.gameID || description.title === card.title);
         });
 
-        if (description) {
+        if (descriptionFound) {
             return true;
         }
+
         return false;
     }
 
     private cardExist(id: number): boolean {
         const cardsIds: ICardsIds = this.getCardsIds();
-        const description: ICardDescription | undefined = cardsIds.descriptions.find((description: ICardDescription) => {
+        const descriptionFound: ICardDescription | undefined = cardsIds.descriptions.find((description: ICardDescription) => {
             return (description.id === id);
         });
 
-        if (description) {
+        if (descriptionFound) {
             return true;
         }
+
         return false;
     }
 

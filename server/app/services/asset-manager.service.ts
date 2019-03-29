@@ -1,11 +1,11 @@
 import * as fs from "fs";
 import { injectable } from "inversify";
 import { ITheme } from "../../../common/communication/ITheme";
+import { Highscore } from "../../../common/communication/highscore";
+import { ICard } from "../../../common/communication/iCard";
 import { ICardsIds } from "../../../common/communication/iCardLists";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { CServer } from "../CServer";
-import { ICard } from "../../../common/communication/iCard";
-import { Highscore } from "../../../common/communication/highscore";
 
 const IMAGES_PATH:              string = "./app/asset/image";
 const FILE_GENERATION_ERROR:    string = "error while generating file";
