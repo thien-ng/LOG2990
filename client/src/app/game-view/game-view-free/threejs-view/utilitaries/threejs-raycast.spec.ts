@@ -246,31 +246,6 @@ describe("threejs-raycast tests", () => {
         expect(threejsRaycast.getParentObject(object3.parent as THREE.Object3D)).toEqual(null);
     });
 
-    it("should display object to update to scene Theme", () => {
-        const spy: any = spyOn<any>(threejsRaycast, "displayObject").and.callFake(() => {return; });
-        threejsRaycast.setMaps(idBySceneId, sceneIdById);
-        threejsRaycast["isTheme"] = true;
-        threejsRaycast["threejsThemeGenerator"] = (threejsGeneratorTheme);
-
-        threejsRaycast.updateSceneWithNewObject(objectUpdateMesh);
-
-        expect(spy).toHaveBeenCalled();
-    });
-
-    it("should call changeObjectColor() if isTheme is true", () => {
-        const param: ISceneObjectUpdate<IMesh> = {
-            sceneObject: {id: 1} as IMesh,
-        } as ISceneObjectUpdate<IMesh>;
-
-        threejsRaycast["threejsThemeGenerator"] = mock(ThreejsThemeGenerator);
-        const spy: any = spyOn<any>(threejsRaycast["threejsThemeGenerator"], "changeObjectColor");
-
-        threejsRaycast["isTheme"] = true;
-        threejsRaycast["changeObjectColor"](param);
-
-        expect(spy).toHaveBeenCalled();
-    });
-
     it("should ignore object and not display update to scene theme", () => {
         const spy: any = spyOn<any>(threejsRaycast, "displayObject");
         threejsRaycast["isTheme"] = true;
