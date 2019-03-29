@@ -81,38 +81,38 @@ describe("threejs-raycast tests", () => {
     });
 
     it("should not call deleteObject from threejsGenerator if action type is ADD", () => {
-        const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "deleteObject");
-
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
+
+        const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "deleteObject");
         threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
     });
 
     it("should not call changeObjectColor from threejsGenerator if action type is ADD", () => {
-        const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "changeObjectColor");
-
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
+
+        const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "changeObjectColor");
         threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
     });
 
     it("should not call initiateObject from threejsGenerator if action type is DELETE", () => {
-        const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "initiateObject");
-
-        objectUpdateSceneObject.actionToApply = ActionType.DELETE;
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
+
+        const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "initiateObject");
+        objectUpdateSceneObject.actionToApply = ActionType.DELETE;
         threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
     });
 
     it("should not call changeObjectColor from threejsGenerator if action type is DELETE", () => {
-        const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "changeObjectColor");
-
-        objectUpdateSceneObject.actionToApply = ActionType.DELETE;
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
+
+        const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "changeObjectColor");
+        objectUpdateSceneObject.actionToApply = ActionType.DELETE;
         threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
