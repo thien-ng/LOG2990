@@ -296,4 +296,15 @@ describe("threejs-raycast tests", () => {
         expect(spy).toHaveBeenCalled();
     });
 
+    it("should delete object to update to scene Theme", () => {
+        const threejsThemeGeneratorMock:  ThreejsThemeGenerator = new ThreejsThemeGenerator(scene, sceneIdById, idBySceneId, opacityById, modelsByName);
+        threejsRaycast.setThreeGenerator(threejsThemeGeneratorMock);
+
+        const spy: any = spyOn<any>(threejsRaycast["threejsThemeGenerator"], "deleteObject");
+        threejsRaycast["isTheme"] = true;
+        threejsRaycast["deleteObject"](1);
+
+        expect(spy).toHaveBeenCalled();
+    });
+
 });
