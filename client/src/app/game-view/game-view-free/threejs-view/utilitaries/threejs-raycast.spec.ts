@@ -307,4 +307,15 @@ describe("threejs-raycast tests", () => {
         expect(spy).toHaveBeenCalled();
     });
 
+    it("should change the object color if the object is a scene Theme", () => {
+        const threejsThemeGeneratorMock:  ThreejsThemeGenerator = new ThreejsThemeGenerator(scene, sceneIdById, idBySceneId, opacityById, modelsByName);
+        threejsRaycast.setThreeGenerator(threejsThemeGeneratorMock);
+
+        const spy: any = spyOn<any>(threejsRaycast["threejsThemeGenerator"], "changeObjectColor");
+        threejsRaycast["isTheme"] = true;
+        threejsRaycast["changeObjectColor"](objectUpdateMesh);
+
+        expect(spy).toHaveBeenCalled();
+    });
+
 });
