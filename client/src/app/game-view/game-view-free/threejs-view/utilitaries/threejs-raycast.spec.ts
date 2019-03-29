@@ -150,22 +150,8 @@ describe("threejs-raycast tests", () => {
     it("should not call initiateObject from threejsGenerator if action type is CHANGE_COLOR", () => {
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
-        objectUpdateSceneObject.actionToApply = ActionType.CHANGE_COLOR;
-
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "initiateObject");
-
-        threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
-
-        expect(spy).not.toHaveBeenCalled();
-    });
-
-    it("should not call deleteObject from threejsGenerator if action type is CHANGE_COLOR", () => {
-        threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
-
         objectUpdateSceneObject.actionToApply = ActionType.CHANGE_COLOR;
-
-        const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "deleteObject");
-
         threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
@@ -205,10 +191,8 @@ describe("threejs-raycast tests", () => {
     it("should not call changeObjectColor from threejsGenerator if no object is passed as reference", () => {
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
-        objectUpdateSceneObject.sceneObject    = undefined;
-
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "changeObjectColor");
-
+        objectUpdateSceneObject.sceneObject    = undefined;
         threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
