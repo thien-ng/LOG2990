@@ -246,7 +246,7 @@ describe("threejs-raycast tests", () => {
         expect(threejsRaycast.getParentObject(object3.parent as THREE.Object3D)).toEqual(null);
     });
 
-    it("should ignore object and not display update to scene theme", () => {
+    it("should ignore object and not display update to scene Theme", () => {
         const spy: any = spyOn<any>(threejsRaycast, "displayObject");
         threejsRaycast["isTheme"] = true;
 
@@ -268,7 +268,7 @@ describe("threejs-raycast tests", () => {
         expect(spy).not.toHaveBeenCalled();
     });
 
-    it("should display object to scene theme", () => {
+    it("should display object to scene Theme", () => {
         const spy: any = spyOn<any>(threejsRaycast, "displayObject");
 
         threejsRaycast["isTheme"] = true;
@@ -296,7 +296,7 @@ describe("threejs-raycast tests", () => {
         expect(spy).toHaveBeenCalled();
     });
 
-    it("should delete object to update to scene Theme", () => {
+    it("should delete object if the object is a scene Theme", () => {
         const threejsThemeGeneratorMock:  ThreejsThemeGenerator = new ThreejsThemeGenerator(scene, sceneIdById, idBySceneId, opacityById, modelsByName);
         threejsRaycast.setThreeGenerator(threejsThemeGeneratorMock);
 
