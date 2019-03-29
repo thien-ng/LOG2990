@@ -1,206 +1,153 @@
-// import "reflect-metadata";
+import "reflect-metadata";
 
-// import * as chai from "chai";
-// import * as spies from "chai-spies";
-// import * as SocketIO from "socket.io";
-// import { mock } from "ts-mockito";
-// import { GameMode, ICard } from "../../../common/communication/iCard";
-// import { ICardLists } from "../../../common/communication/iCardLists";
-// import { Message } from "../../../common/communication/message";
-// import { CCommon } from "../../../common/constantes/cCommon";
-// import { CServer } from "../CServer";
-// import { AssetManagerService } from "../services/asset-manager.service";
-// import { CardOperations } from "../services/card-operations.service";
-// import { HighscoreService } from "../services/highscore.service";
+import * as chai from "chai";
+import * as spies from "chai-spies";
+import * as SocketIO from "socket.io";
+import { mock } from "ts-mockito";
+import { GameMode, ICard } from "../../../common/communication/iCard";
+import { Message } from "../../../common/communication/message";
+import { CCommon } from "../../../common/constantes/cCommon";
+import { CServer } from "../CServer";
+import { AssetManagerService } from "../services/asset-manager.service";
+import { CardOperations } from "../services/card-operations.service";
+import { HighscoreService } from "../services/highscore.service";
 
-// /*tslint:disable no-magic-numbers no-any max-line-length */
-// const FAKE_PATH:        string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/image";
-// const CARD_NOT_FOUND:   string = "Erreur de suppression, carte pas trouvée";
-// const ERROR_DELETION:   string = "error while deleting file";
-// const initCardsJson:    ICardLists = {
-//     list2D: [
-//         {
-//             gameID: 1,
-//             gamemode: GameMode.simple,
-//             title: "Stewie deathray",
-//             subtitle: "Default Image",
-//             avatarImageUrl: "http://localhost:3000/image//default.gif",
-//             gameImageUrl: "http://localhost:3000/image//default.gif",
-//         },
-//     ],
-//     list3D: [
-//         {
-//             gameID: 2,
-//             gamemode: GameMode.free,
-//             title: "Scène par défaut",
-//             subtitle: "Scène par défaut",
-//             avatarImageUrl: "http://localhost:3000/image//2_snapshot.jpeg",
-//             gameImageUrl: "http://localhost:3000/image//2_snapshot.jpeg",
-//         },
-//     ],
-// };
+/*tslint:disable no-magic-numbers no-any max-line-length */
+const FAKE_PATH:        string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/image";
+const CARD_NOT_FOUND:   string = "Erreur de suppression, carte pas trouvée";
+const ERROR_DELETION:   string = "error while deleting file";
 
-// let highscoreService:   HighscoreService;
-// let cardOperations:     CardOperations;
+let highscoreService:   HighscoreService;
+let cardOperations:     CardOperations;
 
-// describe("Card-operations tests", () => {
-//     chai.use(spies);
-//     const c1: ICard = {
-//         gameID:             4,
-//         title:              "Default 2D",
-//         subtitle:           "default 2D",
-//         avatarImageUrl:     FAKE_PATH + "/elon.jpg",
-//         gameImageUrl:       FAKE_PATH + "/elon.jpg",
-//         gamemode:           GameMode.simple,
-//     };
+describe("Card-operations tests", () => {
+    chai.use(spies);
+    const c1: ICard = {
+        gameID:             4,
+        title:              "Default 2D",
+        subtitle:           "default 2D",
+        avatarImageUrl:     FAKE_PATH + "/elon.jpg",
+        gameImageUrl:       FAKE_PATH + "/elon.jpg",
+        gamemode:           GameMode.simple,
+    };
 
-//     const c2: ICard = {
-//         gameID:             7,
-//         title:              "Default 3D",
-//         subtitle:           "default 3D",
-//         avatarImageUrl:     FAKE_PATH + "/moutain.jpg",
-//         gameImageUrl:       FAKE_PATH + "/moutain.jpg",
-//         gamemode:           GameMode.free,
-//     };
+    const c2: ICard = {
+        gameID:             7,
+        title:              "Default 3D",
+        subtitle:           "default 3D",
+        avatarImageUrl:     FAKE_PATH + "/moutain.jpg",
+        gameImageUrl:       FAKE_PATH + "/moutain.jpg",
+        gamemode:           GameMode.free,
+    };
 
-//     const c3: ICard = {
-//         gameID:             3,
-//         title:              "Default 3D 2.0",
-//         subtitle:           "default 3D",
-//         avatarImageUrl:     FAKE_PATH + "/poly.jpg",
-//         gameImageUrl:       FAKE_PATH + "/poly.jpg",
-//         gamemode:           GameMode.free,
-//     };
+    beforeEach(() => {
+        highscoreService    = new HighscoreService();
+        cardOperations      = new CardOperations(highscoreService);
+    });
 
-//     beforeEach(() => {
-//         highscoreService    = new HighscoreService();
-//         cardOperations      = new CardOperations(highscoreService);
-//     });
+    it("should return true when adding a new 2D card", () => {
+        chai.expect(cardOperations.addCard(c1)).to.equal(true);
+        cardOperations.removeCard2D(c1.gameID);
+    });
 
-//     it("should return true when adding a new 2D card", () => {
-//         chai.expect(cardOperations.addCard2D(c1)).to.equal(true);
-//         cardOperations.removeCard2D(c1.gameID);
-//     });
+    it("should return true when adding a new 3D card", () => {
+        chai.expect(cardOperations.addCard(c2)).to.equal(true);
+        cardOperations.removeCard3D(c2.gameID);
+    });
 
-//     it("should return true when adding a new 3D card", () => {
-//         chai.expect(cardOperations.addCard3D(c2)).to.equal(true);
-//         cardOperations.removeCard3D(c2.gameID);
-//     });
+    it("should return false when adding an existing 3D card", () => {
+        cardOperations.addCard(c2);
+        chai.expect(cardOperations.addCard(c2)).to.equal(false);
+        cardOperations.removeCard3D(c2.gameID);
+    });
 
-//     it("should return false when adding an existing 3D card", () => {
-//         cardOperations.addCard3D(c2);
-//         chai.expect(cardOperations.addCard3D(c2)).to.equal(false);
-//         cardOperations.removeCard3D(c2.gameID);
-//     });
+    it("should return false when trying to add an existing 2d card", () => {
+        cardOperations.addCard(c1);
+        chai.expect(cardOperations.addCard(c1)).to.equal(false);
+        cardOperations.removeCard2D(c1.gameID);
+    });
 
-//     it("should return false when trying to add an existing 2d card", () => {
-//         cardOperations.addCard2D(c1);
-//         chai.expect(cardOperations.addCard2D(c1)).to.equal(false);
-//         cardOperations.removeCard2D(c1.gameID);
-//     });
+    it("should return the existing card simple mode", () => {
+        cardOperations.addCard(c1);
+        chai.expect(cardOperations.getCardById("4", GameMode.simple)).to.deep.equal(c1);
+        cardOperations.removeCard2D(c1.gameID);
+    });
 
-//     it("should return the existing card free mode", () => {
-//         cardOperations.addCard3D(c3);
-//         chai.expect(cardOperations.getCardById("3", GameMode.free)).to.deep.equal(c3);
-//         cardOperations.removeCard3D(c3.gameID);
-//     });
+    it("should return an error message because path image doesnt exist", () => {
+        cardOperations.addCard(c1);
+        chai.expect(cardOperations.removeCard2D(4)).to.equal(ERROR_DELETION);
+        cardOperations.removeCard2D(c1.gameID);
+    });
 
-//     it("should return the existing card simple mode", () => {
-//         cardOperations.addCard2D(c1);
-//         chai.expect(cardOperations.getCardById("4", GameMode.simple)).to.deep.equal(c1);
-//         cardOperations.removeCard2D(c1.gameID);
-//     });
+    it("should return an error while deleting the default 2D card", () => {
+        chai.expect(cardOperations.removeCard2D(1)).deep.equal(CServer.DELETION_ERROR_MESSAGE);
+    });
 
-//     it("should return an error message because path image doesnt exist", () => {
-//         cardOperations.addCard2D(c1);
-//         chai.expect(cardOperations.removeCard2D(4)).to.equal(ERROR_DELETION);
-//         cardOperations.removeCard2D(c1.gameID);
-//     });
+    it("should return an error while deleting the default 3D card", () => {
+        chai.expect(cardOperations.removeCard3D(2)).deep.equal(CServer.DELETION_ERROR_MESSAGE);
+    });
 
-//     it("should return an error message because path image doesnt exist", () => {
-//         const assetManager: AssetManagerService = new AssetManagerService();
-//         cardOperations.addCard3D(c3);
-//         chai.expect(cardOperations.removeCard3D(3)).to.equal(ERROR_DELETION);
-//         assetManager.saveCardsUpdate(initCardsJson);
-//     });
+    it("should return false because the card doesnt exist", () => {
+        chai.expect(cardOperations.removeCard2D(0)).to.equal(CARD_NOT_FOUND);
+    });
 
-//     it("should return an error while deleting the default 2D card", () => {
-//         chai.expect(cardOperations.removeCard2D(1)).deep.equal(CServer.DELETION_ERROR_MESSAGE);
-//     });
+    it("should return false because the card doesnt exist", () => {
+        chai.expect(cardOperations.removeCard3D(0)).to.equal(CARD_NOT_FOUND);
+    });
 
-//     it("should return an error while deleting the default 3D card", () => {
-//         chai.expect(cardOperations.removeCard3D(2)).deep.equal(CServer.DELETION_ERROR_MESSAGE);
-//     });
+    it("should return an error message because path image doesnt exist", () => {
+        cardOperations["socketServer"] = mock(SocketIO);
+        cardOperations.addCard(c1);
+        chai.expect(cardOperations.removeCard2D(4)).to.equal(ERROR_DELETION);
+        cardOperations.removeCard2D(c1.gameID);
+    });
 
-//     it("should return false because the card doesnt exist", () => {
-//         chai.expect(cardOperations.removeCard2D(0)).to.equal(CARD_NOT_FOUND);
-//     });
+    it("should delete card 2D with specific card id", () => {
+        const originalImagePath:    string              = CServer.IMAGES_PATH + "/" + 4 + CCommon.ORIGINAL_FILE;
+        const modifiedImagePath:    string              = CServer.IMAGES_PATH + "/" + 4 + CCommon.MODIFIED_FILE;
+        const generatedImagePath:   string              = CServer.IMAGES_PATH + "/" + 4 + CServer.GENERATED_FILE;
+        const assetManager:         AssetManagerService = new AssetManagerService();
 
-//     it("should return false because the card doesnt exist", () => {
-//         chai.expect(cardOperations.removeCard3D(0)).to.equal(CARD_NOT_FOUND);
-//     });
+        cardOperations.addCard(c1);
 
-//     it("should return an error message because path image doesnt exist", () => {
-//         cardOperations["socketServer"] = mock(SocketIO);
-//         cardOperations.addCard2D(c1);
-//         chai.expect(cardOperations.removeCard2D(4)).to.equal(ERROR_DELETION);
-//         cardOperations.removeCard2D(c1.gameID);
-//     });
+        assetManager.saveImage(originalImagePath,  "test");
+        assetManager.saveImage(modifiedImagePath,  "test");
+        assetManager.saveImage(generatedImagePath, "test");
 
-//     it("should return an error message because path image doesnt exist", () => {
-//         const assetManager: AssetManagerService = new AssetManagerService();
-//         cardOperations["socketServer"] = mock(SocketIO);
-//         cardOperations.addCard3D(c3);
-//         chai.expect(cardOperations.removeCard3D(3)).to.equal(ERROR_DELETION);
-//         assetManager.saveCardsUpdate(initCardsJson);
-//     });
+        cardOperations["socketServer"] = mock(SocketIO);
 
-//     it("should delete card 2D with specific card id", () => {
-//         const originalImagePath:    string              = CServer.IMAGES_PATH + "/" + 4 + CCommon.ORIGINAL_FILE;
-//         const modifiedImagePath:    string              = CServer.IMAGES_PATH + "/" + 4 + CCommon.MODIFIED_FILE;
-//         const generatedImagePath:   string              = CServer.IMAGES_PATH + "/" + 4 + CServer.GENERATED_FILE;
-//         const assetManager:         AssetManagerService = new AssetManagerService();
+        chai.expect(cardOperations.removeCard2D(4)).to.equal(CServer.CARD_DELETED);
+        cardOperations.removeCard2D(c1.gameID);
+    });
 
-//         cardOperations.addCard2D(c1);
+    it("should delete card 3D with specific card id", () => {
+        const snapshot:             string = CServer.IMAGES_PATH + "/" + 7 + CServer.GENERATED_SNAPSHOT;
+        const generatedScene:       string = CServer.SCENE_PATH  + "/" + 7 + CCommon.SCENE_FILE;
+        const assetManager:         AssetManagerService = new AssetManagerService();
 
-//         assetManager.saveImage(originalImagePath,  "test");
-//         assetManager.saveImage(modifiedImagePath,  "test");
-//         assetManager.saveImage(generatedImagePath, "test");
+        cardOperations.addCard(c2);
 
-//         cardOperations["socketServer"] = mock(SocketIO);
+        assetManager.saveImage(snapshot, "test");
+        assetManager.saveGeneratedScene(generatedScene, "test");
 
-//         chai.expect(cardOperations.removeCard2D(4)).to.equal(CServer.CARD_DELETED);
-//         cardOperations.removeCard2D(c1.gameID);
-//     });
+        cardOperations["socketServer"] = mock(SocketIO);
 
-//     it("should delete card 3D with specific card id", () => {
-//         const snapshot:             string = CServer.IMAGES_PATH + "/" + 7 + CServer.GENERATED_SNAPSHOT;
-//         const generatedScene:       string = CServer.SCENE_PATH  + "/" + 7 + CCommon.SCENE_FILE;
-//         const assetManager:         AssetManagerService = new AssetManagerService();
+        chai.expect(cardOperations.removeCard3D(7)).to.equal(CServer.CARD_DELETED);
+        cardOperations.removeCard3D(c2.gameID);
+    });
 
-//         cardOperations.addCard3D(c2);
+    it("should generate message with unknown error", () => {
+        const error:    SyntaxError = new SyntaxError();
+        const result:   Message     = cardOperations.generateErrorMessage(error);
 
-//         assetManager.saveImage(snapshot, "test");
-//         assetManager.saveGeneratedScene(generatedScene, "test");
+        chai.expect(result).to.deep.equal({title: CCommon.ON_ERROR, body: CServer.UNKNOWN_ERROR});
+    });
 
-//         cardOperations["socketServer"] = mock(SocketIO);
+    it("should set socket server", () => {
+        const mockSocket: any = mock(SocketIO);
+        cardOperations.setServer(mockSocket);
 
-//         chai.expect(cardOperations.removeCard3D(7)).to.equal(CServer.CARD_DELETED);
-//         cardOperations.removeCard3D(c2.gameID);
-//     });
+        chai.expect(cardOperations["socketServer"]).to.equal(mockSocket);
+    });
 
-//     it("should generate message with unknown error", () => {
-//         const error:    SyntaxError = new SyntaxError();
-//         const result:   Message     = cardOperations.generateErrorMessage(error);
-
-//         chai.expect(result).to.deep.equal({title: CCommon.ON_ERROR, body: CServer.UNKNOWN_ERROR});
-//     });
-
-//     it("should set socket server", () => {
-//         const mockSocket: any = mock(SocketIO);
-//         cardOperations.setServer(mockSocket);
-
-//         chai.expect(cardOperations["socketServer"]).to.equal(mockSocket);
-//     });
-
-// });
+});
