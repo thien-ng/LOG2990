@@ -277,6 +277,16 @@ describe("threejs-raycast tests", () => {
         expect(spy).not.toHaveBeenCalled();
     });
 
+    it("should display object to scene theme", () => {
+        const spy: any = spyOn<any>(threejsRaycast, "displayObject");
+
+        threejsRaycast["isTheme"] = true;
+        objectUpdateMesh.actionToApply = ActionType.ADD;
+        threejsRaycast.updateSceneWithNewObject(objectUpdateMesh);
+
+        expect(spy).toHaveBeenCalled();
+    });
+
     it("should delete object to update to scene Theme", () => {
         const spy: any = spyOn<any>(threejsRaycast, "deleteObject");
 
