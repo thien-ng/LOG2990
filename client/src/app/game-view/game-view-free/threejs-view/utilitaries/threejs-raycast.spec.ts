@@ -81,21 +81,18 @@ describe("threejs-raycast tests", () => {
     });
 
     it("should not call deleteObject from threejsGenerator if action type is ADD", () => {
-        threejsRaycast.setMaps(idBySceneId, sceneIdById);
-        threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
-
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "deleteObject");
 
+        threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
         threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
     });
 
     it("should not call changeObjectColor from threejsGenerator if action type is ADD", () => {
-        threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
-
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "changeObjectColor");
 
+        threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
         threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
