@@ -231,21 +231,7 @@ describe("threejs-raycast tests", () => {
         object1.parent = object2;
         object2.parent = object3;
 
-        expect(threejsRaycast.getParentObject(object1) as THREE.Object3D).not.toBe(object3);
-    });
-
-    it("should return null if the object is null", () => {
-        threejsRaycast.setMaps(idBySceneId, sceneIdById);
-        threejsRaycast.setThreeGenerator(threejsGeneratorTheme);
-
-        const object1: THREE.Object3D = new THREE.Object3D();
-        const object2: THREE.Object3D = new THREE.Object3D();
-        const object3: THREE.Object3D = new THREE.Object3D();
-
-        object1.parent = object2;
-        object2.parent = object3;
-
-        expect(threejsRaycast.getParentObject(object3.parent as THREE.Object3D) as THREE.Object3D).not.toBe(object3);
+        expect(threejsRaycast.getParentObject(object1)).not.toBe(object3);
     });
 
     it("should return null if the object is null", () => {
