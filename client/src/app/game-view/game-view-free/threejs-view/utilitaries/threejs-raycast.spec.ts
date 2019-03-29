@@ -319,6 +319,16 @@ describe("threejs-raycast tests", () => {
         expect(spy).toHaveBeenCalled();
     });
 
+    it("should not call getObjectById() if objectID is undefined", () => {
+        threejsRaycast.setMaps(idBySceneId, sceneIdById);
+
+        const spy: any = spyOn<any>(threejsRaycast["scene"], "getObjectById");
+        spyOn<any>(threejsRaycast["sceneIdById"], "get").and.callFake( () => undefined);
+        threejsRaycast["displayObject"](objectUpdateMesh);
+
+        expect(spy).not.toHaveBeenCalled();
+    });
+
     it("should delete object if the object is a scene Theme", () => {
         const threejsThemeGeneratorMock:  ThreejsThemeGenerator = new ThreejsThemeGenerator(scene, sceneIdById, idBySceneId, opacityById, modelsByName);
         threejsRaycast.setThreeGenerator(threejsThemeGeneratorMock);
