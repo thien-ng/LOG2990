@@ -33,6 +33,22 @@ const objectUpdateSceneObject: ISceneObjectUpdate<ISceneObject> = {
     },
 };
 
+const objectUpdateMesh: ISceneObjectUpdate<IMesh> = {
+    actionToApply:  ActionType.ADD,
+    sceneObject:        {
+        id:             1,
+        meshInfo:       {
+            GLTFUrl:    "url",
+            uuid:       "uuid",
+        },
+        name:           "patate",
+        radius:         1,
+        position:       {x: 1, y: 1, z: 1},
+        rotation:       {x: 1, y: 1, z: 1},
+        scaleFactor:    1,
+        hidden:         false,
+    },
+};
 
 let camera:                     THREE.PerspectiveCamera;
 let renderer:                   THREE.WebGLRenderer;
