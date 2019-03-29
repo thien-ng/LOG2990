@@ -81,12 +81,9 @@ describe("threejs-raycast tests", () => {
     });
 
     it("should not dectect any object", () => {
-        threejsRaycast.setMaps(idBySceneId, sceneIdById);
-        threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
-
-        const mouseEvent: any = mock(MouseEvent);
         raycaster = mock(THREE.Raycaster);
         threejsRaycast["raycaster"] = raycaster;
+        const mouseEvent: any = mock(MouseEvent);
         const result: number = threejsRaycast.detectObject(mouseEvent);
 
         expect(result).toBe(-1);
