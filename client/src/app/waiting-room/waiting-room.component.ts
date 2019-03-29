@@ -19,9 +19,13 @@ const GO_MESSAGE:       string = "GO!";
 })
 export class WaitingRoomComponent {
 
-  public  readonly CANCEL_BUTTON_TEXT:  string = "Retourner à la liste de jeu";
+  public readonly CANCEL_BUTTON_TEXT: string = "Retourner à la liste de jeu";
+  public readonly LOBBY_MESSAGE:      string = "En attente d'un autre joueur...";
+  public readonly imgPlaceHolder:     string = CClient.PATH_TO_IMAGES + "/pet.bmp";
+  public readonly VSIMAGE:            string = CClient.PATH_TO_IMAGES + "/versus.png";
 
-  public counter: string;
+  public counter:   string;
+  public username:  string | null;
 
   @Input()
   public isMultiplayer: boolean;
@@ -36,6 +40,7 @@ export class WaitingRoomComponent {
     private socketService:  SocketService,
   ) {
     this.counter = "";
+    this.username = sessionStorage.getItem(CClient.USERNAME_KEY);
     this.initCounterListener();
   }
 
