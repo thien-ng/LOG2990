@@ -24,6 +24,14 @@ export class ProfilePicGeneratorService {
         this.COLOR_PINK,
     ];
     private readonly multiplier: number = 20;
+    private fillImage(builder: BMPBuilder, x: number, y: number, color: IColor): void {
+        for (let i: number = 0; i < this.multiplier; i++) {
+            for (let j: number = 0; j < this.multiplier; j++) {
+                builder.setColorAtPos(color.R, color.B, color.G, x * this.multiplier + i, y * this.multiplier + j);
+            }
+        }
+    }
+
     private getRandomColor(): IColor {
         return this.colors[Math.floor(Math.random() * this.colors.length)];
     }
