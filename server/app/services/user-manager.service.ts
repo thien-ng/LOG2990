@@ -1,16 +1,22 @@
+import { AxiosInstance } from "axios";
 import { injectable } from "inversify";
 import { IUser } from "../../../common/communication/iUser";
 import { Message } from "../../../common/communication/message";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { CServer } from "../CServer";
+import { AssetManagerService } from "./asset-manager.service";
+
+const axios:                AxiosInstance = require("axios");
 
 @injectable()
 export class UserManagerService {
 
     private nameList: IUser[];
+    private assetManager: AssetManagerService;
 
     public constructor() {
         this.nameList = [];
+        this.assetManager = new AssetManagerService();
     }
 
     public get users(): IUser[] {
@@ -48,11 +54,18 @@ export class UserManagerService {
                 socketID:   "undefined",
             };
             this.nameList.push(user);
+            this.createUserPic(username);
 
             return this.generateMessage(CCommon.ON_SUCCESS, CCommon.IS_UNIQUE);
         }
 
         return this.generateMessage(CCommon.ON_SUCCESS, CServer.NOT_UNIQUE_NAME);
+    }
+
+    private async createUserPic(username: string): Promise<void> {
+        const picBuffer: Buffer = (await axios.get(CServer.PROFILE_PIC_GEN_PATH)).data;
+        const path: string = CServer.PROFILE_IMAGE_PATH + username + ".bmp";
+        this.assetManager.stockImage(path, picBuffer);
     }
 
     public getUserByUsername(username: string): IUser | string {
@@ -65,6 +78,12 @@ export class UserManagerService {
 
     public leaveBrowser(user: IUser): void {
         this.nameList = this.nameList.filter( (element: IUser) => element.username !== user.username);
+        const path: string = CServer.PROFILE_IMAGE_PATH + user.username + ".bmp";
+        try {
+            this.assetManager.deleteStoredImages([path]);
+        } catch (error) {
+            throw new TypeError(error.message);
+        }
     }
 
     public isUnique(nameRequest: String): Boolean {
