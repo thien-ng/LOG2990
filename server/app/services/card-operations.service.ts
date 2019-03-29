@@ -32,7 +32,7 @@ export class CardOperations {
         if (!isExisting) {
             this.imageManagerService.saveCard(card);
             this.addCardId(card);
-            this.highscoreService.createHighscore(card.gameID);
+            this.highscoreService.generateNewHighscore(card.gameID);
 
             if (this.socketServer) {
                 this.socketServer.emit(CCommon.ON_CARD_CREATED);
@@ -56,6 +56,7 @@ export class CardOperations {
             CServer.IMAGES_PATH + "/" + id + CCommon.ORIGINAL_FILE,
             CServer.IMAGES_PATH + "/" + id + CCommon.MODIFIED_FILE,
             CServer.PATH_LOCAL_CARDS  + id + "_card.json",
+            CServer.PATH_LOCAL_HIGHSCORE + id + "_highscore.json",
         ];
 
         try {
@@ -83,6 +84,7 @@ export class CardOperations {
             CServer.IMAGES_PATH   + "/" + id + CServer.GENERATED_SNAPSHOT,
             CServer.SCENE_PATH    + "/" + id + CCommon.SCENE_FILE,
             CServer.PATH_LOCAL_CARDS    + id + "_card.json",
+            CServer.PATH_LOCAL_HIGHSCORE + id + "_highscore.json",
         ];
 
         try {

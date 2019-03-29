@@ -11,6 +11,7 @@ import {
 } from "../../../common/communication/highscore";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { CServer } from "../CServer";
+import { AssetManagerService } from "./asset-manager.service";
 
 const ERROR:                number = -1;
 const DEFAULT_NUMBER:       number = 0;
@@ -23,33 +24,25 @@ const axios:                AxiosInstance = require("axios");
 
 @injectable()
 export class HighscoreService {
-    private highscores:   Highscore[];
     private socketServer: SocketIO.Server;
+    private assetManager: AssetManagerService;
 
     public constructor() {
-        this.highscores = [];
+        this.assetManager = new AssetManagerService();
     }
 
     public setServer(server: SocketIO.Server): void {
         this.socketServer = server;
     }
 
-    public createHighscore(id: number): void {
-        const highscore: Highscore = {
-            id: id,
-        } as Highscore;
-
-        this.highscores.push(highscore);
-        this.generateNewHighscore(id);
-    }
-
     public convertToString(id: number): HighscoreMessage {
-        const index: number = this.findHighScoreByID(id);
-        if (index !== ERROR) {
+
+        const foundHighscore: Highscore = this.assetManager.getHighscoreById(id);
+        if (foundHighscore) {
             return {
                 id:             id,
-                timesSingle:    this.secondsToMinutes(this.highscores[index].timesSingle),
-                timesMulti:     this.secondsToMinutes(this.highscores[index].timesMulti),
+                timesSingle:    this.secondsToMinutes(foundHighscore.timesSingle),
+                timesMulti:     this.secondsToMinutes(foundHighscore.timesMulti),
             } as HighscoreMessage;
         }
 
@@ -59,9 +52,12 @@ export class HighscoreService {
     }
 
     public generateNewHighscore(id: number): void {
-        const index: number = this.findHighScoreByID(id);
 
-        this.setMaxValue(index);
+        const foundHighscore: Highscore = {
+            id: id,
+        } as Highscore;
+        this.setMaxValue(foundHighscore);
+
         const randomSingleTimes: [number, number, number] = [DEFAULT_NUMBER, DEFAULT_NUMBER, DEFAULT_NUMBER];
         const randomMultiTimes: [number, number, number] = [DEFAULT_NUMBER, DEFAULT_NUMBER, DEFAULT_NUMBER];
 
@@ -74,44 +70,33 @@ export class HighscoreService {
         randomSingleTimes.sort();
 
         for (let j: number = 0; j < randomMultiTimes.length; j++) {
-            this.highscores[index].timesSingle[j].time = randomSingleTimes[j];
-            this.highscores[index].timesMulti[j].time  = randomMultiTimes[j];
+            foundHighscore.timesSingle[j].time = randomSingleTimes[j];
+            foundHighscore.timesMulti[j].time  = randomMultiTimes[j];
         }
 
         if (this.socketServer) {
             this.socketServer.emit(CCommon.ON_NEW_SCORE, id);
         }
+        this.assetManager.saveHighscore(foundHighscore);
     }
 
     public randomTime(min: number, max: number): number {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
-    public getHighscoreById(id: number): Highscore | undefined {
-        let score: Highscore | undefined;
-
-        this.highscores.forEach((element: Highscore) => {
-            if (element.id === id) {
-                score = element;
-            }
-        });
-
-        return score;
-    }
-
     public async updateHighscore(value: Time, mode: Mode, gameID: number): Promise<HighscoreValidationResponse> {
-        const index: number = this.findHighScoreByID(gameID);
+        const foundHighscore: Highscore = this.assetManager.getHighscoreById(gameID);
 
-        if (this.highscores[index] !== undefined) {
+        if (foundHighscore) {
             switch (mode) {
                 case Mode.Singleplayer:
-                    const messageSingle: HighscoreValidationMessage = this.generateApiMessage(value, this.highscores[index], mode);
+                    const messageSingle: HighscoreValidationMessage = this.generateApiMessage(value, foundHighscore, mode);
 
-                    return this.validateHighscore(messageSingle, index);
+                    return this.validateHighscore(messageSingle, foundHighscore);
                 case Mode.Multiplayer:
-                    const messageMulti: HighscoreValidationMessage = this.generateApiMessage(value, this.highscores[index], mode);
+                    const messageMulti: HighscoreValidationMessage = this.generateApiMessage(value, foundHighscore, mode);
 
-                    return this.validateHighscore(messageMulti, index);
+                    return this.validateHighscore(messageMulti, foundHighscore);
                 default:
                     break;
             }
@@ -166,38 +151,27 @@ export class HighscoreService {
         } as HighscoreValidationMessage;
     }
 
-    private setMaxValue(index: number): void {
+    private setMaxValue(highscore: Highscore): void {
         let i: number = 1;
-        this.highscores[index].timesSingle = [
+        highscore.timesSingle = [
             this.generateDefaultTime(NAME + i++),
             this.generateDefaultTime(NAME + i++),
             this.generateDefaultTime(NAME + i++),
         ];
-        this.highscores[index].timesMulti = [
+        highscore.timesMulti = [
             this.generateDefaultTime(NAME + i++),
             this.generateDefaultTime(NAME + i++),
             this.generateDefaultTime(NAME + i++),
         ];
     }
 
-    private findHighScoreByID(id: number): number {
-        let index: number = ERROR;
-
-        this.highscores.forEach((highscore: Highscore) => {
-            if (highscore.id === id) {
-                index = this.highscores.indexOf(highscore);
-            }
-        });
-
-        return index;
-    }
-
-    private async validateHighscore(message: HighscoreValidationMessage, index: number): Promise<HighscoreValidationResponse> {
+    private async validateHighscore(message: HighscoreValidationMessage, highscore: Highscore): Promise<HighscoreValidationResponse> {
         try {
             const response: HighscoreValidationResponse = (await axios.post(CServer.VALIDATE_HIGHSCORE_PATH, message)).data;
             if (response.status === CCommon.ON_SUCCESS && response.isNewHighscore) {
-                this.highscores[index] = response.highscore;
+                highscore = response.highscore;
             }
+            this.assetManager.saveHighscore(highscore);
 
             return response;
         } catch (error) {

@@ -59,6 +59,7 @@ export class CServer {
   public static readonly PATH_LOCAL_THEME:          string = "./app/asset/theme/";
   public static readonly PATH_LOCAL_CARDS:          string = "./app/asset/cards/";
   public static readonly PATH_LOCAL_CARDS_IDS:      string = "./app/asset/cards/cardsIds.json";
+  public static readonly PATH_LOCAL_HIGHSCORE:      string = "./app/asset/cards/highscore/";
   public static readonly NOT_UNIQUE_NAME:           string = "isNotUnique";
   public static readonly INIT_ARENA_ERROR:          string = "Erreur lors de l'initialisation de l'arène 2D";
 

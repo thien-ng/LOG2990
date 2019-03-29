@@ -5,6 +5,7 @@ import { ICardsIds } from "../../../common/communication/iCardLists";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { CServer } from "../CServer";
 import { ICard } from "../../../common/communication/iCard";
+import { Highscore } from "../../../common/communication/highscore";
 
 const IMAGES_PATH:              string = "./app/asset/image";
 const FILE_GENERATION_ERROR:    string = "error while generating file";
@@ -169,6 +170,26 @@ export class AssetManagerService {
         const path: string = CServer.PATH_LOCAL_CARDS + card.gameID + "_card.json";
         try {
             fs.writeFileSync(path, cardsParsed);
+        } catch (error) {
+            throw TypeError(FILE_SAVING_ERROR);
+        }
+    }
+
+    public getHighscoreById(id: number): Highscore {
+        try {
+            const readFile: Buffer = fs.readFileSync(CServer.PATH_LOCAL_HIGHSCORE + id + "_highscore.json");
+
+            return JSON.parse(readFile.toString()) as Highscore;
+        } catch (error) {
+            throw new TypeError(GET_CARDS_ERROR);
+        }
+    }
+
+    public saveHighscore(highscore: Highscore): void {
+        const highscoreParsed: string = JSON.stringify(highscore);
+        const path: string = CServer.PATH_LOCAL_HIGHSCORE + highscore.id + "_highscore.json";
+        try {
+            fs.writeFileSync(path, highscoreParsed);
         } catch (error) {
             throw TypeError(FILE_SAVING_ERROR);
         }
