@@ -36,4 +36,7 @@ export default  {
         ChatManagerService:             Symbol("ChatManagerService"),
 
         AssetManagerService:            Symbol("AssetManagerService"),
+
+        ProfilePicGeneratorService:     Symbol("ProfilePicGeneratorService"),
+        ProfilePicGeneratorController:  Symbol("ProfilePicGeneratorController"),
 };
