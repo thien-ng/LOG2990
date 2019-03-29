@@ -20,6 +20,19 @@ opacityById.set(3, 3);
 const originalColorById: Map<number, string> = new Map<number, string>();
 originalColorById.set(1, "blue");
 
+const objectUpdateSceneObject: ISceneObjectUpdate<ISceneObject> = {
+    actionToApply:  ActionType.ADD,
+    sceneObject:    {
+        id:         1,
+        type:       1,
+        position:   {x: 1, y: 1, z: 1},
+        rotation:   {x: 1, y: 1, z: 1},
+        color:      "#FFFFFF",
+        scale:      {x: 1, y: 1, z: 1},
+        hidden:     true,
+    },
+};
+
 
 let camera:                     THREE.PerspectiveCamera;
 let renderer:                   THREE.WebGLRenderer;
