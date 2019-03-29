@@ -20,6 +20,8 @@ import { HighscoreApiService } from "./services/highscore/highscore-api.service"
 import { HitValidatorController } from "./services/hitValidator/hitValidator.controller";
 import { HitValidatorService2D } from "./services/hitValidator/hitValidator2D.service";
 import { HitValidatorService3D } from "./services/hitValidator/hitValidator3D.service";
+import { ProfilePicGeneratorController } from "./services/profile-pic-generator/profile-pic-generator.controller";
+import { ProfilePicGeneratorService } from "./services/profile-pic-generator/profile-pic-generator.service";
 import { SceneManager } from "./services/scene/scene-manager.service";
 import { TimeManagerService } from "./services/time-manager.service";
 import { UserManagerService } from "./services/user-manager.service";
@@ -64,5 +66,8 @@ container.bind(Types.TimeManagerService).to(TimeManagerService).inSingletonScope
 container.bind(Types.ChatManagerService).to(ChatManagerService).inSingletonScope();
 
 container.bind(Types.AssetManagerService).to(AssetManagerService).inSingletonScope();
+
+container.bind(Types.ProfilePicGeneratorController).to(ProfilePicGeneratorController);
+container.bind(Types.ProfilePicGeneratorService).to(ProfilePicGeneratorService);
 
 export { container };
