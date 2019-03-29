@@ -21,11 +21,34 @@ import { HighscoreService } from "../services/highscore.service";
 import { SceneBuilder } from "../services/scene/scene-builder";
 import { SceneModifier } from "../services/scene/scene-modifier";
 
-/*tslint:disable no-magic-numbers no-any max-file-line-count */
+/*tslint:disable no-magic-numbers no-any max-file-line-count max-line-length*/
 
 const FAKE_PATH:            string  = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT  + "/image";
 const mockAdapter:          any     = require("axios-mock-adapter");
 const axios:                any     = require("axios");
+const initCardsJson:    ICardLists = {
+    list2D: [
+        {
+            gameID: 1,
+            gamemode: GameMode.simple,
+            title: "Stewie deathray",
+            subtitle: "Default Image",
+            avatarImageUrl: "http://localhost:3000/image//default.gif",
+            gameImageUrl: "http://localhost:3000/image//default.gif",
+        },
+    ],
+    list3D: [
+        {
+            gameID: 2,
+            gamemode: GameMode.free,
+            title: "Scène par défaut",
+            subtitle: "Scène par défaut",
+            avatarImageUrl: "http://localhost:3000/image//2_snapshot.jpeg",
+            gameImageUrl: "http://localhost:3000/image//2_snapshot.jpeg",
+        },
+    ],
+};
+
 let modifiedList:           IModification[];
 let mockAxios:              any;
 let cardManagerService:     CardManagerService;
@@ -88,6 +111,8 @@ describe("Card-manager tests", () => {
         cardOperations.addCard3D(c2);
         cardOperations.addCard3D(c3);
         chai.expect(cardManagerService.getCards().list3D.length).to.equal(3);
+        cardOperations.removeCard3D(c2.gameID);
+        cardOperations.removeCard3D(c3.gameID);
     });
 
     it("should return the newly added card", () => {
@@ -178,6 +203,7 @@ describe("Card-manager tests", () => {
         .to.deep.equal({title: "onError", body: "Le titre de la carte existe déjà"});
         assetManagerService.deleteStoredImages(["./app/asset/scene/2000_scene.json", "./app/asset/image/2000_snapshot.jpeg"]);
         assetManagerService.deleteStoredImages(["./app/asset/scene/2001_scene.json", "./app/asset/image/2001_snapshot.jpeg"]);
+        assetManagerService.saveCardsUpdate(initCardsJson);
     });
 
     it("Should return false when the title already exists", () => {
@@ -205,7 +231,7 @@ describe("Card-manager tests", () => {
         ];
 
         assetManagerService.deleteStoredImages(paths);
-
+        assetManagerService.saveCardsUpdate(initCardsJson);
         mockAxios.restore();
     });
 
@@ -233,7 +259,7 @@ describe("Card-manager tests", () => {
         ];
 
         assetManagerService.deleteStoredImages(paths);
-
+        assetManagerService.saveCardsUpdate(initCardsJson);
         mockAxios.restore();
     });
 
@@ -255,7 +281,7 @@ describe("Card-manager tests", () => {
         await cardManagerService.simpleCardCreationRoutine(requirements, "title").then((response: any) => {
             chai.expect(response).to.deep.equal(message);
         });
-
+        assetManagerService.saveCardsUpdate(initCardsJson);
         mockAxios.restore();
     });
 
