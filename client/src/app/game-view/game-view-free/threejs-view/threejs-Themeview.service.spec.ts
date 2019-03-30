@@ -548,4 +548,17 @@ describe("ThreejsThemeViewService Tests", () => {
     await threejsThemeViewService.createScene(scene, sceneVariables, renderer, false, 1, meshInfoMock);
     expect(threejsThemeViewService["meshInfos"]).toBeDefined();
   }));
+
+  it("should call setObjectOpacity() if meshObject is not undefined", inject([ThreejsThemeViewService], async (threejsThemeViewService: ThreejsThemeViewService) => {
+    const modifiedListMock: number[] = [1, 2];
+    const threejsThemeGeneratorMock: ThreejsThemeGenerator = mock(ThreejsThemeGenerator);
+    threejsThemeViewService["threejsGenerator"] = threejsThemeGeneratorMock;
+
+    const spy: any = spyOn<any>(threejsThemeViewService["threejsGenerator"], "setObjectOpacity");
+    spyOn<any>(threejsThemeViewService, "recoverObjectFromScene").and.callFake( () => 1);
+    threejsThemeViewService.changeObjectsColor(true, false, modifiedListMock);
+
+    expect(spy).toHaveBeenCalled();
+  }));
+
 });
