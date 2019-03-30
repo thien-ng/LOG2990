@@ -172,39 +172,30 @@ describe("threejs-raycast tests", () => {
     });
 
     it("should not call initiateObject from threejsGenerator if action type is NO_ACTION_REQUIRED", () => {
-        // threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
-        objectUpdateSceneObject.actionToApply = ActionType.NO_ACTION_REQUIRED;
-
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "initiateObject");
-
+        objectUpdateSceneObject.actionToApply = ActionType.NO_ACTION_REQUIRED;
         threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
     });
 
     it("should not call deleteObject from threejsGenerator if action type is NO_ACTION_REQUIRED", () => {
-        // threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
-        objectUpdateSceneObject.actionToApply = ActionType.NO_ACTION_REQUIRED;
-
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "deleteObject");
-
+        objectUpdateSceneObject.actionToApply = ActionType.NO_ACTION_REQUIRED;
         threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
     });
 
     it("should not call changeObjectColor from threejsGenerator if action type is NO_ACTION_REQUIRED", () => {
-        // threejsRaycast.setMaps(idBySceneId, sceneIdById);
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
-        objectUpdateSceneObject.actionToApply = ActionType.NO_ACTION_REQUIRED;
-
         const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "changeObjectColor");
-
+        objectUpdateSceneObject.actionToApply = ActionType.NO_ACTION_REQUIRED;
         threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
 
         expect(spy).not.toHaveBeenCalled();
