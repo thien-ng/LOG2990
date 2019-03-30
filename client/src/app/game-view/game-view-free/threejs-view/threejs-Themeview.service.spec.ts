@@ -538,7 +538,7 @@ describe("ThreejsThemeViewService Tests", () => {
       expect(threejsThemeViewService["moveRight"]).not.toBe(true);
   }));
 
-  it("should generate objects in scene when createScene() is called", inject([ThreejsThemeViewService], async (threejsThemeViewService: ThreejsThemeViewService) => {
+  it("should set attribute 'meshInfos' with parameter passed to createScene()", inject([ThreejsThemeViewService], async (threejsThemeViewService: ThreejsThemeViewService) => {
     const meshInfoMock: IMeshInfo[] = [{
       GLTFUrl: "",
       uuid: "",
