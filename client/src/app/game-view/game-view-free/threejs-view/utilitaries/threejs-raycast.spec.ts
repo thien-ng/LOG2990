@@ -184,6 +184,19 @@ describe("threejs-raycast tests", () => {
         expect(spy).not.toHaveBeenCalled();
     });
 
+    it("should not call deleteObject from threejsGenerator if action type is NO_ACTION_REQUIRED", () => {
+        // threejsRaycast.setMaps(idBySceneId, sceneIdById);
+        threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
+
+        objectUpdateSceneObject.actionToApply = ActionType.NO_ACTION_REQUIRED;
+
+        const spy: any = spyOn<any>(threejsRaycast["threejsGenerator"], "deleteObject");
+
+        threejsRaycast.updateSceneWithNewObject(objectUpdateSceneObject);
+
+        expect(spy).not.toHaveBeenCalled();
+    });
+
     it("should not call initiateObject from threejsGenerator if no object is passed as reference", () => {
         threejsRaycast.setThreeGenerator(threejsGeneratorGeometric);
 
