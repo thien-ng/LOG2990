@@ -9,7 +9,7 @@ import { ThreejsThemeViewService } from "./threejs-ThemeView.service";
 import { ThreejsRaycast } from "./utilitaries/threejs-raycast";
 import { ThreejsThemeGenerator } from "./utilitaries/threejs-themeGenerator";
 
-// tslint:disable:no-any max-file-line-count max-line-length no-floating-promises
+// tslint:disable:no-any max-file-line-count max-line-length no-floating-promises no-magic-numbers
 
 const sceneVariables: ISceneVariables<IMesh> = {
   theme:                  1,
