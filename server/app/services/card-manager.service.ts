@@ -48,7 +48,8 @@ export class CardManagerService {
                 returnValue = this.handlePostResponse(response, cardTitle);
             });
         } catch (error) {
-            this.generateErrorMessage(error);
+
+            return this.generateErrorMessage(error);
         }
 
         return returnValue;
@@ -187,7 +188,7 @@ export class CardManagerService {
         return {list2D, list3D};
     }
 
-    public generateErrorMessage(error: Error): Message {
+    private generateErrorMessage(error: Error): Message {
         const isTypeError:  boolean = error instanceof TypeError;
         const errorMessage: string  = isTypeError ? error.message : CServer.UNKNOWN_ERROR;
 
