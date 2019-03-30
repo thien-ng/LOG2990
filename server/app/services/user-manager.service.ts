@@ -82,7 +82,7 @@ export class UserManagerService {
         try {
             this.assetManager.deleteStoredImages([path]);
         } catch (error) {
-            throw new TypeError(error.message);
+            // throw new TypeError(error.message);
         }
     }
 
