@@ -549,7 +549,7 @@ describe("ThreejsThemeViewService Tests", () => {
     expect(threejsThemeViewService["meshInfos"]).toBeDefined();
   }));
 
-  it("should call setObjectOpacity() if meshObject is not undefined", inject([ThreejsThemeViewService], async (threejsThemeViewService: ThreejsThemeViewService) => {
+  it("should call setObjectOpacity() if meshObject is not undefined", inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
     const modifiedListMock: number[] = [1, 2];
     const threejsThemeGeneratorMock: ThreejsThemeGenerator = mock(ThreejsThemeGenerator);
     threejsThemeViewService["threejsGenerator"] = threejsThemeGeneratorMock;
@@ -561,7 +561,7 @@ describe("ThreejsThemeViewService Tests", () => {
     expect(spy).toHaveBeenCalled();
   }));
 
-  it("should not call setObjectOpacity() if meshObject is undefined", inject([ThreejsThemeViewService], async (threejsThemeViewService: ThreejsThemeViewService) => {
+  it("should not call setObjectOpacity() if meshObject is undefined", inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
     const modifiedListMock: number[] = [1, 2];
     const threejsThemeGeneratorMock: ThreejsThemeGenerator = mock(ThreejsThemeGenerator);
     threejsThemeViewService["threejsGenerator"] = threejsThemeGeneratorMock;
@@ -573,7 +573,7 @@ describe("ThreejsThemeViewService Tests", () => {
     expect(spy).not.toHaveBeenCalled();
   }));
 
-  it("should return 'undefined' if 'instanceObject3D' is undefined", inject([ThreejsThemeViewService], async (threejsThemeViewService: ThreejsThemeViewService) => {
+  it("should return 'undefined' if 'instanceObject3D' is undefined", inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
     threejsThemeViewService["scene"] = mock(THREE.Scene);
     when(scene.getObjectById(anyNumber())).thenReturn(undefined);
     spyOn(threejsThemeViewService["scene"], "getObjectById").and.callFake( () => undefined);
