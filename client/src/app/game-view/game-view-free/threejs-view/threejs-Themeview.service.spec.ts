@@ -573,4 +573,13 @@ describe("ThreejsThemeViewService Tests", () => {
     expect(spy).not.toHaveBeenCalled();
   }));
 
+  it("should return 'undefined' if 'instanceObject3D' is undefined", inject([ThreejsThemeViewService], async (threejsThemeViewService: ThreejsThemeViewService) => {
+    threejsThemeViewService["scene"] = mock(THREE.Scene);
+    when(scene.getObjectById(anyNumber())).thenReturn(undefined);
+    spyOn(threejsThemeViewService["scene"], "getObjectById").and.callFake( () => undefined);
+    const result: THREE.Mesh | undefined = threejsThemeViewService["recoverObjectFromScene"](anyNumber());
+
+    expect(result).toBeUndefined();
+  }));
+
 });
