@@ -85,10 +85,10 @@ describe("threejs-raycast tests", () => {
     });
 
     it("should not dectect any object", () => {
-        const mouseEvent: any       = mock(MouseEvent);
-        const result: number        = threejsRaycast.detectObject(mouseEvent);
         raycaster                   = mock(THREE.Raycaster);
         threejsRaycast["raycaster"] = raycaster;
+        const mouseEvent: any       = mock(MouseEvent);
+        const result: number        = threejsRaycast.detectObject(mouseEvent);
 
         expect(result).toBe(-1);
     });
