@@ -3,7 +3,7 @@ import * as THREE from "three";
 import {  anyNumber, mock, when } from "ts-mockito";
 import { ActionType, IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { IMesh, ISceneObject } from "../../../../../../common/communication/iSceneObject";
-import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
+import { IMeshInfo, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { GameViewFreeService } from "../game-view-free.service";
 import { ThreejsThemeViewService } from "./threejs-ThemeView.service";
 import { ThreejsRaycast } from "./utilitaries/threejs-raycast";
