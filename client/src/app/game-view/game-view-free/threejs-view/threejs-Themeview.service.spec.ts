@@ -538,4 +538,14 @@ describe("ThreejsThemeViewService Tests", () => {
       expect(threejsThemeViewService["moveRight"]).not.toBe(true);
   }));
 
+  it("should generate objects in scene when createScene() is called", inject([ThreejsThemeViewService], async (threejsThemeViewService: ThreejsThemeViewService) => {
+    const meshInfoMock: IMeshInfo[] = [{
+      GLTFUrl: "",
+      uuid: "",
+    }];
+
+    spyOn<any>(threejsThemeViewService, "getModelObjects").and.callFake(() => {Promise.resolve(); });
+    await threejsThemeViewService.createScene(scene, sceneVariables, renderer, false, 1, meshInfoMock);
+    expect(threejsThemeViewService["meshInfos"]).toBeDefined();
+  }));
 });
