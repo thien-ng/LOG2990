@@ -21,7 +21,7 @@ export class WaitingRoomComponent {
 
   public readonly CANCEL_BUTTON_TEXT: string = "Retourner à la liste de jeu";
   public readonly LOBBY_MESSAGE:      string = "En attente d'un autre joueur...";
-  public readonly imgPlaceHolder:     string = CClient.PATH_TO_IMAGES + "/pet.bmp";
+  public readonly imgPlaceHolder:     string;
   public readonly VSIMAGE:            string = CClient.PATH_TO_IMAGES + "/versus.png";
 
   public counter:   string;
@@ -41,6 +41,7 @@ export class WaitingRoomComponent {
   ) {
     this.counter = "";
     this.username = sessionStorage.getItem(CClient.USERNAME_KEY);
+    this.imgPlaceHolder = CClient.PATH_TO_PROFILE_IMAGES + this.username + ".bmp";
     this.initCounterListener();
   }
 
