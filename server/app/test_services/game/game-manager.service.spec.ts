@@ -144,6 +144,7 @@ const modified: Buffer = fs.readFileSync(path.resolve(__dirname, "../../asset/im
 beforeEach(() => {
     socket              = mock(SocketIO);
     server              = mock(SocketIO);
+    assetManagerService = new AssetManagerService();
     lobbyManagerService = new LobbyManagerService();
     userManagerService  = new UserManagerService();
     highscoreService    = new HighscoreService(assetManagerService);
