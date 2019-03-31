@@ -582,7 +582,7 @@ describe("ThreejsThemeViewService Tests", () => {
     expect(result).toBeUndefined();
   }));
 
-  it("should generate objects in scene when createScene() is called", inject([ThreejsThemeViewService], async (threejsThemeViewService: ThreejsThemeViewService) => {
+  it("should call getGLTFs() when calling getModelObjects()", inject([ThreejsThemeViewService], async (threejsThemeViewService: ThreejsThemeViewService) => {
     const meshInfoMock: IMeshInfo[] = [{
       GLTFUrl: "",
       uuid: "",
