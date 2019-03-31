@@ -32,6 +32,11 @@
   vertical-align: middle;
 }
 
+.player2Container {
+  width: 100%;
+  height: 100%;
+}
+
 .textMessage {
   font-size: 60px;
   color: #3F51B5;
