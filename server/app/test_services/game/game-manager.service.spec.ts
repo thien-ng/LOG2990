@@ -14,6 +14,7 @@ import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { CServer } from "../../CServer";
+import { AssetManagerService } from "../../services/asset-manager.service";
 import { CardOperations } from "../../services/card-operations.service";
 import { ChatManagerService } from "../../services/chat-manager.service";
 import { Arena2D } from "../../services/game/arena/arena2d";
@@ -29,6 +30,7 @@ import { UserManagerService } from "../../services/user-manager.service";
 // tslint:disable no-magic-numbers no-any await-promise no-floating-promises max-file-line-count max-func-body-length no-empty
 
 let lobbyManagerService:    LobbyManagerService;
+let assetManagerService:    AssetManagerService;
 let gameManagerService:     GameManagerService;
 let userManagerService:     UserManagerService;
 let highscoreService:       HighscoreService;
@@ -144,7 +146,7 @@ beforeEach(() => {
     server              = mock(SocketIO);
     lobbyManagerService = new LobbyManagerService();
     userManagerService  = new UserManagerService();
-    highscoreService    = new HighscoreService();
+    highscoreService    = new HighscoreService(assetManagerService);
     timeManagerService  = new TimeManagerService();
     chatManagerService  = new ChatManagerService(timeManagerService);
     cardOperations      = new CardOperations(highscoreService);
