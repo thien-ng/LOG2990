@@ -606,4 +606,13 @@ describe("ThreejsThemeViewService Tests", () => {
     expect(spy).toHaveBeenCalled();
   }));
 
+  it("should not call updateScenLoaded() if 'isSnapshotNeeded' is true", inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
+    threejsThemeViewService["sceneVariables"] = sceneVariables;
+    threejsThemeViewService["threejsGenerator"] = generator;
+    const spy: any = spyOn<any>(threejsThemeViewService["gameViewFreeService"], "updateSceneLoaded");
+    threejsThemeViewService["generateSceneObjects"](true, 1);
+
+    expect(spy).not.toHaveBeenCalled();
+  }));
+
 });
