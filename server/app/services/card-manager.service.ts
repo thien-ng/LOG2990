@@ -15,6 +15,9 @@ import { ImageRequirements } from "./difference-checker/utilities/imageRequireme
 
 const axios: Axios.AxiosInstance = require("axios");
 
+const INITIAL_2D_ID: number = 1000;
+const INITIAL_3D_ID: number = 2000;
+
 @injectable()
 export class CardManagerService {
 
@@ -56,7 +59,7 @@ export class CardManagerService {
     }
 
     public freeCardCreationRoutine(body: ISceneMessage): Message {
-        const gameID:       number = this.generateSceneId();
+        const gameID:       number = this.generateId(INITIAL_3D_ID);
         const sceneImage:   string = "/" + gameID + CServer.SCENE_SNAPSHOT;
         const scenesPath:   string = CServer.SCENE_PATH + "/" + gameID + CCommon.SCENE_FILE;
 
@@ -99,7 +102,7 @@ export class CardManagerService {
         if (this.isMessage(result)) {
             return result;
         } else {
-            const gameID:               number = this.generateId();
+            const gameID:               number = this.generateId(INITIAL_2D_ID);
             const originalImagePath:    string = "/" + gameID + CCommon.ORIGINAL_FILE;
             const modifiedImagePath:    string = "/" + gameID + CCommon.MODIFIED_FILE;
             this.imageManagerService.stockImage(CServer.IMAGES_PATH + originalImagePath, this.originalImageRequest);
@@ -138,23 +141,20 @@ export class CardManagerService {
                 (result as Message).title   !== undefined;
     }
 
-    private generateId(): number {
-        let chosenId: number = 1000;
-        const list: ICardsIds = this.imageManagerService.getCardsIds();
-        list.descriptions.forEach((description: ICardDescription) => {
-            if (description.gamemode === GameMode.simple && description.id !== DefaultCard2D.gameID) {
-                chosenId = description.id;
-            }
-        });
+    private generateId(initialId: number): number {
+        let chosenId:       number      = initialId;
+        let defaultId:      number      = DefaultCard2D.gameID;
+        let chosenGameMode: GameMode    = GameMode.simple;
 
-        return ++chosenId;
-    }
+        if (chosenId !== INITIAL_2D_ID) {
+            defaultId = DefaultCard3D.gameID;
+            chosenGameMode = GameMode.free;
+        }
 
-    private generateSceneId(): number {
-        let chosenId: number = 2000;
         const list: ICardsIds = this.imageManagerService.getCardsIds();
+
         list.descriptions.forEach((description: ICardDescription) => {
-            if (description.gamemode === GameMode.free && description.id !== DefaultCard3D.gameID) {
+            if (description.gamemode === chosenGameMode && description.id !== defaultId) {
                 chosenId = description.id;
             }
         });

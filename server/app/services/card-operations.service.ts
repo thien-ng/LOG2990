@@ -114,11 +114,7 @@ export class CardOperations {
             return (description.id === card.gameID || description.title === card.title);
         });
 
-        if (descriptionFound) {
-            return true;
-        }
-
-        return false;
+        return (descriptionFound) ? true : false;
     }
 
     private cardExist(id: number): boolean {
@@ -127,11 +123,7 @@ export class CardOperations {
             return (description.id === id);
         });
 
-        if (descriptionFound) {
-            return true;
-        }
-
-        return false;
+        return (descriptionFound) ? true : false;
     }
 
     private addCardId(card: ICard): void {

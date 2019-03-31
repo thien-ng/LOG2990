@@ -21,16 +21,14 @@ const SECONDS_IN_MINUTES:   number = 60;
 const BASE_DECIMAL:         number = 10;
 const NAME:                 string = "ordinateur";
 const axios:                AxiosInstance = require("axios");
+const WRONG_MODE_MESSAGE:   string = "Wrong type of game mode.";
 
 @injectable()
 export class HighscoreService {
     private socketServer: SocketIO.Server;
-    private assetManager: AssetManagerService;
     private newHighscore: Highscore;
 
-    public constructor() {
-        this.assetManager = new AssetManagerService();
-    }
+    public constructor(private assetManager: AssetManagerService) {}
 
     public setServer(server: SocketIO.Server): void {
         this.socketServer = server;
@@ -99,7 +97,7 @@ export class HighscoreService {
 
                     return this.validateHighscore(messageMulti, foundHighscore);
                 default:
-                    break;
+                    throw new TypeError(WRONG_MODE_MESSAGE);
             }
         }
 

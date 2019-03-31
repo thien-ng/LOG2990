@@ -10,6 +10,7 @@ import {
     Mode } from "../../../common/communication/highscore";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { CServer } from "../CServer";
+import { AssetManagerService } from "../services/asset-manager.service";
 import { HighscoreService } from "../services/highscore.service";
 
 // tslint:disable:no-magic-numbers no-any no-floating-promises max-line-length arrow-return-shorthand
@@ -23,6 +24,7 @@ const mockAdapter:          any     = require("axios-mock-adapter");
 describe("HighscoreService tests", () => {
     let mockHighscore:              Highscore[];
     let highscoreService:           HighscoreService;
+    let assetManager:               AssetManagerService;
 
     const higscoreMessageExpected:  HighscoreMessage = {
         id:             1,
@@ -55,7 +57,8 @@ describe("HighscoreService tests", () => {
                 timesMulti:     [{username: "cpu", time: 122}, {username: "cpu", time: 124}, {username: "cpu", time: 136}],
             },
         ];
-        highscoreService = new HighscoreService();
+        assetManager     = new AssetManagerService();
+        highscoreService = new HighscoreService(assetManager);
         highscoreService["highscores"] = mockHighscore;
         highscoreService["socketServer"] = mock(SocketIO);
     });
@@ -132,9 +135,10 @@ describe("HighscoreService tests", () => {
         };
         mockAxios.onPost(CServer.VALIDATE_HIGHSCORE_PATH).reply(200, answer);
 
-        const spy: any = chai.spy.on(highscoreService["assetManager"], "saveHighscore", () => {return; });
-        await highscoreService.updateHighscore({username: "cpu", time: 1}, 9, 1);
-        chai.expect(spy).not.to.have.been.called();
+        chai.spy.on(highscoreService["assetManager"], "saveHighscore", () => {return; });
+        await highscoreService.updateHighscore({username: "cpu", time: 1}, 9, 1).then().catch((error: any) => {
+            chai.expect(error.message).to.equal("Wrong type of game mode.");
+        });
     });
 
     it("Should not update the highscore when validating values", async () => {

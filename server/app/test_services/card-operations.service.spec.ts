@@ -18,6 +18,7 @@ const CARD_NOT_FOUND:   string = "Erreur de suppression, carte pas trouvée";
 const ERROR_DELETION:   string = "error while deleting file";
 
 let highscoreService:   HighscoreService;
+let assetManagerService:       AssetManagerService;
 let cardOperations:     CardOperations;
 
 describe("Card-operations tests", () => {
@@ -41,7 +42,8 @@ describe("Card-operations tests", () => {
     };
 
     beforeEach(() => {
-        highscoreService    = new HighscoreService();
+        assetManagerService = new AssetManagerService();
+        highscoreService    = new HighscoreService(assetManagerService);
         cardOperations      = new CardOperations(highscoreService);
     });
 
