@@ -15,6 +15,7 @@ import { CardManagerService } from "../services/card-manager.service";
 import { CardOperations } from "../services/card-operations.service";
 import { ImageRequirements } from "../services/difference-checker/utilities/imageRequirements";
 import { HighscoreService } from "../services/highscore.service";
+import { AssetManagerService } from "../services/asset-manager.service";
 
 /*tslint:disable no-magic-numbers no-any max-file-line-count max-line-length arrow-return-shorthand no-floating-promises*/
 
@@ -88,12 +89,14 @@ let mockAxios:              any;
 let cardManagerService:     CardManagerService;
 let highscoreService:       HighscoreService;
 let cardOperations:         CardOperations;
+let assetManagerService:    AssetManagerService;
 
 describe("Card-manager tests", () => {
     chai.use(spies);
 
     beforeEach(() => {
-        highscoreService    = new HighscoreService();
+        assetManagerService = new AssetManagerService();
+        highscoreService    = new HighscoreService(assetManagerService);
         cardOperations      = new CardOperations(highscoreService);
         cardManagerService  = new CardManagerService(cardOperations);
         mockAxios           = new mockAdapter.default(axios);
