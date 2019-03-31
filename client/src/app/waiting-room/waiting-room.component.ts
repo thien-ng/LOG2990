@@ -21,11 +21,13 @@ export class WaitingRoomComponent {
 
   public readonly CANCEL_BUTTON_TEXT: string = "Retourner à la liste de jeu";
   public readonly LOBBY_MESSAGE:      string = "En attente d'un autre joueur...";
-  public readonly imgPlaceHolder:     string;
   public readonly VSIMAGE:            string = CClient.PATH_TO_IMAGES + "/versus.png";
 
-  public counter:   string;
-  public username:  string | null;
+  public counter:       string;
+  public username:      string | null;
+  public opponentName:  string;
+  public opponentImage: string;
+  public userImage:     string;
 
   @Input()
   public isMultiplayer: boolean;
@@ -39,16 +41,27 @@ export class WaitingRoomComponent {
     private snackBar:       MatSnackBar,
     private socketService:  SocketService,
   ) {
-    this.counter = "";
-    this.username = sessionStorage.getItem(CClient.USERNAME_KEY);
-    this.imgPlaceHolder = CClient.PATH_TO_PROFILE_IMAGES + this.username + ".bmp";
+    this.counter        = "";
+    this.opponentName   = "";
+    this.opponentImage  = "";
+    this.username       = sessionStorage.getItem(CClient.USERNAME_KEY);
+    this.userImage      = CClient.PATH_TO_PROFILE_IMAGES + this.username + ".bmp";
     this.initCounterListener();
+    this.initOpponentUsername();
   }
 
   private initCounterListener(): void {
     this.socketService.onMessage(CCommon.ON_COUNTDOWN).subscribe((message: number) => {
 
       this.counter = (message === 0) ? GO_MESSAGE : message.toString();
+    });
+  }
+
+  private initOpponentUsername(): void {
+    this.socketService.onMessage(CCommon.ON_COUNTDOWN_START).subscribe((message: string[]) => {
+      const index: number = message[0] === this.username ? 1 : 0;
+      this.opponentName = message[index];
+      this.opponentImage = CClient.PATH_TO_PROFILE_IMAGES + this.opponentName + ".bmp";
     });
   }
 
