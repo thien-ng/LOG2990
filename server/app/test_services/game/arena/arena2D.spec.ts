@@ -16,6 +16,7 @@ import { UserManagerService } from "../../../services/user-manager.service";
 
 import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
+import { AssetManagerService } from "../../../services/asset-manager.service";
 import { CardOperations } from "../../../services/card-operations.service";
 import { ChatManagerService } from "../../../services/chat-manager.service";
 import { Arena2D } from "../../../services/game/arena/arena2d";
@@ -83,6 +84,7 @@ let chatManagerService:     ChatManagerService;
 let timeManagerService:     TimeManagerService;
 let cardOperations:         CardOperations;
 let lobbyManagerService:    LobbyManagerService;
+let assetManagerService:    AssetManagerService;
 
 const testImageOriginale:   Buffer = fs.readFileSync(path.resolve(__dirname, "../../../asset/image/1_original.bmp"));
 
@@ -91,9 +93,10 @@ let mockAxios: any;
 describe("Arena 2D tests", () => {
 
     beforeEach(async () => {
+        assetManagerService = new AssetManagerService();
         lobbyManagerService = new LobbyManagerService();
         userManagerService  = new UserManagerService();
-        highscoreService    = new HighscoreService();
+        highscoreService    = new HighscoreService(assetManagerService);
         timeManagerService  = new TimeManagerService();
         chatManagerService  = new ChatManagerService(timeManagerService);
         cardOperations      = new CardOperations(highscoreService);
