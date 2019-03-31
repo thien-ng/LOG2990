@@ -11,11 +11,11 @@ import { ISceneObject } from "../../../common/communication/iSceneObject";
 import { ISceneVariables } from "../../../common/communication/iSceneVariables";
 import { Message } from "../../../common/communication/message";
 import { CCommon } from "../../../common/constantes/cCommon";
+import { AssetManagerService } from "../services/asset-manager.service";
 import { CardManagerService } from "../services/card-manager.service";
 import { CardOperations } from "../services/card-operations.service";
 import { ImageRequirements } from "../services/difference-checker/utilities/imageRequirements";
 import { HighscoreService } from "../services/highscore.service";
-import { AssetManagerService } from "../services/asset-manager.service";
 
 /*tslint:disable no-magic-numbers no-any max-file-line-count max-line-length arrow-return-shorthand no-floating-promises*/
 
