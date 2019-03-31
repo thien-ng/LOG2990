@@ -25,6 +25,7 @@ export class CCommon {
     public static readonly ON_CARD_DELETED:           string = "onCardDeleted";
     public static readonly ON_CHAT_MESSAGE:           string = "onChatMessage";
     public static readonly ON_COUNTDOWN:              string = "onCountdown";
+    public static readonly ON_COUNTDOWN_START:        string = "onCountdownStart";
     public static readonly ON_ERROR:                  string = "onError";
     public static readonly ON_GAME_LOADED:            string = "onGameLoaded";
     public static readonly ON_GAME_STARTED:           string = "onGameStarted";
