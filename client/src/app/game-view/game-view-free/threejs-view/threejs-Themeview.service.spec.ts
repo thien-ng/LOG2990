@@ -594,4 +594,16 @@ describe("ThreejsThemeViewService Tests", () => {
     expect(spy).toHaveBeenCalled();
   }));
 
+  it("should push new Promise to 'allPromises' when calling getGLTFs() (meshUrl is null)", inject([ThreejsThemeViewService], async (threejsThemeViewService: ThreejsThemeViewService) => {
+    const meshInfoMock: IMeshInfo[] = [{
+      GLTFUrl: "",
+      uuid: "",
+    }];
+    const spy: any = spyOn<any>(threejsThemeViewService["allPromises"], "push");
+
+    await threejsThemeViewService["getGLTFs"](meshInfoMock);
+
+    expect(spy).toHaveBeenCalled();
+  }));
+
 });
