@@ -3,13 +3,13 @@ import * as THREE from "three";
 import {  anyNumber, mock, when } from "ts-mockito";
 import { ActionType, IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { IMesh, ISceneObject } from "../../../../../../common/communication/iSceneObject";
-import { ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
+import { IMeshInfo, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
 import { GameViewFreeService } from "../game-view-free.service";
 import { ThreejsThemeViewService } from "./threejs-ThemeView.service";
 import { ThreejsRaycast } from "./utilitaries/threejs-raycast";
 import { ThreejsThemeGenerator } from "./utilitaries/threejs-themeGenerator";
 
-// tslint:disable:no-any max-file-line-count max-line-length no-floating-promises
+// tslint:disable:no-any max-file-line-count max-line-length no-floating-promises no-magic-numbers
 
 const sceneVariables: ISceneVariables<IMesh> = {
   theme:                  1,
@@ -536,6 +536,83 @@ describe("ThreejsThemeViewService Tests", () => {
       threejsThemeViewService.onKeyMovement(keyboardEvent, true);
 
       expect(threejsThemeViewService["moveRight"]).not.toBe(true);
+  }));
+
+  it("should set attribute 'meshInfos' with parameter passed to createScene()", inject([ThreejsThemeViewService], async (threejsThemeViewService: ThreejsThemeViewService) => {
+    const meshInfoMock: IMeshInfo[] = [{
+      GLTFUrl: "",
+      uuid: "",
+    }];
+
+    spyOn<any>(threejsThemeViewService, "getModelObjects").and.callFake(() => {Promise.resolve(); });
+    await threejsThemeViewService.createScene(scene, sceneVariables, renderer, false, 1, meshInfoMock);
+    expect(threejsThemeViewService["meshInfos"]).toBeDefined();
+  }));
+
+  it("should call setObjectOpacity() if meshObject is not undefined", inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
+    const modifiedListMock: number[] = [1, 2];
+    const threejsThemeGeneratorMock: ThreejsThemeGenerator = mock(ThreejsThemeGenerator);
+    threejsThemeViewService["threejsGenerator"] = threejsThemeGeneratorMock;
+
+    const spy: any = spyOn<any>(threejsThemeViewService["threejsGenerator"], "setObjectOpacity");
+    spyOn<any>(threejsThemeViewService, "recoverObjectFromScene").and.callFake( () => 1);
+    threejsThemeViewService.changeObjectsColor(true, false, modifiedListMock);
+
+    expect(spy).toHaveBeenCalled();
+  }));
+
+  it("should not call setObjectOpacity() if meshObject is undefined", inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
+    const modifiedListMock: number[] = [1, 2];
+    const threejsThemeGeneratorMock: ThreejsThemeGenerator = mock(ThreejsThemeGenerator);
+    threejsThemeViewService["threejsGenerator"] = threejsThemeGeneratorMock;
+
+    const spy: any = spyOn<any>(threejsThemeViewService["threejsGenerator"], "setObjectOpacity");
+    spyOn<any>(threejsThemeViewService, "recoverObjectFromScene").and.callFake( () => undefined);
+    threejsThemeViewService.changeObjectsColor(true, false, modifiedListMock);
+
+    expect(spy).not.toHaveBeenCalled();
+  }));
+
+  it("should return 'undefined' if 'instanceObject3D' is undefined", inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
+    threejsThemeViewService["scene"] = mock(THREE.Scene);
+    when(scene.getObjectById(anyNumber())).thenReturn(undefined);
+    spyOn(threejsThemeViewService["scene"], "getObjectById").and.callFake( () => undefined);
+    const result: THREE.Mesh | undefined = threejsThemeViewService["recoverObjectFromScene"](anyNumber());
+
+    expect(result).toBeUndefined();
+  }));
+
+  it("should call getGLTFs() when calling getModelObjects()", inject([ThreejsThemeViewService], async (threejsThemeViewService: ThreejsThemeViewService) => {
+    const meshInfoMock: IMeshInfo[] = [{
+      GLTFUrl: "",
+      uuid: "",
+    }];
+    const spy: any = spyOn<any>(threejsThemeViewService, "getGLTFs");
+
+    await threejsThemeViewService["getModelObjects"](meshInfoMock);
+
+    expect(spy).toHaveBeenCalled();
+  }));
+
+  it("should push new Promise to 'allPromises' when calling getGLTFs() (meshUrl is null)", inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
+    const meshInfoMock: IMeshInfo[] = [{
+      GLTFUrl: "",
+      uuid: "",
+    }];
+    const spy: any = spyOn<any>(threejsThemeViewService["allPromises"], "push");
+
+    threejsThemeViewService["getGLTFs"](meshInfoMock);
+
+    expect(spy).toHaveBeenCalled();
+  }));
+
+  it("should not call updateScenLoaded() if 'isSnapshotNeeded' is true", inject([ThreejsThemeViewService], (threejsThemeViewService: ThreejsThemeViewService) => {
+    threejsThemeViewService["sceneVariables"] = sceneVariables;
+    threejsThemeViewService["threejsGenerator"] = generator;
+    const spy: any = spyOn<any>(threejsThemeViewService["gameViewFreeService"], "updateSceneLoaded");
+    threejsThemeViewService["generateSceneObjects"](true, 1);
+
+    expect(spy).not.toHaveBeenCalled();
   }));
 
 });
