@@ -143,3 +143,24 @@ button  {
 			top: calc(50% - 20px);
 			width: 5px;
 		}
+
+		&:before {
+			transform: rotate(45deg);
+		}
+
+		&:after {
+			transform: rotate(-45deg);
+		}
+	}
+
+	button {
+		&:hover {
+			border-color: $red-1;
+		}
+
+		&:focus {
+			background-color: $red-4;
+			border-color: $red-1;
+		}
+	}
+}
