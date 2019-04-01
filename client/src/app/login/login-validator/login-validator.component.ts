@@ -60,7 +60,7 @@ export class LoginValidatorComponent {
 
         if (response.body === CCommon.IS_UNIQUE) {
           this.displayNameIsUnique();
-          const nameCapitalized: string = this.loginValidatorService.capitalizeFirstLetter(this.usernameFormControl.value)
+          const nameCapitalized: string = this.loginValidatorService.capitalizeFirstLetter(this.usernameFormControl.value);
           this.socketService.sendMessage(CCommon.LOGIN_EVENT, nameCapitalized);
           await this.router.navigate([CClient.ROUTER_LOGIN]);
         } else {
