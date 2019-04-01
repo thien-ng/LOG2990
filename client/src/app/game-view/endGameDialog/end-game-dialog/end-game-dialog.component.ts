@@ -13,8 +13,9 @@ const LOSS_PROPOSITION: string = "Voulez-vous rejouer?";
 })
 export class EndGameDialogComponent {
 
-  public readonly YES_BUTTON_TEXT: string = "Oui";
-  public readonly NO_BUTTON_TEXT:  string = "Non";
+  public readonly WIN_BUTTON_TEXT: string = "LISTE DE JEUX";
+  public readonly YES_BUTTON_TEXT: string = "OUI";
+  public readonly NO_BUTTON_TEXT:  string = "NON";
   public readonly winStatus:       string;
   public readonly proposition:     string;
 
