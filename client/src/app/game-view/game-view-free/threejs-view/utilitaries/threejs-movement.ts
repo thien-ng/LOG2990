@@ -1,5 +1,6 @@
 import * as THREE from "three";
-import { IPosition2D } from "../../../../../../../common/communication/iGameplay";
+import { IBounderies, IPosition2D } from "../../../../../../../common/communication/iGameplay";
+import { IVector3D } from "../../../../../../../common/communication/iSceneVariables";
 
 export class ThreejsMovement {
 
