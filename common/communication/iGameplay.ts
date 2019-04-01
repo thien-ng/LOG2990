@@ -1,4 +1,5 @@
 import { GameMode } from "./iCard";
+import { IVector3D } from "./ITheme";
 
 export interface IPosition2D {
     x:  number;
@@ -41,6 +42,11 @@ export interface IArenaResponse<RES_T> {
 export interface IPenalty {
     isOnPenalty:    boolean;
     arenaType:      GameMode;
+}
+
+export interface IBounderies {
+    "minPosition": IVector3D;
+    "maxPosition": IVector3D;
 }
 
 export enum ActionType {
