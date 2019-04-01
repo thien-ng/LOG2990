@@ -20,6 +20,7 @@ export class EndGameDialogService {
     this.dialogConfig.hasBackdrop   = false;
     this.dialogConfig.autoFocus     = false;
     this.dialogConfig.panelClass    = "full-blend-dalog";
+    this.dialogConfig.position      = {left: "27%"};
   }
 
   public openDialog(isWinner: boolean, newGameInfo: INewGameInfo): void {
