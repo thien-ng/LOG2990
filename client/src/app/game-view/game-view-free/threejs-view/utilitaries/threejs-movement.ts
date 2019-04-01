@@ -54,7 +54,7 @@ export class ThreejsMovement {
         } else {
             this.multiplyVector(this.velocity, 0);
         }
-        if (!this.objectIsBlockingDirection(this.direction.z, 1)) {
+        if (!this.objectIsBlockingDirection(this.direction.z)) {
             this.translateCamera();
         }
     }
