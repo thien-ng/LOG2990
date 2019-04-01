@@ -69,8 +69,6 @@ export class ThreejsThemeViewService {
     this.opacityById          = new Map<number, number>();
     this.gltfByUrl            = new Map<string, THREE.GLTF>();
     this.modelsByName         = new Map<string, THREE.Object3D>();
-    this.threejsMovement      = new ThreejsMovement(this.camera);
-
     this.moveForward          = false;
     this.moveBackward         = false;
     this.moveRight            = false;
@@ -101,9 +99,10 @@ export class ThreejsThemeViewService {
     this.renderer         = renderer;
     this.scene            = scene;
     this.sceneVariables   = iSceneVariables;
+    this.threejsMovement  = new ThreejsMovement(this.camera, this.scene);
 
     if (meshInfos) {
-      this.meshInfos        = meshInfos;
+      this.meshInfos = meshInfos;
     }
     this.renderer.setSize(CClient.SCENE_WIDTH, CClient.SCENE_HEIGHT);
     this.renderer.setClearColor(this.sceneVariables.sceneBackgroundColor);
@@ -116,16 +115,19 @@ export class ThreejsThemeViewService {
       this.opacityById,
       this.modelsByName,
     );
-    this.threejsThemeRaycast = new ThreejsRaycast(this.camera, this.renderer, this.scene);
-    this.threejsThemeRaycast.setMaps(this.idBySceneId, this.sceneIdById);
-    this.threejsThemeRaycast.setThreeGenerator(this.threejsGenerator);
-
+    this.prepareRaycasts();
     this.createLighting();
     this.generateSceneObjects(isSnapshotNeeded, arenaID);
     this.setFloor();
     this.setCameraPosition(CClient.CAMERA_POSITION_X, CClient.CAMERA_POSITION_Y, CClient.CAMERA_POSITION_Z);
     this.scene.fog = new THREE.Fog(CClient.FOG_COLOR, CClient.FOG_NEAR_DISTANCE, CClient.FOG_FAR_DISTANCE);
     this.camera.lookAt(new THREE.Vector3(this.CAMERA_START_POSITION, this.CAMERA_START_POSITION, this.CAMERA_START_POSITION));
+  }
+
+  private prepareRaycasts(): void {
+    this.threejsThemeRaycast = new ThreejsRaycast(this.camera, this.renderer, this.scene);
+    this.threejsThemeRaycast.setMaps(this.idBySceneId, this.sceneIdById);
+    this.threejsThemeRaycast.setThreeGenerator(this.threejsGenerator);
   }
 
   private setFloor(): void {
