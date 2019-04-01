@@ -82,3 +82,31 @@ h1 {
 	margin-bottom: 10px;
 	padding-top: 50px;
 }
+
+h3 {
+  padding-top: 30px;
+	color: rgba($black, .7);
+	font-size: 18px;
+	line-height: 1.4em;
+}
+
+button  {
+	background: $white;
+	border: 1px solid rgba($black, .15);
+	bottom: 40px;
+	box-shadow: 0 2px 4px rgba($black, .1);
+	color: rgba($black, .7);
+	cursor: pointer;
+	font-family: inherit;
+	font-size: 16px;
+	font-weight: 600;
+	height: 40px;
+	outline: none;
+	position: absolute;
+	transition: all 170ms ease-in;
+	width: 170px;
+}
+
+.button-win {
+	left: calc(50% - 85px);
+}
