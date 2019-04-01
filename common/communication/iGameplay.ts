@@ -44,7 +44,7 @@ export interface IPenalty {
     arenaType:      GameMode;
 }
 
-export interface NewGameInfo {
+export interface INewGameInfo {
     path: string;
     gameID: number;
     type: Mode;
