@@ -164,3 +164,31 @@ button  {
 		}
 	}
 }
+
+.green {
+	.header {
+		background-color: $green-4;
+	}
+
+	.sign {
+		background-color: $green-1;
+		box-shadow: 0 0 0 15px $green-2, 0 0 0 30px $green-3;
+
+		&:before,
+		&:after {
+			background: $white;
+			border-radius: 2px;
+			content: "";
+			display: block;
+			height: 40px;
+			left: calc(50% - 2px);
+			position: absolute;
+			top: calc(50% - 20px);
+			width: 5px;
+		}
+
+		&:before {
+			left: calc(50% + 5px);
+			transform: rotate(45deg);
+			top: calc(50% - 20px);
+		}
