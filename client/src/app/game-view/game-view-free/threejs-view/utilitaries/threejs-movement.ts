@@ -97,6 +97,11 @@ export class ThreejsMovement {
             y : -100,
             z : -100,
         };
+        const maxPos: IVector3D = {
+            x : 250,
+            y : 250,
+            z : 250,
+        };
     }
 
     private multiplyVector (vector: THREE.Vector3, multiplier: number): void {
