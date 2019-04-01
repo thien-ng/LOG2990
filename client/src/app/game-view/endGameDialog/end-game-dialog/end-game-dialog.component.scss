@@ -12,3 +12,18 @@ $green-1: rgba(78,196,94,1);
 $green-2: lighten($green-1, 10);
 $green-3: lighten($green-1, 20);
 $green-4: rgba(190,240,200,1);
+
+/*
+ * MAIN
+*/
+body {
+  padding: 0px;
+  margin: 0px;
+	background: rgb(255,255,255);
+	background: -moz-linear-gradient(-45deg,  rgba(255,255,255,1) 0%, rgba(243,246,255,1) 100%);
+	background: -webkit-linear-gradient(-45deg,  rgba(255,255,255,1) 0%,rgba(243,246,255,1) 100%);
+	background: linear-gradient(135deg,  rgba(255,255,255,1) 0%,rgba(243,246,255,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f3f6ff',GradientType=1 );
+	font-family: "proxima-nova";
+	text-align: center;
+}
