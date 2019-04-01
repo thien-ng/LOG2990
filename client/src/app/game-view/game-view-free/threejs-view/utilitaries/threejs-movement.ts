@@ -28,8 +28,10 @@ export class ThreejsMovement {
     }
 
     public rotateCamera(position: IPosition2D): void {
-        this.camera.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), -position.x * this.CAMERA_ROTATION_SPEED);
-        this.camera.rotateOnAxis(new THREE.Vector3(1, 0, 0), -position.y * this.CAMERA_ROTATION_SPEED);
+        const yAxis: THREE.Vector3 = new THREE.Vector3(0, 1, 0);
+        const xAxis: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
+        this.camera.rotateOnWorldAxis(yAxis, -position.x * this.CAMERA_ROTATION_SPEED);
+        this.camera.rotateOnAxis(xAxis, -position.y * this.CAMERA_ROTATION_SPEED);
     }
 
     public movementCamera(moveForward: boolean, moveBackward: boolean, moveLeft: boolean, moveRight: boolean): void {
@@ -71,9 +73,9 @@ export class ThreejsMovement {
         this.velocity.z = this.direction.z * this.CAMERA_MOVEMENT_SPEED;
     }
 
-    private objectIsBlockingDirection(frontDirection: number, sideDirection: number): boolean {
-        const raycaster: THREE.Raycaster = new THREE.Raycaster();
-        const worldDirection: THREE.Vector3 = new THREE.Vector3();
+    private objectIsBlockingDirection(frontDirection: number): boolean {
+        const raycaster:      THREE.Raycaster = new THREE.Raycaster();
+        const worldDirection: THREE.Vector3   = new THREE.Vector3();
 
         this.camera.getWorldDirection(worldDirection);
 
