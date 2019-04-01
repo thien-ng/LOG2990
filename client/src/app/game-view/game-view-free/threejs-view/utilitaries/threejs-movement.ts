@@ -88,6 +88,7 @@ export class ThreejsMovement {
         return false;
     }
 
+    // tslint:disable-next-line:max-func-body-length
     private translateCamera(): void {
         const minPos: IVector3D = {
             x : -100,
