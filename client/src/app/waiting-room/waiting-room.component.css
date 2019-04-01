@@ -41,6 +41,23 @@
     opacity: 1;
   }
 }
+@keyframes slide-in-top {
+  0% {
+    -webkit-transform: translateY(-1000px);
+            transform: translateY(-1000px);
+    opacity: 0;
+  }
+  40% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    opacity: 1;
+  }
+}
 
 .buttonGrid {
   vertical-align: text-bottom;
@@ -60,14 +77,11 @@
 .textMessage {
   font-size: 60px;
   color: #3F51B5;
-  animation: loading 4s infinite linear;
+  -webkit-animation: text-focus-in-out 3s cubic-bezier(0.550, 0.085, 0.680, 0.530) infinite both;
+	        animation: text-focus-in-out 3s cubic-bezier(0.550, 0.085, 0.680, 0.530) infinite both;
   font-family: 'Open Sans', sans-serif;
 }
 
-@keyframes loading {
-  0% {opacity: 0.2;}
-  50% {opacity: 1;}
-  100% {opacity: 0.1;}
 }
 
 .textUsername {
