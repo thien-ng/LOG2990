@@ -121,6 +121,13 @@ export class ThreejsMovement {
         } else if (cameraPosition.y > boundaries.maxPosition.y) {
             this.camera.translateY(-1);
         }
+        if (cameraPosition.z > boundaries.minPosition.z && cameraPosition.z < boundaries.maxPosition.z) {
+            this.camera.translateZ(this.velocity.z);
+        } else if (cameraPosition.z < boundaries.minPosition.z) {
+            this.camera.translateZ(-1);
+        } else if (cameraPosition.z > boundaries.maxPosition.z) {
+            this.camera.translateZ(1);
+        }
     }
 
     private multiplyVector (vector: THREE.Vector3, multiplier: number): void {
