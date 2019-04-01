@@ -110,3 +110,36 @@ button  {
 .button-win {
 	left: calc(50% - 85px);
 }
+
+.button-lost-1 {
+	left: calc(25% - 65px);
+}
+
+.button-lost-2 {
+	right: calc(25% - 65px);
+}
+
+/*
+ * COLOR SPECIFIC
+*/
+.red {
+	.header {
+		background-color: $red-4;
+	}
+
+	.sign {
+		background-color: $red-1;
+		box-shadow: 0 0 0 15px $red-2, 0 0 0 30px $red-3;
+
+		&:before,
+		&:after {
+			background: $white;
+			border-radius: 2px;
+			content: "";
+			display: block;
+			height: 40px;
+			left: calc(50% - 2px);
+			position: absolute;
+			top: calc(50% - 20px);
+			width: 5px;
+		}
