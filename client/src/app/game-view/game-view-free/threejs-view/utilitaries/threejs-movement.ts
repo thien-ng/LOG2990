@@ -89,9 +89,6 @@ export class ThreejsMovement {
     }
 
     private translateCamera(): void {
-        this.camera.translateX(this.velocity.x);
-        this.camera.translateY(this.velocity.y);
-        this.camera.translateZ(this.velocity.z);
         const minPos: IVector3D = {
             x : -100,
             y : -100,
