@@ -40,7 +40,7 @@ export class AssetManagerService {
     }
 
     public deleteStoredImages(paths: string[]): void {
-        
+
         paths.forEach((path: string) => {
            try {
             fs.unlinkSync(path);
@@ -138,7 +138,7 @@ export class AssetManagerService {
 
     public getCardById(id: string, gamemode: string): ICard {
         try {
-            const readFile: Buffer = fs.readFileSync(CServer.PATH_LOCAL_CARDS + id + "_" + gamemode +"_card.json");
+            const readFile: Buffer = fs.readFileSync(CServer.PATH_LOCAL_CARDS + id + "_" + gamemode + "_card.json");
 
             return JSON.parse(readFile.toString()) as ICard;
         } catch (error) {

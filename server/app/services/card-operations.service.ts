@@ -58,7 +58,7 @@ export class CardOperations {
             CServer.PATH_LOCAL_CARDS  + id + "_simple_card.json",
             CServer.PATH_LOCAL_HIGHSCORE + id + "_highscore.json",
         ];
-        
+
         try {
             this.imageManagerService.deleteStoredImages(paths);
             this.removeCardId(id);

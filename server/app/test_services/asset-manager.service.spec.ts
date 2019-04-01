@@ -1,9 +1,9 @@
 import * as chai from "chai";
 import * as spies from "chai-spies";
 import "reflect-metadata";
+import { GameMode } from "../../../common/communication/iCard";
 import { CServer } from "../CServer";
 import { AssetManagerService } from "../services/asset-manager.service";
-import { GameMode } from "../../../common/communication/iCard";
 
 /*tslint:disable no-magic-numbers no-any */
 const IMAGES_PATH: string = "./app/asset/image";
