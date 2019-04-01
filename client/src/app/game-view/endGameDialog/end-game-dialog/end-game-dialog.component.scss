@@ -1,4 +1,8 @@
-//https://codepen.io/anon/pen/yryKvW?page=5
+.win-status {
+  padding-top: 40px;
+}
+
+// greatly inspired by https://codepen.io/anon/pen/yryKvW?page=5
 
 $black: rgba(0,0,0,1);
 $white: rgba(255,255,255,1);
@@ -36,7 +40,7 @@ body {
 	border-radius: 4px;
 	box-shadow: 0 2px 4px rgba($black, .1);
 	display: inline-block;
-	height: 600px;
+	height: 550px;
 	margin: 0px;
 	opacity: 0;
 	position: relative;
@@ -80,7 +84,7 @@ h1 {
 	font-size: 30px;
 	font-weight: 700;
 	margin-bottom: 10px;
-	padding-top: 50px;
+	padding-top: 25px;
 }
 
 h3 {
