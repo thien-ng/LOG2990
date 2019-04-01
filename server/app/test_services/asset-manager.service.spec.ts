@@ -3,6 +3,7 @@ import * as spies from "chai-spies";
 import "reflect-metadata";
 import { CServer } from "../CServer";
 import { AssetManagerService } from "../services/asset-manager.service";
+import { GameMode } from "../../../common/communication/iCard";
 
 /*tslint:disable no-magic-numbers no-any */
 const IMAGES_PATH: string = "./app/asset/image";
@@ -156,7 +157,7 @@ describe("Image manager service tests", () => {
 
     it("Should throw error when getting card by wrong id", async () => {
         const gameId: number = 9999999;
-        chai.expect(() => imageManagerService.getCardById(gameId.toString()))
+        chai.expect(() => imageManagerService.getCardById(gameId.toString(), GameMode.simple))
             .to.throw(TypeError);
     });
 });

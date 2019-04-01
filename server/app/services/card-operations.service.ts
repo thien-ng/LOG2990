@@ -55,10 +55,10 @@ export class CardOperations {
             CServer.IMAGES_PATH + "/" + id + CServer.GENERATED_FILE,
             CServer.IMAGES_PATH + "/" + id + CCommon.ORIGINAL_FILE,
             CServer.IMAGES_PATH + "/" + id + CCommon.MODIFIED_FILE,
-            CServer.PATH_LOCAL_CARDS  + id + "_card.json",
+            CServer.PATH_LOCAL_CARDS  + id + "_simple_card.json",
             CServer.PATH_LOCAL_HIGHSCORE + id + "_highscore.json",
         ];
-
+        
         try {
             this.imageManagerService.deleteStoredImages(paths);
             this.removeCardId(id);
@@ -83,7 +83,7 @@ export class CardOperations {
         const paths: string[] = [
             CServer.IMAGES_PATH   + "/" + id + CServer.GENERATED_SNAPSHOT,
             CServer.SCENE_PATH    + "/" + id + CCommon.SCENE_FILE,
-            CServer.PATH_LOCAL_CARDS    + id + "_card.json",
+            CServer.PATH_LOCAL_CARDS    + id + "_free_card.json",
             CServer.PATH_LOCAL_HIGHSCORE + id + "_highscore.json",
         ];
 
@@ -101,7 +101,7 @@ export class CardOperations {
     }
 
     public getCardById(id: string, gamemode: GameMode): ICard {
-        return this.imageManagerService.getCardById(id);
+        return this.imageManagerService.getCardById(id, gamemode);
     }
 
     private getCardsIds(): ICardsIds {
@@ -110,7 +110,9 @@ export class CardOperations {
 
     private cardEqual(card: ICard): boolean {
         const cardsIds: ICardsIds = this.getCardsIds();
+
         const descriptionFound: ICardDescription | undefined = cardsIds.descriptions.find((description: ICardDescription) => {
+
             return (description.id === card.gameID || description.title === card.title);
         });
 

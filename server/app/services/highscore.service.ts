@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios";
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 import {
     Highscore,
     HighscoreMessage,
@@ -11,6 +11,7 @@ import {
 } from "../../../common/communication/highscore";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { CServer } from "../CServer";
+import types from "../types";
 import { AssetManagerService } from "./asset-manager.service";
 
 const ERROR:                number = -1;
@@ -28,7 +29,7 @@ export class HighscoreService {
     private socketServer: SocketIO.Server;
     private newHighscore: Highscore;
 
-    public constructor(private assetManager: AssetManagerService) {}
+    public constructor(@inject(types.AssetManagerService) private assetManager: AssetManagerService) {}
 
     public setServer(server: SocketIO.Server): void {
         this.socketServer = server;

@@ -154,9 +154,14 @@ export class CardManagerService {
         const list: ICardsIds = this.imageManagerService.getCardsIds();
 
         list.descriptions.forEach((description: ICardDescription) => {
-            if (description.gamemode === chosenGameMode && description.id !== defaultId) {
+            const currentId: number = chosenId;
+            if (description.gamemode === chosenGameMode &&
+                description.id      !== defaultId &&
+                description.id      > currentId) {
+
                 chosenId = description.id;
             }
+
         });
 
         return ++chosenId;
@@ -177,10 +182,10 @@ export class CardManagerService {
 
         cardsIds.descriptions.forEach((description: ICardDescription) => {
             if (description.gamemode === GameMode.simple) {
-                const foundCard: ICard = this.imageManagerService.getCardById(description.id.toString());
+                const foundCard: ICard = this.imageManagerService.getCardById(description.id.toString(), description.gamemode);
                 list2D.push(foundCard);
             } else if (description.gamemode === GameMode.free) {
-                const foundCard: ICard = this.imageManagerService.getCardById(description.id.toString());
+                const foundCard: ICard = this.imageManagerService.getCardById(description.id.toString(), description.gamemode);
                 list3D.push(foundCard);
             }
         });
