@@ -61,3 +61,24 @@ body {
 	position: absolute;
 	top: -400px;
 	width: 700px;
+
+	.sign {
+		animation: signAni 430ms ease-in 660ms forwards;
+		border-radius: 50%;
+		bottom: 50px;
+		display: block;
+		height: 100px;
+		left: calc(50% - 50px);
+		opacity: 0;
+		position: absolute;
+		width: 100px;
+	}
+}
+
+h1 {
+	color: rgba($black, .8);
+	font-size: 30px;
+	font-weight: 700;
+	margin-bottom: 10px;
+	padding-top: 50px;
+}
