@@ -7,6 +7,7 @@ import { ISceneVariables } from "../../../../../../common/communication/iSceneVa
 import { GameViewFreeService } from "../game-view-free.service";
 import { ThreejsViewService } from "./threejs-view.service";
 import { ThreejsGenerator } from "./utilitaries/threejs-generator";
+import { ThreejsMovement } from "./utilitaries/threejs-movement";
 import { ThreejsRaycast } from "./utilitaries/threejs-raycast";
 
 // tslint:disable:no-any max-file-line-count max-line-length
@@ -332,6 +333,8 @@ describe("ThreejsViewService Tests", () => {
   it("should call rotateCamera from threejsMovement",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
+      threejsViewService["threejsMovement"] = mock(ThreejsMovement);
+
       const position: IPosition2D = {x: 1, y: 1};
 
       const spy: any = spyOn<any>(threejsViewService["threejsMovement"], "rotateCamera");
@@ -380,6 +383,8 @@ describe("ThreejsViewService Tests", () => {
   it("should make the camera move forward keyDown when key W is pressed",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
 
+    threejsViewService["threejsMovement"] = mock(ThreejsMovement);
+
     const keyboardEvent: any = new KeyboardEvent("keydown", {
       key: "w",
     });
@@ -403,6 +408,8 @@ describe("ThreejsViewService Tests", () => {
 
   it("should move the camera move backward keyDown when key S is pressed",
      inject([ThreejsViewService], (threejsViewService: ThreejsViewService) => {
+
+    threejsViewService["threejsMovement"] = mock(ThreejsMovement);
 
     const keyboardEvent: any = new KeyboardEvent("keydown", {
       key: "s",
