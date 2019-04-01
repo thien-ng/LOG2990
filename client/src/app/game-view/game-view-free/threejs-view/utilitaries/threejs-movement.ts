@@ -76,7 +76,8 @@ export class ThreejsMovement {
 
         this.camera.getWorldDirection(worldDirection);
 
-        const ray: THREE.Vector3 = new THREE.Vector3(worldDirection.x, worldDirection.y, worldDirection.z * - frontDirection);
+        const ray: THREE.Vector3 =
+            new THREE.Vector3(worldDirection.x * sideDirection, worldDirection.y, worldDirection.z * - frontDirection);
         raycaster.set(this.camera.position, ray);
 
         const objectsIntersected: THREE.Intersection[] = raycaster.intersectObjects(this.scene.children, true);
