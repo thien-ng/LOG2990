@@ -9,7 +9,7 @@ const LOSS_PROPOSITION: string = "Voulez-vous rejouer?";
 @Component({
   selector:     "app-end-game-dialog",
   templateUrl:  "./end-game-dialog.component.html",
-  styleUrls:    ["./end-game-dialog.component.css"],
+  styleUrls:    ["./end-game-dialog.component.scss"],
 })
 export class EndGameDialogComponent {
 
