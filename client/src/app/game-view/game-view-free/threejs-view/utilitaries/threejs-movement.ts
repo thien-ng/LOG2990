@@ -92,6 +92,11 @@ export class ThreejsMovement {
         this.camera.translateX(this.velocity.x);
         this.camera.translateY(this.velocity.y);
         this.camera.translateZ(this.velocity.z);
+        const minPos: IVector3D = {
+            x : -100,
+            y : -100,
+            z : -100,
+        };
     }
 
     private multiplyVector (vector: THREE.Vector3, multiplier: number): void {
