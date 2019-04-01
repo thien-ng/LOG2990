@@ -15,11 +15,11 @@ export class EndGameDialogService {
     private snackBar:     MatSnackBar,
     private router:       Router) {
     this.dialogConfig = new MatDialogConfig();
-    this.dialogConfig.disableClose  = false;
+    this.dialogConfig.disableClose  = true;
     this.dialogConfig.autoFocus     = true;
-    this.dialogConfig.width         = "450px";
-    this.dialogConfig.height        = "450px";
+    this.dialogConfig.hasBackdrop   = false;
     this.dialogConfig.autoFocus     = false;
+    this.dialogConfig.panelClass    = "full-blend-dalog";
   }
 
   public openDialog(isWinner: boolean, newGameInfo: INewGameInfo): void {
