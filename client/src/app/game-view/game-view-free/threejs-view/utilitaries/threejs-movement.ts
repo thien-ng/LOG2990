@@ -106,6 +106,14 @@ export class ThreejsMovement {
 
         const cameraPosition: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
         this.camera.getWorldPosition(cameraPosition);
+
+        if (cameraPosition.x > boundaries.minPosition.x && cameraPosition.x < boundaries.maxPosition.x) {
+            this.camera.translateX(this.velocity.x);
+        } else if (cameraPosition.x < boundaries.minPosition.x) {
+            this.camera.translateX(-1);
+        } else if (cameraPosition.x > boundaries.maxPosition.x) {
+            this.camera.translateX(1);
+        }
     }
 
     private multiplyVector (vector: THREE.Vector3, multiplier: number): void {
