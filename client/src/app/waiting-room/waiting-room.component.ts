@@ -11,6 +11,7 @@ import { SocketService } from "../websocket/socket.service";
 const SUCCESS_MESSAGE:  string = "Attente annulée";
 const ERROR_MESSAGE:    string = "Impossible d'annuler l'attente";
 const GO_MESSAGE:       string = "GO!";
+const COUNTDOWN_START:  number = 3;
 
 @Component({
   selector: "app-waiting-room",
@@ -20,7 +21,7 @@ const GO_MESSAGE:       string = "GO!";
 export class WaitingRoomComponent {
 
   public readonly CANCEL_BUTTON_TEXT: string = "Retourner à la liste de jeu";
-  public readonly LOBBY_MESSAGE:      string = "En attente d'un autre joueur...";
+  public readonly LOBBY_MESSAGE:      string = "En attente d'un autre joueur";
   public readonly VSIMAGE:            string = CClient.PATH_TO_IMAGES + "/versus.png";
 
   public counter:       string;
@@ -28,6 +29,7 @@ export class WaitingRoomComponent {
   public opponentName:  string;
   public opponentImage: string;
   public userImage:     string;
+  public isCounterStarted: boolean;
 
   @Input()
   public isMultiplayer: boolean;
@@ -46,6 +48,7 @@ export class WaitingRoomComponent {
     this.opponentImage  = "";
     this.username       = sessionStorage.getItem(CClient.USERNAME_KEY);
     this.userImage      = CClient.PATH_TO_PROFILE_IMAGES + this.username + ".bmp";
+    this.isCounterStarted = false;
     this.initCounterListener();
     this.initOpponentUsername();
   }
@@ -54,6 +57,9 @@ export class WaitingRoomComponent {
     this.socketService.onMessage(CCommon.ON_COUNTDOWN).subscribe((message: number) => {
 
       this.counter = (message === 0) ? GO_MESSAGE : message.toString();
+      if (message === COUNTDOWN_START ) {
+        this.isCounterStarted = true;
+      }
     });
   }
 
