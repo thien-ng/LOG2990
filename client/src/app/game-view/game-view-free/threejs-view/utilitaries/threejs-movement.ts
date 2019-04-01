@@ -102,6 +102,11 @@ export class ThreejsMovement {
             y : 250,
             z : 250,
         };
+        const boundaries: IBounderies = {
+            minPosition : minPos,
+            maxPosition : maxPos,
+        };
+
     }
 
     private multiplyVector (vector: THREE.Vector3, multiplier: number): void {
