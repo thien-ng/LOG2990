@@ -3,8 +3,9 @@ import { IPosition2D } from "../../../../../../../common/communication/iGameplay
 
 export class ThreejsMovement {
 
-    private readonly CAMERA_MOVEMENT_SPEED:  number = 2;
-    private readonly CAMERA_ROTATION_SPEED:  number = 0.01;
+    private readonly CAMERA_MOVEMENT_SPEED:   number = 2;
+    private readonly CAMERA_ROTATION_SPEED:   number = 0.01;
+    private readonly CAMERA_COLLISION_RADIUS: number = 5;
 
     private camera:     THREE.PerspectiveCamera;
     private velocity:   THREE.Vector3;
@@ -81,11 +82,7 @@ export class ThreejsMovement {
 
         const objectsIntersected: THREE.Intersection[] = raycaster.intersectObjects(this.scene.children, true);
 
-        if (objectsIntersected.length > 0 && objectsIntersected[0].distance < 5) {
-            return true;
-        }
-
-        return false;
+        return objectsIntersected.length > 0 && objectsIntersected[0].distance < this.CAMERA_COLLISION_RADIUS;
     }
 
     private translateCamera(): void {
