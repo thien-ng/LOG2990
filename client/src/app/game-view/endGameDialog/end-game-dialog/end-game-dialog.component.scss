@@ -44,3 +44,20 @@ body {
   text-align: center;
 	width: 500px;
 }
+
+.header__wrapper {
+	height: 300px;
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+}
+
+.header {
+	animation: headerAni 230ms ease-in 430ms forwards;
+	border-radius: 0;
+	height: 700px;
+	left: -100px;
+	opacity: 0;
+	position: absolute;
+	top: -400px;
+	width: 700px;
