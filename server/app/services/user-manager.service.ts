@@ -82,7 +82,7 @@ export class UserManagerService {
         try {
             this.assetManager.deleteStoredImages([path]);
         } catch (error) {
-            // throw new TypeError(error.message);
+            // _TODO faire quelque chose de cette erreur (throw fait crash le server)
         }
     }
 
