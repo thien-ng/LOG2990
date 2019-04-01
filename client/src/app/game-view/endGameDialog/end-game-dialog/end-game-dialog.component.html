@@ -1,0 +1,11 @@
+<div class="title">{{winStatus}}</div>
+<div class="propo">{{proposition}}</div>
+<button *ngIf="isWinner" mat-button (click)="returnToList()">{{YES_BUTTON_TEXT}}</button>
+<mat-grid-list *ngIf="!isWinner" [cols]="2">
+  <mat-grid-tile>
+    <button mat-button (click)="startNewGame()">{{YES_BUTTON_TEXT}}</button>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <button mat-button (click)="returnToList()">{{NO_BUTTON_TEXT}}</button>
+  </mat-grid-tile>
+</mat-grid-list>
