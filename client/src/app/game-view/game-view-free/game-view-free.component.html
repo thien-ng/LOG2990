@@ -1,7 +1,7 @@
 <app-waiting-room [isMultiplayer]="mode === 1" [gameID]="gameID" *ngIf="isLoading"></app-waiting-room>
 
 <span [hidden]="isLoading">
-  <mat-grid-list cols="9" rowHeight="1%">
+  <mat-grid-list cols="9" rowHeight="1%" [ngClass]="isGameEnded ? 'blur' : 'normal'">
     <mat-grid-tile
       [colspan]="7"
       [rowspan]="12">
