@@ -11,12 +11,14 @@ const position: IPosition2D = {
 
 let threejsMovement:    ThreejsMovement;
 let camera:             THREE.PerspectiveCamera;
+let scene:              THREE.Scene;
 
 describe("Threejs-movement", () => {
 
     beforeEach(() => {
+        scene           = new THREE.Scene();
         camera          = new THREE.PerspectiveCamera();
-        threejsMovement = new ThreejsMovement(camera);
+        threejsMovement = new ThreejsMovement(camera, scene);
     });
 
     it("should set camera directions to front (to set the camera direction)", () => {
@@ -32,13 +34,13 @@ describe("Threejs-movement", () => {
     });
 
     it("should rotate camera with position pass by reference (check X value)", () => {
-        const spy: any = spyOn<any>(threejsMovement["camera"], "rotateX");
+        const spy: any = spyOn<any>(threejsMovement["camera"], "rotateOnWorldAxis");
         threejsMovement.rotateCamera(position);
         expect(spy).toHaveBeenCalled();
     });
 
     it("should rotate camera with position pass by reference (check Y value)", () => {
-        const spy: any = spyOn<any>(threejsMovement["camera"], "rotateY");
+        const spy: any = spyOn<any>(threejsMovement["camera"], "rotateOnWorldAxis");
         threejsMovement.rotateCamera(position);
         expect(spy).toHaveBeenCalled();
     });
