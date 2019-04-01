@@ -53,7 +53,6 @@ export class CardComponent implements AfterContentInit {
       this.icon                       = this.CREATE_ICON;
       this.dialogConfig               = new MatDialogConfig();
       this.dialogConfig.disableClose  = false;
-      this.dialogConfig.autoFocus     = true;
       this.dialogConfig.width         = "450px";
       this.dialogConfig.height        = "170px";
       this.dialogConfig.position      = {bottom: "0%", top: "5%"};
