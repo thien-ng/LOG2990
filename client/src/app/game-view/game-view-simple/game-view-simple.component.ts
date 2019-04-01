@@ -39,6 +39,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   public activeCard:      ICard;
   public cardLoaded:      boolean;
   public gameIsStarted:   boolean;
+  public isGameEnded:     boolean;
   public username:        string | null;
   public mode:            number;
   public arenaID:         number;
@@ -60,6 +61,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       this.mode           = Number(this.route.snapshot.paramMap.get("gamemode"));
       this.cardLoaded     = false;
       this.gameIsStarted  = false;
+      this.isGameEnded    = false;
       this.username       = sessionStorage.getItem(CClient.USERNAME_KEY);
       this.position       = {x: 0, y: 0};
       this.subscription   = [];
@@ -95,6 +97,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
 
     this.subscription.push(this.socketService.onMessage(CCommon.ON_GAME_ENDED).subscribe((message: string) => {
       const isWinner: boolean = message === CCommon.ON_GAME_WON;
+      this.isGameEnded = true;
       const newGameInfo: INewGameInfo = {
         path: CClient.GAME_VIEW_SIMPLE_PATH,
         gameID: this.gameID,
