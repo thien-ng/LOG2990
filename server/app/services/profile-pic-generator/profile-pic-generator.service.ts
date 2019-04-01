@@ -17,7 +17,6 @@ export class ProfilePicGeneratorService {
     public  readonly COLOR_PINK:    IColor = { R: 253,  G: 91,  B: 167 };
 
     private readonly colors: IColor[] = [
-        this.COLOR_WHITE,
         this.COLOR_GREEN,
         this.COLOR_BLUE,
         this.COLOR_ORANGE,
