@@ -54,6 +54,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
   public  rightClick:        boolean;
   public  gameIsStarted:     boolean;
   public  cardIsLoaded:      boolean;
+  public  isGameEnded:       boolean;
   public  arenaID:           number;
   public  mode:              number;
   public  gameID:            number;
@@ -103,6 +104,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
       this.rightClick     = true;
       this.cardIsLoaded   = false;
       this.isLoading      = true;
+      this.isGameEnded    = false;
       this.mode           = Number(this.route.snapshot.paramMap.get(GAMEMODE_KEY));
       this.username       = sessionStorage.getItem(CClient.USERNAME_KEY);
       this.subscription   = [];
@@ -141,6 +143,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
     }));
 
     this.subscription.push(this.socketService.onMessage(CCommon.ON_GAME_ENDED).subscribe((message: string) => {
+      this.isGameEnded = true;
       const isWinner: boolean = message === CCommon.ON_GAME_WON;
       const newGameInfo: INewGameInfo = {
         path: CClient.GAME_VIEW_FREE_PATH,
