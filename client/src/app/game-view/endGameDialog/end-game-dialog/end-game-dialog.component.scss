@@ -192,3 +192,27 @@ button  {
 			transform: rotate(45deg);
 			top: calc(50% - 20px);
 		}
+
+		&:after {
+			height: 20px;
+			left: calc(50% - 15px);
+			transform: rotate(-45deg);
+			top: calc(50% - 5px);
+		}
+	}
+
+	button {
+		&:hover {
+			border-color: $green-1;
+		}
+
+		&:focus {
+			background-color: $green-4;
+			border-color: $green-1;
+		}
+	}
+}
+
+/*
+ * ANIMATIONS
+*/
