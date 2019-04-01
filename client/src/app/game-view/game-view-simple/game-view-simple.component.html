@@ -1,6 +1,6 @@
 <app-waiting-room [isMultiplayer]="mode === 1" [gameID]="gameID" *ngIf="!gameIsStarted"></app-waiting-room>
 <span [hidden]="!gameIsStarted">
-  <mat-grid-list id="game" cols="9" rowHeight="1%">
+  <mat-grid-list [ngClass]="isGameEnded ? 'blur' : 'normal'" id="game" cols="9" rowHeight="1%">
     <mat-grid-tile
       [colspan]="7"
       [rowspan]="12">
