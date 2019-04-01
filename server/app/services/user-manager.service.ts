@@ -41,7 +41,7 @@ export class UserManagerService {
         });
     }
 
-    public async validateName(username: string): Promise<Message> {
+    public validateName(username: string): Message {
 
         const validationResult: Message = this.isUsernameFormatCorrect(username);
         if (validationResult.title !== CCommon.ON_SUCCESS) {
@@ -54,7 +54,7 @@ export class UserManagerService {
                 socketID:   "undefined",
             };
             this.nameList.push(user);
-            await this.createUserPic(username);
+            this.createUserPic(username).then().catch(); // _TODO
 
             return this.generateMessage(CCommon.ON_SUCCESS, CCommon.IS_UNIQUE);
         }
