@@ -104,6 +104,8 @@ export class ThreejsMovement {
             maxPosition : maxPos,
         };
 
+        const cameraPosition: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+        this.camera.getWorldPosition(cameraPosition);
     }
 
     private multiplyVector (vector: THREE.Vector3, multiplier: number): void {
