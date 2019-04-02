@@ -69,6 +69,12 @@ export class UserManagerService {
         this.assetManager.stockImage(path, picBuffer);
     }
 
+    public async updateProfilePicture(username: string): Promise<void> {
+        const path: string = CServer.PROFILE_IMAGE_PATH + username + IMAGE_EXTENSION;
+        this.assetManager.deleteStoredImages([path]);
+        await this.createUserPic(username);
+    }
+
     public getUserByUsername(username: string): IUser | string {
         const foundUser: IUser =  this.users.filter((user: IUser) => {
             return user.username === username;
