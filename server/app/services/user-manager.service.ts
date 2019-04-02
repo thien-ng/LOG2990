@@ -12,12 +12,12 @@ const IMAGE_EXTENSION:      string        = ".bmp";
 @injectable()
 export class UserManagerService {
 
-    private nameList: IUser[];
-    private assetManager: AssetManagerService;
+    private nameList:       IUser[];
+    private assetManager:   AssetManagerService;
 
     public constructor() {
-        this.nameList = [];
-        this.assetManager = new AssetManagerService();
+        this.nameList       = [];
+        this.assetManager   = new AssetManagerService();
     }
 
     public get users(): IUser[] {

@@ -46,16 +46,16 @@ export class ProfilePicGeneratorService {
     }
 
     private getCeiledHalf(numberToDivide: number): number {
-        const two: number = 2;
+        const denominator: number = 2;
 
-        return Math.ceil(numberToDivide / two) + 1;
+        return Math.ceil(numberToDivide / denominator) + 1;
     }
 
     private randomBoolean(): boolean {
-        const two: number = 2;
+        const denominator: number = 2;
         const sampleSize: number = 100;
 
-        return Math.floor(Math.random() * sampleSize) % two === 0;
+        return Math.floor(Math.random() * sampleSize) % denominator === 0;
     }
 
     private fillImage(builder: BMPBuilder, x: number, y: number, color: IColor): void {
