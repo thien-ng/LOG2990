@@ -62,7 +62,7 @@ export class ThreejsMovement {
         } else {
             this.multiplyVector(this.velocity, 0);
         }
-        if (!this.objectIsBlockingDirection(this.direction.z)) {
+        if (!this.detectCollisionInDirection(this.direction)) {
             this.translateCamera();
         }
     }
@@ -76,20 +76,23 @@ export class ThreejsMovement {
 
     private setCameratVelocity(): void {
         this.direction.normalize();
+        this.updatePointAt();
         this.velocity.x = this.direction.x * this.CAMERA_MOVEMENT_SPEED;
         this.velocity.y = this.direction.y * this.CAMERA_MOVEMENT_SPEED;
         this.velocity.z = this.direction.z * this.CAMERA_MOVEMENT_SPEED;
     }
 
-    private objectIsBlockingDirection(frontDirection: number): boolean {
-        const raycaster:      THREE.Raycaster = new THREE.Raycaster();
-        const worldDirection: THREE.Vector3   = new THREE.Vector3();
+    private updatePointAt(): void {
+        const front: THREE.Vector3 = this.getFront();
+        const right: THREE.Vector3 = this.getRight();
 
-        this.camera.getWorldDirection(worldDirection);
+        front.z *= this.direction.z;
+        right.x *= this.direction.x;
 
-        const ray: THREE.Vector3 =
-            new THREE.Vector3(worldDirection.x, worldDirection.y, worldDirection.z * - frontDirection);
-        raycaster.set(this.camera.position, ray);
+        this.addVectors(front, right, this.pointingAt);
+
+        this.pointingAt.normalize();
+    }
 
         const objectsIntersected: THREE.Intersection[] = raycaster.intersectObjects(this.scene.children, true);
 
