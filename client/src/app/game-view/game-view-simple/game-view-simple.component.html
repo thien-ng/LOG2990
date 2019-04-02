@@ -38,19 +38,19 @@
         *ngIf="mode === 0"
         [colspan]="2"
         [rowspan]="20">
-        <app-difference-counter>{{username}}</app-difference-counter>
+        <app-difference-counter [username]="username">{{username}}</app-difference-counter>
       </mat-grid-tile>
     <mat-grid-tile
       *ngIf="mode === 1" [ngClass]="isGameEnded ? 'blur' : 'normal'"
       [colspan]="1"
       [rowspan]="20">
-      <app-difference-counter>{{username}}</app-difference-counter>
+      <app-difference-counter [username]="username">{{username}}</app-difference-counter>
     </mat-grid-tile>
     <mat-grid-tile
       *ngIf="mode === 1" [ngClass]="isGameEnded ? 'blur' : 'normal'"
       [colspan]="1"
       [rowspan]="20">
-      <app-difference-counter>{{OPPONENT}}</app-difference-counter>
+      <app-difference-counter [username]="OPPONENT">{{OPPONENT}}</app-difference-counter> <!-- TODO change [username]="OPPONENT" par le nom de ladversaire -->
     </mat-grid-tile>
   </mat-grid-list>
 </span>
