@@ -1,3 +1,19 @@
-<img class="profilePic" src="{{profilePic}}">
-<button mat-raised-button [disabled]="isDisable" (click)="changeImage()">CLICK</button>
-<button mat-raised-button (click)="updateImage()">CLICK</button>
+<mat-grid-list id="game" cols="3" rows="3">
+    <mat-grid-tile
+      [colspan]="2"
+      [rowspan]="2">
+      <img class="profilePic" src="{{profilePic}}">
+    </mat-grid-tile>
+    <mat-grid-tile
+      [colspan]="1"
+      [rowspan]="2">
+      <button mat-raised-button [disabled]="isDisable" (click)="changeImage()">CLICK</button>
+    </mat-grid-tile>
+    <mat-grid-tile
+      [colspan]="3"
+      [rowspan]="1">
+      <button mat-raised-button (click)="updateImage()">CLICK</button>
+    </mat-grid-tile>
+</mat-grid-list>
+
+

@@ -140,8 +140,8 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus    = true;
-    dialogConfig.height       = "400px";
-    dialogConfig.width        = "400px";
+    dialogConfig.height       = "600px";
+    dialogConfig.width        = "600px";
 
     const dialogRef: MatDialogRef<PictureChangerDialogComponent> = this.dialog.open(PictureChangerDialogComponent, dialogConfig);
     dialogRef.beforeClosed().subscribe((result: string) => {
