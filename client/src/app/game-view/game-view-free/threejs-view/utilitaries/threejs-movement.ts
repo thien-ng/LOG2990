@@ -94,47 +94,25 @@ export class ThreejsMovement {
         return objectsIntersected.length > 0 && objectsIntersected[0].distance < this.CAMERA_COLLISION_RADIUS;
     }
 
-    // tslint:disable-next-line:max-func-body-length
+    // private objectIsBlockingDirection(frontDirection: number): boolean {
+    //     const raycaster:      THREE.Raycaster = new THREE.Raycaster();
+    //     const worldDirection: THREE.Vector3   = new THREE.Vector3();
+
+    //     this.camera.getWorldDirection(worldDirection);
+
+    //     const ray: THREE.Vector3 =
+    //         new THREE.Vector3(worldDirection.x, worldDirection.y, worldDirection.z * - frontDirection);
+    //     raycaster.set(this.camera.position, ray);
+
+    //     const objectsIntersected: THREE.Intersection[] = raycaster.intersectObjects(this.scene.children, true);
+
+    //     return objectsIntersected.length > 0 && objectsIntersected[0].distance < this.CAMERA_COLLISION_RADIUS;
+    // }
+
     private translateCamera(): void {
-        const minPos: IVector3D = {
-            x : -100,
-            y : -100,
-            z : -100,
-        };
-        const maxPos: IVector3D = {
-            x : 250,
-            y : 250,
-            z : 250,
-        };
-        const boundaries: IBounderies = {
-            minPosition : minPos,
-            maxPosition : maxPos,
-        };
-
-        const cameraPosition: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-        this.camera.getWorldPosition(cameraPosition);
-
-        if (cameraPosition.x > boundaries.minPosition.x && cameraPosition.x < boundaries.maxPosition.x) {
-            this.camera.translateX(this.velocity.x);
-        } else if (cameraPosition.x < boundaries.minPosition.x) {
-            this.camera.translateX(-1);
-        } else if (cameraPosition.x > boundaries.maxPosition.x) {
-            this.camera.translateX(1);
-        }
-        if (cameraPosition.y > boundaries.minPosition.y && cameraPosition.y < boundaries.maxPosition.y) {
-            this.camera.translateY(this.velocity.y);
-        } else if (cameraPosition.y < boundaries.minPosition.y) {
-            this.camera.translateY(1);
-        } else if (cameraPosition.y > boundaries.maxPosition.y) {
-            this.camera.translateY(-1);
-        }
-        if (cameraPosition.z > boundaries.minPosition.z && cameraPosition.z < boundaries.maxPosition.z) {
-            this.camera.translateZ(this.velocity.z);
-        } else if (cameraPosition.z < boundaries.minPosition.z) {
-            this.camera.translateZ(-1);
-        } else if (cameraPosition.z > boundaries.maxPosition.z) {
-            this.camera.translateZ(1);
-        }
+        this.camera.translateX(this.velocity.x);
+        this.camera.translateY(this.velocity.y);
+        this.camera.translateZ(this.velocity.z);
     }
 
     private multiplyVector (vector: THREE.Vector3, multiplier: number): void {
