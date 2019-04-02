@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 import * as io from "socket.io-client";
 import { GameMode, ILobbyEvent } from "../../../../common/communication/iCard";
 import { IChat } from "../../../../common/communication/iChat";
-import { IArenaResponse, IOriginalPixelCluster, ISceneObjectUpdate } from "../../../../common/communication/iGameplay";
+import { IArenaResponse, INewScore, IOriginalPixelCluster, ISceneObjectUpdate } from "../../../../common/communication/iGameplay";
 import { IMesh, ISceneObject } from "../../../../common/communication/iSceneObject";
 import { CCommon } from "../../../../common/constantes/cCommon";
 import { CClient } from "../CClient";
@@ -89,7 +89,7 @@ export class SocketService {
       this.timerService.timeFormat(data);
     });
 
-    this.socket.on(CCommon.ON_POINT_ADDED, (newPoints: number) => {
+    this.socket.on(CCommon.ON_POINT_ADDED, (newPoints: INewScore) => {
       this.differenceCounterService.updateCounter(newPoints);
     });
 
