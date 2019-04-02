@@ -12,6 +12,7 @@ export class ThreejsMovement {
     private direction:  THREE.Vector3;
     private front:      THREE.Vector3;
     private orthogonal: THREE.Vector3;
+    private objettttt:  THREE.Mesh;
 
     public constructor(camera: THREE.PerspectiveCamera, private scene: THREE.Scene) {
         this.camera     = camera;
@@ -19,6 +20,11 @@ export class ThreejsMovement {
         this.direction  = new THREE.Vector3(0, 0, 0);
         this.front      = new THREE.Vector3(0, 0, 0);
         this.orthogonal = new THREE.Vector3(0, 0, 0);
+
+        const geometry = new THREE.SphereGeometry( 0.1 );
+        const material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+        this.objettttt = new THREE.Mesh( geometry, material );
+        scene.add( this.objettttt );
     }
 
     public setupFront(orientation: number): void {
