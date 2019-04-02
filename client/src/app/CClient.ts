@@ -25,6 +25,7 @@ export class CClient {
 
   public static readonly WEBSOCKET_URL:             string = CCommon.BASE_URL + ":3333";
   public static readonly PATH_TO_LOGIN_VALIDATION:  string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/api/user/newUsername";
+  public static readonly PATH_TO_NEW_PICTURE:       string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/api/user/newProfilePic";
   public static readonly LOGIN_MESSAGE_TITLE:       string = "onUserSubscribe";
   public static readonly NAME_VALID_VALUE:          string = "true";
   public static readonly ROUTER_LOGIN:              string = "gamelist";

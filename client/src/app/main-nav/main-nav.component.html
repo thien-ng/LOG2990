@@ -1,5 +1,5 @@
 <mat-toolbar *ngIf="this.router.url != LOGIN_PATH" color="primary">
-    <img class="imageIcon" (click)="redirectGameList()" src="{{profileIcon}}">
+    <img class="imageIcon" (click)="changePictureMenu()" src="{{profileIcon}}">
     <span class="logo" (click)="redirectGameList()">{{ client }}</span>
   <div id="header" [@slideInOut]="isAdminMode ? 'open' : 'closed'">
     <div id="options" *ngIf="this.isValidUrl">

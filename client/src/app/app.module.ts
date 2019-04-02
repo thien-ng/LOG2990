@@ -27,6 +27,7 @@ import { MainNavComponent } from "./main-nav/main-nav.component";
 import { SpinnerComponent } from "./spinner/spinner.component";
 import { TestingImportsModule } from "./testing-imports/testing-imports.module";
 import { WaitingRoomComponent } from "./waiting-room/waiting-room.component";
+import { PictureChangerDialogComponent } from './main-nav/picture-changer-dialog/picture-changer-dialog.component';
 
 const routes: Routes = [
   {
@@ -91,6 +92,7 @@ const routes: Routes = [
     WaitingRoomComponent,
     SpinnerComponent,
     ConfirmationDialogComponent,
+    PictureChangerDialogComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -105,6 +107,7 @@ const routes: Routes = [
     ConfirmationDialogComponent,
     CreateSimpleGameComponent,
     CreateFreeGameComponent,
+    PictureChangerDialogComponent,
   ],
   bootstrap: [AppComponent],
 })
