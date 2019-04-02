@@ -1,6 +1,7 @@
 import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import {
     IArenaResponse,
+    INewScore,
     IOriginalPixelCluster,
     IPenalty,
     IPosition2D,
@@ -172,9 +173,15 @@ export class Referee<EVT_T, DIFF_T> {
         this.differencesFound.push(differenceIndex);
     }
 
-    private attributePoints(player: Player): void {
-        player.addPoints(1);
-        this.arena.sendMessage(player.getUserSocketId(), CCommon.ON_POINT_ADDED, player.getPoints());
+    private attributePoints(playerWithPoint: Player): void {
+        playerWithPoint.addPoints(1);
+        const message: INewScore = {
+            player: playerWithPoint.getUsername(),
+            score:  playerWithPoint.getPoints(),
+        };
+        this.arena.getPlayers().forEach((player: Player) => {
+            this.arena.sendMessage(player.getUserSocketId(), CCommon.ON_POINT_ADDED, message);
+        });
     }
 
     private isAnUndiscoveredDifference(differenceIndex: number): boolean {
