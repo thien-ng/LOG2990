@@ -30,7 +30,7 @@ export class EndGameDialogService {
     dialogRef.beforeClosed().subscribe((result: boolean) => {
       if (result) {
         this.router.navigate([CClient.GAMELIST_REDIRECT]).then(() => {
-          this.router.navigate([newGameInfo.path, newGameInfo.gameID, newGameInfo.type]).catch((error) => this.openSnackbar(error));
+          this.router.navigate([newGameInfo.path, newGameInfo.gameID, newGameInfo.type]).catch((error) => this.openSnackbar(error.message));
         }).catch((error: Error) => this.openSnackbar(error.message));
       } else {
         this.router.navigate([CClient.GAMELIST_REDIRECT]).catch((error: Error) => this.openSnackbar(error.message));
