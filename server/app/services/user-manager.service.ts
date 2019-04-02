@@ -42,7 +42,7 @@ export class UserManagerService {
         });
     }
 
-    public validateName(username: string): Message {
+    public async validateName(username: string): Promise<Message> {
 
         const validationResult: Message = this.isUsernameFormatCorrect(username);
         if (validationResult.title !== CCommon.ON_SUCCESS) {
@@ -55,7 +55,12 @@ export class UserManagerService {
                 socketID:   "undefined",
             };
             this.nameList.push(user);
-            this.createUserPic(username).then().catch(); // _TODO
+
+            try {
+                await this.createUserPic(username);
+            } catch (error) {
+                return this.generateMessage(CCommon.ON_ERROR, error.message);
+            }
 
             return this.generateMessage(CCommon.ON_SUCCESS, CCommon.IS_UNIQUE);
         }
