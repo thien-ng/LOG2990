@@ -1,18 +1,24 @@
-<mat-grid-list id="game" cols="3" rows="3">
+<mat-grid-list id="dialogContainer" cols="3" rows="20" rowHeight="5%" >
+    <mat-grid-tile
+    [colspan]="3"
+    [rowspan]="2">
+    <div class="genTitle">Générateur d'avatar</div>
+  </mat-grid-tile>
     <mat-grid-tile
       [colspan]="2"
-      [rowspan]="2">
+      [rowspan]="15">
       <img class="profilePic" src="{{profilePic}}">
     </mat-grid-tile>
     <mat-grid-tile
       [colspan]="1"
-      [rowspan]="2">
-      <button mat-raised-button [disabled]="isDisable" (click)="changeImage()">CLICK</button>
+      [rowspan]="15">
+      <button mat-raised-button [disabled]="isDisable" (click)="changeImage()"><mat-icon class="playIcon">autorenew</mat-icon></button>
     </mat-grid-tile>
     <mat-grid-tile
       [colspan]="3"
-      [rowspan]="1">
-      <button mat-raised-button (click)="updateImage()">CLICK</button>
+      [rowspan]="1"
+      class="buttonContainer">
+      <button mat-raised-button (click)="updateImage()">OK</button>
     </mat-grid-tile>
 </mat-grid-list>
 
