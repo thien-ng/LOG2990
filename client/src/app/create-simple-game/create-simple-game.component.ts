@@ -35,12 +35,12 @@ export class CreateSimpleGameComponent {
   public  nameOrigPlaceHolder: string;
   public nameModifPlaceHolder: string;
 
-  @ViewChild("checkOrigImage",    {read: ElementRef})   public checkOrigImage:     ElementRef;
-  @ViewChild("checkModifImage",    {read: ElementRef})  public checkModifImage:    ElementRef;
-  @ViewChild("buttonOriginal",    {read: ElementRef})   public buttonOriginal:     ElementRef<HTMLButtonElement>;
-  @ViewChild("buttonModified",    {read: ElementRef})   public buttonModified:     ElementRef<HTMLButtonElement>;
-  @ViewChild("originalInput",    {read: ElementRef})    public originalInput:      ElementRef<HTMLInputElement>;
-  @ViewChild("modifiedInput",    {read: ElementRef})    public modifiedInput:      ElementRef<HTMLInputElement>;
+  @ViewChild("checkOrigImage",   {read: ElementRef})  public checkOrigImage:     ElementRef;
+  @ViewChild("checkModifImage",  {read: ElementRef})  public checkModifImage:    ElementRef;
+  @ViewChild("buttonOriginal",   {read: ElementRef})  public buttonOriginal:     ElementRef<HTMLButtonElement>;
+  @ViewChild("buttonModified",   {read: ElementRef})  public buttonModified:     ElementRef<HTMLButtonElement>;
+  @ViewChild("originalInput",    {read: ElementRef})  public originalInput:      ElementRef<HTMLInputElement>;
+  @ViewChild("modifiedInput",    {read: ElementRef})  public modifiedInput:      ElementRef<HTMLInputElement>;
 
   public formControl:             FormGroup;
   private selectedFiles:          [Blob, Blob];
