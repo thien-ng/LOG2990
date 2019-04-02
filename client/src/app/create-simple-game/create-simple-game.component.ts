@@ -100,12 +100,11 @@ export class CreateSimpleGameComponent {
         this.openSnackBar(CClient.SNACK_ERROR_MSG, CClient.SNACK_ACTION);
       }
     }
-    imageIndex === this.ORIGINAL_INDEX ? this.changeOriginalInput(this.IS_IMAGE_BMP[this.ORIGINAL_INDEX], name)
-     : this.changeModifiedInput(this.IS_IMAGE_BMP[this.MODIFIED_INDEX], name);
+    imageIndex === this.ORIGINAL_INDEX ? this.changeOriginalInput(name) : this.changeModifiedInput(name);
   }
 
-  private changeModifiedInput(isValidFile: boolean, name: string): void {
-    if (!isValidFile) {
+  private changeModifiedInput(name: string): void {
+    if (!this.IS_IMAGE_BMP[this.MODIFIED_INDEX]) {
     this.modifiedInput.nativeElement.value = "";
     this.checkModifImage.nativeElement.textContent = null;
     this.nameModifPlaceHolder = "";
@@ -117,8 +116,8 @@ export class CreateSimpleGameComponent {
     }
   }
 
-  private changeOriginalInput(isValidFile: boolean, name: string): void {
-    if (!isValidFile) {
+  private changeOriginalInput( name: string): void {
+    if (!this.IS_IMAGE_BMP[this.ORIGINAL_INDEX]) {
     this.originalInput.nativeElement.value = "";
     this.checkOrigImage.nativeElement.textContent = null;
     this.nameOrigPlaceHolder  = "";
