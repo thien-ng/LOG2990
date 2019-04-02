@@ -10,6 +10,7 @@ export class ThreejsMovement {
     private camera:     THREE.PerspectiveCamera;
     private velocity:   THREE.Vector3;
     private direction:  THREE.Vector3;
+    private pointingAt: THREE.Vector3;
     private front:      THREE.Vector3;
     private orthogonal: THREE.Vector3;
     private objettttt:  THREE.Mesh;
@@ -20,6 +21,7 @@ export class ThreejsMovement {
         this.direction  = new THREE.Vector3(0, 0, 0);
         this.front      = new THREE.Vector3(0, 0, 0);
         this.orthogonal = new THREE.Vector3(0, 0, 0);
+        this.pointingAt = new THREE.Vector3(0, 0, 0);
 
         const geometry = new THREE.SphereGeometry( 0.1 );
         const material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
