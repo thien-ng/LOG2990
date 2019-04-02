@@ -7,6 +7,7 @@ import { CServer } from "../CServer";
 import { AssetManagerService } from "./asset-manager.service";
 
 const axios:                AxiosInstance = require("axios");
+const IMAGE_EXTENSION:      string        = ".bmp";
 
 @injectable()
 export class UserManagerService {
@@ -64,7 +65,7 @@ export class UserManagerService {
 
     private async createUserPic(username: string): Promise<void> {
         const picBuffer: Buffer = (await axios.get(CServer.PROFILE_PIC_GEN_PATH)).data;
-        const path: string = CServer.PROFILE_IMAGE_PATH + username + ".bmp";
+        const path: string = CServer.PROFILE_IMAGE_PATH + username + IMAGE_EXTENSION;
         this.assetManager.stockImage(path, picBuffer);
     }
 
@@ -78,7 +79,7 @@ export class UserManagerService {
 
     public leaveBrowser(user: IUser): void {
         this.nameList = this.nameList.filter( (element: IUser) => element.username !== user.username);
-        const path: string = CServer.PROFILE_IMAGE_PATH + user.username + ".bmp";
+        const path: string = CServer.PROFILE_IMAGE_PATH + user.username + IMAGE_EXTENSION;
         try {
             this.assetManager.deleteStoredImages([path]);
         } catch (error) {

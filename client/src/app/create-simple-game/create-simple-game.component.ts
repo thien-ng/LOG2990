@@ -31,7 +31,8 @@ export class CreateSimpleGameComponent {
   public readonly ERROR_SIZE:     string    = "Taille: " + CCommon.MIN_GAME_LENGTH + "-" + CCommon.MAX_GAME_LENGTH + " caractères";
   public readonly ERROR_REQUIRED: string    = "Nom de jeu requis";
   public readonly CHECK_CIRCLE:   string    = "cancel";
-  public          nameOrigPlaceHolder: string;
+
+  public  nameOrigPlaceHolder: string;
   public nameModifPlaceHolder: string;
 
   @ViewChild("checkOrigImage",    {read: ElementRef})   public checkOrigImage:     ElementRef;

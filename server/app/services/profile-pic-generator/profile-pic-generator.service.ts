@@ -16,18 +16,18 @@ export class ProfilePicGeneratorService {
     public  readonly COLOR_ORANGE:  IColor = { R: 255,  G: 181, B: 43  };
     public  readonly COLOR_PINK:    IColor = { R: 253,  G: 91,  B: 167 };
 
-    private readonly colors: IColor[] = [
+    private readonly COLORS: IColor[] = [
         this.COLOR_GREEN,
         this.COLOR_BLUE,
         this.COLOR_ORANGE,
         this.COLOR_PINK,
     ];
-    private readonly multiplier: number = 20;
+    private readonly MULTIPLIER: number = 20;
 
     public generateRandomImage(): Buffer  {
 
         const sizeOfSquare:     number      = 7;
-        const builder:          BMPBuilder  = new BMPBuilder(sizeOfSquare * this.multiplier, sizeOfSquare * this.multiplier, 0);
+        const builder:          BMPBuilder  = new BMPBuilder(sizeOfSquare * this.MULTIPLIER, sizeOfSquare * this.MULTIPLIER, 0);
         const color:            IColor      = this.getRandomColor();
         const middleOfSquare:   number      = this.getCeiledHalf(sizeOfSquare);
 
@@ -59,14 +59,14 @@ export class ProfilePicGeneratorService {
     }
 
     private fillImage(builder: BMPBuilder, x: number, y: number, color: IColor): void {
-        for (let i: number = 0; i < this.multiplier; i++) {
-            for (let j: number = 0; j < this.multiplier; j++) {
-                builder.setColorAtPos(color.R, color.B, color.G, x * this.multiplier + i, y * this.multiplier + j);
+        for (let i: number = 0; i < this.MULTIPLIER; i++) {
+            for (let j: number = 0; j < this.MULTIPLIER; j++) {
+                builder.setColorAtPos(color.R, color.B, color.G, x * this.MULTIPLIER + i, y * this.MULTIPLIER + j);
             }
         }
     }
 
     private getRandomColor(): IColor {
-        return this.colors[Math.floor(Math.random() * this.colors.length)];
+        return this.COLORS[Math.floor(Math.random() * this.COLORS.length)];
     }
 }
