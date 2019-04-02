@@ -44,9 +44,18 @@ export interface IPenalty {
     arenaType:      GameMode;
 }
 
+export interface ICollisions {
+    front:  boolean;
+    back:   boolean;
+    left:   boolean;
+    right:  boolean;
+    top:    boolean;
+    bottom: boolean;
+}
+
 export interface IBounderies {
-    "minPosition": IVector3D;
-    "maxPosition": IVector3D;
+    minPosition: IVector3D;
+    maxPosition: IVector3D;
 }
 
 export enum ActionType {
