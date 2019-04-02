@@ -116,9 +116,14 @@ export class ThreejsMovement {
         this.objettttt.position.z = this.camera.position.z + (this.pointingAt.z * (this.CAMERA_COLLISION_RADIUS + 1));
     }
 
+    private detectCollisionInDirection(direction: THREE.Vector3): boolean {
+        const worldPosition: THREE.Vector3 = new THREE.Vector3();
+        this.camera.getWorldPosition(worldPosition);
+        const raycaster: THREE.Raycaster = new THREE.Raycaster(worldPosition, direction, 0, this.CAMERA_COLLISION_RADIUS);
+
         const objectsIntersected: THREE.Intersection[] = raycaster.intersectObjects(this.scene.children, true);
 
-        return objectsIntersected.length > 0 && objectsIntersected[0].distance < this.CAMERA_COLLISION_RADIUS;
+        return objectsIntersected.length > 0;
     }
 
     // private objectIsBlockingDirection(frontDirection: number): boolean {
@@ -161,5 +166,4 @@ export class ThreejsMovement {
         toVector.y = (vector1.x * vector2.z) - (vector1.z * vector2.x);
         toVector.z = (vector1.x * vector2.y) - (vector1.y * vector2.x);
     }
-
 }
