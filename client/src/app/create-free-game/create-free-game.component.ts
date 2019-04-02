@@ -127,10 +127,6 @@ export class CreateFreeGameComponent {
     };
   }
 
-  private capitalizeFirstLetter(word: string): string {
-    return word.charAt(0).toUpperCase() + word.slice(1);
-}
-
   private createFormMessage(formData: NgForm): FormMessage {
     return {
       gameName:         this.capitalizeFirstLetter(formData.value.nameControl),
@@ -139,6 +135,10 @@ export class CreateFreeGameComponent {
       quantityChange:   this.sliderValue,
     } as FormMessage;
   }
+
+  private capitalizeFirstLetter(word: string): string {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+}
 
   public submit(formData: NgForm): void {
     this.isLoading = false;
