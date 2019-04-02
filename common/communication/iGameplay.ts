@@ -48,7 +48,12 @@ export interface INewGameInfo {
     path: string;
     gameID: number;
     type: Mode;
-  };
+};
+
+export interface INewScore {
+    player: string;
+    score:  number;
+}
 
 export enum ActionType {
     ADD,
