@@ -101,6 +101,15 @@ export class ThreejsMovement {
         return front.normalize();
     }
 
+    private getRight(): THREE.Vector3 {
+        const yAxis: THREE.Vector3 = new THREE.Vector3(0, 1, 0);
+        const right: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+
+        this.crossProduct(this.getFront(), yAxis, right);
+
+        return right.normalize();
+    }
+
         const objectsIntersected: THREE.Intersection[] = raycaster.intersectObjects(this.scene.children, true);
 
         return objectsIntersected.length > 0 && objectsIntersected[0].distance < this.CAMERA_COLLISION_RADIUS;
