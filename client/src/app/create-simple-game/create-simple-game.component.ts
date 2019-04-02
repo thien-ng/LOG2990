@@ -105,10 +105,10 @@ export class CreateSimpleGameComponent {
 
   private changeModifiedInput(name: string): void {
     if (!this.IS_IMAGE_BMP[this.MODIFIED_INDEX]) {
-    this.modifiedInput.nativeElement.value = "";
-    this.checkModifImage.nativeElement.textContent = null;
-    this.nameModifPlaceHolder = "";
-    this.isModifiedVisible    = true;
+      this.modifiedInput.nativeElement.value          = "";
+      this.checkModifImage.nativeElement.textContent  = null;
+      this.nameModifPlaceHolder                       = "";
+      this.isModifiedVisible                          = true;
     } else {
       this.checkModifImage.nativeElement.textContent  = this.CHECK_CIRCLE;
       this.nameModifPlaceHolder                       = name;
@@ -118,10 +118,10 @@ export class CreateSimpleGameComponent {
 
   private changeOriginalInput( name: string): void {
     if (!this.IS_IMAGE_BMP[this.ORIGINAL_INDEX]) {
-    this.originalInput.nativeElement.value = "";
-    this.checkOrigImage.nativeElement.textContent = null;
-    this.nameOrigPlaceHolder  = "";
-    this.isOriginalVisible    = true;
+      this.originalInput.nativeElement.value        = "";
+      this.checkOrigImage.nativeElement.textContent = null;
+      this.nameOrigPlaceHolder                      = "";
+      this.isOriginalVisible                        = true;
     } else {
       this.checkOrigImage.nativeElement.textContent = this.CHECK_CIRCLE;
       this.nameOrigPlaceHolder                      = name;
