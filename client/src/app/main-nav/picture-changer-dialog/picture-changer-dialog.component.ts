@@ -16,24 +16,3 @@ export class PictureChangerDialogComponent {
   public constructor(
     private httpClient: HttpClient,
     public dialogRef: MatDialogRef<PictureChangerDialogComponent>,
-    ) {
-    this.username   = sessionStorage.getItem(CClient.USERNAME_KEY);
-    this.profilePic = CClient.PATH_TO_PROFILE_IMAGES + this.username + ".bmp" + "?" + new Date().getTime();
-    this.isDisable  = false;
-   }
-
-  public changeImage(): void {
-    this.httpClient.get(CClient.PATH_TO_NEW_PICTURE + "/" + this.username).subscribe(() => {
-      window.setTimeout(() => {
-        this.profilePic = CClient.PATH_TO_PROFILE_IMAGES + this.username + ".bmp" + "?" + new Date().getTime();
-      }, 1000);
-    });
-    this.isDisable = true;
-    window.setTimeout(() => {this.isDisable = false; }, 1500);
-  }
-
-  public updateImage(): void {
-    this.dialogRef.close(this.profilePic);
-  }
-
-}
