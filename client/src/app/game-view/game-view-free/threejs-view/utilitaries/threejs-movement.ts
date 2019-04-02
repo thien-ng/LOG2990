@@ -94,6 +94,13 @@ export class ThreejsMovement {
         this.pointingAt.normalize();
     }
 
+    private getFront(): THREE.Vector3 {
+        const front: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+        this.camera.getWorldDirection(front);
+
+        return front.normalize();
+    }
+
         const objectsIntersected: THREE.Intersection[] = raycaster.intersectObjects(this.scene.children, true);
 
         return objectsIntersected.length > 0 && objectsIntersected[0].distance < this.CAMERA_COLLISION_RADIUS;
