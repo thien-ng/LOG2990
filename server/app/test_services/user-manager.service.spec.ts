@@ -64,7 +64,6 @@ describe("UserManagerService test", () => {
         mockAxios.onGet(CServer.PROFILE_PIC_GEN_PATH)
         .reply(200, Buffer.from("asdfgh"));
 
-
         const result: Message = await userManagerService.validateName(user.username);
 
         chai.expect(result.body).to.equal("isNotUnique");
