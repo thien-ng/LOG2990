@@ -12,14 +12,14 @@ import { AssetManagerService } from "../services/asset-manager.service";
 import { CardOperations } from "../services/card-operations.service";
 import { HighscoreService } from "../services/highscore.service";
 
-/*tslint:disable no-magic-numbers no-any max-line-length */
+// tslint:disable no-magic-numbers no-any max-line-length
 const FAKE_PATH:        string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/image";
 const CARD_NOT_FOUND:   string = "Erreur de suppression, carte pas trouvée";
 const ERROR_DELETION:   string = "error while deleting file";
 
-let highscoreService:   HighscoreService;
-let assetManagerService:       AssetManagerService;
-let cardOperations:     CardOperations;
+let highscoreService:       HighscoreService;
+let assetManagerService:    AssetManagerService;
+let cardOperations:         CardOperations;
 
 describe("Card-operations tests", () => {
     chai.use(spies);

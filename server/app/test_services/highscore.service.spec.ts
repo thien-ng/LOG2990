@@ -178,9 +178,9 @@ describe("HighscoreService tests", () => {
         mockAxios.onPost(CServer.VALIDATE_HIGHSCORE_PATH)
         .reply(200, answer);
 
-        chai.spy.on(highscoreService["assetManager"], "saveHighscore", () => {throw new TypeError("fukoff"); });
+        chai.spy.on(highscoreService["assetManager"], "saveHighscore", () => {throw new TypeError("fuck off"); });
         await highscoreService["validateHighscore"](message, highscoreToChange).catch((error: any) => {
-            chai.expect(error.message).to.equal("fukoff");
+            chai.expect(error.message).to.equal("fuck off");
         });
     });
 
@@ -201,13 +201,13 @@ describe("HighscoreService tests", () => {
         chai.expect(highscoreService["newHighscore"].timesMulti[0]).to.have.all.keys("username", "time");
     });
 
-    it("First score should be inferior to 2nd Score", () => {
+    it("should have first score to be inferior to 2nd Score", () => {
         chai.spy.on(highscoreService["assetManager"], "saveHighscore", () => {return; });
         highscoreService.generateNewHighscore(3);
         chai.expect(highscoreService["newHighscore"].timesMulti[0].time).to.be.at.most(highscoreService["newHighscore"].timesMulti[1].time);
     });
 
-    it("2nd score should be inferior to 3rd score", () => {
+    it("should have second score to be inferior to 3rd score", () => {
         chai.spy.on(highscoreService["assetManager"], "saveHighscore", () => {return; });
         highscoreService.generateNewHighscore(3);
         chai.expect(highscoreService["newHighscore"].timesMulti[1].time).to.be.at.most(highscoreService["newHighscore"].timesMulti[2].time);

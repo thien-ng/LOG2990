@@ -5,7 +5,7 @@ import { GameMode } from "../../../common/communication/iCard";
 import { CServer } from "../CServer";
 import { AssetManagerService } from "../services/asset-manager.service";
 
-/*tslint:disable no-magic-numbers no-any */
+// tslint:disable no-magic-numbers no-any
 const IMAGES_PATH: string = "./app/asset/image";
 
 let imageManagerService: AssetManagerService;
