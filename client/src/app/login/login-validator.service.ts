@@ -23,8 +23,8 @@ export class LoginValidatorService {
     return this.httpClient.post<Message>(CClient.PATH_TO_LOGIN_VALIDATION, message);
   }
 
-  public capitalizeFirstLetter(word: string): string {
-    return word.charAt(0).toUpperCase() + word.slice(1);
+  public capitalizeFirstLetter(username: string): string {
+    return username.charAt(0).toUpperCase() + username.slice(1);
 }
 
   private generateMessage(username: string): Message {
