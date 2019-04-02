@@ -110,6 +110,12 @@ export class ThreejsMovement {
         return right.normalize();
     }
 
+    private bougeMaBoule(): void {
+        this.objettttt.position.x = this.camera.position.x + (this.pointingAt.x * (this.CAMERA_COLLISION_RADIUS + 1));
+        this.objettttt.position.y = this.camera.position.y + (this.pointingAt.y * (this.CAMERA_COLLISION_RADIUS + 1));
+        this.objettttt.position.z = this.camera.position.z + (this.pointingAt.z * (this.CAMERA_COLLISION_RADIUS + 1));
+    }
+
         const objectsIntersected: THREE.Intersection[] = raycaster.intersectObjects(this.scene.children, true);
 
         return objectsIntersected.length > 0 && objectsIntersected[0].distance < this.CAMERA_COLLISION_RADIUS;
