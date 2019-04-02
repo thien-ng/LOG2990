@@ -11,6 +11,7 @@ import { IMesh, ISceneObject } from "../../../../../common/communication/iSceneO
 import { IUser } from "../../../../../common/communication/iUser";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { CServer } from "../../../CServer";
+import { AssetManagerService } from "../../../services/asset-manager.service";
 import { CardOperations } from "../../../services/card-operations.service";
 import { ChatManagerService } from "../../../services/chat-manager.service";
 import { Arena2D } from "../../../services/game/arena/arena2d";
@@ -128,6 +129,7 @@ let highscoreService:       HighscoreService;
 let chatManagerService:     ChatManagerService;
 let timeManagerService:     TimeManagerService;
 let lobbyManagerService:    LobbyManagerService;
+let assetManagerService:    AssetManagerService;
 let cardOperations:         CardOperations;
 let arena2D:                Arena2D;
 let arena3D:                Arena3D;
@@ -140,11 +142,12 @@ describe("Referee tests for 2D", () => {
 
     beforeEach(async () => {
         chai.use(spies);
+        assetManagerService = new AssetManagerService();
         lobbyManagerService = new LobbyManagerService();
         mockAxios           = new mockAdapter.default(axios);
         timer               = new Timer();
         userManagerService  = new UserManagerService();
-        highscoreService    = new HighscoreService();
+        highscoreService    = new HighscoreService(assetManagerService);
         timeManagerService  = new TimeManagerService();
         chatManagerService  = new ChatManagerService(timeManagerService);
         cardOperations      = new CardOperations(highscoreService);
@@ -320,11 +323,12 @@ describe("Referee tests for 3D", () => {
 
     beforeEach(async () => {
         chai.use(spies);
+        assetManagerService = new AssetManagerService();
         lobbyManagerService = new LobbyManagerService();
         mockAxios           = new mockAdapter.default(axios);
         timer               = new Timer();
         userManagerService  = new UserManagerService();
-        highscoreService    = new HighscoreService();
+        highscoreService    = new HighscoreService(assetManagerService);
         timeManagerService  = new TimeManagerService();
         chatManagerService  = new ChatManagerService(timeManagerService);
         cardOperations      = new CardOperations(highscoreService);

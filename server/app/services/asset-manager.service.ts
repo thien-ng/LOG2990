@@ -1,6 +1,9 @@
 import * as fs from "fs";
 import { injectable } from "inversify";
 import { ITheme } from "../../../common/communication/ITheme";
+import { Highscore } from "../../../common/communication/highscore";
+import { ICard } from "../../../common/communication/iCard";
+import { ICardsIds } from "../../../common/communication/iCardLists";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { CServer } from "../CServer";
 
@@ -10,6 +13,7 @@ const FILE_DELETION_ERROR:      string = "error while deleting file";
 const FILE_SAVING_ERROR:        string = "error while saving file";
 const TEMP_ROUTINE_ERROR:       string = "error while copying to temp";
 const GET_THEME_ERROR:          string = "error while getting theme file";
+const GET_CARDS_ERROR:          string = "error while getting cards file";
 
 @injectable()
 export class AssetManagerService {
@@ -36,6 +40,7 @@ export class AssetManagerService {
     }
 
     public deleteStoredImages(paths: string[]): void {
+
         paths.forEach((path: string) => {
            try {
             fs.unlinkSync(path);
@@ -128,6 +133,66 @@ export class AssetManagerService {
             return JSON.parse(readFile.toString()) as ITheme;
         } catch (error) {
             throw new TypeError(GET_THEME_ERROR);
+        }
+    }
+
+    public getCardById(id: string, gamemode: string): ICard {
+        try {
+            const readFile: Buffer = fs.readFileSync(CServer.PATH_LOCAL_CARDS + id + "_" + gamemode + "_card.json");
+
+            return JSON.parse(readFile.toString()) as ICard;
+        } catch (error) {
+            throw new TypeError(GET_CARDS_ERROR);
+        }
+    }
+
+    public getCardsIds(): ICardsIds {
+        try {
+            const readFile: Buffer = fs.readFileSync(CServer.PATH_LOCAL_CARDS_IDS);
+
+            return JSON.parse(readFile.toString()) as ICardsIds;
+        } catch (error) {
+            throw new TypeError(GET_CARDS_ERROR);
+        }
+    }
+
+    public saveCardsIds(cardsIds: ICardsIds): void {
+        const cardsParsed: string = JSON.stringify(cardsIds);
+
+        try {
+            fs.writeFileSync(CServer.PATH_LOCAL_CARDS_IDS, cardsParsed);
+        } catch (error) {
+            throw TypeError(FILE_SAVING_ERROR);
+        }
+    }
+
+    public saveCard(card: ICard): void {
+        const cardsParsed: string = JSON.stringify(card);
+        const path: string = CServer.PATH_LOCAL_CARDS + card.gameID + "_" + card.gamemode + "_card.json";
+        try {
+            fs.writeFileSync(path, cardsParsed);
+        } catch (error) {
+            throw TypeError(FILE_SAVING_ERROR);
+        }
+    }
+
+    public getHighscoreById(id: number): Highscore {
+        try {
+            const readFile: Buffer = fs.readFileSync(CServer.PATH_LOCAL_HIGHSCORE + id + "_highscore.json");
+
+            return JSON.parse(readFile.toString()) as Highscore;
+        } catch (error) {
+            throw new TypeError(GET_CARDS_ERROR);
+        }
+    }
+
+    public saveHighscore(highscore: Highscore): void {
+        const highscoreParsed: string = JSON.stringify(highscore);
+        const path: string = CServer.PATH_LOCAL_HIGHSCORE + highscore.id + "_highscore.json";
+        try {
+            fs.writeFileSync(path, highscoreParsed);
+        } catch (error) {
+            throw TypeError(FILE_SAVING_ERROR);
         }
     }
 }
