@@ -56,7 +56,7 @@ export class HighscoreService {
         this.newHighscore = {
             id: id,
         } as Highscore;
-        this.setMaxValue(this.newHighscore);
+        this.setMaxHighscoreValue(this.newHighscore);
 
         const randomSingleTimes: [number, number, number] = [DEFAULT_NUMBER, DEFAULT_NUMBER, DEFAULT_NUMBER];
         const randomMultiTimes: [number, number, number] = [DEFAULT_NUMBER, DEFAULT_NUMBER, DEFAULT_NUMBER];
@@ -151,7 +151,7 @@ export class HighscoreService {
         } as HighscoreValidationMessage;
     }
 
-    private setMaxValue(highscore: Highscore): void {
+    private setMaxHighscoreValue(highscore: Highscore): void {
         let i: number = 1;
         highscore.timesSingle = [
             this.generateDefaultTime(NAME + i++),

@@ -24,6 +24,9 @@ export class CServer {
   public static readonly GENERATED_SNAPSHOT:        string = "_snapshot.jpeg";
   public static readonly ORIGINAL_SCENE_FILE:       string = "_sceneOriginal.txt";
   public static readonly MODIFIED_SCENE_FILE:       string = "_sceneModified.txt";
+  public static readonly SIMPLE_CARD_FILE:          string = "_simple_card.json";
+  public static readonly FREE_CARD_FILE:            string = "_free_card.json";
+  public static readonly HIGHSCORE_FILE:            string = "_highscore.json";
   public static readonly DECIMAL:                   number = 10;
   public static readonly DOESNT_EXIST:              number = -1;
   public static readonly CARD_DELETED:              string = "Carte supprimée";

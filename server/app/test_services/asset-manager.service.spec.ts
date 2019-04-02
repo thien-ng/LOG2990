@@ -20,7 +20,7 @@ describe("Image manager service tests", () => {
         imageManagerService = new AssetManagerService();
     });
 
-    it("Should call the stockImage function when creating bmp", () => {
+    it("should call the stockImage function when creating bmp", () => {
         const spy: any = chai.spy.on(imageManagerService, "stockImage");
         imageManagerService.createBMP(buffer, 6);
         chai.expect(spy).to.have.been.called();
@@ -83,27 +83,27 @@ describe("Image manager service tests", () => {
         }).to.not.throw(TypeError);
     });
 
-    it("Should copy an image to the temp directory (no error thrown)", async () => {
+    it("should copy an image to the temp directory (no error thrown)", async () => {
         const gameId: number = 5;
         const path: string = CServer.IMAGES_PATH + "/testBitmap/" + "7dots.bmp";
         chai.expect(() => imageManagerService["copyFileToTemp"](path, gameId, CServer.GENERATED_FILE))
             .to.not.throw(TypeError("error while generating file"));
     });
 
-    it("Should not copy an inexistant image to the temp directory and throw error", async () => {
+    it("should not copy an inexistant image to the temp directory and throw error", async () => {
         const nonExistantgameId: number = 15;
         const path: string = CServer.IMAGES_PATH + "/testBitmap/" + nonExistantgameId + CServer.GENERATED_FILE;
         chai.expect(() => { imageManagerService["copyFileToTemp"](path, nonExistantgameId, CServer.GENERATED_FILE); })
             .to.throw(TypeError);
     });
 
-    it("Should delete an image to the temp directory (no error thrown)", async () => {
+    it("should delete an image to the temp directory (no error thrown)", async () => {
         const gameId: number = 5;
         chai.expect(() => imageManagerService.deleteFileInTemp(gameId, CServer.GENERATED_FILE))
             .to.not.throw(TypeError);
     });
 
-    it("Should not delete an inexistant image to the temp directory and throw error", async () => {
+    it("should not delete an inexistant image to the temp directory and throw error", async () => {
         const nonExistantgameId: number = 15;
         chai.expect(() => imageManagerService.deleteFileInTemp(nonExistantgameId, CServer.GENERATED_FILE))
             .to.throw(TypeError);
@@ -115,47 +115,47 @@ describe("Image manager service tests", () => {
             .to.throw(TypeError);
     });
 
-    it("Should do temp routine for 2d and throw error", async () => {
+    it("should do temp routine for 2d and throw error", async () => {
         const gameId: number = 9999999;
         chai.expect(() => imageManagerService.tempRoutine2d(gameId))
             .to.throw(TypeError);
     });
 
-    it("Should do temp routine for 3d and throw error", async () => {
+    it("should do temp routine for 3d and throw error", async () => {
         const gameId: number = 9999999;
         chai.expect(() => imageManagerService.tempRoutine3d(gameId))
             .to.throw(TypeError);
     });
 
-    it("Should set new value of countGameId to map", async () => {
+    it("should set new value of countGameId to map", async () => {
         const gameId: number = 9999999;
         imageManagerService["countByGameId"].set(gameId, 1000);
         imageManagerService["manageCounter"](gameId);
         chai.expect(imageManagerService["countByGameId"].get(gameId)).to.equal(1001);
     });
 
-    it("Should set new value of countGameId to map", async () => {
+    it("should set new value of countGameId to map", async () => {
         const gameId: number = 9999999;
         imageManagerService["countByGameId"].set(gameId, 1000);
         imageManagerService["manageCounter"](gameId);
         chai.expect(imageManagerService["countByGameId"].get(gameId)).to.equal(1001);
     });
 
-    it("Should decrement map size", async () => {
+    it("should decrement map size", async () => {
         const gameId: number = 9999999;
         const spy: any = chai.spy.on(imageManagerService["countByGameId"], "set");
         imageManagerService.decrementTempCounter(gameId, 1);
-        chai.expect(spy);
+        chai.expect(spy).to.have.been.called();
     });
 
-    it("Should decrement map size", async () => {
+    it("should decrement map size", async () => {
         const gameId: number = 1;
         imageManagerService["countByGameId"].set(1, 1);
         const result: number | undefined = imageManagerService.getCounter(gameId);
         chai.expect(result).to.equal(1);
     });
 
-    it("Should throw error when getting card by wrong id", async () => {
+    it("should throw error when getting card by wrong id", async () => {
         const gameId: number = 9999999;
         chai.expect(() => imageManagerService.getCardById(gameId.toString(), GameMode.simple))
             .to.throw(TypeError);

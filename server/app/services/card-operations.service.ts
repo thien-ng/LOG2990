@@ -52,11 +52,11 @@ export class CardOperations {
         }
 
         const paths: string[] = [
-            CServer.IMAGES_PATH + "/" + id + CServer.GENERATED_FILE,
-            CServer.IMAGES_PATH + "/" + id + CCommon.ORIGINAL_FILE,
-            CServer.IMAGES_PATH + "/" + id + CCommon.MODIFIED_FILE,
-            CServer.PATH_LOCAL_CARDS  + id + "_simple_card.json",
-            CServer.PATH_LOCAL_HIGHSCORE + id + "_highscore.json",
+            CServer.IMAGES_PATH + "/"       + id + CServer.GENERATED_FILE,
+            CServer.IMAGES_PATH + "/"       + id + CCommon.ORIGINAL_FILE,
+            CServer.IMAGES_PATH + "/"       + id + CCommon.MODIFIED_FILE,
+            CServer.PATH_LOCAL_CARDS        + id + CServer.SIMPLE_CARD_FILE,
+            CServer.PATH_LOCAL_HIGHSCORE    + id + CServer.HIGHSCORE_FILE,
         ];
 
         try {
@@ -81,10 +81,10 @@ export class CardOperations {
         }
 
         const paths: string[] = [
-            CServer.IMAGES_PATH   + "/" + id + CServer.GENERATED_SNAPSHOT,
-            CServer.SCENE_PATH    + "/" + id + CCommon.SCENE_FILE,
-            CServer.PATH_LOCAL_CARDS    + id + "_free_card.json",
-            CServer.PATH_LOCAL_HIGHSCORE + id + "_highscore.json",
+            CServer.IMAGES_PATH   + "/"     + id + CServer.GENERATED_SNAPSHOT,
+            CServer.SCENE_PATH    + "/"     + id + CCommon.SCENE_FILE,
+            CServer.PATH_LOCAL_CARDS        + id + CServer.FREE_CARD_FILE,
+            CServer.PATH_LOCAL_HIGHSCORE    + id + CServer.HIGHSCORE_FILE,
         ];
 
         try {
