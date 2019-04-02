@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from "@angular/animations";
 import { Breakpoints, BreakpointObserver } from "@angular/cdk/layout";
 import { AfterViewChecked, ChangeDetectorRef , Component, OnDestroy, OnInit } from "@angular/core";
-import { MatDialog, MatDialogConfig, MatSnackBar } from "@angular/material";
+import { MatDialog, MatDialogConfig, MatSnackBar, MatDialogRef } from "@angular/material";
 import { NavigationEnd, Router } from "@angular/router";
 
 import { Observable, Subscription } from "rxjs";
@@ -13,6 +13,7 @@ import { CreateFreeGameComponent } from "../create-free-game/create-free-game.co
 import { CreateSimpleGameComponent } from "../create-simple-game/create-simple-game.component";
 import { SocketService } from "../websocket/socket.service";
 import { AdminToggleService } from "./admin-toggle.service";
+import { PictureChangerDialogComponent } from './picture-changer-dialog/picture-changer-dialog.component';
 
 @Component({
   selector:     "app-main-nav",
@@ -132,6 +133,20 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
     dialogConfig.autoFocus    = true;
 
     this.dialog.open(CreateFreeGameComponent, dialogConfig);
+  }
+
+  public changePictureMenu(): void {
+    const dialogConfig: MatDialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus    = true;
+    dialogConfig.height       = "400px";
+    dialogConfig.width        = "400px";
+
+    const dialogRef: MatDialogRef<PictureChangerDialogComponent> = this.dialog.open(PictureChangerDialogComponent, dialogConfig);
+    dialogRef.beforeClosed().subscribe((result: string) => {
+      this.profileIcon = result;
+    });
   }
 
   public redirectGameList(): void {
