@@ -164,9 +164,9 @@ export class ThreejsThemeViewService {
     this.camera.position.z = z;
   }
 
-  public setupFront(orientation: number): void {
-    this.threejsMovement.setupFront(orientation);
-  }
+  // private setupFront(orientation: number): void {
+  //   this.threejsMovement.setupFront(orientation);
+  // }
 
   public rotateCamera(point: IPosition2D): void {
     this.threejsMovement.rotateCamera(point);
@@ -210,7 +210,6 @@ export class ThreejsThemeViewService {
   }
 
   private renderObject(): void {
-
     this.threejsMovement.movementCamera(this.moveForward, this.moveBackward, this.moveLeft, this.moveRight);
     this.renderer.render(this.scene, this.camera);
   }
@@ -260,7 +259,7 @@ export class ThreejsThemeViewService {
 
   public onKeyMovement(keyboardEvent: KeyboardEvent, buttonStatus: boolean): void {
     const keyValue: string = keyboardEvent.key.toLowerCase();
-
+    this.threejsMovement.setMouseClickStatus(buttonStatus);
     switch ( keyValue ) {
       case KEYS.W:
         if (buttonStatus) {
