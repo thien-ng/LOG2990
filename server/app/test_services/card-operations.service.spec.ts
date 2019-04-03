@@ -12,13 +12,14 @@ import { AssetManagerService } from "../services/asset-manager.service";
 import { CardOperations } from "../services/card-operations.service";
 import { HighscoreService } from "../services/highscore.service";
 
-/*tslint:disable no-magic-numbers no-any */
+// tslint:disable no-magic-numbers no-any max-line-length
 const FAKE_PATH:        string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/image";
 const CARD_NOT_FOUND:   string = "Erreur de suppression, carte pas trouvée";
 const ERROR_DELETION:   string = "error while deleting file";
 
-let highscoreService:   HighscoreService;
-let cardOperations:     CardOperations;
+let highscoreService:       HighscoreService;
+let assetManagerService:    AssetManagerService;
+let cardOperations:         CardOperations;
 
 describe("Card-operations tests", () => {
     chai.use(spies);
@@ -40,56 +41,44 @@ describe("Card-operations tests", () => {
         gamemode:           GameMode.free,
     };
 
-    const c3: ICard = {
-        gameID:             3,
-        title:              "Default 3D 2.0",
-        subtitle:           "default 3D",
-        avatarImageUrl:     FAKE_PATH + "/poly.jpg",
-        gameImageUrl:       FAKE_PATH + "/poly.jpg",
-        gamemode:           GameMode.free,
-    };
-
     beforeEach(() => {
-        highscoreService    = new HighscoreService();
+        assetManagerService = new AssetManagerService();
+        highscoreService    = new HighscoreService(assetManagerService);
         cardOperations      = new CardOperations(highscoreService);
     });
 
     it("should return true when adding a new 2D card", () => {
-        chai.expect(cardOperations.addCard2D(c1)).to.equal(true);
+        chai.expect(cardOperations.addCard(c1)).to.equal(true);
+        cardOperations.removeCard2D(c1.gameID);
     });
 
     it("should return true when adding a new 3D card", () => {
-        chai.expect(cardOperations.addCard3D(c2)).to.equal(true);
+        chai.expect(cardOperations.addCard(c2)).to.equal(true);
+        cardOperations.removeCard3D(c2.gameID);
     });
 
     it("should return false when adding an existing 3D card", () => {
-        cardOperations.addCard3D(c2);
-        chai.expect(cardOperations.addCard3D(c2)).to.equal(false);
+        cardOperations.addCard(c2);
+        chai.expect(cardOperations.addCard(c2)).to.equal(false);
+        cardOperations.removeCard3D(c2.gameID);
     });
 
     it("should return false when trying to add an existing 2d card", () => {
-        cardOperations.addCard2D(c1);
-        chai.expect(cardOperations.addCard2D(c1)).to.equal(false);
-    });
-
-    it("should return the existing card free mode", () => {
-        cardOperations.addCard3D(c3);
-        chai.expect(cardOperations.getCardById("3", GameMode.free)).to.deep.equal(c3);
+        cardOperations.addCard(c1);
+        chai.expect(cardOperations.addCard(c1)).to.equal(false);
+        cardOperations.removeCard2D(c1.gameID);
     });
 
     it("should return the existing card simple mode", () => {
-        cardOperations.addCard2D(c1);
+        cardOperations.addCard(c1);
         chai.expect(cardOperations.getCardById("4", GameMode.simple)).to.deep.equal(c1);
+        cardOperations.removeCard2D(c1.gameID);
     });
 
     it("should return an error message because path image doesnt exist", () => {
-        cardOperations.addCard2D(c1);
+        cardOperations.addCard(c1);
         chai.expect(cardOperations.removeCard2D(4)).to.equal(ERROR_DELETION);
-    });
-
-    it("should return an error message because path image doesnt exist", () => {
-        cardOperations.addCard3D(c3);
-        chai.expect(cardOperations.removeCard3D(3)).to.equal(ERROR_DELETION);
+        cardOperations.removeCard2D(c1.gameID);
     });
 
     it("should return an error while deleting the default 2D card", () => {
@@ -110,14 +99,9 @@ describe("Card-operations tests", () => {
 
     it("should return an error message because path image doesnt exist", () => {
         cardOperations["socketServer"] = mock(SocketIO);
-        cardOperations.addCard2D(c1);
+        cardOperations.addCard(c1);
         chai.expect(cardOperations.removeCard2D(4)).to.equal(ERROR_DELETION);
-    });
-
-    it("should return an error message because path image doesnt exist", () => {
-        cardOperations["socketServer"] = mock(SocketIO);
-        cardOperations.addCard3D(c3);
-        chai.expect(cardOperations.removeCard3D(3)).to.equal(ERROR_DELETION);
+        cardOperations.removeCard2D(c1.gameID);
     });
 
     it("should delete card 2D with specific card id", () => {
@@ -126,7 +110,7 @@ describe("Card-operations tests", () => {
         const generatedImagePath:   string              = CServer.IMAGES_PATH + "/" + 4 + CServer.GENERATED_FILE;
         const assetManager:         AssetManagerService = new AssetManagerService();
 
-        cardOperations.addCard2D(c1);
+        cardOperations.addCard(c1);
 
         assetManager.saveImage(originalImagePath,  "test");
         assetManager.saveImage(modifiedImagePath,  "test");
@@ -135,6 +119,7 @@ describe("Card-operations tests", () => {
         cardOperations["socketServer"] = mock(SocketIO);
 
         chai.expect(cardOperations.removeCard2D(4)).to.equal(CServer.CARD_DELETED);
+        cardOperations.removeCard2D(c1.gameID);
     });
 
     it("should delete card 3D with specific card id", () => {
@@ -142,7 +127,7 @@ describe("Card-operations tests", () => {
         const generatedScene:       string = CServer.SCENE_PATH  + "/" + 7 + CCommon.SCENE_FILE;
         const assetManager:         AssetManagerService = new AssetManagerService();
 
-        cardOperations.addCard3D(c2);
+        cardOperations.addCard(c2);
 
         assetManager.saveImage(snapshot, "test");
         assetManager.saveGeneratedScene(generatedScene, "test");
@@ -150,6 +135,7 @@ describe("Card-operations tests", () => {
         cardOperations["socketServer"] = mock(SocketIO);
 
         chai.expect(cardOperations.removeCard3D(7)).to.equal(CServer.CARD_DELETED);
+        cardOperations.removeCard3D(c2.gameID);
     });
 
     it("should generate message with unknown error", () => {

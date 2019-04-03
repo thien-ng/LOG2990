@@ -1,22 +1,26 @@
 import { HttpClient } from "@angular/common/http";
 import { AfterContentInit, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { MatDialogConfig } from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
+import { Subscription } from "rxjs";
 import { first } from "rxjs/operators";
 import { GameConnectionService } from "src/app/game-connection.service";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../../common/communication/iGameRequest";
-import { IClickMessage, IPenalty, IPosition2D } from "../../../../../common/communication/iGameplay";
+import { IClickMessage, INewGameInfo, IPenalty, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { Message } from "../../../../../common/communication/message";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { CClient } from "../../CClient";
 import { SocketService } from "../../websocket/socket.service";
 import { ChatViewComponent } from "../chat-view/chat-view.component";
+import { EndGameDialogService } from "../endGameDialog/end-game-dialog.service";
 import { GameViewSimpleService } from "./game-view-simple.service";
 
 @Component({
   selector:     "app-game-view-simple",
   templateUrl:  "./game-view-simple.component.html",
   styleUrls:    ["./game-view-simple.component.css"],
+  providers:    [EndGameDialogService, {provide: MatDialogConfig, useValue: {}}],
 })
 
 export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDestroy {
@@ -35,6 +39,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   public activeCard:      ICard;
   public cardLoaded:      boolean;
   public gameIsStarted:   boolean;
+  public isGameEnded:     boolean;
   public username:        string | null;
   public mode:            number;
   public arenaID:         number;
@@ -43,10 +48,12 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   private gameRequest:    IGameRequest;
   private modifiedPath:   string;
   private position:       IPosition2D;
+  private subscription:   Subscription[];
 
   public constructor(
-    @Inject(GameViewSimpleService)  public  gameViewService:  GameViewSimpleService,
-    @Inject(SocketService)          private socketService:    SocketService,
+    @Inject(GameViewSimpleService)  public  gameViewService:      GameViewSimpleService,
+    @Inject(SocketService)          private socketService:        SocketService,
+    @Inject(EndGameDialogService)   private endGameDialogService: EndGameDialogService,
     private gameConnectionService:  GameConnectionService,
     private route:                  ActivatedRoute,
     private httpClient:             HttpClient,
@@ -54,8 +61,10 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       this.mode           = Number(this.route.snapshot.paramMap.get("gamemode"));
       this.cardLoaded     = false;
       this.gameIsStarted  = false;
+      this.isGameEnded    = false;
       this.username       = sessionStorage.getItem(CClient.USERNAME_KEY);
       this.position       = {x: 0, y: 0};
+      this.subscription   = [];
       this.gameConnectionService.getGameConnectedListener().pipe(first()).subscribe((arenaID: number) => {
         this.arenaID = arenaID;
         this.socketService.sendMessage(CCommon.GAME_CONNECTION, arenaID);
@@ -69,25 +78,40 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     if (this.gameID !== null && this.username !== null) {
       this.getActiveCard(this.username);
     }
-    this.socketService.onMessage(CCommon.ON_GAME_STARTED).subscribe(() => {
-      this.chat.chatViewService.clearConversations();
-      this.gameIsStarted = true;
-    });
+    this.initEventSubscription();
   }
 
   public ngAfterContentInit(): void {
     this.initListener();
-    this.socketService.onMessage(CCommon.ON_PENALTY).subscribe((arenaResponse: IPenalty) => {
-      if (arenaResponse.isOnPenalty) {
-        this.wrongClickRoutine();
-      } else {
-        this.enableClickRoutine();
-      }
-    });
+  }
+
+  private initEventSubscription(): void {
+    this.subscription.push(this.socketService.onMessage(CCommon.ON_PENALTY).subscribe((arenaResponse: IPenalty) => {
+      (arenaResponse.isOnPenalty) ? this.wrongClickRoutine() : this.enableClickRoutine();
+    }));
+
+    this.subscription.push(this.socketService.onMessage(CCommon.ON_GAME_STARTED).subscribe(() => {
+      this.chat.chatViewService.clearConversations();
+      this.gameIsStarted = true;
+    }));
+
+    this.subscription.push(this.socketService.onMessage(CCommon.ON_GAME_ENDED).subscribe((message: string) => {
+      const isWinner: boolean = message === CCommon.ON_GAME_WON;
+      this.isGameEnded = true;
+      const newGameInfo: INewGameInfo = {
+        path: CClient.GAME_VIEW_SIMPLE_PATH,
+        gameID: this.gameID,
+        type: this.mode,
+      };
+      this.endGameDialogService.openDialog(isWinner, newGameInfo);
+    }));
   }
 
   public ngOnDestroy(): void {
     this.socketService.sendMessage(CCommon.GAME_DISCONNECT, this.username);
+    this.subscription.forEach((sub: Subscription) => {
+      sub.unsubscribe();
+    });
   }
 
   private getActiveCard(username: string): void {

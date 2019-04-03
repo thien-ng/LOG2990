@@ -1,7 +1,6 @@
 export class CCommon {
 
     public static readonly BASE_URL:                  string = "http://localhost";
-    // public static readonly BASE_URL:                  string = "http://10.200.2.107";
     public static readonly BASE_SERVER_PORT:          string = ":3000";
     
     public static readonly ORIGINAL_FILE:             string = "_original.bmp";
@@ -27,8 +26,11 @@ export class CCommon {
     public static readonly ON_COUNTDOWN:              string = "onCountdown";
     public static readonly ON_COUNTDOWN_START:        string = "onCountdownStart";
     public static readonly ON_ERROR:                  string = "onError";
+    public static readonly ON_GAME_ENDED:             string = "onGameEnded";
     public static readonly ON_GAME_LOADED:            string = "onGameLoaded";
+    public static readonly ON_GAME_LOST:              string = "onGameLost";
     public static readonly ON_GAME_STARTED:           string = "onGameStarted";
+    public static readonly ON_GAME_WON:               string = "onGameWon";
     public static readonly ON_GET_MODIF_LIST:         string = "onGetModifList";
     public static readonly ON_LOBBY:                  string = "onLobby";
     public static readonly ON_MODE_INVALID:           string = "onModeInvalid"
