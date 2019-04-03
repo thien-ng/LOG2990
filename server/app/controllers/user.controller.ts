@@ -20,9 +20,8 @@ export class UserController {
             res.json(isValidated);
         });
 
-        router.get("/newProfilePic/:username", async (req: Request, res: Response, next: NextFunction) => {
-            this.userManagerService.updateProfilePicture(req.params.username);
-            res.json(true);
+        router.post("/newProfilePic", async (req: Request, res: Response, next: NextFunction) => {
+            res.send(this.userManagerService.updateProfilePicture(req.body.body));
         });
 
         return router;
