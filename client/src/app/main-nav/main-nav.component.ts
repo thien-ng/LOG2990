@@ -64,7 +64,7 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.compteurInit = 0;
     this.client       = null;
     this.isValidUrl   = true;
-    this.profileIcon    = "";
+    this.profileIcon  = "";
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {

@@ -24,12 +24,12 @@ export class WaitingRoomComponent {
   public readonly LOBBY_MESSAGE:      string = "En attente d'un autre joueur";
   public readonly VSIMAGE:            string = CClient.PATH_TO_IMAGES + "/versus.png";
 
-  public counter:       string;
-  public username:      string | null;
-  public opponentName:  string;
-  public opponentImage: string;
-  public userImage:     string;
-  public isCounterStarted: boolean;
+  public counter:           string;
+  public username:          string | null;
+  public opponentName:      string;
+  public opponentImage:     string;
+  public userImage:         string;
+  public isCounterStarted:  boolean;
 
   @Input()
   public isMultiplayer: boolean;
