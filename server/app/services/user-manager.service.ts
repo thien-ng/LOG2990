@@ -8,6 +8,7 @@ import { AssetManagerService } from "./asset-manager.service";
 
 const axios:                AxiosInstance = require("axios");
 const IMAGE_EXTENSION:      string        = ".bmp";
+const ERROR_GENERATION:     string        = "Erreur pendant la generation d'image";
 
 @injectable()
 export class UserManagerService {
@@ -69,10 +70,16 @@ export class UserManagerService {
         this.assetManager.stockImage(path, picBuffer);
     }
 
-    public async updateProfilePicture(username: string): Promise<void> {
+    public async updateProfilePicture(username: string): Promise<Message> {
         const path: string = CServer.PROFILE_IMAGE_PATH + username + IMAGE_EXTENSION;
-        this.assetManager.deleteStoredImages([path]);
-        await this.createUserPic(username);
+        try {
+            this.assetManager.deleteStoredImages([path]);
+            await this.createUserPic(username);
+
+            return this.generateMessage(CCommon.ON_SUCCESS, "");
+        } catch (error) {
+            return this.generateMessage(CCommon.ON_ERROR, ERROR_GENERATION);
+        }
     }
 
     public getUserByUsername(username: string): IUser | string {
