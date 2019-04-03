@@ -19,8 +19,8 @@ export class GameViewSimpleService {
   private successSound:          ElementRef;
   private failSound:             ElementRef;
   private opponentSound:         ElementRef;
-  private gameWon:               ElementRef;
-  private gameLost:              ElementRef;
+  private winSound:              ElementRef;
+  private lossSound:             ElementRef;
 
   public onArenaResponse(data: IArenaResponse<IOriginalPixelCluster>): void {
     const isSuccess: boolean      = data.status === CCommon.ON_SUCCESS;
@@ -42,13 +42,13 @@ export class GameViewSimpleService {
   }
 
   public playWinSound(): void {
-    this.gameWon.nativeElement.currentTime = 0;
-    this.gameWon.nativeElement.play();
+    this.winSound.nativeElement.currentTime = 0;
+    this.winSound.nativeElement.play();
   }
 
   public playLossSound(): void {
-    this.gameLost.nativeElement.currentTime = 0;
-    this.gameLost.nativeElement.play();
+    this.lossSound.nativeElement.currentTime = 0;
+    this.lossSound.nativeElement.play();
   }
 
   private playSuccessSound(): void {
@@ -69,8 +69,8 @@ export class GameViewSimpleService {
     this.successSound   = success;
     this.failSound      = fail;
     this.opponentSound  = opponentSound;
-    this.gameWon        = gameWon;
-    this.gameLost       = gameLost;
+    this.winSound        = gameWon;
+    this.lossSound       = gameLost;
   }
 
   public onCanvasClick(pos: IPosition2D, id: number, username: string): IClickMessage<IPosition2D> {
