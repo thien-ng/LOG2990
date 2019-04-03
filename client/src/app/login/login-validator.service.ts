@@ -14,7 +14,7 @@ export class LoginValidatorService {
   public constructor(private httpClient: HttpClient) {}
 
   public addUsername(username: string): Observable<Message> {
-    const message: Message = this.generateMessage(username);
+    const message: Message = this.generateMessage(this.capitalizeFirstLetter(username));
 
     return this.sendUsernameRequest(message);
   }
@@ -22,6 +22,10 @@ export class LoginValidatorService {
   private sendUsernameRequest(message: Message): Observable<Message> {
     return this.httpClient.post<Message>(CClient.PATH_TO_LOGIN_VALIDATION, message);
   }
+
+  public capitalizeFirstLetter(username: string): string {
+    return username.charAt(0).toUpperCase() + username.slice(1);
+}
 
   private generateMessage(username: string): Message {
     return {

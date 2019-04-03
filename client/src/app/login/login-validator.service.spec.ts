@@ -40,4 +40,14 @@ describe("Tests on LoginValidatorService", () => {
     const message: Message = loginValidatorService["generateMessage"]("Michel");
     expect(message.body).toBe("Michel");
   });
+  it("should capitalize first letter of a word", () => {
+    const username: string = "arthur";
+    const capitalizedUsername: string = loginValidatorService.capitalizeFirstLetter(username);
+    expect(capitalizedUsername[0] === "A").toEqual(true);
+  });
+  it("should capitalize first letter of a word", () => {
+    const username: string = "arthur";
+    const capitalizedUsername: string = loginValidatorService.capitalizeFirstLetter(username);
+    expect(capitalizedUsername[0] === "a").toEqual(false);
+  });
 });

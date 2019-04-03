@@ -16,6 +16,7 @@ export class CClient {
   public static readonly PATH_MATCH_FULL:           string = "full";
   public static readonly PATH_TO_ICONS:             string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/icon";
   public static readonly PATH_TO_IMAGES:            string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/image";
+  public static readonly PATH_TO_PROFILE_IMAGES:    string = CClient.PATH_TO_IMAGES + "/userPicture/";
   public static readonly PATH_TO_MESHES:            string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/mesh";
   public static readonly PATH_TO_GET_CARD:          string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/api/card/";
 

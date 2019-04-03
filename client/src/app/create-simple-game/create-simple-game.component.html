@@ -7,13 +7,20 @@
       <input type="text" formControlName="gameName" name="gameName" matInput placeholder={{PLACE_HOLDER}}>
     </mat-form-field>
     <div class="alertInvalide" [hidden]="hasNameControlErrors()">{{INVALID_NAME}}</div>
+    
     <div class="mat-subheading-2">
       {{ORIGINAL_IMAGE}}:
-      <input mat-icon-button type="file" accept="image/bmp" (change)="onFileSelected($event.target.files[0], ORIGINAL_INDEX)">
+      <button *ngIf="isOriginalVisible" mat-stroked-button #buttonOriginal class="button-padding" type="button" onclick="document.getElementById('fileToUploadOriginal').click()">{{UPLOAD}}</button>
+      <span>{{nameOrigPlaceHolder}}</span>
+      <mat-icon #checkOrigImage class="checkImage" (click)="onFileSelected('',ORIGINAL_INDEX,'')" ></mat-icon>
+      <input mat-icon-button #originalInput id="fileToUploadOriginal" type="file" accept="image/bmp" (change)="onFileSelected($event.target.files[0], ORIGINAL_INDEX, $event.target.files[0].name)">
     </div>
     <div class="mat-subheading-2">
       {{MODIFIED_IMAGE}}:
-      <input mat-icon-button type="file" accept="image/bmp" (change)="onFileSelected($event.target.files[0], MODIFIED_INDEX)">
+      <button *ngIf="isModifiedVisible" mat-stroked-button #buttonModified class="button-padding" type="button" onclick="document.getElementById('fileToUploadModified').click()">{{UPLOAD}}</button>
+      <span>{{nameModifPlaceHolder}}</span>
+      <mat-icon #checkModifImage class="checkImage" (click)="onFileSelected('',MODIFIED_INDEX,'')" ></mat-icon>
+      <input mat-icon-button #modifiedInput type="file" id="fileToUploadModified" accept="image/bmp" (change)="onFileSelected($event.target.files[0], MODIFIED_INDEX, $event.target.files[0].name)">
     </div>
     <button class="button-padding" [disabled]="hasFormControlErrors()" type="submit" mat-raised-button>{{SUBMIT}}</button>
     <button class="button-padding" mat-raised-button type="button" (click)="closeDialog()">{{CANCEL}}</button>

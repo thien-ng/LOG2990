@@ -55,3 +55,8 @@
   font-size: 13px;
   position: relative;
 }
+
+button:hover {
+  background: #3F51B5;
+  color: white;
+}

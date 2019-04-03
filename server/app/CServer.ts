@@ -83,4 +83,8 @@ export class CServer {
 
   // CServer for highscore.service.ts
   public static readonly VALIDATE_HIGHSCORE_PATH:   string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/api/highscore-api";
+
+  // Cserver for profilePictureGenerator.ts
+  public static readonly PROFILE_PIC_GEN_PATH:      string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/api/profile-picture";
+  public static readonly PROFILE_IMAGE_PATH:        string = CServer.IMAGES_PATH + "/userPicture/";
 }
