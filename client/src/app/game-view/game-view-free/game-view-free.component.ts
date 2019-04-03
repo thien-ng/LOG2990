@@ -31,14 +31,19 @@ const RIGHT_CLICK:  number = 2;
 })
 export class GameViewFreeComponent implements OnInit, OnDestroy {
 
-  public readonly OPPONENT:         string = "Adversaire";
   public readonly NEEDED_SNAPSHOT:  boolean = false;
   public readonly SUCCESS_SOUND:    string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/fail.wav";
   public readonly FAIL_SOUND:       string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/success.wav";
+  public readonly OPPONENT_SOUND:   string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/opponent_point.mp3";
+  public readonly GAME_WON:         string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-won.wav";
+  public readonly GAME_LOST:        string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-lost.wav";
 
   @ViewChild("original")      private original:    TheejsViewComponent;
   @ViewChild("modified")      private modified:    TheejsViewComponent;
   @ViewChild("chat")          private chat:        ChatViewComponent;
+  @ViewChild("opponentSound", {read: ElementRef})  public opponentSound:   ElementRef;
+  @ViewChild("gameWon",       {read: ElementRef})  public gameWon:         ElementRef;
+  @ViewChild("gameLost",      {read: ElementRef})  public gameLost:        ElementRef;
   @ViewChild("successSound",  {read: ElementRef})  public successSound:    ElementRef;
   @ViewChild("failSound",     {read: ElementRef})  public failSound:       ElementRef;
   @ViewChild("erreurText",    {read: ElementRef})  public erreurText:      ElementRef;
@@ -59,6 +64,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
   public  mode:              number;
   public  gameID:            number;
   public  username:          string | null;
+  public  opponentName:      string;
   private scenePath:         string;
   private gameMode:          Mode;
   private subscription:      Subscription[];
@@ -69,14 +75,12 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
       this.gameViewService.updateRightClick(true);
     }
   }
-
   @HostListener("mouseup", ["$event"])
   public onMouseUp(mouseEvent: MouseEvent): void {
     if (mouseEvent.button === RIGHT_CLICK) {
       this.gameViewService.updateRightClick(false);
     }
   }
-
   @HostListener("mousemove", ["$event"])
   public onMouseMove(mouseEvent: MouseEvent): void {
     if (this.rightClick) {
@@ -133,7 +137,6 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
       this.chat.chatViewService.clearConversations();
       this.isLoading = false;
     }));
-
     this.subscription.push(this.socketService.onMessage(CCommon.ON_PENALTY).subscribe((arenaResponse: IPenalty) => {
       if (arenaResponse.isOnPenalty) {
         this.wrongClickRoutine();
@@ -141,16 +144,20 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
         this.enableClickRoutine();
       }
     }));
-
     this.subscription.push(this.socketService.onMessage(CCommon.ON_GAME_ENDED).subscribe((message: string) => {
       this.isGameEnded = true;
       const isWinner: boolean = message === CCommon.ON_GAME_WON;
+      isWinner ? this.gameViewService.playWinSound() : this.gameViewService.playLossSound();
       const newGameInfo: INewGameInfo = {
         path: CClient.GAME_VIEW_FREE_PATH,
         gameID: Number(this.gameID),
         type: this.mode,
       };
       this.endGameDialogService.openDialog(isWinner, newGameInfo);
+    }));
+    this.subscription.push(this.socketService.onMessage(CCommon.ON_COUNTDOWN_START).subscribe((message: string[]) => {
+      const index: number = message[0] === this.username ? 1 : 0;
+      this.opponentName = message[index];
     }));
   }
 
@@ -287,7 +294,6 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
   }
 
   private canvasRoutine(): void {
-    this.gameViewService.setSounds(this.successSound, this.failSound);
+    this.gameViewService.setSounds(this.successSound, this.failSound, this.opponentSound, this.gameWon, this.gameLost);
   }
-
 }
