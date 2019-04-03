@@ -50,7 +50,7 @@
       *ngIf="mode === 1" [ngClass]="isGameEnded ? 'blur' : 'normal'"
       [colspan]="1"
       [rowspan]="20">
-      <app-difference-counter [username]="OPPONENT">{{OPPONENT}}</app-difference-counter> <!-- TODO change [username]="OPPONENT" par le nom de ladversaire -->
+      <app-difference-counter [username]="opponentName">{{opponentName}}</app-difference-counter>
     </mat-grid-tile>
   </mat-grid-list>
 </span>
@@ -59,4 +59,13 @@
 </audio>
 <audio #successSound>
   <source src={{FAIL_SOUND}} type="audio/wav">
+</audio>
+<audio #opponentSound>
+  <source src={{OPPONENT_SOUND}} type="audio/mp3">
+</audio>
+<audio #gameWon>
+  <source src={{GAME_WON}} type="audio/wav">
+</audio>
+<audio #gameLost>
+  <source src={{GAME_LOST}} type="audio/wav">
 </audio>
