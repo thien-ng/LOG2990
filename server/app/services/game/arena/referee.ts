@@ -121,7 +121,7 @@ export class Referee<EVT_T, DIFF_T> {
             const differenceToUpdate: DIFF_T | undefined = this.originalElements.get(hitConfirmation.differenceIndex);
 
             if (differenceToUpdate !== undefined) {
-                arenaResponse = this.buildArenaResponse(CCommon.ON_SUCCESS, differenceToUpdate);
+                arenaResponse = this.buildArenaResponse(CCommon.ON_SUCCESS, differenceToUpdate, player.getUsername());
             }
             if (this.gameIsFinished()) {
                 this.endOfGameRoutine(player);
@@ -224,10 +224,11 @@ export class Referee<EVT_T, DIFF_T> {
         });
     }
 
-    private buildArenaResponse(status: string, response?: DIFF_T): IArenaResponse<DIFF_T> {
+    private buildArenaResponse(status: string, response?: DIFF_T, username?: string): IArenaResponse<DIFF_T> {
         return {
             status:     status,
             response:   response,
+            username:   username,
         } as IArenaResponse<DIFF_T>;
     }
 
