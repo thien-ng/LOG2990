@@ -1,5 +1,6 @@
 import { ElementRef, Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
+import { CClient } from "src/app/CClient";
 import { GameConnectionService } from "src/app/game-connection.service";
 import { IArenaResponse, IPosition2D, ISceneObjectUpdate } from "../../../../../common/communication/iGameplay";
 import { IMesh, ISceneObject } from "../../../../../common/communication/iSceneObject";
@@ -17,6 +18,9 @@ export class GameViewFreeService {
   private rightClickActive:     Subject<boolean>;
   private successSound:         ElementRef;
   private failSound:            ElementRef;
+  private opponentSound:        ElementRef;
+  private gameWon:              ElementRef;
+  private gameLost:             ElementRef;
   public  position:             IPosition2D;
 
   public constructor (private gameConnectionService: GameConnectionService) {
@@ -54,11 +58,10 @@ export class GameViewFreeService {
   }
 
   public onArenaResponse(data: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>>): void {
-
+    const isRightPlayer: boolean  = data.username === sessionStorage.getItem(CClient.USERNAME_KEY);
     if (data.status === CCommon.ON_SUCCESS) {
-
-      this.playSuccessSound();
       if (data.response) {
+        (isRightPlayer) ? this.playSuccessSound() : this.playOpponentSound();
         this.gameConnectionService.updateModifiedScene(data.response);
       }
     }
@@ -79,9 +82,27 @@ export class GameViewFreeService {
     this.successSound.nativeElement.play();
   }
 
-  public setSounds(success: ElementRef, fail: ElementRef): void {
+  public playWinSound(): void {
+    this.gameWon.nativeElement.currentTime = 0;
+    this.gameWon.nativeElement.play();
+  }
+
+  public playLossSound(): void {
+    this.gameLost.nativeElement.currentTime = 0;
+    this.gameLost.nativeElement.play();
+  }
+
+  private playOpponentSound(): void {
+    this.opponentSound.nativeElement.currentTime = 0;
+    this.opponentSound.nativeElement.play();
+  }
+
+  public setSounds(success: ElementRef, fail: ElementRef, opponentSound: ElementRef, gameWon: ElementRef, gameLost: ElementRef): void {
     this.successSound = success;
     this.failSound    = fail;
+    this.opponentSound  = opponentSound;
+    this.gameWon        = gameWon;
+    this.gameLost       = gameLost;
   }
 
 }
