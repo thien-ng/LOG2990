@@ -185,4 +185,31 @@ describe("GameViewSimpleService Test", () => {
     expect(spy).toHaveBeenCalled();
   }));
 
+  it("should play html audio win sound when called", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
+    const audio1: HTMLAudioElement = document.createElement("audio");
+    const winSound: ElementRef = new ElementRef<HTMLAudioElement>(audio1);
+    gameViewService.setSounds(mock(ElementRef), mock(ElementRef), mock(ElementRef), winSound, mock(ElementRef));
+    const spy: any = spyOn(gameViewService["winSound"].nativeElement, "play");
+    gameViewService.playWinSound();
+    expect(spy).toHaveBeenCalled();
+  }));
+
+  it("should play html audio loss sound when called", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
+    const audio1: HTMLAudioElement = document.createElement("audio");
+    const lossSound: ElementRef = new ElementRef<HTMLAudioElement>(audio1);
+    gameViewService.setSounds(mock(ElementRef), mock(ElementRef), mock(ElementRef), mock(ElementRef), lossSound);
+    const spy: any = spyOn(gameViewService["lossSound"].nativeElement, "play");
+    gameViewService.playLossSound();
+    expect(spy).toHaveBeenCalled();
+  }));
+
+  it("should play html audio opponent sound when called", inject([GameViewSimpleService], (gameViewService: GameViewSimpleService) => {
+    const audio1: HTMLAudioElement = document.createElement("audio");
+    const opponentSound: ElementRef = new ElementRef<HTMLAudioElement>(audio1);
+    gameViewService.setSounds(mock(ElementRef), mock(ElementRef), opponentSound, mock(ElementRef), mock(ElementRef));
+    const spy: any = spyOn(gameViewService["opponentSound"].nativeElement, "play");
+    gameViewService["playOpponentSound"]();
+    expect(spy).toHaveBeenCalled();
+  }));
+
 });
