@@ -21,7 +21,7 @@ mat-card-content {
 }
 
 app-message-view {
-    align-self: end;   
+    align-self: end;
 }
 
 .list .mat-list-item {
@@ -46,3 +46,6 @@ mat-form-field > input {
     padding: 10px 5px 10px 5px;
 }
 
+.chat {
+  overflow-y: auto;
+}

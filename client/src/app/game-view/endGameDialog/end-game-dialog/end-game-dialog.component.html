@@ -1,0 +1,23 @@
+<div *ngIf="isWinner" class="wrapper green">
+	<div class="header__wrapper">
+		<div class="header">
+			<div class="sign"><span></span></div>
+		</div>
+	</div>
+	<h1 class="win-status">{{winStatus}}</h1>
+
+	<button class="button-win" (click)="returnToList()">{{WIN_BUTTON_TEXT}}</button>
+</div>
+
+<div *ngIf="!isWinner" class="wrapper red">
+	<div class="header__wrapper">
+		<div class="header">
+			<div class="sign"><span></span></div>
+		</div>
+	</div>
+	<h1>{{winStatus}}</h1>
+	<h2>{{proposition}}</h2>
+
+  <button class="button-lost-1" (click)="startNewGame()">{{YES_BUTTON_TEXT}}</button>
+  <button class="button-lost-2" (click)="returnToList()">{{NO_BUTTON_TEXT}}</button>
+</div>

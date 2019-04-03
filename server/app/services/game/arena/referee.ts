@@ -55,6 +55,7 @@ export class Referee<EVT_T, DIFF_T> {
 
     private startCountDown(): void {
         let count: number = COUNT_START;
+        clearInterval(this.countdownInterval);
         this.countdownInterval = setInterval(
             () => {
                 if (count > COUNTDOWN_DONE) {
@@ -200,6 +201,10 @@ export class Referee<EVT_T, DIFF_T> {
     private endOfGameRoutine(winner: Player): void {
         const secondsSinceStart: number = this.timer.stopTimer();
         this.arena.endOfGameRoutine(secondsSinceStart, winner);
+        this.players.forEach((player: Player) => {
+            const message: string = (player.getUsername() === winner.getUsername()) ? CCommon.ON_GAME_WON : CCommon.ON_GAME_LOST;
+            this.arena.sendMessage(player.getUserSocketId(), CCommon.ON_GAME_ENDED, message);
+        });
     }
 
     private buildArenaResponse(status: string, response?: DIFF_T): IArenaResponse<DIFF_T> {

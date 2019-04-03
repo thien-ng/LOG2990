@@ -1,7 +1,8 @@
 import { HttpClient } from "@angular/common/http";
-import { AfterViewInit, Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { MatSnackBar } from "@angular/material";
+import { Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { MatDialogConfig, MatSnackBar } from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
+import { Subscription } from "rxjs";
 import { first } from "rxjs/operators";
 import { CClient } from "src/app/CClient";
 import { GameConnectionService } from "src/app/game-connection.service";
@@ -9,12 +10,13 @@ import { SocketService } from "src/app/websocket/socket.service";
 import { Mode } from "../../../../../common/communication/highscore";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../../common/communication/iGameRequest";
-import { IPenalty, IPosition2D } from "../../../../../common/communication/iGameplay";
+import { INewGameInfo, IPenalty, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { IMesh, ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { IMeshInfo, ISceneData, ISceneVariables } from "../../../../../common/communication/iSceneVariables";
 import { Message } from "../../../../../common/communication/message";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { ChatViewComponent } from "../chat-view/chat-view.component";
+import { EndGameDialogService } from "../endGameDialog/end-game-dialog.service";
 import { GameViewFreeService } from "./game-view-free.service";
 import { TheejsViewComponent } from "./threejs-view/threejs-view.component";
 
@@ -25,8 +27,9 @@ const RIGHT_CLICK:  number = 2;
   selector:     "app-game-view-free",
   templateUrl:  "./game-view-free.component.html",
   styleUrls:    ["./game-view-free.component.css"],
+  providers:    [EndGameDialogService, {provide: MatDialogConfig, useValue: {}}],
 })
-export class GameViewFreeComponent implements OnInit, OnDestroy, AfterViewInit {
+export class GameViewFreeComponent implements OnInit, OnDestroy {
 
   public readonly OPPONENT:         string = "Adversaire";
   public readonly NEEDED_SNAPSHOT:  boolean = false;
@@ -51,12 +54,14 @@ export class GameViewFreeComponent implements OnInit, OnDestroy, AfterViewInit {
   public  rightClick:        boolean;
   public  gameIsStarted:     boolean;
   public  cardIsLoaded:      boolean;
+  public  isGameEnded:       boolean;
   public  arenaID:           number;
   public  mode:              number;
-  public  gameID:            string | null;
+  public  gameID:            number;
   public  username:          string | null;
   private scenePath:         string;
   private gameMode:          Mode;
+  private subscription:      Subscription[];
 
   @HostListener("mousedown", ["$event"])
   public onMouseDown(mouseEvent: MouseEvent): void {
@@ -85,8 +90,9 @@ export class GameViewFreeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public constructor(
-    @Inject(GameViewFreeService)    private gameViewService:  GameViewFreeService,
-    @Inject(SocketService)          private socketService:    SocketService,
+    @Inject(GameViewFreeService)    private gameViewService:      GameViewFreeService,
+    @Inject(SocketService)          private socketService:        SocketService,
+    @Inject(EndGameDialogService)   private endGameDialogService: EndGameDialogService,
     private gameConnectionService:  GameConnectionService,
     private httpClient:             HttpClient,
     private route:                  ActivatedRoute,
@@ -98,8 +104,10 @@ export class GameViewFreeComponent implements OnInit, OnDestroy, AfterViewInit {
       this.rightClick     = true;
       this.cardIsLoaded   = false;
       this.isLoading      = true;
+      this.isGameEnded    = false;
       this.mode           = Number(this.route.snapshot.paramMap.get(GAMEMODE_KEY));
       this.username       = sessionStorage.getItem(CClient.USERNAME_KEY);
+      this.subscription   = [];
 
       this.gameConnectionService.getGameConnectedListener().pipe(first()).subscribe((arenaID: number) => {
         this.arenaID = arenaID;
@@ -112,26 +120,40 @@ export class GameViewFreeComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
   public ngOnInit(): void {
-    this.gameID = this.route.snapshot.paramMap.get("id");
+    this.gameID = Number(this.route.snapshot.paramMap.get("id"));
     const username: string | null = sessionStorage.getItem(CClient.USERNAME_KEY);
     if (this.gameID !== null && username !== null) {
       this.createGameRequest(this.gameID, username);
     }
+    this.initEventSubscription();
   }
 
-  public ngAfterViewInit(): void {
-    this.socketService.onMessage(CCommon.ON_GAME_STARTED).subscribe(() => {
+  private initEventSubscription(): void {
+    this.subscription.push(this.socketService.onMessage(CCommon.ON_GAME_STARTED).subscribe(() => {
       this.chat.chatViewService.clearConversations();
       this.isLoading = false;
-    });
-    this.socketService.onMessage(CCommon.ON_PENALTY).subscribe((arenaResponse: IPenalty) => {
+    }));
+
+    this.subscription.push(this.socketService.onMessage(CCommon.ON_PENALTY).subscribe((arenaResponse: IPenalty) => {
       if (arenaResponse.isOnPenalty) {
         this.wrongClickRoutine();
       } else {
         this.enableClickRoutine();
       }
-    });
+    }));
+
+    this.subscription.push(this.socketService.onMessage(CCommon.ON_GAME_ENDED).subscribe((message: string) => {
+      this.isGameEnded = true;
+      const isWinner: boolean = message === CCommon.ON_GAME_WON;
+      const newGameInfo: INewGameInfo = {
+        path: CClient.GAME_VIEW_FREE_PATH,
+        gameID: Number(this.gameID),
+        type: this.mode,
+      };
+      this.endGameDialogService.openDialog(isWinner, newGameInfo);
+    }));
   }
+
   public wrongClickRoutine(): void {
     this.gameViewService.playFailSound();
     this.disableClickRoutine();
@@ -156,7 +178,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy, AfterViewInit {
       this.erreurText2.nativeElement.textContent  = CClient.ERROR_MESSAGE;
   }
 
-  private createGameRequest(gameID: string, username: string): void {
+  private createGameRequest(gameID: number, username: string): void {
 
     this.httpClient.get(CClient.PATH_TO_GET_CARD + gameID + "/" + GameMode.free).subscribe((response: ICard) => {
       this.activeCard = response;
@@ -259,6 +281,9 @@ export class GameViewFreeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public ngOnDestroy(): void {
     this.socketService.sendMessage(CCommon.GAME_DISCONNECT, this.username);
+    this.subscription.forEach((sub: Subscription) => {
+      sub.unsubscribe();
+    });
   }
 
   private canvasRoutine(): void {
