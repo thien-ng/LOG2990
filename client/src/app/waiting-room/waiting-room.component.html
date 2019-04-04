@@ -1,4 +1,64 @@
-<div class="counter">{{counter}}</div>
+<div *ngIf="!isMultiplayer" [class.slide-in-top]="isCounterStarted" class="counter">{{counter}}</div>
 
-<button *ngIf="isMultiplayer && counter === ''" (click)="cancelRequest()">{{CANCEL_BUTTON_TEXT}}</button>
-<app-spinner *ngIf="counter === ''"></app-spinner>
+<mat-grid-list *ngIf="isMultiplayer"  class="lobbyContainer" cols="12" rowHeight="1%">
+    <mat-grid-tile
+      [colspan]="12"
+      [rowspan]="15">
+      <div *ngIf="counter === ''" class="textMessage text-pop-up-top" >{{LOBBY_MESSAGE}}</div>
+    </mat-grid-tile>
+    <mat-grid-tile
+      [colspan]="4"
+      [rowspan]="55"
+      class="container">
+      <mat-grid-list class="player1Container" cols="3" rowHeight="1%">
+
+        <mat-grid-tile [colspan]="1" [rowspan]="75"></mat-grid-tile>    
+        <mat-grid-tile [colspan]="2" [rowspan]="15"></mat-grid-tile>
+        <mat-grid-tile [colspan]="2" [rowspan]="55">
+          <img class="profilePic" src="{{userImage}}">
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="2" [rowspan]="10">
+            <div class="textUsername">{{username}}</div>
+        </mat-grid-tile>
+
+      </mat-grid-list>
+    </mat-grid-tile>
+
+    <mat-grid-tile
+      [colspan]="4"
+      [rowspan]="55">
+      <img *ngIf="counter === ''" class="vsImage " src="{{VSIMAGE}}" alt="">
+      <div *ngIf="counter !== ''" class="counter slide-in-top">{{counter}}</div>
+    </mat-grid-tile>
+
+    <mat-grid-tile
+      [colspan]="4"
+      [rowspan]="55"
+      class="container">
+      <mat-grid-list class="player2Container" cols="3" rowHeight="1%">
+
+          <mat-grid-tile [colspan]="2" [rowspan]="15"></mat-grid-tile>
+          <mat-grid-tile [colspan]="1" [rowspan]="75"></mat-grid-tile>
+          <mat-grid-tile [colspan]="2" [rowspan]="55">
+            <app-spinner  *ngIf="counter === ''"></app-spinner>
+            <img *ngIf="counter !== ''" class="profilePic" src="{{opponentImage}}">
+          </mat-grid-tile>
+
+          <mat-grid-tile [colspan]="2" [rowspan]="10">
+            <div *ngIf="counter !== ''" class="textUsername">{{opponentName}}</div>   
+          </mat-grid-tile>
+
+      </mat-grid-list>
+    </mat-grid-tile>
+    <mat-grid-tile
+    class="buttonGrid"
+      [colspan]="12"
+      [rowspan]="15">
+      <button *ngIf="counter === ''" mat-raised-button (click)="cancelRequest()">{{CANCEL_BUTTON_TEXT}}</button>
+    </mat-grid-tile>
+</mat-grid-list>
+
+<audio #countdownSound >
+  <source src={{COUNTDOWN_SOUND}} type="audio/mpeg">
+</audio>

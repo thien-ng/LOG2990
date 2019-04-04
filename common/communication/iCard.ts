@@ -41,8 +41,8 @@ export const DefaultCard2D: ICard = {
   gamemode:           GameMode.simple,
   title:              "Stewie deathray",
   subtitle:           "Default Image",
-  avatarImageUrl:     CServer.PATH_TO_IMAGES + "/default.gif",
-  gameImageUrl:       CServer.PATH_TO_IMAGES + "/default.gif",
+  avatarImageUrl:     CServer.PATH_TO_IMAGES + "default.gif",
+  gameImageUrl:       CServer.PATH_TO_IMAGES + "default.gif",
 }
 
 export const DefaultCard3D: ICard = {
@@ -50,6 +50,6 @@ export const DefaultCard3D: ICard = {
   gamemode:           GameMode.free,
   title:              "Scène par défaut",
   subtitle:           "Scène par défaut",
-  avatarImageUrl:     CServer.PATH_TO_IMAGES + "/2_snapshot.jpeg",
-  gameImageUrl:       CServer.PATH_TO_IMAGES + "/2_snapshot.jpeg",
+  avatarImageUrl:     CServer.PATH_TO_IMAGES + "2_snapshot.jpeg",
+  gameImageUrl:       CServer.PATH_TO_IMAGES + "2_snapshot.jpeg",
 }

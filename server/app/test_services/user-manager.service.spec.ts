@@ -1,15 +1,21 @@
 import "reflect-metadata";
 
-import { expect } from "chai";
+import * as chai from "chai";
 import { IUser } from "../../../common/communication/iUser";
 import { Message } from "../../../common/communication/message";
 import { CServer } from "../CServer";
 import { UserManagerService } from "../services/user-manager.service";
 
+// tslint:disable:no-magic-numbers no-any
+
 let userManagerService: UserManagerService;
+let   mockAxios:        any;
+const axios:            any     = require("axios");
+const mockAdapter:      any     = require("axios-mock-adapter");
 
 beforeEach(() => {
     userManagerService = new UserManagerService;
+    mockAxios          = new mockAdapter.default(axios);
 
     userManagerService.users.push({
         username:       "patate",
@@ -27,76 +33,94 @@ beforeEach(() => {
     });
 });
 
+afterEach(() => {
+    mockAxios.restore();
+});
+
 describe("UserManagerService test", () => {
 
-    it ("should return True if name input is unique", (done: Function) => {
+    it ("should return True if name input is unique", async () => {
         const user: IUser = {
             username:       "ligma",
             socketID:       "socketid",
         };
 
-        const result: Message = userManagerService.validateName(user.username);
+        mockAxios.onGet(CServer.PROFILE_PIC_GEN_PATH)
+        .reply(200, Buffer.from("asdfgh"));
 
-        expect(result.body).to.equal("isUnique");
-        done();
+        chai.spy.on(userManagerService["assetManager"], "stockImage", () => { return; });
+
+        const result: Message = await userManagerService.validateName(user.username);
+
+        chai.expect(result.body).to.equal("isUnique");
     });
 
-    it ("should return False if name input is not unique", (done: Function) => {
+    it ("should return False if name input is not unique", async () => {
         const user: IUser = {
             username:       "patate",
             socketID:       "socketid",
         };
 
-        const result: Message = userManagerService.validateName(user.username);
+        mockAxios.onGet(CServer.PROFILE_PIC_GEN_PATH)
+        .reply(200, Buffer.from("asdfgh"));
 
-        expect(result.body).to.equal("isNotUnique");
-        done();
+        const result: Message = await userManagerService.validateName(user.username);
+
+        chai.expect(result.body).to.equal("isNotUnique");
     });
 
-    it ("should return error of name lenght if name is too short", (done: Function) => {
+    it ("should return error of name lenght if name is too short", async () => {
         const testString:       string  = "143";
 
         const resultExpected:   Message = {
             title:          "onError",
             body:           "Le nom doit contenir entre 4 et 15 characteres",
         };
-        const result: Message = userManagerService.validateName(testString);
 
-        expect(result).to.deep.equal(resultExpected);
-        done();
+        mockAxios.onGet(CServer.PROFILE_PIC_GEN_PATH)
+        .reply(200, Buffer.from("asdfgh"));
+
+        const result: Message = await userManagerService.validateName(testString);
+
+        chai.expect(result).to.deep.equal(resultExpected);
     });
 
-    it ("should return error of name lenght if name is too long", (done: Function) => {
+    it ("should return error of name lenght if name is too long", async () => {
         const testString:       string  = "14adadawdadawdawdadadawdadaddwadad3";
 
         const resultExpected:   Message = {
             title:          "onError",
             body:           CServer.NAME_FORMAT_LENGTH_ERROR,
         };
-        const result: Message = userManagerService.validateName(testString);
 
-        expect(result).to.deep.equal(resultExpected);
-        done();
+        mockAxios.onGet(CServer.PROFILE_PIC_GEN_PATH)
+        .reply(200, Buffer.from("asdfgh"));
+
+        const result: Message = await userManagerService.validateName(testString);
+
+        chai.expect(result).to.deep.equal(resultExpected);
     });
 
-    it ("should return error of name regex format if name contains non alphanumeric character", (done: Function) => {
+    it ("should return error of name regex format if name contains non alphanumeric character", async () => {
         const testString:       string  = "bob123;";
 
         const resultExpected:   Message = {
             title:          "onError",
             body:           CServer.USER_NAME_ERROR,
         };
-        const result: Message = userManagerService.validateName(testString);
+        const result: Message = await userManagerService.validateName(testString);
 
-        expect(result).to.deep.equal(resultExpected);
-        done();
+        mockAxios.onGet(CServer.PROFILE_PIC_GEN_PATH)
+        .reply(200, Buffer.from("asdfgh"));
+
+        chai.expect(result).to.deep.equal(resultExpected);
     });
 
     it ("should return True if name input is unique", (done: Function) => {
         const name:     string              = "bob";
         const result:   Boolean | Message   = userManagerService.isUnique(name);
 
-        expect(result).to.equal(true);
+        chai.expect(result).to.equal(true);
         done();
     });
 
@@ -104,7 +128,7 @@ describe("UserManagerService test", () => {
         const name:     string  = "patate";
         const result:   Boolean = userManagerService.isUnique(name);
 
-        expect(result).to.equal(false);
+        chai.expect(result).to.equal(false);
         done();
     });
 
@@ -117,7 +141,7 @@ describe("UserManagerService test", () => {
         userManagerService.leaveBrowser(user);
 
         const result: Boolean = userManagerService.isUnique(user.username);
-        expect(result).to.equal(true);
+        chai.expect(result).to.equal(true);
         done();
     });
 
@@ -130,7 +154,7 @@ describe("UserManagerService test", () => {
         userManagerService.leaveBrowser(user);
 
         const result: Boolean = userManagerService.isUnique(user.username);
-        expect(result).to.equal(true);
+        chai.expect(result).to.equal(true);
         done();
     });
 
@@ -147,7 +171,7 @@ describe("UserManagerService test", () => {
 
         userManagerService.users.push(user);
         userManagerService.updateSocketID(userToUpdate);
-        expect(userManagerService.users[0]).to.deep.equal(userToUpdate);
+        chai.expect(userManagerService.users[0]).to.deep.equal(userToUpdate);
     });
     it ("should update the username to the corresponding SocketID", () => {
         const user: IUser = {
@@ -162,7 +186,7 @@ describe("UserManagerService test", () => {
 
         userManagerService.users.push(user);
         userManagerService.updateSocketID(userToUpdate);
-        expect(userManagerService.users[0]).to.deep.equal(userToUpdate);
+        chai.expect(userManagerService.users[0]).to.deep.equal(userToUpdate);
     });
 
     it ("should get user by username", () => {
@@ -172,6 +196,6 @@ describe("UserManagerService test", () => {
         };
 
         const result: IUser | string = userManagerService.getUserByUsername("patate");
-        expect(result).to.deep.equal(user);
+        chai.expect(result).to.deep.equal(user);
     });
 });
