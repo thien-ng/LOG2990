@@ -24,10 +24,10 @@ import { LoginPageComponent } from "./login/login-page/login-page.component";
 import { LoginValidatorComponent } from "./login/login-validator/login-validator.component";
 import { LoginViewComponent } from "./login/login-view/login-view.component";
 import { MainNavComponent } from "./main-nav/main-nav.component";
+import { PictureChangerDialogComponent } from "./picture-changer-dialog/picture-changer-dialog.component";
 import { SpinnerComponent } from "./spinner/spinner.component";
 import { TestingImportsModule } from "./testing-imports/testing-imports.module";
 import { WaitingRoomComponent } from "./waiting-room/waiting-room.component";
-import { PictureChangerDialogComponent } from './main-nav/picture-changer-dialog/picture-changer-dialog.component';
 
 const routes: Routes = [
   {
