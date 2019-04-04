@@ -1,7 +1,8 @@
 import { Component, Inject } from "@angular/core";
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
-import { ErrorStateMatcher, MatSnackBar } from "@angular/material";
+import { ErrorStateMatcher, MatDialog, MatDialogConfig, MatDialogRef, MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
+import { PictureChangerDialogComponent } from "src/app/picture-changer-dialog/picture-changer-dialog.component";
 import { Message } from "../../../../../common/communication/message";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { CClient } from "../../CClient";
@@ -35,6 +36,7 @@ export class LoginValidatorComponent {
   public constructor(
   @Inject(LoginValidatorService)  public  loginValidatorService:  LoginValidatorService,
   @Inject(SocketService)          private socketService:          SocketService,
+  public  dialog:   MatDialog,
   private snackbar: MatSnackBar,
   private router:   Router,
   ) {
@@ -62,13 +64,26 @@ export class LoginValidatorComponent {
           this.displayNameIsUnique();
           const nameCapitalized: string = this.loginValidatorService.capitalizeFirstLetter(this.usernameFormControl.value);
           this.socketService.sendMessage(CCommon.LOGIN_EVENT, nameCapitalized);
-          await this.router.navigate([CClient.ROUTER_LOGIN]);
+          this.generatePicture();
         } else {
           this.displayNameNotUnique();
         }
       });
     }
+  }
 
+  private generatePicture(): void {
+    const dialogConfig: MatDialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus    = true;
+    dialogConfig.height       = "560px";
+    dialogConfig.width        = "600px";
+    dialogConfig.autoFocus    = false;
+    dialogConfig.disableClose = true;
+    const dialogRef: MatDialogRef<PictureChangerDialogComponent> = this.dialog.open(PictureChangerDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe( async () => {
+      await this.router.navigate([CClient.ROUTER_LOGIN]);
+    });
   }
 
   private displaySnackBar(message: string, closeStatement: string): void {
