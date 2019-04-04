@@ -70,3 +70,28 @@ app-difference-counter {
 .normal {
   filter: blur(0px);
 }
+
+.loaderOutLeft {
+  border: 1px solid black;
+}
+
+.loaderOutRight {
+  border: 1px solid black;
+}
+
+.loaderInLeft {
+  position: absolute;
+  right: 0px;
+  background-color: green;
+}
+
+.loaderInRight {
+  position: absolute;
+  left: 0px;
+  background-color: green;
+}
+
+.loadingFill {
+  position: relative;
+  right: 0px;
+}
