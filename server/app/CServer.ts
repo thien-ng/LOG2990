@@ -12,7 +12,6 @@ export class CServer {
   public static readonly ON_ARENA_RESPONSE:         string = "onArenaResponse";
   public static readonly ON_PENALTY:                string = "onPenalty";
   public static readonly ON_TIMER_UPDATE:           string = "onTimerUpdate";
-  public static readonly ON_POINT_ADDED:            string = "onPointAdded";
   public static readonly ON_CHAT_EVENT:             string = "onChatEvent";
 
   // CServer for card-manager.service.ts
