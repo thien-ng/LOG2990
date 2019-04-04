@@ -3,8 +3,9 @@ import { IPosition2D } from "../../../../../../../common/communication/iGameplay
 
 export class ThreejsMovement {
 
-    private readonly CAMERA_MOVEMENT_SPEED:  number = 2;
-    private readonly CAMERA_ROTATION_SPEED:  number = 0.01;
+    private readonly CAMERA_MOVEMENT_SPEED:   number = 2;
+    private readonly CAMERA_ROTATION_SPEED:   number = 0.01;
+    private readonly CAMERA_COLLISION_RADIUS: number = 5;
 
     private camera:     THREE.PerspectiveCamera;
     private velocity:   THREE.Vector3;
@@ -12,7 +13,7 @@ export class ThreejsMovement {
     private front:      THREE.Vector3;
     private orthogonal: THREE.Vector3;
 
-    public constructor(camera: THREE.PerspectiveCamera) {
+    public constructor(camera: THREE.PerspectiveCamera, private scene: THREE.Scene) {
         this.camera     = camera;
         this.velocity   = new THREE.Vector3(0, 0, 0);
         this.direction  = new THREE.Vector3(0, 0, 0);
@@ -27,9 +28,10 @@ export class ThreejsMovement {
     }
 
     public rotateCamera(position: IPosition2D): void {
-
-        this.camera.rotateX(-position.y * this.CAMERA_ROTATION_SPEED);
-        this.camera.rotateY(-position.x * this.CAMERA_ROTATION_SPEED);
+        const yAxis: THREE.Vector3 = new THREE.Vector3(0, 1, 0);
+        const xAxis: THREE.Vector3 = new THREE.Vector3(1, 0, 0);
+        this.camera.rotateOnWorldAxis(yAxis, -position.x * this.CAMERA_ROTATION_SPEED);
+        this.camera.rotateOnAxis(xAxis, -position.y * this.CAMERA_ROTATION_SPEED);
     }
 
     public movementCamera(moveForward: boolean, moveBackward: boolean, moveLeft: boolean, moveRight: boolean): void {
@@ -48,13 +50,13 @@ export class ThreejsMovement {
 
             this.direction.z = Number(moveBackward) - Number(moveForward);
             this.direction.x = Number(moveRight)    - Number(moveLeft);
-
             this.setCameratVelocity();
         } else {
             this.multiplyVector(this.velocity, 0);
         }
-
-        this.translateCamera();
+        if (!this.objectIsBlockingDirection(this.direction.z)) {
+            this.translateCamera();
+        }
     }
 
     private moveToSide(orientation: number): void {
@@ -65,17 +67,30 @@ export class ThreejsMovement {
     }
 
     private setCameratVelocity(): void {
+        this.direction.normalize();
         this.velocity.x = this.direction.x * this.CAMERA_MOVEMENT_SPEED;
         this.velocity.y = this.direction.y * this.CAMERA_MOVEMENT_SPEED;
         this.velocity.z = this.direction.z * this.CAMERA_MOVEMENT_SPEED;
+    }
 
-        this.velocity.normalize();
+    private objectIsBlockingDirection(frontDirection: number): boolean {
+        const raycaster:      THREE.Raycaster = new THREE.Raycaster();
+        const worldDirection: THREE.Vector3   = new THREE.Vector3();
+
+        this.camera.getWorldDirection(worldDirection);
+
+        const ray: THREE.Vector3 = new THREE.Vector3(worldDirection.x, worldDirection.y, worldDirection.z * - frontDirection);
+        raycaster.set(this.camera.position, ray);
+
+        const objectsIntersected: THREE.Intersection[] = raycaster.intersectObjects(this.scene.children, true);
+
+        return objectsIntersected.length > 0 && objectsIntersected[0].distance < this.CAMERA_COLLISION_RADIUS;
     }
 
     private translateCamera(): void {
-        this.camera.translateX( this.velocity.x );
-        this.camera.translateY( this.velocity.y );
-        this.camera.translateZ( this.velocity.z );
+        this.camera.translateX(this.velocity.x);
+        this.camera.translateY(this.velocity.y);
+        this.camera.translateZ(this.velocity.z);
     }
 
     private multiplyVector (vector: THREE.Vector3, multiplier: number): void {

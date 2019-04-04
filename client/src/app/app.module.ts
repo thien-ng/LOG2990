@@ -15,6 +15,7 @@ import { GameListComponent } from "./game-list/game-list.component";
 import { ChatViewComponent } from "./game-view/chat-view/chat-view.component";
 import { MessageViewComponent } from "./game-view/chat-view/message-view/message-view.component";
 import { DifferenceCounterComponent } from "./game-view/difference-counter/difference-counter.component";
+import { EndGameDialogComponent } from "./game-view/endGameDialog/end-game-dialog/end-game-dialog.component";
 import { GameViewFreeComponent } from "./game-view/game-view-free/game-view-free.component";
 import { TheejsViewComponent } from "./game-view/game-view-free/threejs-view/threejs-view.component";
 import { GameViewSimpleComponent } from "./game-view/game-view-simple/game-view-simple.component";
@@ -91,6 +92,7 @@ const routes: Routes = [
     WaitingRoomComponent,
     SpinnerComponent,
     ConfirmationDialogComponent,
+    EndGameDialogComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -105,6 +107,7 @@ const routes: Routes = [
     ConfirmationDialogComponent,
     CreateSimpleGameComponent,
     CreateFreeGameComponent,
+    EndGameDialogComponent,
   ],
   bootstrap: [AppComponent],
 })

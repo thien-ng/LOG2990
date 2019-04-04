@@ -3,6 +3,7 @@
 <span [hidden]="isLoading">
   <mat-grid-list cols="9" rowHeight="1%">
     <mat-grid-tile
+      [ngClass]="isGameEnded ? 'blur' : 'normal'"
       [colspan]="7"
       [rowspan]="12">
       <div class="gameName" *ngIf="!isLoading">{{activeCard.title}}</div>
@@ -13,6 +14,7 @@
       <app-chat-view #chat [arenaID]="arenaID" [username]="username"></app-chat-view>
     </mat-grid-tile>
     <mat-grid-tile
+    [ngClass]="isGameEnded ? 'blur' : 'normal'"
     [colspan]="7"
     [rowspan]="57">
     <app-spinner *ngIf="isLoading"></app-spinner>
@@ -45,28 +47,30 @@
       </mat-grid-list>
     </mat-grid-tile>
     <mat-grid-tile
+      [ngClass]="isGameEnded ? 'blur' : 'normal'"
       [colspan]="4"
       [rowspan]="20">
       <app-timer></app-timer>
     </mat-grid-tile>
     <mat-grid-tile
-        *ngIf="mode === 0"
-        [colspan]="2"
-        [rowspan]="20">
-        <app-difference-counter>{{username}}</app-difference-counter>
-      </mat-grid-tile>
-    <div *ngIf="mode === 1">
-      <mat-grid-tile
-        [colspan]="1"
-        [rowspan]="20">
-        <app-difference-counter>{{username}}</app-difference-counter>
-      </mat-grid-tile>
-      <mat-grid-tile
-        [colspan]="1"
-        [rowspan]="20">
-        <app-difference-counter>{{OPPONENT}}</app-difference-counter>
-      </mat-grid-tile>
-    </div>
+      [ngClass]="isGameEnded ? 'blur' : 'normal'"
+      *ngIf="mode === 0"
+      [colspan]="2"
+      [rowspan]="20">
+      <app-difference-counter>{{username}}</app-difference-counter>
+    </mat-grid-tile>
+    <mat-grid-tile
+      *ngIf="mode === 1" [ngClass]="isGameEnded ? 'blur' : 'normal'"
+      [colspan]="1"
+      [rowspan]="20">
+      <app-difference-counter>{{username}}</app-difference-counter>
+    </mat-grid-tile>
+    <mat-grid-tile
+      *ngIf="mode === 1" [ngClass]="isGameEnded ? 'blur' : 'normal'"
+      [colspan]="1"
+      [rowspan]="20">
+      <app-difference-counter>{{OPPONENT}}</app-difference-counter>
+    </mat-grid-tile>
   </mat-grid-list>
 </span>
 <audio #failSound>

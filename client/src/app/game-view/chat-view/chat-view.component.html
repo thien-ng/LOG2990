@@ -4,7 +4,7 @@
     <mat-card-subtitle>{{CHAT_DESCRIPTION}}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <mat-list #chatBox>
+    <mat-list class="chat" #chatBox>
       <div class="list" *ngFor="let message of conversations">
         <mat-list-item>
             <app-message-view [chatMessage]="message"></app-message-view>

@@ -1,7 +1,7 @@
 import * as Axios from "axios";
 import { inject, injectable } from "inversify";
 import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/communication/iCard";
-import { ICardLists } from "../../../common/communication/iCardLists";
+import { ICardsIds, ICardDescription, ICardLists } from "../../../common/communication/iCardLists";
 import { ISceneMessage } from "../../../common/communication/iSceneMessage";
 import { IMesh, ISceneObject } from "../../../common/communication/iSceneObject";
 import { ISceneData } from "../../../common/communication/iSceneVariables";
@@ -15,26 +15,21 @@ import { ImageRequirements } from "./difference-checker/utilities/imageRequireme
 
 const axios: Axios.AxiosInstance = require("axios");
 
+const INITIAL_2D_ID: number = 1000;
+const INITIAL_3D_ID: number = 2000;
+
 @injectable()
 export class CardManagerService {
-    private cards:                  ICardLists;
 
     private originalImageRequest:   Buffer;
     private modifiedImageRequest:   Buffer;
     private imageManagerService:    AssetManagerService;
 
-    private uniqueId:               number;
-    private uniqueIdScene:          number;
-
-    public constructor( @inject(Types.CardOperations) private cardOperations: CardOperations) {
-
-        this.uniqueId               = CServer.START_ID_2D;
-        this.uniqueIdScene          = CServer.START_ID_3D;
-        this.cards                  = cardOperations.getCardList();
+    public constructor(@inject(Types.CardOperations) private cardOperations: CardOperations) {
         this.imageManagerService    = new AssetManagerService();
 
-        this.cardOperations.addCard2D(DefaultCard2D);
-        this.cardOperations.addCard3D(DefaultCard3D);
+        this.cardOperations.addCard(DefaultCard2D);
+        this.cardOperations.addCard(DefaultCard3D);
     }
 
     public async simpleCardCreationRoutine(requirements: ImageRequirements, cardTitle: string): Promise<Message> {
@@ -56,14 +51,15 @@ export class CardManagerService {
                 returnValue = this.handlePostResponse(response, cardTitle);
             });
         } catch (error) {
-            this.generateErrorMessage(error);
+
+            return this.generateErrorMessage(error);
         }
 
         return returnValue;
     }
 
     public freeCardCreationRoutine(body: ISceneMessage): Message {
-        const gameID:       number = this.generateSceneId();
+        const gameID:       number = this.generateId(INITIAL_3D_ID);
         const sceneImage:   string = "/" + gameID + CServer.SCENE_SNAPSHOT;
         const scenesPath:   string = CServer.SCENE_PATH + "/" + gameID + CCommon.SCENE_FILE;
 
@@ -88,7 +84,7 @@ export class CardManagerService {
     }
 
     private generateMessage(cardReceived: ICard): Message {
-        if (this.cardOperations.addCard3D(cardReceived)) {
+        if (this.cardOperations.addCard(cardReceived)) {
             return {
                 title:  CCommon.ON_SUCCESS,
                 body:   CServer.CARD_ADDED,
@@ -106,7 +102,7 @@ export class CardManagerService {
         if (this.isMessage(result)) {
             return result;
         } else {
-            const gameID:               number = this.generateId();
+            const gameID:               number = this.generateId(INITIAL_2D_ID);
             const originalImagePath:    string = "/" + gameID + CCommon.ORIGINAL_FILE;
             const modifiedImagePath:    string = "/" + gameID + CCommon.MODIFIED_FILE;
             this.imageManagerService.stockImage(CServer.IMAGES_PATH + originalImagePath, this.originalImageRequest);
@@ -127,7 +123,7 @@ export class CardManagerService {
     }
 
     private verifyCard(card: ICard): Message {
-        if (this.cardOperations.addCard2D(card)) {
+        if (this.cardOperations.addCard(card)) {
             return {
                 title:  CCommon.ON_SUCCESS,
                 body:   "Card " + card.gameID + " created",
@@ -145,25 +141,59 @@ export class CardManagerService {
                 (result as Message).title   !== undefined;
     }
 
-    private generateId(): number {
-        return this.uniqueId++;
-    }
+    private generateId(initialId: number): number {
+        let chosenId:       number      = initialId;
+        let defaultId:      number      = DefaultCard2D.gameID;
+        let chosenGameMode: GameMode    = GameMode.simple;
 
-    private generateSceneId(): number {
-        return this.uniqueIdScene++;
+        if (chosenId !== INITIAL_2D_ID) {
+            defaultId = DefaultCard3D.gameID;
+            chosenGameMode = GameMode.free;
+        }
+
+        const list: ICardsIds = this.imageManagerService.getCardsIds();
+
+        list.descriptions.forEach((description: ICardDescription) => {
+            const currentId: number = chosenId;
+            if (description.gamemode === chosenGameMode &&
+                description.id      !== defaultId &&
+                description.id      > currentId) {
+
+                chosenId = description.id;
+            }
+
+        });
+
+        return ++chosenId;
     }
 
     public isSceneNameNew(title: string): boolean {
-        return !this.cards.list3D.some((card: ICard): boolean => {
+        const cards:    ICardLists = this.getCards();
+
+        return !cards.list3D.some((card: ICard): boolean => {
             return card.title === title;
         });
     }
 
     public getCards(): ICardLists {
-        return this.cards;
+        const cardsIds: ICardsIds = this.imageManagerService.getCardsIds();
+        const list2D: ICard[] = [];
+        const list3D: ICard[] = [];
+
+        cardsIds.descriptions.forEach((description: ICardDescription) => {
+            if (description.gamemode === GameMode.simple) {
+                const foundCard: ICard = this.imageManagerService.getCardById(description.id.toString(), description.gamemode);
+                list2D.push(foundCard);
+            } else if (description.gamemode === GameMode.free) {
+                const foundCard: ICard = this.imageManagerService.getCardById(description.id.toString(), description.gamemode);
+                list3D.push(foundCard);
+            }
+        });
+
+        return {list2D, list3D};
     }
 
-    public generateErrorMessage(error: Error): Message {
+    private generateErrorMessage(error: Error): Message {
         const isTypeError:  boolean = error instanceof TypeError;
         const errorMessage: string  = isTypeError ? error.message : CServer.UNKNOWN_ERROR;
 
