@@ -265,7 +265,7 @@ describe("Referee tests for 2D", () => {
     it("should validate a good hit when onPlayerClick (2D arena multi)", async () => {
         const playerList:   Player[] = [new Player(activeUser1), new Player(activeUser2)];
         const referee:      Referee<IPosition2D, IOriginalPixelCluster> = new Referee<IPosition2D, IOriginalPixelCluster>(arena2D, playerList, originalElements2D, timer, "url");
-        
+
         referee["differencesFound"] = [];
 
         mockAxios.onPost(url2D, postData2D).reply(200, hitConfirmation2D);
