@@ -1,9 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 @import './app/spinner/spinner.component.scss';
-html, body { 
+html, body {
     margin: 0; height: 100%;
     background-image: url("background.jpg");
     background-repeat: no-repeat;
     background-size: cover;
 }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.full-blend-dalog .mat-dialog-container {
+  padding: 0;
+  overflow: visible;
+}
+

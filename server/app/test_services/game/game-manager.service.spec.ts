@@ -225,28 +225,7 @@ describe("GameManagerService tests", () => {
 
         gameManagerService.analyseRequest(request2DSimple).then((message: any) => {
             chai.expect(message.title).to.equal("onSuccess");
-        });
-        chai.spy.restore();
-    });
-
-    it("should return a success message when creating a 2D arena", async () => {
-        userManagerService.validateName(request2DSimple.username);
-        chai.spy.on(gameManagerService["assetManager"], ["tempRoutine2d"], () => {return; });
-
-        mockAxios.onGet(iArenaInfos.dataUrl.original, {
-            responseType: "arraybuffer",
-        }).reply(200, original);
-
-        mockAxios.onGet(iArenaInfos.dataUrl.difference, {
-            responseType: "arraybuffer",
-        }).reply(200, modified);
-
-        chai.spy.on(gameManagerService, "buildArenaInfos", (returns: any) => iArenaInfos);
-        chai.spy.on(gameManagerService, "init2DArena", () => {});
-
-        gameManagerService.analyseRequest(request2DSimple).then((message: any) => {
-            chai.expect(message.title).to.equal("onSuccess");
-        }).catch();
+        }).catch((error: Error) => {});
 
     });
 

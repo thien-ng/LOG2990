@@ -1,16 +1,23 @@
+import { AxiosInstance } from "axios";
 import { injectable } from "inversify";
 import { IUser } from "../../../common/communication/iUser";
 import { Message } from "../../../common/communication/message";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { CServer } from "../CServer";
+import { AssetManagerService } from "./asset-manager.service";
+
+const axios:                AxiosInstance = require("axios");
+const IMAGE_EXTENSION:      string        = ".bmp";
 
 @injectable()
 export class UserManagerService {
 
-    private nameList: IUser[];
+    private nameList:       IUser[];
+    private assetManager:   AssetManagerService;
 
     public constructor() {
-        this.nameList = [];
+        this.nameList       = [];
+        this.assetManager   = new AssetManagerService();
     }
 
     public get users(): IUser[] {
@@ -35,7 +42,7 @@ export class UserManagerService {
         });
     }
 
-    public validateName(username: string): Message {
+    public async validateName(username: string): Promise<Message> {
 
         const validationResult: Message = this.isUsernameFormatCorrect(username);
         if (validationResult.title !== CCommon.ON_SUCCESS) {
@@ -49,10 +56,22 @@ export class UserManagerService {
             };
             this.nameList.push(user);
 
+            try {
+                await this.createUserPic(username);
+            } catch (error) {
+                return this.generateMessage(CCommon.ON_ERROR, error.message);
+            }
+
             return this.generateMessage(CCommon.ON_SUCCESS, CCommon.IS_UNIQUE);
         }
 
         return this.generateMessage(CCommon.ON_SUCCESS, CServer.NOT_UNIQUE_NAME);
+    }
+
+    private async createUserPic(username: string): Promise<void> {
+        const picBuffer: Buffer = (await axios.get(CServer.PROFILE_PIC_GEN_PATH)).data;
+        const path: string = CServer.PROFILE_IMAGE_PATH + username + IMAGE_EXTENSION;
+        this.assetManager.stockImage(path, picBuffer);
     }
 
     public getUserByUsername(username: string): IUser | string {
@@ -65,6 +84,12 @@ export class UserManagerService {
 
     public leaveBrowser(user: IUser): void {
         this.nameList = this.nameList.filter( (element: IUser) => element.username !== user.username);
+        const path: string = CServer.PROFILE_IMAGE_PATH + user.username + IMAGE_EXTENSION;
+        try {
+            this.assetManager.deleteStoredImages([path]);
+        } catch (error) {
+            // _TODO faire quelque chose de cette erreur (throw fait crash le server)
+        }
     }
 
     public isUnique(nameRequest: String): Boolean {

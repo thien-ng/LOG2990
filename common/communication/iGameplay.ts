@@ -1,4 +1,5 @@
 import { GameMode } from "./iCard";
+import { Mode } from "./highscore";
 
 export interface IPosition2D {
     x:  number;
@@ -42,6 +43,12 @@ export interface IPenalty {
     isOnPenalty:    boolean;
     arenaType:      GameMode;
 }
+
+export interface INewGameInfo {
+    path: string;
+    gameID: number;
+    type: Mode;
+  };
 
 export enum ActionType {
     ADD,

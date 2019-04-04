@@ -50,11 +50,22 @@ export class Referee<EVT_T, DIFF_T> {
     }
 
     public onPlayersReady(): void {
+        this.sendMessageToAllPlayers(CCommon.ON_COUNTDOWN_START, this.getAllPlayerUsername());
         this.startCountDown();
+    }
+
+    private getAllPlayerUsername(): string[] {
+        const playerNameList: string[] = [];
+        this.players.forEach((player: Player) => {
+            playerNameList.push(player.getUsername());
+        });
+
+        return playerNameList;
     }
 
     private startCountDown(): void {
         let count: number = COUNT_START;
+        clearInterval(this.countdownInterval);
         this.countdownInterval = setInterval(
             () => {
                 if (count > COUNTDOWN_DONE) {
@@ -73,7 +84,7 @@ export class Referee<EVT_T, DIFF_T> {
         clearInterval(this.countdownInterval);
     }
 
-    private sendMessageToAllPlayers(messageType: string, message?: number): void {
+    private sendMessageToAllPlayers(messageType: string, message?: number | string[]): void {
         this.players.forEach((player: Player) => {
             this.arena.sendMessage(player.getUserSocketId(), messageType, message);
         });
@@ -200,6 +211,10 @@ export class Referee<EVT_T, DIFF_T> {
     private endOfGameRoutine(winner: Player): void {
         const secondsSinceStart: number = this.timer.stopTimer();
         this.arena.endOfGameRoutine(secondsSinceStart, winner);
+        this.players.forEach((player: Player) => {
+            const message: string = (player.getUsername() === winner.getUsername()) ? CCommon.ON_GAME_WON : CCommon.ON_GAME_LOST;
+            this.arena.sendMessage(player.getUserSocketId(), CCommon.ON_GAME_ENDED, message);
+        });
     }
 
     private buildArenaResponse(status: string, response?: DIFF_T): IArenaResponse<DIFF_T> {
