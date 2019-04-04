@@ -6,13 +6,10 @@ import { NavigationEnd, Router } from "@angular/router";
 
 import { Observable, Subscription } from "rxjs";
 import { map } from "rxjs/operators";
-import { IUser } from "../../../../common/communication/iUser";
-import { CCommon } from "../../../../common/constantes/cCommon";
 import { CClient } from "../CClient";
 import { CreateFreeGameComponent } from "../create-free-game/create-free-game.component";
 import { CreateSimpleGameComponent } from "../create-simple-game/create-simple-game.component";
 import { PictureChangerDialogComponent } from "../picture-changer-dialog/picture-changer-dialog.component";
-import { SocketService } from "../websocket/socket.service";
 import { AdminToggleService } from "./admin-toggle.service";
 
 @Component({
@@ -59,7 +56,6 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
     private snackBar:           MatSnackBar,
     public  adminService:       AdminToggleService,
     public  router:             Router,
-    private socketService:      SocketService,
     private changeDetector:     ChangeDetectorRef,
   ) {
     this.compteurInit = 0;
@@ -93,10 +89,8 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.isAdminMode = activeState;
     });
 
-    this.socketService.onMessage(CCommon.USER_EVENT).subscribe((answer: IUser) => {
-      this.assignUser(answer);
-    });
-  }
+    this.assignUser();
+}
 
   public ngAfterViewChecked(): void {
     this.neededRedirection();
@@ -111,9 +105,8 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
-  private assignUser(user: IUser): void {
-    sessionStorage.setItem(CClient.USERNAME_KEY, user.username);
-    this.client       = user.username;
+  private assignUser(): void {
+    this.client       = sessionStorage.getItem(CClient.USERNAME_KEY);
     this.profileIcon  = CClient.PATH_TO_PROFILE_IMAGES + this.client + ".bmp";
   }
 
