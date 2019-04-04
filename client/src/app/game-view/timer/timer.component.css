@@ -8,5 +8,24 @@
        -moz-user-select: none; /* Firefox */
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none;
+    background: blue;
+    -webkit-animation: color-change-2x 2s linear infinite alternate both;
+          animation: color-change-2x 2s linear infinite alternate both;
+    border: 1px solid black;
+    /* border-radius: 10%; */
+}
+
+.results {
+  vertical-align: middle;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+mat-card {
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
 }
 
