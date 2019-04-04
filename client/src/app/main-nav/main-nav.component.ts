@@ -50,6 +50,7 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
   public  isAdminMode:              boolean;
   public  isValidUrl:               boolean;
   public  client:                   string | null;
+  public  profileIcon:              string;
 
   public constructor(
     private breakpointObserver: BreakpointObserver,
@@ -63,6 +64,7 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.compteurInit = 0;
     this.client       = null;
     this.isValidUrl   = true;
+    this.profileIcon  = "";
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -110,7 +112,8 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   private assignUser(user: IUser): void {
     sessionStorage.setItem(CClient.USERNAME_KEY, user.username);
-    this.client = user.username;
+    this.client       = user.username;
+    this.profileIcon  = CClient.PATH_TO_PROFILE_IMAGES + this.client + ".bmp";
   }
 
   public openSimpleDialog(): void {

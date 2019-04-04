@@ -50,7 +50,17 @@ export class Referee<EVT_T, DIFF_T> {
     }
 
     public onPlayersReady(): void {
+        this.sendMessageToAllPlayers(CCommon.ON_COUNTDOWN_START, this.getAllPlayerUsername());
         this.startCountDown();
+    }
+
+    private getAllPlayerUsername(): string[] {
+        const playerNameList: string[] = [];
+        this.players.forEach((player: Player) => {
+            playerNameList.push(player.getUsername());
+        });
+
+        return playerNameList;
     }
 
     private startCountDown(): void {
@@ -74,7 +84,7 @@ export class Referee<EVT_T, DIFF_T> {
         clearInterval(this.countdownInterval);
     }
 
-    private sendMessageToAllPlayers(messageType: string, message?: number): void {
+    private sendMessageToAllPlayers(messageType: string, message?: number | string[]): void {
         this.players.forEach((player: Player) => {
             this.arena.sendMessage(player.getUserSocketId(), messageType, message);
         });

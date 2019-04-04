@@ -129,12 +129,16 @@ export class CreateFreeGameComponent {
 
   private createFormMessage(formData: NgForm): FormMessage {
     return {
-      gameName:         formData.value.nameControl,
+      gameName:         this.capitalizeFirstLetter(formData.value.nameControl),
       checkedTypes:     formData.value.modifTypes,
       theme:            formData.value.selectControl,
       quantityChange:   this.sliderValue,
     } as FormMessage;
   }
+
+  private capitalizeFirstLetter(word: string): string {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+}
 
   public submit(formData: NgForm): void {
     this.isLoading = false;

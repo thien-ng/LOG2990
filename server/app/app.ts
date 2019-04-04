@@ -12,6 +12,7 @@ import { UserController } from "./controllers/user.controller";
 import { DifferenceCheckerController } from "./services/difference-checker/difference-checker.controller";
 import { HighscoreApiController } from "./services/highscore/highscore-api.controller";
 import { HitValidatorController } from "./services/hitValidator/hitValidator.controller";
+import { ProfilePicGeneratorController } from "./services/profile-pic-generator/profile-pic-generator.controller";
 import Types from "./types";
 
 @injectable()
@@ -21,15 +22,15 @@ export class Application {
     public app: express.Application;
 
     public constructor(
-        @inject(Types.CardManagerController)        private cardManagerController:          CardManagerController,
-        @inject(Types.HighscoreController)          private highscoreController:            HighscoreController,
-        @inject(Types.HighscoreApiController)       private highscoreApiController:         HighscoreApiController,
-        @inject(Types.UserController)               private userController:                 UserController,
-        @inject(Types.DifferenceCheckerController)  private differenceCheckerController:    DifferenceCheckerController,
-        @inject(Types.HitValidatorController)       private hitValidatorController:         HitValidatorController,
-        @inject(Types.SceneManagerController)       private sceneManagerController:         SceneManagerController,
-        @inject(Types.GameManagerController)        private gameManagerController:          GameManagerController,
-
+        @inject(Types.CardManagerController)            private cardManagerController:          CardManagerController,
+        @inject(Types.HighscoreController)              private highscoreController:            HighscoreController,
+        @inject(Types.HighscoreApiController)           private highscoreApiController:         HighscoreApiController,
+        @inject(Types.UserController)                   private userController:                 UserController,
+        @inject(Types.DifferenceCheckerController)      private differenceCheckerController:    DifferenceCheckerController,
+        @inject(Types.HitValidatorController)           private hitValidatorController:         HitValidatorController,
+        @inject(Types.SceneManagerController)           private sceneManagerController:         SceneManagerController,
+        @inject(Types.GameManagerController)            private gameManagerController:          GameManagerController,
+        @inject(Types.ProfilePicGeneratorController)    private profilePictureController:       ProfilePicGeneratorController,
         ) {
         this.app = express();
 
@@ -57,6 +58,7 @@ export class Application {
         this.app.use("/api/hitValidator",       this.hitValidatorController.router);
         this.app.use("/api/scene",              this.sceneManagerController.router);
         this.app.use("/api/game",               this.gameManagerController.router);
+        this.app.use("/api/profile-picture",     this.profilePictureController.router);
 
         this.app.use(express.static("./app/asset"));
         this.errorHandeling();

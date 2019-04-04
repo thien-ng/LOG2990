@@ -31,21 +31,22 @@ export class CreateSimpleGameComponent {
   public readonly ERROR_SIZE:     string    = "Taille: " + CCommon.MIN_GAME_LENGTH + "-" + CCommon.MAX_GAME_LENGTH + " caractères";
   public readonly ERROR_REQUIRED: string    = "Nom de jeu requis";
   public readonly CHECK_CIRCLE:   string    = "cancel";
-  public          nameOrigPlaceHolder: string;
-  public nameModifPlaceHolder: string;
 
-  @ViewChild("checkOrigImage",    {read: ElementRef})   public checkOrigImage:     ElementRef;
-  @ViewChild("checkModifImage",    {read: ElementRef})  public checkModifImage:    ElementRef;
-  @ViewChild("buttonOriginal",    {read: ElementRef})   public buttonOriginal:     ElementRef<HTMLButtonElement>;
-  @ViewChild("buttonModified",    {read: ElementRef})   public buttonModified:     ElementRef<HTMLButtonElement>;
-  @ViewChild("originalInput",    {read: ElementRef})    public originalInput:      ElementRef<HTMLInputElement>;
-  @ViewChild("modifiedInput",    {read: ElementRef})    public modifiedInput:      ElementRef<HTMLInputElement>;
+  private selectedFiles:          [Blob, Blob];
+
+  @ViewChild("checkOrigImage",   {read: ElementRef})  public checkOrigImage:     ElementRef;
+  @ViewChild("checkModifImage",  {read: ElementRef})  public checkModifImage:    ElementRef;
+  @ViewChild("buttonOriginal",   {read: ElementRef})  public buttonOriginal:     ElementRef<HTMLButtonElement>;
+  @ViewChild("buttonModified",   {read: ElementRef})  public buttonModified:     ElementRef<HTMLButtonElement>;
+  @ViewChild("originalInput",    {read: ElementRef})  public originalInput:      ElementRef<HTMLInputElement>;
+  @ViewChild("modifiedInput",    {read: ElementRef})  public modifiedInput:      ElementRef<HTMLInputElement>;
 
   public formControl:             FormGroup;
-  private selectedFiles:          [Blob, Blob];
   public isButtonEnabled:         boolean;
   public isOriginalVisible:       Boolean;
   public isModifiedVisible:       Boolean;
+  public  nameOrigPlaceHolder:    string;
+  public nameModifPlaceHolder:    string;
 
   public constructor(
     private dialogRef:            MatDialogRef<CreateSimpleGameComponent>,
@@ -93,30 +94,38 @@ export class CreateSimpleGameComponent {
     if (this.fileValidatorService.validateFile(file)) {
       this.selectedFiles[imageIndex]  = file;
       this.IS_IMAGE_BMP[imageIndex]   = true;
-      if (imageIndex === 0) {
-        this.checkOrigImage.nativeElement.textContent = this.CHECK_CIRCLE;
-        this.nameOrigPlaceHolder                      = name;
-        this.isOriginalVisible                        = false;
-      } else {
-        this.checkModifImage.nativeElement.textContent  = this.CHECK_CIRCLE;
-        this.nameModifPlaceHolder                       = name;
-        this.isModifiedVisible                          = false;
-      }
     } else {
       this.IS_IMAGE_BMP[imageIndex]   = false;
-      if (imageIndex === this.ORIGINAL_INDEX) {
-        this.originalInput.nativeElement.value = "";
-        this.checkOrigImage.nativeElement.textContent = null;
-        this.nameOrigPlaceHolder  = "";
-        this.isOriginalVisible    = true;
-      } else if (imageIndex === this.MODIFIED_INDEX) {
-        this.modifiedInput.nativeElement.value = "";
-        this.checkModifImage.nativeElement.textContent = null;
-        this.nameModifPlaceHolder = "";
-        this.isModifiedVisible    = true;
-      } else {
+      if (name !== "") {
         this.openSnackBar(CClient.SNACK_ERROR_MSG, CClient.SNACK_ACTION);
       }
+    }
+    imageIndex === this.ORIGINAL_INDEX ? this.changeOriginalInput(name) : this.changeModifiedInput(name);
+  }
+
+  private changeModifiedInput(name: string): void {
+    if (!this.IS_IMAGE_BMP[this.MODIFIED_INDEX]) {
+      this.modifiedInput.nativeElement.value          = "";
+      this.checkModifImage.nativeElement.textContent  = null;
+      this.nameModifPlaceHolder                       = "";
+      this.isModifiedVisible                          = true;
+    } else {
+      this.checkModifImage.nativeElement.textContent  = this.CHECK_CIRCLE;
+      this.nameModifPlaceHolder                       = name;
+      this.isModifiedVisible                          = false;
+    }
+  }
+
+  private changeOriginalInput( name: string): void {
+    if (!this.IS_IMAGE_BMP[this.ORIGINAL_INDEX]) {
+      this.originalInput.nativeElement.value        = "";
+      this.checkOrigImage.nativeElement.textContent = null;
+      this.nameOrigPlaceHolder                      = "";
+      this.isOriginalVisible                        = true;
+    } else {
+      this.checkOrigImage.nativeElement.textContent = this.CHECK_CIRCLE;
+      this.nameOrigPlaceHolder                      = name;
+      this.isOriginalVisible                        = false;
     }
   }
 
