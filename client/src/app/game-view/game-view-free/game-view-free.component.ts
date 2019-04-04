@@ -34,9 +34,9 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
   public readonly NEEDED_SNAPSHOT:  boolean = false;
   public readonly SUCCESS_SOUND:    string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/fail.wav";
   public readonly FAIL_SOUND:       string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/success.wav";
-  public readonly OPPONENT_SOUND:   string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/opponent_point.mp3";
-  public readonly GAME_WON:         string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-won.wav";
-  public readonly GAME_LOST:        string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-lost.wav";
+  public readonly OPPONENT_SOUND:   string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/opponent_point.mp3";
+  public readonly GAME_WON:         string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-won.wav";
+  public readonly GAME_LOST:        string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-lost.wav";
 
   @ViewChild("original")      private original:    TheejsViewComponent;
   @ViewChild("modified")      private modified:    TheejsViewComponent;
@@ -126,7 +126,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.gameID = Number(this.route.snapshot.paramMap.get("id"));
     const username: string | null = sessionStorage.getItem(CClient.USERNAME_KEY);
-    if (this.gameID !== null && username !== null) {
+    if (this.gameID && username) {
       this.createGameRequest(this.gameID, username);
     }
     this.initEventSubscription();
@@ -138,11 +138,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
       this.isLoading = false;
     }));
     this.subscription.push(this.socketService.onMessage(CCommon.ON_PENALTY).subscribe((arenaResponse: IPenalty) => {
-      if (arenaResponse.isOnPenalty) {
-        this.wrongClickRoutine();
-      } else {
-        this.enableClickRoutine();
-      }
+      (arenaResponse.isOnPenalty) ? this.wrongClickRoutine() : this.enableClickRoutine();
     }));
     this.subscription.push(this.socketService.onMessage(CCommon.ON_GAME_ENDED).subscribe((message: string) => {
       this.isGameEnded = true;
