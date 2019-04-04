@@ -37,7 +37,7 @@ export interface IArenaResponse<RES_T> {
     status:         string;
     response?:      RES_T;
     arenaType?:     GameMode;
-    username?:       string;
+    username?:      string;
 }
 
 export interface IPenalty {
@@ -46,9 +46,9 @@ export interface IPenalty {
 }
 
 export interface INewGameInfo {
-    path: string;
+    path:   string;
     gameID: number;
-    type: Mode;
+    type:   Mode;
 };
 
 export interface INewScore {
