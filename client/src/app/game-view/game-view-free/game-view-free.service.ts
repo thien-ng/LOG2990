@@ -98,8 +98,8 @@ export class GameViewFreeService {
   }
 
   public setSounds(success: ElementRef, fail: ElementRef, opponentSound: ElementRef, gameWon: ElementRef, gameLost: ElementRef): void {
-    this.successSound = success;
-    this.failSound    = fail;
+    this.successSound   = success;
+    this.failSound      = fail;
     this.opponentSound  = opponentSound;
     this.gameWon        = gameWon;
     this.gameLost       = gameLost;
