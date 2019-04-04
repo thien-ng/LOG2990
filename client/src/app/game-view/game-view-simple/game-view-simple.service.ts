@@ -23,16 +23,14 @@ export class GameViewSimpleService {
   private lossSound:             ElementRef;
 
   public onArenaResponse(data: IArenaResponse<IOriginalPixelCluster>): void {
-    const isSuccess: boolean      = data.status === CCommon.ON_SUCCESS;
+    const isSuccess:     boolean  = data.status === CCommon.ON_SUCCESS;
     const isRightPlayer: boolean  = data.username === sessionStorage.getItem(CClient.USERNAME_KEY);
-    if (isSuccess) {
-      if (data.response) {
-        (isRightPlayer) ? this.playSuccessSound() : this.playOpponentSound();
-        data.response.cluster.forEach((pixel: IReplacementPixel) => {
-          this.canvasModified.fillStyle = "rgb(" + pixel.color.R + ", " + pixel.color.G + ", " + pixel.color.B + ")";
-          this.canvasModified.fillRect(pixel.position.x, pixel.position.y, 1, 1);
-        });
-      }
+    if (isSuccess && data.response) {
+      (isRightPlayer) ? this.playSuccessSound() : this.playOpponentSound();
+      data.response.cluster.forEach((pixel: IReplacementPixel) => {
+        this.canvasModified.fillStyle = "rgb(" + pixel.color.R + ", " + pixel.color.G + ", " + pixel.color.B + ")";
+        this.canvasModified.fillRect(pixel.position.x, pixel.position.y, 1, 1);
+      });
     }
   }
 
@@ -69,8 +67,8 @@ export class GameViewSimpleService {
     this.successSound   = success;
     this.failSound      = fail;
     this.opponentSound  = opponentSound;
-    this.winSound        = gameWon;
-    this.lossSound       = gameLost;
+    this.winSound       = gameWon;
+    this.lossSound      = gameLost;
   }
 
   public onCanvasClick(pos: IPosition2D, id: number, username: string): IClickMessage<IPosition2D> {
