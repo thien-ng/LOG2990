@@ -52,7 +52,7 @@ export class LoginValidatorComponent {
 
   public addUsername(): void {
     if (this.usernameFormControl.errors === null) {
-      this.loginValidatorService.addUsername(this.usernameFormControl.value).subscribe(async (response: Message) => {
+      this.loginValidatorService.addUsername(this.usernameFormControl.value).subscribe((response: Message) => {
 
         if (response.title === CCommon.ON_ERROR) {
           this.displaySnackBar(response.body, CClient.SNACK_ACTION);
@@ -61,8 +61,8 @@ export class LoginValidatorComponent {
         }
 
         if (response.body === CCommon.IS_UNIQUE) {
-          this.displayNameIsUnique();
           const nameCapitalized: string = this.loginValidatorService.capitalizeFirstLetter(this.usernameFormControl.value);
+          sessionStorage.setItem(CClient.USERNAME_KEY, nameCapitalized);
           this.socketService.sendMessage(CCommon.LOGIN_EVENT, nameCapitalized);
           this.generatePicture();
         } else {
@@ -82,6 +82,7 @@ export class LoginValidatorComponent {
     dialogConfig.disableClose = true;
     const dialogRef: MatDialogRef<PictureChangerDialogComponent> = this.dialog.open(PictureChangerDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe( async () => {
+      this.displayNameIsUnique();
       await this.router.navigate([CClient.ROUTER_LOGIN]);
     });
   }
