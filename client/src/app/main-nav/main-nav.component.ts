@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from "@angular/animations";
 import { Breakpoints, BreakpointObserver } from "@angular/cdk/layout";
 import { AfterViewChecked, ChangeDetectorRef , Component, OnDestroy, OnInit } from "@angular/core";
-import { MatDialog, MatDialogConfig, MatSnackBar, MatDialogRef } from "@angular/material";
+import { MatDialog, MatDialogConfig, MatDialogRef, MatSnackBar } from "@angular/material";
 import { NavigationEnd, Router } from "@angular/router";
 
 import { Observable, Subscription } from "rxjs";
@@ -11,9 +11,9 @@ import { CCommon } from "../../../../common/constantes/cCommon";
 import { CClient } from "../CClient";
 import { CreateFreeGameComponent } from "../create-free-game/create-free-game.component";
 import { CreateSimpleGameComponent } from "../create-simple-game/create-simple-game.component";
+import { PictureChangerDialogComponent } from "../picture-changer-dialog/picture-changer-dialog.component";
 import { SocketService } from "../websocket/socket.service";
 import { AdminToggleService } from "./admin-toggle.service";
-import { PictureChangerDialogComponent } from './picture-changer-dialog/picture-changer-dialog.component';
 
 @Component({
   selector:     "app-main-nav",
