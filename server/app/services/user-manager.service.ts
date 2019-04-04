@@ -13,12 +13,12 @@ const ERROR_GENERATION:     string        = "Erreur pendant la generation d'imag
 @injectable()
 export class UserManagerService {
 
-    private nameList: IUser[];
-    private assetManager: AssetManagerService;
+    private nameList:       IUser[];
+    private assetManager:   AssetManagerService;
 
     public constructor() {
-        this.nameList = [];
-        this.assetManager = new AssetManagerService();
+        this.nameList       = [];
+        this.assetManager   = new AssetManagerService();
     }
 
     public get users(): IUser[] {
@@ -43,7 +43,7 @@ export class UserManagerService {
         });
     }
 
-    public validateName(username: string): Message {
+    public async validateName(username: string): Promise<Message> {
 
         const validationResult: Message = this.isUsernameFormatCorrect(username);
         if (validationResult.title !== CCommon.ON_SUCCESS) {
@@ -56,7 +56,12 @@ export class UserManagerService {
                 socketID:   "undefined",
             };
             this.nameList.push(user);
-            this.createUserPic(username).then().catch(); // _TODO
+
+            try {
+                await this.createUserPic(username);
+            } catch (error) {
+                return this.generateMessage(CCommon.ON_ERROR, error.message);
+            }
 
             return this.generateMessage(CCommon.ON_SUCCESS, CCommon.IS_UNIQUE);
         }

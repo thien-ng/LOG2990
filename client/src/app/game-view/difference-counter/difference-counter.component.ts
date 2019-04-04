@@ -1,5 +1,7 @@
-import { AfterContentInit, Component, ElementRef, ViewChild } from "@angular/core";
+import { AfterContentInit, Component, ElementRef, Input, ViewChild } from "@angular/core";
+import { INewScore } from "../../../../../common/communication/iGameplay";
 import { DifferenceCounterService } from "./difference-counter.service";
+
 @Component({
   selector:     "app-difference-counter",
   templateUrl:  "./difference-counter.component.html",
@@ -14,12 +16,17 @@ export class DifferenceCounterComponent implements AfterContentInit {
   @ViewChild("progressBar", { read: ElementRef })
   public progressBar:     ElementRef;
 
+  @Input()
+  private username: string;
+
   public constructor(private differenceCounterService: DifferenceCounterService) {}
 
   public ngAfterContentInit(): void {
     this.differenceCounterService.setNbErrorMax(this.DEFAULT_NB_ERROR_MAX);
-    this.differenceCounterService.getCounter().subscribe((newCounterValue: number) => {
-      this.updateSpinner(newCounterValue);
+    this.differenceCounterService.getCounter().subscribe((newScore: INewScore) => {
+      if (newScore.player === this.username) {
+        this.updateSpinner(newScore.score);
+      }
     });
   }
 

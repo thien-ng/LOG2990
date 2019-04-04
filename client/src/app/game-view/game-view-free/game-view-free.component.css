@@ -61,3 +61,11 @@ app-difference-counter {
       -ms-user-select: none; /* Internet Explorer/Edge */
           user-select: none;
 }
+
+.blur {
+  filter: blur(10px);
+}
+
+.normal {
+  filter: blur(0px);
+}

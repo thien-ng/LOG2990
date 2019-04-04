@@ -5,7 +5,6 @@ import { CClient } from "src/app/CClient";
 import { DifferenceCounterComponent } from "./difference-counter.component";
 
 describe("DifferenceCounterComponent", () => {
-  let component:  DifferenceCounterComponent;
   let fixture:    ComponentFixture<DifferenceCounterComponent>;
 
   beforeEach(async(() => {
@@ -18,11 +17,6 @@ describe("DifferenceCounterComponent", () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DifferenceCounterComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  it("should create", () => {
-    expect(component).toBeTruthy();
   });
 });

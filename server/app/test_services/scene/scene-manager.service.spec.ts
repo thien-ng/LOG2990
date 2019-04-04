@@ -23,8 +23,8 @@ let assetManager:       AssetManagerService;
 
 beforeEach(() => {
     chai.use(spies);
-    highscoreService    = new HighscoreService();
     assetManager        = new AssetManagerService();
+    highscoreService    = new HighscoreService(assetManager);
     cardOperations      = new CardOperations(highscoreService);
     cardManagerService  = new CardManagerService(cardOperations);
     sceneManager        = new SceneManager(cardManagerService, assetManager);

@@ -15,8 +15,8 @@ export class UserController {
 
         const router: Router = Router();
 
-        router.post("/newUsername", (req: Request, res: Response, next: NextFunction) => {
-            const isValidated: Message = this.userManagerService.validateName(req.body.body);
+        router.post("/newUsername", async (req: Request, res: Response, next: NextFunction) => {
+            const isValidated: Message = await this.userManagerService.validateName(req.body.body);
             res.json(isValidated);
         });
 

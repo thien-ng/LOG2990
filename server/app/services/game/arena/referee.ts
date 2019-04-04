@@ -1,6 +1,7 @@
 import { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import {
     IArenaResponse,
+    INewScore,
     IOriginalPixelCluster,
     IPenalty,
     IPosition2D,
@@ -65,6 +66,7 @@ export class Referee<EVT_T, DIFF_T> {
 
     private startCountDown(): void {
         let count: number = COUNT_START;
+        clearInterval(this.countdownInterval);
         this.countdownInterval = setInterval(
             () => {
                 if (count > COUNTDOWN_DONE) {
@@ -118,8 +120,8 @@ export class Referee<EVT_T, DIFF_T> {
             this.onHitConfirmation(player, hitConfirmation.differenceIndex);
             const differenceToUpdate: DIFF_T | undefined = this.originalElements.get(hitConfirmation.differenceIndex);
 
-            if (differenceToUpdate !== undefined) {
-                arenaResponse = this.buildArenaResponse(CCommon.ON_SUCCESS, differenceToUpdate);
+            if (differenceToUpdate) {
+                arenaResponse = this.buildArenaResponse(CCommon.ON_SUCCESS, differenceToUpdate, player.getUsername());
             }
             if (this.gameIsFinished()) {
                 this.endOfGameRoutine(player);
@@ -181,9 +183,15 @@ export class Referee<EVT_T, DIFF_T> {
         this.differencesFound.push(differenceIndex);
     }
 
-    private attributePoints(player: Player): void {
-        player.addPoints(1);
-        this.arena.sendMessage(player.getUserSocketId(), CCommon.ON_POINT_ADDED, player.getPoints());
+    private attributePoints(playerWithPoint: Player): void {
+        playerWithPoint.addPoints(1);
+        const message: INewScore = {
+            player: playerWithPoint.getUsername(),
+            score:  playerWithPoint.getPoints(),
+        };
+        this.arena.getPlayers().forEach((player: Player) => {
+            this.arena.sendMessage(player.getUserSocketId(), CCommon.ON_POINT_ADDED, message);
+        });
     }
 
     private isAnUndiscoveredDifference(differenceIndex: number): boolean {
@@ -210,12 +218,17 @@ export class Referee<EVT_T, DIFF_T> {
     private endOfGameRoutine(winner: Player): void {
         const secondsSinceStart: number = this.timer.stopTimer();
         this.arena.endOfGameRoutine(secondsSinceStart, winner);
+        this.players.forEach((player: Player) => {
+            const message: string = (player.getUsername() === winner.getUsername()) ? CCommon.ON_GAME_WON : CCommon.ON_GAME_LOST;
+            this.arena.sendMessage(player.getUserSocketId(), CCommon.ON_GAME_ENDED, message);
+        });
     }
 
-    private buildArenaResponse(status: string, response?: DIFF_T): IArenaResponse<DIFF_T> {
+    private buildArenaResponse(status: string, response?: DIFF_T, username?: string): IArenaResponse<DIFF_T> {
         return {
             status:     status,
             response:   response,
+            username:   username,
         } as IArenaResponse<DIFF_T>;
     }
 

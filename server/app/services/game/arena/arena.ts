@@ -117,6 +117,7 @@ export abstract class Arena<IN_T, DIFF_T, EVT_T> {
 
     protected waitForReferee(): void {
         let nbOfTries: number = 0;
+        clearInterval(this.waitForRefereeInterval);
         this.waitForRefereeInterval = setInterval(
         () => {
             nbOfTries++;
