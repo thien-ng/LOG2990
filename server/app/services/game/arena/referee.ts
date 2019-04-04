@@ -120,7 +120,7 @@ export class Referee<EVT_T, DIFF_T> {
             this.onHitConfirmation(player, hitConfirmation.differenceIndex);
             const differenceToUpdate: DIFF_T | undefined = this.originalElements.get(hitConfirmation.differenceIndex);
 
-            if (differenceToUpdate !== undefined) {
+            if (differenceToUpdate) {
                 arenaResponse = this.buildArenaResponse(CCommon.ON_SUCCESS, differenceToUpdate, player.getUsername());
             }
             if (this.gameIsFinished()) {
