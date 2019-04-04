@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, Input } from "@angular/core";
+import { Component, ElementRef, Input, ViewChild } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
 import { CardDeleted } from "../../../../common/communication/iCard";
@@ -23,13 +23,16 @@ export class WaitingRoomComponent {
   public readonly CANCEL_BUTTON_TEXT: string = "Retourner à la liste de jeu";
   public readonly LOBBY_MESSAGE:      string = "En attente d'un autre joueur";
   public readonly VSIMAGE:            string = CClient.PATH_TO_IMAGES + "/versus.png";
+  public readonly COUNTDOWN_SOUND:    string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/countdown_01.mp3";
 
-  public counter:       string;
-  public username:      string | null;
-  public opponentName:  string;
-  public opponentImage: string;
-  public userImage:     string;
-  public isCounterStarted: boolean;
+  @ViewChild("countdownSound",  {read: ElementRef})  public countdownSound:    ElementRef;
+
+  public counter:           string;
+  public username:          string | null;
+  public opponentName:      string;
+  public opponentImage:     string;
+  public userImage:         string;
+  public isCounterStarted:  boolean;
 
   @Input()
   public isMultiplayer: boolean;
@@ -59,6 +62,7 @@ export class WaitingRoomComponent {
       this.counter = (message === 0) ? GO_MESSAGE : message.toString();
       if (message === COUNTDOWN_START ) {
         this.isCounterStarted = true;
+        this.countdownSound.nativeElement.play();
       }
     });
   }
