@@ -4,8 +4,6 @@ import { Router } from "@angular/router";
 import { CClient } from "./CClient";
 import { SocketService } from "./websocket/socket.service";
 
-const ROOT_PATH: string = "login";
-
 @Component({
   selector:     "app-root",
   templateUrl:  "./app.component.html",
@@ -21,7 +19,7 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.router.navigate([ROOT_PATH]).catch((error) => this.openSnackbar(error));
+    this.router.navigate([CClient.LOGIN_PATH]).catch((error) => this.openSnackbar(error));
   }
 
   private openSnackbar(response: string): void {
