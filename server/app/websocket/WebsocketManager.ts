@@ -52,6 +52,7 @@ export class WebsocketManager {
             this.chatSocketChecker(socket);
 
             socket.on(CCommon.ON_GET_MODIF_LIST, (arenaID: number) => {
+                const list: ICheat[] = this.gameManagerService.getDifferencesIndex(arenaID);
 
                 socket.emit(CCommon.ON_RECEIVE_MODIF_LIST, list);
             });
