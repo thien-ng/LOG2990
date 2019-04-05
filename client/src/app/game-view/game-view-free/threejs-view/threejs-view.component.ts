@@ -159,7 +159,6 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
       const idsToFlash: number[] = this.sortIdToFlash(modifications);
 
       if (this.isFirstGet) {
-        this.previousModifications = modifications;
         this.previousModifications = idsToFlash;
         this.isFirstGet            = false;
       }
