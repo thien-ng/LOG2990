@@ -62,6 +62,7 @@ export abstract class Arena<IN_T, DIFF_T, EVT_T> {
 
         const foundDifferences: number[] = this.referee.getFoundDifferences();
         const differencesIds:   number[] = [];
+        const differencesIds:   ICheat[] = [];
 
         this.originalElements.forEach((value: DIFF_T, key: number) => {
             if (foundDifferences.indexOf(key) < 0) {
