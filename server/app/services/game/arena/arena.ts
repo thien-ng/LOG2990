@@ -41,6 +41,7 @@ export abstract class Arena<IN_T, DIFF_T, EVT_T> {
             this.players = [];
             this.createPlayers();
             this.originalElements   = new Map<number, DIFF_T>();
+            this.originalElements   = new Map<number, ISceneObjectUpdate<ISceneObject | IMesh>>();
             this.timer              = new Timer();
         }
 
