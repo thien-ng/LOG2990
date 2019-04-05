@@ -54,7 +54,6 @@ export abstract class Arena<IN_T, DIFF_T, EVT_T> {
         return this.players;
     }
 
-    public getDifferencesIds(): number[] {
     public getDifferencesIds(): ICheat[] {
 
         const foundDifferences: number[] = this.referee.getFoundDifferences();
