@@ -33,6 +33,7 @@ export abstract class Arena<IN_T, DIFF_T, EVT_T> {
     protected players:                    Player[];
     protected referee:                    Referee<EVT_T, DIFF_T>;
     protected originalElements:           Map<number, DIFF_T>; // _TODO: A BOUGER DANS LES ARENA 2D et 3D
+    protected originalElements:           Map<number, IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>>; // _TODO: A BOUGER DANS LES ARENA 2D et 3D
 
     public constructor (
         protected arenaInfos: IArenaInfos<I2DInfos | I3DInfos>,
