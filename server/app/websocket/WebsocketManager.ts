@@ -4,6 +4,7 @@ import * as SocketIO from "socket.io";
 import { IChatSender } from "../../../common/communication/iChat";
 import {
     IArenaResponse,
+    ICheat,
     IClickMessage,
     IOriginalPixelCluster,
     IPosition2D, 
