@@ -13,7 +13,6 @@ import { I2DInfos, I3DInfos, IArenaInfos, IHitConfirmation } from "./interfaces"
 import { Player } from "./player";
 import { Referee } from "./referee";
 import { Timer } from "./timer";
-import { ISceneObject, IMesh } from "../../../../../common/communication/iSceneObject";
 
 const axios:          AxiosInstance = require("axios");
 const CHECK_INTERVAL: number        = 500;
