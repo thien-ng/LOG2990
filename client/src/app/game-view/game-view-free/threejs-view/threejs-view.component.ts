@@ -215,6 +215,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
         }
       }
     });
+
   private initSubscriptions(): void {
     this.gameViewFreeService.getRightClickListener().subscribe((newValue: boolean) => {
       this.rightClick = newValue;
