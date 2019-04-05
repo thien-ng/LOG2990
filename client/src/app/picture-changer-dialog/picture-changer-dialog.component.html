@@ -1,25 +1,72 @@
-<mat-grid-list id="dialogContainer" cols="3" rows="20" rowHeight="5%" >
-    <mat-grid-tile
-    [colspan]="3"
-    [rowspan]="2">
-    <div class="genTitle">Générateur d'avatar</div>
+<mat-grid-list id="dialogContainer" cols="4" rowHeight="1%" >
+  <mat-grid-tile
+  [colspan]="4"
+  [rowspan]="6">
+    <div class="genTitle">{{TITRE}}</div>
   </mat-grid-tile>
+  <mat-grid-tile
+    [colspan]="4"
+    [rowspan]="45"
+    class="picture">
+    <img class="profilePic" src="{{profilePic}}">
+  </mat-grid-tile>
+  <mat-grid-tile
+    [colspan]="4"
+    [rowspan]="7">
+    <mat-radio-group
+    value="0"
+    [(ngModel)]="generationType">
+      <mat-radio-button class="radioButton" value="0" checked>
+        {{OPTION1}}
+      </mat-radio-button>
+      <mat-radio-button class="radioButton" value="1">
+        {{OPTION2}}
+      </mat-radio-button>
+    </mat-radio-group>
+  </mat-grid-tile>
+  <span *ngIf="generationType == 1">
     <mat-grid-tile
-      [colspan]="2"
-      [rowspan]="15">
-      <img class="profilePic" src="{{profilePic}}">
+    [colspan]="4"
+    [rowspan]="10">
+      <button
+        class="colorPalette"
+        [style.background]="COLOR"
+        [(colorPicker)]="COLOR"
+        [cpOutputFormat]="'rgba'"
+        [cpAlphaChannel]="'disabled'"
+        (colorPickerClose)="setChosenColor($event)"
+        [cpOKButton]="true">
+      </button>
     </mat-grid-tile>
     <mat-grid-tile
-      [colspan]="1"
-      [rowspan]="15">
+    [colspan]="4"
+    [rowspan]="10">
       <button mat-raised-button [disabled]="isDisable" (click)="changeImage()"><mat-icon class="playIcon">autorenew</mat-icon></button>
     </mat-grid-tile>
     <mat-grid-tile
-      [colspan]="3"
-      [rowspan]="1"
-      class="buttonContainer">
-      <button mat-raised-button (click)="updateImage()">OK</button>
+    [colspan]="4"
+    [rowspan]="10">
+      <button class="okButton" mat-raised-button (click)="updateImage()">{{CHOOSE_TEXT}}</button>
     </mat-grid-tile>
+  </span>
+  <span *ngIf="generationType == 0">
+      <mat-grid-tile
+      [colspan]="4"
+      [rowspan]="5">
+      </mat-grid-tile>
+    <mat-grid-tile
+    [colspan]="4"
+    [rowspan]="10">
+      <button mat-raised-button [disabled]="isDisable" (click)="changeImage()"><mat-icon class="playIcon">autorenew</mat-icon></button>
+    </mat-grid-tile>
+    <mat-grid-tile
+    [colspan]="4"
+    [rowspan]="10">
+      <button class="okButton" mat-raised-button (click)="updateImage()">{{CHOOSE_TEXT}}</button>
+    </mat-grid-tile>
+    <mat-grid-tile
+      [colspan]="4"
+      [rowspan]="5">
+      </mat-grid-tile>
+  </span>
 </mat-grid-list>
-
-
