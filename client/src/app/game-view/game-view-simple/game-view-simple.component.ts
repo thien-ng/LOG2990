@@ -7,15 +7,15 @@ import { first } from "rxjs/operators";
 import { GameConnectionService } from "src/app/game-connection.service";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../../common/communication/iGameRequest";
-import { IClickMessage, INewGameInfo, IPenalty, IPosition2D, INewScore } from "../../../../../common/communication/iGameplay";
+import { IClickMessage, INewGameInfo, INewScore, IPenalty, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { Message } from "../../../../../common/communication/message";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { CClient } from "../../CClient";
 import { SocketService } from "../../websocket/socket.service";
 import { ChatViewComponent } from "../chat-view/chat-view.component";
+import { DifferenceCounterService } from "../difference-counter/difference-counter.service";
 import { EndGameDialogService } from "../endGameDialog/end-game-dialog.service";
 import { GameViewSimpleService } from "./game-view-simple.service";
-import { DifferenceCounterService } from "../difference-counter/difference-counter.service";
 
 @Component({
   selector:     "app-game-view-simple",
@@ -25,7 +25,6 @@ import { DifferenceCounterService } from "../difference-counter/difference-count
 })
 
 export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDestroy {
-  public readonly OPPONENT:               string = "Adversaire";
   public readonly DEFAULT_NB_ERROR_FOUND: number = 0;
   public readonly NB_ERROR_MAX_SINGLE:    number = 7;
   public readonly NB_ERROR_MAX_MULTI:     number = 4;
@@ -46,6 +45,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   @ViewChild("modifiedImage", {read: ElementRef})  public canvasModified:  ElementRef;
   @ViewChild("chat")                               private chat:           ChatViewComponent;
   @ViewChild("counter",       {read: ElementRef})  public counter:         ElementRef;
+  @ViewChild("counterVS",     {read: ElementRef})  public counterVS:       ElementRef;
 
   public activeCard:      ICard;
   public cardLoaded:      boolean;
@@ -56,6 +56,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   public mode:            number;
   public arenaID:         number;
   public gameID:          number;
+  public valueUser:       number;
   private originalPath:   string;
   private gameRequest:    IGameRequest;
   private modifiedPath:   string;
@@ -212,9 +213,14 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     });
   }
 
-  public updateCounter(errorFoundCounter: number): void {
-    const fillPercent: number = this.differenceCounterService.convertErrorToPercent(errorFoundCounter);
-    this.counter.nativeElement.style.width = fillPercent + "%";
+  public updateCounter(errorFoundCounter: INewScore): void {
+    const fillPercent: number = this.differenceCounterService.convertErrorToPercent(errorFoundCounter.score);
+    if (this.username === errorFoundCounter.player) {
+      this.counter.nativeElement.style.width = fillPercent + "%";
+      this.valueUser = errorFoundCounter.score;
+    } else {
+      this.counterVS.nativeElement.style.width = fillPercent + "%";
+    }
   }
 
   private sendClickEvent(mouseEvent: MouseEvent): void {
