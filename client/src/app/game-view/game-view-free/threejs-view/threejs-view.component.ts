@@ -162,6 +162,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
 
       if (this.isFirstGet) {
         this.previousModifications = modifications;
+        this.previousModifications = idsToFlash;
         this.isFirstGet            = false;
       }
 
