@@ -15,6 +15,7 @@ import { SocketService } from "../../websocket/socket.service";
 import { ChatViewComponent } from "../chat-view/chat-view.component";
 import { EndGameDialogService } from "../endGameDialog/end-game-dialog.service";
 import { GameViewSimpleService } from "./game-view-simple.service";
+import { DifferenceCounterService } from "../difference-counter/difference-counter.service";
 
 @Component({
   selector:     "app-game-view-simple",
@@ -24,9 +25,12 @@ import { GameViewSimpleService } from "./game-view-simple.service";
 })
 
 export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDestroy {
-  public readonly OPPONENT:       string = "Adversaire";
-  public readonly SUCCESS_SOUND:  string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/fail.wav";
-  public readonly FAIL_SOUND:     string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/success.wav";
+  public readonly OPPONENT:               string = "Adversaire";
+  public readonly SUCCESS_SOUND:          string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/fail.wav";
+  public readonly FAIL_SOUND:             string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/success.wav";
+  public readonly DEFAULT_NB_ERROR_FOUND: number = 0;
+  public readonly NB_ERROR_MAX_SINGLE:    number = 7;
+  public readonly NB_ERROR_MAX_MULTI:     number = 4;
 
   @ViewChild("successSound",  {read: ElementRef})  public successSound:    ElementRef;
   @ViewChild("failSound",     {read: ElementRef})  public failSound:       ElementRef;
@@ -35,6 +39,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   @ViewChild("originalImage", {read: ElementRef})  public canvasOriginal:  ElementRef;
   @ViewChild("modifiedImage", {read: ElementRef})  public canvasModified:  ElementRef;
   @ViewChild("chat")                               private chat:           ChatViewComponent;
+  @ViewChild("counter",       {read: ElementRef})  public counter:         ElementRef;
 
   public activeCard:      ICard;
   public cardLoaded:      boolean;
@@ -51,12 +56,13 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   private subscription:   Subscription[];
 
   public constructor(
-    @Inject(GameViewSimpleService)  public  gameViewService:      GameViewSimpleService,
-    @Inject(SocketService)          private socketService:        SocketService,
-    @Inject(EndGameDialogService)   private endGameDialogService: EndGameDialogService,
-    private gameConnectionService:  GameConnectionService,
-    private route:                  ActivatedRoute,
-    private httpClient:             HttpClient,
+    @Inject(GameViewSimpleService)    public  gameViewService:      GameViewSimpleService,
+    @Inject(SocketService)            private socketService:        SocketService,
+    @Inject(EndGameDialogService)     private endGameDialogService: EndGameDialogService,
+    private gameConnectionService:    GameConnectionService,
+    private route:                    ActivatedRoute,
+    private httpClient:               HttpClient,
+    private differenceCounterService: DifferenceCounterService,
     ) {
       this.mode           = Number(this.route.snapshot.paramMap.get("gamemode"));
       this.cardLoaded     = false;
@@ -94,6 +100,13 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       this.chat.chatViewService.clearConversations();
       this.gameIsStarted = true;
     }));
+
+    const maxError: number = this.mode === 1 ? this.NB_ERROR_MAX_MULTI : this.NB_ERROR_MAX_SINGLE;
+
+    this.differenceCounterService.setNbErrorMax(maxError);
+    this.differenceCounterService.getCounter().subscribe((newCounterValue: number) => {
+      this.updateCounter(newCounterValue);
+    });
 
     this.subscription.push(this.socketService.onMessage(CCommon.ON_GAME_ENDED).subscribe((message: string) => {
       const isWinner: boolean = message === CCommon.ON_GAME_WON;
@@ -180,6 +193,11 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     this.canvasModified.nativeElement.addEventListener("click", (mouseEvent: MouseEvent) => {
       this.sendClickEvent(mouseEvent);
     });
+  }
+
+  public updateCounter(errorFoundCounter: number): void {
+    const fillPercent: number = this.differenceCounterService.convertErrorToPercent(errorFoundCounter);
+    this.counter.nativeElement.style.width = fillPercent + "%";
   }
 
   private sendClickEvent(mouseEvent: MouseEvent): void {
