@@ -15,8 +15,8 @@ export class ProfilePicGeneratorController {
 
         const router: Router = Router();
 
-        router.get("/", (req: Request, res: Response, next: NextFunction) => {
-            res.json(this.profilePicGeneratorService.generateRandomImage());
+        router.post("/", (req: Request, res: Response, next: NextFunction) => {
+            res.json(this.profilePicGeneratorService.generateRandomImage(req.body));
         });
 
         return router;
