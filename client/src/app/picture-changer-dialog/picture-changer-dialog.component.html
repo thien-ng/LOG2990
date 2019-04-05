@@ -16,7 +16,7 @@
     <mat-radio-group
     value="0"
     [(ngModel)]="generationType">
-      <mat-radio-button class="radioButton" value="0" checked>
+      <mat-radio-button class="radioButton" value="0">
         {{OPTION1}}
       </mat-radio-button>
       <mat-radio-button class="radioButton" value="1">
@@ -46,7 +46,7 @@
     <mat-grid-tile
     [colspan]="4"
     [rowspan]="10">
-      <button class="okButton" mat-raised-button (click)="updateImage()">{{CHOOSE_TEXT}}</button>
+      <button class="okButton" cdkFocusInitial mat-raised-button (click)="updateImage()">{{CHOOSE_TEXT}}</button>
     </mat-grid-tile>
   </span>
   <span *ngIf="generationType == 0">
@@ -62,7 +62,7 @@
     <mat-grid-tile
     [colspan]="4"
     [rowspan]="10">
-      <button class="okButton" mat-raised-button (click)="updateImage()">{{CHOOSE_TEXT}}</button>
+      <button class="okButton" cdkFocusInitial mat-raised-button (click)="updateImage()">{{CHOOSE_TEXT}}</button>
     </mat-grid-tile>
     <mat-grid-tile
       [colspan]="4"
