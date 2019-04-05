@@ -60,6 +60,7 @@ export class Arena3D extends Arena<
     public async prepareArenaForGameplay(): Promise<void> {
         await this.extractModifiedSceneObjects();
         this.referee = new Referee<number, ISceneObjectUpdate<ISceneObject | IMesh>>(
+            this, this.players, this.originalElements as Map<number, ISceneObjectUpdate<ISceneObject | IMesh>>,
     }
 
     private async extractModifiedSceneObjects(): Promise<void> {
