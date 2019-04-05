@@ -28,12 +28,6 @@ export class ThreejsMovement {
         scene.add( this.objettttt );
     }
 
-    // public setupFront(orientation: number): void {
-    //     this.camera.getWorldDirection(this.front);
-    //     this.front.normalize();
-    //     this.multiplyVector(this.front, orientation);
-    // }
-
     public rotateCamera(position: IPosition2D): void {
         const yAxis: THREE.Vector3 = new THREE.Vector3(0, -1, 0);
         const xAxis: THREE.Vector3 = new THREE.Vector3(-1, 0, 0);
