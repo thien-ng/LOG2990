@@ -244,30 +244,19 @@ export class ThreejsThemeViewService {
 
   public onKeyMovement(keyboardEvent: KeyboardEvent, buttonStatus: boolean): void {
     const keyValue: string = keyboardEvent.key.toLowerCase();
-    this.threejsMovement.setMouseClickStatus(buttonStatus);
     switch ( keyValue ) {
       case KEYS.W:
-        if (buttonStatus) {
-          this.threejsMovement.setupFront(this.FOWARD_ORIENTATION);
-        }
         this.moveForward  = buttonStatus;
         break;
-
       case KEYS.A:
         this.moveLeft     = buttonStatus;
         break;
-
       case KEYS.S:
-        if (buttonStatus) {
-          this.threejsMovement.setupFront(this.BACKWARD_ORIENTATION);
-        }
         this.moveBackward = buttonStatus;
         break;
-
       case KEYS.D:
         this.moveRight    = buttonStatus;
         break;
-
       default:
         break;
     }
