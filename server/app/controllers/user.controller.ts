@@ -21,7 +21,7 @@ export class UserController {
         });
 
         router.post("/newProfilePic", async (req: Request, res: Response, next: NextFunction) => {
-            res.send(this.userManagerService.updateProfilePicture(req.body.body));
+            res.send(await this.userManagerService.updateProfilePicture(req.body));
         });
 
         return router;
