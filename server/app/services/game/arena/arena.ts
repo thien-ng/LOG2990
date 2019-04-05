@@ -2,6 +2,7 @@ import { AxiosInstance, AxiosResponse } from "axios";
 import { inject } from "inversify";
 import { Time } from "../../../../../common/communication/highscore";
 import { GameMode } from "../../../../../common/communication/iCard";
+import { IArenaResponse, ICheat, IOriginalPixelCluster, ISceneObjectUpdate } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import Types from "../../../types";
