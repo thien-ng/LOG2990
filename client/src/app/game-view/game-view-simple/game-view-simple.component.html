@@ -9,7 +9,7 @@
     </mat-grid-tile>
     <mat-grid-tile
       [colspan]="2"
-      [rowspan]="89">
+      [rowspan]="89" class="chatContainer">
       <app-chat-view #chat [arenaID]="arenaID" [username]="username" ></app-chat-view>
     </mat-grid-tile>
     <mat-grid-tile
@@ -32,7 +32,10 @@
               <mat-grid-list class="counter1" cols="1" rowHeight="1%">
                 <mat-grid-tile [colspan]="1" [rowspan]="16" class="names">{{username}}</mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="15" class="counterOut">
-                  <svg #counter height="100%" width="0%" class="loaderInLeft"></svg>
+                  <svg height="100%" width="100%" class="counterLeftMulti counter">
+                      <rect fill="rgb(235, 237, 251)" #counter height="100%" width="100%" class="counter"></rect>
+                      <text fill="#000000" class="value" x="47%" y="80%">{{valueUser}}/{{maxError}}</text>
+                  </svg>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="15"></mat-grid-tile>
               </mat-grid-list>
@@ -42,7 +45,10 @@
                 <mat-grid-list class="counter1 alignLeft" cols="1" rowHeight="1%">
                     <mat-grid-tile [colspan]="1" [rowspan]="16" class="names">{{opponentName}}</mat-grid-tile>
                     <mat-grid-tile [colspan]="1" [rowspan]="15" class="counterOut">
-                      <svg #counterVS height="100%" width="0%" class="loaderInRight"></svg>
+                      <svg height="100%" width="100%" class="loaderInRight counter">
+                          <rect fill="#27ABB5" #counterVS height="100%" width="0%" class="counter"></rect>
+                          <text fill="#000000" class="value" x="47%" y="80%">{{valueOpponent}}/{{maxError}}</text>
+                      </svg>
                     </mat-grid-tile>
                     <mat-grid-tile [colspan]="1" [rowspan]="15"></mat-grid-tile>
                   </mat-grid-list>
@@ -57,8 +63,9 @@
               <mat-grid-list class="counter1" cols="1" rowHeight="1%">
                 <mat-grid-tile [colspan]="1" [rowspan]="22" ><app-timer class="timer"></app-timer></mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="15" class="counterOut">
-                  <svg #counter height="100%" width="0%" class="loaderInRight">
-                    <text fill="#000000" class="value" x="49%" y="80%">{{valueUser}}</text>
+                  <svg  height="100%" width="100%" class="loaderInRight">
+                    <rect fill="#27ABB5" #counter height="100%" width="0%" class="counter"></rect>
+                    <text fill="#000000" class="value" x="47.5%" y="80%">{{valueUser}}/{{maxError}}</text>
                   </svg>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="22" class="names">{{username}}</mat-grid-tile>
@@ -69,31 +76,6 @@
         </mat-grid-tile>
       </mat-grid-list>
     </mat-grid-tile>
-    <!-- <mat-grid-tile
-      [ngClass]="isGameEnded ? 'blur' : 'normal'"
-      [colspan]="4"
-      [rowspan]="20">
-      <app-timer></app-timer>
-    </mat-grid-tile> -->
-    <!-- <mat-grid-tile
-      [ngClass]="isGameEnded ? 'blur' : 'normal'"
-        *ngIf="mode === 0"
-        [colspan]="2"
-        [rowspan]="20">
-        <app-difference-counter [username]="username">{{username}}</app-difference-counter>
-      </mat-grid-tile>
-    <mat-grid-tile
-      *ngIf="mode === 1" [ngClass]="isGameEnded ? 'blur' : 'normal'"
-      [colspan]="1"
-      [rowspan]="20">
-      <app-difference-counter [username]="username">{{username}}</app-difference-counter>
-    </mat-grid-tile>
-    <mat-grid-tile
-      *ngIf="mode === 1" [ngClass]="isGameEnded ? 'blur' : 'normal'"
-      [colspan]="1"
-      [rowspan]="20">
-      <app-difference-counter>{{OPPONENT}}</app-difference-counter>
-    </mat-grid-tile> -->
   </mat-grid-list>
 </span>
 <audio #failSound>
