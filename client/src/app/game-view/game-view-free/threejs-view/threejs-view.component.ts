@@ -197,6 +197,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
     this.socketService.sendMessage(CCommon.ON_GET_MODIF_LIST, this.arenaID);
     this.socketService.onMessage(CCommon.ON_RECEIVE_MODIF_LIST).subscribe((list: number[]) => {
       this.modifications = list;
+    this.socketService.onMessage(CCommon.ON_RECEIVE_MODIF_LIST).subscribe((modifications: ICheat[]) => {
     });
   }
 
