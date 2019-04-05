@@ -202,17 +202,6 @@ export class ThreejsMovement {
         this.camera.translateZ(this.velocity.z);
     }
 
-    // private translateCamera(direction: THREE.Vector3): void {
-    //     this.camera.translateX(direction.x);
-    //     this.camera.translateY(direction.y);
-    //     this.camera.translateZ(direction.z);
-    // }
-
-    // private moveCameraTowards(target: THREE.Vector3): void {
-    //     // console.log(target);
-    //     this.camera.translateOnAxis(target, this.CAMERA_MOVEMENT_SPEED);
-    // }
-
     private multiplyVector (vector: THREE.Vector3, multiplier: number): THREE.Vector3 {
         const toVector: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
         toVector.x = vector.x * multiplier;
