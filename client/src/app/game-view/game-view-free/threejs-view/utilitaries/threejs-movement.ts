@@ -7,7 +7,6 @@ export class ThreejsMovement {
     private readonly CAMERA_ROTATION_SPEED:   number = 0.01;
     private readonly CAMERA_COLLISION_RADIUS: number = 5;
 
-    private camera:     THREE.PerspectiveCamera;
     private velocity:   THREE.Vector3;
     private direction:  THREE.Vector3;
     private pointingAt: THREE.Vector3;
@@ -16,8 +15,6 @@ export class ThreejsMovement {
     // private orthogonal: THREE.Vector3;
     private objettttt:  THREE.Mesh;
 
-    public constructor(camera: THREE.PerspectiveCamera, scene: THREE.Scene) {
-        this.camera     = camera;
         this.velocity   = new THREE.Vector3(0, 0, 0);
         this.direction  = new THREE.Vector3(0, 0, 0);
         this.mouseIsClicked = false;
