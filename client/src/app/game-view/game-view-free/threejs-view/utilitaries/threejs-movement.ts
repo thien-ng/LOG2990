@@ -186,13 +186,6 @@ export class ThreejsMovement {
         );
     }
 
-    // private addVectors (vector1: THREE.Vector3, vector2: THREE.Vector3, toVector: THREE.Vector3): void {
-    //     toVector = new THREE.Vector3(0, 0, 0);
-    //     toVector.x = vector1.x + vector2.x;
-    //     toVector.y = vector1.y + vector2.y;
-    //     toVector.z = vector1.z + vector2.z;
-    // }
-
     private addVectors (vector1: THREE.Vector3, vector2: THREE.Vector3): THREE.Vector3 {
         const toVector: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
         toVector.x = vector1.x + vector2.x;
