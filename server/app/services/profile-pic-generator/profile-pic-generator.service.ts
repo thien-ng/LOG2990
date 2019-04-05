@@ -1,4 +1,5 @@
 import { injectable } from "inversify";
+import { IProfileRequest } from "../../../../common/communication/iUser";
 import { BMPBuilder } from "../difference-checker/utilities/bmpBuilder";
 
 interface IColor {
@@ -10,11 +11,11 @@ interface IColor {
 @injectable()
 export class ProfilePicGeneratorService {
 
-    public  readonly COLOR_WHITE:   IColor = { R: 245,  G: 245, B: 245 };
-    public  readonly COLOR_GREEN:   IColor = { R: 128,  G: 212, B: 59  };
-    public  readonly COLOR_BLUE:    IColor = { R: 83,   G: 179, B: 243 };
-    public  readonly COLOR_ORANGE:  IColor = { R: 255,  G: 181, B: 43  };
-    public  readonly COLOR_PINK:    IColor = { R: 253,  G: 91,  B: 167 };
+    private readonly COLOR_WHITE:   IColor = { R: 245,  G: 245, B: 245 };
+    private readonly COLOR_GREEN:   IColor = { R: 128,  G: 212, B: 59  };
+    private readonly COLOR_BLUE:    IColor = { R: 83,   G: 179, B: 243 };
+    private readonly COLOR_ORANGE:  IColor = { R: 255,  G: 181, B: 43  };
+    private readonly COLOR_PINK:    IColor = { R: 253,  G: 91,  B: 167 };
 
     private readonly COLORS: IColor[] = [
         this.COLOR_GREEN,
@@ -22,13 +23,13 @@ export class ProfilePicGeneratorService {
         this.COLOR_ORANGE,
         this.COLOR_PINK,
     ];
-    private readonly MULTIPLIER: number = 20;
+    private readonly MULTIPLIER: number = 40;
 
-    public generateRandomImage(): Buffer  {
+    public generateRandomImage(request: IProfileRequest): Buffer  {
 
         const sizeOfSquare:     number      = 7;
         const builder:          BMPBuilder  = new BMPBuilder(sizeOfSquare * this.MULTIPLIER, sizeOfSquare * this.MULTIPLIER, 0);
-        const color:            IColor      = this.getRandomColor();
+        const color:            IColor      = (request.color) ? request.color : this.getRandomColor();
         const middleOfSquare:   number      = this.getCeiledHalf(sizeOfSquare);
 
         for (let x: number = 0; x < middleOfSquare; x++) {
@@ -61,7 +62,7 @@ export class ProfilePicGeneratorService {
     private fillImage(builder: BMPBuilder, x: number, y: number, color: IColor): void {
         for (let i: number = 0; i < this.MULTIPLIER; i++) {
             for (let j: number = 0; j < this.MULTIPLIER; j++) {
-                builder.setColorAtPos(color.R, color.B, color.G, x * this.MULTIPLIER + i, y * this.MULTIPLIER + j);
+                builder.setColorAtPos(color.R, color.G, color.B, x * this.MULTIPLIER + i, y * this.MULTIPLIER + j);
             }
         }
     }
