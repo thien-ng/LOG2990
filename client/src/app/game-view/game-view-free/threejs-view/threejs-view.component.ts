@@ -1,6 +1,5 @@
 import { HttpClient } from "@angular/common/http";
 import {
-  Input,
   OnChanges,
   OnDestroy,
   Output,
