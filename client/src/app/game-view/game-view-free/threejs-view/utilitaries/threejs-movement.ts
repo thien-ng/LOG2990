@@ -163,13 +163,9 @@ export class ThreejsMovement {
     }
 
     private bougeMaBoule(): void {
-        const vecDirection: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-        this.camera.getWorldDirection(vecDirection);
-        // this.printVector("direction ", vecDirection);
-
-        this.objettttt.position.x = this.camera.position.x + (this.pointingAt.x * (this.CAMERA_COLLISION_RADIUS + 1));
-        this.objettttt.position.y = this.camera.position.y + (this.pointingAt.y * (this.CAMERA_COLLISION_RADIUS + 1));
-        this.objettttt.position.z = this.camera.position.z + (this.pointingAt.z * (this.CAMERA_COLLISION_RADIUS + 1));
+        this.boule.position.x = this.camera.position.x + -this.forward.x * (this.CAMERA_COLLISION_RADIUS + 1);
+        this.boule.position.y = this.camera.position.y + -this.forward.y * (this.CAMERA_COLLISION_RADIUS + 1);
+        this.boule.position.z = this.camera.position.z + -this.forward.z * (this.CAMERA_COLLISION_RADIUS + 1);
     }
 
     private translateCamera(): void {
