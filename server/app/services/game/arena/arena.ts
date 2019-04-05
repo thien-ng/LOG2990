@@ -59,7 +59,6 @@ export abstract class Arena<IN_T, DIFF_T, EVT_T> {
         const foundDifferences: number[] = this.referee.getFoundDifferences();
         const differencesIds:   ICheat[] = [];
 
-            if (foundDifferences.indexOf(key) < 0) {
                 differencesIds.push(key);
         this.originalElements.forEach((value: ISceneObjectUpdate<ISceneObject | IMesh>, key: number) => {
             if (foundDifferences.indexOf(key) < 0 && value.sceneObject) {
