@@ -6,6 +6,7 @@ import { MatSnackBar } from "@angular/material";
 import { GameConnectionService } from "src/app/game-connection.service";
 import * as THREE from "three";
 import { IClickMessage, IPosition2D, ISceneObjectUpdate, ICheat, ActionType } from "../../../../../../common/communication/iGameplay";
+import { ActionType, ICheat, IClickMessage, IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
 import { IMesh, ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { SceneType } from "../../../../../../common/communication/iSceneOptions";
