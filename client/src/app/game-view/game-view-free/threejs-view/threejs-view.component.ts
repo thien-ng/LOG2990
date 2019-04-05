@@ -214,6 +214,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
           idsToFlash.push(cheatId.id);
         }
       }
+    });
   private initSubscriptions(): void {
     this.gameViewFreeService.getRightClickListener().subscribe((newValue: boolean) => {
       this.rightClick = newValue;
