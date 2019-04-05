@@ -25,7 +25,6 @@ import { LobbyManagerService } from "../../../services/game/lobby-manager.servic
 import { HighscoreService } from "../../../services/highscore.service";
 import { TimeManagerService } from "../../../services/time-manager.service";
 
-// tslint:disable:no-magic-numbers no-any max-file-line-count no-empty max-line-length
 // tslint:disable:no-magic-numbers no-any max-file-line-count no-empty max-line-length arrow-return-shorthand
 
 const activeUser: IUser = {
