@@ -7,6 +7,7 @@ import {
     IClickMessage,
     IOriginalPixelCluster,
     IPosition2D, 
+    ICheat} from "../../../common/communication/iGameplay";
 import { IUser } from "../../../common/communication/iUser";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { CServer } from "../CServer";
