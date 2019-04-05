@@ -203,6 +203,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
   }
 
   private sortIdToFlash(modifications: ICheat[]): number[] {
+    const idsToFlash: number[] = [];
   private initSubscriptions(): void {
     this.gameViewFreeService.getRightClickListener().subscribe((newValue: boolean) => {
       this.rightClick = newValue;
