@@ -167,6 +167,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
       }
 
       this.modifications = modifications;
+      this.modifications = idsToFlash;
       this.isCheating    = !this.isCheating;
       this.changeColor();
     });
