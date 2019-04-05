@@ -206,6 +206,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
     const idsToFlash: number[] = [];
     modifications.forEach((cheatId: ICheat) => {
       if (this.isNotOriginal) {
+        if (cheatId.action === ActionType.DELETE || cheatId.action === ActionType.CHANGE_COLOR) {
   private initSubscriptions(): void {
     this.gameViewFreeService.getRightClickListener().subscribe((newValue: boolean) => {
       this.rightClick = newValue;
