@@ -189,27 +189,17 @@ export class ThreejsViewService {
 
     switch ( keyValue ) {
       case KEYS.W:
-        if (buttonStatus) {
-          this.threejsMovement.setupFront(this.FOWARD_ORIENTATION);
-        }
         this.moveForward  = buttonStatus;
         break;
-
       case KEYS.A:
         this.moveLeft     = buttonStatus;
         break;
-
       case KEYS.S:
-        if (buttonStatus) {
-          this.threejsMovement.setupFront(this.BACKWARD_ORIENTATION);
-        }
         this.moveBackward = buttonStatus;
         break;
-
       case KEYS.D:
         this.moveRight    = buttonStatus;
         break;
-
       default:
         break;
     }
