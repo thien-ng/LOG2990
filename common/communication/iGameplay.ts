@@ -56,6 +56,7 @@ export interface INewScore {
     score:  number;
 }
 
+export interface ICheat {
 export enum ActionType {
     ADD,
     CHANGE_COLOR,
