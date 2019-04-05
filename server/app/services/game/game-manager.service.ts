@@ -152,6 +152,7 @@ export class GameManagerService {
         await arena.prepareArenaForGameplay();
     }
 
+    public getDifferencesIndex(arenaId: number): ICheat[] {
         const arena: Arena<
                         IPlayerInput<IPosition2D> | IPlayerInput<number>,
                         IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>,
