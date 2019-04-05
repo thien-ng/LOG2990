@@ -57,6 +57,8 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   public arenaID:         number;
   public gameID:          number;
   public valueUser:       number;
+  public valueOpponent:   number;
+  public maxError:        number;
   private originalPath:   string;
   private gameRequest:    IGameRequest;
   private modifiedPath:   string;
@@ -73,6 +75,8 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     private differenceCounterService: DifferenceCounterService,
     ) {
       this.mode           = Number(this.route.snapshot.paramMap.get("gamemode"));
+      this.valueOpponent  = 0;
+      this.valueUser      = 0;
       this.cardLoaded     = false;
       this.gameIsStarted  = false;
       this.isGameEnded    = false;
@@ -109,9 +113,9 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       this.gameIsStarted = true;
     }));
 
-    const maxError: number = this.mode === 1 ? this.NB_ERROR_MAX_MULTI : this.NB_ERROR_MAX_SINGLE;
+    this.maxError = this.mode === 1 ? this.NB_ERROR_MAX_MULTI : this.NB_ERROR_MAX_SINGLE;
 
-    this.differenceCounterService.setNbErrorMax(maxError);
+    this.differenceCounterService.setNbErrorMax(this.maxError);
     this.differenceCounterService.getCounter().subscribe((newCounterValue: INewScore) => {
       this.updateCounter(newCounterValue);
     });
@@ -216,10 +220,16 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   public updateCounter(errorFoundCounter: INewScore): void {
     const fillPercent: number = this.differenceCounterService.convertErrorToPercent(errorFoundCounter.score);
     if (this.username === errorFoundCounter.player) {
-      this.counter.nativeElement.style.width = fillPercent + "%";
+      if (this.mode === 1 ) {
+        const leftFillPercent: number = 100 - fillPercent;
+        this.counter.nativeElement.style.width = leftFillPercent + "%";
+      } else {
+        this.counter.nativeElement.style.width = fillPercent + "%";
+      }
       this.valueUser = errorFoundCounter.score;
     } else {
       this.counterVS.nativeElement.style.width = fillPercent + "%";
+      this.valueOpponent = errorFoundCounter.score;
     }
   }
 
