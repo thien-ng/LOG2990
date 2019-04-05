@@ -134,6 +134,7 @@ describe("Arena 2D tests", () => {
     it("should get empty difference ids list", async () => {
         const result: number[] = arena.getDifferencesIds();
         chai.spy.on(arena["referee"], "getFoundDifferences", () => {return [1, 2, 3, 4]; });
+        const result: ICheat[] = arena.getDifferencesIds();
         chai.expect(result.length).to.equal(0);
     });
 
