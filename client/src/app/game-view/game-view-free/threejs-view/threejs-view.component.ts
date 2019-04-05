@@ -213,6 +213,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
         if (cheatId.action === ActionType.ADD || cheatId.action === ActionType.CHANGE_COLOR) {
           idsToFlash.push(cheatId.id);
         }
+      }
   private initSubscriptions(): void {
     this.gameViewFreeService.getRightClickListener().subscribe((newValue: boolean) => {
       this.rightClick = newValue;
