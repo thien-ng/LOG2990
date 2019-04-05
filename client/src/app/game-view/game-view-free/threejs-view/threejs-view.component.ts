@@ -159,6 +159,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
     this.httpClient.get(CClient.GET_OBJECTS_ID_PATH + this.CHEAT_URL + this.arenaID).subscribe((modifications: number[]) => {
     this.httpClient.get(CClient.GET_OBJECTS_ID_PATH + this.CHEAT_URL + this.arenaID).subscribe((modifications: ICheat[]) => {
       const idsToFlash: number[] = this.sortIdToFlash(modifications);
+
       if (this.isFirstGet) {
         this.previousModifications = modifications;
         this.isFirstGet            = false;
