@@ -2,6 +2,7 @@ import { inject, injectable } from "inversify";
 import { HighscoreValidationResponse, Mode, Time } from "../../../../common/communication/highscore";
 import { GameMode, ILobbyEvent, MultiplayerButtonText } from "../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../common/communication/iGameRequest";
+import { IArenaResponse, ICheat, IOriginalPixelCluster, IPosition2D, ISceneObjectUpdate } from "../../../../common/communication/iGameplay";
 import { IMesh, ISceneObject } from "../../../../common/communication/iSceneObject";
 import { IUser } from "../../../../common/communication/iUser";
 import { Message } from "../../../../common/communication/message";
