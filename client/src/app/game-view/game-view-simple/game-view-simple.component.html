@@ -31,8 +31,8 @@
             <mat-grid-tile [colspan]="8" [rowspan]="45" >
               <mat-grid-list class="counter1" cols="1" rowHeight="1%">
                 <mat-grid-tile [colspan]="1" [rowspan]="16" class="names">{{username}}</mat-grid-tile>
-                <mat-grid-tile [colspan]="1" [rowspan]="15" class="loaderOutLeft">
-                  <svg height="100%" width="50%" class="loaderInLeft"></svg>
+                <mat-grid-tile [colspan]="1" [rowspan]="15" class="counterOut">
+                  <svg #counter height="100%" width="0%" class="loaderInLeft"></svg>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="15"></mat-grid-tile>
               </mat-grid-list>
@@ -40,9 +40,9 @@
             <mat-grid-tile [colspan]="2" [rowspan]="45" class="timerContainer"><app-timer></app-timer></mat-grid-tile>
             <mat-grid-tile [colspan]="8" [rowspan]="45">
                 <mat-grid-list class="counter1 alignLeft" cols="1" rowHeight="1%">
-                    <mat-grid-tile [colspan]="1" [rowspan]="16"  [username]="opponentName" class="names">{{OPPONENT}}</mat-grid-tile>
-                    <mat-grid-tile [colspan]="1" [rowspan]="15" class="loaderOutRight">
-                      <svg height="100%" width="50%" class="loaderInRight"></svg>
+                    <mat-grid-tile [colspan]="1" [rowspan]="16" class="names">{{opponentName}}</mat-grid-tile>
+                    <mat-grid-tile [colspan]="1" [rowspan]="15" class="counterOut">
+                      <svg #counterVS height="100%" width="0%" class="loaderInRight"></svg>
                     </mat-grid-tile>
                     <mat-grid-tile [colspan]="1" [rowspan]="15"></mat-grid-tile>
                   </mat-grid-list>
@@ -56,8 +56,10 @@
             <mat-grid-tile [colspan]="18" [rowspan]="55" >
               <mat-grid-list class="counter1" cols="1" rowHeight="1%">
                 <mat-grid-tile [colspan]="1" [rowspan]="22" ><app-timer class="timer"></app-timer></mat-grid-tile>
-                <mat-grid-tile [colspan]="1" [rowspan]="15" class="loaderOutLeft">
-                  <svg #counter height="100%" width="50%" class="loaderInLeft"></svg>
+                <mat-grid-tile [colspan]="1" [rowspan]="15" class="counterOut">
+                  <svg #counter height="100%" width="0%" class="loaderInRight">
+                    <text fill="#000000" class="value" x="49%" y="80%">{{valueUser}}</text>
+                  </svg>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="22" class="names">{{username}}</mat-grid-tile>
               </mat-grid-list>
