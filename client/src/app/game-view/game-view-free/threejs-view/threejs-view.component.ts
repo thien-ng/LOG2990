@@ -1,6 +1,5 @@
 import { HttpClient } from "@angular/common/http";
 import {
-  OnChanges,
   OnDestroy,
   Output,
   ViewChild} from "@angular/core";
