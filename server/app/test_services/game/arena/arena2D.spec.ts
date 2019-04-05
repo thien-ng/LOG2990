@@ -14,6 +14,7 @@ import { Player } from "../../../services/game/arena/player";
 import { GameManagerService } from "../../../services/game/game-manager.service";
 import { UserManagerService } from "../../../services/user-manager.service";
 
+import { IArenaResponse, IOriginalPixelCluster, IPosition2D, ICheat } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
 import { AssetManagerService } from "../../../services/asset-manager.service";
 import { CardOperations } from "../../../services/card-operations.service";
