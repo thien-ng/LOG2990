@@ -22,8 +22,6 @@ enum KEYS {
 export class ThreejsThemeViewService {
 
   private readonly CAMERA_START_POSITION: number = 50;
-  private readonly FOWARD_ORIENTATION:    number = -1;
-  private readonly BACKWARD_ORIENTATION:  number = 1;
 
   public  handleId:             number;
   private scene:                THREE.Scene;
