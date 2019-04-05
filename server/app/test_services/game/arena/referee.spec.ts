@@ -101,11 +101,13 @@ const replacement3D: ISceneObjectUpdate<ISceneObject | IMesh> = {
 const responseArena2D: IArenaResponse<IOriginalPixelCluster> = {
     status:     "onSuccess",
     response:   replacement2D,
+    username:   "mike",
 };
 
 const responseArena3D: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>> = {
     status:     "onSuccess",
     response:   replacement3D,
+    username:   "mike",
 };
 
 const postData2D: IHitToValidate<IPosition2D> = {
@@ -190,11 +192,12 @@ describe("Referee tests for 2D", () => {
         const responseArenaError: IArenaResponse<IOriginalPixelCluster> = {
             status:     "onFailedClick",
             response:   undefined,
+            username:   undefined,
         };
 
         referee.onPlayerClick(event2D, activeUser1).then((response: IArenaResponse<IOriginalPixelCluster>) => {
             chai.expect(response).to.deep.equal(responseArenaError);
-        }).catch();
+        });
     });
 
     it("should return a onPenalty state (2D arena)", async () => {
@@ -205,11 +208,12 @@ describe("Referee tests for 2D", () => {
         const responseArenaPenalty: IArenaResponse<IOriginalPixelCluster> = {
             status:     "onPenalty",
             response:   undefined,
+            username:   undefined,
         };
 
         referee.onPlayerClick(event2D, activeUser1).then((response: IArenaResponse<IOriginalPixelCluster>) => {
             chai.expect(response).to.deep.equal(responseArenaPenalty);
-        }).catch();
+        });
     });
 
     it("should validate a good hit (2D arena single)", async () => {
@@ -220,7 +224,7 @@ describe("Referee tests for 2D", () => {
 
         referee.validateHit(event2D).then((response: IHitConfirmation) => {
             chai.expect(response).to.deep.equal(hitConfirmation2D);
-        }).catch();
+        });
     });
 
     it("should validate a good hit (2D arena multi)", async () => {
@@ -231,7 +235,7 @@ describe("Referee tests for 2D", () => {
 
         referee.validateHit(event2D).then((response: IHitConfirmation) => {
             chai.expect(response).to.deep.equal(hitConfirmation2D);
-        }).catch();
+        });
     });
 
     it("should return error when validateHit (2D arena single)", async () => {
@@ -255,7 +259,7 @@ describe("Referee tests for 2D", () => {
 
         referee.onPlayerClick(event2D, activeUser1).then((response: IArenaResponse<IOriginalPixelCluster>) => {
             chai.expect(response).to.deep.equal(responseArena2D);
-        }).catch();
+        });
     });
 
     it("should validate a good hit when onPlayerClick (2D arena multi)", async () => {
@@ -268,7 +272,7 @@ describe("Referee tests for 2D", () => {
 
         referee.onPlayerClick(event2D, activeUser1).then((response: IArenaResponse<IOriginalPixelCluster>) => {
             chai.expect(response).to.deep.equal(responseArena2D);
-        }).catch();
+        });
     });
 
     it("should validate a wrong hit when onPlayerClick (2D arena single)", async () => {
@@ -283,6 +287,7 @@ describe("Referee tests for 2D", () => {
         const wrongResponse: IArenaResponse<IOriginalPixelCluster> = {
             status:     "onFailedClick",
             response:   undefined,
+            username:   undefined,
         };
 
         referee["differencesFound"] = [];
@@ -292,7 +297,7 @@ describe("Referee tests for 2D", () => {
         referee.onPlayerClick(event2D, activeUser1)
         .then((response: IArenaResponse<IOriginalPixelCluster>) => {
             chai.expect(response).to.deep.equal(wrongResponse);
-        }).catch();
+        });
     });
 
     it("should validate a wrong hit when onPlayerClick (2D arena multi)", async () => {
@@ -307,6 +312,7 @@ describe("Referee tests for 2D", () => {
         const wrongResponse: IArenaResponse<IOriginalPixelCluster> = {
             status:     "onFailedClick",
             response:   undefined,
+            username:   undefined,
         };
 
         referee["differencesFound"] = [];
@@ -315,7 +321,7 @@ describe("Referee tests for 2D", () => {
 
         referee.onPlayerClick(event2D, activeUser1).then((response: IArenaResponse<IOriginalPixelCluster>) => {
             chai.expect(response).to.deep.equal(wrongResponse);
-        }).catch();
+        });
     });
 });
 
@@ -361,11 +367,12 @@ describe("Referee tests for 3D", () => {
         const responseArenaError: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>> = {
             status:     "onFailedClick",
             response:   undefined,
+            username:   undefined,
         };
 
         referee.onPlayerClick(1, activeUser1).then((response: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>>) => {
             chai.expect(response).to.deep.equal(responseArenaError);
-        }).catch();
+        });
     });
 
     it("should return a onPenalty state (3D arena)", async () => {
@@ -376,11 +383,12 @@ describe("Referee tests for 3D", () => {
         const responseArenaPenalty: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>> = {
             status:     "onPenalty",
             response:   undefined,
+            username:   undefined,
         };
 
         referee.onPlayerClick(1, activeUser1).then((response: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>>) => {
             chai.expect(response).to.deep.equal(responseArenaPenalty);
-        }).catch();
+        });
     });
 
     it("should throw an error when onPlayerClick (3D arena)", async () => {
@@ -390,11 +398,12 @@ describe("Referee tests for 3D", () => {
         const responseArenaError: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>> = {
             status:     "onError",
             response:   undefined,
+            username:   undefined,
         };
 
         referee.onPlayerClick(1, activeUser1).then((response: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>>) => {
             chai.expect(response).to.deep.equal(responseArenaError);
-        }).catch();
+        });
     });
 
     it("should validate a good hit (3D arena single)", async () => {
@@ -405,7 +414,7 @@ describe("Referee tests for 3D", () => {
 
         referee.validateHit(1).then((response: IHitConfirmation) => {
             chai.expect(response).to.deep.equal(hitConfirmation3D);
-        }).catch();
+        });
     });
 
     it("should validate a good hit (3D arena multi)", async () => {
@@ -416,7 +425,7 @@ describe("Referee tests for 3D", () => {
 
         referee.validateHit(event3D).then((response: IHitConfirmation) => {
             chai.expect(response).to.deep.equal(hitConfirmation3D);
-        }).catch();
+        });
     });
 
     it("should return error when validateHit (3D arena single)", async () => {
@@ -440,7 +449,7 @@ describe("Referee tests for 3D", () => {
 
         referee.onPlayerClick(event3D, activeUser1).then((response: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>>) => {
             chai.expect(response).to.deep.equal(responseArena3D);
-        }).catch();
+        });
     });
 
     it("should validate a good hit when onPlayerClick (3D arena multi)", async () => {
@@ -453,7 +462,7 @@ describe("Referee tests for 3D", () => {
 
         referee.onPlayerClick(event3D, activeUser1).then((response: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>>) => {
             chai.expect(response).to.deep.equal(responseArena3D);
-        }).catch();
+        });
     });
 
     it("should validate a wrong hit when onPlayerClick (3D arena single)", async () => {
@@ -468,6 +477,7 @@ describe("Referee tests for 3D", () => {
         const wrongResponse: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>> = {
             status:     "onFailedClick",
             response:   undefined,
+            username:   undefined,
         };
 
         referee["differencesFound"] = [];
@@ -476,7 +486,7 @@ describe("Referee tests for 3D", () => {
 
         referee.onPlayerClick(event3D, activeUser1).then((response: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>>) => {
             chai.expect(response).to.deep.equal(wrongResponse);
-        }).catch();
+        });
     });
 
     it("should validate a wrong hit when onPlayerClick (3D arena multi)", async () => {
@@ -491,6 +501,7 @@ describe("Referee tests for 3D", () => {
         const wrongResponse: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>> = {
             status:     "onFailedClick",
             response:   undefined,
+            username:   undefined,
         };
 
         referee["differencesFound"] = [];
@@ -499,7 +510,7 @@ describe("Referee tests for 3D", () => {
 
         referee.onPlayerClick(event3D, activeUser1).then((response: IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>>) => {
             chai.expect(response).to.deep.equal(wrongResponse);
-        }).catch();
+        });
     });
 
 });

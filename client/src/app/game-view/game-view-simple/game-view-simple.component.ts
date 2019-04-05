@@ -7,7 +7,7 @@ import { first } from "rxjs/operators";
 import { GameConnectionService } from "src/app/game-connection.service";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../../common/communication/iGameRequest";
-import { IClickMessage, INewGameInfo, IPenalty, IPosition2D } from "../../../../../common/communication/iGameplay";
+import { IClickMessage, INewGameInfo, IPenalty, IPosition2D, INewScore } from "../../../../../common/communication/iGameplay";
 import { Message } from "../../../../../common/communication/message";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { CClient } from "../../CClient";
@@ -26,14 +26,20 @@ import { DifferenceCounterService } from "../difference-counter/difference-count
 
 export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDestroy {
   public readonly OPPONENT:               string = "Adversaire";
-  public readonly SUCCESS_SOUND:          string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/fail.wav";
-  public readonly FAIL_SOUND:             string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/success.wav";
   public readonly DEFAULT_NB_ERROR_FOUND: number = 0;
   public readonly NB_ERROR_MAX_SINGLE:    number = 7;
   public readonly NB_ERROR_MAX_MULTI:     number = 4;
+  public readonly SUCCESS_SOUND:          string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/fail.wav";
+  public readonly FAIL_SOUND:             string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/success.wav";
+  public readonly OPPONENT_SOUND:         string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/opponent_point.mp3";
+  public readonly GAME_WON:               string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-won.wav";
+  public readonly GAME_LOST:              string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-lost.wav";
 
   @ViewChild("successSound",  {read: ElementRef})  public successSound:    ElementRef;
   @ViewChild("failSound",     {read: ElementRef})  public failSound:       ElementRef;
+  @ViewChild("opponentSound", {read: ElementRef})  public opponentSound:   ElementRef;
+  @ViewChild("gameWon",       {read: ElementRef})  public gameWon:         ElementRef;
+  @ViewChild("gameLost",      {read: ElementRef})  public gameLost:        ElementRef;
   @ViewChild("erreurText",    {read: ElementRef})  public erreurText:      ElementRef;
   @ViewChild("erreurText2",   {read: ElementRef})  public erreurText2:     ElementRef;
   @ViewChild("originalImage", {read: ElementRef})  public canvasOriginal:  ElementRef;
@@ -45,6 +51,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   public cardLoaded:      boolean;
   public gameIsStarted:   boolean;
   public isGameEnded:     boolean;
+  public opponentName:    string;
   public username:        string | null;
   public mode:            number;
   public arenaID:         number;
@@ -104,12 +111,22 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     const maxError: number = this.mode === 1 ? this.NB_ERROR_MAX_MULTI : this.NB_ERROR_MAX_SINGLE;
 
     this.differenceCounterService.setNbErrorMax(maxError);
-    this.differenceCounterService.getCounter().subscribe((newCounterValue: number) => {
+    this.differenceCounterService.getCounter().subscribe((newCounterValue: INewScore) => {
       this.updateCounter(newCounterValue);
     });
 
+    this.initEndOfGameSubs();
+
+    this.subscription.push(this.socketService.onMessage(CCommon.ON_COUNTDOWN_START).subscribe((message: string[]) => {
+      const index: number = message[0] === this.username ? 1 : 0;
+      this.opponentName = message[index];
+    }));
+  }
+
+  private initEndOfGameSubs(): void {
     this.subscription.push(this.socketService.onMessage(CCommon.ON_GAME_ENDED).subscribe((message: string) => {
       const isWinner: boolean = message === CCommon.ON_GAME_WON;
+      isWinner ? this.gameViewService.playWinSound() : this.gameViewService.playLossSound();
       this.isGameEnded = true;
       const newGameInfo: INewGameInfo = {
         path: CClient.GAME_VIEW_SIMPLE_PATH,
@@ -183,7 +200,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       canvasModified.drawImage(imgModified, 0, 0);
     };
     this.gameViewService.setCanvas(canvasModified);
-    this.gameViewService.setSounds(this.successSound, this.failSound);
+    this.gameViewService.setSounds(this.successSound, this.failSound, this.opponentSound, this.gameWon, this.gameLost);
   }
 
   public initListener(): void {

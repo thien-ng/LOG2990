@@ -40,7 +40,7 @@
             <mat-grid-tile [colspan]="2" [rowspan]="45" class="timerContainer"><app-timer></app-timer></mat-grid-tile>
             <mat-grid-tile [colspan]="8" [rowspan]="45">
                 <mat-grid-list class="counter1 alignLeft" cols="1" rowHeight="1%">
-                    <mat-grid-tile [colspan]="1" [rowspan]="16" class="names">{{OPPONENT}}</mat-grid-tile>
+                    <mat-grid-tile [colspan]="1" [rowspan]="16"  [username]="opponentName" class="names">{{OPPONENT}}</mat-grid-tile>
                     <mat-grid-tile [colspan]="1" [rowspan]="15" class="loaderOutRight">
                       <svg height="100%" width="50%" class="loaderInRight"></svg>
                     </mat-grid-tile>
@@ -78,13 +78,13 @@
         *ngIf="mode === 0"
         [colspan]="2"
         [rowspan]="20">
-        <app-difference-counter>{{username}}</app-difference-counter>
+        <app-difference-counter [username]="username">{{username}}</app-difference-counter>
       </mat-grid-tile>
     <mat-grid-tile
       *ngIf="mode === 1" [ngClass]="isGameEnded ? 'blur' : 'normal'"
       [colspan]="1"
       [rowspan]="20">
-      <app-difference-counter>{{username}}</app-difference-counter>
+      <app-difference-counter [username]="username">{{username}}</app-difference-counter>
     </mat-grid-tile>
     <mat-grid-tile
       *ngIf="mode === 1" [ngClass]="isGameEnded ? 'blur' : 'normal'"
@@ -99,4 +99,13 @@
 </audio>
 <audio #successSound>
   <source src={{FAIL_SOUND}} type="audio/wav">
+</audio>
+<audio #opponentSound>
+  <source src={{OPPONENT_SOUND}} type="audio/mp3">
+</audio>
+<audio #gameWon>
+  <source src={{GAME_WON}} type="audio/wav">
+</audio>
+<audio #gameLost>
+  <source src={{GAME_LOST}} type="audio/wav">
 </audio>

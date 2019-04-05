@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
+import { INewScore } from "../../../../../common/communication/iGameplay";
 import { CClient } from "../../CClient";
 @Injectable({
   providedIn: "root",
@@ -7,17 +8,17 @@ import { CClient } from "../../CClient";
 export class DifferenceCounterService {
 
   private maxError:       number;
-  private counterUpdated: Subject<number>;
+  private counterUpdated: Subject<INewScore>;
 
   public constructor() {
-    this.counterUpdated = new Subject<number>();
+    this.counterUpdated = new Subject<INewScore>();
   }
 
-  public getCounter(): Observable<number> {
+  public getCounter(): Observable<INewScore> {
     return this.counterUpdated.asObservable();
   }
 
-  public updateCounter(newValue: number): void {
+  public updateCounter(newValue: INewScore): void {
     this.counterUpdated.next(newValue);
   }
 
