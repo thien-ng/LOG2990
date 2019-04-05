@@ -31,6 +31,7 @@ export abstract class Arena<IN_T, DIFF_T, EVT_T> {
     protected readonly ONE_PLAYER:        number = 1;
     protected players:                    Player[];
     protected referee:                    Referee<EVT_T, DIFF_T>;
+    protected originalElements:           Map<number, IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>>;
 
     public constructor (
         protected arenaInfos: IArenaInfos<I2DInfos | I3DInfos>,
