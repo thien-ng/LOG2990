@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import {
   AfterContentInit, Component, ElementRef, EventEmitter, HostListener,
+  Inject, Input, OnChanges, OnDestroy, Output, ViewChild} from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import { GameConnectionService } from "src/app/game-connection.service";
 import * as THREE from "three";
