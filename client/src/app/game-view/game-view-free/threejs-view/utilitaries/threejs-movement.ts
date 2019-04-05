@@ -179,12 +179,11 @@ export class ThreejsMovement {
     }
 
     private multiplyVector (vector: THREE.Vector3, multiplier: number): THREE.Vector3 {
-        const toVector: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
-        toVector.x = vector.x * multiplier;
-        toVector.y = vector.y * multiplier;
-        toVector.z = vector.z * multiplier;
-
-        return toVector;
+        return new THREE.Vector3(
+            vector.x * multiplier,
+            vector.y * multiplier,
+            vector.z * multiplier,
+        );
     }
 
     // private addVectors (vector1: THREE.Vector3, vector2: THREE.Vector3, toVector: THREE.Vector3): void {
