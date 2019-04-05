@@ -66,3 +66,4 @@ export enum ActionType {
     CHANGE_COLOR,
     DELETE,
     NO_ACTION_REQUIRED,
+}
