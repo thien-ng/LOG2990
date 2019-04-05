@@ -1,4 +1,5 @@
 import { ElementRef, Injectable } from "@angular/core";
+import { CClient } from "src/app/CClient";
 import {
   IArenaResponse,
   IClickMessage,
@@ -17,16 +18,19 @@ export class GameViewSimpleService {
   private canvasModified:        CanvasRenderingContext2D;
   private successSound:          ElementRef;
   private failSound:             ElementRef;
+  private opponentSound:         ElementRef;
+  private winSound:              ElementRef;
+  private lossSound:             ElementRef;
 
   public onArenaResponse(data: IArenaResponse<IOriginalPixelCluster>): void {
-    if (data.status === CCommon.ON_SUCCESS) {
-      this.playSuccessSound();
-      if (data.response) {
-        data.response.cluster.forEach((pixel: IReplacementPixel) => {
-          this.canvasModified.fillStyle = "rgb(" + pixel.color.R + ", " + pixel.color.G + ", " + pixel.color.B + ")";
-          this.canvasModified.fillRect(pixel.position.x, pixel.position.y, 1, 1);
-        });
-      }
+    const isSuccess:     boolean  = data.status === CCommon.ON_SUCCESS;
+    const isRightPlayer: boolean  = data.username === sessionStorage.getItem(CClient.USERNAME_KEY);
+    if (isSuccess && data.response) {
+      (isRightPlayer) ? this.playSuccessSound() : this.playOpponentSound();
+      data.response.cluster.forEach((pixel: IReplacementPixel) => {
+        this.canvasModified.fillStyle = "rgb(" + pixel.color.R + ", " + pixel.color.G + ", " + pixel.color.B + ")";
+        this.canvasModified.fillRect(pixel.position.x, pixel.position.y, 1, 1);
+      });
     }
   }
 
@@ -35,18 +39,36 @@ export class GameViewSimpleService {
     this.failSound.nativeElement.play();
   }
 
+  public playWinSound(): void {
+    this.winSound.nativeElement.currentTime = 0;
+    this.winSound.nativeElement.play();
+  }
+
+  public playLossSound(): void {
+    this.lossSound.nativeElement.currentTime = 0;
+    this.lossSound.nativeElement.play();
+  }
+
   private playSuccessSound(): void {
     this.successSound.nativeElement.currentTime = 0;
     this.successSound.nativeElement.play();
+  }
+
+  private playOpponentSound(): void {
+    this.opponentSound.nativeElement.currentTime = 0;
+    this.opponentSound.nativeElement.play();
   }
 
   public setCanvas(modified: CanvasRenderingContext2D): void {
     this.canvasModified = modified;
   }
 
-  public setSounds(success: ElementRef, fail: ElementRef): void {
-    this.successSound = success;
-    this.failSound    = fail;
+  public setSounds(success: ElementRef, fail: ElementRef, opponentSound: ElementRef, gameWon: ElementRef, gameLost: ElementRef): void {
+    this.successSound   = success;
+    this.failSound      = fail;
+    this.opponentSound  = opponentSound;
+    this.winSound       = gameWon;
+    this.lossSound      = gameLost;
   }
 
   public onCanvasClick(pos: IPosition2D, id: number, username: string): IClickMessage<IPosition2D> {

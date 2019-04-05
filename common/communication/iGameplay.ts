@@ -1,5 +1,6 @@
 import { GameMode } from "./iCard";
 import { IVector3D } from "./ITheme";
+import { Mode } from "./highscore";
 
 export interface IPosition2D {
     x:  number;
@@ -37,6 +38,7 @@ export interface IArenaResponse<RES_T> {
     status:         string;
     response?:      RES_T;
     arenaType?:     GameMode;
+    username?:      string;
 }
 
 export interface IPenalty {
@@ -56,6 +58,17 @@ export interface ICollisions {
 export interface IBounderies {
     minPosition: IVector3D;
     maxPosition: IVector3D;
+}
+
+export interface INewGameInfo {
+    path:   string;
+    gameID: number;
+    type:   Mode;
+};
+
+export interface INewScore {
+    player: string;
+    score:  number;
 }
 
 export enum ActionType {

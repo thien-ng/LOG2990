@@ -12,7 +12,6 @@ export class CServer {
   public static readonly ON_ARENA_RESPONSE:         string = "onArenaResponse";
   public static readonly ON_PENALTY:                string = "onPenalty";
   public static readonly ON_TIMER_UPDATE:           string = "onTimerUpdate";
-  public static readonly ON_POINT_ADDED:            string = "onPointAdded";
   public static readonly ON_CHAT_EVENT:             string = "onChatEvent";
 
   // CServer for card-manager.service.ts
@@ -24,6 +23,9 @@ export class CServer {
   public static readonly GENERATED_SNAPSHOT:        string = "_snapshot.jpeg";
   public static readonly ORIGINAL_SCENE_FILE:       string = "_sceneOriginal.txt";
   public static readonly MODIFIED_SCENE_FILE:       string = "_sceneModified.txt";
+  public static readonly SIMPLE_CARD_FILE:          string = "_simple_card.json";
+  public static readonly FREE_CARD_FILE:            string = "_free_card.json";
+  public static readonly HIGHSCORE_FILE:            string = "_highscore.json";
   public static readonly DECIMAL:                   number = 10;
   public static readonly DOESNT_EXIST:              number = -1;
   public static readonly CARD_DELETED:              string = "Carte supprimée";
@@ -40,8 +42,8 @@ export class CServer {
   public static readonly CARD_EXISTING:             string = "Le titre de la carte existe déjà";
   public static readonly CARD_CREATION_ERROR:       string = "Les données entrées sont invalides";
   public static readonly GAME_NAME_ERROR:           string = "Le titre du jeu doit contenir seulement des caracteres alphanumeriques";
-  public static readonly GAME_FORMAT_LENTGH_ERROR:  string = "Le titre du jeu doit contenir entre" + CCommon.MIN_GAME_LENGTH +
-                                                             " et " + CCommon.MAX_GAME_LENGTH + "caracteres";
+  public static readonly GAME_FORMAT_LENTGH_ERROR:  string = "Le titre du jeu doit contenir entre " + CCommon.MIN_GAME_LENGTH +
+                                                             " et " + CCommon.MAX_GAME_LENGTH + " caracteres";
   public static readonly GAME_TITLE_IS_CORRECT:     string = "Le titre est correct";
 
   // CServer for card-manager-controller
@@ -57,6 +59,9 @@ export class CServer {
   public static readonly PATH_SERVER_TEMP:          string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/temp/";
   public static readonly PATH_LOCAL_TEMP:           string = "./app/asset/temp/";
   public static readonly PATH_LOCAL_THEME:          string = "./app/asset/theme/";
+  public static readonly PATH_LOCAL_CARDS:          string = "./app/asset/cards/";
+  public static readonly PATH_LOCAL_CARDS_IDS:      string = "./app/asset/cards/cardsIds.json";
+  public static readonly PATH_LOCAL_HIGHSCORE:      string = "./app/asset/cards/highscore/";
   public static readonly NOT_UNIQUE_NAME:           string = "isNotUnique";
   public static readonly INIT_ARENA_ERROR:          string = "Erreur lors de l'initialisation de l'arène 2D";
 
@@ -78,4 +83,8 @@ export class CServer {
 
   // CServer for highscore.service.ts
   public static readonly VALIDATE_HIGHSCORE_PATH:   string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/api/highscore-api";
+
+  // Cserver for profilePictureGenerator.ts
+  public static readonly PROFILE_PIC_GEN_PATH:      string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/api/profile-picture";
+  public static readonly PROFILE_IMAGE_PATH:        string = CServer.IMAGES_PATH + "/userPicture/";
 }

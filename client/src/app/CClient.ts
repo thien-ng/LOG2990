@@ -16,6 +16,7 @@ export class CClient {
   public static readonly PATH_MATCH_FULL:           string = "full";
   public static readonly PATH_TO_ICONS:             string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/icon";
   public static readonly PATH_TO_IMAGES:            string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/image";
+  public static readonly PATH_TO_PROFILE_IMAGES:    string = CClient.PATH_TO_IMAGES + "/userPicture/";
   public static readonly PATH_TO_MESHES:            string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/mesh";
   public static readonly PATH_TO_GET_CARD:          string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/api/card/";
 
@@ -53,7 +54,6 @@ export class CClient {
   public static readonly ON_ARENA_RESPONSE:         string = "onArenaResponse";
   public static readonly ON_GAME_FREE_DATA:         string = "onGameFreeData";
   public static readonly ON_USER_EVENT:             string = "onNewUser";
-  public static readonly ON_POINT_ADDED:            string = "onPointAdded";
   public static readonly ON_RETRIEVE_USER:          string = "onRetrieveUser";
   public static readonly ON_TIMER_UPDATE:           string = "onTimerUpdate";
 

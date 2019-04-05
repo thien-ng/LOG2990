@@ -3,7 +3,10 @@
   padding: 10px;
   cursor: pointer;
   color: white;
-  padding-left: 20px;
+}
+
+.logo:hover {
+  color: grey;
 }
 
 .mat-toolbar.mat-primary {
@@ -61,15 +64,13 @@
   transition-property: width;
   transition-duration: 0.5s;
 }
-.account {
-  color: white;
-  padding-left: 1%;
-  padding-bottom: 0.9%;
-  padding-top: 0.1%;
-  font-size: 200%;
-}
-.account:hover {
-  color: grey;
+
+.imageIcon {
+  margin-left: 10px;
+  padding: 2.5px;
+  background: white;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
   cursor: pointer;
 }
-
