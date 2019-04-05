@@ -29,12 +29,6 @@ export class ThreejsMovement {
     }
 
     public rotateCamera(position: IPosition2D): void {
-        const yAxis: THREE.Vector3 = new THREE.Vector3(0, -1, 0);
-        const xAxis: THREE.Vector3 = new THREE.Vector3(-1, 0, 0);
-        this.camera.rotateOnWorldAxis(yAxis, position.x * this.CAMERA_ROTATION_SPEED);
-        this.camera.rotateOnAxis(xAxis, position.y * this.CAMERA_ROTATION_SPEED);
-    }
-
     public setMouseClickStatus(isClicked: boolean): void {
         this.mouseIsClicked = isClicked;
     }
@@ -138,12 +132,6 @@ export class ThreejsMovement {
         return front.normalize();
     }
 
-    // private printVector(name: string, v: THREE.Vector3): void {
-    //     const x: number = parseFloat((Math.round(v.x * 100) / 100).toFixed(1));
-    //     const y: number = parseFloat((Math.round(v.y * 100) / 100).toFixed(1));
-    //     const z: number = parseFloat((Math.round(v.z * 100) / 100).toFixed(1));
-    //     console.log(name, x + ", " + y + ", " + z);
-    // }
 
     private getLeft(): THREE.Vector3 {
         const yAxis: THREE.Vector3 = new THREE.Vector3(0, -1, 0);
