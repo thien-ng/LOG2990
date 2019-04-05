@@ -79,7 +79,7 @@ export class LoginValidatorComponent {
     dialogConfig.height       = "800px";
     dialogConfig.width        = "500px";
     dialogConfig.panelClass   = "full-blend-dalog";
-    dialogConfig.autoFocus    = false;
+    dialogConfig.autoFocus    = true;
     dialogConfig.disableClose = true;
     const dialogRef: MatDialogRef<PictureChangerDialogComponent> = this.dialog.open(PictureChangerDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe( async () => {
