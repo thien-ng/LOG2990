@@ -133,8 +133,9 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus    = true;
-    dialogConfig.height       = "560px";
-    dialogConfig.width        = "600px";
+    dialogConfig.height       = "800px";
+    dialogConfig.width        = "500px";
+    dialogConfig.panelClass   = "full-blend-dalog";
     dialogConfig.autoFocus    = false;
     dialogConfig.disableClose = true;
 
