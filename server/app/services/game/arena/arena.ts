@@ -70,6 +70,7 @@ export abstract class Arena<IN_T, DIFF_T, EVT_T> {
         this.originalElements.forEach((value: ISceneObjectUpdate<ISceneObject | IMesh>, key: number) => {
             if (foundDifferences.indexOf(key) < 0 && value.sceneObject) {
                 const cheat: ICheat = {action: value.actionToApply, id: value.sceneObject.id};
+                differencesIds.push(cheat);
             }
         });
 
