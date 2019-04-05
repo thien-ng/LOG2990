@@ -6,6 +6,7 @@ import {
     IArenaResponse,
     IClickMessage,
     IOriginalPixelCluster,
+    IPosition2D, 
 import { IUser } from "../../../common/communication/iUser";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { CServer } from "../CServer";
