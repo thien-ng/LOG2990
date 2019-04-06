@@ -79,3 +79,32 @@ filter: blur(10px);
 .normal {
 filter: blur(0px);
 }
+
+
+.counterOut {
+border: 1px solid black;
+background-color: rgb(235, 237, 251);
+}
+
+
+.alignLeft {
+position: absolute;
+left: 0px;
+}
+
+.loadingFill {
+position: relative;
+right: 0px;
+}
+
+.names {
+font-family: 'Open Sans', sans-serif;
+font-size: 22pt;
+font-weight: bold;
+color:#7982D5;
+}
+
+
+app-difference-counter {
+height: 100%;
+}
