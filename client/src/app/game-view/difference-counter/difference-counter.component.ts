@@ -25,3 +25,27 @@ export class DifferenceCounterComponent implements AfterContentInit {
   public constructor( private differenceCounterService: DifferenceCounterService) {
     this.valueUser = 0;
     this.isLeft   = false;
+  }
+
+  public ngAfterContentInit(): void {
+    this.maxError = this.mode === 1 ? this.NB_ERROR_MAX_MULTI : this.NB_ERROR_MAX_SINGLE;
+    this.differenceCounterService.setNbErrorMax(this.maxError);
+    this.differenceCounterService.getCounter().subscribe((newCounterValue: INewScore) => {
+      this.updateCounter(newCounterValue);
+    });
+  }
+
+  public updateCounter(errorFoundCounter: INewScore): void {
+    const fillPercent: number = this.differenceCounterService.convertErrorToPercent(errorFoundCounter.score);
+    if (this.username === errorFoundCounter.player) {
+      if (this.mode === 1 && this.isLeft ) {
+        const leftFillPercent: number = 100 - fillPercent;
+        this.counter.nativeElement.style.width = leftFillPercent + "%";
+      } else {
+        this.counter.nativeElement.style.width = fillPercent + "%";
+      }
+      this.valueUser = errorFoundCounter.score;
+    }
+  }
+
+}
