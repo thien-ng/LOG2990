@@ -9,28 +9,10 @@ export class ThreejsMovement {
 
     private velocity:   THREE.Vector3;
     private direction:  THREE.Vector3;
-    private boule:      THREE.Mesh;
 
     public constructor(private camera: THREE.PerspectiveCamera, private scene: THREE.Scene) {
         this.velocity   = new THREE.Vector3(0, 0, 0);
         this.direction  = new THREE.Vector3(0, 0, 0);
-
-        const geometry: THREE.SphereGeometry = new THREE.SphereGeometry( 0.1 );
-        const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00} );
-        this.boule = new THREE.Mesh( geometry, material );
-        scene.add( this.boule );
-    }
-
-    private bougeMaBoule(): void {
-        // this.boule.position.add()
-        this.boule.position.x = this.camera.position.x + this.getDirection().x * (10);
-        this.boule.position.y = this.camera.position.y + this.getDirection().y * (10);
-        this.boule.position.z = this.camera.position.z + this.getDirection().z * (10);
-        const boulePos: THREE.Vector3 = this.boule.position.clone();
-        boulePos.ceil();
-        // console.log("Boule pos : ", boulePos.x, ", ", boulePos.y, ", ", boulePos.z);
-        // tslint:disable-next-line:max-line-length
-        // console.log("Camera pos : " + this.camera.position.x.toFixed(2) + ", " + this.camera.position.y.toFixed(2) + ", " + this.camera.position.z.toFixed(2));
     }
 
     public rotateCamera(position: IPosition2D): void {
@@ -45,7 +27,6 @@ export class ThreejsMovement {
         if ( moveForward || moveBackward || moveLeft || moveRight) {
             this.direction.z = Number(moveForward) - Number(moveBackward);
             this.direction.x = Number(moveRight)   - Number(moveLeft);
-            this.bougeMaBoule();
             this.setCameraVelocity();
 
             if (!this.objectIsBlockingDirection()) {
