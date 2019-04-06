@@ -1,11 +1,20 @@
 <app-waiting-room [isMultiplayer]="mode === 1" [gameID]="gameID" *ngIf="!gameIsStarted"></app-waiting-room>
 <span [hidden]="!gameIsStarted">
   <mat-grid-list id="game" cols="9" rowHeight="1%">
+      <mat-grid-tile [ngClass]="isGameEnded ? 'blur' : 'normal'"
+      [colspan]="1"
+      [rowspan]="12">
+      <button class="previous" mat-icon-button routerLink="/gamelist"><mat-icon>arrow_back_ios</mat-icon></button>
+      </mat-grid-tile>
     <mat-grid-tile
       [ngClass]="isGameEnded ? 'blur' : 'normal'"
-      [colspan]="7"
+      [colspan]="5"
       [rowspan]="12">
       <div class="gameName" *ngIf="cardLoaded">{{activeCard.title}}</div>
+    </mat-grid-tile>
+    <mat-grid-tile [ngClass]="isGameEnded ? 'blur' : 'normal'"
+    [colspan]="1"
+    [rowspan]="12">
     </mat-grid-tile>
     <mat-grid-tile
       [colspan]="2"
