@@ -1,13 +1,13 @@
 <svg *ngIf="mode === 1 && isLeft" height="100%" width="100%" class="counterLeftMulti counter">
   <rect fill="rgb(235, 237, 251)" #counter height="100%" width="100%" class="counter"></rect>
-  <text fill="#000000" class="value" x="47%" y="80%">{{valueUser}}/{{maxError}}</text>
+  <text fill="#000000" class="value" x="48%" y="80%">{{valueUser}}/{{maxError}}</text>
 </svg>
 <svg *ngIf="mode === 1 && !isLeft" height="100%" width="100%" class="loaderInRight counter">
   <rect fill="#27ABB5" #counter height="100%" width="0%" class="counter"></rect>
-  <text fill="#000000" class="value" x="47%" y="80%">{{valueUser}}/{{maxError}}</text>
+  <text fill="#000000" class="value" x="48%" y="80%">{{valueUser}}/{{maxError}}</text>
 </svg>
 
 <svg *ngIf="mode === 0" height="100%" width="100%" class="loaderInRight">
   <rect fill="#27ABB5" #counter height="100%" width="0%" class="counter"></rect>
-  <text fill="#000000" class="value" x="47.5%" y="80%">{{valueUser}}/{{maxError}}</text>
+  <text fill="#000000" class="value" x="48%" y="80%">{{valueUser}}/{{maxError}}</text>
 </svg>
