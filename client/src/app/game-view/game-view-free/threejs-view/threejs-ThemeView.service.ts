@@ -128,6 +128,18 @@ export class ThreejsThemeViewService {
     this.scene.add(plane);
   }
 
+  private buildWall(rotationWanted: THREE.Vector3, translationWanted: THREE.Vector3): void {
+      const plane: THREE.PlaneBufferGeometry = new THREE.PlaneBufferGeometry(
+      CClient.FLOOR_DIMENTION, CClient.FLOOR_DIMENTION, CClient.FLOOR_SEGMENT, CClient.FLOOR_SEGMENT);
+      const wallMaterial:  THREE.MeshBasicMaterial   = new THREE.MeshBasicMaterial(
+      { color: 0x000000, transparent: true, opacity: 0, side: THREE.DoubleSide });
+      const wall: THREE.Mesh = new THREE.Mesh(plane, wallMaterial);
+      this.rotateWall(wall, rotationWanted);
+      this.moveWall(wall, translationWanted);
+
+      this.scene.add(wall);
+    }
+
   public changeObjectsColor(cheatColorActivated: boolean, isLastChange: boolean, modifiedList?: number[]): void {
 
     if (!modifiedList) {
