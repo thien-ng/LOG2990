@@ -3,9 +3,9 @@ import { IPosition2D } from "../../../../../../../common/communication/iGameplay
 
 export class ThreejsMovement {
 
-    private readonly CAMERA_MOVEMENT_SPEED:   number = 2;
+    private readonly CAMERA_MOVEMENT_SPEED:   number = 2.5;
     private readonly CAMERA_ROTATION_SPEED:   number = 0.01;
-    private readonly CAMERA_COLLISION_RADIUS: number = 30;
+    private readonly CAMERA_COLLISION_RADIUS: number = 20;
 
     private velocity:   THREE.Vector3;
     private direction:  THREE.Vector3;
