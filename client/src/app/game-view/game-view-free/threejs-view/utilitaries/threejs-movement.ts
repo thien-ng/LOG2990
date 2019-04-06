@@ -46,7 +46,7 @@ export class ThreejsMovement {
 
     private objectIsBlockingDirection(): boolean {
 
-        const rayDirection: THREE.Vector3 = this.direction.clone().normalize();
+        const rayDirection: THREE.Vector3 = this.getDirection();
         const raycaster:    THREE.Raycaster =
         new THREE.Raycaster(this.camera.position, rayDirection);
 
