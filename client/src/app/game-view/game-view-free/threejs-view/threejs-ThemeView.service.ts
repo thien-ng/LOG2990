@@ -152,6 +152,16 @@ export class ThreejsThemeViewService {
     wall.position.z = translationWanted.z !== 0 ? translationWanted.z : wall.position.z;
   }
 
+  private setWalls(): void {
+    const distance: number = 600;
+    const verticalAngle: number = - Math.PI / CClient.FLOOR_DIVIDER;
+    this.buildWall(new THREE.Vector3(0, verticalAngle, 0), new THREE.Vector3(-distance, 0, 0));
+    this.buildWall(new THREE.Vector3(0, verticalAngle, 0), new THREE.Vector3( distance, 0, 0));
+    this.buildWall(new THREE.Vector3(0, 0, verticalAngle), new THREE.Vector3(0, 0,  distance));
+    this.buildWall(new THREE.Vector3(0, 0, verticalAngle), new THREE.Vector3(0, 0, -distance));
+    this.buildWall(new THREE.Vector3(verticalAngle, 0, 0), new THREE.Vector3(0, distance, 0));
+  }
+
   public changeObjectsColor(cheatColorActivated: boolean, isLastChange: boolean, modifiedList?: number[]): void {
 
     if (!modifiedList) {
