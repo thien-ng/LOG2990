@@ -1,39 +1,49 @@
-<!-- <app-waiting-room [isMultiplayer]="mode === 1" [gameID]="gameID" *ngIf="isLoading"></app-waiting-room>
+<app-waiting-room [isMultiplayer]="mode === 1" [gameID]="gameID" *ngIf="isLoading"></app-waiting-room>
 
 <span [hidden]="isLoading">
-  <mat-grid-list cols="9" rowHeight="1%">
+  <mat-grid-list id="game" cols="9" rowHeight="1%">
+    <mat-grid-tile [ngClass]="isGameEnded ? 'blur' : 'normal'"
+    [colspan]="1"
+    [rowspan]="12">
+    <button class="previous" mat-icon-button routerLink="/gamelist"><mat-icon>arrow_back_ios</mat-icon></button>
+    </mat-grid-tile>
     <mat-grid-tile
       [ngClass]="isGameEnded ? 'blur' : 'normal'"
-      [colspan]="7"
+      [colspan]="5"
       [rowspan]="12">
       <div class="gameName" *ngIf="!isLoading">{{activeCard.title}}</div>
     </mat-grid-tile>
+    <mat-grid-tile [ngClass]="isGameEnded ? 'blur' : 'normal'"
+    [colspan]="1"
+    [rowspan]="12">
+    <div>{{isCheater}}</div>
+    </mat-grid-tile>
     <mat-grid-tile
       [colspan]="2"
-      [rowspan]="89">
-      <app-chat-view #chat [arenaID]="arenaID" [username]="username"></app-chat-view>
+      [rowspan]="89" class="chatContainer">
+      <app-chat-view #chat [arenaID]="arenaID" [username]="username" ></app-chat-view>
     </mat-grid-tile>
     <mat-grid-tile
     [ngClass]="isGameEnded ? 'blur' : 'normal'"
     [colspan]="7"
-    [rowspan]="57">
-    <app-spinner *ngIf="isLoading"></app-spinner>
-      <mat-grid-list id="displayGame" cols="2" rowHeight="500px">
-          <mat-grid-tile [colspan]="1">
+    [rowspan]="70">
+      <mat-grid-list id="displayGame" cols="2" rowHeight="1%">
+        <mat-grid-tile [colspan]="1" [rowspan]="68">
             <div class="text" #erreurText></div>
-              <app-threejs-view #original
+            <app-threejs-view #original
                                 id                  = "originalScene"
                                 [arenaID]           = "arenaID"
                                 [username]          = "username"
                                 [meshInfos]         = "meshInfos"
                                 [isNotOriginal]     = "false"
                                 [iSceneVariables]   = "originalVariables"
-                                [isSnapshotNeeded]  = "NEEDED_SNAPSHOT">
+                                [isSnapshotNeeded]  = "NEEDED_SNAPSHOT"
+                                (isCheater)="setCheaterState($event)">
               </app-threejs-view>
         </mat-grid-tile>
-          <mat-grid-tile [colspan]="1" >
+        <mat-grid-tile [colspan]="1" [rowspan]="68">
             <div class="text2" #erreurText2></div>
-              <app-threejs-view #modified
+            <app-threejs-view #modified
                                 id                  = "modifiedScene"
                                 [arenaID]           = "arenaID"
                                 [username]          = "username"
@@ -42,34 +52,48 @@
                                 [iSceneVariables]   = "modifiedVariables"
                                 [isSnapshotNeeded]  = "NEEDED_SNAPSHOT">
               </app-threejs-view>
-            <div class="text2" #textDiv2></div>
-          </mat-grid-tile>
+        </mat-grid-tile>
+        <mat-grid-tile *ngIf="mode === 1" [colspan]="2" [rowspan]="20">
+          <mat-grid-list class="gameInfoContainer" cols="20" rowHeight="1%" >
+            <mat-grid-tile [colspan]="1" [rowspan]="45"></mat-grid-tile>
+            <mat-grid-tile [colspan]="8" [rowspan]="45" >
+              <mat-grid-list class="counter1" cols="1" rowHeight="1%">
+                <mat-grid-tile [colspan]="1" [rowspan]="16" class="names">{{username}}</mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="15" class="counterOut">
+                  <app-difference-counter [username]="username" [mode]="mode" [isLeft]="true"></app-difference-counter>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="15"></mat-grid-tile>
+              </mat-grid-list>
+              </mat-grid-tile>
+            <mat-grid-tile [colspan]="2" [rowspan]="45" class="timerContainer"><app-timer></app-timer></mat-grid-tile>
+            <mat-grid-tile [colspan]="8" [rowspan]="45">
+                <mat-grid-list class="counter1 alignLeft" cols="1" rowHeight="1%">
+                    <mat-grid-tile [colspan]="1" [rowspan]="16" class="names">{{opponentName}}</mat-grid-tile>
+                    <mat-grid-tile [colspan]="1" [rowspan]="15" class="counterOut">
+                      <app-difference-counter [username]="opponentName" [mode]="mode"></app-difference-counter>
+                    </mat-grid-tile>
+                    <mat-grid-tile [colspan]="1" [rowspan]="15"></mat-grid-tile>
+                  </mat-grid-list>
+            </mat-grid-tile>
+            <mat-grid-tile [colspan]="1" [rowspan]="45"></mat-grid-tile>
+          </mat-grid-list>
+        </mat-grid-tile>
+        <mat-grid-tile *ngIf="mode === 0" [colspan]="2" [rowspan]="20">
+          <mat-grid-list class="gameInfoContainer" cols="20" rowHeight="1%" >
+            <mat-grid-tile [colspan]="1" [rowspan]="60"></mat-grid-tile>
+            <mat-grid-tile [colspan]="18" [rowspan]="55" >
+              <mat-grid-list class="counter1" cols="1" rowHeight="1%">
+                <mat-grid-tile [colspan]="1" [rowspan]="22" ><app-timer class="timer"></app-timer></mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="15" class="counterOut">
+                  <app-difference-counter [username]="username" [mode]="mode" style="height: 100%;"></app-difference-counter>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="22" class="names">{{username}}</mat-grid-tile>
+              </mat-grid-list>
+              <mat-grid-tile [colspan]="1" [rowspan]="15"></mat-grid-tile>
+              </mat-grid-tile>
+          </mat-grid-list>
+        </mat-grid-tile>
       </mat-grid-list>
-    </mat-grid-tile>
-    <mat-grid-tile
-      [ngClass]="isGameEnded ? 'blur' : 'normal'"
-      [colspan]="4"
-      [rowspan]="20">
-      <app-timer></app-timer>
-    </mat-grid-tile>
-    <mat-grid-tile
-      [ngClass]="isGameEnded ? 'blur' : 'normal'"
-      *ngIf="mode === 0"
-      [colspan]="2"
-      [rowspan]="20">
-      <app-difference-counter [username]="username">{{username}}</app-difference-counter>
-    </mat-grid-tile>
-    <mat-grid-tile
-      *ngIf="mode === 1" [ngClass]="isGameEnded ? 'blur' : 'normal'"
-      [colspan]="1"
-      [rowspan]="20">
-      <app-difference-counter [username]="username">{{username}}</app-difference-counter>
-    </mat-grid-tile>
-    <mat-grid-tile
-      *ngIf="mode === 1" [ngClass]="isGameEnded ? 'blur' : 'normal'"
-      [colspan]="1"
-      [rowspan]="20">
-      <app-difference-counter [username]="opponentName">{{opponentName}}</app-difference-counter>
     </mat-grid-tile>
   </mat-grid-list>
 </span>
@@ -88,4 +112,4 @@
 <audio #gameLost>
   <source src={{GAME_LOST}} type="audio/wav">
 </audio>
- -->
+
