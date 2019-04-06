@@ -14,6 +14,7 @@ import { GameListContainerComponent } from "./game-list-container/game-list-cont
 import { GameListComponent } from "./game-list/game-list.component";
 import { ChatViewComponent } from "./game-view/chat-view/chat-view.component";
 import { MessageViewComponent } from "./game-view/chat-view/message-view/message-view.component";
+import { DifferenceCounterComponent } from "./game-view/difference-counter/difference-counter.component";
 import { EndGameDialogComponent } from "./game-view/endGameDialog/end-game-dialog/end-game-dialog.component";
 import { GameViewFreeComponent } from "./game-view/game-view-free/game-view-free.component";
 import { TheejsViewComponent } from "./game-view/game-view-free/threejs-view/threejs-view.component";
@@ -91,6 +92,7 @@ const routes: Routes = [
     SpinnerComponent,
     ConfirmationDialogComponent,
     EndGameDialogComponent,
+    DifferenceCounterComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
