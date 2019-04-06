@@ -140,6 +140,12 @@ export class ThreejsThemeViewService {
       this.scene.add(wall);
     }
 
+  private rotateWall(wall: THREE.Mesh, rotationWanted: THREE.Vector3): void {
+    wall.rotateX(rotationWanted.x);
+    wall.rotateY(rotationWanted.y);
+    wall.rotateZ(rotationWanted.z);
+  }
+
   public changeObjectsColor(cheatColorActivated: boolean, isLastChange: boolean, modifiedList?: number[]): void {
 
     if (!modifiedList) {
