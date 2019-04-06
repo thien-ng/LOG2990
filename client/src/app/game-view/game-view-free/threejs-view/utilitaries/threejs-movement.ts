@@ -31,13 +31,6 @@ export class ThreejsMovement {
 
             if (!this.objectIsBlockingDirection()) {
                 this.translateCamera();
-                // const f: THREE.Vector3 = this.getForwardDirection();
-                // const s: THREE.Vector3 = this.getSideDirection();
-                // console.log("Direction after : ", this.direction.x, ", ", this.direction.y, ", ", this.direction.z);
-
-                // console.log("front vector : ", f.x, ", ", f.y, ", ", f.z);
-                // console.log("side vector  : ", s.x, ", ", s.y, ", ", s.z);
-                // console.log("Dot product : ", this.dotProduct(f, s));
             }
         } else {
             this.multiplyVector(this.velocity, 0);
