@@ -71,13 +71,10 @@ export class ThreejsMovement {
 
     private getSideDirection(): THREE.Vector3 {
         const yAxis:        THREE.Vector3 = new THREE.Vector3(0, 1, 0);
-        let sideDirection:  THREE.Vector3 = this.crossProduct(this.getForwardDirection(), yAxis);
+        const forwardVector:  THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+        this.camera.getWorldDirection(forwardVector);
+        let sideDirection:  THREE.Vector3 = this.crossProduct(forwardVector, yAxis);
 
-        // console.log("side direction : " );
-        // tslint:disable-next-line:max-line-length
-        console.log("Direction side : " + sideDirection.x.toFixed(2) + ", " + sideDirection.y.toFixed(2) + ", " + sideDirection.z.toFixed(2));
-
-        console.log("Direction x: " + this.direction.x);
         sideDirection = this.multiplyVector(sideDirection, this.direction.x);
 
         return sideDirection.normalize();
