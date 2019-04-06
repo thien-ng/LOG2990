@@ -52,10 +52,6 @@ export class ThreejsMovement {
 
         const objectsIntersected: THREE.Intersection[] = raycaster.intersectObjects(this.scene.children, true);
 
-        if (objectsIntersected.length > 0 && objectsIntersected[0].distance < this.CAMERA_COLLISION_RADIUS) {
-            console.log("Collision a : " + objectsIntersected[0].distance);
-        }
-
         return objectsIntersected.length > 0 && objectsIntersected[0].distance < this.CAMERA_COLLISION_RADIUS;
     }
 
@@ -118,19 +114,4 @@ export class ThreejsMovement {
 
         return toVector;
     }
-
-    // private dotProduct (vector1: THREE.Vector3, vector2: THREE.Vector3): number {
-    //     return (vector1.x * vector2.x) + (vector1.y * vector2.y) + (vector1.z * vector2.z);
-    // }
-
-    // poubelle
-    // public getParentObject(object: THREE.Object3D): THREE.Object3D | null  {
-    //     if (object === null) { return null; }
-    //     if (object.parent === this.scene) { return object; }
-    //     const parent: THREE.Object3D | null = object.parent;
-    //     if (parent) { return this.getParentObject(parent); }
-
-    //     return null;
-    // }
-
 }
