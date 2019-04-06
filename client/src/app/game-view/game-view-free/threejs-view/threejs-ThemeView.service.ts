@@ -146,6 +146,12 @@ export class ThreejsThemeViewService {
     wall.rotateZ(rotationWanted.z);
   }
 
+  private moveWall(wall: THREE.Mesh, translationWanted: THREE.Vector3): void {
+    wall.position.x = translationWanted.x !== 0 ? translationWanted.x : wall.position.x;
+    wall.position.y = translationWanted.y !== 0 ? translationWanted.y : wall.position.y;
+    wall.position.z = translationWanted.z !== 0 ? translationWanted.z : wall.position.z;
+  }
+
   public changeObjectsColor(cheatColorActivated: boolean, isLastChange: boolean, modifiedList?: number[]): void {
 
     if (!modifiedList) {
