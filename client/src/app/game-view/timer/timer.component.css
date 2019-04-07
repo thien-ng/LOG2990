@@ -9,8 +9,8 @@
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none;
     background: blue;
-    -webkit-animation: color-change-2x 2s linear infinite alternate both;
-          animation: color-change-2x 2s linear infinite alternate both;
+    -webkit-animation: color-change-2x 3s linear infinite alternate both;
+          animation: color-change-2x 3s linear infinite alternate both;
     border: 1px solid black;
     /* border-radius: 10%; */
 }
@@ -40,18 +40,18 @@ mat-card {
  */
  @-webkit-keyframes color-change-2x {
   0% {
-    background: #aaacac;
+    background: #8f9191;
   }
   100% {
-    background: #ececec;
+    background: #ffffff;
   }
 }
 @keyframes color-change-2x {
   0% {
-    background: #aaacac;
+    background: #8f9191;
   }
   100% {
-    background: #ececec;
+    background: #ffffff;
   }
 }
 
