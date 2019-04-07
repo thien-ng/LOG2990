@@ -108,3 +108,17 @@ color:#7982D5;
 app-difference-counter {
 height: 100%;
 }
+
+/*
+CSS LED LIGHTS [online] Available https://codepen.io/fskirschbaum/pen/MYJNaj/
+Author: F.Stephen Kirschbaum
+*/
+
+.led-box {
+  height: 30px;
+  width: 100%;
+  margin: 10px 0;
+  float: left;
+}
+
+}
