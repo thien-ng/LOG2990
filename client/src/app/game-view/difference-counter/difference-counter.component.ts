@@ -9,7 +9,8 @@ import { DifferenceCounterService } from "./difference-counter.service";
 })
 export class DifferenceCounterComponent implements AfterContentInit {
 
-  @ViewChild("counter",       {read: ElementRef})  public counter: ElementRef;
+  @ViewChild("counter",       {read: ElementRef})  public counter:      ElementRef;
+  @ViewChild("slideEffect",   {read: ElementRef})  public slideEffect:  ElementRef;
 
   @Input() private username:  string;
   @Input() private isLeft:    boolean;
@@ -46,6 +47,7 @@ export class DifferenceCounterComponent implements AfterContentInit {
       }
       this.valueUser = errorFoundCounter.score;
     }
+    this.slideEffect.nativeElement.play();
   }
 
 }
