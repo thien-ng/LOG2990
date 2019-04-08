@@ -1,14 +1,22 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { PictureChangerDialogComponent } from './picture-changer-dialog.component';
+import { MatDialogRef } from "@angular/material";
+import { TestingImportsModule } from "../testing-imports/testing-imports.module";
+import { PictureChangerDialogComponent } from "./picture-changer-dialog.component";
 
-describe('PictureChangerDialogComponent', () => {
+// tslint:disable: no-floating-promises no-any
+
+describe("PictureChangerDialogComponent", () => {
   let component: PictureChangerDialogComponent;
   let fixture: ComponentFixture<PictureChangerDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PictureChangerDialogComponent ]
+      imports:   [TestingImportsModule],
+      declarations: [ PictureChangerDialogComponent ],
+      providers: [
+        { provide: MatDialogRef, useValue: {} },
+      ],
     })
     .compileComponents();
   }));
@@ -19,7 +27,7 @@ describe('PictureChangerDialogComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
