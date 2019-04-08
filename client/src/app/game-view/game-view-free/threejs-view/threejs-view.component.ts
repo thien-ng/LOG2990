@@ -1,20 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import {
-  AfterContentInit,
-  Component,
-  ElementRef,
-  EventEmitter,
-  HostListener,
-  Inject,
-  Input,
-  OnChanges,
-  OnDestroy,
-  Output,
-  ViewChild} from "@angular/core";
+  AfterContentInit, Component, ElementRef, EventEmitter, HostListener,
+  Inject, Input, OnChanges, OnDestroy, Output, ViewChild} from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import { GameConnectionService } from "src/app/game-connection.service";
 import * as THREE from "three";
-import { IClickMessage, IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
+import { ActionType, ICheat, IClickMessage, IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { ISceneMessage } from "../../../../../../common/communication/iSceneMessage";
 import { IMesh, ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { SceneType } from "../../../../../../common/communication/iSceneOptions";
@@ -155,13 +146,14 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
   }
 
   private cheatRoutine (): void {
-    this.httpClient.get(CClient.GET_OBJECTS_ID_PATH + this.CHEAT_URL + this.arenaID).subscribe((modifications: number[]) => {
+    this.httpClient.get(CClient.GET_OBJECTS_ID_PATH + this.CHEAT_URL + this.arenaID).subscribe((modifications: ICheat[]) => {
+      const idsToFlash: number[] = this.sortIdToFlash(modifications);
+
       if (this.isFirstGet) {
-        this.previousModifications = modifications;
+        this.previousModifications = idsToFlash;
         this.isFirstGet            = false;
       }
-
-      this.modifications = modifications;
+      this.modifications = idsToFlash;
       this.isCheating    = !this.isCheating;
       this.changeColor();
     });
@@ -189,9 +181,26 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
 
   private getDifferencesList(): void {
     this.socketService.sendMessage(CCommon.ON_GET_MODIF_LIST, this.arenaID);
-    this.socketService.onMessage(CCommon.ON_RECEIVE_MODIF_LIST).subscribe((list: number[]) => {
-      this.modifications = list;
+    this.socketService.onMessage(CCommon.ON_RECEIVE_MODIF_LIST).subscribe((modifications: ICheat[]) => {
+      this.modifications = this.sortIdToFlash(modifications);
     });
+  }
+
+  private sortIdToFlash(modifications: ICheat[]): number[] {
+    const idsToFlash: number[] = [];
+    modifications.forEach((cheatId: ICheat) => {
+      if (this.isNotOriginal) {
+        if (cheatId.action === ActionType.DELETE || cheatId.action === ActionType.CHANGE_COLOR) {
+          idsToFlash.push(cheatId.id);
+        }
+      } else {
+        if (cheatId.action === ActionType.ADD || cheatId.action === ActionType.CHANGE_COLOR) {
+          idsToFlash.push(cheatId.id);
+        }
+      }
+    });
+
+    return idsToFlash;
   }
 
   private initSubscriptions(): void {

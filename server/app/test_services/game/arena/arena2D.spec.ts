@@ -14,7 +14,7 @@ import { Player } from "../../../services/game/arena/player";
 import { GameManagerService } from "../../../services/game/game-manager.service";
 import { UserManagerService } from "../../../services/user-manager.service";
 
-import { IArenaResponse, IOriginalPixelCluster, IPosition2D } from "../../../../../common/communication/iGameplay";
+import { IArenaResponse, ICheat, IOriginalPixelCluster, IPosition2D } from "../../../../../common/communication/iGameplay";
 import { IUser } from "../../../../../common/communication/iUser";
 import { AssetManagerService } from "../../../services/asset-manager.service";
 import { CardOperations } from "../../../services/card-operations.service";
@@ -25,7 +25,7 @@ import { LobbyManagerService } from "../../../services/game/lobby-manager.servic
 import { HighscoreService } from "../../../services/highscore.service";
 import { TimeManagerService } from "../../../services/time-manager.service";
 
-// tslint:disable:no-magic-numbers no-any max-file-line-count no-empty max-line-length
+// tslint:disable:no-magic-numbers no-any max-file-line-count no-empty max-line-length arrow-return-shorthand
 
 const activeUser: IUser = {
     username: "mike",
@@ -132,7 +132,8 @@ describe("Arena 2D tests", () => {
     });
 
     it("should get empty difference ids list", async () => {
-        const result: number[] = arena.getDifferencesIds();
+        chai.spy.on(arena["referee"], "getFoundDifferences", () => [1, 2, 3, 4]);
+        const result: ICheat[] = arena.getDifferencesIds();
         chai.expect(result.length).to.equal(0);
     });
 

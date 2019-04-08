@@ -2,7 +2,8 @@ import { AxiosInstance, AxiosResponse } from "axios";
 import { inject } from "inversify";
 import { Time } from "../../../../../common/communication/highscore";
 import { GameMode } from "../../../../../common/communication/iCard";
-import { IArenaResponse } from "../../../../../common/communication/iGameplay";
+import { IArenaResponse, ICheat, IOriginalPixelCluster, ISceneObjectUpdate } from "../../../../../common/communication/iGameplay";
+import { IMesh, ISceneObject } from "../../../../../common/communication/iSceneObject";
 import { IUser } from "../../../../../common/communication/iUser";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import Types from "../../../types";
@@ -30,14 +31,14 @@ export abstract class Arena<IN_T, DIFF_T, EVT_T> {
     protected readonly ONE_PLAYER:        number = 1;
     protected players:                    Player[];
     protected referee:                    Referee<EVT_T, DIFF_T>;
-    protected originalElements:           Map<number, DIFF_T>; // _TODO: A BOUGER DANS LES ARENA 2D et 3D
+    protected originalElements:           Map<number, IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>>;
 
     public constructor (
         protected arenaInfos: IArenaInfos<I2DInfos | I3DInfos>,
         @inject(Types.GameManagerService) public gameManagerService: GameManagerService) {
             this.players = [];
             this.createPlayers();
-            this.originalElements   = new Map<number, DIFF_T>();
+            this.originalElements   = new Map<number, ISceneObjectUpdate<ISceneObject | IMesh>>();
             this.timer              = new Timer();
         }
 
@@ -53,14 +54,15 @@ export abstract class Arena<IN_T, DIFF_T, EVT_T> {
         return this.players;
     }
 
-    public getDifferencesIds(): number[] {
+    public getDifferencesIds(): ICheat[] {
 
         const foundDifferences: number[] = this.referee.getFoundDifferences();
-        const differencesIds:   number[] = [];
+        const differencesIds:   ICheat[] = [];
 
-        this.originalElements.forEach((value: DIFF_T, key: number) => {
-            if (foundDifferences.indexOf(key) < 0) {
-                differencesIds.push(key);
+        this.originalElements.forEach((value: ISceneObjectUpdate<ISceneObject | IMesh>, key: number) => {
+            if (foundDifferences.indexOf(key) < 0 && value.sceneObject) {
+                const cheat: ICheat = {action: value.actionToApply, id: value.sceneObject.id};
+                differencesIds.push(cheat);
             }
         });
 
