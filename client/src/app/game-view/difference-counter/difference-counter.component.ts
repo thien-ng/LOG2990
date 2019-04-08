@@ -1,6 +1,7 @@
 import { AfterContentInit, Component, ElementRef, Input, ViewChild } from "@angular/core";
 import { CClient } from "src/app/CClient";
 import { INewScore } from "../../../../../common/communication/iGameplay";
+import { CCommon } from "../../../../../common/constantes/cCommon";
 import { DifferenceCounterService } from "./difference-counter.service";
 
 @Component({
@@ -20,6 +21,7 @@ export class DifferenceCounterComponent implements AfterContentInit {
   public readonly DEFAULT_NB_ERROR_FOUND: number = 0;
   public readonly NB_ERROR_MAX_SINGLE:    number = 7;
   public readonly NB_ERROR_MAX_MULTI:     number = 4;
+  public readonly SLIDER_SOUND:           string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/audio/sliderEffect.mp3";
 
   public valueUser:                       number;
   public maxError:                        number;
