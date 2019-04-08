@@ -43,10 +43,11 @@ describe("EndGameDialogService tests", () => {
     endGameDialogService = new EndGameDialogService(config, cardManager, dialog, snackBar, router);
   });
 
-  it("Should open the snackbar", () => {
+  it("Should open the snackbar", (done: Function) => {
     const spy: any = spyOn(endGameDialogService["snackBar"], "open");
     endGameDialogService["openSnackbar"]("help");
 
     expect(spy).toHaveBeenCalled();
+    done();
   });
 });
