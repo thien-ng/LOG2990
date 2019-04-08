@@ -110,7 +110,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
         gameID: this.gameID,
         type: this.mode,
       };
-      this.endGameDialogService.openDialog(isWinner, newGameInfo);
+      this.endGameDialogService.openDialog(isWinner, newGameInfo, GameMode.simple);
     }));
 
     this.subscription.push(this.socketService.onMessage(CCommon.ON_COUNTDOWN_START).subscribe((message: string[]) => {
