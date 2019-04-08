@@ -142,7 +142,7 @@ export class AssetManagerService {
 
             return JSON.parse(readFile.toString()) as ICard;
         } catch (error) {
-            throw new TypeError(GET_CARDS_ERROR);
+            return {gameID: -1} as ICard;
         }
     }
 
