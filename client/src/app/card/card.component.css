@@ -77,3 +77,18 @@
     padding-right: 3%; 
     padding-bottom: 3%;
 }
+
+.clignoter {
+    animation: blink 1s infinite;
+    -webkit-animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0% { color: rgb(194, 204, 255); }
+    50% { color: rgb(0, 38, 255); }
+}
+
+@-webkit-keyframes blink {
+    0% { color: rgb(194, 204, 255); }
+    50% { color: rgb(0, 38, 255); }
+}
