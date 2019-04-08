@@ -1,16 +1,18 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { DifferenceCounterComponent } from './difference-counter.component';
+import { CClient } from "src/app/CClient";
+import { DifferenceCounterComponent } from "./difference-counter.component";
 
-describe('DifferenceCounterComponent', () => {
+describe("DifferenceCounterComponent", () => {
   let component: DifferenceCounterComponent;
   let fixture: ComponentFixture<DifferenceCounterComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DifferenceCounterComponent ]
+      declarations: [ DifferenceCounterComponent],
     })
-    .compileComponents();
+    .compileComponents()
+    .catch(() => CClient.OBLIGATORY_CATCH);
   }));
 
   beforeEach(() => {
@@ -19,7 +21,7 @@ describe('DifferenceCounterComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,4 +1,5 @@
 import { AfterContentInit, Component, ElementRef, Input, ViewChild } from "@angular/core";
+import { CClient } from "src/app/CClient";
 import { INewScore } from "../../../../../common/communication/iGameplay";
 import { DifferenceCounterService } from "./difference-counter.service";
 
@@ -40,7 +41,7 @@ export class DifferenceCounterComponent implements AfterContentInit {
     const fillPercent: number = this.differenceCounterService.convertErrorToPercent(errorFoundCounter.score);
     if (this.username === errorFoundCounter.player) {
       if (this.mode === 1 && this.isLeft ) {
-        const leftFillPercent: number = 100 - fillPercent;
+        const leftFillPercent: number = CClient.PERCENT - fillPercent;
         this.counter.nativeElement.style.width = leftFillPercent + "%";
       } else {
         this.counter.nativeElement.style.width = fillPercent + "%";
