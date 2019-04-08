@@ -4,9 +4,10 @@ import * as SocketIO from "socket.io";
 import { IChatSender } from "../../../common/communication/iChat";
 import {
     IArenaResponse,
+    ICheat,
     IClickMessage,
     IOriginalPixelCluster,
-    IPosition2D } from "../../../common/communication/iGameplay";
+    IPosition2D} from "../../../common/communication/iGameplay";
 import { IUser } from "../../../common/communication/iUser";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { CServer } from "../CServer";
@@ -51,7 +52,7 @@ export class WebsocketManager {
             this.chatSocketChecker(socket);
 
             socket.on(CCommon.ON_GET_MODIF_LIST, (arenaID: number) => {
-                const list: number[] = this.gameManagerService.getDifferencesIndex(arenaID);
+                const list: ICheat[] = this.gameManagerService.getDifferencesIndex(arenaID);
 
                 socket.emit(CCommon.ON_RECEIVE_MODIF_LIST, list);
             });
