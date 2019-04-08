@@ -31,7 +31,8 @@ export class CreateSimpleGameComponent {
   public readonly ERROR_SIZE:     string    = "Taille: " + CCommon.MIN_GAME_LENGTH + "-" + CCommon.MAX_GAME_LENGTH + " caractères";
   public readonly ERROR_REQUIRED: string    = "Nom de jeu requis";
   public readonly CHECK_CIRCLE:   string    = "cancel";
-  public  isCardGenerated:        boolean;
+
+  public  isGenerating:           boolean;
 
   private selectedFiles:          [Blob, Blob];
 
@@ -62,7 +63,7 @@ export class CreateSimpleGameComponent {
       this.nameModifPlaceHolder = "";
       this.nameOrigPlaceHolder  = "";
       this.selectedFiles        = [new Blob(), new Blob()];
-      this.isCardGenerated      = false;
+      this.isGenerating      = false;
       this.formControl          = new FormGroup({
         gameName: new FormControl("", [
           Validators.required,
@@ -146,7 +147,7 @@ export class CreateSimpleGameComponent {
 
   public submit(data: NgForm): void {
     this.isButtonEnabled = false;
-    this.isCardGenerated = true;
+    this.isGenerating = true;
     const formdata: FormData = this.createFormData(data);
     this.httpClient.post(CClient.SIMPLE_SUBMIT_PATH, formdata).subscribe((response: Message) => {
       this.analyseResponse(response);
@@ -161,7 +162,7 @@ export class CreateSimpleGameComponent {
     } else if (response.title === CCommon.ON_ERROR) {
       this.openSnackBar(response.body, CClient.SNACK_ACTION);
     }
-    this.isCardGenerated = false;
+    this.isGenerating = false;
   }
 
   private openSnackBar(msg: string, action: string): void {
