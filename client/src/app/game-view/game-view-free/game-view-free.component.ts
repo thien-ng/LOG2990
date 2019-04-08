@@ -149,7 +149,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
         gameID: Number(this.gameID),
         type: this.mode,
       };
-      this.endGameDialogService.openDialog(isWinner, newGameInfo);
+      this.endGameDialogService.openDialog(isWinner, newGameInfo, GameMode.free);
     }));
     this.subscription.push(this.socketService.onMessage(CCommon.ON_COUNTDOWN_START).subscribe((message: string[]) => {
       const index: number = message[0] === this.username ? 1 : 0;
