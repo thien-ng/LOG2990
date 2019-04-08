@@ -48,6 +48,7 @@ export class CClient {
   public static readonly CARDS_PATH:                string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/api/card/list";
   public static readonly REMOVE_CARD_PATH:          string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/api/card/remove";
   public static readonly HIGHSCORE_PATH:            string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/api/highscore/";
+  public static readonly CARD_BY_ID_PATH:           string = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/api/card/";
   public static readonly RESET_PATH:                string = "generator/";
 
   // Constants for socket.service.ts
