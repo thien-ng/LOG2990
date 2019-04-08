@@ -47,7 +47,7 @@ export class CreateSimpleGameComponent {
   public isButtonEnabled:         boolean;
   public isOriginalVisible:       Boolean;
   public isModifiedVisible:       Boolean;
-  public  nameOrigPlaceHolder:    string;
+  public nameOrigPlaceHolder:     string;
   public nameModifPlaceHolder:    string;
 
   public constructor(
@@ -146,9 +146,10 @@ export class CreateSimpleGameComponent {
   }
 
   public submit(data: NgForm): void {
-    this.isButtonEnabled = false;
-    this.isGenerating = true;
-    const formdata: FormData = this.createFormData(data);
+    this.isButtonEnabled      = false;
+    this.isGenerating         = true;
+    const formdata: FormData  = this.createFormData(data);
+
     this.httpClient.post(CClient.SIMPLE_SUBMIT_PATH, formdata).subscribe((response: Message) => {
       this.analyseResponse(response);
       this.isButtonEnabled = true;
