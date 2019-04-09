@@ -66,7 +66,7 @@ export class PictureChangerDialogComponent {
     }
 
     this.isDisable = true;
-    this.httpClient.post<Message>(CClient.PATH_TO_NEW_PICTURE, message).subscribe((response: Message) => {
+    this.httpClient.post<Message>(CClient.PATH_TO_PROFILE_PICTURE, message).subscribe((response: Message) => {
       if (response.title !== CCommon.ON_ERROR) {
         this.profilePic = CClient.PATH_TO_PROFILE_IMAGES + this.username + ".bmp" + "?" + new Date().getTime();
         this.isDisable = false;
