@@ -63,7 +63,7 @@ export class CreateSimpleGameComponent {
       this.nameModifPlaceHolder = "";
       this.nameOrigPlaceHolder  = "";
       this.selectedFiles        = [new Blob(), new Blob()];
-      this.isGenerating      = false;
+      this.isGenerating         = false;
       this.formControl          = new FormGroup({
         gameName: new FormControl("", [
           Validators.required,
