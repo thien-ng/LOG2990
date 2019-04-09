@@ -43,14 +43,11 @@ describe("EndGameDialogService tests", () => {
     endGameDialogService = new EndGameDialogService(config, cardManager, dialog, snackBar, router);
   });
 
-<<<<<<< HEAD
   it("Should open the snackbar", (done: Function) => {
-=======
-  it("is a test", () => {
->>>>>>> parent of 107d5571... JB T: regler erreur de test sur ci
     const spy: any = spyOn(endGameDialogService["snackBar"], "open");
     endGameDialogService["openSnackbar"]("help");
 
     expect(spy).toHaveBeenCalled();
+    done();
   });
 });
