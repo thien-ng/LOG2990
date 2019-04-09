@@ -64,7 +64,6 @@ button:focus {
   height: 90%;
   width: 70%;
   box-shadow: 2px 2px 5px gray;
-  /* border-radius: 50%; */
   border-color: black;
   border-width: 1px;
 }
