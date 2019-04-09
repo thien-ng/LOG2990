@@ -106,9 +106,9 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       isWinner ? this.gameViewService.playWinSound() : this.gameViewService.playLossSound();
       this.isGameEnded = true;
       const newGameInfo: INewGameInfo = {
-        path: CClient.GAME_VIEW_SIMPLE_PATH,
+        path:   CClient.GAME_VIEW_SIMPLE_PATH,
         gameID: this.gameID,
-        type: this.mode,
+        type:   this.mode,
       };
       this.endGameDialogService.openDialog(isWinner, newGameInfo, GameMode.simple);
     }));
