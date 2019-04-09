@@ -7,7 +7,7 @@ import { Dialog } from "../../../../../common/communication/iCard";
 import { ConfirmationDialogComponent } from "./confirmation-dialog.component";
 
 describe("ConfirmationDialogComponent", () => {
-  let component:  ConfirmationDialogComponent;
+  // let component:  ConfirmationDialogComponent;
   let fixture:    ComponentFixture<ConfirmationDialogComponent>;
 
   const model: Dialog = {
@@ -31,7 +31,7 @@ describe("ConfirmationDialogComponent", () => {
 
   beforeEach(() => {
     fixture   = TestBed.createComponent(ConfirmationDialogComponent);
-    component = fixture.componentInstance;
+    // component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
