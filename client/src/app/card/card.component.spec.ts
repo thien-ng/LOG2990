@@ -35,8 +35,4 @@ describe("CardComponent", () => {
     component.card = card;
     fixture.detectChanges();
   });
-
-  // it("should create", () => {
-  //   expect(component).toBeTruthy();
-  // });
 });

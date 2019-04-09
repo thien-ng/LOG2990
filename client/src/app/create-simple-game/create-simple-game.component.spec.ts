@@ -6,7 +6,6 @@ import { TestingImportsModule } from "../testing-imports/testing-imports.module"
 import { CreateSimpleGameComponent } from "./create-simple-game.component";
 
 describe("CreateSimpleGameComponent", () => {
-  let component:  CreateSimpleGameComponent;
   let fixture:    ComponentFixture<CreateSimpleGameComponent>;
 
   beforeEach(async(() => {
@@ -27,11 +26,6 @@ describe("CreateSimpleGameComponent", () => {
 
   beforeEach(() => {
     fixture   = TestBed.createComponent(CreateSimpleGameComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  it("should create", () => {
-    expect(component).toBeTruthy();
   });
 });
