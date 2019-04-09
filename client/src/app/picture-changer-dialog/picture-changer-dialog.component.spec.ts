@@ -12,17 +12,15 @@ describe("PictureChangerDialogComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports:   [TestingImportsModule],
+      imports:      [TestingImportsModule],
       declarations: [ PictureChangerDialogComponent ],
-      providers: [
-        { provide: MatDialogRef, useValue: {} },
-      ],
+      providers:    [{ provide: MatDialogRef, useValue: {} }],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PictureChangerDialogComponent);
+    fixture   = TestBed.createComponent(PictureChangerDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
