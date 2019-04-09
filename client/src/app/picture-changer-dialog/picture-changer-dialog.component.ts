@@ -13,21 +13,20 @@ enum GenerationType {
 }
 
 const RGB_REGEX: RegExp = /[^\d,]/g;
-const R:                    number = 0;
-const G:                    number = 1;
-const B:                    number = 2;
+const R:         number = 0;
+const G:         number = 1;
+const B:         number = 2;
 
 @Component({
   selector: "app-picture-changer-dialog",
   templateUrl: "./picture-changer-dialog.component.html",
   styleUrls: ["./picture-changer-dialog.component.css"],
 })
-
 export class PictureChangerDialogComponent {
-  public readonly TITRE:         string = "Générateur d'avatar";
-  public readonly COLOR:         string = "rgba(232, 17, 135, 1)";
-  public readonly OPTION1:       string = "Couleur aléatoire";
-  public readonly OPTION2:       string = "Choisir couleur";
+  public readonly TITRE:       string = "Générateur d'avatar";
+  public readonly COLOR:       string = "rgba(232, 17, 135, 1)";
+  public readonly OPTION1:     string = "Couleur aléatoire";
+  public readonly OPTION2:     string = "Choisir couleur";
   public readonly CHOOSE_TEXT: string = "Choisir";
 
   public profilePic:     string;
@@ -83,7 +82,7 @@ export class PictureChangerDialogComponent {
 
   private getRGBFromString(str: string): number[] {
     const rgbString: string[] = str.replace(RGB_REGEX, "").split(",");
-    const rgb: number[] = [];
+    const rgb:       number[] = [];
     rgbString.forEach((color: string) => {
       rgb.push(Number(color));
     });
