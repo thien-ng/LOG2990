@@ -8,7 +8,7 @@ import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { INewGameInfo } from "../../../../../common/communication/iGameplay";
 import { EndGameDialogComponent } from "./end-game-dialog/end-game-dialog.component";
 
-const CARD_DELETED_MESSAGE: string = "Carte a été supprimée. Impossible de rejouer!";
+const CARD_DELETED_MESSAGE: string = "La carte a été supprimée. Impossible de rejouer!";
 
 @Injectable()
 export class EndGameDialogService {
