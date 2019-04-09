@@ -32,4 +32,8 @@ describe("ConfirmationDialogComponent", () => {
     fixture   = TestBed.createComponent(ConfirmationDialogComponent);
     fixture.detectChanges();
   });
+
+  // it("should create", () => {
+  //   expect(component).toBeTruthy();
+  // });
 });
