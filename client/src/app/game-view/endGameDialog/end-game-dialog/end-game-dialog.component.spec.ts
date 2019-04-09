@@ -16,7 +16,7 @@ describe("EndGameDialogComponent", () => {
       imports:      [TestingImportsModule],
       providers:    [
         EndGameDialogService,
-        { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: MAT_DIALOG_DATA, useValue: {isWinner: true} },
         { provide: MatDialogRef, useValue: {} } ],
     })
     .compileComponents();
