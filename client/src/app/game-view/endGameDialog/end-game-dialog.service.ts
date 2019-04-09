@@ -30,23 +30,32 @@ export class EndGameDialogService {
 
   public openDialog(isWinner: boolean, newGameInfo: INewGameInfo, gamemode: GameMode): void {
     this.dialogConfig.data = isWinner;
-
     const dialogRef: MatDialogRef<EndGameDialogComponent> = this.dialog.open(EndGameDialogComponent, this.dialogConfig);
+
     dialogRef.beforeClosed().subscribe((result: boolean) => {
       this.cardManager.getCardById(newGameInfo.gameID, gamemode).subscribe((response: ICard) => {
+
         if (result && response.gameID === -1) {
-          this.openSnackbar(CARD_DELETED_MESSAGE);
-          this.router.navigate([CClient.GAMELIST_REDIRECT]).catch((error: Error) => this.openSnackbar(error.message));
+          this.notifyCardDeleted();
         } else if (result) {
-          this.router.navigate([CClient.GAMELIST_REDIRECT]).then(() => {
-            this.router.navigate([newGameInfo.path, newGameInfo.gameID, newGameInfo.type])
-            .catch((error) => this.openSnackbar(error.message));
-          }).catch((error: Error) => this.openSnackbar(error.message));
+          this.playAgain(newGameInfo);
         } else {
           this.router.navigate([CClient.GAMELIST_REDIRECT]).catch((error: Error) => this.openSnackbar(error.message));
         }
       });
     });
+  }
+
+  private notifyCardDeleted(): void {
+    this.openSnackbar(CARD_DELETED_MESSAGE);
+    this.router.navigate([CClient.GAMELIST_REDIRECT]).catch((error: Error) => this.openSnackbar(error.message));
+  }
+
+  private playAgain(newGameInfo: INewGameInfo): void {
+    this.router.navigate([CClient.GAMELIST_REDIRECT]).then(() => {
+      this.router.navigate([newGameInfo.path, newGameInfo.gameID, newGameInfo.type])
+      .catch((error) => this.openSnackbar(error.message));
+    }).catch((error: Error) => this.openSnackbar(error.message));
   }
 
   private openSnackbar(response: string): void {
