@@ -37,6 +37,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
   public readonly OPPONENT_SOUND:   string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/opponent_point.mp3";
   public readonly GAME_WON:         string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-won.wav";
   public readonly GAME_LOST:        string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-lost.wav";
+  public readonly CHEATER_TEXT:     string  = "Tricheur !";
 
   @ViewChild("original")      private original:    TheejsViewComponent;
   @ViewChild("modified")      private modified:    TheejsViewComponent;
@@ -61,7 +62,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
   public  cardIsLoaded:      boolean;
   public  isGameEnded:       boolean;
   public  arenaID:           number;
-  public  mode:              number;
+  public  mode:              Mode;
   public  gameID:            number;
   public  username:          string | null;
   public  opponentName:      string;
