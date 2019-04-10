@@ -5,6 +5,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Subscription } from "rxjs";
 import { first } from "rxjs/operators";
 import { GameConnectionService } from "src/app/game-connection.service";
+import { Mode } from "../../../../../common/communication/highscore";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../../common/communication/iGameRequest";
 import { IClickMessage, INewGameInfo, IPenalty, IPosition2D } from "../../../../../common/communication/iGameplay";
@@ -47,7 +48,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   public isGameEnded:     boolean;
   public opponentName:    string;
   public username:        string | null;
-  public mode:            number;
+  public mode:            Mode;
   public arenaID:         number;
   public gameID:          number;
   private originalPath:   string;
