@@ -1,3 +1,4 @@
+<app-spinner  *ngIf="counter === '' && !isMultiplayer"></app-spinner>
 <div *ngIf="!isMultiplayer" [class.slide-in-top]="isCounterStarted" class="counter">{{counter}}</div>
 
 <mat-grid-list *ngIf="isMultiplayer"  class="lobbyContainer" cols="12" rowHeight="1%">
