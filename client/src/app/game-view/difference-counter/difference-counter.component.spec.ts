@@ -4,8 +4,8 @@ import { CClient } from "src/app/CClient";
 import { DifferenceCounterComponent } from "./difference-counter.component";
 
 describe("DifferenceCounterComponent", () => {
-  let component: DifferenceCounterComponent;
-  let fixture: ComponentFixture<DifferenceCounterComponent>;
+  let component:  DifferenceCounterComponent;
+  let fixture:    ComponentFixture<DifferenceCounterComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

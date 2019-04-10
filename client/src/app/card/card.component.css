@@ -78,7 +78,7 @@
     padding-bottom: 3%;
 }
 
-.clignoter {
+.blink {
     animation: blink 1s infinite;
     -webkit-animation: blink 1s infinite;
 }
