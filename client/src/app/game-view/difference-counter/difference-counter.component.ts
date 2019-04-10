@@ -1,5 +1,6 @@
 import { AfterContentInit, Component, ElementRef, Input, ViewChild } from "@angular/core";
 import { CClient } from "src/app/CClient";
+import { Mode } from "../../../../../common/communication/highscore";
 import { INewScore } from "../../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { DifferenceCounterService } from "./difference-counter.service";
@@ -16,7 +17,7 @@ export class DifferenceCounterComponent implements AfterContentInit {
 
   @Input() private username:  string;
   @Input() private isLeft:    boolean;
-  @Input() private mode:      number;
+  @Input() private mode:      Mode;
 
   public readonly DEFAULT_NB_ERROR_FOUND: number = 0;
   public readonly NB_ERROR_MAX_SINGLE:    number = 7;
@@ -27,12 +28,12 @@ export class DifferenceCounterComponent implements AfterContentInit {
   public maxError:                        number;
 
   public constructor( private differenceCounterService: DifferenceCounterService) {
-    this.valueUser = 0;
-    this.isLeft   = false;
+    this.valueUser  = 0;
+    this.isLeft     = false;
   }
 
   public ngAfterContentInit(): void {
-    this.maxError = this.mode === 1 ? this.NB_ERROR_MAX_MULTI : this.NB_ERROR_MAX_SINGLE;
+    this.maxError = this.mode === Mode.Multiplayer ? this.NB_ERROR_MAX_MULTI : this.NB_ERROR_MAX_SINGLE;
     this.differenceCounterService.setNbErrorMax(this.maxError);
     this.differenceCounterService.getCounter().subscribe((newCounterValue: INewScore) => {
       this.updateCounter(newCounterValue);
@@ -42,7 +43,7 @@ export class DifferenceCounterComponent implements AfterContentInit {
   public updateCounter(errorFoundCounter: INewScore): void {
     const fillPercent: number = this.differenceCounterService.convertErrorToPercent(errorFoundCounter.score);
     if (this.username === errorFoundCounter.player) {
-      if (this.mode === 1 && this.isLeft ) {
+      if (this.mode === Mode.Multiplayer && this.isLeft ) {
         const leftFillPercent: number = CClient.PERCENT - fillPercent;
         this.counter.nativeElement.style.width = leftFillPercent + "%";
       } else {
