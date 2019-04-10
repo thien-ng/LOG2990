@@ -1,29 +1,29 @@
 #displayGame {
-    margin-top: 20px;
-    background: rgb(240, 240, 240);
-    box-shadow:0px 1px 2px #333333;
-    border-radius: 5px;
-    position: relative;
-    width: 98.5%;
-    height: 93% !important;
+  margin-top:         20px;
+  background:       rgb(240, 240, 240);
+  box-shadow:         0px 1px 2px #333333;
+  border-radius:      5px;
+  position:           relative;
+  width:              98.5%;
+  height:             93% !important;
 }
 
 @media screen and (min-width: 1800px) {
-    #displayGame {
-        width: 93%;
-    }
+  #displayGame {
+      width: 93%;
+  }
 }
 
 .gameName {
-    font-size: 40px;
-    font-weight: bold;
-    color:#7982D5;
-    margin-top: 3%;
+  font-size:    40px;
+  font-weight:  bold;
+  color:      #7982D5;
+  margin-top:   3%;
 }
 
 .previous {
   margin-top: 3%;
-  font-size: 25px;
+  font-size:  25px;
 }
 
 .previous:hover {
@@ -31,11 +31,11 @@
 }
 
 .gameInfoContainer {
-  width: 100%;
+  width:  100%;
   height: 100%;
 }
 .counter1 {
-  width: 99%;
+  width:  99%;
   height: 100%;
 }
 
@@ -57,18 +57,18 @@ app-difference-counter {
 }
 
 .text, .text2 {
-    position: absolute;
-    z-index: 1;
-    font-size: 18px;
-    color: red;
-    font: Roboto, "Helvetica Neue", sans-serif;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-    width: 100%;
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none;
+  position:            absolute;
+  z-index:             1;
+  font-size:           18px;
+  color:             red;
+  font:                Roboto, "Helvetica Neue", sans-serif;
+  text-shadow:         -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  width:               100%;
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none;
 }
 
 .blur {
@@ -81,26 +81,26 @@ app-difference-counter {
 
 
 .counterOut {
-  border: 1px solid rgb(36, 36, 36);
+  border:             1px solid rgb(36, 36, 36);
   background-color: rgb(235, 237, 251);
 }
 
 
 .alignLeft {
   position: absolute;
-  left: 0px;
+  left:     0px;
 }
 
 .loadingFill {
   position: relative;
-  right: 0px;
+  right:    0px;
 }
 
 .names {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 22pt;
-  font-weight: bold;
-  color:#7982D5;
+  font-family:  'Open Sans', sans-serif;
+  font-size:    22pt;
+  font-weight:  bold;
+  color:      #7982D5;
 }
 
 
