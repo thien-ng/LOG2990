@@ -74,6 +74,7 @@ describe("Threejs-movement", () => {
     });
 
     it("should move camera forward (check call)", () => {
+        const spy: any = spyOn<any>(threejsMovement, "setCameraVelocity");
 
         threejsMovement["direction"]    = new THREE.Vector3(1, 2, 3);
         threejsMovement["velocity"]     = new THREE.Vector3(3, 3, 3);
