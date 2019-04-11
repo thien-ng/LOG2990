@@ -139,7 +139,6 @@ describe("Threejs-movement", () => {
     it("should move camera right (check value)", () => {
         const cameraMocked: any = threejsMovement["camera"];
 
-        threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
         threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
         threejsMovement["direction"]    = new THREE.Vector3(1, 2, 3);
         threejsMovement["velocity"]     = new THREE.Vector3(3, 3, 3);
