@@ -21,7 +21,6 @@ describe("Threejs-movement", () => {
         threejsMovement = new ThreejsMovement(camera, scene);
     });
 
-        threejsMovement.setupFront(-1);
     });
 
     it("should rotate camera with position pass by reference (check X value)", () => {
