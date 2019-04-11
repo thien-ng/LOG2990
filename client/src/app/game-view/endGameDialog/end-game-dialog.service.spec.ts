@@ -1,6 +1,7 @@
 import { TestBed } from "@angular/core/testing";
 import { MatDialog, MatDialogConfig, MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
+import { CardManagerService } from "src/app/card/card-manager.service";
 import { TestingImportsModule } from "src/app/testing-imports/testing-imports.module";
 import { mock } from "ts-mockito";
 import { EndGameDialogService } from "./end-game-dialog.service";
@@ -30,20 +31,23 @@ describe("EndGameDialogService tests", () => {
   let dialog:               MatDialog;
   let snackBar:             MatSnackBar;
   let router:               Router;
+  let cardManager:          CardManagerService;
 
   beforeEach(() => {
-    config    = mock(MatDialogConfig);
-    dialog    = mock(MatDialog);
-    snackBar  = mock(MatSnackBar);
-    router    = mock(Router);
+    config      = mock(MatDialogConfig);
+    dialog      = mock(MatDialog);
+    snackBar    = mock(MatSnackBar);
+    router      = mock(Router);
+    cardManager = mock(CardManagerService);
 
-    endGameDialogService = new EndGameDialogService(config, dialog, snackBar, router);
+    endGameDialogService = new EndGameDialogService(config, cardManager, dialog, snackBar, router);
   });
 
-  it("is a test", () => {
+  it("Should open the snackbar", (done: Function) => {
     const spy: any = spyOn(endGameDialogService["snackBar"], "open");
     endGameDialogService["openSnackbar"]("help");
 
     expect(spy).toHaveBeenCalled();
+    done();
   });
 });

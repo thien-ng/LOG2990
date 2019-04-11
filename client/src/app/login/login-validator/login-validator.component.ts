@@ -1,7 +1,8 @@
 import { Component, Inject } from "@angular/core";
 import {FormControl, FormGroupDirective, NgForm, Validators} from "@angular/forms";
-import { ErrorStateMatcher, MatSnackBar } from "@angular/material";
+import { ErrorStateMatcher, MatDialog, MatDialogConfig, MatDialogRef, MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
+import { PictureChangerDialogComponent } from "src/app/picture-changer-dialog/picture-changer-dialog.component";
 import { Message } from "../../../../../common/communication/message";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 import { CClient } from "../../CClient";
@@ -35,6 +36,7 @@ export class LoginValidatorComponent {
   public constructor(
   @Inject(LoginValidatorService)  public  loginValidatorService:  LoginValidatorService,
   @Inject(SocketService)          private socketService:          SocketService,
+  public  dialog:   MatDialog,
   private snackbar: MatSnackBar,
   private router:   Router,
   ) {
@@ -50,7 +52,7 @@ export class LoginValidatorComponent {
 
   public addUsername(): void {
     if (this.usernameFormControl.errors === null) {
-      this.loginValidatorService.addUsername(this.usernameFormControl.value).subscribe(async (response: Message) => {
+      this.loginValidatorService.addUsername(this.usernameFormControl.value).subscribe((response: Message) => {
 
         if (response.title === CCommon.ON_ERROR) {
           this.displaySnackBar(response.body, CClient.SNACK_ACTION);
@@ -59,16 +61,31 @@ export class LoginValidatorComponent {
         }
 
         if (response.body === CCommon.IS_UNIQUE) {
-          this.displayNameIsUnique();
           const nameCapitalized: string = this.loginValidatorService.capitalizeFirstLetter(this.usernameFormControl.value);
+          sessionStorage.setItem(CClient.USERNAME_KEY, nameCapitalized);
           this.socketService.sendMessage(CCommon.LOGIN_EVENT, nameCapitalized);
-          await this.router.navigate([CClient.ROUTER_LOGIN]);
+          this.generatePicture();
         } else {
           this.displayNameNotUnique();
         }
       });
     }
+  }
 
+  private generatePicture(): void {
+    const dialogConfig: MatDialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus    = true;
+    dialogConfig.height       = "800px";
+    dialogConfig.width        = "500px";
+    dialogConfig.panelClass   = "full-blend-dalog";
+    dialogConfig.autoFocus    = true;
+    dialogConfig.disableClose = true;
+    const dialogRef: MatDialogRef<PictureChangerDialogComponent> = this.dialog.open(PictureChangerDialogComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe( async () => {
+      this.displayNameIsUnique();
+      await this.router.navigate([CClient.ROUTER_LOGIN]);
+    });
   }
 
   private displaySnackBar(message: string, closeStatement: string): void {

@@ -7,7 +7,6 @@ import { EndGameDialogComponent } from "./end-game-dialog.component";
 // tslint:disable: no-floating-promises
 
 describe("EndGameDialogComponent", () => {
-  let component: EndGameDialogComponent;
   let fixture: ComponentFixture<EndGameDialogComponent>;
 
   beforeEach(async(() => {
@@ -16,7 +15,7 @@ describe("EndGameDialogComponent", () => {
       imports:      [TestingImportsModule],
       providers:    [
         EndGameDialogService,
-        { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: MAT_DIALOG_DATA, useValue: {isWinner: true} },
         { provide: MatDialogRef, useValue: {} } ],
     })
     .compileComponents();
@@ -24,11 +23,6 @@ describe("EndGameDialogComponent", () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EndGameDialogComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  it("should create", () => {
-    expect(component).toBeTruthy();
   });
 });

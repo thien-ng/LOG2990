@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
 import { forkJoin, BehaviorSubject, Observable, Subject } from "rxjs";
-import { GameMode, ILobbyEvent } from "../../../../common/communication/iCard";
+import { GameMode, ICard, ILobbyEvent } from "../../../../common/communication/iCard";
 import { ICardLists } from "../../../../common/communication/iCardLists";
 import { CClient } from "../CClient";
 
@@ -52,5 +52,9 @@ export class CardManagerService {
 
   public updateCards(value: boolean): void {
     this.cardCreated.next(value);
+  }
+
+  public getCardById(gameID: number, gamemode: GameMode): Observable<ICard> {
+    return this.httpClient.get<ICard>(CClient.CARD_BY_ID_PATH + gameID + "/" + gamemode);
   }
 }
