@@ -21,7 +21,6 @@ describe("Threejs-movement", () => {
         threejsMovement = new ThreejsMovement(camera, scene);
     });
 
-    it("should set camera directions to front (to set the camera direction)", () => {
         const spy: any = spyOn<any>(threejsMovement, "multiplyVector");
         threejsMovement.setupFront(1);
         expect(spy).toHaveBeenCalled();
