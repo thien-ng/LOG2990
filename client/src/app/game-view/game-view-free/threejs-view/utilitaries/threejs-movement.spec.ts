@@ -21,7 +21,6 @@ describe("Threejs-movement", () => {
         threejsMovement = new ThreejsMovement(camera, scene);
     });
 
-
     it("should rotate camera with position pass by reference (check X value)", () => {
         const spy: any = spyOn<any>(threejsMovement["camera"], "rotateOnWorldAxis");
         threejsMovement.rotateCamera(position);
