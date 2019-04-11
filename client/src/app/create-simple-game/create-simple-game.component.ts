@@ -32,6 +32,8 @@ export class CreateSimpleGameComponent {
   public readonly ERROR_REQUIRED: string    = "Nom de jeu requis";
   public readonly CHECK_CIRCLE:   string    = "cancel";
 
+  public  isGenerating:           boolean;
+
   private selectedFiles:          [Blob, Blob];
 
   @ViewChild("checkOrigImage",   {read: ElementRef})  public checkOrigImage:     ElementRef;
@@ -45,7 +47,7 @@ export class CreateSimpleGameComponent {
   public isButtonEnabled:         boolean;
   public isOriginalVisible:       Boolean;
   public isModifiedVisible:       Boolean;
-  public  nameOrigPlaceHolder:    string;
+  public nameOrigPlaceHolder:     string;
   public nameModifPlaceHolder:    string;
 
   public constructor(
@@ -61,6 +63,7 @@ export class CreateSimpleGameComponent {
       this.nameModifPlaceHolder = "";
       this.nameOrigPlaceHolder  = "";
       this.selectedFiles        = [new Blob(), new Blob()];
+      this.isGenerating         = false;
       this.formControl          = new FormGroup({
         gameName: new FormControl("", [
           Validators.required,
@@ -143,8 +146,10 @@ export class CreateSimpleGameComponent {
   }
 
   public submit(data: NgForm): void {
-    this.isButtonEnabled = false;
-    const formdata: FormData = this.createFormData(data);
+    this.isButtonEnabled      = false;
+    this.isGenerating         = true;
+    const formdata: FormData  = this.createFormData(data);
+
     this.httpClient.post(CClient.SIMPLE_SUBMIT_PATH, formdata).subscribe((response: Message) => {
       this.analyseResponse(response);
       this.isButtonEnabled = true;
@@ -158,6 +163,7 @@ export class CreateSimpleGameComponent {
     } else if (response.title === CCommon.ON_ERROR) {
       this.openSnackBar(response.body, CClient.SNACK_ACTION);
     }
+    this.isGenerating = false;
   }
 
   private openSnackBar(msg: string, action: string): void {

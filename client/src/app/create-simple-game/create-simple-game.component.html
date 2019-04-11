@@ -24,4 +24,5 @@
     </div>
     <button class="button-padding" [disabled]="hasFormControlErrors()" type="submit" mat-raised-button>{{SUBMIT}}</button>
     <button class="button-padding" mat-raised-button type="button" (click)="closeDialog()">{{CANCEL}}</button>
+    <app-spinner *ngIf="isGenerating"></app-spinner>
 </form>
