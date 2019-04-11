@@ -48,6 +48,7 @@ describe("Threejs-movement", () => {
     });
 
     it("should set camera velocity when camera keyboard isn't pressed (check call)", () => {
+        const spy: any = spyOn<any>(threejsMovement, "multiplyVector");
 
         threejsMovement["direction"]    = new THREE.Vector3(1, 2, 3);
         threejsMovement["velocity"]     = new THREE.Vector3(3, 3, 3);
