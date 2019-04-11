@@ -22,7 +22,6 @@ describe("Threejs-movement", () => {
     });
 
         threejsMovement.setupFront(-1);
-        expect(spy).toHaveBeenCalled();
     });
 
     it("should rotate camera with position pass by reference (check X value)", () => {
