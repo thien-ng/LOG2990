@@ -16,9 +16,9 @@
             <mat-icon class="playIcon">play_arrow</mat-icon>
             <span>{{TEXT_PLAY}}</span>
           </button>
-          <button *ngIf="this.router.url != ADMIN_PATH" class="playButton" (click)="onStartGameClick(1)" mat-button>
+          <button [ngClass]="multiplayerButton === 'JOINDRE' ? 'blink' : ''" *ngIf="this.router.url != ADMIN_PATH" class="playButton" (click)="onStartGameClick(1)" mat-button>
               <mat-icon class="playIcon">{{icon}}</mat-icon>
-              <span>{{multiplayerButton}}</span>
+              <span >{{multiplayerButton}}</span>
             </button>
           <button *ngIf="this.router.url == ADMIN_PATH" class="playButton" mat-button (click)="onDeleteButtonClick()">
             <mat-icon class="resetIcon">delete</mat-icon>

@@ -37,6 +37,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
   public readonly OPPONENT_SOUND:   string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/opponent_point.mp3";
   public readonly GAME_WON:         string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-won.wav";
   public readonly GAME_LOST:        string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-lost.wav";
+  public readonly CHEATER_TEXT:     string  = "Tricheur !";
 
   @ViewChild("original")      private original:    TheejsViewComponent;
   @ViewChild("modified")      private modified:    TheejsViewComponent;
@@ -61,13 +62,14 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
   public  cardIsLoaded:      boolean;
   public  isGameEnded:       boolean;
   public  arenaID:           number;
-  public  mode:              number;
+  public  mode:              Mode;
   public  gameID:            number;
   public  username:          string | null;
   public  opponentName:      string;
   private scenePath:         string;
   private gameMode:          Mode;
   private subscription:      Subscription[];
+  public isCheater:          boolean;
 
   @HostListener("mousedown", ["$event"])
   public onMouseDown(mouseEvent: MouseEvent): void {
@@ -105,6 +107,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
       document.oncontextmenu = () => {
         return false;
       };
+      this.setCheaterState(false);
       this.rightClick     = true;
       this.cardIsLoaded   = false;
       this.isLoading      = true;
@@ -112,7 +115,6 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
       this.mode           = Number(this.route.snapshot.paramMap.get(GAMEMODE_KEY));
       this.username       = sessionStorage.getItem(CClient.USERNAME_KEY);
       this.subscription   = [];
-
       this.gameConnectionService.getGameConnectedListener().pipe(first()).subscribe((arenaID: number) => {
         this.arenaID = arenaID;
         this.socketService.sendMessage(CCommon.GAME_CONNECTION, arenaID);
@@ -172,7 +174,6 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
       document.body.style.cursor  = "not-allowed";
       const positionTop:   number = this.gameViewService.position.y - CClient.CENTERY;
       const positionRight: number = this.gameViewService.position.x - CClient.CENTERX;
-
       this.erreurText.nativeElement.style.top     = positionTop   + "px";
       this.erreurText.nativeElement.style.left    = positionRight + "px";
       this.erreurText.nativeElement.textContent   = CClient.ERROR_MESSAGE;
@@ -187,7 +188,6 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
       this.activeCard = response;
       this.scenePath  = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/temp/" + this.activeCard.gameID + CCommon.SCENE_FILE;
       this.canvasRoutine();
-
       const type: string | null = this.route.snapshot.paramMap.get(GAMEMODE_KEY);
       if (type !== null) {
         this.getSceneVariables(type, username);
@@ -291,5 +291,9 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
 
   private canvasRoutine(): void {
     this.gameViewService.setSounds(this.successSound, this.failSound, this.opponentSound, this.gameWon, this.gameLost);
+  }
+
+  private setCheaterState(value: boolean): void {
+    this.isCheater = value;
   }
 }
