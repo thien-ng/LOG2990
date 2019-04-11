@@ -55,6 +55,7 @@ describe("Threejs-movement", () => {
 
         threejsMovement.movementCamera(false, false, false, false);
 
+        expect(spy).toHaveBeenCalled();
     });
 
     it("should move camera forward (check value)", () => {
