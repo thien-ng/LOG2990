@@ -57,7 +57,6 @@ describe("ThreejsThemeViewService Tests", () => {
     expect(spy).toHaveBeenCalled();
   }));
 
-    threejsThemeViewService["setupFront"](1);
     expect(spy).toHaveBeenCalled();
   }));
 
