@@ -57,7 +57,6 @@ describe("ThreejsThemeViewService Tests", () => {
     expect(spy).toHaveBeenCalled();
   }));
 
-  it("should set up front the threejsMovement", inject([ThreejsThemeViewService], async (threejsThemeViewService: ThreejsThemeViewService) => {
     threejsThemeViewService["threejsMovement"] = mock(ThreejsMovement);
     const spy: any = spyOn(threejsThemeViewService["threejsMovement"], "setupFront").and.callFake(() => {return; });
     threejsThemeViewService["setupFront"](1);
