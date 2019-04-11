@@ -1,57 +1,43 @@
 #displayGame {
-  margin-top: 50px;
-  background: white;
-  box-shadow: 0px 1px 2px #333333;
+  margin-top: 20px;
+  background: rgb(240, 240, 240);
+  box-shadow:0px 1px 2px #333333;
   border-radius: 5px;
   position: relative;
-  width: 90%;
+  width: 98.5%;
+  height: 93% !important;
 }
 
 @media screen and (min-width: 1800px) {
   #displayGame {
-      width: 81%;
+      width: 93%;
   }
 }
-
-@media screen and (min-width: 1440px) and (max-width: 1799px) {
-  #displayGame {
-    width: 99%;
-  }
-}
-
 
 .gameName {
   font-size: 40px;
   font-weight: bold;
-  font: Roboto, "Helvetica Neue", sans-serif;
-  margin-top: 5%;
+  color:#7982D5;
+  margin-top: 3%;
+}
+
+.previous {
+  margin-top: 3%;
+  font-size: 25px;
+}
+
+.previous:hover {
+  color: #7982D5;
 }
 
 
-.text, .text2 {
-  position: absolute;
-  z-index: 1;
-  font-size: 18px;
-  color: red;
-  font: Roboto, "Helvetica Neue", sans-serif;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-  -webkit-user-select: none; /* Safari */
-   -khtml-user-select: none; /* Konqueror HTML */
-     -moz-user-select: none; /* Firefox */
-      -ms-user-select: none; /* Internet Explorer/Edge */
-          user-select: none;
-  top: 0px;
-  left: 0px;
+.gameInfoContainer {
+width: 100%;
+height: 100%;
 }
-app-spinner{
-  z-index: 1;
-}
-
-app-threejs-view {
-  padding-top: 3%;
-  height: 100%;
-  width: 100%;
-  padding-left: 0.4%;
+.counter1 {
+width: 99%;
+height: 100%;
 }
 
 app-difference-counter {
@@ -62,10 +48,121 @@ app-difference-counter {
           user-select: none;
 }
 
+.timerContainer {
+padding-top: 2px;
+}
+
+::ng-deep .timer div {
+padding-top:    10px !important;
+padding-bottom: 10px !important;
+}
+
+.text, .text2 {
+  position:             absolute;
+  z-index:              1;
+  font-size:            18px;
+  color:              red;
+  font:                 Roboto, "Helvetica Neue", sans-serif;
+  text-shadow:          1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  width:                100%;
+  -webkit-user-select:  none; /* Safari */
+   -khtml-user-select:  none; /* Konqueror HTML */
+     -moz-user-select:  none; /* Firefox */
+      -ms-user-select:  none; /* Internet Explorer/Edge */
+          user-select:  none;
+}
+
 .blur {
   filter: blur(10px);
 }
 
 .normal {
   filter: blur(0px);
+}
+
+
+.counterOut {
+  border:             1px solid rgb(36, 36, 36);
+  background-color: rgb(235, 237, 251);
+}
+
+
+.alignLeft {
+  position: absolute;
+  left:     0px;
+}
+
+.loadingFill {
+  position: relative;
+  right:    0px;
+}
+
+.names {
+  font-family: 'Open Sans', sans-serif;
+  font-size:    22pt;
+  font-weight:  bold;
+  color:      #7982D5;
+}
+
+
+app-difference-counter {
+  height: 100%;
+}
+
+/*
+CSS LED LIGHTS [online] Available https://codepen.io/fskirschbaum/pen/MYJNaj/
+Author: F.Stephen Kirschbaum
+*/
+
+.led-box {
+  height: 30px;
+  width:  100%;
+  margin: 10px 0;
+  float:  left;
+}
+
+.led-red {
+  margin:             0 auto;
+  width:              24px;
+  height:             24px;
+  background-color: #F00;
+  border-radius:      50%;
+  box-shadow:       rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 12px;
+  -webkit-animation:  linkRed 0.5s infinite;
+  -moz-animation:     blinkRed 0.5s infinite;
+  -ms-animation:      blinkRed 0.5s infinite;
+  -o-animation:       blinkRed 0.5s infinite;
+  animation:          blinkRed 0.5s infinite;
+}
+
+@-webkit-keyframes blinkRed {
+  from  { background-color: #F00; }
+  50%   { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
+  to    { background-color: #F00; }
+}
+@-moz-keyframes blinkRed {
+  from  { background-color: #F00; }
+  50%   { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
+  to    { background-color: #F00; }
+}
+@-ms-keyframes blinkRed {
+  from  { background-color: #F00; }
+  50%   { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
+  to    { background-color: #F00; }
+}
+@-o-keyframes blinkRed {
+  from  { background-color: #F00; }
+  50%   { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
+  to    { background-color: #F00; }
+}
+@keyframes blinkRed {
+  from  { background-color: #F00; }
+  50%   { background-color: #A00; box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 0;}
+  to    { background-color: #F00; }
+}
+
+.led-box p {
+  font-size:  12px;
+  text-align: center;
+  margin:     1em;
 }

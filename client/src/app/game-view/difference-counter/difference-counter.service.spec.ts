@@ -2,6 +2,8 @@ import { TestBed } from "@angular/core/testing";
 
 import { DifferenceCounterService } from "./difference-counter.service";
 
+// tslint:disable:no-magic-numbers
+
 describe("DifferenceCounterService", () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
@@ -47,25 +49,12 @@ describe("DifferenceCounterService tests", () => {
     expect(differenceCounterService["maxError"]).toEqual(maxError);
   });
 
-  it("should return the right angle when given 2 errors", () => {
-    const errorFound:     number = 2;
-    const expectedAngle:  number = 103;
-    let angle:            number = 0;
+  it("should convert error to percent", () => {
+    const errorFound:       number = 2;
+    const expectedPercent:  number = 50;
 
-    differenceCounterService.setNbErrorMax(maxError);
-    angle = differenceCounterService.generateAngleSpinner(errorFound);
+    differenceCounterService.setNbErrorMax(4);
 
-    expect(angle).toBeLessThan(expectedAngle);
-  });
-
-  it("should return the right angle when given 6 errors", () => {
-    const errorFound:     number = 6;
-    const expectedAngle:  number = 309;
-    let angle:            number = 0;
-
-    differenceCounterService.setNbErrorMax(maxError);
-    angle = differenceCounterService.generateAngleSpinner(errorFound);
-
-    expect(angle).toBeLessThan(expectedAngle);
+    expect(differenceCounterService.convertErrorToPercent(errorFound)).toEqual(expectedPercent);
   });
 });

@@ -84,7 +84,6 @@ const routes: Routes = [
     GameViewSimpleComponent,
     GameViewFreeComponent,
     CreateFreeGameComponent,
-    DifferenceCounterComponent,
     TimerComponent,
     ChatViewComponent,
     MessageViewComponent,
@@ -93,6 +92,7 @@ const routes: Routes = [
     SpinnerComponent,
     ConfirmationDialogComponent,
     EndGameDialogComponent,
+    DifferenceCounterComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),

@@ -5,6 +5,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Subscription } from "rxjs";
 import { first } from "rxjs/operators";
 import { GameConnectionService } from "src/app/game-connection.service";
+import { Mode } from "../../../../../common/communication/highscore";
 import { GameMode, ICard } from "../../../../../common/communication/iCard";
 import { IGameRequest } from "../../../../../common/communication/iGameRequest";
 import { IClickMessage, INewGameInfo, IPenalty, IPosition2D } from "../../../../../common/communication/iGameplay";
@@ -24,11 +25,11 @@ import { GameViewSimpleService } from "./game-view-simple.service";
 })
 
 export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDestroy {
-  public readonly SUCCESS_SOUND:  string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/fail.wav";
-  public readonly FAIL_SOUND:     string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/success.wav";
-  public readonly OPPONENT_SOUND: string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/opponent_point.mp3";
-  public readonly GAME_WON:       string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-won.wav";
-  public readonly GAME_LOST:      string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-lost.wav";
+  public readonly SUCCESS_SOUND:          string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/fail.wav";
+  public readonly FAIL_SOUND:             string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/success.wav";
+  public readonly OPPONENT_SOUND:         string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/opponent_point.mp3";
+  public readonly GAME_WON:               string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-won.wav";
+  public readonly GAME_LOST:              string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-lost.wav";
 
   @ViewChild("successSound",  {read: ElementRef})  public successSound:    ElementRef;
   @ViewChild("failSound",     {read: ElementRef})  public failSound:       ElementRef;
@@ -47,7 +48,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   public isGameEnded:     boolean;
   public opponentName:    string;
   public username:        string | null;
-  public mode:            number;
+  public mode:            Mode;
   public arenaID:         number;
   public gameID:          number;
   private originalPath:   string;
@@ -57,12 +58,12 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   private subscription:   Subscription[];
 
   public constructor(
-    @Inject(GameViewSimpleService)  public  gameViewService:      GameViewSimpleService,
-    @Inject(SocketService)          private socketService:        SocketService,
-    @Inject(EndGameDialogService)   private endGameDialogService: EndGameDialogService,
-    private gameConnectionService:  GameConnectionService,
-    private route:                  ActivatedRoute,
-    private httpClient:             HttpClient,
+    @Inject(GameViewSimpleService)    public  gameViewService:      GameViewSimpleService,
+    @Inject(SocketService)            private socketService:        SocketService,
+    @Inject(EndGameDialogService)     private endGameDialogService: EndGameDialogService,
+    private gameConnectionService:    GameConnectionService,
+    private route:                    ActivatedRoute,
+    private httpClient:               HttpClient,
     ) {
       this.mode           = Number(this.route.snapshot.paramMap.get("gamemode"));
       this.cardLoaded     = false;
@@ -101,6 +102,15 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       this.gameIsStarted = true;
     }));
 
+    this.initEndOfGameSubs();
+
+    this.subscription.push(this.socketService.onMessage(CCommon.ON_COUNTDOWN_START).subscribe((message: string[]) => {
+      const index: number = message[0] === this.username ? 1 : 0;
+      this.opponentName = message[index];
+    }));
+  }
+
+  private initEndOfGameSubs(): void {
     this.subscription.push(this.socketService.onMessage(CCommon.ON_GAME_ENDED).subscribe((message: string) => {
       const isWinner: boolean = message === CCommon.ON_GAME_WON;
       isWinner ? this.gameViewService.playWinSound() : this.gameViewService.playLossSound();
@@ -111,11 +121,6 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
         type: this.mode,
       };
       this.endGameDialogService.openDialog(isWinner, newGameInfo);
-    }));
-
-    this.subscription.push(this.socketService.onMessage(CCommon.ON_COUNTDOWN_START).subscribe((message: string[]) => {
-      const index: number = message[0] === this.username ? 1 : 0;
-      this.opponentName = message[index];
     }));
   }
 
