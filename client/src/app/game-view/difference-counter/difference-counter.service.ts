@@ -26,14 +26,6 @@ export class DifferenceCounterService {
     return errorFoundCounter * CClient.PERCENT / this.maxError;
   }
 
-  public generateAngleSpinner(errorFoundCounter: number): number {
-    let convertedErrorToPercent: number;
-
-    convertedErrorToPercent = this.convertErrorToPercent(errorFoundCounter);
-
-    return convertedErrorToPercent * CClient.DEGREE_CIRCLE / CClient.PERCENT;
-  }
-
   public setNbErrorMax(maxError: number): void {
     this.maxError = maxError;
   }

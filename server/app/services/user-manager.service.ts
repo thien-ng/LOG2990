@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import { injectable } from "inversify";
-import { IUser } from "../../../common/communication/iUser";
+import { IProfileRequest, IUser } from "../../../common/communication/iUser";
 import { Message } from "../../../common/communication/message";
 import { CCommon } from "../../../common/constantes/cCommon";
 import { CServer } from "../CServer";
@@ -8,6 +8,7 @@ import { AssetManagerService } from "./asset-manager.service";
 
 const axios:                AxiosInstance = require("axios");
 const IMAGE_EXTENSION:      string        = ".bmp";
+const ERROR_GENERATION:     string        = "Erreur pendant la generation d'image";
 
 @injectable()
 export class UserManagerService {
@@ -57,7 +58,11 @@ export class UserManagerService {
             this.nameList.push(user);
 
             try {
-                await this.createUserPic(username);
+                const request: IProfileRequest = {
+                    username: username,
+                };
+
+                await this.createUserPic(request);
             } catch (error) {
                 return this.generateMessage(CCommon.ON_ERROR, error.message);
             }
@@ -68,10 +73,22 @@ export class UserManagerService {
         return this.generateMessage(CCommon.ON_SUCCESS, CServer.NOT_UNIQUE_NAME);
     }
 
-    private async createUserPic(username: string): Promise<void> {
-        const picBuffer: Buffer = (await axios.get(CServer.PROFILE_PIC_GEN_PATH)).data;
-        const path: string = CServer.PROFILE_IMAGE_PATH + username + IMAGE_EXTENSION;
+    private async createUserPic(request: IProfileRequest): Promise<void> {
+        const picBuffer: Buffer = (await axios.post(CServer.PROFILE_PIC_GEN_PATH, request)).data;
+        const path: string = CServer.PROFILE_IMAGE_PATH + request.username + IMAGE_EXTENSION;
         this.assetManager.stockImage(path, picBuffer);
+    }
+
+    public async updateProfilePicture(request: IProfileRequest): Promise<Message> {
+        const path: string = CServer.PROFILE_IMAGE_PATH + request.username + IMAGE_EXTENSION;
+        try {
+            this.assetManager.deleteStoredImages([path]);
+            await this.createUserPic(request);
+
+            return this.generateMessage(CCommon.ON_SUCCESS, "");
+        } catch (error) {
+            return this.generateMessage(CCommon.ON_ERROR, ERROR_GENERATION);
+        }
     }
 
     public getUserByUsername(username: string): IUser | string {

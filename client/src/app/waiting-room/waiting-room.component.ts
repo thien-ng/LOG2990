@@ -50,7 +50,7 @@ export class WaitingRoomComponent {
     this.opponentName   = "";
     this.opponentImage  = "";
     this.username       = sessionStorage.getItem(CClient.USERNAME_KEY);
-    this.userImage      = CClient.PATH_TO_PROFILE_IMAGES + this.username + ".bmp";
+    this.userImage      = CClient.PATH_TO_PROFILE_IMAGES + this.username + ".bmp" + "?" + new Date().getTime();
     this.isCounterStarted = false;
     this.initCounterListener();
     this.initOpponentUsername();

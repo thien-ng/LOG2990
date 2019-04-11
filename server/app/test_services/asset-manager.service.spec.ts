@@ -10,7 +10,7 @@ const IMAGES_PATH: string = "./app/asset/image";
 
 let imageManagerService: AssetManagerService;
 
-describe("Image manager service tests", () => {
+describe("Asset manager service tests", () => {
 
     chai.use(spies);
 
@@ -157,7 +157,6 @@ describe("Image manager service tests", () => {
 
     it("should throw error when getting card by wrong id", async () => {
         const gameId: number = 9999999;
-        chai.expect(() => imageManagerService.getCardById(gameId.toString(), GameMode.simple))
-            .to.throw(TypeError);
+        chai.expect(imageManagerService.getCardById(gameId.toString(), GameMode.simple).gameID).to.deep.equal(-1);
     });
 });

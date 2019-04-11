@@ -51,6 +51,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
   @Input() private username:                string;
   @Input() private arenaID:                 number;
   @Output() public sceneGenerated:          EventEmitter<string>;
+  @Output() public isCheater:               EventEmitter<boolean>;
 
   @ViewChild("originalScene", {read: ElementRef})
   private originalScene:          ElementRef;
@@ -86,6 +87,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
     this.focusChat      = false;
     this.isFirstGet     = true;
     this.sceneGenerated = new EventEmitter();
+    this.isCheater      = new EventEmitter();
     this.scene          = new THREE.Scene();
     this.initSubscriptions();
   }
@@ -155,6 +157,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
       }
       this.modifications = idsToFlash;
       this.isCheating    = !this.isCheating;
+      this.isCheater.emit(this.isCheating);
       this.changeColor();
     });
   }

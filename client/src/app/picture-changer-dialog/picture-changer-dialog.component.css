@@ -1,0 +1,73 @@
+button:hover {
+  background:#3F51B5;
+  color:     white;
+}
+
+button:focus {
+  outline: none;
+}
+
+.dialogContainer {
+  width:       100%;
+  height:      100%;
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+     -ms-user-select: none; /* Internet Explorer/Edge */
+         user-select: none;
+}
+.profilePic {
+  height: 350px;
+  width:  350px;
+  border: 3px solid black;
+}
+
+.buttonContainer {
+  padding-top: 10%;
+}
+
+.genTitle {
+  padding-top: 10px;
+  font-size:   24pt;
+  font-weight: bold;
+}
+
+.radioButton {
+  padding-left:  15px;
+  padding-right: 15px;
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+     -ms-user-select: none; /* Internet Explorer/Edge */
+         user-select: none;
+}
+
+.picture {
+  padding-top: 15px;
+  margin-bottom: 10px;
+}
+
+.okButton {
+  width: 125px;
+  background-color: #6372c2;
+  color: white;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 15px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+}
+
+.colorPalette {
+  height: 90%;
+  width: 70%;
+  box-shadow: 2px 2px 5px gray;
+  border-color: black;
+  border-width: 1px;
+}
+
+.colorPalette:hover {
+  cursor: pointer;
+}

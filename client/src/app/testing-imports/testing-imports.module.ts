@@ -16,6 +16,7 @@ import {
   MatListModule,
   MatMenuModule,
   MatProgressSpinnerModule,
+  MatRadioModule,
   MatSelectModule,
   MatSidenavModule,
   MatSliderModule,
@@ -27,6 +28,7 @@ import {
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
+import { ColorPickerModule } from "ngx-color-picker";
 
 @NgModule({
   declarations: [],
@@ -37,6 +39,7 @@ import { RouterTestingModule } from "@angular/router/testing";
     MatToolbarModule,
     HttpClientModule,
     MatButtonModule,
+    ColorPickerModule,
     MatGridListModule,
     MatProgressSpinnerModule,
     MatMenuModule,
@@ -55,6 +58,7 @@ import { RouterTestingModule } from "@angular/router/testing";
     MatDialogModule,
     MatDividerModule,
     MatSlideToggleModule,
+    MatRadioModule,
     MatInputModule,
     FormsModule,
     MatSliderModule,

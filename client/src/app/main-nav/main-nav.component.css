@@ -5,6 +5,22 @@
   color: white;
 }
 
+.penIcon{
+  padding-left: 10px;
+  color: white;
+}
+
+.penIcon:hover{
+  cursor: pointer;
+  color: grey;
+}
+
+mat-divider.style-fix {
+  background: rgb(233, 233, 233);
+  height: 36px;
+  margin-left: 8px;
+}
+
 .logo:hover {
   color: grey;
 }

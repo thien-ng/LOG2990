@@ -45,7 +45,7 @@ describe("UserManagerService test", () => {
             socketID:       "socketid",
         };
 
-        mockAxios.onGet(CServer.PROFILE_PIC_GEN_PATH)
+        mockAxios.onPost(CServer.PROFILE_PIC_GEN_PATH)
         .reply(200, Buffer.from("asdfgh"));
 
         chai.spy.on(userManagerService["assetManager"], "stockImage", () => { return; });
