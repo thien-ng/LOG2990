@@ -21,7 +21,6 @@ describe("Threejs-movement", () => {
         threejsMovement = new ThreejsMovement(camera, scene);
     });
 
-        const spy: any = spyOn<any>(threejsMovement, "multiplyVector");
         threejsMovement.setupFront(1);
         expect(spy).toHaveBeenCalled();
     });
