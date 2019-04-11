@@ -21,7 +21,6 @@ describe("Threejs-movement", () => {
         threejsMovement = new ThreejsMovement(camera, scene);
     });
 
-        expect(spy).toHaveBeenCalled();
     });
 
     it("should set camera directions to back", () => {
