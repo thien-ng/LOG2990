@@ -57,7 +57,6 @@ describe("ThreejsThemeViewService Tests", () => {
     expect(spy).toHaveBeenCalled();
   }));
 
-    const spy: any = spyOn(threejsThemeViewService["threejsMovement"], "setupFront").and.callFake(() => {return; });
     threejsThemeViewService["setupFront"](1);
     expect(spy).toHaveBeenCalled();
   }));
