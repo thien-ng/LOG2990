@@ -21,7 +21,6 @@ describe("Threejs-movement", () => {
         threejsMovement = new ThreejsMovement(camera, scene);
     });
 
-        threejsMovement.setupFront(1);
         expect(spy).toHaveBeenCalled();
     });
 
