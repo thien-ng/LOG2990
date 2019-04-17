@@ -194,7 +194,6 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
       }
       this.cardIsLoaded = true;
     });
-
   }
 
   private getSceneVariables(type: string, username: string): void {
@@ -214,8 +213,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
         case CCommon.ON_SUCCESS:
           this.arenaID = Number(data.body);
           this.socketService.sendMessage(CCommon.GAME_CONNECTION, this.arenaID);
-          this.fetchSceneFromServer(this.scenePath)
-          .catch((error) => {
+          this.fetchSceneFromServer(this.scenePath).catch((error) => {
             this.openSnackBar(error, CClient.SNACK_ACTION);
           });
           break;
@@ -287,6 +285,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
     this.subscription.forEach((sub: Subscription) => {
       sub.unsubscribe();
     });
+    this.endGameDialogService.closeDialog();
   }
 
   private canvasRoutine(): void {
