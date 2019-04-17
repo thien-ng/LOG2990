@@ -24,7 +24,7 @@
     <mat-grid-tile
       [colspan]="2"
       [rowspan]="89" class="chatContainer">
-      <app-chat-view #chat [arenaID]="arenaID" [username]="username" ></app-chat-view>
+      <app-chat-view #chat [arenaID]="arenaID" [username]="username" [isGameEnded]="isGameEnded"></app-chat-view>
     </mat-grid-tile>
     <mat-grid-tile
     [ngClass]="isGameEnded ? 'blur' : 'normal'"
