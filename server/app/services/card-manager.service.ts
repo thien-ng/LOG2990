@@ -28,6 +28,7 @@ export class CardManagerService {
     public constructor(@inject(Types.CardOperations) private cardOperations: CardOperations) {
         this.imageManagerService    = new AssetManagerService();
 
+        this.cardOperations.removeDefaultGame();
         this.cardOperations.addCard(DefaultCard2D);
         this.cardOperations.addCard(DefaultCard3D);
     }
