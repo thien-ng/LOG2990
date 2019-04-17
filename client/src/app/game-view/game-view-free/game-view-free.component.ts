@@ -22,7 +22,7 @@ import { TheejsViewComponent } from "./threejs-view/threejs-view.component";
 
 const GAMEMODE_KEY: string = "gamemode";
 const RIGHT_CLICK:  number = 2;
-
+const TEMP_FOLDER:  string  = "/temp/";
 @Component({
   selector:     "app-game-view-free",
   templateUrl:  "./game-view-free.component.html",
@@ -186,7 +186,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
 
     this.httpClient.get(CClient.PATH_TO_GET_CARD + gameID + "/" + GameMode.free).subscribe((response: ICard) => {
       this.activeCard = response;
-      this.scenePath  = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/temp/" + this.activeCard.gameID + CCommon.SCENE_FILE;
+      this.scenePath  = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + TEMP_FOLDER + this.activeCard.gameID + CCommon.SCENE_FILE;
       this.canvasRoutine();
       const type: string | null = this.route.snapshot.paramMap.get(GAMEMODE_KEY);
       if (type !== null) {
