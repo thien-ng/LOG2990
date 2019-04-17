@@ -16,9 +16,9 @@ export class HighscoreDisplayComponent implements OnInit , OnDestroy {
   @Input() public isExpanded: boolean;
 
   public IMAGE_MEDAL_URL: string[] = [
-    CClient.PATH_TO_ICONS + "/gold.png",    // gold medal image
-    CClient.PATH_TO_ICONS + "/silver.png",  // silver medal image
-    CClient.PATH_TO_ICONS + "/bronze.png",  // bronze medal image
+    CClient.PATH_TO_ICONS + "/gold.png",
+    CClient.PATH_TO_ICONS + "/silver.png",
+    CClient.PATH_TO_ICONS + "/bronze.png",
   ];
   public highscore:               HighscoreMessage;
   public isLoaded:                boolean;
