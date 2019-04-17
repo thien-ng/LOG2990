@@ -35,6 +35,7 @@ export class CardComponent implements AfterContentInit {
   public icon:                          string;
   public hsButtonIsClicked:             boolean;
   public dialogConfig:                  MatDialogConfig;
+  public bestPlayer:                    string;
 
   @Input()  public card:                ICard;
   @Output() public cardDeleted:         EventEmitter<string>;
@@ -64,7 +65,7 @@ export class CardComponent implements AfterContentInit {
       this.multiplayerButton = CCommon.JOIN_TEXT;
       this.icon = this.JOIN_ICON;
     }
-
+    this.highscoreService.getHighscore(this.card.gameID);
     this.cardManagerService.getButtonListener().subscribe((lobbyEvent: ILobbyEvent) => {
       if (this.card.gameID === lobbyEvent.gameID) {
         this.multiplayerButton = lobbyEvent.buttonText;
@@ -108,6 +109,10 @@ export class CardComponent implements AfterContentInit {
         this.openSnackbar(this.RESET_SNACKBAR);
       }
     });
+  }
+
+  public setBestPlayer(value: string): void {
+    this.bestPlayer = value;
   }
 
   private openSnackbar(response: string): void {
