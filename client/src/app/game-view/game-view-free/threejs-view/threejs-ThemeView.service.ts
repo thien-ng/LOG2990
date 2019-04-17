@@ -240,7 +240,9 @@ export class ThreejsThemeViewService {
           });
         }
       });
-    }).catch();
+    }).catch((error) => {
+      console.error(error.message);
+    });
 
   }
 
