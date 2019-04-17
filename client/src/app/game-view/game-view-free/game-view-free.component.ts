@@ -69,7 +69,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
   private scenePath:         string;
   private gameMode:          Mode;
   private subscription:      Subscription[];
-  public isCheater:          boolean;
+  public  isCheater:         boolean;
 
   @HostListener("mousedown", ["$event"])
   public onMouseDown(mouseEvent: MouseEvent): void {
@@ -183,7 +183,6 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
   }
 
   private createGameRequest(gameID: number, username: string): void {
-
     this.httpClient.get(CClient.PATH_TO_GET_CARD + gameID + "/" + GameMode.free).subscribe((response: ICard) => {
       this.activeCard = response;
       this.scenePath  = CCommon.BASE_URL + CCommon.BASE_SERVER_PORT + "/temp/" + this.activeCard.gameID + CCommon.SCENE_FILE;
