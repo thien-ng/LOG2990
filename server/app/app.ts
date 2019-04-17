@@ -40,7 +40,7 @@ export class Application {
     }
 
     private config(): void {
-        // Middlewares configuration
+
         this.app.use(logger("dev"));
         this.app.use(cookieParser());
         this.app.use(cors());
@@ -49,7 +49,7 @@ export class Application {
     }
 
     public bindRoutes(): void {
-        // Notre application utilise le routeur de notre API `Index`
+
         this.app.use("/api/card",               this.cardManagerController.router);
         this.app.use("/api/highscore",          this.highscoreController.router);
         this.app.use("/api/highscore-api",      this.highscoreApiController.router);
@@ -58,14 +58,14 @@ export class Application {
         this.app.use("/api/hitValidator",       this.hitValidatorController.router);
         this.app.use("/api/scene",              this.sceneManagerController.router);
         this.app.use("/api/game",               this.gameManagerController.router);
-        this.app.use("/api/profile-picture",     this.profilePictureController.router);
+        this.app.use("/api/profile-picture",    this.profilePictureController.router);
 
         this.app.use(express.static("./app/asset"));
         this.errorHandeling();
     }
 
     private errorHandeling(): void {
-        // Gestion des erreurs
+
         this.app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
             const err: Error = new Error("Not Found");
             next(err);
