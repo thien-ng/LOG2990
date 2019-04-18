@@ -109,6 +109,7 @@ export class UserManagerService {
             return this.generateMessage(CCommon.ON_SUCCESS, "");
         } catch (error) {
             // _TODO faire quelque chose de cette erreur (throw fait crash le server)
+            return this.generateMessage(CCommon.ON_ERROR, ERROR_LEAVE_BROWSER);
         }
     }
 
