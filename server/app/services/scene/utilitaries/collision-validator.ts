@@ -9,6 +9,7 @@ export class CollisionValidator {
     public constructor() {
         this.collisionBoxGenerator = new CollisionBoxGenerator();
     }
+
     public hasCollidingPositions(newSceneObject: ISceneObject, existingSceneObjects: ISceneObject[]): boolean {
 
         let hasCollision: boolean = false;
