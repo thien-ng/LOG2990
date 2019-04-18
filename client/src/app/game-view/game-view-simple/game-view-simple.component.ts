@@ -30,7 +30,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   public readonly OPPONENT_SOUND:         string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/opponent_point.mp3";
   public readonly GAME_WON:               string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-won.wav";
   public readonly GAME_LOST:              string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-lost.wav";
-  public readonly MUSIC:                  string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/music.wav";
+  public readonly MUSIC:                  string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/music.mp3";
   
   @ViewChild("successSound",  {read: ElementRef})  public successSound:    ElementRef;
   @ViewChild("failSound",     {read: ElementRef})  public failSound:       ElementRef;
