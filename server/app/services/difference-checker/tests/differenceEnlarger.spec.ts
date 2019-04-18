@@ -109,6 +109,7 @@ describe("Difference Enlarger tests", () => {
     it("should work when given a buffered image with 1 in a corner", (done: Function) => {
 
         const newBuilder: BMPBuilder = new BMPBuilder(4, 4, WHITE);
+        newBuilder.generateBuffer();
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 0);
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 1, 1);
 
