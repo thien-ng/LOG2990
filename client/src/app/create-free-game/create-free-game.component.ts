@@ -23,9 +23,11 @@ import { CClient } from "../CClient";
 })
 export class CreateFreeGameComponent {
 
-  public readonly INVALID_NAME:         string = "Nom invalide";
-  public readonly MAX_VALUE:            number = 200;
-  public readonly MIN_VALUE:            number = 10;
+  public readonly INVALID_NAME:         string = "Nom de jeu requis: Taille entre "
+                                                  + CCommon.MIN_GAME_LENGTH
+                                                  + " et "
+                                                  + CCommon.MAX_GAME_LENGTH
+                                                  + " caractères" ;
   public readonly SUBMIT:               string = "Soumettre";
   public readonly CANCEL:               string = "Annuler";
   public readonly TITLE:                string = "Créer un jeu de point de vue libre";
@@ -94,10 +96,10 @@ export class CreateFreeGameComponent {
   }
 
   public verify(e: number): void {
-    if (e < this.MIN_VALUE) {
-      this.sliderValue = this.MIN_VALUE;
-    } else if (e > this.MAX_VALUE) {
-      this.sliderValue = this.MAX_VALUE;
+    if (e < CCommon.MIN_GAME_LENGTH) {
+      this.sliderValue = CCommon.MIN_GAME_LENGTH;
+    } else if (e > CCommon.MAX_GAME_LENGTH) {
+      this.sliderValue = CCommon.MAX_GAME_LENGTH;
     }
   }
 
