@@ -14,11 +14,12 @@ export class GameListComponent {
   @Input()  public cards:       ICard[];
   @Output() public cardDeleted: EventEmitter<string>;
 
+  public constructor() {
+    this.cardDeleted = new EventEmitter<string>();
+  }
+
   public updateCards(): void {
     this.cardDeleted.emit();
   }
 
-  public constructor() {
-    this.cardDeleted = new EventEmitter<string>();
-  }
 }
