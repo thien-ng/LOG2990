@@ -130,6 +130,7 @@ describe("BMPBuilder tests", () => {
         const totalLenghtExpected:  number = HEADER_SIZE + paddingExpected + width * height * pixelSize;
 
         builder = new BMPBuilder(width, height, WHITE);
+        builder.generateBuffer();
         bufferObtained = builder.buffer;
 
         expect(bufferObtained.length).to.equal(totalLenghtExpected);
