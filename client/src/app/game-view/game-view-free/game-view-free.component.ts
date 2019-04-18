@@ -242,9 +242,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
       .catch((error) => {
         this.openSnackBar(error, CClient.SNACK_ACTION);
       });
-    }).catch((error) => {
-      this.openSnackBar(error, CClient.SNACK_ACTION);
-    });
+    }).catch((error) => { this.openSnackBar(error, CClient.SNACK_ACTION); });
   }
 
   private async loadFileInObject(response: Response): Promise<void> {
@@ -253,9 +251,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
     } else {
       await response.json().then((variables: ISceneData<ISceneObject | IMesh>) => {
         this.assignSceneVariable(variables);
-      }).catch((error) => {
-        this.openSnackBar(error, CClient.SNACK_ACTION);
-      });
+      }).catch((error) => { this.openSnackBar(error, CClient.SNACK_ACTION); });
     }
   }
 
