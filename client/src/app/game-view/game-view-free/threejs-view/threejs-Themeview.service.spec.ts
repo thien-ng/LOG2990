@@ -44,6 +44,7 @@ describe("ThreejsThemeViewService Tests", () => {
       ],
       providers: [
         ThreejsThemeViewService,
+      ],
   }));
   beforeEach(() => TestBed.configureTestingModule({
     providers: [ThreejsThemeViewService],
