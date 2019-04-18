@@ -8,6 +8,7 @@ import { CardComponent } from "../card/card.component";
   styleUrls:    ["./game-list.component.css"],
 })
 export class GameListComponent {
+
   public cardComponent:         CardComponent;
 
   @Input()  public cards:       ICard[];
