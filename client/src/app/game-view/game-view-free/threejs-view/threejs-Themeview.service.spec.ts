@@ -38,6 +38,7 @@ const generator:  ThreejsThemeGenerator = mock(ThreejsThemeGenerator);
 describe("ThreejsThemeViewService Tests", () => {
 
   beforeEach(async(() => {
+    TestBed.configureTestingModule({
   }));
   beforeEach(() => TestBed.configureTestingModule({
     providers: [ThreejsThemeViewService],
