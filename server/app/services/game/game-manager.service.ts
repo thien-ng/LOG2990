@@ -23,7 +23,7 @@ import { Player } from "./arena/player";
 import { LobbyManagerService } from "./lobby-manager.service";
 
 const REQUEST_ERROR_MESSAGE:            string = "Game mode invalide";
-const HIGHSCORE_VALIDATION_ERROR:       string = "Erreur lors de la validation du highscore";
+// const HIGHSCORE_VALIDATION_ERROR:       string = "Erreur lors de la validation du highscore";
 const ARENA_START_ID:                   number = 1000;
 const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
 
@@ -274,13 +274,19 @@ export class GameManagerService {
 
         this.highscoreService.updateHighscore(newTime, mode, gameID)
         .then((answer: HighscoreValidationResponse) => {
+            console.log(answer);
+            
             if (answer.status === CCommon.ON_SUCCESS && answer.isNewHighscore) {
-                this.chatManagerService.sendNewHighScoreMessage(newTime.username, answer.index, title, mode, this.server);
+                this.chatManagerService.sendNewHighScoreMessage(newTime.username, title, mode, this.server, answer.index);
                 this.server.emit(CCommon.ON_NEW_SCORE, gameID);
             }
             this.deleteArena(arenaInfo);
-        }).catch(() => {
-            this.server.emit(CCommon.ON_ERROR, HIGHSCORE_VALIDATION_ERROR);
+        }).catch((error) => {
+            setTimeout(() => {
+
+                this.chatManagerService.sendNewHighScoreMessage(newTime.username, title, mode, this.server);
+            }, 100);
+            // this.server.emit(CCommon.ON_ERROR, HIGHSCORE_VALIDATION_ERROR);
         });
     }
 
