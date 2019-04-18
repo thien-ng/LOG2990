@@ -14,7 +14,7 @@ import { CCommon } from "../../../common/constantes/cCommon";
 import { AssetManagerService } from "../services/asset-manager.service";
 import { CardManagerService } from "../services/card-manager.service";
 import { CardOperations } from "../services/card-operations.service";
-import { IImageRequirements } from "../services/difference-checker/utilities/iImageRequirements";
+import { ImageRequirements } from "../services/difference-checker/utilities/iImageRequirements";
 import { HighscoreService } from "../services/highscore.service";
 
 /*tslint:disable no-magic-numbers no-any max-file-line-count max-line-length arrow-return-shorthand no-floating-promises*/
@@ -43,7 +43,7 @@ const path2DValidation: string = "http://localhost:3000/api/differenceChecker";
 const original: Buffer = fs.readFileSync(path.resolve(__dirname, "../asset/image/testBitmap/imagetestOg.bmp"));
 const modified: Buffer = fs.readFileSync(path.resolve(__dirname, "../asset/image/testBitmap/imagetestOg.bmp"));
 
-const imageRequirements: IImageRequirements = {
+const imageRequirements: ImageRequirements = {
     requiredHeight:     480,
     requiredWidth:      640,
     requiredNbDiff:     7,

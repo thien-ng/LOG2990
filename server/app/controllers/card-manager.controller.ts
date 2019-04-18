@@ -8,7 +8,7 @@ import { Message } from "../../../common/communication/message";
 import { CServer } from "../CServer";
 import { CardManagerService } from "../services/card-manager.service";
 import { CardOperations } from "../services/card-operations.service";
-import { IImageRequirements } from "../services/difference-checker/utilities/iImageRequirements";
+import { ImageRequirements } from "../services/difference-checker/utilities/iImageRequirements";
 import Types from "../types";
 
 const DECIMAL:              number = 10;
@@ -44,7 +44,7 @@ export class CardManagerController {
             const originalBuffer: Buffer = req.files[ORIGINAL_IMAGE_NAME][0].buffer;
             const modifiedBuffer: Buffer = req.files[MODIFIED_IMAGE_NAME][0].buffer;
 
-            const requirements: IImageRequirements = {
+            const requirements: ImageRequirements = {
                 requiredHeight: CServer.REQUIRED_HEIGHT,
                 requiredWidth:  CServer.REQUIRED_WIDTH,
                 requiredNbDiff: CServer.REQUIRED_NB_DIFF,

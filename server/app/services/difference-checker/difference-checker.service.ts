@@ -4,7 +4,7 @@ import { ClusterCounter } from "./utilities/clusterCounter";
 import { Constants } from "./utilities/constants";
 import { DifferenceEnlarger } from "./utilities/differenceEnlarger";
 import { DifferenceFinder } from "./utilities/differenceFinder";
-import { IImageRequirements } from "./utilities/iImageRequirements";
+import { ImageRequirements } from "./utilities/iImageRequirements";
 import { Message } from "./utilities/message";
 
 @injectable()
@@ -14,7 +14,7 @@ export class DifferenceCheckerService {
     private bufferModified:  Buffer;
     private differenceImage: Buffer;
 
-    public generateDifferenceImage(requirements: IImageRequirements): Buffer | Message {
+    public generateDifferenceImage(requirements: ImageRequirements): Buffer | Message {
 
         let numberOfDifferences: number = 0;
 
@@ -36,7 +36,7 @@ export class DifferenceCheckerService {
         }
     }
 
-    private calculateDifferences(requirements: IImageRequirements): number {
+    private calculateDifferences(requirements: ImageRequirements): number {
 
         this.bufferOriginal  = Buffer.from(requirements.originalImage);
         this.bufferModified  = Buffer.from(requirements.modifiedImage);
