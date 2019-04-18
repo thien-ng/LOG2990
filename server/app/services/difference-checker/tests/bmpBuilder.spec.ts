@@ -106,6 +106,7 @@ describe("BMPBuilder tests", () => {
     it("should return an error when trying to change a pixel out of bound", (done: Function) => {
         expect(() => {
             builder.setColorAtPos(5, 6, 7, 10, 20);
+            builder.generateBuffer();
         }).to.throw("Entered position is out of bounds");
         done();
     });
