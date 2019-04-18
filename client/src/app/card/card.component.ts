@@ -30,11 +30,14 @@ export class CardComponent implements AfterContentInit {
   public readonly ADMIN_PATH:           string = "/admin";
   public readonly JOIN_ICON:            string = "arrow_forward";
   public readonly CREATE_ICON:          string = "add";
+  public readonly LOGO3D_URL:           string = CClient.PATH_TO_IMAGES + "/logo3D.png";
+  public readonly LOGO2D_URL:           string = CClient.PATH_TO_IMAGES + "/logo2D.png";
 
   public multiplayerButton:             string;
   public icon:                          string;
   public hsButtonIsClicked:             boolean;
   public dialogConfig:                  MatDialogConfig;
+  public logoUrl:                       string;
   public bestPlayer:                    string;
 
   @Input()  public card:                ICard;
@@ -65,6 +68,7 @@ export class CardComponent implements AfterContentInit {
       this.multiplayerButton = CCommon.JOIN_TEXT;
       this.icon = this.JOIN_ICON;
     }
+
     this.highscoreService.getHighscore(this.card.gameID);
     this.cardManagerService.getButtonListener().subscribe((lobbyEvent: ILobbyEvent) => {
       if (this.card.gameID === lobbyEvent.gameID) {
@@ -72,6 +76,7 @@ export class CardComponent implements AfterContentInit {
         this.icon              = (lobbyEvent.buttonText === MultiplayerButtonText.join) ? this.JOIN_ICON : this.CREATE_ICON;
       }
     });
+    this.logoUrl =  this.card.gamemode === CClient.GAMEMODE_SIMPLE ? this.LOGO2D_URL : this.LOGO3D_URL;
   }
 
   public  onDeleteButtonClick(): void {
@@ -111,16 +116,16 @@ export class CardComponent implements AfterContentInit {
     });
   }
 
-  public setBestPlayer(value: string): void {
-    this.bestPlayer = value;
-  }
-
   private openSnackbar(response: string): void {
     this.snackBar.open( response, CClient.SNACK_ACTION, {
       duration:           CClient.SNACKBAR_DURATION,
       verticalPosition:   "top",
       panelClass:         ["snackbar"],
     });
+  }
+
+  public setBestPlayer(value: string): void {
+    this.bestPlayer = value;
   }
 
   public onHSButtonClick(): void {

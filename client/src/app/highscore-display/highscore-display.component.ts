@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, Output, EventEmitter } from "@angular/core";
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 
 import { Subscription } from "rxjs";
 import { HighscoreMessage } from "../../../../common/communication/highscore";
