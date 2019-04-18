@@ -32,7 +32,6 @@ export class HighscoreApiService {
 
         } catch (error) {
 
-            // todo : demander au charges
             return {
                 status: INVALID_PARAMS,
             } as HighscoreValidationResponse;
