@@ -100,7 +100,6 @@ export class UserManagerService {
         return (foundUser) ? foundUser : CServer.USER_NOT_FOUND;
     }
 
-    public leaveBrowser(user: IUser): void {
         this.nameList = this.nameList.filter( (element: IUser) => element.username !== user.username);
         const path: string = CServer.PROFILE_IMAGE_PATH + user.username + IMAGE_EXTENSION;
         try {
