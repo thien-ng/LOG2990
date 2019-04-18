@@ -1,4 +1,3 @@
-// import * as sinon from "sinon";
 // import SocketIO = require("socket.io");
 // import * as Mockito from "ts-mockito";
 
