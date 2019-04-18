@@ -28,18 +28,20 @@ export class CreateFreeGameComponent {
                                                   + " et "
                                                   + CCommon.MAX_GAME_LENGTH
                                                   + " caractères" ;
-  public readonly SUBMIT:               string = "Soumettre";
-  public readonly CANCEL:               string = "Annuler";
-  public readonly TITLE:                string = "Créer un jeu de point de vue libre";
-  public readonly PLACE_HOLDER_NAME:    string = "Nom du jeu";
-  public readonly PLACE_HOLDER_TYPE:    string = "Type d'objet";
-  public readonly GEOMETRIC_OPTION:     string = "Formes géométriques";
-  public readonly THEMATIC_OPTION:      string = "Thématique";
-  public readonly EDIT_TYPE_ADD:        string = "Ajout";
-  public readonly EDIT_TYPE_DELETE:     string = "Suppression";
-  public readonly EDIT_TYPE_COLOR:      string = "Changement de couleur";
-  public readonly ATLEASTONE_CHECKED:   string = "Au moins une option doit être cochée";
+  public readonly SUBMIT:               string  = "Soumettre";
+  public readonly CANCEL:               string  = "Annuler";
+  public readonly TITLE:                string  = "Créer un jeu de point de vue libre";
+  public readonly PLACE_HOLDER_NAME:    string  = "Nom du jeu";
+  public readonly PLACE_HOLDER_TYPE:    string  = "Type d'objet";
+  public readonly GEOMETRIC_OPTION:     string  = "Formes géométriques";
+  public readonly THEMATIC_OPTION:      string  = "Thématique";
+  public readonly EDIT_TYPE_ADD:        string  = "Ajout";
+  public readonly EDIT_TYPE_DELETE:     string  = "Suppression";
+  public readonly EDIT_TYPE_COLOR:      string  = "Changement de couleur";
+  public readonly ATLEASTONE_CHECKED:   string  = "Au moins une option doit être cochée";
   public readonly NEEDED_SNAPSHOT:      boolean = true;
+  public readonly MAX_OBJECT_COUNT:     number  = 200;
+  public readonly MIN_OBJECT_COUNT:     number  = 10;
 
   public isButtonEnabled:               boolean;
   public sliderValue:                   number;
@@ -96,10 +98,10 @@ export class CreateFreeGameComponent {
   }
 
   public verify(e: number): void {
-    if (e < CCommon.MIN_GAME_LENGTH) {
-      this.sliderValue = CCommon.MIN_GAME_LENGTH;
-    } else if (e > CCommon.MAX_GAME_LENGTH) {
-      this.sliderValue = CCommon.MAX_GAME_LENGTH;
+    if (e < this.MIN_OBJECT_COUNT) {
+      this.sliderValue = this.MIN_OBJECT_COUNT;
+    } else if (e > this.MAX_OBJECT_COUNT) {
+      this.sliderValue = this.MAX_OBJECT_COUNT;
     }
   }
 
