@@ -80,6 +80,7 @@ describe("Cluster Counter tests", () => {
         const WIDTH:    number = 8;
 
         const newBuilder: BMPBuilder = new BMPBuilder(WIDTH, HEIGHT, WHITE);
+        newBuilder.generateBuffer();
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 0);
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 1, 0);
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 4, 0);
