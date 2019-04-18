@@ -37,7 +37,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
   public readonly OPPONENT_SOUND:   string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/opponent_point.mp3";
   public readonly GAME_WON:         string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-won.wav";
   public readonly GAME_LOST:        string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-lost.wav";
-  public readonly MUSIC:            string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/music.mp3";
+  public readonly MUSIC:            string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/musicCreepy.mp3";
   public readonly CHEATER_TEXT:     string  = "Tricheur !";
 
   @ViewChild("original")      private original:    TheejsViewComponent;
