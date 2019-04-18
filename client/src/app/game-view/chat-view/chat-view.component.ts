@@ -26,11 +26,8 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
   public usernameFormControl:             FormControl;
   public conversationLength:              number;
 
-  @Input()
-  private arenaID:                        number;
-
-  @Input()
-  private username:                       string;
+  @Input() private arenaID:               number;
+  @Input() private username:              string;
 
   @ViewChild("chatBox", {read: ElementRef})
   public chatBox:                         ElementRef;
