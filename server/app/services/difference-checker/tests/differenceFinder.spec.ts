@@ -45,6 +45,7 @@ describe("Difference finder microservice tests", () => {
 
         bmpBuilder1.generateBuffer();
         bmpBuilder2.generateBuffer();
+        expectedBuilder.generateBuffer();
         bmpBuilder1.setColorAtPos(1, 1, 1, 0, 0);
         expectedBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 0);
 
