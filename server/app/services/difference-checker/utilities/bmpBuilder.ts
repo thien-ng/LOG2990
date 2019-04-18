@@ -35,6 +35,7 @@ export class BMPBuilder {
 
     private bmpBuffer: Buffer;
 
+    public constructor(private width: number, private height: number, private fillWith: number) {}
 
         this.validateDimensions();
         this.validateFillEntry();
