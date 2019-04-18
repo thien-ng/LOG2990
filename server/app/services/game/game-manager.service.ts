@@ -279,7 +279,6 @@ export class GameManagerService {
             }
             this.deleteArena(arenaInfo);
         }).catch(() => {
-                this.chatManagerService.sendDeletedHighscoreMessage(newTime.username, this.server);
             }, 100);
         });
     }
