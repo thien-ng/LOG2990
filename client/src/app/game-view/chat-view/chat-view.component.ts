@@ -12,6 +12,11 @@ import { ChatViewService } from "./chat-view.service";
 
 export class ChatViewComponent implements AfterViewChecked, OnDestroy {
 
+  @ViewChild("chatBox", {read: ElementRef}) public chatBox: ElementRef;
+
+  @Input() private arenaID:               number;
+  @Input() private username:              string;
+
   public  readonly CHAT_TITLE:            string = "Boîte de messagerie";
   public  readonly CHAT_DESCRIPTION:      string = "Message sur serveur et des joueurs";
   public  readonly MESSAGE_PATTERN_REGEX: string = ".+";
@@ -25,12 +30,6 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
   public initialValue:                    string;
   public usernameFormControl:             FormControl;
   public conversationLength:              number;
-
-  @Input() private arenaID:               number;
-  @Input() private username:              string;
-
-  @ViewChild("chatBox", {read: ElementRef})
-  public chatBox:                         ElementRef;
 
   public constructor(
     public  chatViewService:      ChatViewService,
