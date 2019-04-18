@@ -16,7 +16,6 @@ import { FileValidatorService } from "./game-validator.service";
 export class CreateSimpleGameComponent {
 
   public readonly TITLE:          string    = "Créer un jeu de point de vue simple";
-  public readonly INVALID_NAME:   string    = "Nom invalide";
   public readonly PLACE_HOLDER:   string    = "Nom du jeu";
   public readonly ORIGINAL_IMAGE: string    = "Image originale";
   public readonly MODIFIED_IMAGE: string    = "Image modifiée";
@@ -30,6 +29,7 @@ export class CreateSimpleGameComponent {
   public readonly ERROR_PATTERN:  string    = "Caractères autorisés: A-Z, a-z";
   public readonly ERROR_SIZE:     string    = "Taille: " + CCommon.MIN_GAME_LENGTH + "-" + CCommon.MAX_GAME_LENGTH + " caractères";
   public readonly ERROR_REQUIRED: string    = "Nom de jeu requis";
+  public readonly INVALID_NAME:   string    = this.ERROR_REQUIRED + ": " + this.ERROR_PATTERN + ", " + this.ERROR_SIZE;
   public readonly CHECK_CIRCLE:   string    = "cancel";
 
   public  isGenerating:           boolean;
