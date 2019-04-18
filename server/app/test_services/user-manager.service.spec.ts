@@ -85,6 +85,7 @@ describe("UserManagerService test", () => {
                 {   title: "onError",
                     body: "Erreur pendant la generation d\'image" ,
                 },
+            );
     it ("should return False if name input is not unique", async () => {
         const user: IUser = {
             username:       "patate",
