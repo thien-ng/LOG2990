@@ -87,6 +87,7 @@ describe("BMPBuilder tests", () => {
     it("should return a error on invalid entry for the filler number", (done: Function) => {
         expect(() => {
             builder = new BMPBuilder(2, 3, 256);
+            builder.generateBuffer();
         }).to.throw("Invalid fill number entered. Must be comprised between 0 and 255 inclusively.");
         done();
     });
