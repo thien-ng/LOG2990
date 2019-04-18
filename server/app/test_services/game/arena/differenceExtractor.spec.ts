@@ -39,6 +39,7 @@ describe("Differences extractor tests", () => {
     it("should extract the differences", () => {
 
         const builder:          BMPBuilder  = new BMPBuilder(4, 4, 100);
+        builder.generateBuffer();
         const bufferOriginal:   Buffer      = Buffer.from(builder.buffer);
         builder.setColorAtPos(1, 1, 1, 1, 1);
 
