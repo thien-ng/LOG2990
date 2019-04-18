@@ -13,6 +13,7 @@ describe("Cluster Counter tests", () => {
         const height:   number = 4;
 
         const newBuilder: BMPBuilder = new BMPBuilder(width, height, WHITE);
+        newBuilder.generateBuffer();
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 2, 2);
 
         const bufferWIthDiff:    Buffer         = Buffer.from(newBuilder.buffer);
