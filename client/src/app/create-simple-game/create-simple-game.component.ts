@@ -15,6 +15,13 @@ import { FileValidatorService } from "./game-validator.service";
 })
 export class CreateSimpleGameComponent {
 
+  @ViewChild("checkOrigImage",   {read: ElementRef})  public checkOrigImage:     ElementRef;
+  @ViewChild("checkModifImage",  {read: ElementRef})  public checkModifImage:    ElementRef;
+  @ViewChild("buttonOriginal",   {read: ElementRef})  public buttonOriginal:     ElementRef<HTMLButtonElement>;
+  @ViewChild("buttonModified",   {read: ElementRef})  public buttonModified:     ElementRef<HTMLButtonElement>;
+  @ViewChild("originalInput",    {read: ElementRef})  public originalInput:      ElementRef<HTMLInputElement>;
+  @ViewChild("modifiedInput",    {read: ElementRef})  public modifiedInput:      ElementRef<HTMLInputElement>;
+
   public readonly TITLE:          string    = "Créer un jeu de point de vue simple";
   public readonly PLACE_HOLDER:   string    = "Nom du jeu";
   public readonly ORIGINAL_IMAGE: string    = "Image originale";
@@ -41,13 +48,6 @@ export class CreateSimpleGameComponent {
   public isModifiedVisible:       Boolean;
   public nameOrigPlaceHolder:     string;
   public nameModifPlaceHolder:    string;
-
-  @ViewChild("checkOrigImage",   {read: ElementRef})  public checkOrigImage:     ElementRef;
-  @ViewChild("checkModifImage",  {read: ElementRef})  public checkModifImage:    ElementRef;
-  @ViewChild("buttonOriginal",   {read: ElementRef})  public buttonOriginal:     ElementRef<HTMLButtonElement>;
-  @ViewChild("buttonModified",   {read: ElementRef})  public buttonModified:     ElementRef<HTMLButtonElement>;
-  @ViewChild("originalInput",    {read: ElementRef})  public originalInput:      ElementRef<HTMLInputElement>;
-  @ViewChild("modifiedInput",    {read: ElementRef})  public modifiedInput:      ElementRef<HTMLInputElement>;
 
   public constructor(
     private dialogRef:            MatDialogRef<CreateSimpleGameComponent>,
