@@ -37,6 +37,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
   public readonly OPPONENT_SOUND:   string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/opponent_point.mp3";
   public readonly GAME_WON:         string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-won.wav";
   public readonly GAME_LOST:        string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-lost.wav";
+  public readonly MUSIC:            string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/music.mp3";
   public readonly CHEATER_TEXT:     string  = "Tricheur !";
 
   @ViewChild("original")      private original:    TheejsViewComponent;
@@ -45,6 +46,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
   @ViewChild("opponentSound", {read: ElementRef})  public opponentSound:   ElementRef;
   @ViewChild("gameWon",       {read: ElementRef})  public gameWon:         ElementRef;
   @ViewChild("gameLost",      {read: ElementRef})  public gameLost:        ElementRef;
+  @ViewChild("music",         {read: ElementRef})  public music:           ElementRef;
   @ViewChild("successSound",  {read: ElementRef})  public successSound:    ElementRef;
   @ViewChild("failSound",     {read: ElementRef})  public failSound:       ElementRef;
   @ViewChild("erreurText",    {read: ElementRef})  public erreurText:      ElementRef;
@@ -138,6 +140,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
     this.subscription.push(this.socketService.onMessage(CCommon.ON_GAME_STARTED).subscribe(() => {
       this.chat.chatViewService.clearConversations();
       this.isLoading = false;
+      this.gameViewService.playMusic();
     }));
     this.subscription.push(this.socketService.onMessage(CCommon.ON_PENALTY).subscribe((arenaResponse: IPenalty) => {
       (arenaResponse.isOnPenalty) ? this.wrongClickRoutine() : this.enableClickRoutine();
@@ -146,6 +149,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
       this.isGameEnded = true;
       const isWinner: boolean = message === CCommon.ON_GAME_WON;
       isWinner ? this.gameViewService.playWinSound() : this.gameViewService.playLossSound();
+      this.gameViewService.stopMusic();
       const newGameInfo: INewGameInfo = {
         path: CClient.GAME_VIEW_FREE_PATH,
         gameID: Number(this.gameID),
@@ -290,7 +294,7 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
   }
 
   private canvasRoutine(): void {
-    this.gameViewService.setSounds(this.successSound, this.failSound, this.opponentSound, this.gameWon, this.gameLost);
+    this.gameViewService.setSounds(this.successSound, this.failSound, this.opponentSound, this.gameWon, this.gameLost, this.music);
   }
 
   private setCheaterState(value: boolean): void {
