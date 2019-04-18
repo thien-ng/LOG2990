@@ -36,6 +36,7 @@ describe("Difference Enlarger tests", () => {
         const height: number = 2;
 
         const newBuilder:           BMPBuilder          = new BMPBuilder(width, height, WHITE);
+        newBuilder.generateBuffer();
         const singlePixelBuffer:    Buffer              = Buffer.from(newBuilder.buffer);
         const expectedOutputBuffer: Buffer              = Buffer.from(newBuilder.buffer);
 
