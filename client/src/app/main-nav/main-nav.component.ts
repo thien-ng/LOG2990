@@ -137,13 +137,12 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
   public changePictureMenu(): void {
     const dialogConfig: MatDialogConfig = new MatDialogConfig();
 
-    dialogConfig.disableClose = false;
+    dialogConfig.disableClose = true;
     dialogConfig.autoFocus    = true;
     dialogConfig.height       = "800px";
     dialogConfig.width        = "500px";
     dialogConfig.panelClass   = "full-blend-dalog";
     dialogConfig.autoFocus    = true;
-    dialogConfig.disableClose = true;
 
     const dialogRef: MatDialogRef<PictureChangerDialogComponent> = this.dialog.open(PictureChangerDialogComponent, dialogConfig);
     dialogRef.beforeClosed().subscribe((result: string) => {
