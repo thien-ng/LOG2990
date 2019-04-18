@@ -40,8 +40,8 @@ export class CreateFreeGameComponent {
   public readonly EDIT_TYPE_COLOR:      string  = "Changement de couleur";
   public readonly ATLEASTONE_CHECKED:   string  = "Au moins une option doit être cochée";
   public readonly NEEDED_SNAPSHOT:      boolean = true;
-  public readonly MAX_OBJECT_COUNT:     number  = 200;
   public readonly MIN_OBJECT_COUNT:     number  = 10;
+  public readonly MAX_OBJECT_COUNT:     number  = 200;
 
   public isButtonEnabled:               boolean;
   public sliderValue:                   number;
