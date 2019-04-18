@@ -36,6 +36,7 @@ const scene:      THREE.Scene           = mock(THREE.Scene);
 const generator:  ThreejsThemeGenerator = mock(ThreejsThemeGenerator);
 
 describe("ThreejsThemeViewService Tests", () => {
+
   beforeEach(() => TestBed.configureTestingModule({
     providers: [ThreejsThemeViewService],
   }));
