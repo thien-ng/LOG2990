@@ -20,6 +20,9 @@ import { ConfirmationDialogComponent } from "./confirmation-dialog/confirmation-
 
 export class CardComponent implements AfterContentInit {
 
+  @Input()  public card:                ICard;
+  @Output() public cardDeleted:         EventEmitter<string>;
+
   public readonly TROPHY_IMAGE_URL:     string = "https://img.icons8.com/metro/1600/trophy.png";
   public readonly TEXT_PLAY:            string = "JOUER";
   public readonly TEXT_RESET_TIMERS:    string = "RÉINITIALISER";
@@ -31,13 +34,10 @@ export class CardComponent implements AfterContentInit {
   public readonly JOIN_ICON:            string = "arrow_forward";
   public readonly CREATE_ICON:          string = "add";
 
+  private dialogConfig:                 MatDialogConfig;
   public multiplayerButton:             string;
   public icon:                          string;
   public highscoreButtonIsClicked:      boolean;
-  private dialogConfig:                 MatDialogConfig;
-
-  @Input()  public card:                ICard;
-  @Output() public cardDeleted:         EventEmitter<string>;
 
   public constructor(
     public  router:             Router,
