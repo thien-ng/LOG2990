@@ -3,16 +3,19 @@
   padding: 10px;
   cursor: pointer;
   color: white;
+  transition: 0.4s color;
+
 }
 
 .penIcon{
   padding-left: 10px;
   color: white;
+  transition: 0.4s color;
 }
 
 .penIcon:hover{
   cursor: pointer;
-  color: grey;
+  color: rgb(231, 231, 231);
 }
 
 mat-divider.style-fix {
@@ -22,7 +25,7 @@ mat-divider.style-fix {
 }
 
 .logo:hover {
-  color: grey;
+  color: rgb(231, 231, 231);
 }
 
 .mat-toolbar.mat-primary {
