@@ -46,11 +46,9 @@ export class ThreejsMovement {
 
     private objectIsBlockingDirection(): boolean {
 
-        const rayDirection: THREE.Vector3 = this.getDirection();
-        const raycaster:    THREE.Raycaster =
-        new THREE.Raycaster(this.camera.position, rayDirection);
-
-        const objectsIntersected: THREE.Intersection[] = raycaster.intersectObjects(this.scene.children, true);
+        const rayDirection:         THREE.Vector3           = this.getDirection();
+        const raycaster:            THREE.Raycaster         = new THREE.Raycaster(this.camera.position, rayDirection);
+        const objectsIntersected:   THREE.Intersection[]    = raycaster.intersectObjects(this.scene.children, true);
 
         return objectsIntersected.length > 0 && objectsIntersected[0].distance < this.CAMERA_COLLISION_RADIUS;
     }
