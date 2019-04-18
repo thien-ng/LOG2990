@@ -294,4 +294,5 @@ export class ThreejsThemeViewService {
       duration:           CClient.SNACKBAR_DURATION,
       verticalPosition:   "top",
     });
+  }
 }
