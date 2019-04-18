@@ -81,6 +81,7 @@ describe("UserManagerService test", () => {
         chai.spy.on(userManagerService, "createUserPic", () => {return; });
 
         await userManagerService.updateProfilePicture(profile).then((response: Message) => {
+            chai.expect(response).to.deep.equal(
     it ("should return False if name input is not unique", async () => {
         const user: IUser = {
             username:       "patate",
