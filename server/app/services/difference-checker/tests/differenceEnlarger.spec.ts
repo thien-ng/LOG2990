@@ -15,6 +15,7 @@ describe("Difference Enlarger tests", () => {
 
     beforeEach(() => {
         builder = new BMPBuilder(2, 3, WHITE);
+        builder.generateBuffer();
    });
 
     it("should return the same array when given an invalid number", (done: Function) => {
