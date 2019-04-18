@@ -79,6 +79,7 @@ describe("BMPBuilder tests", () => {
     it("should return an error on entry 0 for height", (done: Function) => {
         expect(() => {
             builder = new BMPBuilder(2, 0, 255);
+            builder.generateBuffer();
         }).to.throw("Invalid height entered. Height must be a positive number higher than 0.");
         done();
     });
