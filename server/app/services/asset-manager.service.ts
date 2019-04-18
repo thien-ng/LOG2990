@@ -17,6 +17,7 @@ const GET_CARDS_ERROR:          string = "error while getting cards file";
 
 @injectable()
 export class AssetManagerService {
+
     private countByGameId: Map<number, number>;
 
     public constructor() {
