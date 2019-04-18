@@ -23,7 +23,6 @@ import { Player } from "./arena/player";
 import { LobbyManagerService } from "./lobby-manager.service";
 
 const REQUEST_ERROR_MESSAGE:            string = "Game mode invalide";
-// const HIGHSCORE_VALIDATION_ERROR:       string = "Erreur lors de la validation du highscore";
 const ARENA_START_ID:                   number = 1000;
 const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
 
