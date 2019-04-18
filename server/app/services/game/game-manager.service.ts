@@ -274,19 +274,15 @@ export class GameManagerService {
 
         this.highscoreService.updateHighscore(newTime, mode, gameID)
         .then((answer: HighscoreValidationResponse) => {
-            console.log(answer);
-            
             if (answer.status === CCommon.ON_SUCCESS && answer.isNewHighscore) {
                 this.chatManagerService.sendNewHighScoreMessage(newTime.username, title, mode, this.server, answer.index);
                 this.server.emit(CCommon.ON_NEW_SCORE, gameID);
             }
             this.deleteArena(arenaInfo);
-        }).catch((error) => {
+        }).catch(() => {
             setTimeout(() => {
-
-                this.chatManagerService.sendNewHighScoreMessage(newTime.username, title, mode, this.server);
+                this.chatManagerService.sendDeletedHighscoreMessage(newTime.username, this.server);
             }, 100);
-            // this.server.emit(CCommon.ON_ERROR, HIGHSCORE_VALIDATION_ERROR);
         });
     }
 
