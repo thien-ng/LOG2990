@@ -52,6 +52,7 @@ describe("Difference Enlarger tests", () => {
         const height: number = 1;
 
         const singlePixelBuilder:   BMPBuilder          = new BMPBuilder(width, height, WHITE);
+        singlePixelBuilder.generateBuffer();
         singlePixelBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 0);
 
         const singlePixelBuffer:    Buffer              = singlePixelBuilder.buffer;
