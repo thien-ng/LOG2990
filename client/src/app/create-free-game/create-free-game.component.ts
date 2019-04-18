@@ -95,7 +95,7 @@ export class CreateFreeGameComponent {
     return this.formControl.controls.modifTypes.valid || this.formControl.controls.modifTypes.pristine;
   }
 
-  public verify(e: number): void {
+  public verifySliderValue(e: number): void {
     if (e < CCommon.MIN_GAME_LENGTH) {
       this.sliderValue = CCommon.MIN_GAME_LENGTH;
     } else if (e > CCommon.MAX_GAME_LENGTH) {
