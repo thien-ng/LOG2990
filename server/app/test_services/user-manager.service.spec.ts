@@ -78,6 +78,7 @@ describe("UserManagerService test", () => {
         };
 
         chai.spy.on(userManagerService["assetManager"], "deleteStoredImages", () => {throw new Error(); });
+        chai.spy.on(userManagerService, "createUserPic", () => {return; });
     it ("should return False if name input is not unique", async () => {
         const user: IUser = {
             username:       "patate",
