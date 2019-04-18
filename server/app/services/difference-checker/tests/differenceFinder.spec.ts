@@ -43,6 +43,7 @@ describe("Difference finder microservice tests", () => {
         const bmpBuilder2:      BMPBuilder = new BMPBuilder(width, height, WHITE);
         const expectedBuilder:  BMPBuilder = new BMPBuilder(width, height, WHITE);
 
+        bmpBuilder1.generateBuffer();
         bmpBuilder1.setColorAtPos(1, 1, 1, 0, 0);
         expectedBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 0);
 
