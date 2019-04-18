@@ -46,6 +46,7 @@ describe("ThreejsThemeViewService Tests", () => {
         ThreejsThemeViewService,
       ],
     })
+    .compileComponents().catch();
   }));
   beforeEach(() => TestBed.configureTestingModule({
     providers: [ThreejsThemeViewService],
