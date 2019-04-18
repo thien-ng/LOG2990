@@ -106,6 +106,7 @@ export class UserManagerService {
         try {
             this.assetManager.deleteStoredImages([path]);
 
+            return this.generateMessage(CCommon.ON_SUCCESS, "");
         } catch (error) {
             // _TODO faire quelque chose de cette erreur (throw fait crash le server)
         }
