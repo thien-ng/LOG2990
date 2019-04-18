@@ -6,6 +6,7 @@ import { CollisionValidator } from "./utilitaries/collision-validator";
 
 export class SceneBuilder {
 
+    private sceneVariables:     ISceneVariables<ISceneObject>;
     private collisionValidator: CollisionValidator;
 
     public constructor () {
