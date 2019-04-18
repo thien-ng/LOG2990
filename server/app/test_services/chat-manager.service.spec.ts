@@ -1,5 +1,5 @@
+import * as chai from "chai";
 
-// import { IChatSender } from "../../../common/communication/iChat";
 // import { IArenaResponse } from "../../../common/communication/iGameplay";
 // import { IUser } from "../../../common/communication/iUser";
 // import { ChatManagerService } from "../services/chat-manager.service";
