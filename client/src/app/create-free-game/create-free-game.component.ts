@@ -28,7 +28,6 @@ export class CreateFreeGameComponent {
                                                   + " et "
                                                   + CCommon.MAX_GAME_LENGTH
                                                   + " caractères" ;
-  public readonly THEMATIC_OPTION:      string = "Thématique";
   public readonly EDIT_TYPE_ADD:        string = "Ajout";
   public readonly EDIT_TYPE_DELETE:     string = "Suppression";
   public readonly EDIT_TYPE_COLOR:      string = "Changement de couleur";
@@ -39,6 +38,7 @@ export class CreateFreeGameComponent {
   public readonly PLACE_HOLDER_NAME:    string  = "Nom du jeu";
   public readonly PLACE_HOLDER_TYPE:    string  = "Type d'objet";
   public readonly GEOMETRIC_OPTION:     string  = "Formes géométriques";
+  public readonly THEMATIC_OPTION:      string  = "Thématique";
   public readonly NEEDED_SNAPSHOT:      boolean = true;
   public readonly MAX_OBJECT_COUNT:     number  = 200;
   public readonly MIN_OBJECT_COUNT:     number  = 10;
