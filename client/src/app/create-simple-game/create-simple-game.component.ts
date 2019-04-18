@@ -32,9 +32,15 @@ export class CreateSimpleGameComponent {
   public readonly INVALID_NAME:   string    = this.ERROR_REQUIRED + ": " + this.ERROR_PATTERN + ", " + this.ERROR_SIZE;
   public readonly CHECK_CIRCLE:   string    = "cancel";
 
-  public  isGenerating:           boolean;
-
   private selectedFiles:          [Blob, Blob];
+
+  public formControl:             FormGroup;
+  public isGenerating:            boolean;
+  public isButtonEnabled:         boolean;
+  public isOriginalVisible:       Boolean;
+  public isModifiedVisible:       Boolean;
+  public nameOrigPlaceHolder:     string;
+  public nameModifPlaceHolder:    string;
 
   @ViewChild("checkOrigImage",   {read: ElementRef})  public checkOrigImage:     ElementRef;
   @ViewChild("checkModifImage",  {read: ElementRef})  public checkModifImage:    ElementRef;
@@ -42,13 +48,6 @@ export class CreateSimpleGameComponent {
   @ViewChild("buttonModified",   {read: ElementRef})  public buttonModified:     ElementRef<HTMLButtonElement>;
   @ViewChild("originalInput",    {read: ElementRef})  public originalInput:      ElementRef<HTMLInputElement>;
   @ViewChild("modifiedInput",    {read: ElementRef})  public modifiedInput:      ElementRef<HTMLInputElement>;
-
-  public formControl:             FormGroup;
-  public isButtonEnabled:         boolean;
-  public isOriginalVisible:       Boolean;
-  public isModifiedVisible:       Boolean;
-  public nameOrigPlaceHolder:     string;
-  public nameModifPlaceHolder:    string;
 
   public constructor(
     private dialogRef:            MatDialogRef<CreateSimpleGameComponent>,
@@ -119,7 +118,7 @@ export class CreateSimpleGameComponent {
     }
   }
 
-  private changeOriginalInput( name: string): void {
+  private changeOriginalInput(name: string): void {
     if (!this.IS_IMAGE_BMP[this.ORIGINAL_INDEX]) {
       this.originalInput.nativeElement.value        = "";
       this.checkOrigImage.nativeElement.textContent = null;
@@ -166,8 +165,8 @@ export class CreateSimpleGameComponent {
     this.isGenerating = false;
   }
 
-  private openSnackBar(msg: string, action: string): void {
-    this.snackBar.open(msg, action, {
+  private openSnackBar(message: string, action: string): void {
+    this.snackBar.open(message, action, {
       duration:           CClient.SNACKBAR_DURATION,
       verticalPosition:   "top",
     });
