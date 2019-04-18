@@ -1,4 +1,3 @@
-import { inject, TestBed } from "@angular/core/testing";
 import * as THREE from "three";
 import {  anyNumber, mock, when } from "ts-mockito";
 import { ActionType, IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
