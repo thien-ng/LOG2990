@@ -33,19 +33,19 @@ export class CardComponent implements AfterContentInit {
 
   public multiplayerButton:             string;
   public icon:                          string;
-  public hsButtonIsClicked:             boolean;
-  public dialogConfig:                  MatDialogConfig;
+  public highscoreButtonIsClicked:      boolean;
+  private dialogConfig:                 MatDialogConfig;
 
   @Input()  public card:                ICard;
   @Output() public cardDeleted:         EventEmitter<string>;
 
   public constructor(
     public  router:             Router,
+    public  dialog:             MatDialog,
     public  gameModeService:    GameModeService,
     public  cardManagerService: CardManagerService,
-    private snackBar:           MatSnackBar,
     private highscoreService:   HighscoreService,
-    public  dialog:             MatDialog,
+    private snackBar:           MatSnackBar,
     private httpClient:         HttpClient,
     ) {
       this.cardDeleted                = new EventEmitter();
@@ -118,8 +118,8 @@ export class CardComponent implements AfterContentInit {
     });
   }
 
-  public onHSButtonClick(): void {
-    this.hsButtonIsClicked = !this.hsButtonIsClicked;
+  public onHighscoreButtonClick(): void {
+    this.highscoreButtonIsClicked = !this.highscoreButtonIsClicked;
     this.highscoreService.getHighscore(this.card.gameID);
   }
 
