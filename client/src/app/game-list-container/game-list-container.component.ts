@@ -16,15 +16,17 @@ import { GameModeService } from "./game-mode.service";
 export class GameListContainerComponent implements OnInit, OnDestroy {
 
   private stateSubscription:          Subscription;
-  @Input() public cardListContainer:  ICardLists;
+
   public tabIndex:                    number;
   public cardsLoaded:                 boolean;
 
+  @Input() public cardListContainer:  ICardLists;
+
   public constructor(
+    public  router:             Router,
     public  gameModeservice:    GameModeService,
     public  cardManagerService: CardManagerService,
     private adminService:       AdminToggleService,
-    public  router:             Router,
     ) {
     this.cardsLoaded  = false;
     this.tabIndex     = 0;
@@ -75,7 +77,7 @@ export class GameListContainerComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    if ( this.stateSubscription !== undefined) {
+    if (this.stateSubscription !== undefined) {
       this.stateSubscription.unsubscribe();
     }
   }
