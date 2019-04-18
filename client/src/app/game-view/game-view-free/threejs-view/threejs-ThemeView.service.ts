@@ -51,6 +51,7 @@ export class ThreejsThemeViewService {
   private allPromises: Promise<{}>[] = [];
 
   public constructor(
+    private snackBar: MatSnackBar,
     @Inject(GameViewFreeService) public gameViewFreeService: GameViewFreeService) {
     this.init();
   }
