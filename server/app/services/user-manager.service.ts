@@ -9,6 +9,7 @@ import { AssetManagerService } from "./asset-manager.service";
 const axios:                AxiosInstance = require("axios");
 const IMAGE_EXTENSION:      string        = ".bmp";
 const ERROR_GENERATION:     string        = "Erreur pendant la generation d'image";
+const ERROR_LEAVE_BROWSER:  string        = "Erreur pendant la sortie de l'usager";
 
 @injectable()
 export class UserManagerService {
