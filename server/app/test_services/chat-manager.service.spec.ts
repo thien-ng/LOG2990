@@ -1,4 +1,3 @@
-// import SocketIO = require("socket.io");
 // import * as Mockito from "ts-mockito";
 
 // import { IChatSender } from "../../../common/communication/iChat";
