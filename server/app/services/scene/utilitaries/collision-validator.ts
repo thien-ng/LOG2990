@@ -4,7 +4,6 @@ import { CollisionBoxGenerator } from "./collision-box-generator";
 
 export class CollisionValidator {
 
-    private collisionBoxGenerator: CollisionBoxGenerator = new CollisionBoxGenerator();
 
     public hasCollidingPositions(newSceneObject: ISceneObject, existingSceneObjects: ISceneObject[]): boolean {
 
