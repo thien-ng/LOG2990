@@ -48,6 +48,7 @@ describe("ThreejsThemeViewService Tests", () => {
     })
     .compileComponents().catch();
   }));
+
   beforeEach(() => TestBed.configureTestingModule({
     providers: [ThreejsThemeViewService],
   }));
