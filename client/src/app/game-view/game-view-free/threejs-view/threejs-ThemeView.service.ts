@@ -293,4 +293,5 @@ export class ThreejsThemeViewService {
     this.snackBar.open(msg, action, {
       duration:           CClient.SNACKBAR_DURATION,
       verticalPosition:   "top",
+    });
 }
