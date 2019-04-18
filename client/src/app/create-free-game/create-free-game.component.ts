@@ -41,6 +41,12 @@ export class CreateFreeGameComponent {
   public readonly ATLEASTONE_CHECKED:   string = "Au moins une option doit être cochée";
   public readonly NEEDED_SNAPSHOT:      boolean = true;
 
+  public readonly modifTypes: {name: string}[] = [
+    { name:   this.EDIT_TYPE_ADD    },
+    { name:   this.EDIT_TYPE_DELETE },
+    { name:   this.EDIT_TYPE_COLOR  },
+  ];
+
   public isButtonEnabled:               boolean;
   public sliderValue:                   number;
   public addChecked:                    boolean;
@@ -48,15 +54,9 @@ export class CreateFreeGameComponent {
   public colorChecked:                  boolean;
   public isLoading:                     boolean;
 
-  public readonly modifTypes: {name: string}[] = [
-      { name:   this.EDIT_TYPE_ADD    },
-      { name:   this.EDIT_TYPE_DELETE },
-      { name:   this.EDIT_TYPE_COLOR  },
-    ];
-
-  public formControl:             FormGroup;
-  public isSceneGenerated:        boolean;
-  public sceneData:               ISceneData<ISceneObject | IMesh>;
+  public formControl:                   FormGroup;
+  public isSceneGenerated:              boolean;
+  public sceneData:                     ISceneData<ISceneObject | IMesh>;
 
   public constructor(
     public  dialogRef:    MatDialogRef<CreateFreeGameComponent>,
