@@ -1,4 +1,5 @@
 import { Inject, Injectable } from "@angular/core";
+import { MatSnackBar } from "@angular/material";
 import * as THREE from "three";
 import GLTFLoader from "three-gltf-loader";
 import { IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
