@@ -2,6 +2,7 @@ import "reflect-metadata";
 
 import * as chai from "chai";
 import { IUser } from "../../../common/communication/iUser";
+import { IProfileRequest, IUser } from "../../../common/communication/iUser";
 import { Message } from "../../../common/communication/message";
 import { CServer } from "../CServer";
 import { UserManagerService } from "../services/user-manager.service";
