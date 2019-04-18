@@ -63,6 +63,7 @@ describe("UserManagerService test", () => {
         };
 
         chai.spy.on(userManagerService["assetManager"], "deleteStoredImages", () => {return; });
+        chai.spy.on(userManagerService, "createUserPic", () => {return; });
     it ("should return False if name input is not unique", async () => {
         const user: IUser = {
             username:       "patate",
