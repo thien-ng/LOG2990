@@ -36,7 +36,6 @@ export class WaitingRoomComponent {
 
   public isMultiplayer: boolean;
 
-  @Input()
   private gameID: string | null;
 
   public constructor(
