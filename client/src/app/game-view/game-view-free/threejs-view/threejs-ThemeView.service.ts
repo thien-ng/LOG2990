@@ -261,7 +261,6 @@ export class ThreejsThemeViewService {
 
   public onKeyMovement(keyboardEvent: KeyboardEvent, buttonStatus: boolean): void {
     const keyValue: string = keyboardEvent.key.toLowerCase();
-
     switch ( keyValue ) {
       case KEYS.W:
         if (buttonStatus) {
