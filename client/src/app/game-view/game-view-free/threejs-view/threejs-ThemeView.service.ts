@@ -289,4 +289,5 @@ export class ThreejsThemeViewService {
     }
   }
 
+  private openSnackBar(msg: string, action: string): void {
 }
