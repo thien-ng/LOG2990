@@ -13,6 +13,7 @@ describe("BMPBuilder tests", () => {
 
     beforeEach(() => {
          builder = new BMPBuilder(WIDTH, HEIGHT, WHITE);
+         builder.generateBuffer();
          bufferObtained = builder.buffer;
     });
 
