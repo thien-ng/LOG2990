@@ -105,6 +105,7 @@ export class UserManagerService {
         const path: string = CServer.PROFILE_IMAGE_PATH + user.username + IMAGE_EXTENSION;
         try {
             this.assetManager.deleteStoredImages([path]);
+
         } catch (error) {
             // _TODO faire quelque chose de cette erreur (throw fait crash le server)
         }
