@@ -48,14 +48,14 @@ export class CreateFreeGameComponent {
   ];
 
   public isButtonEnabled:               boolean;
-  public sliderValue:                   number;
   public addChecked:                    boolean;
   public delChecked:                    boolean;
   public colorChecked:                  boolean;
   public isLoading:                     boolean;
-
-  public formControl:                   FormGroup;
   public isSceneGenerated:              boolean;
+
+  public sliderValue:                   number;
+  public formControl:                   FormGroup;
   public sceneData:                     ISceneData<ISceneObject | IMesh>;
 
   public constructor(
