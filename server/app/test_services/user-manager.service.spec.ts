@@ -80,6 +80,7 @@ describe("UserManagerService test", () => {
         chai.spy.on(userManagerService["assetManager"], "deleteStoredImages", () => {throw new Error(); });
         chai.spy.on(userManagerService, "createUserPic", () => {return; });
 
+        await userManagerService.updateProfilePicture(profile).then((response: Message) => {
     it ("should return False if name input is not unique", async () => {
         const user: IUser = {
             username:       "patate",
