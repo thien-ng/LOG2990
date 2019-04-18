@@ -41,7 +41,6 @@ export class BMPBuilder {
         this.validateDimensions();
         this.validateFillEntry();
         this.bmpBuffer = this.buildBuffer();
-
     }
 
     private validateDimensions(): void {
