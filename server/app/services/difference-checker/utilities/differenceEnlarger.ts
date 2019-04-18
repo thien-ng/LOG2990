@@ -6,7 +6,10 @@ export class DifferenceEnlarger {
 
     private enlargedDifferences: Buffer;
 
-    public constructor(public readonly differencesFound: Buffer, public width: number, public radius: number) {
+    public constructor(
+        public readonly differencesFound: Buffer,
+        public width: number,
+        public radius: number) {
         this.enlargedDifferences = Buffer.from(differencesFound);
     }
 
