@@ -1,6 +1,5 @@
 import * as chai from "chai";
 
-// import { TimeManagerService } from "../services/time-manager.service";
 
 // // tslint:disable:no-magic-numbers no-any
 
