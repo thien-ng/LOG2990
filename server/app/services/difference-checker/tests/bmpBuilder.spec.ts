@@ -71,6 +71,7 @@ describe("BMPBuilder tests", () => {
     it("should return an error on entry 0 for width", (done: Function) => {
         expect(() => {
             builder = new BMPBuilder(0, 3, 255);
+            builder.generateBuffer();
         }).to.throw("Invalid width entered. Width must be a positive number higher than 0.");
         done();
     });
