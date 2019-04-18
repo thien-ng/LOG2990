@@ -6,6 +6,7 @@ export class CollisionValidator {
 
     private collisionBoxGenerator: CollisionBoxGenerator;
 
+    public constructor() {
     public hasCollidingPositions(newSceneObject: ISceneObject, existingSceneObjects: ISceneObject[]): boolean {
 
         let hasCollision: boolean = false;
