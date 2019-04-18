@@ -32,7 +32,7 @@
       name="sliderValue"
       type="number"
       matInput
-      (change)="verify($event.srcElement.value)"
+      (change)="clampSliderValues($event.srcElement.value)"
       [ngModelOptions]="{standalone: true}"
       [(ngModel)]="sliderValue">
     </div>
