@@ -34,7 +34,6 @@ export class WaitingRoomComponent {
   public userImage:         string;
   public isCounterStarted:  boolean;
 
-  @Input()
   public isMultiplayer: boolean;
 
   @Input()
