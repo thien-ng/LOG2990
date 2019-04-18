@@ -279,6 +279,7 @@ export class GameManagerService {
             }
             this.deleteArena(arenaInfo);
         }).catch(() => {
+            setTimeout(() => { this.chatManagerService.sendDeletedHighscoreMessage(newTime.username, this.server); }, TIMEOUT_TIME);
         });
     }
 
