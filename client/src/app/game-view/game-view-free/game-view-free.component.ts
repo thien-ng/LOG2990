@@ -31,14 +31,6 @@ const TEMP_FOLDER:  string  = "/temp/";
 })
 export class GameViewFreeComponent implements OnInit, OnDestroy {
 
-  public readonly NEEDED_SNAPSHOT:  boolean = false;
-  public readonly SUCCESS_SOUND:    string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/fail.wav";
-  public readonly FAIL_SOUND:       string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/success.wav";
-  public readonly OPPONENT_SOUND:   string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/opponent_point.mp3";
-  public readonly GAME_WON:         string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-won.wav";
-  public readonly GAME_LOST:        string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-lost.wav";
-  public readonly CHEATER_TEXT:     string  = "Tricheur !";
-
   @ViewChild("original")      private original:    TheejsViewComponent;
   @ViewChild("modified")      private modified:    TheejsViewComponent;
   @ViewChild("chat")          private chat:        ChatViewComponent;
@@ -50,6 +42,17 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
   @ViewChild("erreurText",    {read: ElementRef})  public erreurText:      ElementRef;
   @ViewChild("erreurText2",   {read: ElementRef})  public erreurText2:     ElementRef;
 
+  public readonly NEEDED_SNAPSHOT:  boolean = false;
+  public readonly SUCCESS_SOUND:    string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/fail.wav";
+  public readonly FAIL_SOUND:       string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/success.wav";
+  public readonly OPPONENT_SOUND:   string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/opponent_point.mp3";
+  public readonly GAME_WON:         string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-won.wav";
+  public readonly GAME_LOST:        string  = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-lost.wav";
+  public readonly CHEATER_TEXT:     string  = "Tricheur !";
+
+  private scenePath:         string;
+  private gameMode:          Mode;
+  private subscription:      Subscription[];
   public  originalVariables: ISceneVariables<ISceneObject | IMesh>;
   public  modifiedVariables: ISceneVariables<ISceneObject | IMesh>;
   public  meshInfos:         IMeshInfo[];
@@ -66,9 +69,6 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
   public  gameID:            number;
   public  username:          string | null;
   public  opponentName:      string;
-  private scenePath:         string;
-  private gameMode:          Mode;
-  private subscription:      Subscription[];
   public isCheater:          boolean;
 
   @HostListener("mousedown", ["$event"])
@@ -132,6 +132,13 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
       this.createGameRequest(this.gameID, username);
     }
     this.initEventSubscription();
+  }
+
+  public ngOnDestroy(): void {
+    this.socketService.sendMessage(CCommon.GAME_DISCONNECT, this.username);
+    this.subscription.forEach((sub: Subscription) => {
+      sub.unsubscribe();
+    });
   }
 
   private initEventSubscription(): void {
@@ -279,13 +286,6 @@ export class GameViewFreeComponent implements OnInit, OnDestroy {
     this.snackBar.open(msg, action, {
       duration:           CClient.SNACKBAR_DURATION,
       verticalPosition:   "top",
-    });
-  }
-
-  public ngOnDestroy(): void {
-    this.socketService.sendMessage(CCommon.GAME_DISCONNECT, this.username);
-    this.subscription.forEach((sub: Subscription) => {
-      sub.unsubscribe();
     });
   }
 
