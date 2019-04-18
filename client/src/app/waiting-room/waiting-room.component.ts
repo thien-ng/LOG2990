@@ -35,6 +35,7 @@ export class WaitingRoomComponent {
   public isCounterStarted:  boolean;
 
   @Input() public   isMultiplayer:  boolean;
+  @Input() private  gameID:         string | null;
 
   public constructor(
     private router:         Router,
