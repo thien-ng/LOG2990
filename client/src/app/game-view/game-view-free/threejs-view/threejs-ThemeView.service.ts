@@ -25,7 +25,6 @@ export class ThreejsThemeViewService {
   private readonly FOWARD_ORIENTATION:    number = -1;
   private readonly BACKWARD_ORIENTATION:  number = 1;
 
-  public  handleId:             number;
   private scene:                THREE.Scene;
   private camera:               THREE.PerspectiveCamera;
   private renderer:             THREE.WebGLRenderer;
@@ -48,6 +47,8 @@ export class ThreejsThemeViewService {
   private moveRight:          boolean;
 
   private allPromises: Promise<{}>[] = [];
+
+  public  handleId:             number;
 
   public constructor(
     @Inject(GameViewFreeService) public gameViewFreeService: GameViewFreeService) {
