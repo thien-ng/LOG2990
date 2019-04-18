@@ -35,7 +35,6 @@ export class BMPBuilder {
 
     private bmpBuffer: Buffer;
 
-        private width:    number,
         private height:   number,
         private fillWith: number,
     ) {
