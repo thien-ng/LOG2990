@@ -56,6 +56,7 @@ describe("UserManagerService test", () => {
     });
 
     it ("should return a success message when calling updateProfilePicture", async () => {
+
     it ("should return False if name input is not unique", async () => {
         const user: IUser = {
             username:       "patate",
