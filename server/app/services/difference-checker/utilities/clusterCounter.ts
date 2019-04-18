@@ -15,7 +15,6 @@ export class ClusterCounter {
 
     private visitedColor: number = 1;
 
-    public constructor(public differenceBuffer: Buffer, public width: number) { /* */ }
 
     public countAllClusters(): number {
 
