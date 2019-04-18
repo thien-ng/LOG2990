@@ -44,6 +44,9 @@ export class PictureChangerDialogComponent {
       this.username       = sessionStorage.getItem(CClient.USERNAME_KEY);
       this.profilePic     = CClient.PATH_TO_PROFILE_IMAGES + this.username + ".bmp" + "?" + new Date().getTime();
       this.isDisable      = false;
+      this.dialogRef.backdropClick().subscribe(() => {
+        this.updateImage();
+      });
   }
 
   public changeImage(): void {
@@ -93,5 +96,4 @@ export class PictureChangerDialogComponent {
   public updateImage(): void {
     this.dialogRef.close(this.profilePic);
   }
-
 }

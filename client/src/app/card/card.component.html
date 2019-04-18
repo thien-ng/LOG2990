@@ -1,12 +1,12 @@
 <mat-card class="card">
   <mat-card-header>
-    <div mat-card-avatar [ngStyle]="{ 'background-image': 'url(' + card.avatarImageUrl + ')'}"  class="thumbnail"></div>
+    <div mat-card-avatar [ngStyle]="{ 'background-image': 'url(' + logoUrl + ')'}"  class="thumbnail"></div>
     <mat-card-title>{{card.title}}</mat-card-title>
-    <mat-card-subtitle>{{card.subtitle}}</mat-card-subtitle>
+    <mat-card-subtitle>Meilleur joueur solo: {{bestPlayer}}</mat-card-subtitle>
     <div class="spacer"></div>
   </mat-card-header>
 
-  <app-highscore-display class="highscorePanel" [id]="card.gameID" [(isExpanded)]="hsButtonIsClicked"></app-highscore-display>
+  <app-highscore-display class="highscorePanel" [id]="card.gameID" [(isExpanded)]="hsButtonIsClicked" (bestPlayer)="setBestPlayer($event)"></app-highscore-display>
 
   <img mat-card-image class="card-image" [ngClass]="hsButtonIsClicked ? 'darkenImage' : 'brightenImage'" alt="GameCardImage" src="{{card.gameImageUrl}}">
 
