@@ -29,6 +29,7 @@ export class ProfilePicGeneratorService {
 
         const sizeOfSquare:     number      = 7;
         const builder:          BMPBuilder  = new BMPBuilder(sizeOfSquare * this.MULTIPLIER, sizeOfSquare * this.MULTIPLIER, 0);
+        builder.generateBuffer();
         const color:            IColor      = (request.color) ? request.color : this.getRandomColor();
         const middleOfSquare:   number      = this.getCeiledHalf(sizeOfSquare);
 
