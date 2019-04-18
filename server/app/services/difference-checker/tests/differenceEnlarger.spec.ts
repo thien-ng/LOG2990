@@ -75,6 +75,7 @@ describe("Difference Enlarger tests", () => {
         const diffInBottomCornerBuffer: Buffer = Buffer.from(inputBuilder.buffer);
 
         const expectedBuilder:  BMPBuilder  = new BMPBuilder(width, height, WHITE);
+        expectedBuilder.generateBuffer();
         const positions:        number [][] = [
             [2, 0],
             [3, 0],
