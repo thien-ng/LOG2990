@@ -1,6 +1,5 @@
 import * as chai from "chai";
 
-// import { IUser } from "../../../common/communication/iUser";
 // import { ChatManagerService } from "../services/chat-manager.service";
 // import { TimeManagerService } from "../services/time-manager.service";
 
