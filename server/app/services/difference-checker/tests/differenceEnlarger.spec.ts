@@ -69,6 +69,7 @@ describe("Difference Enlarger tests", () => {
         const width:        number      = 4;
         const height:       number      = 4;
         const inputBuilder: BMPBuilder  = new BMPBuilder(width, height, WHITE);
+        inputBuilder.generateBuffer();
 
         inputBuilder.setColorAtPos(BLACK, BLACK, BLACK, 3, 3);
         const diffInBottomCornerBuffer: Buffer = Buffer.from(inputBuilder.buffer);
