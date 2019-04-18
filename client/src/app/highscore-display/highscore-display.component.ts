@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 
 import { Subscription } from "rxjs";
 import { HighscoreMessage } from "../../../../common/communication/highscore";
@@ -14,6 +14,8 @@ export class HighscoreDisplayComponent implements OnInit , OnDestroy {
 
   @Input() public id:         number;
   @Input() public isExpanded: boolean;
+
+  @Output() public bestPlayer: EventEmitter<string>;
 
   public IMAGE_MEDAL_URL: string[] = [
     CClient.PATH_TO_ICONS + "/gold.png",    // gold medal image
@@ -31,6 +33,7 @@ export class HighscoreDisplayComponent implements OnInit , OnDestroy {
   public constructor(private highscoreService: HighscoreService) {
     this.isExpanded = false;
     this.isLoaded   = false;
+    this.bestPlayer = new EventEmitter<string>();
   }
 
   public ngOnInit(): void {
@@ -39,6 +42,7 @@ export class HighscoreDisplayComponent implements OnInit , OnDestroy {
         if (highscoreValue.id === this.id) {
           this.highscore  = highscoreValue;
           this.isLoaded   = true;
+          this.bestPlayer.emit(this.highscore.timesSingle[0].username);
         }
       });
   }
