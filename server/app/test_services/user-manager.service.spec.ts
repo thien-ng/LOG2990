@@ -83,6 +83,7 @@ describe("UserManagerService test", () => {
         await userManagerService.updateProfilePicture(profile).then((response: Message) => {
             chai.expect(response).to.deep.equal(
                 {   title: "onError",
+                    body: "Erreur pendant la generation d\'image" ,
     it ("should return False if name input is not unique", async () => {
         const user: IUser = {
             username:       "patate",
