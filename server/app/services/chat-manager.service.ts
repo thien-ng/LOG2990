@@ -63,7 +63,7 @@ export class ChatManagerService {
         this.server.emit(CCommon.CHAT_EVENT, iChatMessage);
     }
 
-    public sendDeletedHighscoreMessage(username: string, socket: SocketIO.Server) {
+    public sendDeletedHighscoreMessage(username: string, socket: SocketIO.Server): void {
         this.server = socket;
 
         const message: string       = String.Format(DELETE_HIGH_MESSAGE, username);
