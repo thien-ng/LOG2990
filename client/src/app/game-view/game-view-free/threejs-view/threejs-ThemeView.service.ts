@@ -241,6 +241,7 @@ export class ThreejsThemeViewService {
           });
         }
       });
+    }).catch((error) => this.openSnackBar(error.message, CClient.SNACK_ACTION));
 
   }
 
