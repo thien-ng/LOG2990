@@ -200,7 +200,6 @@ export class GameManagerService {
         const arenaId:  number              = arenaInfo.arenaId;
         const gameId:   number | undefined  = this.gameIdByArenaId.get(arenaId);
         if (gameId === undefined) { return; }
-
         const aliveArenaCount: number | undefined = this.assetManager.getCounter(gameId);
 
         if (aliveArenaCount === undefined)  { return; }
