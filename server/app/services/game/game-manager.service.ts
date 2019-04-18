@@ -25,6 +25,7 @@ import { LobbyManagerService } from "./lobby-manager.service";
 const REQUEST_ERROR_MESSAGE:            string = "Game mode invalide";
 const ARENA_START_ID:                   number = 1000;
 const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
+const TIMEOUT_TIME:                     number = 100;
 
 @injectable()
 export class GameManagerService {
