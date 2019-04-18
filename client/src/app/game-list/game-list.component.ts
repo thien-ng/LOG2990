@@ -8,10 +8,10 @@ import { CardComponent } from "../card/card.component";
   styleUrls:    ["./game-list.component.css"],
 })
 export class GameListComponent {
+  public cardComponent:         CardComponent;
+
   @Input()  public cards:       ICard[];
   @Output() public cardDeleted: EventEmitter<string>;
-
-  public cardComponent:         CardComponent;
 
   public updateCards(): void {
     this.cardDeleted.emit();
