@@ -10,7 +10,6 @@ export class SceneBuilder {
     private collisionValidator: CollisionValidator;
 
     public constructor () {
-
         this.collisionValidator = new CollisionValidator();
     }
 
