@@ -98,10 +98,10 @@ export class CreateFreeGameComponent {
   }
 
   public verify(e: number): void {
-    } else if (e > CCommon.MAX_GAME_LENGTH) {
-      this.sliderValue = CCommon.MAX_GAME_LENGTH;
     if (e < this.MIN_OBJECT_COUNT) {
       this.sliderValue = this.MIN_OBJECT_COUNT;
+    } else if (e > this.MAX_OBJECT_COUNT) {
+      this.sliderValue = this.MAX_OBJECT_COUNT;
     }
   }
 
