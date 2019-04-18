@@ -115,6 +115,7 @@ describe("Difference Enlarger tests", () => {
 
         const givenBuffer:      Buffer      = Buffer.from(newBuilder.buffer);
         const expectedBuilder:  BMPBuilder  = new BMPBuilder(4, 4, BLACK);
+        expectedBuilder.generateBuffer();
         const expectedBuffer:   Buffer      = Buffer.from(expectedBuilder.buffer);
 
         let circleDifferences:  DifferenceEnlarger;
