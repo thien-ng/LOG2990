@@ -68,8 +68,8 @@ export class ThreejsMovement {
     }
 
     private getSideDirection(): THREE.Vector3 {
-        const yAxis:        THREE.Vector3 = new THREE.Vector3(0, 1, 0);
-        const forwardVector:  THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+        const yAxis:            THREE.Vector3 = new THREE.Vector3(0, 1, 0);
+        const forwardVector:    THREE.Vector3 = new THREE.Vector3(0, 0, 0);
         this.camera.getWorldDirection(forwardVector);
         let sideDirection:  THREE.Vector3 = this.crossProduct(forwardVector, yAxis);
 
