@@ -6,7 +6,7 @@ import * as path from "path";
 
 import { DifferenceCheckerService } from "./difference-checker.service";
 import { Constants } from "./utilities/constants";
-import { ImageRequirements } from "./utilities/imageRequirements";
+import { IImageRequirements } from "./utilities/iImageRequirements";
 import { Message } from "./utilities/message";
 
 // tslint:disable:no-magic-numbers
@@ -22,7 +22,7 @@ describe("Difference checker service tests", () => {
     });
 
     it("Should return a Buffer without any error thrown", () => {
-        const requirements: ImageRequirements = {
+        const requirements: IImageRequirements = {
             requiredHeight: 480,
             requiredWidth:  640,
             requiredNbDiff: 7,
@@ -38,7 +38,7 @@ describe("Difference checker service tests", () => {
 
         const testImageDiff1: Buffer = fs.readFileSync(path.resolve(__dirname, "./tests/testBitmap/imagetestOg.bmp"));
 
-        const requirements: ImageRequirements = {
+        const requirements: IImageRequirements = {
             requiredHeight: 480,
             requiredWidth:  640,
             requiredNbDiff: 7,
@@ -59,7 +59,7 @@ describe("Difference checker service tests", () => {
         const testImageDiff2:   Buffer = fs.readFileSync(path.resolve(__dirname, "./tests/testBitmap/image9x9_01.bmp"));
         const testImageOg2:     Buffer = fs.readFileSync(path.resolve(__dirname, "./tests/testBitmap/image9x9_02.bmp"));
 
-        const requirements: ImageRequirements = {
+        const requirements: IImageRequirements = {
             requiredHeight: 480,
             requiredWidth:  640,
             requiredNbDiff: 7,
@@ -80,7 +80,7 @@ describe("Difference checker service tests", () => {
 
         const testImageDiff3: Buffer = fs.readFileSync(path.resolve(__dirname, "./tests/testBitmap/whiteTest.bmp"));
 
-        const requirements: ImageRequirements = {
+        const requirements: IImageRequirements = {
             requiredHeight: 480,
             requiredWidth:  640,
             requiredNbDiff: 7,

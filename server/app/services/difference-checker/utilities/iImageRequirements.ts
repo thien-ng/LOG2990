@@ -1,4 +1,4 @@
-export interface ImageRequirements {
+export interface IImageRequirements {
     requiredHeight: number;
     requiredWidth:  number;
     requiredNbDiff: number;

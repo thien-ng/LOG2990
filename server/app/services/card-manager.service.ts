@@ -11,7 +11,7 @@ import { CServer } from "../CServer";
 import Types from "../types";
 import { AssetManagerService } from "./asset-manager.service";
 import { CardOperations } from "./card-operations.service";
-import { ImageRequirements } from "./difference-checker/utilities/imageRequirements";
+import { IImageRequirements } from "./difference-checker/utilities/iImageRequirements";
 
 const axios: Axios.AxiosInstance = require("axios");
 
@@ -32,7 +32,7 @@ export class CardManagerService {
         this.cardOperations.addCard(DefaultCard3D);
     }
 
-    public async simpleCardCreationRoutine(requirements: ImageRequirements, cardTitle: string): Promise<Message> {
+    public async simpleCardCreationRoutine(requirements: IImageRequirements, cardTitle: string): Promise<Message> {
         const nameValidationStatus: Message = this.validateCardTitle(cardTitle);
         if (nameValidationStatus.title === CCommon.ON_ERROR) {
             return nameValidationStatus;
