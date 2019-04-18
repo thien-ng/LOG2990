@@ -279,7 +279,6 @@ export class GameManagerService {
             }
             this.deleteArena(arenaInfo);
         }).catch(() => {
-            }, 100);
         });
     }
 
