@@ -4,7 +4,7 @@ import { ClusterCounter } from "./utilities/clusterCounter";
 import { Constants } from "./utilities/constants";
 import { DifferenceEnlarger } from "./utilities/differenceEnlarger";
 import { DifferenceFinder } from "./utilities/differenceFinder";
-import { ImageRequirements } from "./utilities/iImageRequirements";
+import { ImageRequirements } from "./utilities/imageRequirements";
 import { Message } from "./utilities/message";
 
 @injectable()

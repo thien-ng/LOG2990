@@ -14,7 +14,7 @@ import { CCommon } from "../../../common/constantes/cCommon";
 import { AssetManagerService } from "../services/asset-manager.service";
 import { CardManagerService } from "../services/card-manager.service";
 import { CardOperations } from "../services/card-operations.service";
-import { ImageRequirements } from "../services/difference-checker/utilities/iImageRequirements";
+import { ImageRequirements } from "../services/difference-checker/utilities/imageRequirements";
 import { HighscoreService } from "../services/highscore.service";
 
 /*tslint:disable no-magic-numbers no-any max-file-line-count max-line-length arrow-return-shorthand no-floating-promises*/

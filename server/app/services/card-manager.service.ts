@@ -11,7 +11,7 @@ import { CServer } from "../CServer";
 import Types from "../types";
 import { AssetManagerService } from "./asset-manager.service";
 import { CardOperations } from "./card-operations.service";
-import { ImageRequirements } from "./difference-checker/utilities/iImageRequirements";
+import { ImageRequirements } from "./difference-checker/utilities/imageRequirements";
 
 const axios: Axios.AxiosInstance = require("axios");
 

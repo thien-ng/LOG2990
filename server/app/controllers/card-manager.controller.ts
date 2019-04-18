@@ -8,7 +8,7 @@ import { Message } from "../../../common/communication/message";
 import { CServer } from "../CServer";
 import { CardManagerService } from "../services/card-manager.service";
 import { CardOperations } from "../services/card-operations.service";
-import { ImageRequirements } from "../services/difference-checker/utilities/iImageRequirements";
+import { ImageRequirements } from "../services/difference-checker/utilities/imageRequirements";
 import Types from "../types";
 
 const DECIMAL:              number = 10;

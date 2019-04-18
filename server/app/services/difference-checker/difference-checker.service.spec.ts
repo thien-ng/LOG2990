@@ -6,7 +6,7 @@ import * as path from "path";
 
 import { DifferenceCheckerService } from "./difference-checker.service";
 import { Constants } from "./utilities/constants";
-import { ImageRequirements } from "./utilities/iImageRequirements";
+import { ImageRequirements } from "./utilities/imageRequirements";
 import { Message } from "./utilities/message";
 
 // tslint:disable:no-magic-numbers
