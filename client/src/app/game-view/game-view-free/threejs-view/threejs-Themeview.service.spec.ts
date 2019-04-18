@@ -41,6 +41,7 @@ describe("ThreejsThemeViewService Tests", () => {
     TestBed.configureTestingModule({
       imports: [
         TestingImportsModule,
+      ],
   }));
   beforeEach(() => TestBed.configureTestingModule({
     providers: [ThreejsThemeViewService],
