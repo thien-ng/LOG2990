@@ -28,7 +28,6 @@ export class CreateFreeGameComponent {
                                                   + " et "
                                                   + CCommon.MAX_GAME_LENGTH
                                                   + " caractères" ;
-  public readonly SUBMIT:               string = "Soumettre";
   public readonly CANCEL:               string = "Annuler";
   public readonly TITLE:                string = "Créer un jeu de point de vue libre";
   public readonly PLACE_HOLDER_NAME:    string = "Nom du jeu";
@@ -39,6 +38,7 @@ export class CreateFreeGameComponent {
   public readonly EDIT_TYPE_DELETE:     string = "Suppression";
   public readonly EDIT_TYPE_COLOR:      string = "Changement de couleur";
   public readonly ATLEASTONE_CHECKED:   string = "Au moins une option doit être cochée";
+  public readonly SUBMIT:               string  = "Soumettre";
   public readonly NEEDED_SNAPSHOT:      boolean = true;
   public readonly MAX_OBJECT_COUNT:     number  = 200;
   public readonly MIN_OBJECT_COUNT:     number  = 10;
