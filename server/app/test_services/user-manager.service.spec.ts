@@ -69,6 +69,7 @@ describe("UserManagerService test", () => {
             chai.expect(response).to.deep.equal({ title: "onSuccess", body: "" });
         });
     });
+
     it ("should return False if name input is not unique", async () => {
         const user: IUser = {
             username:       "patate",
