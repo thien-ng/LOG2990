@@ -1,4 +1,5 @@
 import { GameMode } from "./iCard";
+import { IVector3D } from "./ITheme";
 import { Mode } from "./highscore";
 
 export interface IPosition2D {
@@ -43,6 +44,20 @@ export interface IArenaResponse<RES_T> {
 export interface IPenalty {
     isOnPenalty:    boolean;
     arenaType:      GameMode;
+}
+
+export interface ICollisions {
+    front:  boolean;
+    back:   boolean;
+    left:   boolean;
+    right:  boolean;
+    top:    boolean;
+    bottom: boolean;
+}
+
+export interface IBounderies {
+    minPosition: IVector3D;
+    maxPosition: IVector3D;
 }
 
 export interface INewGameInfo {

@@ -21,6 +21,7 @@ export class GameViewFreeService {
   private opponentSound:        ElementRef;
   private gameWon:              ElementRef;
   private gameLost:             ElementRef;
+  private music:                ElementRef;
   public  position:             IPosition2D;
 
   public constructor (private gameConnectionService: GameConnectionService) {
@@ -72,6 +73,16 @@ export class GameViewFreeService {
     this.position.y = posY;
   }
 
+  public playMusic(): void {
+    this.music.nativeElement.currentTime = 0;
+    this.music.nativeElement.play();
+  }
+
+  public stopMusic(): void {
+    this.music.nativeElement.currentTime = 0;
+    this.music.nativeElement.pause();
+  }
+
   public playFailSound(): void {
     this.failSound.nativeElement.currentTime = 0;
     this.failSound.nativeElement.play();
@@ -97,12 +108,15 @@ export class GameViewFreeService {
     this.opponentSound.nativeElement.play();
   }
 
-  public setSounds(success: ElementRef, fail: ElementRef, opponentSound: ElementRef, gameWon: ElementRef, gameLost: ElementRef): void {
+  public setSounds(
+                    success: ElementRef, fail: ElementRef, opponentSound: ElementRef,
+                    gameWon: ElementRef, gameLost: ElementRef, music: ElementRef): void {
     this.successSound   = success;
     this.failSound      = fail;
     this.opponentSound  = opponentSound;
     this.gameWon        = gameWon;
     this.gameLost       = gameLost;
+    this.music          = music;
   }
 
 }

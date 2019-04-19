@@ -21,18 +21,6 @@ describe("Threejs-movement", () => {
         threejsMovement = new ThreejsMovement(camera, scene);
     });
 
-    it("should set camera directions to front (to set the camera direction)", () => {
-        const spy: any = spyOn<any>(threejsMovement, "multiplyVector");
-        threejsMovement.setupFront(1);
-        expect(spy).toHaveBeenCalled();
-    });
-
-    it("should set camera directions to back", () => {
-        const spy: any = spyOn<any>(threejsMovement, "multiplyVector");
-        threejsMovement.setupFront(-1);
-        expect(spy).toHaveBeenCalled();
-    });
-
     it("should rotate camera with position pass by reference (check X value)", () => {
         const spy: any = spyOn<any>(threejsMovement["camera"], "rotateOnWorldAxis");
         threejsMovement.rotateCamera(position);
@@ -47,8 +35,6 @@ describe("Threejs-movement", () => {
 
     it("should set camera velocity when camera keyboard isn't pressed (check movement)", () => {
 
-        threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
-        threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
         threejsMovement["direction"]    = new THREE.Vector3(1, 2, 3);
         threejsMovement["velocity"]     = new THREE.Vector3(3, 3, 3);
 
@@ -62,23 +48,19 @@ describe("Threejs-movement", () => {
     });
 
     it("should set camera velocity when camera keyboard isn't pressed (check call)", () => {
-        const spy: any = spyOn<any>(threejsMovement, "setCameratVelocity");
+        const spy: any = spyOn<any>(threejsMovement, "multiplyVector");
 
-        threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
-        threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
         threejsMovement["direction"]    = new THREE.Vector3(1, 2, 3);
         threejsMovement["velocity"]     = new THREE.Vector3(3, 3, 3);
 
         threejsMovement.movementCamera(false, false, false, false);
 
-        expect(spy).not.toHaveBeenCalled();
+        expect(spy).toHaveBeenCalled();
     });
 
     it("should move camera forward (check value)", () => {
         const cameraMocked: any = threejsMovement["camera"];
 
-        threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
-        threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
         threejsMovement["direction"]    = new THREE.Vector3(1, 2, 3);
         threejsMovement["velocity"]     = new THREE.Vector3(3, 3, 3);
 
@@ -92,10 +74,8 @@ describe("Threejs-movement", () => {
     });
 
     it("should move camera forward (check call)", () => {
-        const spy: any = spyOn<any>(threejsMovement, "setCameratVelocity");
+        const spy: any = spyOn<any>(threejsMovement, "setCameraVelocity");
 
-        threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
-        threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
         threejsMovement["direction"]    = new THREE.Vector3(1, 2, 3);
         threejsMovement["velocity"]     = new THREE.Vector3(3, 3, 3);
 
@@ -107,8 +87,6 @@ describe("Threejs-movement", () => {
     it("should move camera backward (check value)", () => {
         const cameraMocked: any = threejsMovement["camera"];
 
-        threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
-        threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
         threejsMovement["direction"]    = new THREE.Vector3(1, 2, 3);
         threejsMovement["velocity"]     = new THREE.Vector3(3, 3, 3);
 
@@ -122,10 +100,8 @@ describe("Threejs-movement", () => {
     });
 
     it("should move camera backward (check call)", () => {
-        const spy: any = spyOn<any>(threejsMovement, "setCameratVelocity");
+        const spy: any = spyOn<any>(threejsMovement, "setCameraVelocity");
 
-        threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
-        threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
         threejsMovement["direction"]    = new THREE.Vector3(1, 2, 3);
         threejsMovement["velocity"]     = new THREE.Vector3(3, 3, 3);
 
@@ -137,8 +113,6 @@ describe("Threejs-movement", () => {
     it("should move camera left (check value)", () => {
         const cameraMocked: any = threejsMovement["camera"];
 
-        threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
-        threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
         threejsMovement["direction"]    = new THREE.Vector3(1, 2, 3);
         threejsMovement["velocity"]     = new THREE.Vector3(3, 3, 3);
 
@@ -152,10 +126,8 @@ describe("Threejs-movement", () => {
     });
 
     it("should move camera left (check call)", () => {
-        const spy: any = spyOn<any>(threejsMovement, "setCameratVelocity");
+        const spy: any = spyOn<any>(threejsMovement, "setCameraVelocity");
 
-        threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
-        threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
         threejsMovement["direction"]    = new THREE.Vector3(1, 2, 3);
         threejsMovement["velocity"]     = new THREE.Vector3(3, 3, 3);
 
@@ -167,8 +139,6 @@ describe("Threejs-movement", () => {
     it("should move camera right (check value)", () => {
         const cameraMocked: any = threejsMovement["camera"];
 
-        threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
-        threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
         threejsMovement["direction"]    = new THREE.Vector3(1, 2, 3);
         threejsMovement["velocity"]     = new THREE.Vector3(3, 3, 3);
 
@@ -182,10 +152,8 @@ describe("Threejs-movement", () => {
     });
 
     it("should move camera right (check call)", () => {
-        const spy: any = spyOn<any>(threejsMovement, "setCameratVelocity");
+        const spy: any = spyOn<any>(threejsMovement, "setCameraVelocity");
 
-        threejsMovement["front"]        = new THREE.Vector3(0, 0, 1);
-        threejsMovement["orthogonal"]   = new THREE.Vector3(0, 0, 1);
         threejsMovement["direction"]    = new THREE.Vector3(1, 2, 3);
         threejsMovement["velocity"]     = new THREE.Vector3(3, 3, 3);
 

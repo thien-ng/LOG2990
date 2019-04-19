@@ -30,12 +30,14 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   public readonly OPPONENT_SOUND:         string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/opponent_point.mp3";
   public readonly GAME_WON:               string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-won.wav";
   public readonly GAME_LOST:              string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-lost.wav";
+  public readonly MUSIC:                  string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/music.mp3";
 
   @ViewChild("successSound",  {read: ElementRef})  public successSound:    ElementRef;
   @ViewChild("failSound",     {read: ElementRef})  public failSound:       ElementRef;
   @ViewChild("opponentSound", {read: ElementRef})  public opponentSound:   ElementRef;
   @ViewChild("gameWon",       {read: ElementRef})  public gameWon:         ElementRef;
   @ViewChild("gameLost",      {read: ElementRef})  public gameLost:        ElementRef;
+  @ViewChild("music",         {read: ElementRef})  public music:           ElementRef;
   @ViewChild("erreurText",    {read: ElementRef})  public erreurText:      ElementRef;
   @ViewChild("erreurText2",   {read: ElementRef})  public erreurText2:     ElementRef;
   @ViewChild("originalImage", {read: ElementRef})  public canvasOriginal:  ElementRef;
@@ -100,6 +102,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     this.subscription.push(this.socketService.onMessage(CCommon.ON_GAME_STARTED).subscribe(() => {
       this.chat.chatViewService.clearConversations();
       this.gameIsStarted = true;
+      this.gameViewService.playMusic();
     }));
 
     this.initEndOfGameSubs();
@@ -114,6 +117,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     this.subscription.push(this.socketService.onMessage(CCommon.ON_GAME_ENDED).subscribe((message: string) => {
       const isWinner: boolean = message === CCommon.ON_GAME_WON;
       isWinner ? this.gameViewService.playWinSound() : this.gameViewService.playLossSound();
+      this.gameViewService.stopMusic();
       this.isGameEnded = true;
       const newGameInfo: INewGameInfo = {
         path:   CClient.GAME_VIEW_SIMPLE_PATH,
@@ -187,7 +191,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       canvasModified.drawImage(imgModified, 0, 0);
     };
     this.gameViewService.setCanvas(canvasModified);
-    this.gameViewService.setSounds(this.successSound, this.failSound, this.opponentSound, this.gameWon, this.gameLost);
+    this.gameViewService.setSounds(this.successSound, this.failSound, this.opponentSound, this.gameWon, this.gameLost, this.music);
   }
 
   public initListener(): void {

@@ -1,7 +1,7 @@
 <mat-toolbar *ngIf="this.router.url != LOGIN_PATH" color="primary">
     <img class="imageIcon" src="{{profileIcon}}">
     <mat-icon class="penIcon" (click)="changePictureMenu()">create</mat-icon>
-    <mat-divider [vertical]="true" class="style-fix">asdfghj</mat-divider>
+    <mat-divider [vertical]="true" class="style-fix"></mat-divider>
     <span class="logo" (click)="redirectGameList()">{{ client }}</span>
   <div id="header" [@slideInOut]="isAdminMode ? 'open' : 'closed'">
     <div id="options" *ngIf="this.isValidUrl">
