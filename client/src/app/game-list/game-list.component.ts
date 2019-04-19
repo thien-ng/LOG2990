@@ -9,10 +9,10 @@ import { CardComponent } from "../card/card.component";
 })
 export class GameListComponent {
 
-  public cardComponent:         CardComponent;
-
   @Input()  public cards:       ICard[];
   @Output() public cardDeleted: EventEmitter<string>;
+
+  public cardComponent:         CardComponent;
 
   public constructor() {
     this.cardDeleted = new EventEmitter<string>();

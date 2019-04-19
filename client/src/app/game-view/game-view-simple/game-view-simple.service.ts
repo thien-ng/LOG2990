@@ -22,6 +22,7 @@ export class GameViewSimpleService {
   private opponentSound:         ElementRef;
   private winSound:              ElementRef;
   private lossSound:             ElementRef;
+  private music:                 ElementRef;
 
   public onArenaResponse(data: IArenaResponse<IOriginalPixelCluster>): void {
     const isSuccess:     boolean  = data.status === CCommon.ON_SUCCESS;
@@ -33,6 +34,16 @@ export class GameViewSimpleService {
         this.canvasModified.fillRect(pixel.position.x, pixel.position.y, 1, 1);
       });
     }
+  }
+
+  public playMusic(): void {
+    this.music.nativeElement.currentTime = 0;
+    this.music.nativeElement.play();
+  }
+
+  public stopMusic(): void {
+    this.music.nativeElement.currentTime = 0;
+    this.music.nativeElement.pause();
   }
 
   public playFailSound(): void {
@@ -64,12 +75,15 @@ export class GameViewSimpleService {
     this.canvasModified = modified;
   }
 
-  public setSounds(success: ElementRef, fail: ElementRef, opponentSound: ElementRef, gameWon: ElementRef, gameLost: ElementRef): void {
+  public setSounds(
+                    success: ElementRef, fail: ElementRef, opponentSound: ElementRef,
+                    gameWon: ElementRef, gameLost: ElementRef, music: ElementRef): void {
     this.successSound   = success;
     this.failSound      = fail;
     this.opponentSound  = opponentSound;
     this.winSound       = gameWon;
     this.lossSound      = gameLost;
+    this.music          = music;
   }
 
   public onCanvasClick(pos: IPosition2D, id: number, username: string): IClickMessage<IPosition2D> {

@@ -15,12 +15,11 @@ import { GameModeService } from "./game-mode.service";
 })
 export class GameListContainerComponent implements OnInit, OnDestroy {
 
-  private stateSubscription:          Subscription;
+  @Input() public cardListContainer:  ICardLists;
 
+  private stateSubscription:          Subscription;
   public tabIndex:                    number;
   public cardsLoaded:                 boolean;
-
-  @Input() public cardListContainer:  ICardLists;
 
   public constructor(
     public  router:             Router,
