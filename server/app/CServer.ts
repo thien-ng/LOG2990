@@ -49,6 +49,7 @@ export class CServer {
   // CServer for card-manager-controller
   public static readonly DEFAULT_CARD_2D:           number = 1;
   public static readonly DEFAULT_CARD_3D_GEO:       number = 2;
+  public static readonly DEFAULT_CARD_3D_THEME:     number = 3;
   public static readonly DELETION_ERROR_MESSAGE:    string = "Impossible de supprimer la carte par défault";
 
   // CServer for game manager
