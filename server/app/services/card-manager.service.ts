@@ -24,7 +24,8 @@ export class CardManagerService {
     private originalImageRequest:   Buffer;
     private modifiedImageRequest:   Buffer;
     private imageManagerService:    AssetManagerService;
-    private originalListIds:        ICardsIds;
+    // private originalListIds:        ICardsIds;
+
 
     public constructor(@inject(Types.CardOperations) private cardOperations: CardOperations) {
         this.imageManagerService    = new AssetManagerService();
@@ -150,51 +151,52 @@ export class CardManagerService {
     }
 
     private generateId(initialId: number): number {
-        let chosenId:       number      = initialId;
-        let defaultId:      number      = DefaultCard2D.gameID;
-        let chosenGameMode: GameMode    = GameMode.simple;
-        this.originalListIds            = this.imageManagerService.getCardsIds();
-
-        if (chosenId !== INITIAL_2D_ID) {
-            defaultId = DefaultCard3D.gameID;
-            chosenGameMode = GameMode.free;
-        }
-        const originalId: number = this.findLastId(chosenId, chosenGameMode, defaultId);
+        // let chosenId:       number      = initialId;
+        // let defaultId:      number      = DefaultCard2D.gameID;
+        // let chosenGameMode: GameMode    = GameMode.simple;
+        // this.originalListIds            = this.imageManagerService.getCardsIds();
         const list: ICardsIds = this.imageManagerService.getCardsIds();
+        const chosenId: number = (initialId !== INITIAL_2D_ID) ? list.index3D++ : list.index2D++;
 
-        list.descriptions.forEach((description: ICardDescription) => {
-            const currentId: number = chosenId;
-            if (description.gamemode === chosenGameMode &&
-                description.id      !== defaultId &&
-                description.id      >  currentId  &&
-                description.id      >= originalId) {
+        this.imageManagerService.saveCardsIds(list);
+        // if (chosenId !== INITIAL_2D_ID) {
+        // //     defaultId = DefaultCard3D.gameID;
+        // //     chosenGameMode = GameMode.free;
+        // }
+        // const originalId: number = this.findLastId(chosenId, chosenGameMode, defaultId);
 
-                chosenId = description.id;
-            }
-        });
+        // list.descriptions.forEach((description: ICardDescription) => {
+        //     const currentId: number = chosenId;
+        //     if (description.gamemode === chosenGameMode &&
+        //         description.id      !== defaultId &&
+        //         description.id      >  currentId) {
 
-        if (chosenId === originalId) {
-            chosenId++;
-        }
-
-        return ++chosenId;
-    }
-
-    private findLastId(id: number, chosenGameMode: GameMode, defaultId: number): number {
-        let chosenId: number = id;
-        this.originalListIds.descriptions.forEach((description: ICardDescription) => {
-            const currentId: number = chosenId;
-            if (description.gamemode === chosenGameMode &&
-                description.id      !== defaultId &&
-                description.id      > currentId) {
-
-                chosenId = description.id;
-            }
-
-        });
+        //         chosenId = description.id;
+        //     }
+        // });
+        // console.log(chosenId === originalId);
+        // if (chosenId === originalId) {
+        //     chosenId++;
+        // }
 
         return chosenId;
     }
+
+    // private findLastId(id: number, chosenGameMode: GameMode, defaultId: number): number {
+    //     let chosenId: number = id;
+    //     this.originalListIds.descriptions.forEach((description: ICardDescription) => {
+    //         const currentId: number = chosenId;
+    //         if (description.gamemode === chosenGameMode &&
+    //             description.id      !== defaultId &&
+    //             description.id      > currentId) {
+
+    //             chosenId = description.id;
+    //         }
+
+    //     });
+
+    //     return chosenId;
+    // }
 
     public isSceneNameNew(title: string): boolean {
         const cards:    ICardLists = this.getCards();
