@@ -106,12 +106,9 @@ export class SocketService {
   }
 
   private emitOnArenaResponse(arenaResponse: IArenaResponse<IOriginalPixelCluster | ISceneObjectUpdate<ISceneObject | IMesh>>): void {
-
-    if (arenaResponse.arenaType === GameMode.simple) {
-      this.gameViewSimpleService.onArenaResponse(arenaResponse as IArenaResponse<IOriginalPixelCluster>);
-    } else {
-      this.gameViewFreeService.onArenaResponse(arenaResponse as IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>>);
-    }
+    (arenaResponse.arenaType === GameMode.simple) ?
+    this.gameViewSimpleService.onArenaResponse(arenaResponse as IArenaResponse<IOriginalPixelCluster>) :
+    this.gameViewFreeService.onArenaResponse(arenaResponse as IArenaResponse<ISceneObjectUpdate<ISceneObject | IMesh>>);
   }
 
   public sendMessage<T>(type: string, msg?: T): void {
