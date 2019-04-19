@@ -57,6 +57,14 @@ fdescribe("EndGameDialogService", () => {
 
     expect(endGameDialogService["router"].navigate).toHaveBeenCalledWith([CClient.GAMELIST_REDIRECT]);
   });
+
+  it("should navigate first to gameList when launching a newGame", () => {
+    spyOn<any>(endGameDialogService["router"], "navigate").and.returnValue(Observable.of("true")).and.callThrough();
+
+    endGameDialogService["playAgain"](newGame);
+    expect(endGameDialogService["router"].navigate).toHaveBeenCalledWith([CClient.GAMELIST_REDIRECT]);
+  });
+
   it("Should open the snackbar", (done: Function) => {
     const spy: any = spyOn(endGameDialogService["snackBar"], "open");
     endGameDialogService["openSnackbar"]("help");
@@ -64,4 +72,11 @@ fdescribe("EndGameDialogService", () => {
     expect(spy).toHaveBeenCalled();
     done();
   });
+
+  it("Should close dialog", () => {
+    const spy: any = spyOn(endGameDialogService["dialog"], "closeAll");
+    endGameDialogService.closeDialog();
+    expect(spy).toHaveBeenCalled();
+  });
+
 });
