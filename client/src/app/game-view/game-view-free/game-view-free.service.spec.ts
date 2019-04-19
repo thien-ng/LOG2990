@@ -212,10 +212,4 @@ describe("GameViewFreeService Test", () => {
     expect(gameViewService["nbOfSceneLoaded"]).toEqual(0);
   }));
 
-  it("should set socket", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
-    const mockSocket: any = mock(io);
-    gameViewService.setGameSocket(mockSocket);
-    expect(gameViewService["socket"]).toEqual(mockSocket);
-  }));
-
 });
