@@ -38,8 +38,8 @@ export class ThreejsRaycast {
 
     public setThreeGenerator(threejsGenerator: ThreejsGenerator | ThreejsThemeGenerator): void {
       this.isTheme = threejsGenerator instanceof ThreejsThemeGenerator;
-      this.isTheme ?
-      this.threejsThemeGenerator = threejsGenerator as ThreejsThemeGenerator : this.threejsGenerator = threejsGenerator as ThreejsGenerator;
+      this.isTheme ?  this.threejsThemeGenerator = threejsGenerator as ThreejsThemeGenerator :
+                      this.threejsGenerator = threejsGenerator as ThreejsGenerator;
     }
 
     public detectObject(mouseEvent: MouseEvent): number {
