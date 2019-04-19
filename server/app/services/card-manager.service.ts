@@ -151,52 +151,13 @@ export class CardManagerService {
     }
 
     private generateId(initialId: number): number {
-        // let chosenId:       number      = initialId;
-        // let defaultId:      number      = DefaultCard2D.gameID;
-        // let chosenGameMode: GameMode    = GameMode.simple;
-        // this.originalListIds            = this.imageManagerService.getCardsIds();
         const list: ICardsIds = this.imageManagerService.getCardsIds();
         const chosenId: number = (initialId !== INITIAL_2D_ID) ? list.index3D++ : list.index2D++;
 
         this.imageManagerService.saveCardsIds(list);
-        // if (chosenId !== INITIAL_2D_ID) {
-        // //     defaultId = DefaultCard3D.gameID;
-        // //     chosenGameMode = GameMode.free;
-        // }
-        // const originalId: number = this.findLastId(chosenId, chosenGameMode, defaultId);
-
-        // list.descriptions.forEach((description: ICardDescription) => {
-        //     const currentId: number = chosenId;
-        //     if (description.gamemode === chosenGameMode &&
-        //         description.id      !== defaultId &&
-        //         description.id      >  currentId) {
-
-        //         chosenId = description.id;
-        //     }
-        // });
-        // console.log(chosenId === originalId);
-        // if (chosenId === originalId) {
-        //     chosenId++;
-        // }
 
         return chosenId;
     }
-
-    // private findLastId(id: number, chosenGameMode: GameMode, defaultId: number): number {
-    //     let chosenId: number = id;
-    //     this.originalListIds.descriptions.forEach((description: ICardDescription) => {
-    //         const currentId: number = chosenId;
-    //         if (description.gamemode === chosenGameMode &&
-    //             description.id      !== defaultId &&
-    //             description.id      > currentId) {
-
-    //             chosenId = description.id;
-    //         }
-
-    //     });
-
-    //     return chosenId;
-    // }
 
     public isSceneNameNew(title: string): boolean {
         const cards:    ICardLists = this.getCards();
