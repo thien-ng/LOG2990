@@ -1,5 +1,6 @@
 import * as Axios from "axios";
 import { inject, injectable } from "inversify";
+import { DefaultCard2D, DefaultCard3D, DefaultCard3DTheme, GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardsIds, ICardDescription, ICardLists } from "../../../common/communication/iCardLists";
 import { ISceneMessage } from "../../../common/communication/iSceneMessage";
 import { IMesh, ISceneObject } from "../../../common/communication/iSceneObject";
