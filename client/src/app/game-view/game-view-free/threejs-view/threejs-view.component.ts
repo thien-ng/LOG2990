@@ -54,7 +54,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
   private isFirstGet:             boolean;
   private modifications:          number[];
   private previousModifications:  number[];
-  private sceneBuilderService:    ThreejsThemeViewService | ThreejsViewService; // _TODO: renommer mieux
+  private sceneBuilderService:    ThreejsThemeViewService | ThreejsViewService;
 
   @HostListener("body:keyup", ["$event"])
   public async keyboardEventListenerUp(keyboardEvent: KeyboardEvent): Promise<void> {
