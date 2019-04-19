@@ -97,10 +97,10 @@ export class CreateFreeGameComponent {
     return this.formControl.controls.modifTypes.valid || this.formControl.controls.modifTypes.pristine;
   }
 
-  public clampSliderValues(e: number): void {
-    if (e < this.MIN_OBJECT_COUNT) {
+  public clampSliderValues(value: number): void {
+    if (value < this.MIN_OBJECT_COUNT) {
       this.sliderValue = this.MIN_OBJECT_COUNT;
-    } else if (e > this.MAX_OBJECT_COUNT) {
+    } else if (value > this.MAX_OBJECT_COUNT) {
       this.sliderValue = this.MAX_OBJECT_COUNT;
     }
   }
