@@ -38,12 +38,25 @@ fdescribe("EndGameDialogService", () => {
     config      = mock(MatDialogConfig);
     dialog      = mock(MatDialog);
     snackBar    = mock(MatSnackBar);
-    router      = mock(Router);
+    router      = TestBed.get(Router);
+    router.initialNavigation();
     cardManager = mock(CardManagerService);
 
     endGameDialogService = new EndGameDialogService(config, cardManager, dialog, snackBar, router);
   });
 
+  it("should be created", () => {
+    const service: EndGameDialogService = TestBed.get(EndGameDialogService);
+    expect(service).toBeTruthy();
+  });
+
+  it("should navigate to gameList", () => {
+    spyOn<any>(endGameDialogService["router"], "navigate").and.returnValue(Observable.of("true")).and.callThrough();
+
+    endGameDialogService["notifyCardDeleted"]();
+
+    expect(endGameDialogService["router"].navigate).toHaveBeenCalledWith([CClient.GAMELIST_REDIRECT]);
+  });
   it("Should open the snackbar", (done: Function) => {
     const spy: any = spyOn(endGameDialogService["snackBar"], "open");
     endGameDialogService["openSnackbar"]("help");
