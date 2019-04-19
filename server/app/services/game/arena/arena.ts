@@ -109,11 +109,7 @@ export abstract class Arena<IN_T, DIFF_T, EVT_T> {
         });
 
         if (nbPlayersReady === this.players.length) {
-            if (this.referee === undefined) {
-                this.waitForReferee();
-            } else {
-                this.referee.onPlayersReady();
-            }
+            (this.referee === undefined) ? this.waitForReferee() : this.referee.onPlayersReady();
         }
     }
 
