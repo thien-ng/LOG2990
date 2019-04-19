@@ -289,11 +289,8 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
     if (this.renderer) {
       this.renderer.dispose();
     }
-    if (this.iSceneVariables && this.iSceneVariables.floorObject) {
-      cancelAnimationFrame(this.threejsThemeViewService.handleId);
-    } else {
-      cancelAnimationFrame(this.threejsViewService.handleId);
-    }
+    (this.iSceneVariables && this.iSceneVariables.floorObject) ?
+    cancelAnimationFrame(this.threejsThemeViewService.handleId) : cancelAnimationFrame(this.threejsViewService.handleId);
   }
 
 }
