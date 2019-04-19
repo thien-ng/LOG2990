@@ -21,7 +21,7 @@ export class CardManagerService {
     this.highscoreUpdated       = new Subject<number>();
     this.cardCreated            = new BehaviorSubject<boolean>(false);
     this.cardCreatedObservable  = this.cardCreated.asObservable();
-    }
+  }
 
   public getCards(): Observable<[ICardLists, number[]]> {
     const cardList:   Observable<ICardLists>  = this.httpClient.get<ICardLists>(CClient.CARDS_PATH);

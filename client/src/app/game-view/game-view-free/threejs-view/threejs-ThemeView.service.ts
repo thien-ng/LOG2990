@@ -23,8 +23,6 @@ enum KEYS {
 export class ThreejsThemeViewService {
 
   private readonly CAMERA_START_POSITION: number = 50;
-  private readonly FOWARD_ORIENTATION:    number = -1;
-  private readonly BACKWARD_ORIENTATION:  number = 1;
 
   public  handleId:             number;
   private scene:                THREE.Scene;
@@ -120,6 +118,7 @@ export class ThreejsThemeViewService {
     this.createLighting();
     this.generateSceneObjects(isSnapshotNeeded, arenaID);
     this.setFloor();
+    this.setWalls();
     this.setCameraPosition(CClient.CAMERA_POSITION_X, CClient.CAMERA_POSITION_Y, CClient.CAMERA_POSITION_Z);
     this.scene.fog = new THREE.Fog(CClient.FOG_COLOR, CClient.FOG_NEAR_DISTANCE, CClient.FOG_FAR_DISTANCE);
     this.camera.lookAt(new THREE.Vector3(this.CAMERA_START_POSITION, this.CAMERA_START_POSITION, this.CAMERA_START_POSITION));
@@ -138,6 +137,40 @@ export class ThreejsThemeViewService {
     const plane:          THREE.Mesh                = new THREE.Mesh(floor, floorMaterial);
     plane.rotateX( - Math.PI / CClient.FLOOR_DIVIDER);
     this.scene.add(plane);
+  }
+
+  private buildWall(rotationWanted: THREE.Vector3, translationWanted: THREE.Vector3): void {
+      const plane: THREE.PlaneBufferGeometry = new THREE.PlaneBufferGeometry(
+      CClient.FLOOR_DIMENTION, CClient.FLOOR_DIMENTION, CClient.FLOOR_SEGMENT, CClient.FLOOR_SEGMENT);
+      const wallMaterial:  THREE.MeshBasicMaterial   = new THREE.MeshBasicMaterial(
+      { color: 0x000000, transparent: true, opacity: 0, side: THREE.DoubleSide });
+      const wall: THREE.Mesh = new THREE.Mesh(plane, wallMaterial);
+      this.rotateWall(wall, rotationWanted);
+      this.moveWall(wall, translationWanted);
+
+      this.scene.add(wall);
+    }
+
+  private rotateWall(wall: THREE.Mesh, rotationWanted: THREE.Vector3): void {
+    wall.rotateX(rotationWanted.x);
+    wall.rotateY(rotationWanted.y);
+    wall.rotateZ(rotationWanted.z);
+  }
+
+  private moveWall(wall: THREE.Mesh, translationWanted: THREE.Vector3): void {
+    wall.position.x = translationWanted.x !== 0 ? translationWanted.x : wall.position.x;
+    wall.position.y = translationWanted.y !== 0 ? translationWanted.y : wall.position.y;
+    wall.position.z = translationWanted.z !== 0 ? translationWanted.z : wall.position.z;
+  }
+
+  private setWalls(): void {
+    const distance: number = 600;
+    const verticalAngle: number = - Math.PI / CClient.FLOOR_DIVIDER;
+    this.buildWall(new THREE.Vector3(0, verticalAngle, 0), new THREE.Vector3(-distance, 0, 0));
+    this.buildWall(new THREE.Vector3(0, verticalAngle, 0), new THREE.Vector3( distance, 0, 0));
+    this.buildWall(new THREE.Vector3(0, 0, verticalAngle), new THREE.Vector3(0, 0,  distance));
+    this.buildWall(new THREE.Vector3(0, 0, verticalAngle), new THREE.Vector3(0, 0, -distance));
+    this.buildWall(new THREE.Vector3(verticalAngle, 0, 0), new THREE.Vector3(0, distance, 0));
   }
 
   public changeObjectsColor(cheatColorActivated: boolean, isLastChange: boolean, modifiedList?: number[]): void {
@@ -163,10 +196,6 @@ export class ThreejsThemeViewService {
     this.camera.position.x = x;
     this.camera.position.y = y;
     this.camera.position.z = z;
-  }
-
-  public setupFront(orientation: number): void {
-    this.threejsMovement.setupFront(orientation);
   }
 
   public rotateCamera(point: IPosition2D): void {
@@ -211,7 +240,6 @@ export class ThreejsThemeViewService {
   }
 
   private renderObject(): void {
-
     this.threejsMovement.movementCamera(this.moveForward, this.moveBackward, this.moveLeft, this.moveRight);
     this.renderer.render(this.scene, this.camera);
   }
@@ -263,27 +291,17 @@ export class ThreejsThemeViewService {
     const keyValue: string = keyboardEvent.key.toLowerCase();
     switch ( keyValue ) {
       case KEYS.W:
-        if (buttonStatus) {
-          this.threejsMovement.setupFront(this.FOWARD_ORIENTATION);
-        }
         this.moveForward  = buttonStatus;
         break;
-
       case KEYS.A:
         this.moveLeft     = buttonStatus;
         break;
-
       case KEYS.S:
-        if (buttonStatus) {
-          this.threejsMovement.setupFront(this.BACKWARD_ORIENTATION);
-        }
         this.moveBackward = buttonStatus;
         break;
-
       case KEYS.D:
         this.moveRight    = buttonStatus;
         break;
-
       default:
         break;
     }

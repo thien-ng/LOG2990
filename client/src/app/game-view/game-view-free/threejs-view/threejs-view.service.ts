@@ -21,8 +21,6 @@ enum KEYS {
 export class ThreejsViewService {
 
   private readonly CAMERA_START_POSITION: number = 50;
-  private readonly FOWARD_ORIENTATION:    number = -1;
-  private readonly BACKWARD_ORIENTATION:  number = 1;
 
   public  handleId:           number;
   private scene:              THREE.Scene;
@@ -191,27 +189,17 @@ export class ThreejsViewService {
 
     switch ( keyValue ) {
       case KEYS.W:
-        if (buttonStatus) {
-          this.threejsMovement.setupFront(this.FOWARD_ORIENTATION);
-        }
         this.moveForward  = buttonStatus;
         break;
-
       case KEYS.A:
         this.moveLeft     = buttonStatus;
         break;
-
       case KEYS.S:
-        if (buttonStatus) {
-          this.threejsMovement.setupFront(this.BACKWARD_ORIENTATION);
-        }
         this.moveBackward = buttonStatus;
         break;
-
       case KEYS.D:
         this.moveRight    = buttonStatus;
         break;
-
       default:
         break;
     }

@@ -61,13 +61,13 @@ describe("GameViewFreeService Test", () => {
 });
 
   it("should set success sound with value passed by parameter", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
-    gameViewService.setSounds(new ElementRef<any>("url/success"), new ElementRef<any>("url/fail"), new ElementRef<any>("url/opp"), new ElementRef<any>("url/won"), new ElementRef<any>("url/lost"));
+    gameViewService.setSounds(new ElementRef<any>("url/success"), new ElementRef<any>("url/fail"), new ElementRef<any>("url/opp"), new ElementRef<any>("url/won"), new ElementRef<any>("url/lost"), new ElementRef<any>("url/music"));
 
     expect(gameViewService["successSound"]).toEqual(new ElementRef<any>("url/success"));
   }));
 
   it("should set fail sound with value passed by parameter", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
-    gameViewService.setSounds(new ElementRef<any>("url/success"), new ElementRef<any>("url/fail"), new ElementRef<any>("url/opp"), new ElementRef<any>("url/won"), new ElementRef<any>("url/lost"));
+    gameViewService.setSounds(new ElementRef<any>("url/success"), new ElementRef<any>("url/fail"), new ElementRef<any>("url/opp"), new ElementRef<any>("url/won"), new ElementRef<any>("url/lost"), new ElementRef<any>("url/music"));
 
     expect(gameViewService["failSound"]).toEqual(new ElementRef<any>("url/fail"));
   }));
@@ -90,7 +90,7 @@ describe("GameViewFreeService Test", () => {
     const spy: any = spyOn<any>(gameViewService["gameConnectionService"], "updateModifiedScene");
     const audio1: HTMLAudioElement = document.createElement("audio");
     const sound: ElementRef = new ElementRef<HTMLAudioElement>(audio1);
-    gameViewService.setSounds(sound, sound, sound, sound, sound);
+    gameViewService.setSounds(sound, sound, sound, sound, sound, sound);
     gameViewService.onArenaResponse(expectedResponse);
     expect(spy).toHaveBeenCalled();
   }));
@@ -116,7 +116,7 @@ describe("GameViewFreeService Test", () => {
   it("should play html audio success sound on good hit", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
     const audio1: HTMLAudioElement = document.createElement("audio");
     const sound: ElementRef = new ElementRef<HTMLAudioElement>(audio1);
-    gameViewService.setSounds(sound, sound, sound, sound, sound);
+    gameViewService.setSounds(sound, sound, sound, sound, sound, sound);
     const spy: any = spyOn(gameViewService["successSound"].nativeElement, "play");
     gameViewService.onArenaResponse(expectedResponse);
     expect(spy).toHaveBeenCalled();
@@ -127,7 +127,7 @@ describe("GameViewFreeService Test", () => {
     const audio2: HTMLAudioElement = document.createElement("audio");
     const successSound: ElementRef = new ElementRef<HTMLAudioElement>(audio1);
     const failsound: ElementRef = new ElementRef<HTMLAudioElement>(audio2);
-    gameViewService.setSounds(successSound, failsound, mock(ElementRef), mock(ElementRef), mock(ElementRef));
+    gameViewService.setSounds(successSound, failsound, mock(ElementRef), mock(ElementRef), mock(ElementRef), mock(ElementRef));
     const spy: any = spyOn(gameViewService["failSound"].nativeElement, "play");
     gameViewService.playFailSound();
     expect(spy).toHaveBeenCalled();

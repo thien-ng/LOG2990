@@ -20,19 +20,19 @@
     class="mat-slider-horizontal"
     name="slider"
     thumbLabel
-    min="{{MIN_VALUE}}"
+    min="{{MIN_OBJECT_COUNT}}"
     [(ngModel)]="sliderValue"
     [ngModelOptions]="{standalone: true}"
-    max="{{MAX_VALUE}}"></mat-slider>
+    max="{{MAX_OBJECT_COUNT}}"></mat-slider>
     <div class="sliderDiv">
       <input
-      min="MIN_VALUE"
-      max="MAX_VALUE"
+      min="MIN_OBJECT_COUNT"
+      max="MAX_OBJECT_COUNT"
       class="sliderValue"
       name="sliderValue"
       type="number"
       matInput
-      (change)="verify($event.srcElement.value)"
+      (change)="clampSliderValues($event.srcElement.value)"
       [ngModelOptions]="{standalone: true}"
       [(ngModel)]="sliderValue">
     </div>
