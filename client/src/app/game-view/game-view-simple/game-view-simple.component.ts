@@ -101,6 +101,7 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     this.subscription.forEach((sub: Subscription) => {
       sub.unsubscribe();
     });
+    this.endGameDialogService.closeDialog();
   }
 
   private initEventSubscription(): void {
