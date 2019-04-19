@@ -7,6 +7,7 @@ import { CCommon } from "../../../../common/constantes/cCommon";
 
 @injectable()
 export class LobbyManagerService {
+
     private lobby:  Map<number, IUser[]>;
     private server: SocketIO.Server;
 

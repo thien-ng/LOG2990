@@ -7,6 +7,7 @@ import { TimerService } from "./timer.service";
   styleUrls:    ["./timer.component.css"],
 })
 export class TimerComponent {
+
   private readonly START_TIME: string = "00:00";
 
   public time: string;

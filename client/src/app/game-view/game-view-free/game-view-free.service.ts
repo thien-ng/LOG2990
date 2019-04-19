@@ -7,6 +7,7 @@ import { IMesh, ISceneObject } from "../../../../../common/communication/iSceneO
 import { CCommon } from "../../../../../common/constantes/cCommon";
 
 const EVERY_SCENE_LOADED: number = 2;
+const START_TIME:         number = 0;
 
 @Injectable({
   providedIn: "root",
@@ -84,27 +85,27 @@ export class GameViewFreeService {
   }
 
   public playFailSound(): void {
-    this.failSound.nativeElement.currentTime = 0;
+    this.failSound.nativeElement.currentTime = START_TIME;
     this.failSound.nativeElement.play();
   }
 
   public playSuccessSound(): void {
-    this.successSound.nativeElement.currentTime = 0;
+    this.successSound.nativeElement.currentTime = START_TIME;
     this.successSound.nativeElement.play();
   }
 
   public playWinSound(): void {
-    this.gameWon.nativeElement.currentTime = 0;
+    this.gameWon.nativeElement.currentTime = START_TIME;
     this.gameWon.nativeElement.play();
   }
 
   public playLossSound(): void {
-    this.gameLost.nativeElement.currentTime = 0;
+    this.gameLost.nativeElement.currentTime = START_TIME;
     this.gameLost.nativeElement.play();
   }
 
   private playOpponentSound(): void {
-    this.opponentSound.nativeElement.currentTime = 0;
+    this.opponentSound.nativeElement.currentTime = START_TIME;
     this.opponentSound.nativeElement.play();
   }
 

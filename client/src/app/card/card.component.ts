@@ -20,6 +20,9 @@ import { ConfirmationDialogComponent } from "./confirmation-dialog/confirmation-
 
 export class CardComponent implements AfterContentInit {
 
+  @Input()  public card:                ICard;
+  @Output() public cardDeleted:         EventEmitter<string>;
+
   public readonly TROPHY_IMAGE_URL:     string = "https://img.icons8.com/metro/1600/trophy.png";
   public readonly TEXT_PLAY:            string = "JOUER";
   public readonly TEXT_RESET_TIMERS:    string = "RÉINITIALISER";
@@ -33,23 +36,20 @@ export class CardComponent implements AfterContentInit {
   public readonly LOGO3D_URL:           string = CClient.PATH_TO_IMAGES + "/logo3D.png";
   public readonly LOGO2D_URL:           string = CClient.PATH_TO_IMAGES + "/logo2D.png";
 
+  private dialogConfig:                 MatDialogConfig;
   public multiplayerButton:             string;
   public icon:                          string;
-  public hsButtonIsClicked:             boolean;
-  public dialogConfig:                  MatDialogConfig;
+  public highscoreButtonIsClicked:      boolean;
   public logoUrl:                       string;
   public bestPlayer:                    string;
 
-  @Input()  public card:                ICard;
-  @Output() public cardDeleted:         EventEmitter<string>;
-
   public constructor(
     public  router:             Router,
+    public  dialog:             MatDialog,
     public  gameModeService:    GameModeService,
     public  cardManagerService: CardManagerService,
-    private snackBar:           MatSnackBar,
     private highscoreService:   HighscoreService,
-    public  dialog:             MatDialog,
+    private snackBar:           MatSnackBar,
     private httpClient:         HttpClient,
     ) {
       this.cardDeleted                = new EventEmitter();
@@ -128,8 +128,8 @@ export class CardComponent implements AfterContentInit {
     this.bestPlayer = value;
   }
 
-  public onHSButtonClick(): void {
-    this.hsButtonIsClicked = !this.hsButtonIsClicked;
+  public onHighscoreButtonClick(): void {
+    this.highscoreButtonIsClicked = !this.highscoreButtonIsClicked;
     this.highscoreService.getHighscore(this.card.gameID);
   }
 

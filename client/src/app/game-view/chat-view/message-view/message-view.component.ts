@@ -7,7 +7,7 @@ import { IChat } from "../../../../../../common/communication/iChat";
   styleUrls:    ["./message-view.component.css"],
 })
 export class MessageViewComponent {
-  @Input()
-  public chatMessage: IChat;
+
+  @Input() public chatMessage: IChat;
 
 }
