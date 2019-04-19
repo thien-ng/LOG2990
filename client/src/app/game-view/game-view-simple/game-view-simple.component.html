@@ -40,7 +40,7 @@
             <mat-grid-tile [colspan]="8" [rowspan]="45" >
               <mat-grid-list class="counter1" cols="1" rowHeight="1%">
                 <mat-grid-tile [colspan]="1" [rowspan]="16" class="names">{{username}}</mat-grid-tile>
-                <mat-grid-tile [colspan]="1" [rowspan]="15" class="counterOut">
+                <mat-grid-tile [colspan]="1" [rowspan]="16" class="counterOut">
                   <app-difference-counter [username]="username" [mode]="mode" [isLeft]="true"></app-difference-counter>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="15"></mat-grid-tile>
@@ -50,7 +50,7 @@
             <mat-grid-tile [colspan]="8" [rowspan]="45">
                 <mat-grid-list class="counter1 alignLeft" cols="1" rowHeight="1%">
                     <mat-grid-tile [colspan]="1" [rowspan]="16" class="names">{{opponentName}}</mat-grid-tile>
-                    <mat-grid-tile [colspan]="1" [rowspan]="15" class="counterOut">
+                    <mat-grid-tile [colspan]="1" [rowspan]="16" class="counterOut">
                       <app-difference-counter [username]="opponentName" [mode]="mode"></app-difference-counter>
                     </mat-grid-tile>
                     <mat-grid-tile [colspan]="1" [rowspan]="15"></mat-grid-tile>
