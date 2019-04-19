@@ -97,6 +97,7 @@ export class ThreejsViewService {
 
     this.createLighting();
     this.generateSceneObjects(isSnapshotNeeded, arenaID);
+    this.setWalls();
 
     this.camera.lookAt(new THREE.Vector3(this.CAMERA_START_POSITION, this.CAMERA_START_POSITION, this.CAMERA_START_POSITION));
   }
@@ -165,6 +166,42 @@ export class ThreejsViewService {
     this.scene.add(firstLight);
     this.scene.add(secondLight);
     this.scene.add(this.ambLight);
+  }
+
+  private buildWall(rotationWanted: THREE.Vector3, translationWanted: THREE.Vector3): void {
+      const plane: THREE.PlaneBufferGeometry = new THREE.PlaneBufferGeometry(
+      CClient.FLOOR_DIMENTION, CClient.FLOOR_DIMENTION, CClient.FLOOR_SEGMENT, CClient.FLOOR_SEGMENT);
+      const wallMaterial:  THREE.MeshBasicMaterial   = new THREE.MeshBasicMaterial(
+      { color: 0x000000, transparent: true, opacity: 0, side: THREE.DoubleSide });
+      const wall: THREE.Mesh = new THREE.Mesh(plane, wallMaterial);
+      this.rotateWall(wall, rotationWanted);
+      this.moveWall(wall, translationWanted);
+
+      this.scene.add(wall);
+    }
+
+  private rotateWall(wall: THREE.Mesh, rotationWanted: THREE.Vector3): void {
+    wall.rotateX(rotationWanted.x);
+    wall.rotateY(rotationWanted.y);
+    wall.rotateZ(rotationWanted.z);
+  }
+
+  private moveWall(wall: THREE.Mesh, translationWanted: THREE.Vector3): void {
+    wall.position.x = translationWanted.x !== 0 ? translationWanted.x : wall.position.x;
+    wall.position.y = translationWanted.y !== 0 ? translationWanted.y : wall.position.y;
+    wall.position.z = translationWanted.z !== 0 ? translationWanted.z : wall.position.z;
+  }
+
+  private setWalls(): void {
+    const maxDistance: number = 200;
+    const minDistance: number = -100;
+    const verticalAngle: number = - Math.PI / CClient.FLOOR_DIVIDER;
+    this.buildWall(new THREE.Vector3(0, verticalAngle, 0), new THREE.Vector3(minDistance, 0, 0));
+    this.buildWall(new THREE.Vector3(0, verticalAngle, 0), new THREE.Vector3( maxDistance, 0, 0));
+    this.buildWall(new THREE.Vector3(0, 0, verticalAngle), new THREE.Vector3(0, 0,  maxDistance));
+    this.buildWall(new THREE.Vector3(0, 0, verticalAngle), new THREE.Vector3(0, 0, minDistance));
+    this.buildWall(new THREE.Vector3(verticalAngle, 0, 0), new THREE.Vector3(0, maxDistance, 0));
+    this.buildWall(new THREE.Vector3(verticalAngle, 0, 0), new THREE.Vector3(0, minDistance, 0));
   }
 
   private renderScene(): void {
