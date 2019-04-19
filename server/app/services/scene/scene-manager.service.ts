@@ -40,24 +40,15 @@ export class SceneManager {
 
         const isFormValid: boolean = this.validateForm(formMessage);
 
-        if (this.cardManagerService.isSceneNameNew(formMessage.gameName)) {
-            if (isFormValid) {
-                return this.builderSelector(formMessage);
-            } else {
-                return CServer.CARD_CREATION_ERROR;
-            }
-        } else {
-            return CServer.CARD_EXISTING;
-        }
+        return (this.cardManagerService.isSceneNameNew(formMessage.gameName)) ?
+         ((isFormValid) ? this.builderSelector(formMessage) : CServer.CARD_CREATION_ERROR) : CServer.CARD_EXISTING;
+
     }
 
     private builderSelector(formMessage: FormMessage): ISceneData<ISceneObject | IMesh> {
 
-        if (formMessage.theme === SceneConstants.TYPE_GEOMETRIC) {
-            return this.buildSceneGeometric(formMessage);
-        } else {
-            return this.buildSceneTheme(formMessage);
-        }
+        return (formMessage.theme === SceneConstants.TYPE_GEOMETRIC) ?
+        this.buildSceneGeometric(formMessage) : this.buildSceneTheme(formMessage);
     }
 
     private buildSceneGeometric(formMessage: FormMessage): ISceneData<ISceneObject> {
