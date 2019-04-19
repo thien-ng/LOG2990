@@ -1,4 +1,5 @@
 import { Inject, Injectable } from "@angular/core";
+import { MatSnackBar } from "@angular/material";
 import * as THREE from "three";
 import GLTFLoader from "three-gltf-loader";
 import { IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
@@ -10,13 +11,7 @@ import { ThreejsMovement } from "./utilitaries/threejs-movement";
 import { ThreejsRaycast } from "./utilitaries/threejs-raycast";
 import { ThreejsThemeGenerator } from "./utilitaries/threejs-themeGenerator";
 
-enum KEYS {
-  W     = "w",
-  A     = "a",
-  S     = "s",
-  D     = "d",
-  T     = "t",
-}
+enum KEYS { W = "w", A = "a", S = "s", D = "d", T = "t"}
 
 @Injectable()
 export class ThreejsThemeViewService {
@@ -48,6 +43,7 @@ export class ThreejsThemeViewService {
   private allPromises: Promise<{}>[] = [];
 
   public constructor(
+    private snackBar: MatSnackBar,
     @Inject(GameViewFreeService) public gameViewFreeService: GameViewFreeService) {
     this.init();
   }
@@ -71,6 +67,14 @@ export class ThreejsThemeViewService {
     this.moveBackward         = false;
     this.moveRight            = false;
     this.moveLeft             = false;
+
+    this.setStartCameraRotation();
+  }
+
+  private setStartCameraRotation(): void {
+    this.camera.rotation.x = 0;
+    this.camera.rotation.y = 0;
+    this.camera.rotation.z = 0;
   }
 
   public animate(): void {
@@ -164,7 +168,6 @@ export class ThreejsThemeViewService {
   }
 
   public changeObjectsColor(cheatColorActivated: boolean, isLastChange: boolean, modifiedList?: number[]): void {
-
     if (!modifiedList) {
       return;
     }
@@ -193,11 +196,8 @@ export class ThreejsThemeViewService {
   }
 
   private recoverObjectFromScene(index: number): THREE.Mesh | undefined {
-
     const objectId: number = (this.sceneIdById.get(index)) as number;
-
     const instanceObject3D: THREE.Object3D | undefined = this.scene.getObjectById(objectId);
-
     if (instanceObject3D !== undefined) {
       return (instanceObject3D as THREE.Mesh);
     }
@@ -206,7 +206,6 @@ export class ThreejsThemeViewService {
   }
 
   public detectObject(mouseEvent: MouseEvent): number {
-
     this.gameViewFreeService.setPosition(mouseEvent.offsetX, mouseEvent.offsetY);
 
     return this.threejsThemeRaycast.detectObject(mouseEvent);
@@ -217,13 +216,10 @@ export class ThreejsThemeViewService {
   }
 
   private createLighting(): void {
-
     const firstLight:   THREE.DirectionalLight = new THREE.DirectionalLight(CClient.FIRST_LIGHT_COLOR, CClient.FIRST_LIGHT_INTENSITY);
     const secondLight:  THREE.DirectionalLight = new THREE.DirectionalLight(CClient.SECOND_LIGHT_COLOR, CClient.SECOND_LIGHT_INTENSITY);
-
     firstLight.position.set(CClient.FIRST_LIGHT_POSITION_X, CClient.FIRST_LIGHT_POSITION_Y, CClient.FIRST_LIGHT_POSITION_Z);
     secondLight.position.set(CClient.SECOND_LIGHT_POSITION_X, CClient.SECOND_LIGHT_POSITION_Y, CClient.SECOND_LIGHT_POSITION_Z);
-
     this.scene.add(firstLight);
     this.scene.add(secondLight);
     this.scene.add(this.ambLight);
@@ -253,13 +249,11 @@ export class ThreejsThemeViewService {
         const gtlf: THREE.GLTF | undefined = this.gltfByUrl.get(meshInfo.GLTFUrl);
         if (gtlf) {
           gtlf.scene.traverse((child: THREE.Object3D) => {
-            if (child.name === meshInfo.uuid) {
-              this.modelsByName.set(child.name, child);
-            }
+            if (child.name === meshInfo.uuid) { this.modelsByName.set(child.name, child); }
           });
         }
       });
-    }).catch();
+    }).catch((error) => this.openSnackBar(error.message, CClient.SNACK_ACTION));
 
   }
 
@@ -295,5 +289,9 @@ export class ThreejsThemeViewService {
       default:
         break;
     }
+  }
+
+  private openSnackBar(msg: string, action: string): void {
+    this.snackBar.open(msg, action, {duration: CClient.SNACKBAR_DURATION, verticalPosition: "top"});
   }
 }

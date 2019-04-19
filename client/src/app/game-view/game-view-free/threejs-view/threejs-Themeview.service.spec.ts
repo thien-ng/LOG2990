@@ -1,9 +1,10 @@
-import { inject, TestBed } from "@angular/core/testing";
+import { async, inject, TestBed } from "@angular/core/testing";
 import * as THREE from "three";
 import {  anyNumber, mock, when } from "ts-mockito";
 import { ActionType, IPosition2D, ISceneObjectUpdate } from "../../../../../../common/communication/iGameplay";
 import { IMesh, ISceneObject } from "../../../../../../common/communication/iSceneObject";
 import { IMeshInfo, ISceneVariables } from "../../../../../../common/communication/iSceneVariables";
+import { TestingImportsModule } from "../../../testing-imports/testing-imports.module";
 import { GameViewFreeService } from "../game-view-free.service";
 import { ThreejsThemeViewService } from "./threejs-ThemeView.service";
 import { ThreejsMovement } from "./utilitaries/threejs-movement";
@@ -35,6 +36,19 @@ const scene:      THREE.Scene           = mock(THREE.Scene);
 const generator:  ThreejsThemeGenerator = mock(ThreejsThemeGenerator);
 
 describe("ThreejsThemeViewService Tests", () => {
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        TestingImportsModule,
+      ],
+      providers: [
+        ThreejsThemeViewService,
+      ],
+    })
+    .compileComponents().catch();
+  }));
+
   beforeEach(() => TestBed.configureTestingModule({
     providers: [ThreejsThemeViewService],
   }));

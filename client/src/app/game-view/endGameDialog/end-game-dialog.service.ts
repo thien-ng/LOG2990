@@ -46,6 +46,10 @@ export class EndGameDialogService {
     });
   }
 
+  public closeDialog(): void {
+    this.dialog.closeAll();
+  }
+
   private notifyCardDeleted(): void {
     this.openSnackbar(CARD_DELETED_MESSAGE);
     this.router.navigate([CClient.GAMELIST_REDIRECT]).catch((error: Error) => this.openSnackbar(error.message));

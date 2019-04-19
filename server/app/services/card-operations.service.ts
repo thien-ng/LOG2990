@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import { GameMode, ICard } from "../../../common/communication/iCard";
+import { DefaultCard2D, DefaultCard3D, DefaultCard3DTheme, GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardsIds, ICardDescription } from "../../../common/communication/iCardLists";
 import { Message } from "../../../common/communication/message";
 import { CCommon } from "../../../common/constantes/cCommon";
@@ -73,7 +73,7 @@ export class CardOperations {
     }
 
     public removeCard3D(id: number): string {
-        if (id === CServer.DEFAULT_CARD_3D) {
+        if (id === CServer.DEFAULT_CARD_3D_GEO || id === CServer.DEFAULT_CARD_3D_THEME) {
             return CServer.DELETION_ERROR_MESSAGE;
         }
         if (!this.cardExist(id)) {
@@ -100,6 +100,24 @@ export class CardOperations {
         return CServer.CARD_DELETED;
     }
 
+    public removeDefaultGame(): string {
+        const paths: string[] = [
+            CServer.PATH_LOCAL_CARDS + "1" + CServer.SIMPLE_CARD_FILE,
+            CServer.PATH_LOCAL_CARDS + "2" + CServer.FREE_CARD_FILE,
+            CServer.PATH_LOCAL_CARDS + "3" + CServer.FREE_CARD_FILE,
+        ];
+        try {
+            this.imageManagerService.deleteStoredImages(paths);
+            this.removeCardId(DefaultCard2D.gameID);
+            this.removeCardId(DefaultCard3D.gameID);
+            this.removeCardId(DefaultCard3DTheme.gameID);
+        } catch (error) {
+            return this.generateErrorMessage(error).body;
+        }
+
+        return CServer.CARD_DELETED;
+    }
+
     public getCardById(id: string, gamemode: GameMode): ICard {
         return this.imageManagerService.getCardById(id, gamemode);
     }
@@ -115,6 +133,13 @@ export class CardOperations {
 
             return (description.id === card.gameID || description.title === card.title);
         });
+
+        if (descriptionFound && (
+            descriptionFound.id === DefaultCard2D.gameID ||
+            descriptionFound.id === DefaultCard3D.gameID ||
+            descriptionFound.id === DefaultCard3DTheme.gameID)) {
+            return false;
+        }
 
         return (descriptionFound) ? true : false;
     }

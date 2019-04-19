@@ -103,7 +103,7 @@ describe("ChatManagerService Tests", () => {
         const spy: any  = chai.spy.on(chatManagerService["server"], "emit");
 
         chatManagerService.sendNewHighScoreMessage(
-            "username", 0, "gameName", 0, server);
+            "username", "gameName", 0, server, 0);
 
         chai.expect(spy).to.have.been.called();
         done();
@@ -114,7 +114,7 @@ describe("ChatManagerService Tests", () => {
         const spy: any  = chai.spy.on(chatManagerService["server"], "emit");
 
         chatManagerService.sendNewHighScoreMessage(
-            "username", 0, "gameName", 1, server);
+            "username", "gameName", 1, server, 0);
 
         chai.expect(spy).to.have.been.called();
         done();
@@ -125,7 +125,7 @@ describe("ChatManagerService Tests", () => {
         const spy: any  = chai.spy.on(chatManagerService["server"], "emit");
 
         chatManagerService.sendNewHighScoreMessage(
-            "username", 0, "gameName", 2, server);
+            "username", "gameName", 2, server, 0);
 
         chai.expect(spy).to.have.been.called();
         done();
@@ -136,7 +136,7 @@ describe("ChatManagerService Tests", () => {
         const spy: any  = chai.spy.on(chatManagerService["server"], "emit");
 
         chatManagerService.sendNewHighScoreMessage(
-            "username", 1, "gameName", 0, server);
+            "username", "gameName", 0, server, 1);
 
         chai.expect(spy).to.have.been.called();
         done();
@@ -147,7 +147,7 @@ describe("ChatManagerService Tests", () => {
         const spy: any  = chai.spy.on(chatManagerService["server"], "emit");
 
         chatManagerService.sendNewHighScoreMessage(
-            "username", 1, "gameName", 1, server);
+            "username", "gameName", 1, server, 1);
 
         chai.expect(spy).to.have.been.called();
         done();
@@ -158,7 +158,17 @@ describe("ChatManagerService Tests", () => {
         const spy: any  = chai.spy.on(chatManagerService["server"], "emit");
 
         chatManagerService.sendNewHighScoreMessage(
-            "username", 1, "gameName", 2, server);
+            "username", "gameName", 2, server, 1);
+
+        chai.expect(spy).to.have.been.called();
+        done();
+    });
+
+    it ("should emit highscore message if game is deleted", (done: Function) => {
+        chatManagerService["server"] = server;
+        const spy: any  = chai.spy.on(chatManagerService["server"], "emit");
+
+        chatManagerService.sendDeletedHighscoreMessage("username", server);
 
         chai.expect(spy).to.have.been.called();
         done();

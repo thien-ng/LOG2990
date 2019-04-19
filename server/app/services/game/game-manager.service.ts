@@ -23,9 +23,9 @@ import { Player } from "./arena/player";
 import { LobbyManagerService } from "./lobby-manager.service";
 
 const REQUEST_ERROR_MESSAGE:            string = "Game mode invalide";
-const HIGHSCORE_VALIDATION_ERROR:       string = "Erreur lors de la validation du highscore";
 const ARENA_START_ID:                   number = 1000;
 const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
+const TIMEOUT_TIME:                     number = 100;
 
 @injectable()
 export class GameManagerService {
@@ -200,7 +200,6 @@ export class GameManagerService {
         const arenaId:  number              = arenaInfo.arenaId;
         const gameId:   number | undefined  = this.gameIdByArenaId.get(arenaId);
         if (gameId === undefined) { return; }
-
         const aliveArenaCount: number | undefined = this.assetManager.getCounter(gameId);
 
         if (aliveArenaCount === undefined)  { return; }
@@ -275,12 +274,12 @@ export class GameManagerService {
         this.highscoreService.updateHighscore(newTime, mode, gameID)
         .then((answer: HighscoreValidationResponse) => {
             if (answer.status === CCommon.ON_SUCCESS && answer.isNewHighscore) {
-                this.chatManagerService.sendNewHighScoreMessage(newTime.username, answer.index, title, mode, this.server);
+                this.chatManagerService.sendNewHighScoreMessage(newTime.username, title, mode, this.server, answer.index);
                 this.server.emit(CCommon.ON_NEW_SCORE, gameID);
             }
             this.deleteArena(arenaInfo);
         }).catch(() => {
-            this.server.emit(CCommon.ON_ERROR, HIGHSCORE_VALIDATION_ERROR);
+            setTimeout(() => { this.chatManagerService.sendDeletedHighscoreMessage(newTime.username, this.server); }, TIMEOUT_TIME);
         });
     }
 

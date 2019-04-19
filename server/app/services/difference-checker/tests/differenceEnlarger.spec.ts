@@ -15,6 +15,7 @@ describe("Difference Enlarger tests", () => {
 
     beforeEach(() => {
         builder = new BMPBuilder(2, 3, WHITE);
+        builder.generateBuffer();
    });
 
     it("should return the same array when given an invalid number", (done: Function) => {
@@ -35,6 +36,7 @@ describe("Difference Enlarger tests", () => {
         const height: number = 2;
 
         const newBuilder:           BMPBuilder          = new BMPBuilder(width, height, WHITE);
+        newBuilder.generateBuffer();
         const singlePixelBuffer:    Buffer              = Buffer.from(newBuilder.buffer);
         const expectedOutputBuffer: Buffer              = Buffer.from(newBuilder.buffer);
 
@@ -50,6 +52,7 @@ describe("Difference Enlarger tests", () => {
         const height: number = 1;
 
         const singlePixelBuilder:   BMPBuilder          = new BMPBuilder(width, height, WHITE);
+        singlePixelBuilder.generateBuffer();
         singlePixelBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 0);
 
         const singlePixelBuffer:    Buffer              = singlePixelBuilder.buffer;
@@ -66,11 +69,13 @@ describe("Difference Enlarger tests", () => {
         const width:        number      = 4;
         const height:       number      = 4;
         const inputBuilder: BMPBuilder  = new BMPBuilder(width, height, WHITE);
+        inputBuilder.generateBuffer();
 
         inputBuilder.setColorAtPos(BLACK, BLACK, BLACK, 3, 3);
         const diffInBottomCornerBuffer: Buffer = Buffer.from(inputBuilder.buffer);
 
         const expectedBuilder:  BMPBuilder  = new BMPBuilder(width, height, WHITE);
+        expectedBuilder.generateBuffer();
         const positions:        number [][] = [
             [2, 0],
             [3, 0],
@@ -104,11 +109,13 @@ describe("Difference Enlarger tests", () => {
     it("should work when given a buffered image with 1 in a corner", (done: Function) => {
 
         const newBuilder: BMPBuilder = new BMPBuilder(4, 4, WHITE);
+        newBuilder.generateBuffer();
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 0);
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 1, 1);
 
         const givenBuffer:      Buffer      = Buffer.from(newBuilder.buffer);
         const expectedBuilder:  BMPBuilder  = new BMPBuilder(4, 4, BLACK);
+        expectedBuilder.generateBuffer();
         const expectedBuffer:   Buffer      = Buffer.from(expectedBuilder.buffer);
 
         let circleDifferences:  DifferenceEnlarger;

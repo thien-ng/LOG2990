@@ -10,6 +10,7 @@ import { TimeManagerService } from "./time-manager.service";
 const LOGIN_MESSAGE:            string = " vient de se connecter.";
 const LOGOUT_MESSAGE:           string = " vient de se déconnecter.";
 const NEW_HIGHSCORE_MESSAGE:    string = "{0} obtient la {1} place dans les meilleurs temps du jeu {2} en {3}";
+const DELETE_HIGHSCORE_MESSAGE: string = "{0} obtient un nouveau meilleur temps, mais la carte a été supprimée.";
 const SERVER_NAME:              string = "Serveur";
 const FIRST_POSITION:           string = "première";
 const SECOND_POSITION:          string = "deuxième";
@@ -47,22 +48,27 @@ export class ChatManagerService {
 
     public sendNewHighScoreMessage(
         username: string,
-        position: number,
         gameName: string,
         gameMode: number,
-        socket: SocketIO.Server): void {
+        socket: SocketIO.Server,
+        position: number): void {
 
         this.server = socket;
 
-        const stringPosition: string = this.stringifyPosition(position);
-        const stringGameMode: string = (gameMode === 0) ? SINGLE_GAMEMODE : MULTI_GAMEMODE;
-        const message: string = String.Format(  NEW_HIGHSCORE_MESSAGE,
-                                                username,
-                                                stringPosition,
-                                                gameName,
-                                                stringGameMode);
+        const stringGameMode: string    = (gameMode === 0) ? SINGLE_GAMEMODE : MULTI_GAMEMODE;
+        const stringPosition: string    = this.stringifyPosition(position);
+        const message: string           = String.Format(NEW_HIGHSCORE_MESSAGE, username, stringPosition, gameName, stringGameMode);
+        const iChatMessage: IChat       = this.generateMessage(SERVER_NAME, message);
 
-        const iChatMessage: IChat = this.generateMessage(SERVER_NAME, message);
+        this.server.emit(CCommon.CHAT_EVENT, iChatMessage);
+    }
+
+    public sendDeletedHighscoreMessage(username: string, socket: SocketIO.Server): void {
+        this.server = socket;
+
+        const message: string       = String.Format(DELETE_HIGHSCORE_MESSAGE, username);
+        const iChatMessage: IChat   = this.generateMessage(SERVER_NAME, message);
+
         this.server.emit(CCommon.CHAT_EVENT, iChatMessage);
     }
 

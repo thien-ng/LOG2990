@@ -53,3 +53,13 @@ export const DefaultCard3D: ICard = {
   avatarImageUrl:     CServer.PATH_TO_IMAGES + "2_snapshot.jpeg",
   gameImageUrl:       CServer.PATH_TO_IMAGES + "2_snapshot.jpeg",
 }
+
+export const DefaultCard3DTheme: ICard = {
+  gameID:             3,
+  gamemode:           GameMode.free,
+  title:              "Scène Thématique",
+  subtitle:           "Scène Thématique",
+  avatarImageUrl:     CServer.PATH_TO_IMAGES + "3_snapshot.jpeg",
+  gameImageUrl:       CServer.PATH_TO_IMAGES + "3_snapshot.jpeg",
+}
+
