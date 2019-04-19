@@ -24,6 +24,7 @@ export class DifferenceFinder {
         const width:        number      = buffer.readUInt32LE(Constants.WIDTH_OFFSET);
         const height:       number      = buffer.readUInt32LE(Constants.HEIGHT_OFFSET);
         const bmpBuilder:   BMPBuilder  = new BMPBuilder(width, height, Constants.VALUE_EQUAL);
+        bmpBuilder.generateBuffer();
 
         return bmpBuilder.buffer;
     }

@@ -13,6 +13,7 @@ describe("BMPBuilder tests", () => {
 
     beforeEach(() => {
          builder = new BMPBuilder(WIDTH, HEIGHT, WHITE);
+         builder.generateBuffer();
          bufferObtained = builder.buffer;
     });
 
@@ -54,6 +55,7 @@ describe("BMPBuilder tests", () => {
     it("should return an error on negative width entered", (done: Function) => {
         expect(() => {
             builder = new BMPBuilder(-2, 3, 255);
+            builder.generateBuffer();
         }).to.throw("Invalid width entered. Width must be a positive number higher than 0.");
         done();
     });
@@ -61,6 +63,7 @@ describe("BMPBuilder tests", () => {
     it("should return an error on negative height entered", (done: Function) => {
         expect(() => {
             builder = new BMPBuilder(2, -3, 255);
+            builder.generateBuffer();
         }).to.throw("Invalid height entered. Height must be a positive number higher than 0.");
         done();
     });
@@ -68,6 +71,7 @@ describe("BMPBuilder tests", () => {
     it("should return an error on entry 0 for width", (done: Function) => {
         expect(() => {
             builder = new BMPBuilder(0, 3, 255);
+            builder.generateBuffer();
         }).to.throw("Invalid width entered. Width must be a positive number higher than 0.");
         done();
     });
@@ -75,6 +79,7 @@ describe("BMPBuilder tests", () => {
     it("should return an error on entry 0 for height", (done: Function) => {
         expect(() => {
             builder = new BMPBuilder(2, 0, 255);
+            builder.generateBuffer();
         }).to.throw("Invalid height entered. Height must be a positive number higher than 0.");
         done();
     });
@@ -82,6 +87,7 @@ describe("BMPBuilder tests", () => {
     it("should return a error on invalid entry for the filler number", (done: Function) => {
         expect(() => {
             builder = new BMPBuilder(2, 3, 256);
+            builder.generateBuffer();
         }).to.throw("Invalid fill number entered. Must be comprised between 0 and 255 inclusively.");
         done();
     });
@@ -100,6 +106,7 @@ describe("BMPBuilder tests", () => {
     it("should return an error when trying to change a pixel out of bound", (done: Function) => {
         expect(() => {
             builder.setColorAtPos(5, 6, 7, 10, 20);
+            builder.generateBuffer();
         }).to.throw("Entered position is out of bounds");
         done();
     });
@@ -123,6 +130,7 @@ describe("BMPBuilder tests", () => {
         const totalLenghtExpected:  number = HEADER_SIZE + paddingExpected + width * height * pixelSize;
 
         builder = new BMPBuilder(width, height, WHITE);
+        builder.generateBuffer();
         bufferObtained = builder.buffer;
 
         expect(bufferObtained.length).to.equal(totalLenghtExpected);

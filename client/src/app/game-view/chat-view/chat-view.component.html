@@ -16,6 +16,7 @@
         matInput
         placeholder="Entrer un message"
         autocomplete="off"
+        [attr.disabled]="isGameEnded"
         (keyup.enter)="sendMessage()"
         [formControl]="this.usernameFormControl"
         [(ngModel)]="initialValue"

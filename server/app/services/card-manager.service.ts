@@ -1,6 +1,6 @@
 import * as Axios from "axios";
 import { inject, injectable } from "inversify";
-import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/communication/iCard";
+import { DefaultCard2D, DefaultCard3D, DefaultCard3DTheme, GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardsIds, ICardDescription, ICardLists } from "../../../common/communication/iCardLists";
 import { ISceneMessage } from "../../../common/communication/iSceneMessage";
 import { IMesh, ISceneObject } from "../../../common/communication/iSceneObject";
@@ -28,8 +28,10 @@ export class CardManagerService {
     public constructor(@inject(Types.CardOperations) private cardOperations: CardOperations) {
         this.imageManagerService    = new AssetManagerService();
 
+        this.cardOperations.removeDefaultGame();
         this.cardOperations.addCard(DefaultCard2D);
         this.cardOperations.addCard(DefaultCard3D);
+        this.cardOperations.addCard(DefaultCard3DTheme);
     }
 
     public async simpleCardCreationRoutine(requirements: ImageRequirements, cardTitle: string): Promise<Message> {

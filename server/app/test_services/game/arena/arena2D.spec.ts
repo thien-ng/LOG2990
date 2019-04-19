@@ -107,6 +107,7 @@ describe("Arena 2D tests", () => {
 
         // build arena with images bufferOriginal & bufferDifferences
         const builder:          BMPBuilder  = new BMPBuilder(4, 4, 100);
+        builder.generateBuffer();
         const bufferOriginal:   Buffer      = Buffer.from(builder.buffer);
         builder.setColorAtPos(1, 1, 1, 1, 1);
         const bufferDifferences: Buffer     = Buffer.from(builder.buffer);
@@ -282,6 +283,7 @@ describe("Arena 2D tests", () => {
         mockAxios   = new MockAdapter.default(axios);
 
         const builder:          BMPBuilder  = new BMPBuilder(4, 4, 100);
+        builder.generateBuffer();
         const bufferOriginal:   Buffer      = Buffer.from(builder.buffer);
         builder.setColorAtPos(1, 1, 1, 1, 1);
         const bufferDifferences: Buffer     = Buffer.from(builder.buffer);

@@ -13,6 +13,7 @@ describe("Cluster Counter tests", () => {
         const height:   number = 4;
 
         const newBuilder: BMPBuilder = new BMPBuilder(width, height, WHITE);
+        newBuilder.generateBuffer();
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 2, 2);
 
         const bufferWIthDiff:    Buffer         = Buffer.from(newBuilder.buffer);
@@ -28,6 +29,7 @@ describe("Cluster Counter tests", () => {
         const height:   number = 4;
 
         const newBuilder: BMPBuilder = new BMPBuilder(width, height, WHITE);
+        newBuilder.generateBuffer();
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 3);
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 3, 0);
 
@@ -44,6 +46,7 @@ describe("Cluster Counter tests", () => {
         const height:   number = 4;
 
         const newBuilder: BMPBuilder = new BMPBuilder(width, height, WHITE);
+        newBuilder.generateBuffer();
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 3);
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 2);
 
@@ -60,6 +63,7 @@ describe("Cluster Counter tests", () => {
         const height:   number = 4;
 
         const newBuilder: BMPBuilder = new BMPBuilder(width, height, WHITE);
+        newBuilder.generateBuffer();
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 0);
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 1, 1);
 
@@ -76,6 +80,7 @@ describe("Cluster Counter tests", () => {
         const WIDTH:    number = 8;
 
         const newBuilder: BMPBuilder = new BMPBuilder(WIDTH, HEIGHT, WHITE);
+        newBuilder.generateBuffer();
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 0);
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 1, 0);
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 4, 0);
@@ -95,6 +100,7 @@ describe("Cluster Counter tests", () => {
         const WIDTH:    number = 1;
 
         const newBuilder: BMPBuilder = new BMPBuilder(WIDTH, HEIGHT, WHITE);
+        newBuilder.generateBuffer();
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 1);
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 2);
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 4);
@@ -113,6 +119,7 @@ describe("Cluster Counter tests", () => {
         const height:   number = 1;
 
         const newBuilder: BMPBuilder = new BMPBuilder(width, height, WHITE);
+        newBuilder.generateBuffer();
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 0);
 
         const bufferWIthDiff:    Buffer         = Buffer.from(newBuilder.buffer);
@@ -135,6 +142,7 @@ describe("Cluster Counter tests", () => {
 
     it("should handle a given width bigger than the given buffer lenght ", (done: Function) => {
         const newBuilder: BMPBuilder = new BMPBuilder(1, 1, WHITE);
+        newBuilder.generateBuffer();
         newBuilder.setColorAtPos(BLACK, BLACK, BLACK, 0, 0);
 
         const WIDTH:            number          = 10;

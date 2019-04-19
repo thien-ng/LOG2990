@@ -9,6 +9,7 @@ import { AssetManagerService } from "./asset-manager.service";
 const axios:                AxiosInstance = require("axios");
 const IMAGE_EXTENSION:      string        = ".bmp";
 const ERROR_GENERATION:     string        = "Erreur pendant la generation d'image";
+const ERROR_LEAVE_BROWSER:  string        = "Erreur pendant la sortie de l'usager";
 
 @injectable()
 export class UserManagerService {
@@ -99,13 +100,15 @@ export class UserManagerService {
         return (foundUser) ? foundUser : CServer.USER_NOT_FOUND;
     }
 
-    public leaveBrowser(user: IUser): void {
+    public leaveBrowser(user: IUser): Message {
         this.nameList = this.nameList.filter( (element: IUser) => element.username !== user.username);
         const path: string = CServer.PROFILE_IMAGE_PATH + user.username + IMAGE_EXTENSION;
         try {
             this.assetManager.deleteStoredImages([path]);
+
+            return this.generateMessage(CCommon.ON_SUCCESS, "");
         } catch (error) {
-            // _TODO faire quelque chose de cette erreur (throw fait crash le server)
+            return this.generateMessage(CCommon.ON_ERROR, ERROR_LEAVE_BROWSER);
         }
     }
 

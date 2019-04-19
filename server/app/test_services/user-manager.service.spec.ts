@@ -1,7 +1,7 @@
 import "reflect-metadata";
 
 import * as chai from "chai";
-import { IUser } from "../../../common/communication/iUser";
+import { IProfileRequest, IUser } from "../../../common/communication/iUser";
 import { Message } from "../../../common/communication/message";
 import { CServer } from "../CServer";
 import { UserManagerService } from "../services/user-manager.service";
@@ -53,6 +53,40 @@ describe("UserManagerService test", () => {
         const result: Message = await userManagerService.validateName(user.username);
 
         chai.expect(result.body).to.equal("isUnique");
+    });
+
+    it ("should return a success message when calling updateProfilePicture", async () => {
+
+        const profile: IProfileRequest = {
+            username: "fuckoff",
+            color:      {R: 1, G: 1, B: 1},
+        };
+
+        chai.spy.on(userManagerService["assetManager"], "deleteStoredImages", () => {return; });
+        chai.spy.on(userManagerService, "createUserPic", () => {return; });
+
+        await userManagerService.updateProfilePicture(profile).then((response: Message) => {
+            chai.expect(response).to.deep.equal({ title: "onSuccess", body: "" });
+        });
+    });
+
+    it ("should return a error message when calling updateProfilePicture", async () => {
+
+        const profile: IProfileRequest = {
+            username: "fuckoff",
+            color:      {R: 1, G: 1, B: 1},
+        };
+
+        chai.spy.on(userManagerService["assetManager"], "deleteStoredImages", () => {throw new Error(); });
+        chai.spy.on(userManagerService, "createUserPic", () => {return; });
+
+        await userManagerService.updateProfilePicture(profile).then((response: Message) => {
+            chai.expect(response).to.deep.equal(
+                {   title: "onError",
+                    body: "Erreur pendant la generation d\'image" ,
+                },
+            );
+        });
     });
 
     it ("should return False if name input is not unique", async () => {
