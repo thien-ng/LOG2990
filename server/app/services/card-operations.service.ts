@@ -110,6 +110,7 @@ export class CardOperations {
             this.imageManagerService.deleteStoredImages(paths);
             this.removeCardId(DefaultCard2D.gameID);
             this.removeCardId(DefaultCard3D.gameID);
+            this.removeCardId(DefaultCard3DTheme.gameID);
         } catch (error) {
             return this.generateErrorMessage(error).body;
         }
