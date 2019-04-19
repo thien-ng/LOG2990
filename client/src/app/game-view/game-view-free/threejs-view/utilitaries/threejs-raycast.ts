@@ -38,11 +38,8 @@ export class ThreejsRaycast {
 
     public setThreeGenerator(threejsGenerator: ThreejsGenerator | ThreejsThemeGenerator): void {
       this.isTheme = threejsGenerator instanceof ThreejsThemeGenerator;
-      if (this.isTheme) {
-        this.threejsThemeGenerator  = threejsGenerator as ThreejsThemeGenerator;
-      } else {
-        this.threejsGenerator       = threejsGenerator as ThreejsGenerator;
-      }
+      this.isTheme ?  this.threejsThemeGenerator = threejsGenerator as ThreejsThemeGenerator :
+                      this.threejsGenerator = threejsGenerator as ThreejsGenerator;
     }
 
     public detectObject(mouseEvent: MouseEvent): number {
@@ -96,11 +93,8 @@ export class ThreejsRaycast {
         switch (sceneUpdate.actionToApply) {
 
             case ActionType.ADD:
-              if (this.isTheme) {
-                this.displayObject(sceneUpdate);
-              } else {
-                this.threejsGenerator.initiateObject(sceneUpdate.sceneObject as ISceneObject);
-              }
+              this.isTheme ?  this.displayObject(sceneUpdate) :
+                              this.threejsGenerator.initiateObject(sceneUpdate.sceneObject as ISceneObject);
               break;
 
             case ActionType.DELETE:
@@ -131,12 +125,7 @@ export class ThreejsRaycast {
     }
 
     private deleteObject(id: number): void {
-      if (this.isTheme) {
-        this.threejsThemeGenerator.deleteObject(id);
-
-      } else {
-        this.threejsGenerator.deleteObject(id);
-      }
+      this.isTheme ? this.threejsThemeGenerator.deleteObject(id) : this.threejsGenerator.deleteObject(id);
     }
 
     private changeObjectColor(sceneUpdate: ISceneObjectUpdate<ISceneObject | IMesh>): void {

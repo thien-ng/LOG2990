@@ -85,11 +85,8 @@ export class AssetManagerService {
 
     private manageCounter(gameId: number): void {
         const aliveArenaCount: number | undefined =  this.countByGameId.get(gameId);
-        if (aliveArenaCount !== undefined) {
-            this.countByGameId.set(gameId, aliveArenaCount + 1);
-        } else {
-            this.countByGameId.set(gameId, 1);
-        }
+        (aliveArenaCount !== undefined) ?   this.countByGameId.set(gameId, aliveArenaCount + 1) :
+                                            this.countByGameId.set(gameId, 1);
     }
 
     public decrementTempCounter(gameID: number, aliveArenaCount: number): void {

@@ -86,17 +86,13 @@ export class CardManagerService {
     }
 
     private generateMessage(cardReceived: ICard): Message {
-        if (this.cardOperations.addCard(cardReceived)) {
-            return {
-                title:  CCommon.ON_SUCCESS,
-                body:   CServer.CARD_ADDED,
-            } as Message;
-        } else {
-            return {
-                title:  CCommon.ON_ERROR,
-                body:   CServer.CARD_EXISTING,
-            } as Message;
-        }
+        return this.cardOperations.addCard(cardReceived) ? {
+            title:  CCommon.ON_SUCCESS,
+            body:   CServer.CARD_ADDED,
+        } : {
+            title:  CCommon.ON_ERROR,
+            body:   CServer.CARD_EXISTING,
+        };
     }
 
     private handlePostResponse(response: Axios.AxiosResponse< Buffer | Message>, cardTitle: string): Message {
@@ -130,17 +126,13 @@ export class CardManagerService {
     }
 
     private verifyCard(card: ICard): Message {
-        if (this.cardOperations.addCard(card)) {
-            return {
-                title:  CCommon.ON_SUCCESS,
-                body:   "Card " + card.gameID + " created",
-            } as Message;
-        } else {
-            return {
-                title:  CCommon.ON_ERROR,
-                body:   CServer.CARD_EXISTING,
-            } as Message;
-        }
+        return (this.cardOperations.addCard(card)) ? {
+            title:  CCommon.ON_SUCCESS,
+            body:   "Card " + card.gameID + " created",
+        } : {
+            title:  CCommon.ON_ERROR,
+            body:   CServer.CARD_EXISTING,
+        };
     }
 
     private isMessage(result: Buffer | Message): result is Message {

@@ -29,11 +29,8 @@ export class DifferenceCheckerService {
             return this.sendErrorMessage(Constants.ERROR_IMAGES_DIMENSIONS);
         }
 
-        if (numberOfDifferences === requirements.requiredNbDiff) {
-            return this.differenceImage;
-        } else {
-            return this.sendErrorMessage(Constants.ERROR_MISSING_DIFFERENCES);
-        }
+        return (numberOfDifferences === requirements.requiredNbDiff) ?
+        this.differenceImage : this.sendErrorMessage(Constants.ERROR_MISSING_DIFFERENCES);
     }
 
     private calculateDifferences(requirements: ImageRequirements): number {
