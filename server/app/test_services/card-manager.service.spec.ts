@@ -217,5 +217,3 @@ describe("Card-manager tests", () => {
         chai.expect(result).to.deep.equal({title: "onError", body: error.message});
     });
 });
-
-/*tslint:disable max-file-line-count */

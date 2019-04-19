@@ -7,6 +7,7 @@ import { CardManagerService } from "../card/card-manager.service";
 
 @Injectable()
 export class HighscoreService {
+
   private readonly SELECTOR:  string = ":";
   private readonly MIN_TIME:  number = 0;
   private readonly MAX_TIME:  number = 60;

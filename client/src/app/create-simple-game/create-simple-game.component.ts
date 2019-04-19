@@ -15,6 +15,13 @@ import { FileValidatorService } from "./game-validator.service";
 })
 export class CreateSimpleGameComponent {
 
+  @ViewChild("checkOrigImage",   {read: ElementRef})  public checkOrigImage:     ElementRef;
+  @ViewChild("checkModifImage",  {read: ElementRef})  public checkModifImage:    ElementRef;
+  @ViewChild("buttonOriginal",   {read: ElementRef})  public buttonOriginal:     ElementRef<HTMLButtonElement>;
+  @ViewChild("buttonModified",   {read: ElementRef})  public buttonModified:     ElementRef<HTMLButtonElement>;
+  @ViewChild("originalInput",    {read: ElementRef})  public originalInput:      ElementRef<HTMLInputElement>;
+  @ViewChild("modifiedInput",    {read: ElementRef})  public modifiedInput:      ElementRef<HTMLInputElement>;
+
   public readonly TITLE:          string    = "Créer un jeu de point de vue simple";
   public readonly PLACE_HOLDER:   string    = "Nom du jeu";
   public readonly ORIGINAL_IMAGE: string    = "Image originale";
@@ -32,18 +39,10 @@ export class CreateSimpleGameComponent {
   public readonly INVALID_NAME:   string    = this.ERROR_REQUIRED + ": " + this.ERROR_PATTERN + ", " + this.ERROR_SIZE;
   public readonly CHECK_CIRCLE:   string    = "cancel";
 
-  public  isGenerating:           boolean;
-
   private selectedFiles:          [Blob, Blob];
 
-  @ViewChild("checkOrigImage",   {read: ElementRef})  public checkOrigImage:     ElementRef;
-  @ViewChild("checkModifImage",  {read: ElementRef})  public checkModifImage:    ElementRef;
-  @ViewChild("buttonOriginal",   {read: ElementRef})  public buttonOriginal:     ElementRef<HTMLButtonElement>;
-  @ViewChild("buttonModified",   {read: ElementRef})  public buttonModified:     ElementRef<HTMLButtonElement>;
-  @ViewChild("originalInput",    {read: ElementRef})  public originalInput:      ElementRef<HTMLInputElement>;
-  @ViewChild("modifiedInput",    {read: ElementRef})  public modifiedInput:      ElementRef<HTMLInputElement>;
-
   public formControl:             FormGroup;
+  public isGenerating:            boolean;
   public isButtonEnabled:         boolean;
   public isOriginalVisible:       Boolean;
   public isModifiedVisible:       Boolean;
@@ -119,7 +118,7 @@ export class CreateSimpleGameComponent {
     }
   }
 
-  private changeOriginalInput( name: string): void {
+  private changeOriginalInput(name: string): void {
     if (!this.IS_IMAGE_BMP[this.ORIGINAL_INDEX]) {
       this.originalInput.nativeElement.value        = "";
       this.checkOrigImage.nativeElement.textContent = null;
@@ -166,8 +165,8 @@ export class CreateSimpleGameComponent {
     this.isGenerating = false;
   }
 
-  private openSnackBar(msg: string, action: string): void {
-    this.snackBar.open(msg, action, {
+  private openSnackBar(message: string, action: string): void {
+    this.snackBar.open(message, action, {
       duration:           CClient.SNACKBAR_DURATION,
       verticalPosition:   "top",
     });

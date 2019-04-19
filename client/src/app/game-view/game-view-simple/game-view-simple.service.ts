@@ -9,6 +9,7 @@ import {
  } from "../../../../../common/communication/iGameplay";
 import { CCommon } from "../../../../../common/constantes/cCommon";
 
+const START_TIME:         number = 0;
 @Injectable({
   providedIn: "root",
 })
@@ -46,27 +47,27 @@ export class GameViewSimpleService {
   }
 
   public playFailSound(): void {
-    this.failSound.nativeElement.currentTime = 0;
+    this.failSound.nativeElement.currentTime = START_TIME;
     this.failSound.nativeElement.play();
   }
 
   public playWinSound(): void {
-    this.winSound.nativeElement.currentTime = 0;
+    this.winSound.nativeElement.currentTime = START_TIME;
     this.winSound.nativeElement.play();
   }
 
   public playLossSound(): void {
-    this.lossSound.nativeElement.currentTime = 0;
+    this.lossSound.nativeElement.currentTime = START_TIME;
     this.lossSound.nativeElement.play();
   }
 
   private playSuccessSound(): void {
-    this.successSound.nativeElement.currentTime = 0;
+    this.successSound.nativeElement.currentTime = START_TIME;
     this.successSound.nativeElement.play();
   }
 
   private playOpponentSound(): void {
-    this.opponentSound.nativeElement.currentTime = 0;
+    this.opponentSound.nativeElement.currentTime = START_TIME;
     this.opponentSound.nativeElement.play();
   }
 

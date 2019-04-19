@@ -32,8 +32,8 @@ export class GameManagerController {
         });
 
         router.get("/cancel-request/:id/:cardDeleted", async (req: Request, res: Response, next: NextFunction) => {
-            const id: number = Number(req.params.id);
-            const cardDeleted: boolean = (Number(req.params.cardDeleted) === CardDeleted.true);
+            const id:           number  =   Number(req.params.id);
+            const cardDeleted:  boolean =   (Number(req.params.cardDeleted) === CardDeleted.true);
             res.json(this.gameManagerService.cancelRequest(id, cardDeleted));
         });
 

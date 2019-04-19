@@ -17,18 +17,20 @@ export class HighscoreDisplayComponent implements OnInit , OnDestroy {
 
   @Output() public bestPlayer: EventEmitter<string>;
 
-  public IMAGE_MEDAL_URL: string[] = [
-    CClient.PATH_TO_ICONS + "/gold.png",    // gold medal image
-    CClient.PATH_TO_ICONS + "/silver.png",  // silver medal image
-    CClient.PATH_TO_ICONS + "/bronze.png",  // bronze medal image
+  public readonly IMAGE_MEDAL_URL: string[] = [
+    CClient.PATH_TO_ICONS + "/gold.png",
+    CClient.PATH_TO_ICONS + "/silver.png",
+    CClient.PATH_TO_ICONS + "/bronze.png",
   ];
-  public highscore:               HighscoreMessage;
-  public isLoaded:                boolean;
 
   public readonly SIMPLE:         string = "Simple";
   public readonly ONE_VS_ONE:     string = "1 vs 1";
   public readonly RANKING:        string = "- Classement -";
+
   private highscoreSubscription:  Subscription;
+
+  public highscore:               HighscoreMessage;
+  public isLoaded:                boolean;
 
   public constructor(private highscoreService: HighscoreService) {
     this.isExpanded = false;

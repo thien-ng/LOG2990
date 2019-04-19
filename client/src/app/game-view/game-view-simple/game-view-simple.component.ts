@@ -25,12 +25,6 @@ import { GameViewSimpleService } from "./game-view-simple.service";
 })
 
 export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDestroy {
-  public readonly SUCCESS_SOUND:          string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/fail.wav";
-  public readonly FAIL_SOUND:             string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/success.wav";
-  public readonly OPPONENT_SOUND:         string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/opponent_point.mp3";
-  public readonly GAME_WON:               string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-won.wav";
-  public readonly GAME_LOST:              string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-lost.wav";
-  public readonly MUSIC:                  string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/music.mp3";
 
   @ViewChild("successSound",  {read: ElementRef})  public successSound:    ElementRef;
   @ViewChild("failSound",     {read: ElementRef})  public failSound:       ElementRef;
@@ -44,6 +38,19 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   @ViewChild("modifiedImage", {read: ElementRef})  public canvasModified:  ElementRef;
   @ViewChild("chat")                               private chat:           ChatViewComponent;
 
+  public readonly SUCCESS_SOUND:          string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/fail.wav";
+  public readonly FAIL_SOUND:             string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/success.wav";
+  public readonly OPPONENT_SOUND:         string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/opponent_point.mp3";
+  public readonly GAME_WON:               string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-won.wav";
+  public readonly GAME_LOST:              string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/game-lost.wav";
+  public readonly MUSIC:                  string = CCommon.BASE_URL  + CCommon.BASE_SERVER_PORT + "/audio/music.mp3";
+
+  private originalPath:   string;
+  private gameRequest:    IGameRequest;
+  private modifiedPath:   string;
+  private position:       IPosition2D;
+  private subscription:   Subscription[];
+
   public activeCard:      ICard;
   public cardLoaded:      boolean;
   public gameIsStarted:   boolean;
@@ -53,11 +60,6 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
   public mode:            Mode;
   public arenaID:         number;
   public gameID:          number;
-  private originalPath:   string;
-  private gameRequest:    IGameRequest;
-  private modifiedPath:   string;
-  private position:       IPosition2D;
-  private subscription:   Subscription[];
 
   public constructor(
     @Inject(GameViewSimpleService)    public  gameViewService:      GameViewSimpleService,
@@ -94,6 +96,14 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
     this.initListener();
   }
 
+  public ngOnDestroy(): void {
+    this.socketService.sendMessage(CCommon.GAME_DISCONNECT, this.username);
+    this.subscription.forEach((sub: Subscription) => {
+      sub.unsubscribe();
+    });
+    this.endGameDialogService.closeDialog();
+  }
+
   private initEventSubscription(): void {
     this.subscription.push(this.socketService.onMessage(CCommon.ON_PENALTY).subscribe((arenaResponse: IPenalty) => {
       (arenaResponse.isOnPenalty) ? this.wrongClickRoutine() : this.enableClickRoutine();
@@ -126,14 +136,6 @@ export class GameViewSimpleComponent implements OnInit, AfterContentInit, OnDest
       };
       this.endGameDialogService.openDialog(isWinner, newGameInfo, GameMode.simple);
     }));
-  }
-
-  public ngOnDestroy(): void {
-    this.socketService.sendMessage(CCommon.GAME_DISCONNECT, this.username);
-    this.subscription.forEach((sub: Subscription) => {
-      sub.unsubscribe();
-    });
-    this.endGameDialogService.closeDialog();
   }
 
   private getActiveCard(username: string): void {

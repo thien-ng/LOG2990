@@ -6,9 +6,9 @@
     <div class="spacer"></div>
   </mat-card-header>
 
-  <app-highscore-display class="highscorePanel" [id]="card.gameID" [(isExpanded)]="hsButtonIsClicked" (bestPlayer)="setBestPlayer($event)"></app-highscore-display>
+  <app-highscore-display class="highscorePanel" [id]="card.gameID" [(isExpanded)]="highscoreButtonIsClicked" (bestPlayer)="setBestPlayer($event)"></app-highscore-display>
 
-  <img mat-card-image class="card-image" [ngClass]="hsButtonIsClicked ? 'darkenImage' : 'brightenImage'" alt="GameCardImage" src="{{card.gameImageUrl}}">
+  <img mat-card-image class="card-image" [ngClass]="highscoreButtonIsClicked ? 'darkenImage' : 'brightenImage'" alt="GameCardImage" src="{{card.gameImageUrl}}">
 
   <div  class="optionBar">
       <mat-card-actions>
@@ -29,7 +29,7 @@
               <span>{{TEXT_RESET_TIMERS}}</span>
             </button>
 
-        <button mat-button class="highscoreButton" [ngClass]="hsButtonIsClicked ? 'clicked' : 'unclicked'" (click)="onHSButtonClick()">
+        <button mat-button class="highscoreButton" [ngClass]="highscoreButtonIsClicked ? 'clicked' : 'unclicked'" (click)="onHighscoreButtonClick()">
           <img class="highscoreIcon"  [src]="TROPHY_IMAGE_URL">
         </button>
       </mat-card-actions>
