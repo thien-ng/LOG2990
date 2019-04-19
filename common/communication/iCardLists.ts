@@ -7,6 +7,8 @@ export interface ICardLists {
 
 export interface ICardsIds {
   descriptions: ICardDescription[];
+  index2D:      number;
+  index3D:      number;
 }
 
 export interface ICardDescription {

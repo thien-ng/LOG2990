@@ -17,6 +17,7 @@ const GET_CARDS_ERROR:          string = "error while getting cards file";
 
 @injectable()
 export class AssetManagerService {
+
     private countByGameId: Map<number, number>;
 
     public constructor() {
@@ -178,7 +179,7 @@ export class AssetManagerService {
 
             return JSON.parse(readFile.toString()) as Highscore;
         } catch (error) {
-            throw new TypeError(GET_CARDS_ERROR);
+            return {id: -1} as Highscore;
         }
     }
 

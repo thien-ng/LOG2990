@@ -100,7 +100,12 @@ export class CardManagerService {
         if (this.isMessage(result)) {
             return result;
         } else {
-            const gameID:               number = this.generateId(INITIAL_2D_ID);
+            let gameID: number;
+            try {
+                gameID = this.generateId(INITIAL_2D_ID);
+            } catch (error) {
+                return this.generateErrorMessage(error.message);
+            }
             const originalImagePath:    string = "/" + gameID + CCommon.ORIGINAL_FILE;
             const modifiedImagePath:    string = "/" + gameID + CCommon.MODIFIED_FILE;
             this.imageManagerService.stockImage(CServer.IMAGES_PATH + originalImagePath, this.originalImageRequest);
@@ -136,29 +141,12 @@ export class CardManagerService {
     }
 
     private generateId(initialId: number): number {
-        let chosenId:       number      = initialId;
-        let defaultId:      number      = DefaultCard2D.gameID;
-        let chosenGameMode: GameMode    = GameMode.simple;
-
-        if (chosenId !== INITIAL_2D_ID) {
-            defaultId = DefaultCard3D.gameID;
-            chosenGameMode = GameMode.free;
-        }
-
         const list: ICardsIds = this.imageManagerService.getCardsIds();
+        const chosenId: number = (initialId !== INITIAL_2D_ID) ? list.index3D++ : list.index2D++;
 
-        list.descriptions.forEach((description: ICardDescription) => {
-            const currentId: number = chosenId;
-            if (description.gamemode === chosenGameMode &&
-                description.id      !== defaultId &&
-                description.id      > currentId) {
+        this.imageManagerService.saveCardsIds(list);
 
-                chosenId = description.id;
-            }
-
-        });
-
-        return ++chosenId;
+        return chosenId;
     }
 
     public isSceneNameNew(title: string): boolean {

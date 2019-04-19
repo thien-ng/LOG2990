@@ -2,24 +2,29 @@ export class SceneConstants {
 
     // Scene object types
     public static readonly MAX_TYPE_INDEX:                  number = 4;
+
     // Colors
     public static readonly HEX_TYPE:                        number = 16;
     public static readonly HEX_PREFIX:                      string = "#";
     public static readonly MIN_COLOR_GRADIENT:              number = 0;
     public static readonly MAX_COLOR_GRADIENT:              number = 255;
     public static readonly MIN_BACKGROUND_COLOR_GRADIENT:   number = 155;
+
     // Positions
     public static readonly MAX_POSITION_X:                  number = 150;
     public static readonly MAX_POSITION_Y:                  number = 150;
     public static readonly MAX_POSITION_Z:                  number = 150;
     public static readonly DISTANCE_OFFSET:                 number = 10;
+
     // Scales
     public static readonly MIN_SCALE:                       number = 2;
     public static readonly MAX_SCALE:                       number = 8;
+
     // Rotation
     /* tslint:disable:no-magic-numbers */
     public static readonly TWO_PI:                          number = Math.PI * 2;
     public static readonly POWER_TWO:                       number = 2;
+
     // Math
     public static readonly LENGTH_OF_TWO:                   number = 2;
 

@@ -43,22 +43,22 @@ export class CreateFreeGameComponent {
   public readonly MIN_OBJECT_COUNT:     number  = 10;
   public readonly MAX_OBJECT_COUNT:     number  = 200;
 
+  public readonly modifTypes: {name: string}[] = [
+    { name:   this.EDIT_TYPE_ADD    },
+    { name:   this.EDIT_TYPE_DELETE },
+    { name:   this.EDIT_TYPE_COLOR  },
+  ];
+
   public isButtonEnabled:               boolean;
-  public sliderValue:                   number;
   public addChecked:                    boolean;
   public delChecked:                    boolean;
   public colorChecked:                  boolean;
   public isLoading:                     boolean;
+  public isSceneGenerated:              boolean;
 
-  public readonly modifTypes: {name: string}[] = [
-      { name:   this.EDIT_TYPE_ADD    },
-      { name:   this.EDIT_TYPE_DELETE },
-      { name:   this.EDIT_TYPE_COLOR  },
-    ];
-
-  public formControl:             FormGroup;
-  public isSceneGenerated:        boolean;
-  public sceneData:               ISceneData<ISceneObject | IMesh>;
+  public sliderValue:                   number;
+  public formControl:                   FormGroup;
+  public sceneData:                     ISceneData<ISceneObject | IMesh>;
 
   public constructor(
     public  dialogRef:    MatDialogRef<CreateFreeGameComponent>,

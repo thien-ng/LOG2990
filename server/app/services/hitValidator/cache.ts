@@ -2,9 +2,10 @@ import { ICacheElement, IDataToCache } from "./interfaces";
 
 export class Cache<T> {
 
-    private storage: ICacheElement<T>[];
     private readonly ON_NOTFOUND_ERROR: string =
     "The element wanted has not been found in the cache. \nError message: ";
+
+    private storage: ICacheElement<T>[];
 
     public constructor(private cacheSize: number) {
         this.storage = [];

@@ -18,7 +18,6 @@ export class ThreejsThemeViewService {
 
   private readonly CAMERA_START_POSITION: number = 50;
 
-  public  handleId:             number;
   private scene:                THREE.Scene;
   private camera:               THREE.PerspectiveCamera;
   private renderer:             THREE.WebGLRenderer;
@@ -41,6 +40,8 @@ export class ThreejsThemeViewService {
   private moveRight:          boolean;
 
   private allPromises: Promise<{}>[] = [];
+
+  public  handleId:             number;
 
   public constructor(
     private snackBar: MatSnackBar,

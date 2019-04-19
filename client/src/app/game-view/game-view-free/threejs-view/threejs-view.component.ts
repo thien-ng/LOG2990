@@ -28,6 +28,20 @@ import { ThreejsViewService } from "./threejs-view.service";
 })
 export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestroy {
 
+  @Input() private iSceneVariables:         ISceneVariables<ISceneObject | IMesh>;
+  @Input() private meshInfos:               IMeshInfo[];
+  @Input() private sceneData:               ISceneData<ISceneObject | IMesh>;
+  @Input() private rightClick:              boolean;
+  @Input() private isSnapshotNeeded:        boolean;
+  @Input() private isNotOriginal:           boolean;
+  @Input() private username:                string;
+  @Input() private arenaID:                 number;
+
+  @Output() public sceneGenerated:          EventEmitter<string>;
+  @Output() public isCheater:               EventEmitter<boolean>;
+
+  @ViewChild("originalScene", {read: ElementRef}) private originalScene: ElementRef;
+
   private readonly CHEAT_URL:           string = "cheat/";
   private readonly CHEAT_KEYBOARD_KEY:  string = "t";
   private readonly CHEAT_INTERVAL_TIME: number = 125;
@@ -40,21 +54,7 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
   private isFirstGet:             boolean;
   private modifications:          number[];
   private previousModifications:  number[];
-  private sceneBuilderService:    ThreejsThemeViewService | ThreejsViewService; // _TODO: renommer mieux
-
-  @Input() private iSceneVariables:         ISceneVariables<ISceneObject | IMesh>;
-  @Input() private meshInfos:               IMeshInfo[];
-  @Input() private sceneData:               ISceneData<ISceneObject | IMesh>;
-  @Input() private rightClick:              boolean;
-  @Input() private isSnapshotNeeded:        boolean;
-  @Input() private isNotOriginal:           boolean;
-  @Input() private username:                string;
-  @Input() private arenaID:                 number;
-  @Output() public sceneGenerated:          EventEmitter<string>;
-  @Output() public isCheater:               EventEmitter<boolean>;
-
-  @ViewChild("originalScene", {read: ElementRef})
-  private originalScene:          ElementRef;
+  private sceneBuilderService:    ThreejsThemeViewService | ThreejsViewService;
 
   @HostListener("body:keyup", ["$event"])
   public async keyboardEventListenerUp(keyboardEvent: KeyboardEvent): Promise<void> {
@@ -105,6 +105,17 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
   public ngOnChanges(): void {
     if (this.iSceneVariables !== undefined) {
       this.initScene();
+    }
+  }
+
+  public ngOnDestroy(): void {
+    if (this.renderer) {
+      this.renderer.dispose();
+    }
+    if (this.iSceneVariables && this.iSceneVariables.floorObject) {
+      cancelAnimationFrame(this.threejsThemeViewService.handleId);
+    } else {
+      cancelAnimationFrame(this.threejsViewService.handleId);
     }
   }
 
@@ -283,14 +294,6 @@ export class TheejsViewComponent implements AfterContentInit, OnChanges, OnDestr
       duration:           CClient.SNACKBAR_DURATION,
       verticalPosition:   "top",
     });
-  }
-
-  public ngOnDestroy(): void {
-    if (this.renderer) {
-      this.renderer.dispose();
-    }
-    (this.iSceneVariables && this.iSceneVariables.floorObject) ?
-    cancelAnimationFrame(this.threejsThemeViewService.handleId) : cancelAnimationFrame(this.threejsViewService.handleId);
   }
 
 }

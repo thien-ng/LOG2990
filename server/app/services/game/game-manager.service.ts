@@ -22,6 +22,7 @@ import { I2DInfos, I3DInfos, IArenaInfos, IPlayerInput } from "./arena/interface
 import { Player } from "./arena/player";
 import { LobbyManagerService } from "./lobby-manager.service";
 
+const END_OF_GAME_ERROR:                string = "END_OF_GAME_ERROR";
 const REQUEST_ERROR_MESSAGE:            string = "Game mode invalide";
 const ARENA_START_ID:                   number = 1000;
 const ON_ERROR_ORIGINAL_PIXEL_CLUSTER:  IOriginalPixelCluster = { differenceKey: -1, cluster: [] };
@@ -273,14 +274,14 @@ export class GameManagerService {
 
         this.highscoreService.updateHighscore(newTime, mode, gameID)
         .then((answer: HighscoreValidationResponse) => {
-            if (answer.status === CCommon.ON_SUCCESS && answer.isNewHighscore) {
+            if (answer.status === CCommon.ON_ERROR) {
+                setTimeout(() => { this.chatManagerService.sendDeletedHighscoreMessage(newTime.username, this.server); }, TIMEOUT_TIME);
+            } else if (answer.status === CCommon.ON_SUCCESS && answer.isNewHighscore) {
                 this.chatManagerService.sendNewHighScoreMessage(newTime.username, title, mode, this.server, answer.index);
                 this.server.emit(CCommon.ON_NEW_SCORE, gameID);
             }
             this.deleteArena(arenaInfo);
-        }).catch(() => {
-            setTimeout(() => { this.chatManagerService.sendDeletedHighscoreMessage(newTime.username, this.server); }, TIMEOUT_TIME);
-        });
+        }).catch(() => END_OF_GAME_ERROR);
     }
 
     public onGameLoaded(socketID: string, arenaID: number): void {

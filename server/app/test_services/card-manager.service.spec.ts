@@ -28,6 +28,8 @@ const cardsIds2D: ICardsIds = {
         {id: 1000, title: "title1", gamemode: GameMode.simple},
         {id: 2000, title: "title2", gamemode: GameMode.simple},
     ],
+    index2D: 10,
+    index3D: 10,
 };
 
 const card2D: ICard = {
@@ -56,6 +58,8 @@ const cardsIds: ICardsIds = {
         {id: 1001, title: "motherfuckingTitle2D", gamemode: GameMode.simple},
         {id: 2001, title: "motherfuckingTitle3D", gamemode: GameMode.free},
     ],
+    index2D: 10,
+    index3D: 10,
 };
 
 const sceneObject: ISceneObject = {
@@ -141,11 +145,11 @@ describe("Card-manager tests", () => {
         mockAxios.onPost(path2DValidation).reply(200, original);
 
         cardManagerService.simpleCardCreationRoutine(imageRequirements, "aCardTitle").then((message: Message) => {
-            chai.expect(message).to.deep.equal({title: "onSuccess", body: "Card 1001 created"});
+            chai.expect(message).to.deep.equal({ title: "onSuccess", body: "Card 11 created" });
         });
     });
 
-    it("should return success message with card 1002 when calling simpleCardCreationRoutine()", () => {
+    it("should return success message with card 10 when calling simpleCardCreationRoutine()", () => {
         chai.spy.on(cardManagerService["imageManagerService"], "getCardsIds", () => {return cardsIds; });
         chai.spy.on(cardManagerService["cardOperations"], "addCard", () => {return true; });
         chai.spy.on(cardManagerService["imageManagerService"], "stockImage", () => {return; });
@@ -153,7 +157,7 @@ describe("Card-manager tests", () => {
         mockAxios.onPost(path2DValidation).reply(200, original);
 
         cardManagerService.simpleCardCreationRoutine(imageRequirements, "aCardTitle").then((message: Message) => {
-            chai.expect(message).to.deep.equal({title: "onSuccess", body: "Card 1002 created"});
+            chai.expect(message).to.deep.equal({ title: "onSuccess", body: "Card 10 created" });
         });
     });
 
@@ -213,5 +217,3 @@ describe("Card-manager tests", () => {
         chai.expect(result).to.deep.equal({title: "onError", body: error.message});
     });
 });
-
-/*tslint:disable max-file-line-count */

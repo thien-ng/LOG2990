@@ -69,8 +69,8 @@ export class CardManagerController {
         });
 
         router.delete("/remove/simple/:id", async (req: Request, res: Response, next: NextFunction) => {
-            const gameID: number = parseInt(req.params.id, DECIMAL);
-            const message: string = this.cardOperations.removeCard2D(gameID);
+            const gameID:   number = parseInt(req.params.id, DECIMAL);
+            const message:  string = this.cardOperations.removeCard2D(gameID);
             res.json(message);
         });
 

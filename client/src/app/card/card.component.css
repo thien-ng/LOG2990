@@ -85,10 +85,10 @@
 
 @keyframes blink {
     0% { color: rgb(194, 204, 255); }
-    50% { color: rgb(0, 38, 255); }
+    50% { color:#FFA441; }
 }
 
 @-webkit-keyframes blink {
     0% { color: rgb(194, 204, 255); }
-    50% { color: rgb(0, 38, 255); }
+    50% { color: #FFA441; }
 }

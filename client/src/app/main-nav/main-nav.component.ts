@@ -33,13 +33,13 @@ import { AdminToggleService } from "./admin-toggle.service";
 })
 export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
 
+  private readonly MAX_VALUE_INIT:  number = 4;
   public  readonly LOGIN_PATH:      string = CClient.LOGIN_REDIRECT;
   public  readonly GAME_LIST_PATH:  string = "/gamelist";
   public  readonly ADMIN_PATH:      string = "/admin";
   public  readonly TEXT_ADMIN:      string = "Vue Administration";
   public  readonly TEXT_BOUTON_2D:  string = "Créer jeu simple";
   public  readonly TEXT_BOUTON_3D:  string = "Créer jeu 3D";
-  private readonly MAX_VALUE_INIT:  number = 4;
 
   private stateSubscription:        Subscription;
   private compteurInit:             number;
@@ -79,6 +79,12 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   public ngOnInit(): void {
     this.initMainNav();
+  }
+
+  public ngOnDestroy(): void {
+    if (this.stateSubscription !== undefined) {
+      this.stateSubscription.unsubscribe();
+    }
   }
 
   public initMainNav(): void {
@@ -147,12 +153,6 @@ export class MainNavComponent implements OnInit, OnDestroy, AfterViewChecked {
   public redirectGameList(): void {
     this.router.navigate([CClient.GAMELIST_REDIRECT])
       .catch((error) => this.openSnackBar(error, CClient.SNACK_ACTION));
-  }
-
-  public ngOnDestroy(): void {
-    if (this.stateSubscription !== undefined) {
-      this.stateSubscription.unsubscribe();
-    }
   }
 
   private openSnackBar(msg: string, action: string): void {

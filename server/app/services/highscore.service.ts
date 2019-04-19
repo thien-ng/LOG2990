@@ -87,7 +87,9 @@ export class HighscoreService {
     public async updateHighscore(value: Time, mode: Mode, gameID: number): Promise<HighscoreValidationResponse> {
         const foundHighscore: Highscore = this.assetManager.getHighscoreById(gameID);
 
-        if (foundHighscore) {
+        if (foundHighscore.id === -1) {
+            return {status: CCommon.ON_ERROR} as HighscoreValidationResponse;
+        } else if (foundHighscore) {
             switch (mode) {
                 case Mode.Singleplayer:
                     const messageSingle: HighscoreValidationMessage = this.generateApiMessage(value, foundHighscore, mode);

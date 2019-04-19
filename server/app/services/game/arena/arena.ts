@@ -20,10 +20,10 @@ const MAX_TRIES:      number        = 6;
 
 export abstract class Arena<IN_T, DIFF_T, EVT_T> {
 
+    private waitForRefereeInterval: NodeJS.Timeout;
+
     public ARENA_TYPE:              GameMode;
     public timer:                   Timer;
-
-    private waitForRefereeInterval: NodeJS.Timeout;
 
     protected readonly ERROR_ON_HTTPGET:  string = "Didn't succeed to get image buffer from URL given. File: arena.ts.";
     protected readonly ON_FAILED_CLICK:   string = "onFailedClick";
@@ -48,7 +48,7 @@ export abstract class Arena<IN_T, DIFF_T, EVT_T> {
 
     public abstract async onPlayerClick(eventInfos: EVT_T, user: IUser): Promise<IArenaResponse<DIFF_T>>;
     public abstract async onPlayerInput(playerInput: IN_T):              Promise<IArenaResponse<DIFF_T>>;
-    public abstract async validateHit(eventInfos: EVT_T):                Promise<IHitConfirmation>; // _TODO: Pour fin de tests (a enlever)
+    public abstract async validateHit(eventInfos: EVT_T):                Promise<IHitConfirmation>;
     public abstract async prepareArenaForGameplay():                     Promise<void>;
     public getPlayers(): Player[] {
         return this.players;

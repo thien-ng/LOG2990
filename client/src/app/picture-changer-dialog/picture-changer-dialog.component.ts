@@ -23,6 +23,7 @@ const B:         number = 2;
   styleUrls: ["./picture-changer-dialog.component.css"],
 })
 export class PictureChangerDialogComponent {
+
   public readonly TITRE:       string = "Générateur d'avatar";
   public readonly COLOR:       string = "rgba(232, 17, 135, 1)";
   public readonly OPTION1:     string = "Couleur aléatoire";

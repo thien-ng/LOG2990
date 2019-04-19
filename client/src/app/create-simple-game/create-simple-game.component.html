@@ -4,7 +4,7 @@
 </div>
 <form class="form" (ngSubmit)="submit(formControl)" [formGroup]="formControl">
     <mat-form-field class="input">
-      <input type="text" formControlName="gameName" name="gameName" matInput placeholder={{PLACE_HOLDER}}>
+      <input type="text" autocomplete="off" formControlName="gameName" name="gameName" matInput placeholder={{PLACE_HOLDER}}>
     </mat-form-field>
     <div class="alertInvalide" [hidden]="hasNameControlErrors()">{{INVALID_NAME}}</div>
     
