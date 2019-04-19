@@ -2,6 +2,7 @@ import { inject, TestBed } from "@angular/core/testing";
 
 import { ElementRef } from "@angular/core";
 import * as io from "socket.io-client";
+import * as SocketIO from "socket.io";
 import { CClient } from "src/app/CClient";
 import { mock } from "ts-mockito";
 import { GameMode } from "../../../../../common/communication/iCard";
@@ -210,6 +211,12 @@ describe("GameViewFreeService Test", () => {
     gameViewService.updateSceneLoaded(arenaID);
     gameViewService.updateSceneLoaded(arenaID);
     expect(gameViewService["nbOfSceneLoaded"]).toEqual(0);
+  }));
+
+  it("should set socket", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
+    const mockSocket: any = mock(SocketIO);
+    gameViewService.setGameSocket(mockSocket);
+    expect(gameViewService["socket"]).toEqual(mockSocket);
   }));
 
 });
