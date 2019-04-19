@@ -1,14 +1,23 @@
 import { TestBed } from "@angular/core/testing";
 import { MatDialog, MatDialogConfig, MatSnackBar } from "@angular/material";
 import { Router } from "@angular/router";
+import { Observable } from "rxjs";
+import { CClient } from "src/app/CClient";
 import { CardManagerService } from "src/app/card/card-manager.service";
 import { TestingImportsModule } from "src/app/testing-imports/testing-imports.module";
 import { mock } from "ts-mockito";
+import { Mode } from "../../../../../common/communication/highscore";
+import { INewGameInfo } from "../../../../../common/communication/iGameplay";
 import { EndGameDialogService } from "./end-game-dialog.service";
 
 // tslint:disable: no-floating-promises no-any
+const newGame: INewGameInfo = {
+  type: Mode.Multiplayer,
+  gameID: 1,
+  path: CClient.GAME_VIEW_SIMPLE_PATH,
+};
 
-describe("EndGameDialogService", () => {
+fdescribe("EndGameDialogService", () => {
   beforeEach(() => TestBed.configureTestingModule({
     imports:   [TestingImportsModule],
     providers: [
@@ -17,14 +26,6 @@ describe("EndGameDialogService", () => {
       { provide: MatDialog, useValue: {} },
     ],
   }));
-
-  it("should be created", () => {
-    const service: EndGameDialogService = TestBed.get(EndGameDialogService);
-    expect(service).toBeTruthy();
-  });
-});
-
-describe("EndGameDialogService tests", () => {
 
   let endGameDialogService: EndGameDialogService;
   let config:               MatDialogConfig;
