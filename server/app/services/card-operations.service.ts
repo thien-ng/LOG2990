@@ -168,11 +168,13 @@ export class CardOperations {
 
     private removeCardId(id: number): void {
         const cardsIds: ICardsIds = this.getCardsIds();
+        const index2D: number = cardsIds.index2D;
+        const index3D: number = cardsIds.index3D;
         const newList: ICardDescription[] = cardsIds.descriptions.filter((description: ICardDescription) => {
             return description.id !== id;
         });
 
-        this.imageManagerService.saveCardsIds({descriptions: newList});
+        this.imageManagerService.saveCardsIds({descriptions: newList, index2D: index2D, index3D: index3D});
     }
 
     public generateErrorMessage(error: Error): Message {
