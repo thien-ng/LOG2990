@@ -16,6 +16,7 @@ export class ChatViewComponent implements AfterViewChecked, OnDestroy {
 
   @Input() private arenaID:               number;
   @Input() private username:              string;
+  @Input() public  isGameEnded: boolean;
 
   public  readonly CHAT_TITLE:            string = "Boîte de messagerie";
   public  readonly CHAT_DESCRIPTION:      string = "Message sur serveur et des joueurs";
