@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import { DefaultCard2D, DefaultCard3D, GameMode, ICard } from "../../../common/communication/iCard";
+import { DefaultCard2D, DefaultCard3D, DefaultCard3DTheme, GameMode, ICard } from "../../../common/communication/iCard";
 import { ICardsIds, ICardDescription } from "../../../common/communication/iCardLists";
 import { Message } from "../../../common/communication/message";
 import { CCommon } from "../../../common/constantes/cCommon";
