@@ -2,7 +2,6 @@ import { inject, TestBed } from "@angular/core/testing";
 
 import { ElementRef } from "@angular/core";
 import * as io from "socket.io-client";
-import * as SocketIO from "socket.io";
 import { CClient } from "src/app/CClient";
 import { mock } from "ts-mockito";
 import { GameMode } from "../../../../../common/communication/iCard";
