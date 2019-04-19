@@ -31,6 +31,7 @@ export class CardManagerService {
         this.cardOperations.removeDefaultGame();
         this.cardOperations.addCard(DefaultCard2D);
         this.cardOperations.addCard(DefaultCard3D);
+        this.cardOperations.addCard(DefaultCard3DTheme);
     }
 
     public async simpleCardCreationRoutine(requirements: ImageRequirements, cardTitle: string): Promise<Message> {
