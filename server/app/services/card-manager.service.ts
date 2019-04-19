@@ -24,8 +24,6 @@ export class CardManagerService {
     private originalImageRequest:   Buffer;
     private modifiedImageRequest:   Buffer;
     private imageManagerService:    AssetManagerService;
-    // private originalListIds:        ICardsIds;
-
 
     public constructor(@inject(Types.CardOperations) private cardOperations: CardOperations) {
         this.imageManagerService    = new AssetManagerService();
