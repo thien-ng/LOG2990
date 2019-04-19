@@ -44,7 +44,6 @@ export class Referee<EVT_T, DIFF_T> {
     ) {
 
         this.timer = new Timer();
-        // _TODO: sortir ca de la (ca devrait aller dans le GameManager)
         this.pointsNeededToWin = players.length === 1 ? this.POINTS_TO_WIN_SINGLE : this.POINTS_TO_WIN_MULTI;
 
         this.differencesFound = [];
