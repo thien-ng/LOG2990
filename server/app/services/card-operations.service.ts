@@ -134,7 +134,10 @@ export class CardOperations {
             return (description.id === card.gameID || description.title === card.title);
         });
 
-        if (descriptionFound && (descriptionFound.id === DefaultCard2D.gameID || descriptionFound.id === DefaultCard3D.gameID)) {
+        if (descriptionFound && (
+            descriptionFound.id === DefaultCard2D.gameID ||
+            descriptionFound.id === DefaultCard3D.gameID ||
+            descriptionFound.id === DefaultCard3DTheme.gameID)) {
             return false;
         }
 
