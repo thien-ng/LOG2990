@@ -17,7 +17,7 @@ const newGame: INewGameInfo = {
   path: CClient.GAME_VIEW_SIMPLE_PATH,
 };
 
-fdescribe("EndGameDialogService", () => {
+describe("EndGameDialogService", () => {
   beforeEach(() => TestBed.configureTestingModule({
     imports:   [TestingImportsModule],
     providers: [

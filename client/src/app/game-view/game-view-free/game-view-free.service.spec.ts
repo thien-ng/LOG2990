@@ -106,6 +106,25 @@ describe("GameViewFreeService Test", () => {
     expect(spy).not.toHaveBeenCalled();
   }));
 
+
+  it("should play background music when called", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
+    const audio1: HTMLAudioElement = document.createElement("audio");
+    const sound: ElementRef = new ElementRef<HTMLAudioElement>(audio1);
+    gameViewService.setSounds(sound, sound, sound, sound, sound, sound);
+    const spy: any = spyOn(gameViewService["music"].nativeElement, "play");
+    gameViewService.playMusic();
+    expect(spy).toHaveBeenCalled();
+  }));
+
+  it("should pause background music when called", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
+    const audio1: HTMLAudioElement = document.createElement("audio");
+    const sound: ElementRef = new ElementRef<HTMLAudioElement>(audio1);
+    gameViewService.setSounds(sound, sound, sound, sound, sound, sound);
+    const spy: any = spyOn(gameViewService["music"].nativeElement, "pause");
+    gameViewService.stopMusic();
+    expect(spy).toHaveBeenCalled();
+  }));
+
   it("should set position of gameViewService", inject([GameViewFreeService], (gameViewService: GameViewFreeService) => {
     gameViewService.setPosition(2, 3);
     const isSameX: boolean = gameViewService.position.x === 2;
