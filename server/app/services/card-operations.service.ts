@@ -104,6 +104,7 @@ export class CardOperations {
         const paths: string[] = [
             CServer.PATH_LOCAL_CARDS + "1" + CServer.SIMPLE_CARD_FILE,
             CServer.PATH_LOCAL_CARDS + "2" + CServer.FREE_CARD_FILE,
+            CServer.PATH_LOCAL_CARDS + "3" + CServer.FREE_CARD_FILE,
         ];
         try {
             this.imageManagerService.deleteStoredImages(paths);
