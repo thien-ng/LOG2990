@@ -73,6 +73,7 @@ export class CardOperations {
     }
 
     public removeCard3D(id: number): string {
+        if (id === CServer.DEFAULT_CARD_3D_GEO || id === CServer.DEFAULT_CARD_3D_THEME) {
             return CServer.DELETION_ERROR_MESSAGE;
         }
         if (!this.cardExist(id)) {
