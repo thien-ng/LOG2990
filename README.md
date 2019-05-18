@@ -1,4 +1,7 @@
 # Log2990
+
+Présenté par: Arthur Garnier, Duc-Thien Nguyen, Gabriel Houle-Violette, Jeremy Boulet, Michaël Sauget, Tristan Cromer.
+
 Projet généré avec [Angular CLI](https://github.com/angular/angular-cli) version 1.3.2.
 
 ## Développement du client
