@@ -48,7 +48,7 @@
     "@types/form-data": "^2.2.1",
     "@types/multer": "^1.3.7",
     "@types/socket.io-client": "^1.4.32",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "bmp-js": "^0.1.0",
     "body-parser": "^1.18.3",
     "chai-spies": "^1.0.0",
